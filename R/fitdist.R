@@ -34,7 +34,7 @@ fitdist<-function (data, distr, method="mle", start, chisqbreaks, meancount)
         sd<-sqrt(diag(solve(mle$hessian)))
         loglik<-mle$loglik
     } 
-    # Goodness of fit statistics
+    # Goodness of fit statistics calculation
     if (is.element(distname,c("binom","nbinom","geom","hyper","pois"))) 
         discrete<-TRUE
     else 
