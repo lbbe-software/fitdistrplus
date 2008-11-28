@@ -56,6 +56,7 @@ descdist(data,discrete=FALSE,boot=NULL,graph=TRUE)
 
 \references{ 
 Cullen AC and Frey HC (1999) Probabilistic techniques in exposure assessment. Plenum Press, USA, pp. 81-159.
+Evans M, Hastings N and Peacock B (2000) Statistical distributions. John Wiley and Sons Inc.
 }
 
 \author{ 

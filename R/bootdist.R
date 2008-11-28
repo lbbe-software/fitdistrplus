@@ -38,7 +38,7 @@ bootdist<-function (f, bootmethod="param", niter=999)
             bootCI <- c(median(resboot[-length(resboot[,1]),],na.rm=TRUE),
             quantile(resboot[-length(resboot[,1]),],0.025,na.rm=TRUE),
             quantile(resboot[-length(resboot[,1]),],0.975,na.rm=TRUE)) 
-            names(bootCI)<-c("Median","2.5%","97.5%") # A MODIFIER POUR BON AFFICHAGE
+            names(bootCI)<-c("Median","2.5%","97.5%") 
         }       
         return(structure(list(estim=estim,
         converg=t(resboot)[,length(resboot[,1])],method=bootmethod, CI=bootCI),
@@ -54,7 +54,7 @@ bootdist<-function (f, bootmethod="param", niter=999)
             names(estim)<-names(f$estimate)
             bootCI <- c(median(resboot,na.rm=TRUE),quantile(resboot,0.025,na.rm=TRUE),
             quantile(resboot,0.975,na.rm=TRUE))
-            names(bootCI)<-c("Median","2.5%","97.5%") # A MODIFIER POUR BON AFFICHAGE
+            names(bootCI)<-c("Median","2.5%","97.5%") 
         }           
          else {
             estim<-data.frame(t(resboot))
