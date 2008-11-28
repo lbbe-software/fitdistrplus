@@ -87,18 +87,20 @@ Marie-Laure Delignette-Muller \email{ml.delignette@vet-lyon.fr}
 
 \examples{
 d1<-data.frame(
-left=c(1.73,1.51,0.77,1.96,1.96,-1.4,-1.4,NA,-0.11,0.55,0.41,2.56,NA,-0.53,0.63,-1.4,-1.4,-1.4,NA,0.13),
-right=c(1.73,1.51,0.77,1.96,1.96,0,-0.7,-1.4,-0.11,0.55,0.41,2.56,-1.4,-0.53,0.63,0,-0.7,NA,-1.4,0.13))
+left=c(1.73,1.51,0.77,1.96,1.96,-1.4,-1.4,NA,-0.11,0.55,0.41,
+    2.56,NA,-0.53,0.63,-1.4,-1.4,-1.4,NA,0.13),
+right=c(1.73,1.51,0.77,1.96,1.96,0,-0.7,-1.4,-0.11,0.55,0.41,
+    2.56,-1.4,-0.53,0.63,0,-0.7,NA,-1.4,0.13))
 f1n<-fitdistcens(d1, "norm")
 f1n
 summary(f1n)
-plot(f1n)
+plot(f1n,rightNA=3)
 
 dgumbel<-function(x,a,b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
 pgumbel<-function(q,a,b) exp(-exp((a-q)/b))
 f1g<-fitdistcens(d1,"gumbel",start=list(a=0,b=2))
 summary(f1g)
-plot(f1g)
+plot(f1g,rightNA=3)
 
 d3<-data.frame(left=10^(d1$left),right=10^(d1$right))
 f3w<-fitdistcens(d3,"weibull")

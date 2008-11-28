@@ -42,19 +42,19 @@ bootdist(f, bootmethod="param", niter=999)
     The plot of an object of class 'bootdist' consists in a scatterplot or a matrix of scatterplots
     of the bootstrapped values of parameters.
     It uses the function \code{\link{stripchart}} when the fitted distribution
-    is characterized by only one parameter, the function \code{\link{plot}} when it is characterized by two parameters
-    and the function \code{\link{pairs}} in others cases. In the last two cases, it provides
+    is characterized by only one parameter, and the function \code{\link{plot}} in other cases.
+    In these last cases, it provides
     a representation of the joint uncertainty distribution of the fitted parameters.
 }
 
 \value{ 
     \code{bootdist} returns an object of class 'bootdist', a list with 4 components,
-    \item{ bootestim }{ the boostrapped values of parameters.}
-    \item{ bootconverg }{ a vector containing the codes for convergence obtained when using \code{mledist} on 
+    \item{ estim }{ a data frame containing the boostrapped values of parameters.}
+    \item{ converg }{ a vector containing the codes for convergence obtained when using \code{mledist} on 
         each bootraped data set or \code{NULL} if \code{momdist} is used.}
-    \item{ bootmethod }{ A character string coding for the type of resampling : \code{"param"} for a parametric
+    \item{ method }{ A character string coding for the type of resampling : \code{"param"} for a parametric
         resampling and \code{"nonparam"} for a nonparametric resampling of data. }
-    \item{ bootCI }{ bootstrap medians and 95 percent confidence intervals of parameters. }
+    \item{ CI }{ bootstrap medians and 95 percent confidence intervals of parameters. }
 }
         
 

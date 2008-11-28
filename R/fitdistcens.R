@@ -14,7 +14,8 @@ fitdistcens<-function (censdata, distr, start)
     else 
     mle<-mledistcens(censdata,distname,start)
     if (mle$convergence>0) 
-        stop("the function mle failed to estimate the parameters, with the error code ",mle$convergence) 
+        stop("the function mle failed to estimate the parameters, 
+        with the error code ",mle$convergence) 
     estimate<-mle$estimate
     sd<-sqrt(diag(solve(mle$hessian)))
     loglik<-mle$loglik
@@ -51,7 +52,8 @@ summary.fitdistcens <- function(object,...){
     
     op<-options()
     options(digits=3)
-    cat("FITTING OF THE DISTRIBUTION '",object$distname,"' BY MAXIMUM LIKELIHOOD ON CENSORED DATA \n")
+    cat("FITTING OF THE DISTRIBUTION '",object$distname,
+    "' BY MAXIMUM LIKELIHOOD ON CENSORED DATA \n")
     cat("PARAMETERS\n")
     print(cbind.data.frame("estimate" = object$estimate, "Std. Error" = object$sd))
     cat("Loglikelihood: ",object$loglik,"\n")

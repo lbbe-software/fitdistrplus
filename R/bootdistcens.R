@@ -17,17 +17,23 @@ bootdistcens<-function (f, niter=999)
     }
     resboot<-sapply(1:niter,funcmle)
     rownames(resboot)<-c(names(start),"convergence")
-    if (length(resboot[,1])>2) 
+    if (length(resboot[,1])>2) {
+        estim<-data.frame(t(resboot)[,-length(resboot[,1])])
         bootCI <- cbind(apply(resboot[-length(resboot[,1]),],1,median,na.rm=TRUE),
             apply(resboot[-length(resboot[,1]),],1,quantile,0.025,na.rm=TRUE),
             apply(resboot[-length(resboot[,1]),],1,quantile,0.975,na.rm=TRUE))
-    else
-        bootCI <- cbind(median(resboot[-length(resboot[,1]),],na.rm=TRUE),
+        colnames(bootCI) <- c("Median","2.5%","97.5%")
+    }
+    else {
+        estim<-as.data.frame(resboot[,-length(resboot[,1])])
+        names(estim)<-names(f$estimate)
+        bootCI <- c(median(resboot[-length(resboot[,1]),],na.rm=TRUE),
             quantile(resboot[-length(resboot[,1]),],0.025,na.rm=TRUE),
-            quantile(resboot[-length(resboot[,1]),],0.975,na.rm=TRUE))        
-    colnames(bootCI) <- c("Median","2.5%","97.5%")
-    return(structure(list(bootestim=t(resboot)[,-length(resboot[,1])],
-        bootconverg=t(resboot)[,length(resboot[,1])],bootCI=bootCI),
+            quantile(resboot[-length(resboot[,1]),],0.975,na.rm=TRUE)) 
+        names(bootCI) <- c("Median","2.5%","97.5%")
+    }       
+    return(structure(list(estim=estim,
+        converg=t(resboot)[,length(resboot[,1])],CI=bootCI),
         class="bootdistcens"))
 }
 
@@ -37,11 +43,12 @@ print.bootdistcens <- function(x,...){
     cat("Parameter values obtained with nonparametric bootstrap \n")
     op<-options()
     options(digits=3)
-    print(x$bootestim,...)    
-    if (!is.null(x$bootconverg)) { 
-        nconverg<-length(x$bootconverg[x$bootconverg==0])
+    print(x$estim,...)    
+    if (!is.null(x$converg)) { 
+        nconverg<-length(x$converg[x$converg==0])
         cat("\n")
-        cat("Maximum likelihood method converged for ",nconverg," among ",length(x$bootconverg)," iterations \n")
+        cat("Maximum likelihood method converged for ",nconverg," among ",
+        length(x$converg)," iterations \n")
     }
     options(op)
 
@@ -50,15 +57,17 @@ print.bootdistcens <- function(x,...){
 plot.bootdistcens <- function(x,...){
     if (!inherits(x, "bootdistcens"))
         stop("Use only with 'bootdistcens' objects")
-    if (dim(x$bootestim)[1]==1) {
-        stripchart(x$bootestim,method="jitter",xlab="Scatterplot of the boostrapped values of the parameter",...)
+    if (dim(x$estim)[1]==1) {
+        stripchart(x$estim,method="jitter",
+        xlab="Scatterplot of the boostrapped values of the parameter",...)
     }
     else {
-        if (dim(x$bootestim)[2]==2)
-            plot(x$bootestim[,1],x$bootestim[,2],xlab=colnames(x$bootestim)[1],ylab=colnames(x$bootestim)[2],
+        if (dim(x$estim)[2]==2)
+            plot(x$estim,
             main="Scatterplot of the boostrapped values of the two parameters",...)
         else 
-            pairs(x$bootestim,main="Scatterplots of the boostrapped values of parameters",...)
+            plot(x$estim,
+            main="Scatterplots of the boostrapped values of parameters",...)
     }
 }
 
@@ -68,12 +77,13 @@ summary.bootdistcens <- function(object,...){
     op<-options()
     options(digits=3)
     cat("Nonparametric bootstrap medians and 95% CI \n")
-    print(object$bootCI)
+    print(object$CI)
     
-     if (!is.null(object$bootconverg)) { 
-        nconverg<-length(object$bootconverg[object$bootconverg==0])
+     if (!is.null(object$converg)) { 
+        nconverg<-length(object$converg[object$converg==0])
         cat(" \n")
-        cat("Maximum likelihood method converged for ",nconverg," among ",length(object$bootconverg)," iterations \n")
+        cat("Maximum likelihood method converged for ",nconverg," among ",
+        length(object$converg)," iterations \n")
     }
    options(op)
 }

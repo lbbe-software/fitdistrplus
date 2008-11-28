@@ -14,7 +14,7 @@ plotdist(data,distr,para,breaks="default",discrete=FALSE,...)
 %- maybe also 'usage' for other objects documented here.
 
 \arguments{
-\item{data}{ A numeric vector or an object of type mcnode that will be coerced to a vector..  }
+\item{data}{ A numeric vector.  }
 \item{distr}{ A character string \code{"name"} naming a distribution for which the corresponding 
     density function \code{dname}, the corresponding distribution function \code{pname} and the corresponding
     quantile function \code{qname} must be defined, or directly the density function. 

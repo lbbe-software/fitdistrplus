@@ -5,8 +5,8 @@
 \title{ Description of an empirical distribution for non-censored data}
 
 \description{
- Computes descriptive parameters of an empirical distribution and provides a skewness-kurtosis plot
- for non-censored data.
+ Computes descriptive parameters of an empirical distribution for non-censored data
+ and provides a skewness-kurtosis plot.
 }
 
 \usage{
@@ -15,7 +15,7 @@ descdist(data,discrete=FALSE,boot=NULL,graph=TRUE)
 %- maybe also 'usage' for other objects documented here.
 
 \arguments{
-\item{data}{ A numeric vector or an object of type mcnode that will be coerced to a vector.  }
+\item{data}{ A numeric vector.  }
 \item{discrete}{ If \code{TRUE}, the distribution is considered as discrete.  }
 \item{boot}{ If not \code{NULL}, \code{boot} values of skewness and kurtosis are plotted from bootstrap
  samples of \code{data}. \code{boot} must be fixed in this case to an integer above 10. }
@@ -35,6 +35,8 @@ descdist(data,discrete=FALSE,boot=NULL,graph=TRUE)
     If \code{discrete} is \code{TRUE}, 
     these common distributions are the Poisson, negative binomial and normal distributions. 
     If \code{discrete} is \code{FALSE}, these are uniform, normal, lognormal, beta and gamma distributions.
+    The Weibull distribution is not represented on the graph but it is indicated on the legend that
+    shapes close to lognormal and gamma distributions may be obtained with this distribution.
 }
 
 \value{ 

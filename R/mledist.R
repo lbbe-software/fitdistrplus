@@ -88,15 +88,20 @@ mledist<-function (data, distr, start=NULL)
     else meth<-"BFGS"
     fnobj<-function(par,dat,ddistnam) 
     -sum(log(do.call(ddistnam,c(list(x=dat),as.list(par)))))
-    opt<-try(optim(par=vstart,fn=fnobj,dat=data,ddistnam=ddistname,hessian=TRUE,method=meth),silent=TRUE)
+    opt<-try(optim(par=vstart,fn=fnobj,dat=data,ddistnam=ddistname,
+        hessian=TRUE,method=meth),silent=TRUE)
     if (inherits(opt,"try-error"))
     {
         warnings("The function optim encountered an error and stopped")
-        return(list(estimate = rep(NA,length(vstart)), convergence = 100, loglik = NA, hessian = NA))
+        return(list(estimate = rep(NA,length(vstart)), convergence = 100, loglik = NA, 
+            hessian = NA))
     }
     if (opt$convergence>0) {
-        warnings("The function optim failed to converge, with the error code ",opt$convergence)
-        return(list(estimate = rep(NA,length(vstart)), convergence = opt$convergence, loglik = NA, hessian = NA))
+        warnings("The function optim failed to converge, with the error code ",
+        opt$convergence)
+        return(list(estimate = rep(NA,length(vstart)), convergence = opt$convergence, 
+            loglik = NA, hessian = NA))
     }
-    return(list(estimate = opt$par, convergence = opt$convergence, loglik = -opt$value, hessian = opt$hessian))       
+    return(list(estimate = opt$par, convergence = opt$convergence, loglik = -opt$value, 
+        hessian = opt$hessian))       
 }

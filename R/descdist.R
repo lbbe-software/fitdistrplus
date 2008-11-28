@@ -16,8 +16,9 @@ descdist <- function(data,discrete=FALSE,boot=NULL,graph=TRUE)
         return(moment(data,4)/var^2)
     }
     
-    res<-list(min=min(data),max=max(data),median=median(data),mean=mean(data),
-    sd=sqrt(moment(data,2)),skewness=skewness(data),kurtosis=kurtosis(data))
+    res<-list(min=min(data),max=max(data),median=median(data),
+    mean=mean(data),sd=sqrt(moment(data,2)),
+    skewness=skewness(data),kurtosis=kurtosis(data))
     
     op<-options()
     options(digits=3)
@@ -58,7 +59,7 @@ descdist <- function(data,discrete=FALSE,boot=NULL,graph=TRUE)
 
         ymax<-kurtmax-1
         plot(skewdata^2,kurtmax-kurtdata,pch=16,xlim=c(0,xmax),ylim=c(0,ymax),
-        yaxt='n',xlab='square of skewness',ylab='kurtosis',main='Cullen and Frey graph')
+        yaxt="n",xlab="square of skewness",ylab="kurtosis",main="Cullen and Frey graph")
         yax<-as.character(kurtmax-0:ymax)
         axis(side=2,at=0:ymax,labels=yax)
         if (!discrete) {
@@ -75,11 +76,7 @@ descdist <- function(data,discrete=FALSE,boot=NULL,graph=TRUE)
             yb<-kurtmax-(3*(p+q+1)*(p*q*(p+q-6)+2*(p+q)^2)/(p*q*(p+q+2)*(p+q+3)))
             s2<-c(s2a,s2b)
             y<-c(ya,yb)
-            polygon(s2,y,col='grey',border='grey80')
-            # unif dist   
-            points(0,kurtmax-9/5,pch=2)
-            # exp dist
-            points(2^2,kurtmax-9,pch=3)
+            polygon(s2,y,col="grey",border="grey80")
             # gamma dist
             lshape<-seq(-100,100,0.1)
             shape<-exp(lshape)
@@ -94,15 +91,21 @@ descdist <- function(data,discrete=FALSE,boot=NULL,graph=TRUE)
             y<-kurtmax-(es2^4+2*es2^3+3*es2^2-3)
             lines(s2,y,lty=3)
                 
-            legend(xmax*0.65,ymax*1.01,pch=16,legend="observed dist.",bty='n',cex=0.8)
+            legend(xmax*0.2,ymax*1.03,pch=16,legend="Observation",bty="n",cex=0.8,pt.cex=1.2)
             if (!is.null(boot)) {
-            legend(xmax*0.65,ymax*0.98,pch=16,legend="values from bootstrap",bty='n',cex=0.8,col='blue')        
+            legend(xmax*0.2,ymax*0.98,pch=1,legend="bootstrapped values",
+                bty="n",cex=0.8,col="blue")        
             }
-            legend(xmax*0.65,0.95*ymax,pch=c(1,2,3),legend=c("normal dist.",
-            "uniform dist.","exponential dist."),bty='n',cex=0.8)
-            legend(xmax*0.65,0.83*ymax,lty=c(2,3),legend=c("gamma dist.",
-            "lognormal dist."),bty='n',cex=0.8)
-            legend(xmax*0.65,0.75*ymax,fill="grey80",legend="beta dist.",bty='n',cex=0.8)
+            legend(xmax*0.55,ymax*1.03,legend="Theoretical distributions",bty="n",cex=0.8)
+            legend(xmax*0.6,0.98*ymax,pch=8,legend="normal",bty="n",cex=0.8)
+            legend(xmax*0.6,0.94*ymax,pch=2,legend="uniform",bty="n",cex=0.8)
+            legend(xmax*0.6,0.90*ymax,pch=7,legend="exponential",bty="n",cex=0.8)
+            legend(xmax*0.6,0.86*ymax,pch=3,legend="logistic",bty="n",cex=0.8)
+            legend(xmax*0.6,0.82*ymax,fill="grey80",legend="beta",bty="n",cex=0.8)
+            legend(xmax*0.6,0.78*ymax,lty=3,legend="lognormal",bty="n",cex=0.8)
+            legend(xmax*0.6,0.74*ymax,lty=2,legend="gamma",bty="n",cex=0.8)
+            legend(xmax*0.58,0.69*ymax,legend=c("(Weibull is close to gamma and lognormal)"),
+            bty="n",cex=0.6)
         }
         else {         
             # negbin dist
@@ -118,14 +121,17 @@ descdist <- function(data,discrete=FALSE,boot=NULL,graph=TRUE)
             yb<-kurtmax-(3+6/r+p^2/(r*(1-p)))
             s2<-c(s2a,s2b)
             y<-c(ya,yb)
-            polygon(s2,y,col='grey80',border='grey80')
-            legend(xmax*0.65,ymax*1.01,pch=16,legend="observed dist.",bty='n',cex=0.8)
+            polygon(s2,y,col="grey80",border="grey80")
+            legend(xmax*0.2,ymax*1.03,pch=16,legend="Observation",bty="n",cex=0.8,pt.cex=1.2)
             if (!is.null(boot)) {
-            legend(xmax*0.65,ymax*0.98,pch=16,legend="values from bootstrap",bty='n',cex=0.8,col='blue')        
+            legend(xmax*0.2,ymax*0.98,pch=1,legend="bootstrapped values",
+                bty="n",cex=0.8,col="blue")        
             }
-            legend(xmax*0.65,0.95*ymax,pch=1,legend="normal dist.",bty='n',cex=0.8)
-            legend(xmax*0.65,0.91*ymax,lty=2,legend="poisson dist.",bty='n',cex=0.8)
-            legend(xmax*0.65,0.87*ymax,fill="grey80",legend="negative binomial dist.",bty='n',cex=0.8)
+            legend(xmax*0.55,ymax*1.03,legend="Theoretical distributions",bty="n",cex=0.8)
+            legend(xmax*0.6,0.98*ymax,pch=8,legend="normal",bty="n",cex=0.8)
+            legend(xmax*0.6,0.94*ymax,fill="grey80",legend="negative binomial",
+                bty="n",cex=0.8)
+           legend(xmax*0.6,0.90*ymax,lty=2,legend="Poisson",bty="n",cex=0.8)
             # poisson dist
             llambda<-seq(-100,100,0.1)
             lambda<-exp(llambda)
@@ -135,13 +141,20 @@ descdist <- function(data,discrete=FALSE,boot=NULL,graph=TRUE)
         }
         # bootstrap sample for observed distribution
         if (!is.null(boot)) {
-            points(s2boot,kurtmax-kurtboot,pch=16,col="blue",cex=0.5)
+            points(s2boot,kurtmax-kurtboot,pch=1,col="blue",cex=0.5)
         } 
         # observed distribution
-        points(skewness(data)^2,kurtmax-kurtosis(data),pch=16)
+        points(skewness(data)^2,kurtmax-kurtosis(data),pch=16,cex=2)
         # norm dist
-        points(0,kurtmax-3,pch=1)
-    
+        points(0,kurtmax-3,pch=8,cex=1.5,lwd=2)
+        if (!discrete) {
+            # unif dist   
+            points(0,kurtmax-9/5,pch=2,cex=1.5,lwd=2)
+            # exp dist
+            points(2^2,kurtmax-9,pch=7,cex=1.5,lwd=2)
+            # logistic dist
+            points(0,kurtmax-4.2,pch=3,cex=1.5,lwd=2)
+        }
     } # end of is (graph)
     
     invisible(res)

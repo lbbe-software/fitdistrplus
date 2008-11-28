@@ -2,8 +2,10 @@ momdist<-function (data, distr)
 {
     if (!is.character(distr)) distname<-substring(as.character(match.call()$distr),2)
     else distname<-distr
-    if (!is.element(distname,c("norm","lnorm","pois","exp","gamma","nbinom","geom","beta","unif","logis")))
-        stop(paste("Method of matching moments is not available for ",distname," distribution"))
+    if (!is.element(distname,c("norm","lnorm","pois","exp","gamma","nbinom","geom",
+        "beta","unif","logis")))
+        stop(paste("Method of matching moments is not available for ",distname,
+        " distribution"))
         # Ajouter d'autres distributions éventuellement
     # Fitting by matching moments
     if (!(is.vector(data) & is.numeric(data) & length(data)>1))

@@ -29,12 +29,13 @@ fitdist<-function (data, distr, method="mle", start, chisqbreaks, meancount)
         else 
             mle<-mledist(data,distname,start)
         if (mle$convergence>0) 
-            stop("the function mle failed to estimate the parameters, with the error code ",mle$convergence) 
+            stop("the function mle failed to estimate the parameters, 
+            with the error code ",mle$convergence) 
         estimate<-mle$estimate
         sd<-sqrt(diag(solve(mle$hessian)))
         loglik<-mle$loglik
     } 
-    # Goodness of fit statistics calculation
+    # Goodness of fit statistics
     if (is.element(distname,c("binom","nbinom","geom","hyper","pois"))) 
         discrete<-TRUE
     else 
@@ -125,7 +126,8 @@ fitdist<-function (data, distr, method="mle", start, chisqbreaks, meancount)
                 if (distname == "gamma" & n>=5) {
                     m<-as.list(estimate)$shape
                     interp<-approxfun(c(1,2,3,4,5,6,8,10,12,15,20),
-                    c(0.786,0.768,0.762,0.759,0.758,0.757,0.755,0.754,0.754,0.754,0.753),yright=0.752)
+                    c(0.786,0.768,0.762,0.759,0.758,0.757,0.755,0.754,0.754,0.754,0.753),
+                    yright=0.752)
                     adtest<-ifelse(ad>interp(m),"rejected","not rejected")
                 }
                 else
@@ -141,7 +143,8 @@ fitdist<-function (data, distr, method="mle", start, chisqbreaks, meancount)
                         else
                             if (distname == "cauchy" & n>=5) {
                                 interp<-approxfun(c(5,8,10,12,15,20,25,30,40,50,60,100),
-                                c(1.77,3.2,3.77,4.14,4.25,4.05,3.57,3.09,2.48,2.14,1.92,1.52),yright=1.225)
+                                c(1.77,3.2,3.77,4.14,4.25,4.05,3.57,3.09,2.48,2.14,1.92,1.52),
+                                yright=1.225)
                                 adtest<-ifelse(ad>interp(n),"rejected","not rejected")
                             }
                             else adtest<-NULL
@@ -157,7 +160,8 @@ fitdist<-function (data, distr, method="mle", start, chisqbreaks, meancount)
     }
     
     return(structure(list(estimate = estimate, method = method, sd = sd, loglik = loglik, 
-    n = n, data=data, distname=distname,chisq = chisq, chisqbreaks=chisqbreaks,chisqpvalue=chisqpvalue,
+    n = n, data=data, distname=distname,chisq = chisq, chisqbreaks=chisqbreaks,
+    chisqpvalue=chisqpvalue,
     chisqdf=chisqdf,chisqtable=chisqtable, 
     ad = ad,adtest=adtest,ks = ks,kstest=kstest), class = "fitdist"))
         
@@ -219,7 +223,8 @@ summary.fitdist <- function(object,...){
         else
         { 
             cat("Chi-squared p-value: ",object$chisqpvalue,"\n")
-            if (any(object$chisqtable[,2]<5)) cat("!!! the p-value may be wrong with some theoretical counts < 5 !!! \n")
+            if (any(object$chisqtable[,2]<5)) cat("!!! the p-value may be wrong 
+            with some theoretical counts < 5 !!! \n")
         }
     }
     else cat("The sample is too small to automatically define cells for Chi-squared test \n")

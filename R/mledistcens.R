@@ -11,15 +11,19 @@ mledistcens<-function (censdata, distr, start=NULL)
     if (distname == "unif")
         stop("Maximum likelihood estimation is not available for the uniform distribution")
     if (!(is.vector(censdata$left) & is.vector(censdata$right) & length(censdata[,1])>1))
-        stop("datacens must be a dataframe with two columns named left and right and more than one line")
+        stop("datacens must be a dataframe with two columns named left 
+            and right and more than one line")
     # Definition of datasets lcens (left censored)=vector, rcens (right censored)= vector,
-    #   icens (interval censored) = dataframe with left and right and ncens (not censored) = vector
+    #   icens (interval censored) = dataframe with left and right and ncens 
+    # (not censored) = vector
     lcens<-censdata[is.na(censdata$left),]$right
     if (any(is.na(lcens)) )
         stop("An observation cannot be both right and left censored, coded with two NA values")
     rcens<-censdata[is.na(censdata$right),]$left
-    ncens<-censdata[censdata$left==censdata$right & !is.na(censdata$left) & !is.na(censdata$right),]$left
-    icens<-censdata[censdata$left!=censdata$right & !is.na(censdata$left) & !is.na(censdata$right),]
+    ncens<-censdata[censdata$left==censdata$right & !is.na(censdata$left) & 
+        !is.na(censdata$right),]$left
+    icens<-censdata[censdata$left!=censdata$right & !is.na(censdata$left) & 
+        !is.na(censdata$right),]
     # Definition of a data set for calculation of starting values
     data<-c(rcens,lcens,ncens,(icens$left+icens$right)/2)
     
@@ -114,11 +118,14 @@ mledistcens<-function (censdata, distr, start=NULL)
     if (inherits(opt,"try-error"))
     {
         warnings("The function optim encountered an error and stopped")
-        return(list(estimate = rep(NA,length(vstart)), convergence = 100, loglik = NA, hessian = NA))
+        return(list(estimate = rep(NA,length(vstart)), convergence = 100, loglik = NA, 
+            hessian = NA))
     }
     if (opt$convergence>0) {
         warnings("The function optim failed to converge, with the error code ",opt$convergence)
-        return(list(estimate = rep(NA,length(vstart)), convergence = opt$convergence, loglik = NA, hessian = NA))
+        return(list(estimate = rep(NA,length(vstart)), convergence = opt$convergence, 
+            loglik = NA, hessian = NA))
     }
-    return(list(estimate = opt$par, convergence = opt$convergence, loglik = -opt$value, hessian = opt$hessian))       
+    return(list(estimate = opt$par, convergence = opt$convergence, loglik = -opt$value, 
+        hessian = opt$hessian))       
 }

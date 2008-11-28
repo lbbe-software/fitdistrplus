@@ -46,6 +46,7 @@ momdist(data, distr)
 
 \references{ 
     Vose D (2000) Risk analysis, a quantitative guide. John Wiley & Sons Ltd, Chischester, England, pp. 99-143.
+    Evans M, Hastings N and Peacock B (2000) Statistical distributions. John Wiley and Sons Inc.
 }
 
 

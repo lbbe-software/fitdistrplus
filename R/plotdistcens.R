@@ -2,7 +2,8 @@ plotdistcens <- function(censdata,distr,para,leftNA=-Inf,rightNA=Inf,...){
     def.par <- par(no.readonly = TRUE)
     if (missing(censdata) ||
         !(is.vector(censdata$left) & is.vector(censdata$right) & length(censdata[,1])>1))
-        stop("datacens must be a dataframe with two columns named left and right and more than one line")
+        stop("datacens must be a dataframe with two columns named left 
+            and right and more than one line")
     if ((missing(distr) & !missing(para)) || 
     (missing(distr) & !missing(para)))
         stop("distr and para must defined")
@@ -39,7 +40,8 @@ plotdistcens <- function(censdata,distr,para,leftNA=-Inf,rightNA=Inf,...){
     xlim<-c(xmin,xmax)
     plot(c(0,0),c(0,0),type="n",xlim=xlim,ylim=c(0,1),xlab="censored data",
     ylab="CDF",main="Cumulative distribution plot")
-    # functions to plot one interval or point for each observation for observation ordered i out of n
+    # functions to plot one interval or point for each observation for 
+    # observation ordered i out of n
     plotlcens<-function(i) {
         y<-i/n
         lines(c(xmin,lcens[ordlcens[i]]),c(y,y))

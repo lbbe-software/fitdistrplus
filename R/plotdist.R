@@ -18,7 +18,7 @@ plotdist <- function(data,distr,para,breaks="default",discrete=FALSE,...){
             else 
                 h<-hist(data,freq=FALSE,xlab="data",main=paste("Histogram"),breaks=breaks,...)
             plot(s,obsp,main=paste("Cumulative distribution plot"),xlab="data",
-            xlim=c(h$breaks[1],h$breaks[length(h$breaks)]),ylab="CDF",type='l',...)
+            xlim=c(h$breaks[1],h$breaks[length(h$breaks)]),ylab="CDF",pch=4,...)
         }
         else {
             # plot for discrete data
@@ -85,13 +85,20 @@ plotdist <- function(data,distr,para,breaks="default",discrete=FALSE,...){
             lines(xhist,yhist)
             # plot of the qqplot
             theoq<-do.call(qdistname,c(list(p=obsp),as.list(para)))
-            plot(theoq,s,main=" QQ-plot",xlab="theoretical quantiles",ylab="sample quantiles",...)
+            plot(theoq,s,main=" QQ-plot",xlab="theoretical quantiles",
+            ylab="sample quantiles",...)
             abline(0,1)
             # plot of the cumulative probability distributions
+            xmin<-h$breaks[1]
+            xmax<-h$breaks[length(h$breaks)]
             plot(s,obsp,main=paste("Empirical and theoretical CDFs"),xlab="data",
-            ylab="CDF",xlim=c(h$breaks[1],h$breaks[length(h$breaks)]),type='l',...)
-            lines(s,theop,lty=2)
-            legend(s[1],max(obsp),lty=c(1,2),legend=c("empirical",paste("theoretical")),bty='n')
+            ylab="CDF",xlim=c(xmin,xmax),pch=4,...)
+            sfin<-seq(xmin,xmax,by=(xmax-xmin)/100)
+            theopfin<-do.call(pdistname,c(list(q=sfin),as.list(para)))
+            lines(sfin,theopfin,lty=1)
+            #legend(s[1],max(obsp),lty=c(1,2),legend=c("empirical",paste("theoretical")),
+            #bty='n')
+            
             # plot of the ppplot
             plot(theop,obsp,main="PP-plot",xlab="theoretical probabilities",
             ylab="sample probabilities",...)
@@ -109,19 +116,25 @@ plotdist <- function(data,distr,para,breaks="default",discrete=FALSE,...){
             yd<-do.call(ddistname,c(list(x=xvalfin),as.list(para)))
             ydobs<-as.vector(t)/n
             ydmax<-max(yd,ydobs)
-            plot(xvalfin+0.1,yd,type='h',lwd=5,xlim=c(min(xval),max(xval)+0.1),ylim=c(0,ydmax),lty=2,
-            main="Empirical and theoretical distr.",xlab="data",ylab="Density",col='red',...)
+            plot(xvalfin+0.1,yd,type='h',lwd=5,xlim=c(min(xval),max(xval)+0.1),
+                ylim=c(0,ydmax),lty=1,
+                main="Empirical (black) and theoretical (red) distr.",xlab="data",
+                ylab="Density",col='red',...)
             points(xval,ydobs,type='h',lwd=5,lty=1)
-            legend(xval[1]+0.8*(max(xval)-min(xval)),ydmax,lty=c(1,2),legend=c("empirical",paste("theoretical")),
-            col=c('black','red'),bty='n',cex=0.8)
+            #legend(xval[1]+0.8*(max(xval)-min(xval)),ydmax,lty=c(1,2),
+            #    legend=c("empirical",paste("theoretical")),
+            #    col=c('black','red'),bty='n',cex=0.8)
+            
             # plot of the cumulative probability distributions
             ycdfobs<-ecdf(data)(xvalfin)
             ycdf<-do.call(pdistname,c(list(q=xvalfin),as.list(para)))
-            plot(xvalfin+0.1,ycdf,type='h',lwd=5,xlim=c(min(xval),max(xval)+0.1),ylim=c(0,1),lty=2,
-            main="Empirical and theoretical CDFs",xlab="data",ylab="CDF",col='red',...)
+            plot(xvalfin+0.1,ycdf,type='h',lwd=5,xlim=c(min(xval),max(xval)+0.1),
+                ylim=c(0,1),lty=1,
+                main="Empirical (black) and theoretical (red) CDFs",xlab="data",
+                ylab="CDF",col='red',...)
             points(xvalfin,ycdfobs,type='h',lwd=5,lty=1)
-            legend(xval[1],1,lty=c(1,2),legend=c("empirical",paste("theoretical")),
-            col=c('black','red'),bty='n',cex=0.8)
+            #legend(xval[1],1,lty=c(1,2),legend=c("empirical",paste("theoretical")),
+            #col=c('black','red'),bty='n',cex=0.8)
         }
     }
     par(def.par)    

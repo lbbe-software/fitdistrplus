@@ -39,17 +39,17 @@ bootdistcens(f, niter=999)
     The plot of an object of class 'bootdistcens' consists in a scatterplot or a matrix of scatterplots
     of the bootstrapped values of parameters.
     It uses the function \code{\link{stripchart}} when the fitted distribution
-    is characterized by only one parameter, the function \code{\link{plot}} when it is characterized by two parameters
-    and the function \code{\link{pairs}} in others cases. In the last two cases, it provides
+    is characterized by only one parameter, and the function \code{\link{plot}} in other cases.
+    In these last cases, it provides
     a representation of the joint uncertainty distribution of the fitted parameters.
 }
 
 \value{ 
     \code{bootdistcens} returns an object of class 'bootdistcens', a list with 3 components,
-    \item{ bootestim }{ the boostrapped values of parameters.}
-    \item{ bootconverg }{ a vector containing the codes for convergence obtained when using \code{mledist} on 
+    \item{ estim }{ a data frame containing the boostrapped values of parameters.}
+    \item{ converg }{ a vector containing the codes for convergence obtained when using \code{mledist} on 
         each bootraped data set or \code{NULL} if \code{momdist} is used.}
-    \item{ bootCI }{ bootstrap medians and 95 percent confidence intervals of parameters. }
+    \item{ CI }{ bootstrap medians and 95 percent confidence intervals of parameters. }
 }
         
 
@@ -70,8 +70,10 @@ Marie-Laure Delignette-Muller \email{ml.delignette@vet-lyon.fr}
 
 \examples{
 d1<-data.frame(
-left=c(1.73,1.51,0.77,1.96,1.96,-1.4,-1.4,NA,-0.11,0.55,0.41,2.56,NA,-0.53,0.63,-1.4,-1.4,-1.4,NA,0.13),
-right=c(1.73,1.51,0.77,1.96,1.96,0,-0.7,-1.4,-0.11,0.55,0.41,2.56,-1.4,-0.53,0.63,0,-0.7,NA,-1.4,0.13))
+left=c(1.73,1.51,0.77,1.96,1.96,-1.4,-1.4,NA,-0.11,0.55,
+    0.41,2.56,NA,-0.53,0.63,-1.4,-1.4,-1.4,NA,0.13),
+right=c(1.73,1.51,0.77,1.96,1.96,0,-0.7,-1.4,-0.11,0.55,
+    0.41,2.56,-1.4,-0.53,0.63,0,-0.7,NA,-1.4,0.13))
 f1<-fitdistcens(d1, "norm")
 b1<-bootdistcens(f1)
 b1
