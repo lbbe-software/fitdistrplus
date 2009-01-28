@@ -12,7 +12,7 @@
 }
 
 \usage{
-fitdistcens<-function (censdata, distr, start)
+fitdistcens(censdata, distr, start)
 \method{print}{fitdistcens}(x,...)
 \method{plot}{fitdistcens}(x,...)
 \method{summary}{fitdistcens}(object,...)
@@ -62,8 +62,9 @@ fitdistcens<-function (censdata, distr, start)
 \value{ 
     \code{fitdistcens} returns an object of class 'fitdistcens', a list with 5 components,
     \item{ estimate }{ the parameter estimates }
-    \item{ sd }{ the estimated standard errors or \code{NULL} if \code{method="mom"} }
-    \item{ loglik }{ the log-likelihood or \code{NULL} if \code{method="mom"}}
+    \item{ sd }{ the estimated standard errors }
+    \item{ cor }{ the estimated correlation matrix }
+    \item{ loglik }{ the log-likelihood }
     \item{ censdata }{ the censored dataset }
     \item{ distname }{ the name of the distribution }
 }

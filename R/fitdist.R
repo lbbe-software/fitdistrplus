@@ -21,6 +21,7 @@ fitdist<-function (data, distr, method="mle", start, chisqbreaks, meancount)
         estimate<-momdist(data,distname)
         sd<-NULL
         loglik<-NULL
+        correl<-NULL
     }
     else
     {
@@ -32,7 +33,9 @@ fitdist<-function (data, distr, method="mle", start, chisqbreaks, meancount)
             stop("the function mle failed to estimate the parameters, 
             with the error code ",mle$convergence) 
         estimate<-mle$estimate
-        sd<-sqrt(diag(solve(mle$hessian)))
+        varcovar<-solve(mle$hessian)
+        sd<-sqrt(diag(varcovar))
+        correl<-cov2cor(varcovar)
         loglik<-mle$loglik
     } 
     # Goodness of fit statistics
@@ -159,7 +162,8 @@ fitdist<-function (data, distr, method="mle", start, chisqbreaks, meancount)
         adtest<-NULL
     }
     
-    return(structure(list(estimate = estimate, method = method, sd = sd, loglik = loglik, 
+    return(structure(list(estimate = estimate, method = method, sd = sd, 
+    cor = correl, loglik = loglik, 
     n = n, data=data, distname=distname,chisq = chisq, chisqbreaks=chisqbreaks,
     chisqpvalue=chisqpvalue,
     chisqdf=chisqdf,chisqtable=chisqtable, 
@@ -205,6 +209,11 @@ summary.fitdist <- function(object,...){
     if (object$method=="mle") {
         print(cbind.data.frame("estimate" = object$estimate, "Std. Error" = object$sd))
         cat("Loglikelihood: ",object$loglik,"\n")
+        if (length(object$estimate) > 1) {
+            cat("Correlation matrix:\n")
+            print(object$cor)
+            cat("\n")
+        }
     }
     else {
         print(cbind.data.frame("estimate" = object$estimate))

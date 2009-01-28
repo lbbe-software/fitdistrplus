@@ -14,7 +14,7 @@
 }
 
 \usage{
-fitdist<-function (data, distr, method="mle", start, chisqbreaks, meancount)
+fitdist(data, distr, method="mle", start, chisqbreaks, meancount)
 \method{print}{fitdist}(x,...)
 \method{plot}{fitdist}(x,breaks="default",...)
 \method{summary}{fitdist}(object,...)
@@ -112,6 +112,7 @@ fitdist<-function (data, distr, method="mle", start, chisqbreaks, meancount)
     \item{ method }{ the character string coding for the fitting method : 
         \code{"mle"} for 'maximum likelihood' and \code{"mom"} for 'matching moments' }
     \item{ sd }{ the estimated standard errors or \code{NULL} if \code{method="mom"} }
+    \item{ cor }{ the estimated correlation matrix or \code{NULL} if \code{method="mom"}}
     \item{ loglik }{ the log-likelihood or \code{NULL} if \code{method="mom"}}
     \item{ n }{ the length of the data set }
     \item{ data }{ the dataset }

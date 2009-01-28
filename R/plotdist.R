@@ -84,7 +84,8 @@ plotdist <- function(data,distr,para,breaks="default",discrete=FALSE,...){
             yhist<-do.call(ddistname,c(list(x=xhist),as.list(para)))
             lines(xhist,yhist)
             # plot of the qqplot
-            theoq<-do.call(qdistname,c(list(p=obsp),as.list(para)))
+            #theoq<-do.call(qdistname,c(list(p=obsp),as.list(para)))
+            theoq<-do.call(qdistname,c(list(p=ppoints(n)),as.list(para)))
             plot(theoq,s,main=" QQ-plot",xlab="theoretical quantiles",
             ylab="sample quantiles",...)
             abline(0,1)

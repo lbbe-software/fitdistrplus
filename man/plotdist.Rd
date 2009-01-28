@@ -37,10 +37,12 @@ plotdist(data,distr,para,breaks="default",discrete=FALSE,...)
     breaks definition if \code{breaks} is \code{"default"} or passing \code{breaks} as an argument if it differs
     from \code{"default"}. For continuous distribution and when a theoretical distribution is specified
     by both arguments \code{distname} and \code{para}, Q-Q plot and P-P plot are also plotted (Cullen and Fray, 1999).
+    The function \code{\link{ppoints}} is used for the Q-Q plot, to generate the set of probabilities at 
+    which to evaluate the inverse distribution.
 }
 
 \seealso{ 
-    \code{\link{descdist}}, \code{\link{hist}} and \code{\link{plotdistcens}}.
+    \code{\link{descdist}}, \code{\link{hist}}, \code{\link{plotdistcens}} and \code{\link{ppoints}}.
 }
 
 \references{ 

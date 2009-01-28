@@ -17,10 +17,12 @@ fitdistcens<-function (censdata, distr, start)
         stop("the function mle failed to estimate the parameters, 
         with the error code ",mle$convergence) 
     estimate<-mle$estimate
-    sd<-sqrt(diag(solve(mle$hessian)))
+    varcovar<-solve(mle$hessian)
+    sd<-sqrt(diag(varcovar))
+    correl<-cov2cor(varcovar)
     loglik<-mle$loglik
          
-    return(structure(list(estimate = estimate, sd = sd, loglik = loglik, 
+    return(structure(list(estimate = estimate, sd = sd, cor = correl, loglik = loglik, 
         censdata=censdata, distname=distname), class = "fitdistcens"))
         
 }
@@ -57,5 +59,10 @@ summary.fitdistcens <- function(object,...){
     cat("PARAMETERS\n")
     print(cbind.data.frame("estimate" = object$estimate, "Std. Error" = object$sd))
     cat("Loglikelihood: ",object$loglik,"\n")
+    if (length(object$estimate) > 1) {
+        cat("Correlation matrix:\n")
+        print(object$cor)
+        cat("\n")
+    }
     options(op)
 }
