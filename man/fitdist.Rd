@@ -39,7 +39,7 @@ fitdist(data, distr, method="mle", start, chisqbreaks, meancount)
 \item{meancount}{ The mean number of observations per cell expected for the definition of the breaks of the cells 
      used to compute the chi-squared statistic. This argument will not be taken into account if the breaks
      are directly defined in the argument \code{chisqbreaks}. If \code{chisqbreaks} and \code{meancount} are both
-     omitted, \code{meancount} is fixed in order to obtain roughly $(4n)^{2/5}$ cells with n the length of the dataset. }
+     omitted, \code{meancount} is fixed in order to obtain roughly (4n)^(2/5) cells with n the length of the dataset. }
 \item{x}{ an object of class 'fitdist'.  }
 \item{object}{ an object of class 'fitdist'.  }
 \item{breaks}{ If \code{"default"} the histogram is plotted with the function \code{hist} 
@@ -79,7 +79,7 @@ fitdist(data, distr, method="mle", start, chisqbreaks, meancount)
     \code{chisqbreaks} or cells automatically defined from the data in order 
     to reach roughly the same number of observations per cell, roughly equal to the argument
     \code{meancount}, or sligthly more if there are some ties. If \code{chisqbreaks} and \code{meancount} are both
-     omitted, \code{meancount} is fixed in order to obtain roughly $(4n)^{2/5}$ cells, with n the length of the dataset (Vose, 2000).
+     omitted, \code{meancount} is fixed in order to obtain roughly (4n)^(2/5) cells, with n the length of the dataset (Vose, 2000).
      The Chi-squared statistic is not computed if the program fails
     to define enough cells due to a too small dataset. When the Chi-squared statistic is computed, and if the degree
     of freedom (nb of cells - nb of parameters - 1)  of the corresponding distribution is strictly positive, the p-value
