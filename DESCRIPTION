@@ -5,7 +5,7 @@ Date: 2009-01-28
 Author: Marie Laure Delignette-Muller <ml.delignette@vet-lyon.fr>, Regis Pouillot <rpouillot@yahoo.fr>  and Jean-Baptiste
         Denis <jbdenis@jouy.inra.fr>
 Maintainer: Marie Laure Delignette-Muller <ml.delignette@vet-lyon.fr>
-Depends: R
+Depends: R (>= 2.8.0)
 Description: Several functions to help the fit of a parametric distribution to non-censored or censored data. Censored data may contain left censored, right censored and interval censored values, with several lower and upper bounds.
 License: GPL version 2 or newer
 URL: http://riskassessment.r-forge.r-project.org
