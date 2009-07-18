@@ -1,0 +1,21 @@
+### Exports
+export(bootdist, plot.bootdist, summary.bootdist)
+
+export(bootdistcens, print.bootdistcens, plot.bootdistcens, summary.bootdistcens)
+
+export(descdist)
+
+export(fitdist, print.fitdist, plot.fitdist, summary.fitdist)
+
+export(fitdistcens, print.fitdistcens, plot.fitdistcens, summary.fitdistcens)
+
+export(mledist, mledistcens)
+
+export(momdist)
+
+export(plotdist, plotdistcens)
+
+### use dynamic library for C code
+#useDynLib(fitdistrplus, .registration = TRUE)
+
+

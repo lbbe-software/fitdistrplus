@@ -1,0 +1,18 @@
+----------------------------------------------------------------------
+-- LICENCE
+----------------------------------------------------------------------
+
+-- all the code is distributed under the terms of the GNU General
+Public License as published by the Free Software Foundation; either
+version 2 of the License, or (at your option) any later version. A
+copy of the GNU General Public License is available at 
+http://www.r-project.org/Licenses/, and a plain text version can be 
+found in <src>/inst directory.
+
+
+----------------------------------------------------------------------
+-- AUTHORS
+----------------------------------------------------------------------
+
+-- all the code was written by Marie Laure Delignette-Muller, Regis 
+Pouillot, Jean-Baptiste Denis and Christophe Dutang.
