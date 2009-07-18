@@ -18,7 +18,7 @@
 %    59 Temple Place, Suite 330, Boston, MA 02111-1307, USA                                            
 %                                                                                                                                                         
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% fitdistrplus
+%%% Fit parametric distributions on non-censored or censored data with fitdistrplus
 %%%
 %%%			Sweave vignette file
 %%% 
