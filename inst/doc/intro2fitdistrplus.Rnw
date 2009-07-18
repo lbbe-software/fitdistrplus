@@ -1,0 +1,435 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   Copyright (c) 2009 Marie Laure Delignette-Muller, Regis Pouillot, Jean-Baptiste Denis,
+%   Christophe Dutang                        
+%                                                                                                                                                       
+%    This program is free software; you can redistribute it and/or modify                               
+%    it under the terms of the GNU General Public License as published by                        
+%    the Free Software Foundation; either version 2 of the License, or                                 
+%    (at your option) any later version.                                                                                        
+%                                                                                                                                                      
+%    This program is distributed in the hope that it will be useful,                                          
+%    but WITHOUT ANY WARRANTY; without even the implied warranty of                        
+%    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                   
+%    GNU General Public License for more details.                                                                    
+%                                                                                                                                                         
+%    You should have received a copy of the GNU General Public License                           
+%    along with this program; if not, write to the                                                                            
+%    Free Software Foundation, Inc.,                                                                                             
+%    59 Temple Place, Suite 330, Boston, MA 02111-1307, USA                                            
+%                                                                                                                                                         
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% fitdistrplus
+%%%
+%%%			Sweave vignette file
+%%% 
+
+
+
+
+
+\documentclass[a4paper]{article}
+
+% sweave commands for vignette
+%\VignetteIndexEntry{Fit parametric distributions on non-censored or censored data}
+%\VignettePackage{fitdistrplus}
+%\VignetteKeyword{distribution}
+
+%geometry
+\usepackage[a4paper,textwidth=18cm,textheight=27cm]{geometry}
+
+%sweave
+\usepackage{Sweave}
+
+%footnote
+\usepackage[stable]{footmisc}
+\usepackage{perpage}
+\MakePerPage[1]{footnote}
+
+%citation
+\usepackage{natbib}
+
+%reference hypertext
+\usepackage[pagebackref=true, hyperfootnotes=false]{hyperref}
+
+%title
+\title{Use of the library \texttt{fitdistrplus} to specify a distribution from 
+non-censored or censored data}
+
+%authors
+\author{Marie Laure Delignette-Muller, R\'egis Pouillot, Jean-Baptiste Denis and Christophe Dutang}
+
+
+% macros
+\newcommand\HRule{\noindent\rule{\linewidth}{1pt}}
+\newcommand{\II}{\mbox{\large 1\hskip -0,353em 1}}
+\newcommand{\abs}[1]{\lvert#1\rvert}
+\newcommand{\norm}[1]{\lVert#1\rVert}
+\newcommand{\ligne}{\rule[2mm]{.3\textwidth}{0,5mm}\\}
+\newcommand{\pkg}{\textbf}
+\newcommand{\sigle}{\textsc}
+\newcommand{\code}{\texttt}
+\newcommand{\soft}{\textsf}
+\newcommand{\myskip}{\vspace{\parskip}}
+\newcommand{\txtm}[1]{\textrm{~~#1~~}}
+\newcommand{\expo}{\textsuperscript}
+\newcommand{\ind}{1\!\!1}
+\newcommand{\mat}[1]{\mathbf{#1}}
+\newcommand{\blank}{ \clearpage{\pagestyle{empty}\cleardoublepage} }
+\newcommand{\card}{\textrm{Card}}
+
+\begin{document}
+
+\maketitle
+
+Here you will find some easy examples of use of the functions of the library \pkg{fitdistrplus}. 
+The aim is to show you by examples how to use these functions to help you to specify a parametric distribution 
+from data corresponding to a random sample drawn from a theoretical distribution that you want to describe. 
+For details, see the documentation of each function, using the R help command (ex.: \code{?fitdist}). 
+Do not forget to load the library using the function \code{library} before testing following examples.
+<<>>=
+library(fitdistrplus)
+@
+
+\tableofcontents
+
+\pagebreak
+
+\section{Specification of a distribution from non-censored continuous data}
+%si on enlève l'étoile on a des numéros de section
+
+\subsection{Graphical display of the observed distribution}
+
+First of all, the observed distribution may be plotted using the function \code{plotdist}.
+%%% R code
+<<fig=TRUE, eps=FALSE>>=
+x1<-c(6.4,13.3,4.1,1.3,14.1,10.6,
+9.9,9.6,15.3,22.1,13.4,13.2,
+8.4,6.3,8.9,5.2,10.9,14.4)
+plotdist(x1)
+@
+%%%
+
+\subsection{Characterization of the observed distribution}
+
+Descriptive parameters of the empirical distribution may be computed using the function \code{descdist}.
+This function will also provide by default a skewness-kurtosis plot which may help you to select 
+which distribution(s) to fit among the potential candidates. 
+%%% R code
+<<fig=TRUE>>=
+descdist(x1)
+@
+%%%
+
+In order to take into account the uncertainty of the estimated values of kurtosis and skewness, 
+the data set may be boostrapped by fixing the argument \code{boot} to an integer above 10 in \code{descdist}. 
+\code{boot} values of 
+skewness and kurtosis corresponding to the boot nonparametric bootstrap samples are then computed and reported in blue color 
+on the skewness-kurtosis plot.
+%%% R code
+<<fig=TRUE, eps=FALSE>>=
+descdist(x1,boot=1000)
+@
+%%%
+
+\subsection{Fitting of a distribution}
+
+One or more parametric distributions may then be fitted to the data set, one at a time, using the
+function \code{fitdist}. This function uses the maximum likelihood
+method if the argument \code{method="mle"} (or if it is omitted) 
+or the matching moments method if the argument \code{method="mom"}.
+When fitting continuous\footnote{The reference book on continuous distribution
+is \cite{kotz}.} distributions, 
+Kolmogorov-Smirnov and Anderson-Darling statistics are computed and corresponding tests are performed when possible. 
+Even if less appropriate for continuous distributions, the Chi-squared statistic is
+also computed when possible. For this calculation, cells are defined by the argument \code{chisqbreaks}
+or automatically defined from the data set and from the argument \code{meancount} (the approximate mean count per cell)
+which is  fixed to $(4n)^{2/5}$ if omitted (with n the length of the data set).  
+For more details, see the help of the function \code{fitdist}.
+Four goodness of fit plots are also provided.
+
+
+Below is the result of a fit of a gamma distribution by maximum likelihood.
+%%% R code
+<<fig=TRUE, eps=FALSE>>=
+f1g<-fitdist(x1,"gamma")
+plot(f1g)
+summary(f1g)
+@
+%%%
+
+Below is the result of another fit of the same distribution by matching moments.
+%%% R code
+<<>>=
+f1gbis<-fitdist(x1,"gamma",method="mom")
+summary(f1gbis)
+@ 
+%%%
+
+As can be seen in this returned summary, the automatic definition of the cells required to calculate the Chi-squared
+statistic does not give theoretical counts large enough to validate the use of the test in this example.
+It is often the case for small
+data sets. The observed and theoretical counts may be printed as below :
+%%% R code
+<<>>=
+f1g$chisqtable
+@
+%%%
+
+Below is the fit of a lognormal distribution.
+%%% R code
+<<fig=TRUE, eps=FALSE>>=
+f1l<-fitdist(x1,"lnorm")
+plot(f1l)
+summary(f1l)
+@
+%%%
+
+Below is the fit of a normal distribution.
+%%% R code
+<<fig=TRUE, eps=FALSE>>=
+f1n<-fitdist(x1,"norm")
+plot(f1n)
+summary(f1n)
+@
+%%%
+
+Below is the fit of a Weibull distribution.
+%%% R code
+<<fig=TRUE, eps=FALSE>>=
+f1w<-fitdist(x1,"weibull")
+plot(f1w)
+summary(f1w)
+@
+%%%
+
+The values of the Anderson-Darling statistic (or another result of the fit: see the help of \code{fitdist} for details)
+for the different fittings may be extracted and compared to help the selection of a distribution :
+%%% R code
+<<>>=
+anderson<-list(lnorm=f1l$ad,gamma=f1g$ad,norm=f1n$ad,weibull=f1w$ad)
+anderson
+@
+%%%
+
+For some distributions (see the help of \code{fitdist} for details), it is necessary to specify initial 
+values for the distribution parameters in the argument \code{start} when using the maximum likelihood method.
+\code{start} must be a named list
+of parameters initial values. The names of
+the parameters in \code{start} must correspond exactly to their definition in R or to their 
+definition in a previous R code.
+The function \code{plotdist} may help to find correct initial values for 
+the distribution parameters in non trivial cases, by an manual iterative use if necessary.
+
+For example, below is the definition of the Gumbel distribution (also named extreme value distribution) and 
+a first plot of the data set with the Gumbel distribution with arbitrary values for parameters.
+%%% R code
+<<fig=TRUE, eps=FALSE>>=
+dgumbel<-function(x,a,b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
+pgumbel<-function(q,a,b) exp(-exp((a-q)/b))
+qgumbel<-function(p,a,b) a-b*log(-log(p))
+plotdist(x1,"gumbel",para=list(a=3,b=2))
+@
+%%%
+
+The same data set may be plotted with a Gumbel distribution with modified values for parameters.
+%%% R code
+<<fig=TRUE, eps=FALSE>>=
+plotdist(x1,"gumbel",para=list(a=10,b=5))
+@
+%%%
+
+And a Gumbel distribution may be fitted to data with these values for initial parameter values.
+%%% R code
+<<fig=TRUE, eps=FALSE>>=
+fgu<-fitdist(x1,"gumbel",start=list(a=10,b=5))
+plot(fgu)
+summary(fgu)
+@
+%%%
+
+\subsection{Simulation of the uncertainty by boostrap}
+
+The uncertainty in the parameters of the fitted distribution may be simulated by parametric or nonparametric
+boostrap using the function \code{boodist}. This function returns the boostrapped values of parameters which
+may be plotted to visualize the bootstrap region. It also calculates the 95 percent confidence intervals for each 
+parameter from the 2.5 and 97.5 percentiles
+of the boostrap values of each parameter (see the help of the function \code{bootdist} for details).
+
+Below is an example of the use of this function with the previous fit of the gamma distribution. 
+%%% R code
+<<fig=TRUE, eps=FALSE>>=
+b1g<-bootdist(f1g)
+plot(b1g)
+summary(b1g)
+@
+%%%
+
+\section{Specification of a distribution from non-censored discrete data}
+
+A discrete data set may be considered as a continuous one for example for a large data set
+from a binomial distribution converging to a normal one. A discrete plot of the distribution 
+may also be provided, fixing the argument discrete of the function \code{plotdist} to \code{TRUE}.
+
+%%% R code
+<<fig=TRUE, eps=FALSE>>=
+x2<-rnbinom(n=100,size=2,prob=0.3)
+plotdist(x2,discrete=TRUE)
+@
+%%%
+
+As for continuous distributions, descriptive parameters of the empirical distribution 
+may be computed using the function \code{descdist} which also provides a skewness-kurtosis plot 
+which may help you to choose which distribution(s) to fit.
+
+%%% R code
+<<fig=TRUE, eps=FALSE>>=
+descdist(x2,discrete=T)
+@
+%%%
+
+As for continuous distributions, one or more parametric distributions may then be fitted 
+to the data set by maximum likelihood or matching moments. 
+
+Below is the result of the fit of a Poisson distribution with the bootstrap simulations.
+%%% R code
+<<fig=TRUE, eps=FALSE>>=
+f2p<-fitdist(x2,"pois")
+plot(f2p)
+summary(f2p)
+b2p<-bootdist(f2p)
+summary(b2p)
+@
+%%%
+
+Below is the result of the fit of a negative binomial distribution with the boostrap simulations.
+%%% R code
+<<fig=TRUE, eps=FALSE>>=
+f2n<-fitdist(x2,"nbinom")
+plot(f2n)
+summary(f2n)
+b2n<-bootdist(f2n)
+summary(b2n)
+@
+%%%
+
+\section{Specification of a distribution from censored data}
+%si on enlève l'étoile on a des numéros de section
+Censored data may contain left censored, right censored and interval censored values, 
+with several lower and upper bounds. Data must be coded into a dataframe with two columns,
+respectively named \code{left} 
+and \code{right}, describing each observed value as an interval.
+The \code{left} column contains either \code{NA} for left censored observations,
+the left bound of the interval for interval censored observations,
+or the observed value for non-censored observations.
+The \code{right} column contains either \code{NA} for right censored observations,
+the right bound of the interval for interval censored observations,
+or the observed value for non-censored observations.
+
+\subsection{Graphical display of the observed distribution}
+
+First of all, the observed distribution may be plotted using the function \code{plotdistcens}.
+Data are reported directly as segments for interval, left and right censored data, 
+and as points for non-censored data. For more details, see the help of the function \code{plotdistcens}.
+
+%%% R code
+<<fig=TRUE, eps=FALSE>>=
+d1<-data.frame(
+left=c(1.73,1.51,0.77,1.96,1.96,-1.4,-1.4,NA,-0.11,0.55,0.41,
+   2.56,NA,-0.53,0.63,-1.4,-1.4,-1.4,NA,0.13),
+right=c(1.73,1.51,0.77,1.96,1.96,0,-0.7,-1.4,-0.11,0.55,0.41,
+   2.56,-1.4,-0.53,0.63,0,-0.7,NA,-1.4,0.13))
+plotdistcens(d1)
+@
+%%%
+
+When left or right NA-values correspond to finite value (for example 0 for
+left NA-values of positive data), the arguments \code{leftNA} (or \code{rightNA})
+must be affected to this finite value to ensure a correct plot of left (or right) censored
+observations, as in the example below.
+
+%%% R code
+<<fig=TRUE, eps=FALSE>>=
+d2<-data.frame(left=10^(d1$left),right=10^(d1$right))
+plotdistcens(d2,leftNA=0)
+@
+%%%
+
+It is also possible to fix \code{rightNA} or \code{leftNA} to a realistic 
+extreme value, even if not exactly known, to obtain a reasonable global ranking of 
+observations, as in the example below for the first dataset.
+%%% R code
+<<fig=TRUE, eps=FALSE>>=
+plotdistcens(d1,rightNA=3)
+@
+%%%
+
+\subsection{Fitting of a distribution}
+
+One or more parametric distributions may then be fitted to the censored data set, one at a time, using the
+function \code{fitdistcens}. This function always uses the maximum likelihood
+method.  For more details, see the help of the function \code{fitdistcens}.
+Only one goodness of fit plot is provided for censored data, in cumulative frequencies.
+The uncertainty in the parameters of the fitted distribution may be simulated by nonparametric
+boostrap only, using the function \code{boodistcens}.
+
+Below is the result of a fit of a Weibull distribution by maximum likelihood and the results of the 
+corresponding boostrap simulations.
+%%% R code
+<<fig=TRUE, eps=FALSE>>=
+f2w<-fitdistcens(d2,"weibull")
+summary(f2w)
+plot(f2w,leftNA=0)
+@
+%%%
+
+%%% R code
+<<fig=TRUE, eps=FALSE>>=
+b2w<-bootdistcens(f2w)
+summary(b2w)
+plot(b2w)
+@
+%%%
+
+Goodness of fit statistics are not computed for fit on censored data, so the quality of fit 
+may only be estimated from the loglikelihood and the goodness of fit plot.
+
+Below is the fit of a lognormal distribution to the same censored data set.
+%%% R code
+<<fig=TRUE, eps=FALSE>>=
+f2l<-fitdistcens(d2,"lnorm")
+summary(f2l)
+plot(f2l,leftNA=0)
+@
+%%%
+
+Below is the fit of an exponential distribution.
+%%% R code
+<<fig=TRUE, eps=FALSE>>=
+f2e<-fitdistcens(d2,"exp")
+summary(f2e)
+plot(f2e,leftNA=0)
+@
+%%%
+
+As with \code{fitdist}, for some distributions (see the help of \code{fitdistcens} for details), 
+it is necessary to specify initial 
+values for the distribution parameters in the argument \texttt{start}.
+\code{start} must be a named list
+of parameters initial values. The names of
+the parameters in \code{start} must correspond exactly to their definition in R or to their 
+definition in a previous R code.
+The function \code{plotdistcens} may help to find correct initial values for 
+the distribution parameters in non trivial cases, by an manual iterative use if necessary, as explained 
+previously for non-censored continuous data.
+
+
+%%%%%%%%%%%
+%  Bibiliography.
+%%%%%%%%%%%
+\newpage
+\addcontentsline{toc}{section}{Bibliography}
+\bibliographystyle{agsm}  
+\bibliography{intro2fitdistrplus}    
+
+
+\end{document}
