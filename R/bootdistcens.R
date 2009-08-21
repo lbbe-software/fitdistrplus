@@ -19,10 +19,10 @@
 #############################################################################
 ### bootstrap in fitdistrplus with censored data
 ###
-###			R functions
+###         R functions
 ### 
 
-bootdistcens<-function (f, niter=999)
+bootdistcens<-function (f, niter=1001)
 { 
     if (niter<10) 
         stop("niter must be an integer above 10")
@@ -83,15 +83,15 @@ plot.bootdistcens <- function(x,...){
         stop("Use only with 'bootdistcens' objects")
     if (dim(x$estim)[1]==1) {
         stripchart(x$estim,method="jitter",
-        xlab="Scatterplot of the boostrapped values of the parameter",...)
+        xlab="Boostrapped values of the parameter",...)
     }
     else {
         if (dim(x$estim)[2]==2)
             plot(x$estim,
-            main="Scatterplot of the boostrapped values of the two parameters",...)
+            main="Boostrapped values of the two parameters",...)
         else 
             plot(x$estim,
-            main="Scatterplots of the boostrapped values of parameters",...)
+            main="Boostrapped values of parameters",...)
     }
 }
 
@@ -100,7 +100,7 @@ summary.bootdistcens <- function(object,...){
         stop("Use only with 'bootdistcens' objects")
     op<-options()
     options(digits=3)
-    cat("Nonparametric bootstrap medians and 95% CI \n")
+    cat("Nonparametric bootstrap medians and 95% percentile CI \n")
     print(object$CI)
     
      if (!is.null(object$converg)) { 

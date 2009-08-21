@@ -19,10 +19,10 @@
 #############################################################################
 ### fit parametric distributions for non-censored data
 ###
-###			R functions
+###         R functions
 ### 
 
-fitdist<-function (data, distr, method="mle", start, chisqbreaks, meancount) 
+fitdist<-function (data, distr, method="mle", start, chisqbreaks, meancount,...) 
 {
     if (!is.character(distr)) distname<-substring(as.character(match.call()$distr),2)
     else distname<-distr
@@ -45,22 +45,27 @@ fitdist<-function (data, distr, method="mle", start, chisqbreaks, meancount)
         estimate<-momdist(data,distname)
         sd<-NULL
         loglik<-NULL
+        aic<-NULL
+        bic<-NULL
         correl<-NULL
     }
     else
     {
         if (missing(start))
-            mle<-mledist(data,distname) 
+            mle<-mledist(data,distname,...) 
         else 
-            mle<-mledist(data,distname,start)
+            mle<-mledist(data,distname,start,...)
         if (mle$convergence>0) 
-            stop("the function mle failed to estimate the parameters, 
+           stop("the function mle failed to estimate the parameters, 
             with the error code ",mle$convergence) 
         estimate<-mle$estimate
         varcovar<-solve(mle$hessian)
         sd<-sqrt(diag(varcovar))
         correl<-cov2cor(varcovar)
         loglik<-mle$loglik
+        npar<-length(estimate)
+        aic<--2*loglik+2*npar
+        bic<--2*loglik+log(n)*npar
     } 
     # Goodness of fit statistics
     if (is.element(distname,c("binom","nbinom","geom","hyper","pois"))) 
@@ -187,7 +192,7 @@ fitdist<-function (data, distr, method="mle", start, chisqbreaks, meancount)
     }
     
     return(structure(list(estimate = estimate, method = method, sd = sd, 
-    cor = correl, loglik = loglik, 
+    cor = correl, loglik = loglik, aic=aic, bic=bic,
     n = n, data=data, distname=distname,chisq = chisq, chisqbreaks=chisqbreaks,
     chisqpvalue=chisqpvalue,
     chisqdf=chisqdf,chisqtable=chisqtable, 
@@ -232,7 +237,9 @@ summary.fitdist <- function(object,...){
     cat("PARAMETERS\n")
     if (object$method=="mle") {
         print(cbind.data.frame("estimate" = object$estimate, "Std. Error" = object$sd))
-        cat("Loglikelihood: ",object$loglik,"\n")
+        cat("Loglikelihood: ",object$loglik,"  ")
+        cat("AIC: ",object$aic,"  ")
+        cat("BIC: ",object$bic,"\n")
         if (length(object$estimate) > 1) {
             cat("Correlation matrix:\n")
             print(object$cor)

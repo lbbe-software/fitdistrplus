@@ -19,7 +19,7 @@
 #############################################################################
 ### plot functions for non-censored data
 ###
-###			R functions
+###         R functions
 ### 
 
 plotdist <- function(data,distr,para,breaks="default",discrete=FALSE,...){
@@ -41,7 +41,7 @@ plotdist <- function(data,distr,para,breaks="default",discrete=FALSE,...){
                 h<-hist(data,freq=FALSE,xlab="data",main=paste("Histogram"),...)
             else 
                 h<-hist(data,freq=FALSE,xlab="data",main=paste("Histogram"),breaks=breaks,...)
-            plot(s,obsp,main=paste("Cumulative distribution plot"),xlab="data",
+            plot(s,obsp,main=paste("Cumulative distribution"),xlab="data",
             xlim=c(h$breaks[1],h$breaks[length(h$breaks)]),ylab="CDF",pch=4,...)
         }
         else {

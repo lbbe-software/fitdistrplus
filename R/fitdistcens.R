@@ -19,10 +19,10 @@
 #############################################################################
 ### fit parametric distributions for censored data
 ###
-###			R functions
+###         R functions
 ### 
 
-fitdistcens<-function (censdata, distr, start) 
+fitdistcens<-function (censdata, distr, start,...) 
 {
     if (!is.character(distr)) distname<-substring(as.character(match.call()$distr),2)
     else distname<-distr
@@ -34,9 +34,9 @@ fitdistcens<-function (censdata, distr, start)
         stop(paste("The ",pdistname," function must be defined"))
     # MLE fit with mledistcens 
     if (missing(start))
-        mle<-mledistcens(censdata,distname) 
+        mle<-mledistcens(censdata,distname,...) 
     else 
-    mle<-mledistcens(censdata,distname,start)
+    mle<-mledistcens(censdata,distname,start,...)
     if (mle$convergence>0) 
         stop("the function mle failed to estimate the parameters, 
         with the error code ",mle$convergence) 
@@ -45,8 +45,12 @@ fitdistcens<-function (censdata, distr, start)
     sd<-sqrt(diag(varcovar))
     correl<-cov2cor(varcovar)
     loglik<-mle$loglik
+    n<-nrow(censdata)
+    npar<-length(estimate)
+    aic<--2*loglik+2*npar
+    bic<--2*loglik+log(n)*npar
          
-    return(structure(list(estimate = estimate, sd = sd, cor = correl, loglik = loglik, 
+    return(structure(list(estimate = estimate, sd = sd, cor = correl, loglik = loglik,aic=aic,bic=bic, 
         censdata=censdata, distname=distname), class = "fitdistcens"))
         
 }
@@ -82,7 +86,9 @@ summary.fitdistcens <- function(object,...){
     "' BY MAXIMUM LIKELIHOOD ON CENSORED DATA \n")
     cat("PARAMETERS\n")
     print(cbind.data.frame("estimate" = object$estimate, "Std. Error" = object$sd))
-    cat("Loglikelihood: ",object$loglik,"\n")
+    cat("Loglikelihood: ",object$loglik,"  ")
+    cat("AIC: ",object$aic,"  ")
+    cat("BIC: ",object$bic,"\n")
     if (length(object$estimate) > 1) {
         cat("Correlation matrix:\n")
         print(object$cor)

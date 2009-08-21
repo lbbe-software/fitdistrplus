@@ -5,11 +5,11 @@
 \title{ Maximum likelihood fitting of univariate distributions}
 
 \description{
- Fits a univariate distribution by maximum likelihood using the optimization function \code{\link{optim}}.  
+ Fits a univariate distribution by maximum likelihood.  
 }
 
 \usage{
-mledist(data, distr, start)
+mledist(data, distr, start,optim.method="default",lower=-Inf,upper=Inf)
 }
 %- maybe also 'usage' for other objects documented here.
 
@@ -20,13 +20,21 @@ mledist(data, distr, start)
 \item{start}{ A named list giving the initial values of parameters of the named distribution. 
     This argument may be omitted for some distributions for which reasonable 
     starting values are computed (see details).  }
+\item{optim.method}{ \code{"default"} (see details) or optimization method to pass to \code{\link{optim}}.  }
+\item{lower}{ Left bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
+\item{upper}{ Right bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
 }
 
 \details{
     Maximum likelihood estimations of the distribution parameters are computed. 
-    Direct optimization of the log-likelihood is performed using \code{\link{optim}}, with its
-    default method \code{"Nelder-Mead"} for distributions characterized by more than one parameter and
-    the method \code{"BFGS"} for distributions characterized by only one parameter. 
+    Direct optimization of the log-likelihood is performed using \code{\link{optim}},by default with 
+    the \code{"Nelder-Mead"} method for distributions characterized by more than one parameter and
+    the \code{"BFGS"} method for distributions characterized by only one parameter, or 
+    with the method specified in the argument \code{"optim.method"} if not \code{"default"}.
+    Box-constrainted optimization may be used with the method \code{"L-BFGS-B"}, using the constraints
+    on parameters specified in arguments \code{lower}and \code{upper}. if non-trivial bounds are supplied,
+    this method will be automatically selected, with a warning.
+    
     For the following named distributions, reasonable starting values will 
     be computed if \code{start} is omitted : \code{"norm"}, \code{"lnorm"},
     \code{"exp"} and \code{"pois"}, \code{"cauchy"}, \code{"gamma"}, \code{"logis"},
@@ -39,7 +47,7 @@ mledist(data, distr, start)
 }
 
 \value{ 
-    \code{mledist} returns a list with 4 components,
+    \code{mledist} returns a list with following components,
     \item{ estimate }{ the parameter estimates }
     \item{ convergence }{ an integer code for the convergence of \code{optim}. 
     

@@ -14,7 +14,7 @@
 }
 
 \usage{
-fitdist(data, distr, method="mle", start, chisqbreaks, meancount)
+fitdist(data, distr, method="mle", start, chisqbreaks, meancount,...)
 \method{print}{fitdist}(x,...)
 \method{plot}{fitdist}(x,breaks="default",...)
 \method{summary}{fitdist}(object,...)
@@ -46,16 +46,17 @@ fitdist(data, distr, method="mle", start, chisqbreaks, meancount)
     with its default breaks definition. Else \code{breaks} is passed to the function \code{hist}.
     This argument is not taken into account with discrete distributions: \code{"binom"}, 
     \code{"nbinom"}, \code{"geom"}, \code{"hyper"} and \code{"pois"}. }
-\item{...}{ further arguments passed to or from other methods }
+\item{...}{ further arguments to be passed to generic functions, or to the function \code{"mledist"} 
+    if 'maximum likelihood' is the chosen method, in order to control the optimization method.}
 }
 
 \details{
     When \code{method="mle"},
     maximum likelihood estimations of the distribution parameters are computed using 
     the function \code{\link{mledist}}. 
-    Direct optimization of the log-likelihood is performed using \code{\link{optim}}, with its
-    default method \code{"Nelder-Mead"} for distributions characterized by more than one parameter and
-    the method \code{"BFGS"} for distributions characterized by only one parameter. 
+    Direct optimization of the log-likelihood is performed using by default \code{\link{optim}} with its
+    method \code{"Nelder-Mead"}. The method used in \code{\link{optim}} may be chosen and box constraints
+    may especially be used by passing arguments to the function \code{"mledist"} using ... argument.
     For the following named distributions, reasonable starting values will 
     be computed if \code{start} is omitted : \code{"norm"}, \code{"lnorm"},
     \code{"exp"} and \code{"pois"}, \code{"cauchy"}, \code{"gamma"}, \code{"logis"},
@@ -107,14 +108,16 @@ fitdist(data, distr, method="mle", start, chisqbreaks, meancount)
 }
 
 \value{ 
-    \code{fitdist} returns an object of class 'fitdist', a list with 16 components,
+    \code{fitdist} returns an object of class 'fitdist', a list with following components,
     \item{ estimate }{ the parameter estimates }
     \item{ method }{ the character string coding for the fitting method : 
         \code{"mle"} for 'maximum likelihood' and \code{"mom"} for 'matching moments' }
     \item{ sd }{ the estimated standard errors or \code{NULL} if \code{method="mom"} }
     \item{ cor }{ the estimated correlation matrix or \code{NULL} if \code{method="mom"}}
     \item{ loglik }{ the log-likelihood or \code{NULL} if \code{method="mom"}}
-    \item{ n }{ the length of the data set }
+     \item{ aic }{ the Akaike information criterion or \code{NULL} if \code{method="mom"}}
+    \item{ bic }{ the the so-called BIC or SBC (Schwarz Bayesian criterion) or \code{NULL} if \code{method="mom"}}
+   \item{ n }{ the length of the data set }
     \item{ data }{ the dataset }
     \item{ distname }{ the name of the distribution }
     \item{ chisq }{ the Chi-squared statistic or \code{NULL} if not computed }

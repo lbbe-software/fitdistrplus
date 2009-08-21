@@ -19,11 +19,11 @@
 #############################################################################
 ### bootstrap in fitdistrplus
 ###
-###			R functions
+###         R functions
 ### 
 
 
-bootdist<-function (f, bootmethod="param", niter=999)
+bootdist<-function (f, bootmethod="param", niter=1001)
 { 
     if (niter<10) 
         stop("niter must be an integer above 10")
@@ -119,15 +119,15 @@ plot.bootdist <- function(x,...){
         stop("Use only with 'bootdist' objects")
     if (dim(x$estim)[2]==1) {
         stripchart(x$estim,method="jitter",
-            xlab="Scatterplot of boostrapped values of the parameter",...)
+            xlab="Boostrapped values of the parameter",...)
     }
     else {
         if (dim(x$estim)[2]==2)
             plot(x$estim,
-            main="Scatterplot of boostrapped values of parameters",...)
+            main="Boostrapped values of parameters",...)
         else 
             plot(x$estim,
-            main="Scatterplots of boostrapped values of parameters",...)
+            main="Boostrapped values of parameters",...)
     }
 }
 
@@ -137,9 +137,9 @@ summary.bootdist <- function(object,...){
     op<-options()
     options(digits=3)
     if (object$method=="param") 
-        cat("Parametric bootstrap medians and 95% CI \n")
+        cat("Parametric bootstrap medians and 95% percentile CI \n")
     else
-       cat("Nonparametric bootstrap medians and 95% CI \n")
+       cat("Nonparametric bootstrap medians and 95% percentile CI \n")
     print(object$CI)
     
      if (!is.null(object$converg)) { 

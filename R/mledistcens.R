@@ -19,10 +19,10 @@
 #############################################################################
 ### maximum likelihood estimation for censored data
 ###
-###			R functions
+###         R functions
 ### 
 
-mledistcens<-function (censdata, distr, start=NULL) 
+mledistcens<-function (censdata, distr, start=NULL,optim.method="default",lower=-Inf,upper=Inf) 
 {
     if (!is.character(distr)) distname<-substring(as.character(match.call()$distr),2)
     else distname<-distr
@@ -38,8 +38,8 @@ mledistcens<-function (censdata, distr, start=NULL)
         stop("datacens must be a dataframe with two columns named left 
             and right and more than one line")
     # Definition of datasets lcens (left censored)=vector, rcens (right censored)= vector,
-    #   icens (interval censored) = dataframe with left and right and ncens 
-    # (not censored) = vector
+    #   icens (interval censored) = dataframe with left and right 
+    # and ncens (not censored) = vector
     lcens<-censdata[is.na(censdata$left),]$right
     if (any(is.na(lcens)) )
         stop("An observation cannot be both right and left censored, coded with two NA values")
@@ -126,19 +126,39 @@ mledistcens<-function (censdata, distr, start=NULL)
   
    # MLE fit using optim
     vstart<-unlist(start)
-    if (length(vstart)>1) meth<-"Nelder-Mead"
-    else meth<-"BFGS"
+    # check of the names of the arguments of the density function
+    argddistname<-names(formals(ddistname))
+    m <- match(names(start), argddistname)
+    if (any(is.na(m)))
+        stop("'start' must specify names which are arguments to 'distr'")
+   
+    # definition of the function to minimize : - log likelihood
+    argpdistname<-names(formals(pdistname))
     
-#    fnobj<-function(par,dat,ddistnam) 
-#    -sum(log(do.call(ddistnam,c(list(x=dat),as.list(par)))))
+    if (("log" %in% argddistname) & ("log.p" %in% argpdistname))
+    fnobj<-function(par,rcens,lcens,icens,ncens,ddistnam,pdistnam)
+        -sum(do.call(ddistnam,c(list(x=ncens),as.list(par),list(log=TRUE)))) -
+        sum(do.call(pdistnam,c(list(q=lcens),as.list(par),list(log=TRUE)))) -
+        sum(do.call(pdistnam,c(list(q=rcens),as.list(par),list(lower.tail=FALSE),list(log=TRUE)))) -
+        sum(log(do.call(pdistnam,c(list(q=icens$right),as.list(par))) - # without log=TRUE here
+            do.call(pdistnam,c(list(q=icens$left),as.list(par))) )) # without log=TRUE here
+    else
     fnobj<-function(par,rcens,lcens,icens,ncens,ddistnam,pdistnam)
         -sum(log(do.call(ddistnam,c(list(x=ncens),as.list(par))))) -
         sum(log(do.call(pdistnam,c(list(q=lcens),as.list(par))))) -
         sum(log(1-do.call(pdistnam,c(list(q=rcens),as.list(par))))) -
         sum(log(do.call(pdistnam,c(list(q=icens$right),as.list(par))) - 
-        do.call(pdistnam,c(list(q=icens$left),as.list(par))) ))
+            do.call(pdistnam,c(list(q=icens$left),as.list(par))) ))
+    # Choice of the optimization method    
+    if (optim.method=="default")
+        if (length(vstart)>1) meth<-"Nelder-Mead"
+        else meth<-"BFGS"
+    else
+        meth=optim.method
+    # Try to optimize
     opt<-try(optim(par=vstart,fn=fnobj,rcens=rcens,lcens=lcens,icens=icens,ncens=ncens,
-    ddistnam=ddistname,pdistnam=pdistname,hessian=TRUE,method=meth),silent=TRUE)
+    ddistnam=ddistname,pdistnam=pdistname,hessian=TRUE,
+    method=meth,lower=lower,upper=upper),silent=TRUE)
     if (inherits(opt,"try-error"))
     {
         warnings("The function optim encountered an error and stopped")

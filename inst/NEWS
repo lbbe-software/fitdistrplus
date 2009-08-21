@@ -1,5 +1,21 @@
 === fitdistrplus : Help to fit of a parametric distribution ===
 
+Version 0.1-2
+=============
+
+NEW FEATURES
+
+- possibility to choose the optimization method used for maximum likelihood estimation of distribution parameters
+using the new argument "optim.method" of mledist and mledistcens
+- possibility to specify contraints on distribution parameters using the new arguments "lower" and "upper" 
+of mledist and mledistcens
+- calculation of AIC and BIC criterion after maximum likelihood estimation of distribution parameters
+- change of the default number of iterations from 999 to 1001 for boostrap in order to avoid interpolation using the quantile function
+- use of the argument "log" and (resp. "log.p") of density (resp. distribution) when available to compute the loglikelihood
+
+BUG FIXES
+
+-??
 
 
 Version 0.1-1
@@ -17,4 +33,3 @@ Version 0.1-0
 =============
 
 - Initial release.
-

@@ -13,7 +13,7 @@
 }
 
 \usage{
-bootdistcens(f, niter=999)
+bootdistcens(f, niter=1001)
 \method{print}{bootdistcens}(x,...)
 \method{plot}{bootdistcens}(x,...)
 \method{summary}{bootdistcens}(object,...)
@@ -25,7 +25,7 @@ bootdistcens(f, niter=999)
 \item{niter}{ The number of samples drawn by bootstrap.  }
 \item{x}{ an object of class 'bootdistcens'.  }
 \item{object}{ an object of class 'bootdistcens'.  }
-\item{...}{ further arguments passed to other methods }
+\item{...}{ further arguments to be passed to generic methods }
 }
 
 \details{
@@ -49,7 +49,7 @@ bootdistcens(f, niter=999)
     \item{ estim }{ a data frame containing the boostrapped values of parameters.}
     \item{ converg }{ a vector containing the codes for convergence obtained when using \code{mledist} on 
         each bootraped data set or \code{NULL} if \code{momdist} is used.}
-    \item{ CI }{ bootstrap medians and 95 percent confidence intervals of parameters. }
+    \item{ CI }{ bootstrap medians and 95 percent confidence percentile intervals of parameters. }
 }
         
 

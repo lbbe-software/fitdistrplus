@@ -12,7 +12,7 @@
 }
 
 \usage{
-fitdistcens(censdata, distr, start)
+fitdistcens(censdata, distr, start,...)
 \method{print}{fitdistcens}(x,...)
 \method{plot}{fitdistcens}(x,...)
 \method{summary}{fitdistcens}(object,...)
@@ -36,7 +36,8 @@ fitdistcens(censdata, distr, start)
     starting values are computed (see details).  }
 \item{x}{ an object of class 'fitdistcens'.  }
 \item{object}{ an object of class 'fitdistcens'.  }
-\item{...}{ further arguments passed to or from other methods }
+\item{...}{ further arguments to be passed to generic functions, or to the function \code{"mledistcens"} 
+     in order to control the optimization method.}
 }
 
 \details{
@@ -60,11 +61,13 @@ fitdistcens(censdata, distr, start)
 }
 
 \value{ 
-    \code{fitdistcens} returns an object of class 'fitdistcens', a list with 5 components,
+    \code{fitdistcens} returns an object of class 'fitdistcens', a list with following components,
     \item{ estimate }{ the parameter estimates }
     \item{ sd }{ the estimated standard errors }
     \item{ cor }{ the estimated correlation matrix }
     \item{ loglik }{ the log-likelihood }
+     \item{ aic }{ the Akaike information criterion }
+    \item{ bic }{ the the so-called BIC or SBC (Schwarz Bayesian criterion)}
     \item{ censdata }{ the censored dataset }
     \item{ distname }{ the name of the distribution }
 }

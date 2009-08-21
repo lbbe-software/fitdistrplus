@@ -19,7 +19,7 @@
 #############################################################################
 ### plot functions for censored data
 ###
-###			R functions
+###         R functions
 ### 
 
 plotdistcens <- function(censdata,distr,para,leftNA=-Inf,rightNA=Inf,...){
@@ -63,7 +63,7 @@ plotdistcens <- function(censdata,distr,para,leftNA=-Inf,rightNA=Inf,...){
     xmax<-xmax+0.3*xrange
     xlim<-c(xmin,xmax)
     plot(c(0,0),c(0,0),type="n",xlim=xlim,ylim=c(0,1),xlab="censored data",
-    ylab="CDF",main="Cumulative distribution plot")
+    ylab="CDF",main="Cumulative distribution")
     # functions to plot one interval or point for each observation for 
     # observation ordered i out of n
     plotlcens<-function(i) {

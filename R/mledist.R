@@ -19,10 +19,10 @@
 #############################################################################
 ### maximum likelihood estimation for non-censored data
 ###
-###			R functions
+###         R functions
 ### 
 
-mledist<-function (data, distr, start=NULL) 
+mledist<-function (data, distr, start=NULL,optim.method="default",lower=-Inf,upper=Inf) 
 {
     if (!is.character(distr)) distname<-substring(as.character(match.call()$distr),2)
     else distname<-distr
@@ -108,12 +108,27 @@ mledist<-function (data, distr, start=NULL)
    
    # MLE fit using optim
     vstart<-unlist(start)
-    if (length(vstart)>1) meth<-"Nelder-Mead"
-    else meth<-"BFGS"
-    fnobj<-function(par,dat,ddistnam) 
-    -sum(log(do.call(ddistnam,c(list(x=dat),as.list(par)))))
+    # check of the names of the arguments of the density function
+    argddistname<-names(formals(ddistname))
+    m <- match(names(start), argddistname)
+    if (any(is.na(m)))
+        stop("'start' must specify names which are arguments to 'distr'")
+    # definition of the function to minimize : - log likelihood
+    if ("log" %in% argddistname)
+        fnobj<-function(par,dat,ddistnam) 
+        -sum(do.call(ddistnam,c(list(x=dat),as.list(par),list(log=TRUE))))
+    else
+        fnobj<-function(par,dat,ddistnam) 
+        -sum(log(do.call(ddistnam,c(list(x=dat),as.list(par)))))
+    # Choice of the optimization method    
+    if (optim.method=="default")
+        if (length(vstart)>1) meth<-"Nelder-Mead"
+        else meth<-"BFGS"
+    else
+        meth=optim.method
+    # Try to optimize
     opt<-try(optim(par=vstart,fn=fnobj,dat=data,ddistnam=ddistname,
-        hessian=TRUE,method=meth),silent=TRUE)
+        hessian=TRUE,method=meth,lower=lower,upper=upper),silent=TRUE)
     if (inherits(opt,"try-error"))
     {
         warnings("The function optim encountered an error and stopped")

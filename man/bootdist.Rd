@@ -13,7 +13,7 @@
 }
 
 \usage{
-bootdist(f, bootmethod="param", niter=999)
+bootdist(f, bootmethod="param", niter=1001)
 \method{print}{bootdist}(x,...)
 \method{plot}{bootdist}(x,...)
 \method{summary}{bootdist}(object,...)
@@ -27,7 +27,7 @@ bootdist(f, bootmethod="param", niter=999)
 \item{niter}{ The number of samples drawn by bootstrap.  }
 \item{x}{ an object of class 'bootdist'.  }
 \item{object}{ an object of class 'bootdist'.  }
-\item{...}{ further arguments passed to other methods }
+\item{...}{ further arguments to be passed to generic methods }
 }
 
 \details{
@@ -54,7 +54,7 @@ bootdist(f, bootmethod="param", niter=999)
         each bootraped data set or \code{NULL} if \code{momdist} is used.}
     \item{ method }{ A character string coding for the type of resampling : \code{"param"} for a parametric
         resampling and \code{"nonparam"} for a nonparametric resampling of data. }
-    \item{ CI }{ bootstrap medians and 95 percent confidence intervals of parameters. }
+    \item{ CI }{ bootstrap medians and 95 percent confidence percentile intervals of parameters. }
 }
         
 
