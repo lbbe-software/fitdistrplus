@@ -24,6 +24,8 @@
 %%%
 
 \documentclass[a4paper]{article}
+\VignetteIndexEntry
+
 \usepackage[a4paper,textwidth=18cm,textheight=27cm]{geometry}
 
 \title{Use of the library \texttt{fitdistrplus} to specify a distribution from 
