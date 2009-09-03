@@ -54,8 +54,10 @@ fitdist(data, distr, method="mle", start, chisqbreaks, meancount,...)
     When \code{method="mle"},
     maximum likelihood estimations of the distribution parameters are computed using 
     the function \code{\link{mledist}}. 
-    Direct optimization of the log-likelihood is performed using by default \code{\link{optim}} with its
-    method \code{"Nelder-Mead"}. The method used in \code{\link{optim}} may be chosen and box constraints
+    Direct optimization of the log-likelihood is performed using \code{\link{optim}},
+    by default with the "Nelder-Mead" method for distributions characterized by more than one parameter
+    and the "BFGS" method for distributions characterized by only one parameter. 
+    The method used in \code{\link{optim}} may be chosen and box constraints
     may especially be used by passing arguments to the function \code{"mledist"} using ... argument.
     For the following named distributions, reasonable starting values will 
     be computed if \code{start} is omitted : \code{"norm"}, \code{"lnorm"},

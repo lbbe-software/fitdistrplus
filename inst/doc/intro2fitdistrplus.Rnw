@@ -24,7 +24,11 @@
 %%%
 
 \documentclass[a4paper]{article}
-\VignetteIndexEntry
+% sweave commands for vignette
+%\VignetteIndexEntry{Fit parametric distributions on non-censored or censored data}
+%\VignettePackage{fitdistrplus}
+%\VignetteKeyword{distribution}
+
 
 \usepackage[a4paper,textwidth=18cm,textheight=27cm]{geometry}
 

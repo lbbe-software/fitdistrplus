@@ -33,7 +33,7 @@ descdist(data,discrete=FALSE,boot=NULL,graph=TRUE)
     skewness-kurtosis plot.
     
     If \code{discrete} is \code{TRUE}, 
-    these common distributions are the Poisson, negative binomial and normal distributions. 
+    the represented distributions are the Poisson, negative binomial and normal distributions. 
     If \code{discrete} is \code{FALSE}, these are uniform, normal, lognormal, beta and gamma distributions.
     The Weibull distribution is not represented on the graph but it is indicated on the legend that
     shapes close to lognormal and gamma distributions may be obtained with this distribution.

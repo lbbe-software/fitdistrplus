@@ -51,7 +51,7 @@ bootdist(f, bootmethod="param", niter=1001)
     \code{bootdist} returns an object of class 'bootdist', a list with 4 components,
     \item{ estim }{ a data frame containing the boostrapped values of parameters.}
     \item{ converg }{ a vector containing the codes for convergence obtained when using \code{mledist} on 
-        each bootraped data set or \code{NULL} if \code{momdist} is used.}
+        each bootstraped data set or \code{NULL} if \code{momdist} is used.}
     \item{ method }{ A character string coding for the type of resampling : \code{"param"} for a parametric
         resampling and \code{"nonparam"} for a nonparametric resampling of data. }
     \item{ CI }{ bootstrap medians and 95 percent confidence percentile intervals of parameters. }

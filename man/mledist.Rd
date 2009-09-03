@@ -27,12 +27,12 @@ mledist(data, distr, start,optim.method="default",lower=-Inf,upper=Inf)
 
 \details{
     Maximum likelihood estimations of the distribution parameters are computed. 
-    Direct optimization of the log-likelihood is performed using \code{\link{optim}},by default with 
+    Direct optimization of the log-likelihood is performed using \code{\link{optim}}, by default with 
     the \code{"Nelder-Mead"} method for distributions characterized by more than one parameter and
     the \code{"BFGS"} method for distributions characterized by only one parameter, or 
     with the method specified in the argument \code{"optim.method"} if not \code{"default"}.
     Box-constrainted optimization may be used with the method \code{"L-BFGS-B"}, using the constraints
-    on parameters specified in arguments \code{lower}and \code{upper}. if non-trivial bounds are supplied,
+    on parameters specified in arguments \code{lower} and \code{upper}. If non-trivial bounds are supplied,
     this method will be automatically selected, with a warning.
     
     For the following named distributions, reasonable starting values will 

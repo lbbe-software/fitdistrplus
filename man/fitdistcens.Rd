@@ -44,9 +44,11 @@ fitdistcens(censdata, distr, start,...)
     Maximum likelihood estimations of the distribution parameters are computed using 
     the function \code{\link{mledistcens}}. 
     Maximum likelihood estimations of the distribution parameters are computed. 
-    Direct optimization of the log-likelihood is performed using \code{\link{optim}}, with its
-    default method \code{"Nelder-Mead"} for distributions characterized by more than one parameter and
-    the method \code{"BFGS"} for distributions characterized by only one parameter. 
+    Direct optimization of the log-likelihood is performed using \code{\link{optim}},
+    by default with the "Nelder-Mead" method for distributions characterized by more than one parameter
+    and the "BFGS" method for distributions characterized by only one parameter.
+    The method used in \code{\link{optim}} may be chosen and box constraints
+    may especially be used by passing arguments to the function \code{"mledist"} using ... argument. 
     For the following named distributions, reasonable starting values will 
     be computed if \code{start} is omitted : \code{"norm"}, \code{"lnorm"},
     \code{"exp"} and \code{"pois"}, \code{"cauchy"}, \code{"gamma"}, \code{"logis"},

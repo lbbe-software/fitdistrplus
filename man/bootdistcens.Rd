@@ -48,7 +48,7 @@ bootdistcens(f, niter=1001)
     \code{bootdistcens} returns an object of class 'bootdistcens', a list with 3 components,
     \item{ estim }{ a data frame containing the boostrapped values of parameters.}
     \item{ converg }{ a vector containing the codes for convergence obtained when using \code{mledist} on 
-        each bootraped data set or \code{NULL} if \code{momdist} is used.}
+        each bootstraped data set or \code{NULL} if \code{momdist} is used.}
     \item{ CI }{ bootstrap medians and 95 percent confidence percentile intervals of parameters. }
 }
         
