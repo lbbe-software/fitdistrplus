@@ -21,18 +21,25 @@
 ###
 ###         R functions
 ### 
+### many ideas are taken from the fitdistr function of the MASS package and 
+### the mle function of the stat package.
 
-mledist<-function (data, distr, start=NULL,optim.method="default",lower=-Inf,upper=Inf) 
+mledist<-function (data, distr, start=NULL, optim.method="default",
+	lower=-Inf, upper=Inf, optim.function=NULL, ..., echo=FALSE) 
 {
-    if (!is.character(distr)) distname<-substring(as.character(match.call()$distr),2)
-    else distname<-distr
+    if (!is.character(distr)) 
+		distname<-substring(as.character(match.call()$distr), 2)
+    else 
+		distname<-distr
     ddistname<-paste("d",distname,sep="")
-    if (!exists(ddistname,mode="function"))
-        stop(paste("The ",ddistname," function must be defined"))
+	
+    if (!exists(ddistname, mode="function"))
+        stop(paste("The ", ddistname, " function must be defined"))
     if (distname == "unif")
         stop("Maximum likelihood estimation is not available for the uniform distribution")
     if (!(is.vector(data) & is.numeric(data) & length(data)>1))
         stop("data must be a numeric vector of length greater than 1")
+	
     # MLE fit 
     # definition of starting values if not previously defined
     if (is.null(start)) {
@@ -109,38 +116,86 @@ mledist<-function (data, distr, start=NULL,optim.method="default",lower=-Inf,upp
    # MLE fit using optim
     vstart<-unlist(start)
     # check of the names of the arguments of the density function
-    argddistname<-names(formals(ddistname))
+    argddistname<-names(formals(ddistname))	
+#	print(argddistname)
+#	print(argddistname[1])	
     m <- match(names(start), argddistname)
+#	print(m)
+#   print(c(list(data), vstart, log=TRUE))
+	
     if (any(is.na(m)))
         stop("'start' must specify names which are arguments to 'distr'")
     # definition of the function to minimize : - log likelihood
-    if ("log" %in% argddistname)
-        fnobj<-function(par,dat,ddistnam) 
-        -sum(do.call(ddistnam,c(list(x=dat),as.list(par),list(log=TRUE))))
-    else
-        fnobj<-function(par,dat,ddistnam) 
-        -sum(log(do.call(ddistnam,c(list(x=dat),as.list(par)))))
+    if ("log" %in% argddistname){
+        fnobj<-function(par,dat,ddistnam){
+#			cat(unlist(par), "\n") 
+			-sum(do.call(ddistnam, c(list(dat), par, log=TRUE) ) )
+		}
+	}else{
+        fnobj<-function(par,dat,ddistnam) {
+#				cat(unlist(par), "\n")
+			-sum(log(do.call(ddistnam, c(list(dat), par) ) ) )
+		}
+	}
+	
     # Choice of the optimization method    
     if (optim.method=="default")
         if (length(vstart)>1) meth<-"Nelder-Mead"
         else meth<-"BFGS"
     else
         meth=optim.method
-    # Try to optimize
-    opt<-try(optim(par=vstart,fn=fnobj,dat=data,ddistnam=ddistname,
-        hessian=TRUE,method=meth,lower=lower,upper=upper),silent=TRUE)
-    if (inherits(opt,"try-error"))
-    {
-        warnings("The function optim encountered an error and stopped")
-        return(list(estimate = rep(NA,length(vstart)), convergence = 100, loglik = NA, 
-            hessian = NA))
-    }
-    if (opt$convergence>0) {
-        warnings("The function optim failed to converge, with the error code ",
-        opt$convergence)
-        return(list(estimate = rep(NA,length(vstart)), convergence = opt$convergence, 
-            loglik = NA, hessian = NA))
-    }
-    return(list(estimate = opt$par, convergence = opt$convergence, loglik = -opt$value, 
-        hessian = opt$hessian))       
+	
+	if(echo){
+	
+#	print("fn objective")
+#	print(ddistname)
+#	cat("--\n")
+#	print(par)
+	cat("--\n")
+	print(fnobj(start, data, ddistnam=ddistname))
+#	cat("--\n")	
+#	print(fnobj)
+	}	
+	
+    # Try to minimize the minus (log-)likelihood using the base R optim function
+	if(is.null(optim.function))
+	{
+		opt<-try( optim(par=vstart, fn=fnobj, dat=data, ddistnam=ddistname,
+			hessian=TRUE, method=meth, lower=lower, upper=upper, ...), silent=TRUE)
+		
+		if(echo){
+			cat("optimisation with optim\n")
+			print(opt)
+		}
+		
+		if (inherits(opt,"try-error"))
+		{
+			warnings("The function optim encountered an error and stopped")
+			return(list(estimate = rep(NA,length(vstart)), convergence = opt$convergence, loglik = NA, 
+						hessian = NA))
+		}
+		if (opt$convergence>0) {
+			warnings("The function optim failed to converge, with the error code ",
+					 opt$convergence)
+			return(list(estimate = rep(NA,length(vstart)), convergence = opt$convergence, 
+						loglik = NA, hessian = NA))
+		}
+		return(list(estimate = opt$par, convergence = opt$convergence, loglik = -opt$value, 
+					hessian = opt$hessian, optim.function="optim"))  
+		
+	}else # Try to minimize the minus (log-)likelihood using a user-supplied optim function	
+	{
+		opt<-try( optim.function(fn=fnobj, dat=data, ddistnam=ddistname, par=vstart, ...), silent=TRUE)
+		
+		if(echo){	
+			cat("optimisation with", optim.function,"\n")
+			print(opt)
+		}
+		
+		return(list(estimate = opt$par, convergence = opt$convergence, loglik = -opt$value, 
+					hessian = opt$hessian, optim.function=optim.function))  
+
+	}	
+		
+     
 }

@@ -9,20 +9,22 @@
 }
 
 \usage{
-mledist(data, distr, start,optim.method="default",lower=-Inf,upper=Inf)
+mledist(data, distr, start, optim.method="default", lower=-Inf, upper=Inf, optim.function=NULL, ...)
 }
-%- maybe also 'usage' for other objects documented here.
 
 \arguments{
 \item{data}{ A numeric vector. }
 \item{distr}{ A character string \code{"name"} naming a distribution for which the corresponding 
-    density function \code{dname} must be defined, or directly the density function.}
+    density function \code{dname} must be defined, or directly the density function. The first argument
+	is assumed to be the argument for the vector of quantiles, such as in \code{pexp}.}
 \item{start}{ A named list giving the initial values of parameters of the named distribution. 
     This argument may be omitted for some distributions for which reasonable 
     starting values are computed (see details).  }
 \item{optim.method}{ \code{"default"} (see details) or optimization method to pass to \code{\link{optim}}.  }
 \item{lower}{ Left bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
 \item{upper}{ Right bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
+\item{optim.function}{a function carrying the MLE optimisation, which must have a \code{fn} argument.}
+\item{\dots}{further arguments passed to the optimisation function.}
 }
 
 \details{
@@ -40,7 +42,8 @@ mledist(data, distr, start,optim.method="default",lower=-Inf,upper=Inf)
     \code{"exp"} and \code{"pois"}, \code{"cauchy"}, \code{"gamma"}, \code{"logis"},
     \code{"nbinom"} (parametrized by mu and size), \code{"geom"}, \code{"beta"} and \code{"weibull"}. 
     Note that these starting 
-    values may not be good enough if the fit is poor. The function is not able to fit a uniform distribution.
+    values may not be good enough if the fit is poor. The function is not able to 
+	fit a uniform distribution.
     
     This function is not intended to be called directly but is internally called in
     \code{\link{fitdist}} and \code{\link{bootdist}} when used with the maximum likelihood method. 
@@ -78,8 +81,6 @@ mledist(data, distr, start,optim.method="default",lower=-Inf,upper=Inf)
 \author{ 
 Marie-Laure Delignette-Muller \email{ml.delignette@vet-lyon.fr} 
 }
-
-%\note{  }
 
 \examples{
 x1<-c(6.4,13.3,4.1,1.3,14.1,10.6,9.9,9.6,15.3,22.1,13.4,

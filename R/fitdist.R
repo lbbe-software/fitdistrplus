@@ -22,7 +22,7 @@
 ###         R functions
 ### 
 
-fitdist<-function (data, distr, method="mle", start, chisqbreaks, meancount,...) 
+fitdist<-function (data, distr, method="mle", start, chisqbreaks, meancount, ...) 
 {
     if (!is.character(distr)) distname<-substring(as.character(match.call()$distr),2)
     else distname<-distr
@@ -42,12 +42,12 @@ fitdist<-function (data, distr, method="mle", start, chisqbreaks, meancount,...)
     # MLE fit with mledist or matching moments fit with momdist
     if (method=="mom")
     {
-        estimate<-momdist(data,distname)
-        sd<-NULL
-        loglik<-NULL
-        aic<-NULL
-        bic<-NULL
-        correl<-NULL
+        estimate <- momdist(data,distname)
+        sd <- NULL
+        loglik <- NULL
+        aic <- NULL
+        bic <- NULL
+        correl <- NULL
     }
     else
     {
@@ -59,13 +59,25 @@ fitdist<-function (data, distr, method="mle", start, chisqbreaks, meancount,...)
            stop("the function mle failed to estimate the parameters, 
             with the error code ",mle$convergence) 
         estimate<-mle$estimate
-        varcovar<-solve(mle$hessian)
-        sd<-sqrt(diag(varcovar))
-        correl<-cov2cor(varcovar)
-        loglik<-mle$loglik
-        npar<-length(estimate)
-        aic<--2*loglik+2*npar
-        bic<--2*loglik+log(n)*npar
+		if(!is.null(mle$hessian)){
+			if(all(!is.na(mle$hessian))){
+				varcovar <- solve(mle$hessian)
+				sd <- sqrt(diag(varcovar))
+				correl <- cov2cor(varcovar)
+			}else{
+				varcovar <- NA
+				sd <- NA
+				correl <- NA							
+			}
+        }else{
+			varcovar <- NA
+			sd <- NA
+			correl <- NA			
+		}
+		loglik <- mle$loglik
+        npar <- length(estimate)
+        aic <- -2*loglik+2*npar
+        bic <- -2*loglik+log(n)*npar
     } 
     # Goodness of fit statistics
     if (is.element(distname,c("binom","nbinom","geom","hyper","pois"))) 
