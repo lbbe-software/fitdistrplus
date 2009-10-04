@@ -22,25 +22,31 @@
 ###         R functions
 ### 
 
-fitdist<-function (data, distr, method="mle", start, chisqbreaks, meancount, ...) 
+fitdist<-function (data, distr, method=c("mle", "mme"), start, chisqbreaks, meancount, ...) 
 {
-    if (!is.character(distr)) distname<-substring(as.character(match.call()$distr),2)
-    else distname<-distr
+    if (!is.character(distr)) 
+		distname<-substring(as.character(match.call()$distr),2)
+    else 
+		distname<-distr
     ddistname<-paste("d",distname,sep="")
+	
     if (!exists(ddistname,mode="function"))
         stop(paste("The ",ddistname," function must be defined"))
     pdistname<-paste("p",distname,sep="")
     if (!exists(pdistname,mode="function"))
         stop(paste("The ",pdistname," function must be defined"))
-    if (!is.element(method,c("mle","mom")))
-        stop("method must be affected to 'mle' or 'mom'") 
-    if (!missing(start) & method=="mom")
+    
+	method <- match.arg(method)
+#	if (!is.element(method,c("mle","mom")))
+#        stop("method must be affected to 'mle' or 'mom'") 
+    
+	if (!missing(start) & method=="mme")
         warnings("Starting values for parameters will not be used with matching moments")  
     if (!(is.vector(data) & is.numeric(data) & length(data)>1))
         stop("data must be a numeric vector of length greater than 1")
     n<-length(data)
     # MLE fit with mledist or matching moments fit with momdist
-    if (method=="mom")
+    if (method=="mme")
     {
         estimate <- momdist(data,distname)
         sd <- NULL
@@ -215,7 +221,7 @@ fitdist<-function (data, distr, method="mle", start, chisqbreaks, meancount, ...
 print.fitdist <- function(x,...){
     if (!inherits(x, "fitdist"))
         stop("Use only with 'fitdist' objects")
-    if (x$method=="mom") 
+    if (x$method=="mme") 
         cat("Fitting of the distribution '",x$distname,"' by matching moments \n")
     else
        cat("Fitting of the distribution '",x$distname,"' by maximum likelihood \n")
@@ -242,7 +248,7 @@ summary.fitdist <- function(object,...){
     
     op<-options()
     options(digits=3)
-    if (object$method=="mom") 
+    if (object$method=="mme") 
         cat("FITTING OF THE DISTRIBUTION '",object$distname,"' BY MATCHING MOMENTS \n")
     else
        cat("FITTING OF THE DISTRIBUTION '",object$distname,"' BY MAXIMUM LIKELIHOOD \n")

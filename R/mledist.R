@@ -147,11 +147,11 @@ mledist<-function (data, distr, start=NULL, optim.method="default",
 	
 	if(echo){
 	
-#	print("fn objective")
-#	print(ddistname)
+	print("fn objective")
+	print(ddistname)
 #	cat("--\n")
 #	print(par)
-	cat("--\n")
+	cat("-- init\n")
 	print(fnobj(start, data, ddistnam=ddistname))
 #	cat("--\n")	
 #	print(fnobj)
@@ -160,36 +160,54 @@ mledist<-function (data, distr, start=NULL, optim.method="default",
     # Try to minimize the minus (log-)likelihood using the base R optim function
 	if(is.null(optim.function))
 	{
-		opt<-try( optim(par=vstart, fn=fnobj, dat=data, ddistnam=ddistname,
-			hessian=TRUE, method=meth, lower=lower, upper=upper, ...), silent=TRUE)
+		opttryerror <- try(opt <- optim(par=vstart, fn=fnobj, dat=data, ddistnam=ddistname,
+			hessian=TRUE, method=meth, lower=lower, upper=upper, ...), silent=FALSE)
+				
+		if (inherits(opttryerror,"try-error"))
+		{
+			warnings("The function optim encountered an error and stopped")
+			return(list(estimate = rep(NA,length(vstart)), convergence = 100, loglik = NA, 
+						hessian = NA))
+		}
 		
-		if(echo){
+		if (echo){
 			cat("optimisation with optim\n")
 			print(opt)
 		}
 		
-		if (inherits(opt,"try-error"))
-		{
-			warnings("The function optim encountered an error and stopped")
-			return(list(estimate = rep(NA,length(vstart)), convergence = opt$convergence, loglik = NA, 
-						hessian = NA))
-		}
+		
 		if (opt$convergence>0) {
 			warnings("The function optim failed to converge, with the error code ",
 					 opt$convergence)
 			return(list(estimate = rep(NA,length(vstart)), convergence = opt$convergence, 
 						loglik = NA, hessian = NA))
 		}
+		
 		return(list(estimate = opt$par, convergence = opt$convergence, loglik = -opt$value, 
 					hessian = opt$hessian, optim.function="optim"))  
 		
 	}else # Try to minimize the minus (log-)likelihood using a user-supplied optim function	
 	{
-		opt<-try( optim.function(fn=fnobj, dat=data, ddistnam=ddistname, par=vstart, ...), silent=TRUE)
+		opttryerror <- try(opt <- optim.function(fn=fnobj, dat=data, ddistnam=ddistname, par=vstart, ...), silent=TRUE)
+
 		
-		if(echo){	
-			cat("optimisation with", optim.function,"\n")
-			print(opt)
+		if (inherits(opttryerror,"try-error"))
+		{
+			warnings("The function optim encountered an error and stopped")
+			return(list(estimate = rep(NA,length(vstart)), convergence = 100, loglik = NA, 
+						hessian = NA))
+		}
+		
+		if (echo){	
+			cat("optimisation with custom optimisation \n")
+			print(opt)			
+		}
+
+		if (opt$convergence>0) {
+			warnings("The function optim failed to converge, with the error code ",
+					 opt$convergence)
+			return(list(estimate = rep(NA,length(vstart)), convergence = opt$convergence, 
+						loglik = NA, hessian = NA))
 		}
 		
 		return(list(estimate = opt$par, convergence = opt$convergence, loglik = -opt$value, 

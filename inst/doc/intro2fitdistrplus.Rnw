@@ -92,7 +92,7 @@ descdist(x1,boot=1000)
 One or more parametric distributions may then be fitted to the data set, one at a time, using the
 fonction \texttt{fitdist}. This function uses the maximum likelihood
 method if the argument \texttt{method="mle"} (or if it is omitted) 
-or the matching moments method if the argument \texttt{method="mom"}.
+or the matching moments estimation if the argument \texttt{method="mme"}.
 When fitting continuous distributions, 
 Kolmogorov-Smirnov and Anderson-Darling statistics are computed and corresponding tests are performed when possible. 
 Even if less appropriate for continuous distributions, the Chi-squared statistic is
@@ -112,7 +112,7 @@ summary(f1g)
  
 Below is the result of another fit of the same distribution by matching moments.
 <<>>=
-f1gbis<-fitdist(x1,"gamma",method="mom")
+f1gbis<-fitdist(x1,"gamma",method="mme")
 summary(f1gbis)
 @ 
  
