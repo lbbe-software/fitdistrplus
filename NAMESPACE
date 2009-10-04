@@ -1,13 +1,30 @@
 ### Exports
-export(bootdist, plot.bootdist, summary.bootdist)
 
-export(bootdistcens, print.bootdistcens, plot.bootdistcens, summary.bootdistcens)
+#fitdist class
+export(fitdist)
+S3method(summary, fitdist)
+S3method(plot, fitdist)
+S3method(print, fitdist)
 
+#fitditscens class
+export(fitdistcens)
+S3method(summary, fitdistcens)
+S3method(plot, fitdistcens)
+S3method(print, fitdistcens)
+
+#bootdist class
+export(bootdist)
+S3method(summary, bootdist)
+S3method(plot, bootdist)
+
+#bootdistcens class
+export(bootdistcens)
+S3method(summary, bootdistcens)
+S3method(plot, bootdistcens)
+S3method(print, bootdistcens)
+
+#other functions
 export(descdist)
-
-export(fitdist, print.fitdist, plot.fitdist, summary.fitdist)
-
-export(fitdistcens, print.fitdistcens, plot.fitdistcens, summary.fitdistcens)
 
 export(mledist, mledistcens)
 
