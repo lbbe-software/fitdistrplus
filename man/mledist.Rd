@@ -24,12 +24,13 @@ mledist(data, distr, start, optim.method="default", lower=-Inf, upper=Inf, optim
 \item{lower}{ Left bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
 \item{upper}{ Right bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
 \item{optim.function}{a function carrying the MLE optimisation, which must have a \code{fn} argument.}
-\item{\dots}{further arguments passed to the optimisation function.}
+\item{\dots}{further arguments passed to the \code{optim} or \code{optim.function} function.}
 }
 
 \details{
-    Maximum likelihood estimations of the distribution parameters are computed. 
-    Direct optimization of the log-likelihood is performed using \code{\link{optim}}, by default with 
+    When \code{optim.function=NULL} (the default), maximum likelihood estimations 
+	of the distribution parameters are computed with the R base \code{\link{optim}}.
+    Direct optimization of the log-likelihood is performed (using \code{\link{optim}}) by default with 
     the \code{"Nelder-Mead"} method for distributions characterized by more than one parameter and
     the \code{"BFGS"} method for distributions characterized by only one parameter, or 
     with the method specified in the argument \code{"optim.method"} if not \code{"default"}.

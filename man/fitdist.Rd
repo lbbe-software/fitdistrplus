@@ -14,7 +14,7 @@
 }
 
 \usage{
-fitdist(data, distr, method="mle", start, chisqbreaks, meancount,...)
+fitdist(data, distr, method=c("mle", "mme"), start, chisqbreaks, meancount,...)
 \method{print}{fitdist}(x,...)
 \method{plot}{fitdist}(x,breaks="default",...)
 \method{summary}{fitdist}(object,...)
@@ -27,9 +27,9 @@ fitdist(data, distr, method="mle", start, chisqbreaks, meancount,...)
     density function \code{dname}, the corresponding distribution function \code{pname} and the corresponding
     quantile function \code{qname} must be defined, or directly the density function.}
 \item{method}{ A character string coding for the fitting method: 
-    \code{"mle"} for 'maximum likelihood' and \code{"mom"} for 'matching moments'.}
+    \code{"mle"} for 'maximum likelihood estimation and \code{"mme"} for 'matching moment estimation'.}
 \item{start}{ A named list giving the initial values of parameters of the named distribution. 
-    This argument will not be taken into account if \code{method="mom"},
+    This argument will not be taken into account if \code{method="mme"},
     and may be omitted for some distributions for which reasonable 
     starting values are computed if \code{method="mle"} (see details).  }
 \item{chisqbreaks}{ A numeric vector defining the breaks of the cells used to compute the chi-squared
@@ -69,7 +69,7 @@ fitdist(data, distr, method="mle", start, chisqbreaks, meancount,...)
     Hessian at the solution found by \code{optim}.
 
     
-    When \code{method="mom"},
+    When \code{method="mme"},
     the estimated values of the distribution parameters are provided only for the following
     distributions : \code{"norm"}, \code{"lnorm"}, \code{"pois"}, \code{"exp"}, \code{"gamma"},
     \code{"nbinom"}, \code{"geom"}, \code{"beta"}, \code{"unif"} and \code{"logis"}.
@@ -113,12 +113,12 @@ fitdist(data, distr, method="mle", start, chisqbreaks, meancount,...)
     \code{fitdist} returns an object of class 'fitdist', a list with following components,
     \item{ estimate }{ the parameter estimates }
     \item{ method }{ the character string coding for the fitting method : 
-        \code{"mle"} for 'maximum likelihood' and \code{"mom"} for 'matching moments' }
-    \item{ sd }{ the estimated standard errors or \code{NULL} if \code{method="mom"} }
-    \item{ cor }{ the estimated correlation matrix or \code{NULL} if \code{method="mom"}}
-    \item{ loglik }{ the log-likelihood or \code{NULL} if \code{method="mom"}}
-     \item{ aic }{ the Akaike information criterion or \code{NULL} if \code{method="mom"}}
-    \item{ bic }{ the the so-called BIC or SBC (Schwarz Bayesian criterion) or \code{NULL} if \code{method="mom"}}
+        \code{"mle"} for 'maximum likelihood estimation' and \code{"mme"} for 'matching moment estimation' }
+    \item{ sd }{ the estimated standard errors or \code{NULL} if \code{method="mme"} }
+    \item{ cor }{ the estimated correlation matrix or \code{NULL} if \code{method="mme"}}
+    \item{ loglik }{ the log-likelihood or \code{NULL} if \code{method="mme"}}
+     \item{ aic }{ the Akaike information criterion or \code{NULL} if \code{method="mme"}}
+    \item{ bic }{ the the so-called BIC or SBC (Schwarz Bayesian criterion) or \code{NULL} if \code{method="mme"}}
    \item{ n }{ the length of the data set }
     \item{ data }{ the dataset }
     \item{ distname }{ the name of the distribution }
@@ -165,11 +165,11 @@ plot(f1)
 summary(f1)
 f1$chisqtable
 
-f1b<-fitdist(x1,"norm",method="mom",meancount=6)
+f1b<-fitdist(x1,"norm",method="mme",meancount=6)
 summary(f1b)
 f1b$chisqtable
 
-f1c<-fitdist(x1,"lnorm",method="mom",meancount=6)
+f1c<-fitdist(x1,"lnorm",method="mme",meancount=6)
 summary(f1c)
 f1c$chisqtable
 

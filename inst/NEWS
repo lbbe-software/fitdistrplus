@@ -8,6 +8,9 @@ NEW FEATURES
 - possibility to choose the optimization method used for maximum
 likelihood estimation of distribution parameters using the new
 argument "optim.method" of mledist and mledistcens
+- possibility to use a custom optimization function for MLE.
+- moment matching estimation is no longer done with argument method
+set to "mom" but set to "mme" in fitdist.
 - possibility to specify contraints on distribution parameters using 
 the new arguments "lower" and "upper" of mledist and mledistcens
 - calculation of AIC and BIC criterion after maximum likelihood 

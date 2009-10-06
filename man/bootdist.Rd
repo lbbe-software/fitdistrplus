@@ -91,7 +91,7 @@ b1b<-bootdist(f1b)
 plot(b1b)
 
 x2<-c(rep(4,1),rep(2,3),rep(1,7),rep(0,12))
-f2<-fitdist(x2,"pois",method="mom")
+f2<-fitdist(x2,"pois",method="mme")
 b2<-bootdist(f2)
 plot(b2,pch=16)
 summary(b2)
