@@ -35,8 +35,13 @@ fitdist<-function (data, distr, method=c("mle", "mme"), start, chisqbreaks, mean
     pdistname<-paste("p",distname,sep="")
     if (!exists(pdistname,mode="function"))
         stop(paste("The ",pdistname," function must be defined"))
-    
+    	
 	method <- match.arg(method)
+
+	if(method == "mme")
+		warning("the name \"mom\" for matching moments is NO MORE used and is replaced by \"mme\".")
+	
+# ON PEUT ENLEVER CETTE PARTIE DE CODE, NON?	
 #	if (!is.element(method,c("mle","mom")))
 #        stop("method must be affected to 'mle' or 'mom'") 
     
@@ -63,7 +68,7 @@ fitdist<-function (data, distr, method=c("mle", "mme"), start, chisqbreaks, mean
             mle<-mledist(data,distname,start,...)
         if (mle$convergence>0) 
            stop("the function mle failed to estimate the parameters, 
-            with the error code ",mle$convergence) 
+				with the error code ",mle$convergence, "\n") 
         estimate<-mle$estimate
 		if(!is.null(mle$hessian)){
 			if(all(!is.na(mle$hessian))){

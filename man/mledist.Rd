@@ -9,7 +9,7 @@
 }
 
 \usage{
-mledist(data, distr, start, optim.method="default", lower=-Inf, upper=Inf, optim.function=NULL, ...)
+mledist(data, distr, start, optim.method="default", lower=-Inf, upper=Inf, optim.function=NULL, ..., echo=FALSE)
 }
 
 \arguments{
@@ -25,6 +25,7 @@ mledist(data, distr, start, optim.method="default", lower=-Inf, upper=Inf, optim
 \item{upper}{ Right bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
 \item{optim.function}{a function carrying the MLE optimisation, which must have a \code{fn} argument.}
 \item{\dots}{further arguments passed to the \code{optim} or \code{optim.function} function.}
+\item{echo}{boolean to print some debugging traces, default to \code{FALSE}.}
 }
 
 \details{
@@ -45,6 +46,13 @@ mledist(data, distr, start, optim.method="default", lower=-Inf, upper=Inf, optim
     Note that these starting 
     values may not be good enough if the fit is poor. The function is not able to 
 	fit a uniform distribution.
+	
+	If \code{optim.function} is not \code{NULL}, then the user-supplied function is used instead
+	of the R base \code{optim}. The \code{optim.function} must have (at least) the following arguments
+	\code{fn} for the function to be optimized, \code{par} for the initialized parameters. It is
+	assumed that \code{optim.function} should carry out a MINIMIZATION. Finally, it should return
+	at least the following components \code{par} for the estimate, \code{convergence} for the convergence
+	code, \code{value} for \code{fn(par)} and \code{hessian}. 
     
     This function is not intended to be called directly but is internally called in
     \code{\link{fitdist}} and \code{\link{bootdist}} when used with the maximum likelihood method. 
@@ -80,24 +88,50 @@ mledist(data, distr, start, optim.method="default", lower=-Inf, upper=Inf, optim
 
 
 \author{ 
-Marie-Laure Delignette-Muller \email{ml.delignette@vet-lyon.fr} 
+Marie-Laure Delignette-Muller \email{ml.delignette@vet-lyon.fr} and
+Christophe Dutang
 }
 
 \examples{
+
+# (1) basic fit of a normal distribution with maximum likelihood estimation
+#
+
 x1<-c(6.4,13.3,4.1,1.3,14.1,10.6,9.9,9.6,15.3,22.1,13.4,
 13.2,8.4,6.3,8.9,5.2,10.9,14.4)
 mledist(x1,"norm")
 
+# (2) defining your own distribution functions, here for the Gumbel distribution
+# for other distributions, see the CRAN task view dedicated to probability distributions
+
 dgumbel<-function(x,a,b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
 mledist(x1,"gumbel",start=list(a=10,b=5))
+
+# (3) fit a discrete distribution (Poisson)
+#
 
 x2<-c(rep(4,1),rep(2,3),rep(1,7),rep(0,12))
 mledist(x2,"pois")
 mledist(x2,"nbinom")
 
+# (4) fit a finite-support distribution (beta)
+#
+
 x3<-c(0.80,0.72,0.88,0.84,0.38,0.64,0.69,0.48,0.73,0.58,0.81,
 0.83,0.71,0.75,0.59)
 mledist(x3,"beta")
+
+
+# (5) fit frequency distributions on USArrests dataset.
+#
+
+x4 <- USArrests$Assault
+mledist(x4, "pois")
+mledist(x4, "nbinom")
+
+x5 <- USArrests$Murder
+mledist(x5, "pois")
+mledist(x5, "nbinom")
 
 }
 
