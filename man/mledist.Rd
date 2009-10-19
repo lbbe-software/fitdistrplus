@@ -9,7 +9,7 @@
 }
 
 \usage{
-mledist(data, distr, start, optim.method="default", lower=-Inf, upper=Inf, optim.function=NULL, ..., echo=FALSE)
+mledist(data, distr, start, optim.method="default", lower=-Inf, upper=Inf, custom.optim=NULL, ..., echo=FALSE)
 }
 
 \arguments{
@@ -23,13 +23,13 @@ mledist(data, distr, start, optim.method="default", lower=-Inf, upper=Inf, optim
 \item{optim.method}{ \code{"default"} (see details) or optimization method to pass to \code{\link{optim}}.  }
 \item{lower}{ Left bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
 \item{upper}{ Right bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
-\item{optim.function}{a function carrying the MLE optimisation, which must have a \code{fn} argument.}
+\item{custom.optim}{a function carrying the MLE optimisation, which must have a \code{fn} argument.}
 \item{\dots}{further arguments passed to the \code{optim} or \code{optim.function} function.}
 \item{echo}{boolean to print some debugging traces, default to \code{FALSE}.}
 }
 
 \details{
-    When \code{optim.function=NULL} (the default), maximum likelihood estimations 
+    When \code{custom.optim=NULL} (the default), maximum likelihood estimations 
 	of the distribution parameters are computed with the R base \code{\link{optim}}.
     Direct optimization of the log-likelihood is performed (using \code{\link{optim}}) by default with 
     the \code{"Nelder-Mead"} method for distributions characterized by more than one parameter and
@@ -47,10 +47,10 @@ mledist(data, distr, start, optim.method="default", lower=-Inf, upper=Inf, optim
     values may not be good enough if the fit is poor. The function is not able to 
 	fit a uniform distribution.
 	
-	If \code{optim.function} is not \code{NULL}, then the user-supplied function is used instead
+	If \code{custom.optim} is not \code{NULL}, then the user-supplied function is used instead
 	of the R base \code{optim}. The \code{optim.function} must have (at least) the following arguments
 	\code{fn} for the function to be optimized, \code{par} for the initialized parameters. It is
-	assumed that \code{optim.function} should carry out a MINIMIZATION. Finally, it should return
+	assumed that \code{custom.optim} should carry out a MINIMIZATION. Finally, it should return
 	at least the following components \code{par} for the estimate, \code{convergence} for the convergence
 	code, \code{value} for \code{fn(par)} and \code{hessian}. 
     
@@ -83,7 +83,7 @@ mledist(data, distr, start, optim.method="default", lower=-Inf, upper=Inf, optim
 }
 
 \references{ 
-    Venables WN and Ripley BD (2002) Modern applied statistics with S. Springer, New York, pp. 435-446.
+    Venables W.N. and Ripley B.D. (2002) Modern applied statistics with S. Springer, New York, pp. 435-446.
 }
 
 

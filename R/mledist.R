@@ -25,7 +25,7 @@
 ### the mle function of the stat package.
 
 mledist<-function (data, distr, start=NULL, optim.method="default",
-	lower=-Inf, upper=Inf, optim.function=NULL, ..., echo=FALSE) 
+	lower=-Inf, upper=Inf, custom.optim=NULL, ..., echo=FALSE) 
 {
     if (!is.character(distr)) 
 		distname<-substring(as.character(match.call()$distr), 2)
@@ -128,12 +128,14 @@ mledist<-function (data, distr, start=NULL, optim.method="default",
     # definition of the function to minimize : - log likelihood
     if ("log" %in% argddistname){
         fnobj<-function(par,dat,ddistnam){
-#			cat(unlist(par), "\n") 
+#			cat("par", unlist(par), "\n") 
+#			cat("ddistnam", ddistnam, "\n")
+#			cat("dat", dat, "\n")
 			-sum(do.call(ddistnam, c(list(dat), par, log=TRUE) ) )
 		}
 	}else{
         fnobj<-function(par,dat,ddistnam) {
-#				cat(unlist(par), "\n")
+#				cat(unlist(par), "--\n")
 			-sum(log(do.call(ddistnam, c(list(dat), par) ) ) )
 		}
 	}
@@ -151,14 +153,14 @@ mledist<-function (data, distr, start=NULL, optim.method="default",
 	print(ddistname)
 #	cat("--\n")
 #	print(par)
-	cat("-- init\n")
+	cat("init\n")
 	print(fnobj(start, data, ddistnam=ddistname))
-#	cat("--\n")	
+	cat("--\n")	
 #	print(fnobj)
 	}	
 	
     # Try to minimize the minus (log-)likelihood using the base R optim function
-	if(is.null(optim.function))
+	if(is.null(custom.optim))
 	{
 		opttryerror <- try(opt <- optim(par=vstart, fn=fnobj, dat=data, ddistnam=ddistname,
 			hessian=TRUE, method=meth, lower=lower, upper=upper, ...), silent=FALSE)
@@ -188,18 +190,18 @@ mledist<-function (data, distr, start=NULL, optim.method="default",
 		
 	}else # Try to minimize the minus (log-)likelihood using a user-supplied optim function	
 	{
-		opttryerror <- try(opt <- optim.function(fn=fnobj, dat=data, ddistnam=ddistname, par=vstart, ...), silent=TRUE)
-
+		opttryerror <- try(opt <- custom.optim(fn=fnobj, dat=data, ddistnam=ddistname, par=vstart, ...), silent=TRUE)
 		
 		if (inherits(opttryerror,"try-error"))
 		{
+			print(opttryerror)
 			warnings("The function optim encountered an error and stopped")
 			return(list(estimate = rep(NA,length(vstart)), convergence = 100, loglik = NA, 
 						hessian = NA))
 		}
 		
 		if (echo){	
-			cat("optimisation with custom optimisation \n")
+			cat("result with custom optimisation \n")
 			print(opt)			
 		}
 
@@ -211,7 +213,7 @@ mledist<-function (data, distr, start=NULL, optim.method="default",
 		}
 		
 		return(list(estimate = opt$par, convergence = opt$convergence, loglik = -opt$value, 
-					hessian = opt$hessian, optim.function=optim.function))  
+					hessian = opt$hessian, optim.function=custom.optim))  
 
 	}	
 		

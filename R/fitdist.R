@@ -36,11 +36,11 @@ fitdist<-function (data, distr, method=c("mle", "mme"), start, chisqbreaks, mean
     if (!exists(pdistname,mode="function"))
         stop(paste("The ",pdistname," function must be defined"))
     	
-	method <- match.arg(method)
-
-	if(method == "mme")
+	if(any(method == "mom"))
 		warning("the name \"mom\" for matching moments is NO MORE used and is replaced by \"mme\".")
 	
+	method <- match.arg(method)
+
 # ON PEUT ENLEVER CETTE PARTIE DE CODE, NON?	
 #	if (!is.element(method,c("mle","mom")))
 #        stop("method must be affected to 'mle' or 'mom'") 
