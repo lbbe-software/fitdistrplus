@@ -16,7 +16,7 @@ mledist(data, distr, start, optim.method="default", lower=-Inf, upper=Inf, custo
 \item{data}{ A numeric vector. }
 \item{distr}{ A character string \code{"name"} naming a distribution for which the corresponding 
     density function \code{dname} must be defined, or directly the density function. The first argument
-	is assumed to be the argument for the vector of quantiles, such as in \code{pexp}.}
+    is assumed to be the argument for the vector of quantiles, such as in \code{pexp}.}
 \item{start}{ A named list giving the initial values of parameters of the named distribution. 
     This argument may be omitted for some distributions for which reasonable 
     starting values are computed (see details).  }
@@ -24,13 +24,13 @@ mledist(data, distr, start, optim.method="default", lower=-Inf, upper=Inf, custo
 \item{lower}{ Left bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
 \item{upper}{ Right bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
 \item{custom.optim}{a function carrying the MLE optimisation, which must have a \code{fn} argument.}
-\item{\dots}{further arguments passed to the \code{optim} or \code{optim.function} function.}
+\item{\dots}{further arguments passed to the \code{optim} or \code{custom.optim} function.}
 \item{echo}{boolean to print some debugging traces, default to \code{FALSE}.}
 }
 
 \details{
     When \code{custom.optim=NULL} (the default), maximum likelihood estimations 
-	of the distribution parameters are computed with the R base \code{\link{optim}}.
+    of the distribution parameters are computed with the R base \code{\link{optim}}.
     Direct optimization of the log-likelihood is performed (using \code{\link{optim}}) by default with 
     the \code{"Nelder-Mead"} method for distributions characterized by more than one parameter and
     the \code{"BFGS"} method for distributions characterized by only one parameter, or 
@@ -45,14 +45,14 @@ mledist(data, distr, start, optim.method="default", lower=-Inf, upper=Inf, custo
     \code{"nbinom"} (parametrized by mu and size), \code{"geom"}, \code{"beta"} and \code{"weibull"}. 
     Note that these starting 
     values may not be good enough if the fit is poor. The function is not able to 
-	fit a uniform distribution.
-	
-	If \code{custom.optim} is not \code{NULL}, then the user-supplied function is used instead
-	of the R base \code{optim}. The \code{optim.function} must have (at least) the following arguments
-	\code{fn} for the function to be optimized, \code{par} for the initialized parameters. It is
-	assumed that \code{custom.optim} should carry out a MINIMIZATION. Finally, it should return
-	at least the following components \code{par} for the estimate, \code{convergence} for the convergence
-	code, \code{value} for \code{fn(par)} and \code{hessian}. 
+    fit a uniform distribution.
+    
+    If \code{custom.optim} is not \code{NULL}, then the user-supplied function is used instead
+    of the R base \code{optim}. The \code{custom.optim} must have (at least) the following arguments
+    \code{fn} for the function to be optimized, \code{par} for the initialized parameters. It is
+    assumed that \code{custom.optim} should carry out a MINIMIZATION. Finally, it should return
+    at least the following components \code{par} for the estimate, \code{convergence} for the convergence
+    code, \code{value} for \code{fn(par)} and \code{hessian}. 
     
     This function is not intended to be called directly but is internally called in
     \code{\link{fitdist}} and \code{\link{bootdist}} when used with the maximum likelihood method. 
@@ -75,6 +75,7 @@ mledist(data, distr, start, optim.method="default", lower=-Inf, upper=Inf, custo
     \item{ loglik }{ the log-likelihood }
     \item{ hessian }{ a symmetric matrix computed by \code{optim} as an estimate of the Hessian
         at the solution found. It is used in \code{fitdist} to estimate standard errors. }
+    \item{ optim.function }{ the name of the optimization function used for maximum likelihood  }
 }
 
 

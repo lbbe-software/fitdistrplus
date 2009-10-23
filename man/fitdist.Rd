@@ -25,7 +25,7 @@ fitdist(data, distr, method=c("mle", "mme"), start, chisqbreaks, meancount,...)
 \item{data}{ A numeric vector.  }
 \item{distr}{ A character string \code{"name"} naming a distribution for which the corresponding
     density function \code{dname}, the corresponding distribution function \code{pname} and the 
-	corresponding quantile function \code{qname} must be defined, or directly the density function.}
+    corresponding quantile function \code{qname} must be defined, or directly the density function.}
 \item{method}{ A character string coding for the fitting method: 
     \code{"mle"} for 'maximum likelihood estimation and \code{"mme"} for 'matching moment estimation'.}
 \item{start}{ A named list giving the initial values of parameters of the named distribution. 
@@ -37,10 +37,10 @@ fitdist(data, distr, method=c("mle", "mme"), start, chisqbreaks, meancount,...)
     in order to reach roughly the same number of observations per cell, roughly equal to the argument
     \code{meancount}, or sligthly more if there are some ties. }
 \item{meancount}{ The mean number of observations per cell expected for the definition of the breaks 
-	of the cells used to compute the chi-squared statistic. This argument will not be taken into 
-	account if the breaks are directly defined in the argument \code{chisqbreaks}. If \code{chisqbreaks} 
-	and \code{meancount} are both omitted, \code{meancount} is fixed in order to obtain roughly 
-	\eqn{(4n)^{2/5}} cells with \eqn{n} the length of the dataset. }
+    of the cells used to compute the chi-squared statistic. This argument will not be taken into 
+    account if the breaks are directly defined in the argument \code{chisqbreaks}. If \code{chisqbreaks} 
+    and \code{meancount} are both omitted, \code{meancount} is fixed in order to obtain roughly 
+    \eqn{(4n)^{2/5}} cells with \eqn{n} the length of the dataset. }
 \item{x}{ an object of class 'fitdist'.  }
 \item{object}{ an object of class 'fitdist'.  }
 \item{breaks}{ If \code{"default"} the histogram is plotted with the function \code{hist} 
@@ -55,18 +55,17 @@ fitdist(data, distr, method=c("mle", "mme"), start, chisqbreaks, meancount,...)
     When \code{method="mle"},
     maximum likelihood estimations of the distribution parameters are computed using 
     the function \code{\link{mledist}}. 
-    Direct optimization of the log-likelihood is performed using \code{\link{optim}},
-    by default with the "Nelder-Mead" method for distributions characterized by more than one parameter
+    By default direct optimization of the log-likelihood is performed using \code{\link{optim}},
+    with the "Nelder-Mead" method for distributions characterized by more than one parameter
     and the "BFGS" method for distributions characterized by only one parameter. 
-    The method used in \code{\link{optim}} may be chosen and box constraints
-    may especially be used by passing arguments to the function \code{"mledist"} using \code{\dots} 
-	argument.
+    The method used in \code{\link{optim}} may be chosen or another optimization method
+    may be chosen using ... argument (see \code{\link{mledist}} for details).
     For the following named distributions, reasonable starting values will 
     be computed if \code{start} is omitted : \code{"norm"}, \code{"lnorm"},
     \code{"exp"} and \code{"pois"}, \code{"cauchy"}, \code{"gamma"}, \code{"logis"},
     \code{"nbinom"} (parametrized by mu and size), \code{"geom"}, \code{"beta"} and \code{"weibull"}. 
-	Note that these starting values may not be good enough if the fit is poor. The function is not 
-	able to fit a uniform distribution.     
+    Note that these starting 
+    values may not be good enough if the fit is poor. The function is not able to fit a uniform distribution.     
     With the parameter estimates, the function returns the log-likelihood and the standard errors of 
     the estimates calculated from the 
     Hessian at the solution found by \code{optim}.
@@ -77,44 +76,44 @@ fitdist(data, distr, method=c("mle", "mme"), start, chisqbreaks, meancount,...)
     distributions : \code{"norm"}, \code{"lnorm"}, \code{"pois"}, \code{"exp"}, \code{"gamma"},
     \code{"nbinom"}, \code{"geom"}, \code{"beta"}, \code{"unif"} and \code{"logis"}.
     For distributions characterized by one parameter (\code{"geom"}, \code{"pois"} and \code{"exp"}), 
-	this parameter is simply 
+    this parameter is simply 
     estimated by matching theoretical and observed means, and for distributions characterized by 
     two parameters, these parameters are estimated by matching theoretical and observed means
     and variances (Vose, 2000). 
      
     Goodness-of-fit statistics are computed. The Chi-squared statistic is computed using cells defined 
-	by the argument 
+    by the argument 
     \code{chisqbreaks} or cells automatically defined from the data in order 
     to reach roughly the same number of observations per cell, roughly equal to the argument
     \code{meancount}, or sligthly more if there are some ties. If \code{chisqbreaks} and \code{meancount} 
-	are both omitted, \code{meancount} is fixed in order to obtain roughly \eqn{(4n)^{2/5}} cells, 
-	with \eqn{n} the length of the dataset (Vose, 2000).
+    are both omitted, \code{meancount} is fixed in order to obtain roughly \eqn{(4n)^{2/5}} cells, 
+    with \eqn{n} the length of the dataset (Vose, 2000).
     The Chi-squared statistic is not computed if the program fails
     to define enough cells due to a too small dataset. When the Chi-squared statistic is computed, 
-	and if the degree of freedom (nb of cells - nb of parameters - 1)  of the corresponding distribution 
-	is strictly positive, the p-value of the Chi-squared test is returned.
+    and if the degree of freedom (nb of cells - nb of parameters - 1)  of the corresponding distribution 
+    is strictly positive, the p-value of the Chi-squared test is returned.
     
     For the distributions assumed continuous (all but \code{"binom"}, 
     \code{"nbinom"}, \code{"geom"}, \code{"hyper"} and \code{"pois"} for R base distributions), 
-	Kolmogorov-Smirnov and Anderson-Darling statistics are also computed, 
-	as defined by Cullen and Frey (1999). 
+    Kolmogorov-Smirnov and Anderson-Darling statistics are also computed, 
+    as defined by Cullen and Frey (1999). 
     
     An approximate Kolmogorov-Smirnov test is 
     performed by assuming the distribution parameters known. The critical value defined by Stephens (1986) 
     for a completely specified distribution is used to reject or not the 
     distribution at the significance level 0.05. Because of this approximation, the result of the test
     (decision of rejection of the distribution or not) is returned only for datasets with more 
-	than 30 observations. Note that this approximate test may be too conservative. 
+    than 30 observations. Note that this approximate test may be too conservative. 
     
     For datasets with more than 5 observations and for distributions for 
     which the test is described by Stephens (1986) (\code{"norm"}, \code{"lnorm"},
     \code{"exp"}, \code{"cauchy"}, \code{"gamma"}, \code{"logis"} and \code{"weibull"}),
     the Anderson-darling test is performed as described by Stephens (1986). This test takes into 
-	account the fact that the parameters are not known but estimated from the data. The result is the 
-	decision to reject or not the distribution at the significance level 0.05.
+    account the fact that the parameters are not known but estimated from the data. The result is the 
+    decision to reject or not the distribution at the significance level 0.05.
     
     The plot of an object of class "fitdist" returned by \code{fitdist} uses the function 
-	\code{\link{plotdist}}.
+    \code{\link{plotdist}}.
 }
 
 \value{ 
@@ -214,7 +213,8 @@ f2$chisqtable
 
 
 
-#what do you test?
+# (5) comparison of fits of various distributions
+#
 xw<-rweibull(n=100,shape=2,scale=1)
 fa<-fitdist(xw,"weibull")
 summary(fa)
@@ -250,11 +250,11 @@ summary(res1)
 #to meet the standard 'fn' argument and specific name arguments, we wrap optimize,
 myoptimize <- function(fn, par, ...) 
 {
-	res <- optimize(f=fn, ..., maximum=FALSE)  #assume the optimization function minimize
-	
-	standardres <- c(res, convergence=0, value=res$objective, par=res$minimum, hessian=NA)
-	
-	return(standardres)
+    res <- optimize(f=fn, ..., maximum=FALSE)  #assume the optimization function minimize
+    
+    standardres <- c(res, convergence=0, value=res$objective, par=res$minimum, hessian=NA)
+    
+    return(standardres)
 }
 
 #call fitdist with a 'custom' optimization function
