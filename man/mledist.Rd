@@ -49,10 +49,12 @@ mledist(data, distr, start, optim.method="default", lower=-Inf, upper=Inf, custo
     
     If \code{custom.optim} is not \code{NULL}, then the user-supplied function is used instead
     of the R base \code{optim}. The \code{custom.optim} must have (at least) the following arguments
-    \code{fn} for the function to be optimized, \code{par} for the initialized parameters. It is
+    \code{fn} for the function to be optimized, \code{par} for the initialized parameters. Internally the
+	function to be optimized will also have an argument \code{obs} with observations and \code{ddistname}
+	with distribution name (Beware of conflicts with optional arguments of \code{custom.optim}). It is
     assumed that \code{custom.optim} should carry out a MINIMIZATION. Finally, it should return
     at least the following components \code{par} for the estimate, \code{convergence} for the convergence
-    code, \code{value} for \code{fn(par)} and \code{hessian}. 
+    code, \code{value} for \code{fn(par)} and \code{hessian}. See examples in \code{\link{fitdist}}.
     
     This function is not intended to be called directly but is internally called in
     \code{\link{fitdist}} and \code{\link{bootdist}} when used with the maximum likelihood method. 
@@ -80,7 +82,7 @@ mledist(data, distr, start, optim.method="default", lower=-Inf, upper=Inf, custo
 
 
 \seealso{ 
-    \code{\link{momdist}}, \code{\link{fitdist}}, \code{\link{optim}} and \code{\link{bootdist}}.
+    \code{\link{mmedist}}, \code{\link{fitdist}}, \code{\link{optim}} and \code{\link{bootdist}}.
 }
 
 \references{ 

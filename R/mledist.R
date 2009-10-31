@@ -24,14 +24,14 @@
 ### many ideas are taken from the fitdistr function of the MASS package and 
 ### the mle function of the stat package.
 
-mledist<-function (data, distr, start=NULL, optim.method="default",
+mledist <- function (data, distr, start=NULL, optim.method="default",
 	lower=-Inf, upper=Inf, custom.optim=NULL, ..., echo=FALSE) 
 {
     if (!is.character(distr)) 
-		distname<-substring(as.character(match.call()$distr), 2)
+		distname <- substring(as.character(match.call()$distr), 2)
     else 
-		distname<-distr
-    ddistname<-paste("d",distname,sep="")
+		distname <- distr
+    ddistname <- paste("d",distname,sep="")
 	
     if (!exists(ddistname, mode="function"))
         stop(paste("The ", ddistname, " function must be defined"))
@@ -44,7 +44,7 @@ mledist<-function (data, distr, start=NULL, optim.method="default",
     # definition of starting values if not previously defined
     if (is.null(start)) {
         if (distname == "norm") {
-            n<-length(data)
+            n <- length(data)
             sd0 <- sqrt((n - 1)/n) * sd(data)
             mx <- mean(data)
             start <- list(mean=mx, sd=sd0)
@@ -52,26 +52,26 @@ mledist<-function (data, distr, start=NULL, optim.method="default",
         if (distname == "lnorm") {
             if (any(data <= 0)) 
                 stop("values must be positive to fit a lognormal distribution")
-            n<-length(data)
+            n <- length(data)
             ldata <- log(data)
             sd0 <- sqrt((n - 1)/n) * sd(ldata)
             ml <- mean(ldata)
             start <- list(meanlog=ml, sdlog=sd0)
         }
         if (distname == "pois") {
-            start<-list(lambda=mean(data))
+            start <- list(lambda=mean(data))
         }
         if (distname == "exp") {
             start <- list(rate=1/mean(data))
         }
         if (distname == "gamma") {
-            n<-length(data)
+            n <- length(data)
             m <- mean(data)
             v <- (n - 1)/n*var(data)
-            start<-list(shape=m^2/v,rate=m/v)
+            start <- list(shape=m^2/v,rate=m/v)
         }
         if (distname == "nbinom") {
-            n<-length(data)
+            n <- length(data)
             m <- mean(data)
             v <- (n - 1)/n*var(data)
             size <- if (v > m) m^2/(v - m)
@@ -80,18 +80,18 @@ mledist<-function (data, distr, start=NULL, optim.method="default",
         }
         if (distname == "geom" ) {
             m <- mean(data)
-            prob<-if (m>0) 1/(1+m)
+            prob <- if (m>0) 1/(1+m)
                     else 1
-            start<-list(prob=prob)        
+            start <- list(prob=prob)        
         }
         if (distname == "beta") {
             if (any(data < 0) | any(data > 1)) 
                 stop("values must be in [0-1] to fit a beta distribution")
-            n<-length(data)
+            n <- length(data)
             m <- mean(data)
             v <- (n - 1)/n*var(data)
-            aux<-m*(1-m)/v - 1
-            start<-list(shape1=m*aux,shape2=(1-m)*aux)
+            aux <- m*(1-m)/v - 1
+            start <- list(shape1=m*aux,shape2=(1-m)*aux)
         }
         if (distname == "weibull") {
             m <- mean(log(data))
@@ -101,22 +101,22 @@ mledist<-function (data, distr, start=NULL, optim.method="default",
             start <- list(shape = shape, scale = scale)
         }
         if (distname == "logis") {
-            n<-length(data)
+            n <- length(data)
             m <- mean(data)
             v <- (n - 1)/n*var(data)
-            start<-list(location=m,scale=sqrt(3*v)/pi)
+            start <- list(location=m,scale=sqrt(3*v)/pi)
         }
         if (distname == "cauchy") {
-            start<-list(location=median(data),scale=IQR(data)/2)
+            start <- list(location=median(data),scale=IQR(data)/2)
         }
         if (!is.list(start)) 
             stop("'start' must be defined as a named list for this distribution") 
    } # end of the definition of starting values 
    
    # MLE fit using optim
-    vstart<-unlist(start)
+    vstart <- unlist(start)
     # check of the names of the arguments of the density function
-    argddistname<-names(formals(ddistname))	
+    argddistname <- names(formals(ddistname))	
 #	print(argddistname)
 #	print(argddistname[1])	
     m <- match(names(start), argddistname)
@@ -125,25 +125,30 @@ mledist<-function (data, distr, start=NULL, optim.method="default",
 	
     if (any(is.na(m)))
         stop("'start' must specify names which are arguments to 'distr'")
-    # definition of the function to minimize : - log likelihood
+
+	# definition of the function to minimize : - log likelihood
+	# the argument names are:
+	# - par for parameters (like in optim function)
+	# - obs for observations (previously dat but conflicts with genoud data.type.int argument)
+	# - ddistnam for distribution name
     if ("log" %in% argddistname){
-        fnobj<-function(par,dat,ddistnam){
+        fnobj <- function(par, obs, ddistnam){
 #			cat("par", unlist(par), "\n") 
 #			cat("ddistnam", ddistnam, "\n")
-#			cat("dat", dat, "\n")
-			-sum(do.call(ddistnam, c(list(dat), par, log=TRUE) ) )
+#			cat("obs", obs, "\n")
+			-sum(do.call(ddistnam, c(list(obs), par, log=TRUE) ) )
 		}
 	}else{
-        fnobj<-function(par,dat,ddistnam) {
+        fnobj <- function(par, obs, ddistnam) {
 #				cat(unlist(par), "--\n")
-			-sum(log(do.call(ddistnam, c(list(dat), par) ) ) )
+			-sum(log(do.call(ddistnam, c(list(obs), par) ) ) )
 		}
 	}
 	
     # Choice of the optimization method    
     if (optim.method=="default")
-        if (length(vstart)>1) meth<-"Nelder-Mead"
-        else meth<-"BFGS"
+        if (length(vstart) > 1) meth <- "Nelder-Mead"
+        else meth <- "BFGS"
     else
         meth=optim.method
 	
@@ -154,15 +159,17 @@ mledist<-function (data, distr, start=NULL, optim.method="default",
 #	cat("--\n")
 #	print(par)
 	cat("init\n")
-	print(fnobj(start, data, ddistnam=ddistname))
+	print(fnobj(start, obs=data, ddistnam=ddistname))
 	cat("--\n")	
+	print(fnobj(start, data, ddistname))
+
 #	print(fnobj)
 	}	
 	
     # Try to minimize the minus (log-)likelihood using the base R optim function
 	if(is.null(custom.optim))
 	{
-		opttryerror <- try(opt <- optim(par=vstart, fn=fnobj, dat=data, ddistnam=ddistname,
+		opttryerror <- try(opt <- optim(par=vstart, fn=fnobj, obs=data, ddistnam=ddistname,
 			hessian=TRUE, method=meth, lower=lower, upper=upper, ...), silent=FALSE)
 				
 		if (inherits(opttryerror,"try-error"))
@@ -190,7 +197,7 @@ mledist<-function (data, distr, start=NULL, optim.method="default",
 		
 	}else # Try to minimize the minus (log-)likelihood using a user-supplied optim function	
 	{
-		opttryerror <- try(opt <- custom.optim(fn=fnobj, dat=data, ddistnam=ddistname, par=vstart, ...), silent=TRUE)
+		opttryerror <- try(opt <- custom.optim(fn=fnobj, obs=data, ddistnam=ddistname, par=vstart, ...), silent=TRUE)
 		
 		if (inherits(opttryerror,"try-error"))
 		{

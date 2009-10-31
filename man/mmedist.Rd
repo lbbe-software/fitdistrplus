@@ -1,5 +1,5 @@
-\name{momdist}
-\alias{momdist}
+\name{mmedist}
+\alias{mmedist}
 %- Also NEED an '\alias' for EACH other topic documented here.
 
 \title{ Fitting of univariate distributions by matching moments}
@@ -9,7 +9,7 @@
 }
 
 \usage{
-momdist(data, distr)
+mmedist(data, distr)
 }
 %- maybe also 'usage' for other objects documented here.
 
@@ -36,7 +36,7 @@ momdist(data, distr)
 }
 
 \value{ 
-    \code{momdist} returns the named parameter or a named vector of parameters.
+    \code{mmedist} returns the named parameter or a named vector of parameters.
 }
 
 
@@ -59,14 +59,14 @@ Marie-Laure Delignette-Muller \email{ml.delignette@vet-lyon.fr}
 \examples{
 x1<-c(6.4,13.3,4.1,1.3,14.1,10.6,9.9,9.6,15.3,22.1,13.4,
 13.2,8.4,6.3,8.9,5.2,10.9,14.4)
-momdist(x1,"norm")
+mmedist(x1,"norm")
 
 x2<-c(rep(4,1),rep(2,3),rep(1,7),rep(0,12))
-momdist(x2,"pois")
+mmedist(x2,"pois")
 
 x3<-c(0.80,0.72,0.88,0.84,0.38,0.64,0.69,0.48,0.73,0.58,0.81,
 0.83,0.71,0.75,0.59)
-momdist(x3,"beta")
+mmedist(x3,"beta")
 }
 
 \keyword{ distribution }% at least one, from doc/KEYWORDS

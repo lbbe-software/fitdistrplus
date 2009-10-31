@@ -141,7 +141,7 @@ fitdist(data, distr, method=c("mle", "mme"), start, chisqbreaks, meancount,...)
 }
 
 \seealso{ 
-    \code{\link{plotdist}}, \code{\link{optim}}, \code{\link{mledist}}, \code{\link{momdist}} 
+    \code{\link{plotdist}}, \code{\link{optim}}, \code{\link{mledist}}, \code{\link{mmedist}} 
     and \code{\link{fitdistcens}}.
 }
 
@@ -262,6 +262,34 @@ res2 <- fitdist(mysample, dexp, start=mystart, custom.optim=myoptimize, interval
 
 #show the result
 summary(res2)
+
+
+# (8) custom optimisation function - another example with the genetic algorithm
+#
+\dontrun{
+	#set a sample
+	x1 <- c(6.4, 13.3, 4.1, 1.3, 14.1, 10.6, 9.9, 9.6, 15.3, 22.1, 13.4, 13.2, 8.4, 6.3, 8.9, 5.2, 10.9, 14.4) 
+	fit1 <- fitdist(x1, "gamma")
+	summary(fit1)
+
+	#wrap genoud function rgenoud package
+	mygenoud <- function(fn, par, ...) 
+	{
+		require(rgenoud)
+		res <- genoud(fn, starting.values=par, ...)        
+		standardres <- c(res, convergence=0)
+			
+		return(standardres)
+	}
+
+	#call fitdist with a 'custom' optimization function
+	fit2 <- fitdist(x1, "gamma", custom.optim=mygenoud, nvars=2,	
+		Domains=cbind(c(0,0), c(10, 10)), boundary.enforcement=1, 
+		print.level=1, hessian=TRUE)
+
+	summary(fit2)
+}
+
 
 }
 \keyword{ distribution }

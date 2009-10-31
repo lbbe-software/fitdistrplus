@@ -71,7 +71,7 @@ bootdist<-function (f, bootmethod="param", niter=1001)
     }
     else { # f$method=="mom"
         funcmom<-function(iter) {
-            mom<-momdist(rdata[,iter],f$distname)
+            mom<-mmedist(rdata[,iter],f$distname)
         }
         resboot<-sapply(1:niter,funcmom)
         if (is.vector(resboot)) {

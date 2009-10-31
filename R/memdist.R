@@ -22,7 +22,7 @@
 ###			R functions
 ### 
 
-momdist<-function (data, distr) 
+mmedist<-function (data, distr) 
 {
     if (!is.character(distr)) distname<-substring(as.character(match.call()$distr),2)
     else distname<-distr
@@ -35,7 +35,7 @@ momdist<-function (data, distr)
     if (!(is.vector(data) & is.numeric(data) & length(data)>1))
         stop("data must be a numeric vector of length greater than 1")
     if (distname == "norm") {
-        n<-length(data)
+        n <- length(data)
         sd0 <- sqrt((n - 1)/n) * sd(data)
         mx <- mean(data)
         estimate <- c(mx, sd0)
@@ -45,7 +45,7 @@ momdist<-function (data, distr)
     if (distname == "lnorm") {
         if (any(data <= 0)) 
             stop("values must be positive to fit a lognormal distribution")
-        n<-length(data)
+        n <- length(data)
         ldata <- log(data)
         sd0 <- sqrt((n - 1)/n) * sd(ldata)
         ml <- mean(ldata)
@@ -64,7 +64,7 @@ momdist<-function (data, distr)
         return(estimate)        
     }
     if (distname == "gamma" ) {
-        n<-length(data)
+        n <- length(data)
         m <- mean(data)
         v <- (n - 1)/n*var(data)
         shape <- m^2/v
@@ -74,7 +74,7 @@ momdist<-function (data, distr)
         return(estimate)        
    }
    if (distname == "nbinom" ) {
-        n<-length(data)
+        n <- length(data)
         m <- mean(data)
         v <- (n - 1)/n*var(data)
         size <- if (v > m) m^2/(v - m)
@@ -94,7 +94,7 @@ momdist<-function (data, distr)
     if (distname == "beta" ) {
         if (any(data < 0) | any(data > 1)) 
             stop("values must be in [0-1] to fit a beta distribution")
-        n<-length(data)
+        n <- length(data)
         m <- mean(data)
         v <- (n - 1)/n*var(data)
         aux<-m*(1-m)/v - 1
@@ -105,7 +105,7 @@ momdist<-function (data, distr)
         return(estimate)        
    }
     if (distname == "unif" ) {
-        n<-length(data)
+        n <- length(data)
         m <- mean(data)
         v <- (n - 1)/n*var(data)
         min1 <- m-sqrt(3*v)
@@ -115,7 +115,7 @@ momdist<-function (data, distr)
         return(estimate)        
    }
     if (distname == "logis" ) {
-        n<-length(data)
+        n <- length(data)
         m <- mean(data)
         v <- (n - 1)/n*var(data)
         scale <- sqrt(3*v)/pi

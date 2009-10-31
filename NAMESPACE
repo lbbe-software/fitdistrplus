@@ -5,6 +5,7 @@ export(fitdist)
 S3method(summary, fitdist)
 S3method(plot, fitdist)
 S3method(print, fitdist)
+S3method(print, summary.fitdist)
 
 #fitditscens class
 export(fitdistcens)
@@ -28,7 +29,7 @@ export(descdist)
 
 export(mledist, mledistcens)
 
-export(momdist)
+export(mmedist)
 
 export(plotdist, plotdistcens)
 
