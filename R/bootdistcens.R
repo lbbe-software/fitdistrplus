@@ -35,7 +35,7 @@ bootdistcens<-function (f, niter=1001)
     dim(rnumrow)<-c(n,niter)
     start<-f$estimate
     funcmle<-function(iter) {
-    mle<-mledistcens(data.frame(left=f$censdata[rnumrow[,iter],]$left,
+    mle<-mledist(data.frame(left=f$censdata[rnumrow[,iter],]$left,
             right=f$censdata[rnumrow[,iter],]$right),f$distname,start)
         return(c(mle$estimate,mle$convergence))
     }

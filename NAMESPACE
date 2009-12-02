@@ -27,7 +27,7 @@ S3method(print, bootdistcens)
 #other functions
 export(descdist)
 
-export(mledist, mledistcens)
+export(mledist)
 
 export(mmedist)
 
@@ -35,5 +35,3 @@ export(plotdist, plotdistcens)
 
 ### use dynamic library for C code
 #useDynLib(fitdistrplus, .registration = TRUE)
-
-

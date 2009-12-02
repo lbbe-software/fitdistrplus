@@ -13,7 +13,15 @@ mledist(data, distr, start, optim.method="default", lower=-Inf, upper=Inf, custo
 }
 
 \arguments{
-\item{data}{ A numeric vector. }
+\item{data}{ A numeric vector for non censored data or
+    a dataframe of two columns respectively named \code{left} 
+    and \code{right}, describing each observed value as an interval for censored data.
+    In that case the \code{left} column contains either \code{NA} for left censored observations,
+     the left bound of the interval for interval censored observations,
+     or the observed value for non-censored observations.
+     The \code{right} column contains either \code{NA} for right censored observations,
+     the right bound of the interval for interval censored observations,
+     or the observed value for non-censored observations. }
 \item{distr}{ A character string \code{"name"} naming a distribution for which the corresponding 
     density function \code{dname} must be defined, or directly the density function. The first argument
     is assumed to be the argument for the vector of quantiles, such as in \code{pexp}.}
@@ -50,8 +58,9 @@ mledist(data, distr, start, optim.method="default", lower=-Inf, upper=Inf, custo
     If \code{custom.optim} is not \code{NULL}, then the user-supplied function is used instead
     of the R base \code{optim}. The \code{custom.optim} must have (at least) the following arguments
     \code{fn} for the function to be optimized, \code{par} for the initialized parameters. Internally the
-	function to be optimized will also have an argument \code{obs} with observations and \code{ddistname}
-	with distribution name (Beware of conflicts with optional arguments of \code{custom.optim}). It is
+    function to be optimized will also have other arguments, such as \code{obs} with observations and \code{ddistname}
+    with distribution name for non censored data (Beware of potential conflicts with optional arguments 
+    of \code{custom.optim}). It is
     assumed that \code{custom.optim} should carry out a MINIMIZATION. Finally, it should return
     at least the following components \code{par} for the estimate, \code{convergence} for the convergence
     code, \code{value} for \code{fn(par)} and \code{hessian}. See examples in \code{\link{fitdist}}.
@@ -82,7 +91,8 @@ mledist(data, distr, start, optim.method="default", lower=-Inf, upper=Inf, custo
 
 
 \seealso{ 
-    \code{\link{mmedist}}, \code{\link{fitdist}}, \code{\link{optim}} and \code{\link{bootdist}}.
+    \code{\link{mmedist}}, \code{\link{fitdist}},\code{\link{fitdistcens}}, \code{\link{optim}},
+    \code{\link{bootdistcens}} and \code{\link{bootdist}}.
 }
 
 \references{ 
@@ -135,6 +145,20 @@ mledist(x4, "nbinom")
 x5 <- USArrests$Murder
 mledist(x5, "pois")
 mledist(x5, "nbinom")
+
+# (6) fit a continuous distribution (Gumbel) to censored data.
+#
+
+d1<-data.frame(
+left=c(1.73,1.51,0.77,1.96,1.96,-1.4,-1.4,NA,-0.11,0.55,0.41,
+    2.56,NA,-0.53,0.63,-1.4,-1.4,-1.4,NA,0.13),
+right=c(1.73,1.51,0.77,1.96,1.96,0,-0.7,-1.4,-0.11,0.55,0.41,
+    2.56,-1.4,-0.53,0.63,0,-0.7,NA,-1.4,0.13))
+mledist(d1,"norm")
+
+dgumbel<-function(x,a,b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
+pgumbel<-function(q,a,b) exp(-exp((a-q)/b))
+mledist(d1,"gumbel",start=list(a=0,b=2),optim.method="Nelder-Mead")
 
 }
 

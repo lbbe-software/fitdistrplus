@@ -36,28 +36,27 @@ fitdistcens(censdata, distr, start,...)
     starting values are computed (see details).  }
 \item{x}{ an object of class 'fitdistcens'.  }
 \item{object}{ an object of class 'fitdistcens'.  }
-\item{...}{ further arguments to be passed to generic functions, or to the function \code{"mledistcens"} 
+\item{...}{ further arguments to be passed to generic functions, or to the function \code{"mledist"} 
      in order to control the optimization method.}
 }
 
 \details{
     Maximum likelihood estimations of the distribution parameters are computed using 
-    the function \code{\link{mledistcens}}. 
-    Maximum likelihood estimations of the distribution parameters are computed. 
-    Direct optimization of the log-likelihood is performed using \code{\link{optim}},
-    by default with the "Nelder-Mead" method for distributions characterized by more than one parameter
-    and the "BFGS" method for distributions characterized by only one parameter.
-    The method used in \code{\link{optim}} may be chosen and box constraints
-    may especially be used by passing arguments to the function \code{"mledist"} using ... argument. 
+    the function \code{\link{mledist}}. 
+    By default direct optimization of the log-likelihood is performed using \code{\link{optim}},
+    with the "Nelder-Mead" method for distributions characterized by more than one parameter
+    and the "BFGS" method for distributions characterized by only one parameter. 
+    The method used in \code{\link{optim}} may be chosen or another optimization method
+    may be chosen using ... argument (see \code{\link{mledist}} for details).
     For the following named distributions, reasonable starting values will 
     be computed if \code{start} is omitted : \code{"norm"}, \code{"lnorm"},
     \code{"exp"} and \code{"pois"}, \code{"cauchy"}, \code{"gamma"}, \code{"logis"},
     \code{"nbinom"} (parametrized by mu and size), \code{"geom"}, \code{"beta"} and \code{"weibull"}. 
     Note that these starting 
-    values may not be good enough if the fit is poor. The function is not able to fit a uniform distribution.
+    values may not be good enough if the fit is poor. The function is not able to fit a uniform distribution.     
     With the parameter estimates, the function returns the log-likelihood and the standard errors of 
     the estimates calculated from the 
-    Hessian at the solution found by \code{optim}.     
+    Hessian at the solution found by \code{optim}.
      
     The plot of an object of class "fitdistcens" returned by \code{fitdistcens} uses the function \code{\link{plotdistcens}}.
 }
@@ -76,7 +75,7 @@ fitdistcens(censdata, distr, start,...)
 
 
 \seealso{ 
-    \code{\link{plotdistcens}}, \code{\link{optim}}, \code{\link{mledistcens}} and 
+    \code{\link{plotdistcens}}, \code{\link{optim}}, \code{\link{mledist}} and 
     \code{\link{fitdist}}.
 }
 

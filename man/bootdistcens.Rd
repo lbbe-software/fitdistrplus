@@ -31,9 +31,9 @@ bootdistcens(f, niter=1001)
 \details{
     Samples are drawn by 
     non parametric bootstrap (resampling with replacement from the data set). On each bootstrap sample the function 
-    \code{mledistcens} is used to estimate bootstrapped values of parameters. When \code{mledistcens} fails
+    \code{mledist} is used to estimate bootstrapped values of parameters. When \code{mledist} fails
     to converge, \code{NA} values are returned. Medians and 2.5 and 97.5 percentiles are computed by removing
-    \code{NA} values. The number of iterations for which \code{mledistcens} converges is printed in the summary with
+    \code{NA} values. The number of iterations for which \code{mledist} converges is printed in the summary with
     the medians and the 95 percent confidence intervals of parameters (2.5 and 97.5 percentiles).
     
     The plot of an object of class 'bootdistcens' consists in a scatterplot or a matrix of scatterplots
@@ -54,7 +54,7 @@ bootdistcens(f, niter=1001)
         
 
 \seealso{ 
-    \code{\link{fitdistcens}} and \code{\link{mledistcens}}.
+    \code{\link{fitdistcens}} and \code{\link{mledist}}.
 }
 
 \references{ 

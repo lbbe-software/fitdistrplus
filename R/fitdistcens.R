@@ -24,6 +24,10 @@
 
 fitdistcens<-function (censdata, distr, start,...) 
 {
+    if (missing(censdata) ||
+        !(is.vector(censdata$left) & is.vector(censdata$right) & length(censdata[,1])>1))
+        stop("datacens must be a dataframe with two columns named left 
+            and right and more than one line")
     if (!is.character(distr)) distname<-substring(as.character(match.call()$distr),2)
     else distname<-distr
     ddistname<-paste("d",distname,sep="")
@@ -32,11 +36,11 @@ fitdistcens<-function (censdata, distr, start,...)
     pdistname<-paste("p",distname,sep="")
     if (!exists(pdistname,mode="function"))
         stop(paste("The ",pdistname," function must be defined"))
-    # MLE fit with mledistcens 
+    # MLE fit with mledist 
     if (missing(start))
-        mle<-mledistcens(censdata,distname,...) 
+        mle<-mledist(censdata,distname,...) 
     else 
-    mle<-mledistcens(censdata,distname,start,...)
+    mle<-mledist(censdata,distname,start,...)
     if (mle$convergence>0) 
         stop("the function mle failed to estimate the parameters, 
         with the error code ",mle$convergence) 

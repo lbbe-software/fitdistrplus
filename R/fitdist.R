@@ -25,24 +25,24 @@
 fitdist <- function (data, distr, method=c("mle", "mme"), start, chisqbreaks, meancount, ...) 
 {
     if (!is.character(distr)) 
-		distname <- substring(as.character(match.call()$distr),2)
+        distname <- substring(as.character(match.call()$distr),2)
     else 
-		distname <- distr
+        distname <- distr
     ddistname <- paste("d",distname,sep="")
-	
+    
     if (!exists(ddistname,mode="function"))
         stop(paste("The ",ddistname," function must be defined"))
     pdistname <- paste("p",distname,sep="")
     if (!exists(pdistname,mode="function"))
         stop(paste("The ",pdistname," function must be defined"))
-    	
-	if(any(method == "mom"))
-		warning("the name \"mom\" for matching moments is NO MORE used and is replaced by \"mme\".")
-	
-	method <- match.arg(method)
+        
+    if(any(method == "mom"))
+        warning("the name \"mom\" for matching moments is NO MORE used and is replaced by \"mme\".")
+    
+    method <- match.arg(method)
 
     
-	if (!missing(start) & method=="mme")
+    if (!missing(start) & method=="mme")
         warnings("Starting values for parameters will not be used with matching moments")  
     if (!(is.vector(data) & is.numeric(data) & length(data)>1))
         stop("data must be a numeric vector of length greater than 1")
@@ -65,24 +65,24 @@ fitdist <- function (data, distr, method=c("mle", "mme"), start, chisqbreaks, me
             mle <- mledist(data, distname, start, ...)
         if (mle$convergence>0) 
            stop("the function mle failed to estimate the parameters, 
-				with the error code ",mle$convergence, "\n") 
+                with the error code ",mle$convergence, "\n") 
         estimate <- mle$estimate
-		if(!is.null(mle$hessian)){
-			if(all(!is.na(mle$hessian))){
-				varcovar <- solve(mle$hessian)
-				sd <- sqrt(diag(varcovar))
-				correl <- cov2cor(varcovar)
-			}else{
-				varcovar <- NA
-				sd <- NA
-				correl <- NA							
-			}
+        if(!is.null(mle$hessian)){
+            if(all(!is.na(mle$hessian))){
+                varcovar <- solve(mle$hessian)
+                sd <- sqrt(diag(varcovar))
+                correl <- cov2cor(varcovar)
+            }else{
+                varcovar <- NA
+                sd <- NA
+                correl <- NA                            
+            }
         }else{
-			varcovar <- NA
-			sd <- NA
-			correl <- NA			
-		}
-		loglik <- mle$loglik
+            varcovar <- NA
+            sd <- NA
+            correl <- NA            
+        }
+        loglik <- mle$loglik
         npar <- length(estimate)
         aic <- -2*loglik+2*npar
         bic <- -2*loglik+log(n)*npar
@@ -245,24 +245,24 @@ summary.fitdist <- function(object, ...){
         stop("Use only with 'fitdist' objects")
     object$ddistname <- paste("d", object$distname,sep="")
     object$pdistname <- paste("p", object$distname,sep="")
-	
-	class(object) <- c("summary.fitdist", class(object))	
-	object
+    
+    class(object) <- c("summary.fitdist", class(object))    
+    object
 }
 
 print.summary.fitdist <- function(x, ...){
     if (!inherits(x, "summary.fitdist"))
-		stop("Use only with 'fitdist' objects")
+        stop("Use only with 'fitdist' objects")
 
     ddistname <- x$ddistname
     pdistname <- x$pdistname
     
     if (x$method=="mme") 
-		cat("FITTING OF THE DISTRIBUTION '", x$distname,"' BY MATCHING MOMENTS \n")
+        cat("FITTING OF THE DISTRIBUTION '", x$distname,"' BY MATCHING MOMENTS \n")
     else
-		cat("FITTING OF THE DISTRIBUTION '", x$distname,"' BY MAXIMUM LIKELIHOOD \n")
+        cat("FITTING OF THE DISTRIBUTION '", x$distname,"' BY MAXIMUM LIKELIHOOD \n")
     cat("PARAMETERS\n")
-	
+    
     if (x$method=="mle") {
         print(cbind.data.frame("estimate" = x$estimate, "Std. Error" = x$sd), ...)
         cat("Loglikelihood: ",x$loglik,"  ")
@@ -277,7 +277,7 @@ print.summary.fitdist <- function(x, ...){
     else {
         print(cbind.data.frame("estimate" = x$estimate))
     }
-	
+    
     cat("------\n")
     cat("GOODNESS-OF-FIT STATISTICS \n")
     cat("\n")
@@ -293,7 +293,7 @@ print.summary.fitdist <- function(x, ...){
         { 
             cat("Chi-squared p-value: ",x$chisqpvalue,"\n")
             if (any(x$chisqtable[,2]<5)) cat("!!! the p-value may be wrong 
-												  with some theoretical counts < 5 !!! \n")
+                                                  with some theoretical counts < 5 !!! \n")
         }
     }
     else cat("The sample is too small to automatically define cells for Chi-squared test \n")
@@ -312,16 +312,16 @@ print.summary.fitdist <- function(x, ...){
             cat("     assumes that the distribution parameters are known !!! \n")
         }
         else
-		cat("Kolmogorov-Smirnov test: not calculated \n")
+        cat("Kolmogorov-Smirnov test: not calculated \n")
     }
     if(!is.null(x$ad)) {
         cat("\n")
         cat("_____________ Anderson-Darling_____________\n")
         cat("Anderson-Darling statistic: ",x$ad,"\n")
         if (!is.null(x$adtest)) 
-		cat("Anderson-Darling test: ",x$adtest,"\n")
+        cat("Anderson-Darling test: ",x$adtest,"\n")
         else
-		cat("Anderson-Darling test: not calculated \n")
+        cat("Anderson-Darling test: not calculated \n")
     }
-	invisible(x)
+    invisible(x)
 }
