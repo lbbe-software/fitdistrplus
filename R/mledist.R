@@ -25,7 +25,7 @@
 ### the mle function of the stat package.
 
 mledist <- function (data, distr, start=NULL, optim.method="default",
-    lower=-Inf, upper=Inf, custom.optim=NULL, ..., echo=FALSE)
+    lower=-Inf, upper=Inf, custom.optim=NULL, ...)
     # data may correspond to a vector for non censored data or to
     # a dataframe of two columns named left and right for censored data 
 {
@@ -205,19 +205,7 @@ mledist <- function (data, distr, start=NULL, optim.method="default",
         else meth <- "BFGS"
     else
         meth=optim.method
-    
-    if(echo & !cens){
-    
-    print("fn objective")
-    print(ddistname)
-#   cat("--\n")
-#   print(par)
-    cat("init\n")
-    print(fnobj(start, obs=data, ddistnam=ddistname))
-    cat("--\n") 
-    print(fnobj(start, data, ddistname))
-    }   
-    
+        
     # Try to minimize the minus (log-)likelihood using the base R optim function
     if(is.null(custom.optim))
     {
@@ -236,10 +224,6 @@ mledist <- function (data, distr, start=NULL, optim.method="default",
                         hessian = NA))
         }
         
-        if (echo){
-            cat("optimisation with optim\n")
-            print(opt)
-        }
         if (opt$convergence>0) {
             warnings("The function optim failed to converge, with the error code ",
                      opt$convergence)
@@ -267,11 +251,6 @@ mledist <- function (data, distr, start=NULL, optim.method="default",
                         hessian = NA))
         }
         
-        if (echo){  
-            cat("result with custom optimisation \n")
-            print(opt)          
-        }
-
         if (opt$convergence>0) {
             warnings("The customized optimization function failed to converge, with the error code ",
                      opt$convergence)
@@ -285,4 +264,10 @@ mledist <- function (data, distr, start=NULL, optim.method="default",
     }   
         
      
+}
+
+## old function with previous name for censored data
+mledistcens<-function (censdata, distr, start=NULL,optim.method="default",lower=-Inf,upper=Inf)
+{
+    stop("The function \"mledistcens\" is no more used. Now the same function \"mledist\" must be used for censored and non censored data.")
 }

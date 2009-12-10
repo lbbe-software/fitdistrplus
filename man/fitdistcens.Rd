@@ -91,6 +91,9 @@ Marie-Laure Delignette-Muller \email{ml.delignette@vet-lyon.fr}
 %\note{  }
 
 \examples{
+# (1) basic fit of a normal distribution on censored data
+#
+
 d1<-data.frame(
 left=c(1.73,1.51,0.77,1.96,1.96,-1.4,-1.4,NA,-0.11,0.55,0.41,
     2.56,NA,-0.53,0.63,-1.4,-1.4,-1.4,NA,0.13),
@@ -101,11 +104,18 @@ f1n
 summary(f1n)
 plot(f1n,rightNA=3)
 
-dgumbel<-function(x,a,b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
-pgumbel<-function(q,a,b) exp(-exp((a-q)/b))
+# (2) defining your own distribution functions, here for the Gumbel distribution
+# for other distributions, see the CRAN task view dedicated to probability distributions
+
+dgumbel <- function(x,a,b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
+pgumbel <- function(q,a,b) exp(-exp((a-q)/b))
+qgumbel <- function(p,a,b) a-b*log(-log(p))
 f1g<-fitdistcens(d1,"gumbel",start=list(a=0,b=2))
 summary(f1g)
 plot(f1g,rightNA=3)
+
+# (3) comparison of fits of various distributions
+# 
 
 d3<-data.frame(left=10^(d1$left),right=10^(d1$right))
 f3w<-fitdistcens(d3,"weibull")
@@ -117,6 +127,36 @@ plot(f3l,leftNA=0)
 f3e<-fitdistcens(d3,"exp")
 summary(f3e)
 plot(f3e,leftNA=0)
+
+# (4) how to change the optimisation method?
+#
+
+fitdistcens(d3,"gamma",optim.method="Nelder-Mead")
+fitdistcens(d3,"gamma",optim.method="BFGS") 
+fitdistcens(d3,"gamma",optim.method="SANN") 
+fitdistcens(d3,"gamma",optim.method="L-BFGS-B",lower=c(0,0)) 
+
+# (5) custom optimisation function - example with the genetic algorithm
+#
+\dontrun{
+
+    #wrap genoud function rgenoud package
+    mygenoud <- function(fn, par, ...) 
+    {
+        require(rgenoud)
+        res <- genoud(fn, starting.values=par, ...)        
+        standardres <- c(res, convergence=0)
+            
+        return(standardres)
+    }
+
+    # call fitdistcens with a 'custom' optimization function
+    fit.with.genoud<-fitdistcens(d3, "gamma", custom.optim=mygenoud, nvars=2,    
+        Domains=cbind(c(0,0), c(10, 10)), boundary.enforcement=1, 
+        print.level=1, hessian=TRUE)
+
+    summary(fit.with.genoud)
+}
 
 }
 

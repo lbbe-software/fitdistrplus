@@ -19,7 +19,7 @@
 #############################################################################
 ### Description of an empirical distribution
 ###
-###			R functions
+###         R functions
 ### 
 
 descdist <- function(data,discrete=FALSE,boot=NULL,graph=TRUE)
@@ -44,8 +44,8 @@ descdist <- function(data,discrete=FALSE,boot=NULL,graph=TRUE)
     mean=mean(data),sd=sqrt(moment(data,2)),
     skewness=skewness(data),kurtosis=kurtosis(data))
     
-    op<-options()
-    options(digits=3)
+    #op<-options()
+    #options(digits=3)
     cat("summary statistics\n")
     cat("------\n")
     cat("min: ",res$min,"  max: ",res$max,"\n")
@@ -54,7 +54,7 @@ descdist <- function(data,discrete=FALSE,boot=NULL,graph=TRUE)
     cat("sample sd: ",res$sd,"\n")
     cat("sample skewness: ",res$skewness,"\n")
     cat("sample kurtosis: ",res$kurtosis,"\n")
-    options(op)
+    #options(op)
     
     skewdata<-res$skewness
     kurtdata<-res$kurtosis

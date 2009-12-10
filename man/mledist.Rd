@@ -9,7 +9,7 @@
 }
 
 \usage{
-mledist(data, distr, start, optim.method="default", lower=-Inf, upper=Inf, custom.optim=NULL, ..., echo=FALSE)
+mledist(data, distr, start, optim.method="default", lower=-Inf, upper=Inf, custom.optim=NULL, ...)
 }
 
 \arguments{
@@ -33,7 +33,6 @@ mledist(data, distr, start, optim.method="default", lower=-Inf, upper=Inf, custo
 \item{upper}{ Right bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
 \item{custom.optim}{a function carrying the MLE optimisation, which must have a \code{fn} argument.}
 \item{\dots}{further arguments passed to the \code{optim} or \code{custom.optim} function.}
-\item{echo}{boolean to print some debugging traces, default to \code{FALSE}.}
 }
 
 \details{
@@ -141,10 +140,6 @@ mledist(x3,"beta")
 x4 <- USArrests$Assault
 mledist(x4, "pois")
 mledist(x4, "nbinom")
-
-x5 <- USArrests$Murder
-mledist(x5, "pois")
-mledist(x5, "nbinom")
 
 # (6) fit a continuous distribution (Gumbel) to censored data.
 #

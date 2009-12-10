@@ -40,6 +40,10 @@ non-censored or censored data}
 
 \maketitle
 
+<<echo=FALSE,results=hide>>=
+options(digits=3)
+@
+
 Here you will find some easy examples of use of the functions of the library \texttt{fitdistrplus}. 
 The aim is to show you by examples how to use these functions to help you to specify a parametric distribution 
 from data corresponding to a random sample drawn from a theoretical distribution that you want to describe. 

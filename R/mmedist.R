@@ -19,7 +19,7 @@
 #############################################################################
 ### Matching moment estimation for non-censored data
 ###
-###			R functions
+###         R functions
 ### 
 
 mmedist<-function (data, distr) 
@@ -124,4 +124,10 @@ mmedist<-function (data, distr)
         return(estimate)        
    }
  
+}
+
+## old function with previous name 
+momdist<-function (data, distr) 
+{
+    stop("the name \"momdist\" for matching moments function is NO MORE used and is replaced by \"mmedist\".")
 }

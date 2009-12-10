@@ -101,8 +101,8 @@ print.bootdist <- function(x,...){
         cat("Parameter values obtained with parametric bootstrap \n")
     else
        cat("Parameter values obtained with nonparametric bootstrap \n")
-    op<-options()
-    options(digits=3)
+    #op<-options()
+    #options(digits=3)
     print(x$estim,...)    
     if (!is.null(x$converg)) { 
         nconverg<-length(x$converg[x$converg==0])
@@ -110,7 +110,7 @@ print.bootdist <- function(x,...){
         cat("Maximum likelihood method converged for ",nconverg," among ",
             length(x$converg)," iterations \n")
     }
-    options(op)
+    #options(op)
 
 }
 
@@ -134,8 +134,8 @@ plot.bootdist <- function(x,...){
 summary.bootdist <- function(object,...){
     if (!inherits(object, "bootdist"))
         stop("Use only with 'bootdist' objects")
-    op<-options()
-    options(digits=3)
+    #op<-options()
+    #options(digits=3)
     if (object$method=="param") 
         cat("Parametric bootstrap medians and 95% percentile CI \n")
     else
@@ -148,5 +148,5 @@ summary.bootdist <- function(object,...){
         cat("Maximum likelihood method converged for ",nconverg," among ",
             length(object$converg)," iterations \n")
     }
-   options(op)
+   #options(op)
 }
