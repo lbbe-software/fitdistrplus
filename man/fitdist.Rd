@@ -68,7 +68,7 @@ fitdist(data, distr, method=c("mle", "mme"), start, chisqbreaks, meancount,...)
     values may not be good enough if the fit is poor. The function is not able to fit a uniform distribution.     
     With the parameter estimates, the function returns the log-likelihood and the standard errors of 
     the estimates calculated from the 
-    Hessian at the solution found by \code{optim}.
+    Hessian at the solution found by \code{optim} or by the user-supplied function passed to mledist.
 
     
     When \code{method="mme"},
@@ -267,27 +267,27 @@ summary(res2)
 # (8) custom optimisation function - another example with the genetic algorithm
 #
 \dontrun{
-	#set a sample
-	x1 <- c(6.4, 13.3, 4.1, 1.3, 14.1, 10.6, 9.9, 9.6, 15.3, 22.1, 13.4, 13.2, 8.4, 6.3, 8.9, 5.2, 10.9, 14.4) 
-	fit1 <- fitdist(x1, "gamma")
-	summary(fit1)
+    #set a sample
+    x1 <- c(6.4, 13.3, 4.1, 1.3, 14.1, 10.6, 9.9, 9.6, 15.3, 22.1, 13.4, 13.2, 8.4, 6.3, 8.9, 5.2, 10.9, 14.4) 
+    fit1 <- fitdist(x1, "gamma")
+    summary(fit1)
 
-	#wrap genoud function rgenoud package
-	mygenoud <- function(fn, par, ...) 
-	{
-		require(rgenoud)
-		res <- genoud(fn, starting.values=par, ...)        
-		standardres <- c(res, convergence=0)
-			
-		return(standardres)
-	}
+    #wrap genoud function rgenoud package
+    mygenoud <- function(fn, par, ...) 
+    {
+        require(rgenoud)
+        res <- genoud(fn, starting.values=par, ...)        
+        standardres <- c(res, convergence=0)
+            
+        return(standardres)
+    }
 
-	#call fitdist with a 'custom' optimization function
-	fit2 <- fitdist(x1, "gamma", custom.optim=mygenoud, nvars=2,	
-		Domains=cbind(c(0,0), c(10, 10)), boundary.enforcement=1, 
-		print.level=1, hessian=TRUE)
+    #call fitdist with a 'custom' optimization function
+    fit2 <- fitdist(x1, "gamma", custom.optim=mygenoud, nvars=2,    
+        Domains=cbind(c(0,0), c(10, 10)), boundary.enforcement=1, 
+        print.level=1, hessian=TRUE)
 
-	summary(fit2)
+    summary(fit2)
 }
 
 

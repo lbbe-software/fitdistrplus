@@ -5,38 +5,35 @@ Version 0.1-2
 
 NEW FEATURES
 
+- supression of mledistcens and modification of mledist in order
+to maximize likelihood for both censored and non censored data.
 - possibility to choose the optimization method used for maximum
-likelihood estimation of distribution parameters using the new
-argument "optim.method" of mledist and mledistcens
-- possibility to use a custom optimization function for MLE.
+likelihood estimation (MLE) of distribution parameters using the new
+argument "optim.method" of mledist.
+- possibility to specify contraints on distribution parameters using 
+the new arguments "lower" and "upper" of mledist.
+- possibility to use a custom optimization function for MLE using the 
+new argument "custom.optim".
 - moment matching estimation is no longer done with argument method
 set to "mom" but set to "mme" in fitdist.
-- possibility to specify contraints on distribution parameters using 
-the new arguments "lower" and "upper" of mledist and mledistcens
+- renaming of momdist in mmedist.
 - calculation of AIC and BIC criterion after maximum likelihood 
 estimation of distribution parameters
 - change of the default number of iterations from 999 to 1001 
 for boostrap in order to avoid interpolation using the quantile function
 - use of the argument "log" and (resp. "log.p") of density (resp. 
-distribution) when available to compute the loglikelihood
+distribution) when available to compute the loglikelihood.
 
 BUG FIXES
 
--??
+- omitting the name of the first argument in calls to the density function
+during maximization of the likelihood in order to enable the use of a density
+function defined with a first parameter (the vector of quantiles) with a name
+differing from "x" (classical name for density distributions defined in R), 
+such as the density function dexGAUS from the package gamlss.dist.
 
 
 Version 0.1-1
-=============
-
-NEW FEATURES
-
--??
-
-BUG FIXES
-
--??
-
-Version 0.1-0
 =============
 
 - Initial release.

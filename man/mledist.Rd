@@ -22,16 +22,17 @@ mledist(data, distr, start, optim.method="default", lower=-Inf, upper=Inf, custo
      The \code{right} column contains either \code{NA} for right censored observations,
      the right bound of the interval for interval censored observations,
      or the observed value for non-censored observations. }
-\item{distr}{ A character string \code{"name"} naming a distribution for which the corresponding 
-    density function \code{dname} must be defined, or directly the density function. The first argument
-    is assumed to be the argument for the vector of quantiles, such as in \code{pexp}.}
+\item{distr}{ A character string \code{"name"} naming a distribution (or directly the density function)
+     for which the corresponding 
+    density function \code{dname} and the corresponding distribution \code{pname}
+    must be classically defined. }
 \item{start}{ A named list giving the initial values of parameters of the named distribution. 
     This argument may be omitted for some distributions for which reasonable 
     starting values are computed (see details).  }
 \item{optim.method}{ \code{"default"} (see details) or optimization method to pass to \code{\link{optim}}.  }
 \item{lower}{ Left bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
 \item{upper}{ Right bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
-\item{custom.optim}{a function carrying the MLE optimisation, which must have a \code{fn} argument.}
+\item{custom.optim}{a function carrying the MLE optimisation (see details).}
 \item{\dots}{further arguments passed to the \code{optim} or \code{custom.optim} function.}
 }
 
@@ -62,16 +63,19 @@ mledist(data, distr, start, optim.method="default", lower=-Inf, upper=Inf, custo
     of \code{custom.optim}). It is
     assumed that \code{custom.optim} should carry out a MINIMIZATION. Finally, it should return
     at least the following components \code{par} for the estimate, \code{convergence} for the convergence
-    code, \code{value} for \code{fn(par)} and \code{hessian}. See examples in \code{\link{fitdist}}.
+    code, \code{value} for \code{fn(par)} and \code{hessian}. See examples in \code{\link{fitdist}}
+    and \code{\link{fitdistcens}}.
     
     This function is not intended to be called directly but is internally called in
-    \code{\link{fitdist}} and \code{\link{bootdist}} when used with the maximum likelihood method. 
+    \code{\link{fitdist}} and \code{\link{bootdist}} when used with the maximum likelihood method
+    and \code{\link{fitdistcens}} and \code{\link{bootdistcens}}. 
 }
 
 \value{ 
     \code{mledist} returns a list with following components,
     \item{ estimate }{ the parameter estimates }
-    \item{ convergence }{ an integer code for the convergence of \code{optim}. 
+    \item{ convergence }{ an integer code for the convergence of \code{optim} defined as below
+    or defined by the user in the user-supplied optimization function. 
     
         \code{0} indicates successful convergence.
         
@@ -84,7 +88,8 @@ mledist(data, distr, start, optim.method="default", lower=-Inf, upper=Inf, custo
         
     \item{ loglik }{ the log-likelihood }
     \item{ hessian }{ a symmetric matrix computed by \code{optim} as an estimate of the Hessian
-        at the solution found. It is used in \code{fitdist} to estimate standard errors. }
+        at the solution found or computed in the user-supplied optimization function.
+        It is used in \code{fitdist} to estimate standard errors. }
     \item{ optim.function }{ the name of the optimization function used for maximum likelihood  }
 }
 

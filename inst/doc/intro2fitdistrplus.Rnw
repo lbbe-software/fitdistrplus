@@ -32,11 +32,12 @@
 
 \usepackage[a4paper,textwidth=18cm,textheight=27cm]{geometry}
 
-\title{Use of the library \texttt{fitdistrplus} to specify a distribution from 
+\title{Use of the package \texttt{fitdistrplus} to specify a distribution from 
 non-censored or censored data}
 \author{Marie Laure Delignette-Muller, Régis Pouillot , Jean-Baptiste Denis and Christophe Dutang}
 
 \begin{document}
+\setkeys{Gin}{width=0.6\textwidth} 
 
 \maketitle
 
@@ -44,11 +45,12 @@ non-censored or censored data}
 options(digits=3)
 @
 
-Here you will find some easy examples of use of the functions of the library \texttt{fitdistrplus}. 
+Here you will find some easy examples of use of the functions of the package \texttt{fitdistrplus}. 
 The aim is to show you by examples how to use these functions to help you to specify a parametric distribution 
 from data corresponding to a random sample drawn from a theoretical distribution that you want to describe. 
 For details, see the documentation of each function, using the R help command (ex.: \texttt{?fitdist}). 
-Do not forget to load the library using the function \texttt{library} before testing following examples.
+Do not forget to load the package using the function \texttt{library} or \texttt{require}
+before testing following examples.
 <<>>=
 library(fitdistrplus)
 @
@@ -64,7 +66,7 @@ library(fitdistrplus)
 
  First of all, the observed distribution may be plotted using the function \texttt{plotdist}.
 
-<<fig=TRUE>>=
+<<plotdistx1,fig=TRUE>>=
 x1<-c(6.4,13.3,4.1,1.3,14.1,10.6,
 9.9,9.6,15.3,22.1,13.4,13.2,
 8.4,6.3,8.9,5.2,10.9,14.4)
@@ -77,7 +79,7 @@ Descriptive parameters of the empirical distribution may be computed using the f
 This function will also provide by default a skewness-kurtosis plot which may help you to select 
 which distribution(s) to fit among the potential candidates. 
 
-<<fig=TRUE>>=
+<<descdistx1,fig=TRUE>>=
 descdist(x1)
 @
 
@@ -87,7 +89,7 @@ the data set may be boostrapped by fixing the argument \texttt{boot} to an integ
 skewness and kurtosis corresponding to the boot nonparametric bootstrap samples are then computed and reported in blue color 
 on the skewness-kurtosis plot.
 
-<<fig=TRUE>>=
+<<descdistx1boot,fig=TRUE>>=
 descdist(x1,boot=1000)
 @
 
@@ -108,7 +110,7 @@ Four goodness of fit plots are also provided.
  
 
 Below is the result of a fit of a gamma distribution by maximum likelihood.
-<<fig=TRUE>>=
+<<fitdistx1g,fig=TRUE>>=
 f1g<-fitdist(x1,"gamma")
 plot(f1g)
 summary(f1g)
@@ -129,21 +131,21 @@ f1g$chisqtable
 @
 
 Below is the fit of a lognormal distribution.
-<<fig=TRUE>>=
+<<fitdistx1ln,fig=TRUE>>=
 f1l<-fitdist(x1,"lnorm")
 plot(f1l)
 summary(f1l)
 @
 
 Below is the fit of a normal distribution.
-<<fig=TRUE>>=
+<<fitdistx1n,fig=TRUE>>=
 f1n<-fitdist(x1,"norm")
 plot(f1n)
 summary(f1n)
 @
 
 Below is the fit of a Weibull distribution.
-<<fig=TRUE>>=
+<<fitdistx1w,fig=TRUE>>=
 f1w<-fitdist(x1,"weibull")
 plot(f1w)
 summary(f1w)
@@ -168,7 +170,7 @@ the distribution parameters in non trivial cases, by an manual iterative use if 
 
 For example, below is the definition of the Gumbel distribution (also named extreme value distribution) and 
 a first plot of the data set with the Gumbel distribution with arbitrary values for parameters.
-<<fig=TRUE>>=
+<<plotdistx1gu1,fig=TRUE>>=
 dgumbel<-function(x,a,b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
 pgumbel<-function(q,a,b) exp(-exp((a-q)/b))
 qgumbel<-function(p,a,b) a-b*log(-log(p))
@@ -176,12 +178,12 @@ plotdist(x1,"gumbel",para=list(a=3,b=2))
 @
 
 The same data set may be plotted with a Gumbel distribution with modified values for parameters.
-<<fig=TRUE>>=
+<<plotdistx1gu2,fig=TRUE>>=
 plotdist(x1,"gumbel",para=list(a=10,b=5))
 @
 
 And a Gumbel distribution may be fitted to data with these values for initial parameter values.
-<<fig=TRUE>>=
+<<fitdistx1gu,fig=TRUE>>=
 fgu<-fitdist(x1,"gumbel",start=list(a=10,b=5))
 plot(fgu)
 summary(fgu)
@@ -196,7 +198,7 @@ parameter from the 2.5 and 97.5 percentiles
 of the boostrap values of each parameter (see the help of the function \texttt{bootdist} for details).
 
 Below is an example of the use of this function with the previous fit of the gamma distribution. 
-<<fig=TRUE>>=
+<<bootdistf1g,fig=TRUE>>=
 b1g<-bootdist(f1g)
 plot(b1g)
 summary(b1g)
@@ -208,7 +210,7 @@ summary(b1g)
  from a binomial distribution converging to a normal one. A discrete plot of the distribution 
  may also be provided, fixing the argument discrete of the function \texttt{plotdist} to \texttt{TRUE}.
  
-<<fig=TRUE>>=
+<<plotdistx2,fig=TRUE>>=
 x2<-rnbinom(n=100,size=2,prob=0.3)
 plotdist(x2,discrete=TRUE)
 @
@@ -217,7 +219,7 @@ As for continuous distributions, descriptive parameters of the empirical distrib
 may be computed using the function \texttt{descdist} which also provides a skewness-kurtosis plot 
 which may help you to choose which distribution(s) to fit.
 
-<<fig=TRUE>>=
+<<descdistx2,fig=TRUE>>=
 descdist(x2,discrete=T)
 @
 
@@ -225,7 +227,7 @@ As for continuous distributions, one or more parametric distributions may then b
 to the data set by maximum likelihood or matching moments. 
 
 Below is the result of the fit of a Poisson distribution with the bootstrap simulations.
-<<fig=TRUE>>=
+<<fitdistx2p,fig=TRUE>>=
 f2p<-fitdist(x2,"pois")
 plot(f2p)
 summary(f2p)
@@ -234,7 +236,7 @@ summary(b2p)
 @
 
 Below is the result of the fit of a negative binomial distribution with the boostrap simulations.
-<<fig=TRUE>>=
+<<fitdistx2nb,fig=TRUE>>=
 f2n<-fitdist(x2,"nbinom")
 plot(f2n)
 summary(f2n)
@@ -261,7 +263,7 @@ First of all, the observed distribution may be plotted using the function \textt
 Data are reported directly as segments for interval, left and right censored data, 
 and as points for non-censored data. For more details, see the help of the function \texttt{plotdistcens}.
 
-<<fig=TRUE>>=
+<<plotdistcensd1,fig=TRUE>>=
 d1<-data.frame(
 left=c(1.73,1.51,0.77,1.96,1.96,-1.4,-1.4,NA,-0.11,0.55,0.41,
     2.56,NA,-0.53,0.63,-1.4,-1.4,-1.4,NA,0.13),
@@ -275,7 +277,7 @@ left NA-values of positive data), the arguments \texttt{leftNA} (or \texttt{righ
 must be affected to this finite value to ensure a correct plot of left (or right) censored
 observations, as in the example below.
 
-<<fig=TRUE>>=
+<<plotdistcensd2,fig=TRUE>>=
 d2<-data.frame(left=10^(d1$left),right=10^(d1$right))
 plotdistcens(d2,leftNA=0)
 @
@@ -283,7 +285,7 @@ plotdistcens(d2,leftNA=0)
 It is also possible to fix \texttt{rightNA} or \texttt{leftNA} to a realistic 
 extreme value, even if not exactly known, to obtain a reasonable global ranking of 
 observations, as in the example below for the first dataset.
-<<fig=TRUE>>=
+<<plotdistcensd1bis,fig=TRUE>>=
 plotdistcens(d1,rightNA=3)
 @
 
@@ -298,13 +300,13 @@ boostrap only, using the function \texttt{boodistcens}.
 
 Below is the result of a fit of a Weibull distribution by maximum likelihood and the results of the 
 corresponding boostrap simulations.
-<<fig=TRUE>>=
+<<fitdistcensd2w,fig=TRUE>>=
 f2w<-fitdistcens(d2,"weibull")
 summary(f2w)
 plot(f2w,leftNA=0)
 @
 
-<<fig=TRUE>>=
+<<bootdistcensf2w,fig=TRUE>>=
 b2w<-bootdistcens(f2w)
 summary(b2w)
 plot(b2w)
@@ -314,14 +316,14 @@ Goodness of fit statistics are not computed for fit on censored data, so the qua
 may only be estimated from the loglikelihood and the goodness of fit plot.
 
 Below is the fit of a lognormal distribution to the same censored data set.
-<<fig=TRUE>>=
+<<fitdistcensd2ln,fig=TRUE>>=
 f2l<-fitdistcens(d2,"lnorm")
 summary(f2l)
 plot(f2l,leftNA=0)
 @
 
 Below is the fit of an exponential distribution.
-<<fig=TRUE>>=
+<<fitdistcensd2e,fig=TRUE>>=
 f2e<-fitdistcens(d2,"exp")
 summary(f2e)
 plot(f2e,leftNA=0)
@@ -338,5 +340,68 @@ The function \texttt{plotdistcens} may help to find correct initial values for
 the distribution parameters in non trivial cases, by an manual iterative use if necessary, as explained 
 previously for non-censored continuous data.
 
+\section{Changing the optimization algorithm used to maximize the likelihood}
 
+Sometimes the default algorithm used to maximize the likelihood fails to converge. It may then
+be interesting to change some options of the function \texttt{optim} or to use another optimization
+function than \texttt{optim} to maximize the likelihood.
+
+\subsection{Changing the arguments passed to \texttt{optim}}
+
+The argument optim.method may be used in the call to \texttt{fitdist} or
+\texttt{fitdistcens}. It will internally be passed to \texttt{mledist} and to \texttt{optim}.
+This argument may be fixed to \texttt{"Nelder-Mead"} (the robust Nelder and Mead method), 
+\texttt{"BFGS"} (the BFGS quasi-Newton method), \texttt{"CG"} (a conjugate gradients method), 
+\texttt{"SANN"} (a variant of simulated annealing) or \texttt{"L-BFGS-B"} (a modification of the BFGS 
+quasi-Newton method which enables box constraints optimization). For the use of the last method the 
+arguments \texttt{lower} and/or \texttt{upper} also have to be passed. More details on these optimization
+functions may be found in the help page of \texttt{optim} from the package \texttt{stats}.
+
+Below are examples of fits of a gamma distribution to non censored data with various options
+of \texttt{optim}.
+
+<<>>=
+fitdist(x1,"gamma",optim.method="Nelder-Mead")
+fitdist(x1,"gamma",optim.method="BFGS") 
+fitdist(x1,"gamma",optim.method="L-BFGS-B",lower=c(0,0))
+fitdist(x1,"gamma",optim.method="SANN")
+@
+
+\subsection{Supplying another optimization function}
+
+You may also want to use another function than \texttt{optim} to maximize the likelihood.
+This optimization function has to be specified by the argument \texttt{custom.optim} 
+in the call to \texttt{fitdist} or
+\texttt{fitdistcens}. But before that, it is necessary to customize this optimization function :
+\texttt{custom.optim} function must have (at least) the following arguments,
+\texttt{fn} for the function to be optimized, \texttt{par} for the initialized parameters. 
+It is assumed that \texttt{custom.optim} should carry out a MINIMIZATION. Finally, it should return
+at least the following components: \texttt{par} for the estimate, \texttt{convergence} for the convergence
+code, \texttt{value} for \texttt{fn(par)} and \texttt{hessian}.
+
+Below is an example of code written to customize \texttt{genoud} function from \texttt{rgenoud} package.
+\begin{verbatim}
+mygenoud <- function(fn, par, ...) 
+{
+   require(rgenoud)
+   res <- genoud(fn, starting.values=par, ...)        
+   standardres <- c(res, convergence=0)
+   return(standardres)
+}
+\end{verbatim}
+
+The customized optimization function may then be passed as the argument \texttt{custom.optim} 
+in the call to \texttt{fitdist}
+or \texttt{fitdistcens}. The following code may for example be used to fit a gamma distribution to the
+non censored data \texttt{x1}. Note that in this example various arguments are also passed from \texttt{fitdist} 
+to \texttt{genoud} :
+\texttt{nvars}, \texttt{Domains}, \texttt{boundary.enforcement}, 
+\texttt{print.level} and \texttt{hessian}.
+
+\begin{verbatim}
+fitdist(x1, "gamma", custom.optim=mygenoud, nvars=2,    
+   Domains=cbind(c(0,0), c(10, 10)), boundary.enforcement=1, 
+   print.level=1, hessian=TRUE)
+\end{verbatim}
+ 
 \end{document}

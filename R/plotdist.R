@@ -30,7 +30,7 @@ plotdist <- function(data,distr,para,breaks="default",discrete=FALSE,...){
     (missing(distr) & !missing(para)))
         stop("distr and para must defined")
     xlim<-c(min(data),max(data)) # for plot of discrete distributions
-    if (missing(distr)) {
+    if (missing(distr)) { ## Plot of data only
         par(mfrow=c(2,1))
         s<-sort(data)
         n<-length(data)
@@ -86,27 +86,31 @@ plotdist <- function(data,distr,para,breaks="default",discrete=FALSE,...){
         if (any(is.na(m))) 
             stop(paste("'para' specifies names which are not arguments to ",ddistname))
 
-        n<-length(data) 
+        n <- length(data) 
         if (is.element(distname,c("binom","nbinom","geom","hyper","pois"))) 
-            discrete<-TRUE
+            discrete <- TRUE
         else
-            discrete<-FALSE
+            discrete <- FALSE
         if (!discrete) {
         # plot of continuous data with theoretical distribution
             par(mfrow=c(2,2))
-            s<-sort(data)
-            obsp<-ecdf(s)(s)
-            theop<-do.call(pdistname,c(list(q=s),as.list(para)))
+            s <- sort(data)
+            obsp <- ecdf(s)(s)
+            theop <- do.call(pdistname,c(list(q=s),as.list(para)))
             # plot of the histogram with theoretical density
+            # computes densities in order to define limits for y-axis
             if (breaks=="default")
-                h<-hist(data,freq=FALSE,xlab="data",
-                main=paste("Empirical and theoretical distr."),...)
+                h <- hist(data,plot=FALSE)
             else
-                h<-hist(data,freq=FALSE,xlab="data",
-                main=paste("Empirical and theoretical distr."),breaks=breaks,...)           
-            xhist<-seq(min(h$breaks),max(h$breaks),length=1000)
-            yhist<-do.call(ddistname,c(list(x=xhist),as.list(para)))
+                h <- hist(data,breaks=breaks,plot=FALSE,...)           
+            xhist <- seq(min(h$breaks),max(h$breaks),length=1000)
+            yhist <- do.call(ddistname,c(list(x=xhist),as.list(para)))
+            ymax <- max(max(h$density),max(yhist)) 
+            # plot of histograms and theoretical density
+            hist(data,freq=FALSE,xlab="data",ylim=c(0,ymax),breaks=h$breaks,
+                main=paste("Empirical and theoretical distr."),...)
             lines(xhist,yhist)
+           
             # plot of the qqplot
             #theoq<-do.call(qdistname,c(list(p=obsp),as.list(para)))
             theoq<-do.call(qdistname,c(list(p=ppoints(n)),as.list(para)))

@@ -56,7 +56,7 @@ fitdistcens(censdata, distr, start,...)
     values may not be good enough if the fit is poor. The function is not able to fit a uniform distribution.     
     With the parameter estimates, the function returns the log-likelihood and the standard errors of 
     the estimates calculated from the 
-    Hessian at the solution found by \code{optim}.
+    Hessian at the solution found by \code{optim} or by the user-supplied function passed to mledist.
      
     The plot of an object of class "fitdistcens" returned by \code{fitdistcens} uses the function \code{\link{plotdistcens}}.
 }
