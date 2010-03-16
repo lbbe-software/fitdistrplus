@@ -1,5 +1,17 @@
 === fitdistrplus : Help to fit of a parametric distribution ===
 
+Version 0.1-3
+=============
+
+NEW FEATURES
+
+
+BUG FIXES
+
+- correction of a bug in plotdist due to the redefinition in previous version
+of the parameter "ylim" for the plot of a histogram with theoretical density function 
+(there was a problem with infinite values of theoretical density function)
+
 Version 0.1-2
 =============
 

@@ -105,7 +105,7 @@ plotdist <- function(data,distr,para,breaks="default",discrete=FALSE,...){
                 h <- hist(data,breaks=breaks,plot=FALSE,...)           
             xhist <- seq(min(h$breaks),max(h$breaks),length=1000)
             yhist <- do.call(ddistname,c(list(x=xhist),as.list(para)))
-            ymax <- max(max(h$density),max(yhist)) 
+            ymax <- ifelse(is.finite(max(yhist)),max(max(h$density),max(yhist)),max(h$density)) 
             # plot of histograms and theoretical density
             hist(data,freq=FALSE,xlab="data",ylim=c(0,ymax),breaks=h$breaks,
                 main=paste("Empirical and theoretical distr."),...)
