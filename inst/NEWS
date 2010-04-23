@@ -1,16 +1,31 @@
 === fitdistrplus : Help to fit of a parametric distribution ===
 
+
 Version 0.1-3
 =============
 
 NEW FEATURES
-
+- new function gofstat. 
+    Goodness-of-fit statistics are no more computed by fitdist but may computed and printed
+    by the use of the function gofstat. In this new function, the whole results computed are not printed :
+    results of tests are printed only if the argument print.test==TRUE and for continuous distributions
+    only Anderson-Darling and Kolomogorov-Smirnov statistics are printed by default (but complete results
+    are returned by gofstat).
+- modifications in descdist : three arguments were added in descdist
+    1/ method, to choose between unbiased estimations
+    of standard deviation, skewness and kurtosis (default choice) and 
+    sample values.
+    2/ obs.col to choose the color used to plot the observed point on the graph.
+    3/ boot.col to choose the color used to plot the bootstrap sample of points on the graph.
+- modifications in plotfit : minor changes were performed in order to facilitate the use of the argument ...
+    to personnalize the plots (see examples in plotdist.Rd)
+- modication of the vignette
 
 BUG FIXES
 
-- correction of a bug in plotdist due to the redefinition in previous version
-of the parameter "ylim" for the plot of a histogram with theoretical density function 
-(there was a problem with infinite values of theoretical density function)
+- correction of a bug in plotdist due to the redefinition in the previous version
+    of the parameter "ylim" for the plot of a histogram with theoretical density function 
+    (there was a problem with infinite values of theoretical density function)
 
 Version 0.1-2
 =============

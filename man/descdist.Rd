@@ -10,7 +10,7 @@
 }
 
 \usage{
-descdist(data,discrete=FALSE,boot=NULL,graph=TRUE)
+descdist(data,discrete=FALSE,boot=NULL,method="unbiased",graph=TRUE,obs.col="red",boot.col="pink")
 }
 %- maybe also 'usage' for other objects documented here.
 
@@ -19,11 +19,17 @@ descdist(data,discrete=FALSE,boot=NULL,graph=TRUE)
 \item{discrete}{ If \code{TRUE}, the distribution is considered as discrete.  }
 \item{boot}{ If not \code{NULL}, \code{boot} values of skewness and kurtosis are plotted from bootstrap
  samples of \code{data}. \code{boot} must be fixed in this case to an integer above 10. }
-\item{graph}{ If \code{FALSE}, the graph is not plotted. }
+\item{method}{ "unbiased" for unbiased estimated values of statistics or "sample" for sample values. }
+\item{graph}{ If \code{FALSE}, the skewness-kurtosis graph is not plotted. }
+\item{obs.col}{ Color used for the observed point on the skewness-kurtosis graph. }
+\item{boot.col}{ Color used for bootstrap sample of points on the skewness-kurtosis graph. }
 }
 
 \details{
-    Minimum, maximum, median, mean, sample sd, sample skewness and sample kurtosis values are printed. 
+    Minimum, maximum, median, mean, sample sd, and sample (if \code{method=="sample"}) or by default 
+    unbiased estimations of skewness and 
+    Pearsons's kurtosis values (Fisher, 1930) are printed. Be careful, estimations of skewness and kurtosis
+    are unbiased only for normal distributions and estimated values are then only indicative.
     A skewness-kurtosis plot such as the one proposed by Cullen and Frey (1999) is given for the 
     empirical distribution. On this plot, values for common distributions are also displayed as a tools 
     to help the choice of distributions to fit to data. In order to take into account the uncertainty 
@@ -45,9 +51,9 @@ descdist(data,discrete=FALSE,boot=NULL,graph=TRUE)
     \item{ max }{ the maximum value  }
     \item{ median }{ the median value  }
     \item{ mean }{ the mean value  }
-    \item{ sd }{ the standard deviation sample value  }
-    \item{ skewness }{ the skewness sample value  }
-    \item{ kurtosis }{ the kurtosis sample value  }    
+    \item{ sd }{ the standard deviation sample or estimated value  }
+    \item{ skewness }{ the skewness sample or estimated value  }
+    \item{ kurtosis }{ the kurtosis sample or estimated value  }    
 }
 
 \seealso{ 
@@ -57,6 +63,9 @@ descdist(data,discrete=FALSE,boot=NULL,graph=TRUE)
 \references{ 
 Cullen AC and Frey HC (1999) Probabilistic techniques in exposure assessment. Plenum Press, USA, pp. 81-159.
 Evans M, Hastings N and Peacock B (2000) Statistical distributions. John Wiley and Sons Inc.
+
+Fisher RA (1930) The moments of the distribution for normal samples of measures of departures from normality.
+Proc. R. Soc. London, Series A 130, 16-28.
 }
 
 \author{ 
@@ -66,16 +75,14 @@ Marie-Laure Delignette-Muller \email{ml.delignette@vet-lyon.fr}
 %\note{  }
 
 \examples{
-x1<-c(6.4,13.3,4.1,1.3,14.1,10.6,9.9,9.6,15.3,22.1,13.4,
-13.2,8.4,6.3,8.9,5.2,10.9,14.4)
+x1 <- rnorm(100)
 descdist(x1)
 descdist(x1,boot=1000)
 
-x2<-c(rep(4,1),rep(2,3),rep(1,7),rep(0,12))
-descdist(x2,discrete=TRUE)
+descdist(rbeta(100,shape1=0.05,shape2=1),boot=1000)
+descdist(rgamma(100,shape=2,rate=1),boot=1000)
 
-x3<-rbeta(100,shape1=0.05,shape2=1)
-descdist(x3,boot=1000)
+descdist(rpois(100,lambda=2),discrete=TRUE,boot=1000)
 }
 
 \keyword{ distribution }% at least one, from doc/KEYWORDS

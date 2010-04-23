@@ -83,10 +83,11 @@ which distribution(s) to fit among the potential candidates.
 descdist(x1)
 @
 
-In order to take into account the uncertainty of the estimated values of kurtosis and skewness, 
+Skewness and kurtosis are known not to be robust. In order to try to
+take into account the uncertainty on the estimated values of kurtosis and skewness, 
 the data set may be boostrapped by fixing the argument \texttt{boot} to an integer above 10 in \texttt{descdist}. 
 \texttt{boot} values of 
-skewness and kurtosis corresponding to the boot nonparametric bootstrap samples are then computed and reported in blue color 
+skewness and kurtosis corresponding to the boot nonparametric bootstrap samples are then computed and reported
 on the skewness-kurtosis plot.
 
 <<descdistx1boot,fig=TRUE>>=
@@ -100,63 +101,53 @@ fonction \texttt{fitdist}. This function uses the maximum likelihood
 method if the argument \texttt{method="mle"} (or if it is omitted) 
 or the matching moments estimation if the argument \texttt{method="mme"}.
 When fitting continuous distributions, 
-Kolmogorov-Smirnov and Anderson-Darling statistics are computed and corresponding tests are performed when possible. 
-Even if less appropriate for continuous distributions, the Chi-squared statistic is
-also computed when possible. For this calculation, cells are defined by the argument \texttt{chisqbreaks}
-or automatically defined from the data set and from the argument \texttt{meancount} (the approximate mean count per cell)
-which is  fixed to $(4n)^{2/5}$ if omitted (with n the length of the data set).  
-For more details, see the help of the function \texttt{fitdist}.
+Kolmogorov-Smirnov and Anderson-Darling statistics may be computed using the function \texttt{gofstat}. 
 Four goodness of fit plots are also provided.
  
 
-Below is the result of a fit of a gamma distribution by maximum likelihood.
-<<fitdistx1g,fig=TRUE>>=
-f1g<-fitdist(x1,"gamma")
-plot(f1g)
-summary(f1g)
-@
- 
-Below is the result of another fit of the same distribution by matching moments.
-<<>>=
-f1gbis<-fitdist(x1,"gamma",method="mme")
-summary(f1gbis)
-@ 
- 
-As can be seen in this returned summary, the automatic definition of the cells required to calculate the Chi-squared
-statistic does not give theoretical counts large enough to validate the use of the test in this example.
- It is often the case for small
-data sets. The observed and theoretical counts may be printed as below :
-<<>>=
-f1g$chisqtable
-@
-
-Below is the fit of a lognormal distribution.
-<<fitdistx1ln,fig=TRUE>>=
-f1l<-fitdist(x1,"lnorm")
-plot(f1l)
+Below is the result of the fit of a logistic distribution by maximum likelihood to the previous dataset.
+<<fitdistx1l,fig=TRUE>>=
+f1l<-fitdist(x1,"logis")
 summary(f1l)
+gofstat(f1l)
+plot(f1l)
 @
 
-Below is the fit of a normal distribution.
+In that case the Anderson-Darling test may be used to test the adequation of the distribution to data. 
+<<>>=
+gofstat(f1l,print.test=TRUE)
+@
+
+Generally goodness-of-fit tests may be used carefully.
+In somme cases, especially on very big datasets, even if the null hypothesis is rejected a fitted distribution may be 
+chosen as the best one among simple distributions to describe an empirical distribution, if the goodness-of-fit
+plots do not show strong differences between empirical and theoretical distributions.
+
+In that case, the fit seems correct, but it is easy to compare goodness-of-fit statistics
+for other distributions fitted on the same dataset in order to check that other distributions could not give
+a better fit. Below are computed the goodness-of-fit
+statistics for logistic, lognormal, gamma, normal and weibull distributions. 
+<<>>=
+gofstat(fitdist(x1,"logis"))
+gofstat(fitdist(x1,"lnorm"))
+gofstat(fitdist(x1,"gamma"))
+gofstat(fitdist(x1,"norm"))
+gofstat(fitdist(x1,"weibull"))
+@
+
+Regarding the Kolmogorov-Smirnov statistic, the fit of a normal distribution seems better while regarding the 
+Anderson-Darling statistic the fit of a logistic distribution seems better.
+It is recommended to base the comparison of fits on the Anderson-Darling statistic when the modelling of the tails of 
+a distribution is important, as it is often the case in risk assessment.
+
+In order to choose between both distributions, the goodness-of-fit plot and the summary
+of the fit of a normal chould be compared to the 
+ones already obtained for the logistic distribution, but in that case the differences seem very small.
 <<fitdistx1n,fig=TRUE>>=
-f1n<-fitdist(x1,"norm")
+f1n <- fitdist(x1,"norm")
 plot(f1n)
 summary(f1n)
-@
-
-Below is the fit of a Weibull distribution.
-<<fitdistx1w,fig=TRUE>>=
-f1w<-fitdist(x1,"weibull")
-plot(f1w)
-summary(f1w)
-@
-
-The values of the Anderson-Darling statistic (or another result of the fit: see the help of \texttt{fitdist} for details)
- for the different fittings may be extracted and compared to help the selection of a distribution :
- 
-<<>>=
-anderson<-list(lnorm=f1l$ad,gamma=f1g$ad,norm=f1n$ad,weibull=f1w$ad)
-anderson
+plot(f1n)
 @
 
 For some distributions (see the help of \texttt{fitdist} for details), it is necessary to specify initial 
@@ -187,6 +178,7 @@ And a Gumbel distribution may be fitted to data with these values for initial pa
 fgu<-fitdist(x1,"gumbel",start=list(a=10,b=5))
 plot(fgu)
 summary(fgu)
+gofstat(fgu)
 @
 
 \subsection{Simulation of the uncertainty by boostrap}
@@ -197,11 +189,11 @@ may be plotted to visualize the bootstrap region. It also calculates the 95 perc
 parameter from the 2.5 and 97.5 percentiles
 of the boostrap values of each parameter (see the help of the function \texttt{bootdist} for details).
 
-Below is an example of the use of this function with the previous fit of the gamma distribution. 
-<<bootdistf1g,fig=TRUE>>=
-b1g<-bootdist(f1g)
-plot(b1g)
-summary(b1g)
+Below is an example of the use of this function with the previous fit of the logistic distribution. 
+<<bootdistf1l,fig=TRUE>>=
+b1l<-bootdist(f1l)
+plot(b1l)
+summary(b1l)
 @
 
 \section{Specification of a distribution from non-censored discrete data}
@@ -220,7 +212,7 @@ may be computed using the function \texttt{descdist} which also provides a skewn
 which may help you to choose which distribution(s) to fit.
 
 <<descdistx2,fig=TRUE>>=
-descdist(x2,discrete=T)
+descdist(x2,discrete=T,boot=1000)
 @
 
 As for continuous distributions, one or more parametric distributions may then be fitted 
@@ -231,6 +223,7 @@ Below is the result of the fit of a Poisson distribution with the bootstrap simu
 f2p<-fitdist(x2,"pois")
 plot(f2p)
 summary(f2p)
+gofstat(f2p,print.test=TRUE)
 b2p<-bootdist(f2p)
 summary(b2p)
 @
@@ -240,9 +233,16 @@ Below is the result of the fit of a negative binomial distribution with the boos
 f2n<-fitdist(x2,"nbinom")
 plot(f2n)
 summary(f2n)
+gofstat(f2n,print.test=TRUE)
 b2n<-bootdist(f2n)
 summary(b2n)
 @
+
+From goodness-of-fit graphs, Chi-squared statistics, AIC and BIC values,
+it seems better to choose the fit of a negative binomial distribution
+for this dataset even it has one more parameter than the Poisson one. This was not obvious while
+looking at the skewness-kurtosis graph. This graph must be used cautiously especially for continuous 
+distributions far from the normal distribution or for discrete distributions. It is only indicative.
 
 \section{Specification of a distribution from censored data}
 %si on enlève l'étoile on a des numéros de section

@@ -6,15 +6,14 @@
 \alias{fitdistrplus}
 %- Also NEED an '\alias' for EACH other topic documented here.
 
-\title{ Fitting of univariate distributions to non-censored data and goodness-of-fit statistics}
+\title{ Fitting of univariate distributions to non-censored data}
 
 \description{
- Fits a univariate distribution to non-censored data by maximum likelihood or matching moments,
-  and computes goodness-of-fit statistics.  
+ Fits a univariate distribution to non-censored data by maximum likelihood or matching moments.  
 }
 
 \usage{
-fitdist(data, distr, method=c("mle", "mme"), start, chisqbreaks, meancount,...)
+fitdist(data, distr, method=c("mle", "mme"), start,...)
 \method{print}{fitdist}(x,...)
 \method{plot}{fitdist}(x,breaks="default",...)
 \method{summary}{fitdist}(object,...)
@@ -32,15 +31,6 @@ fitdist(data, distr, method=c("mle", "mme"), start, chisqbreaks, meancount,...)
     This argument will not be taken into account if \code{method="mme"},
     and may be omitted for some distributions for which reasonable 
     starting values are computed if \code{method="mle"} (see details).  }
-\item{chisqbreaks}{ A numeric vector defining the breaks of the cells used to compute the chi-squared
-    statistic. If omitted, these breaks are automatically computed from the data 
-    in order to reach roughly the same number of observations per cell, roughly equal to the argument
-    \code{meancount}, or sligthly more if there are some ties. }
-\item{meancount}{ The mean number of observations per cell expected for the definition of the breaks 
-    of the cells used to compute the chi-squared statistic. This argument will not be taken into 
-    account if the breaks are directly defined in the argument \code{chisqbreaks}. If \code{chisqbreaks} 
-    and \code{meancount} are both omitted, \code{meancount} is fixed in order to obtain roughly 
-    \eqn{(4n)^{2/5}} cells with \eqn{n} the length of the dataset. }
 \item{x}{ an object of class 'fitdist'.  }
 \item{object}{ an object of class 'fitdist'.  }
 \item{breaks}{ If \code{"default"} the histogram is plotted with the function \code{hist} 
@@ -80,38 +70,7 @@ fitdist(data, distr, method=c("mle", "mme"), start, chisqbreaks, meancount,...)
     estimated by matching theoretical and observed means, and for distributions characterized by 
     two parameters, these parameters are estimated by matching theoretical and observed means
     and variances (Vose, 2000). 
-     
-    Goodness-of-fit statistics are computed. The Chi-squared statistic is computed using cells defined 
-    by the argument 
-    \code{chisqbreaks} or cells automatically defined from the data in order 
-    to reach roughly the same number of observations per cell, roughly equal to the argument
-    \code{meancount}, or sligthly more if there are some ties. If \code{chisqbreaks} and \code{meancount} 
-    are both omitted, \code{meancount} is fixed in order to obtain roughly \eqn{(4n)^{2/5}} cells, 
-    with \eqn{n} the length of the dataset (Vose, 2000).
-    The Chi-squared statistic is not computed if the program fails
-    to define enough cells due to a too small dataset. When the Chi-squared statistic is computed, 
-    and if the degree of freedom (nb of cells - nb of parameters - 1)  of the corresponding distribution 
-    is strictly positive, the p-value of the Chi-squared test is returned.
-    
-    For the distributions assumed continuous (all but \code{"binom"}, 
-    \code{"nbinom"}, \code{"geom"}, \code{"hyper"} and \code{"pois"} for R base distributions), 
-    Kolmogorov-Smirnov and Anderson-Darling statistics are also computed, 
-    as defined by Cullen and Frey (1999). 
-    
-    An approximate Kolmogorov-Smirnov test is 
-    performed by assuming the distribution parameters known. The critical value defined by Stephens (1986) 
-    for a completely specified distribution is used to reject or not the 
-    distribution at the significance level 0.05. Because of this approximation, the result of the test
-    (decision of rejection of the distribution or not) is returned only for datasets with more 
-    than 30 observations. Note that this approximate test may be too conservative. 
-    
-    For datasets with more than 5 observations and for distributions for 
-    which the test is described by Stephens (1986) (\code{"norm"}, \code{"lnorm"},
-    \code{"exp"}, \code{"cauchy"}, \code{"gamma"}, \code{"logis"} and \code{"weibull"}),
-    the Anderson-darling test is performed as described by Stephens (1986). This test takes into 
-    account the fact that the parameters are not known but estimated from the data. The result is the 
-    decision to reject or not the distribution at the significance level 0.05.
-    
+         
     The plot of an object of class "fitdist" returned by \code{fitdist} uses the function 
     \code{\link{plotdist}}.
 }
@@ -129,27 +88,16 @@ fitdist(data, distr, method=c("mle", "mme"), start, chisqbreaks, meancount,...)
    \item{ n }{ the length of the data set }
     \item{ data }{ the dataset }
     \item{ distname }{ the name of the distribution }
-    \item{ chisq }{ the Chi-squared statistic or \code{NULL} if not computed }
-    \item{ chisqbreaks }{ breaks used to define cells in the Chi-squared statistic }
-    \item{ chisqpvalue }{ p-value of the Chi-squared statistic or \code{NULL} if not computed}
-    \item{ chisqdf }{ degree of freedom of the Chi-squared distribution or \code{NULL} if not computed }
-    \item{ chisqtable }{ a table with observed and theoretical counts used for the Chi-squared calculations }
-    \item{ ad }{ the Anderson-Darling statistic or \code{NULL} if not computed }
-    \item{ adtest }{ the decision of the Anderson-Darling test or \code{NULL} if not computed }
-    \item{ ks }{ the Kolmogorov-Smirnov statistic or \code{NULL} if not computed }
-    \item{ kstest }{ the decision of the Kolmogorov-Smirnov test or \code{NULL} if not computed }
 }
 
 \seealso{ 
-    \code{\link{plotdist}}, \code{\link{optim}}, \code{\link{mledist}}, \code{\link{mmedist}} 
+    \code{\link{plotdist}}, \code{\link{optim}}, \code{\link{mledist}}, \code{\link{mmedist}} ,
+    \code{\link{gofstat}}
     and \code{\link{fitdistcens}}.
 }
 
 \references{ 
 Cullen AC and Frey HC (1999) Probabilistic techniques in exposure assessment. Plenum Press, USA, pp. 81-155.
-
-Stephens MA (1986) Tests based on edf statistics. In Goodness-of-fit techniques (D'Agostino RB and
-Stephens MA, eds), Marcel dekker, New York, pp. 97-194.
 
 Venables WN and Ripley BD (2002) Modern applied statistics with S. Springer, New York, pp. 435-446.
 
@@ -175,21 +123,18 @@ f1 <- fitdist(x1,"norm")
 print(f1)
 plot(f1)
 summary(f1)
-f1$chisqtable
 
 # (2) use the moment matching estimation
 #
 
-f1b <- fitdist(x1,"norm",method="mme",meancount=6)
+f1b <- fitdist(x1,"norm",method="mme")
 summary(f1b)
-f1b$chisqtable
 
 # (3) MME for log normal distribution
 #
 
-f1c <- fitdist(x1,"lnorm",method="mme",meancount=6)
+f1c <- fitdist(x1,"lnorm",method="mme")
 summary(f1c)
-f1c$chisqtable
 
 # (4) defining your own distribution functions, here for the Gumbel distribution
 # for other distributions, see the CRAN task view dedicated to probability distributions
@@ -206,24 +151,9 @@ plot(f1c)
 #
 
 x2<-c(rep(4,1),rep(2,3),rep(1,7),rep(0,12))
-f2<-fitdist(x2,"pois",chisqbreaks=c(0,1))
+f2<-fitdist(x2,"pois")
 plot(f2)
 summary(f2)
-f2$chisqtable
-
-
-
-# (5) comparison of fits of various distributions
-#
-xw<-rweibull(n=100,shape=2,scale=1)
-fa<-fitdist(xw,"weibull")
-summary(fa)
-fa$chisqtable
-fb<-fitdist(xw,"gamma")
-summary(fb)
-fc<-fitdist(xw,"exp")
-summary(fc)
-
 
 # (6) how to change the optimisation method?
 #

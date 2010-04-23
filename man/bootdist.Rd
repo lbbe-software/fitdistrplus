@@ -27,7 +27,7 @@ bootdist(f, bootmethod="param", niter=1001)
 \item{niter}{ The number of samples drawn by bootstrap.  }
 \item{x}{ an object of class 'bootdist'.  }
 \item{object}{ an object of class 'bootdist'.  }
-\item{...}{ further arguments to be passed to generic methods }
+\item{\dots}{ further arguments to be passed to generic methods }
 }
 
 \details{

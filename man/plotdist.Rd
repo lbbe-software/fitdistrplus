@@ -28,7 +28,7 @@ plotdist(data,distr,para,breaks="default",discrete=FALSE,...)
     account if \code{distname} is defined. In this last case, the distribution is automatically assumed
     discrete if and only if \code{distname} is \code{"binom"}, \code{"nbinom"},\code{"geom"},
     \code{"hyper"} or \code{"pois"}.  }
-\item{...}{ further graphical arguments passed to other methods }
+\item{\dots}{ further graphical arguments passed to graphical functions used in plotdist }
 }
 
 \details{
@@ -42,7 +42,7 @@ plotdist(data,distr,para,breaks="default",discrete=FALSE,...)
 }
 
 \seealso{ 
-    \code{\link{descdist}}, \code{\link{hist}}, \code{\link{plotdistcens}} and \code{\link{ppoints}}.
+    \code{\link{descdist}}, \code{\link{hist}},  \code{\link{plot}}, \code{\link{plotdistcens}} and \code{\link{ppoints}}.
 }
 
 \references{ 
@@ -59,13 +59,17 @@ Marie-Laure Delignette-Muller \email{ml.delignette@vet-lyon.fr}
 x1<-c(6.4,13.3,4.1,1.3,14.1,10.6,9.9,9.6,15.3,22.1,13.4,
 13.2,8.4,6.3,8.9,5.2,10.9,14.4)
 plotdist(x1)
+plotdist(x1,col="red",type="b",pch=4)
+plotdist(x1,type="s")
 
 x2<-c(rep(4,1),rep(2,3),rep(1,7),rep(0,12))
 plotdist(x2,discrete=TRUE)
 plotdist(x2,"pois",para=list(lambda=mean(x2)))
+plotdist(x2,"pois",para=list(lambda=mean(x2)),col="red",lwd="2")
 
 xn<-rnorm(n=100,mean=10,sd=5)
 plotdist(xn,"norm",para=list(mean=mean(xn),sd=sd(xn)))
+plotdist(xn,"norm",para=list(mean=mean(xn),sd=sd(xn)),pch=16,col="green")
 }
 
 \keyword{ distribution }% at least one, from doc/KEYWORDS

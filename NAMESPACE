@@ -28,6 +28,8 @@ S3method(print, bootdistcens)
 #other functions
 export(descdist)
 
+export(gofstat)
+
 export(mledist)
 
 export(mmedist)

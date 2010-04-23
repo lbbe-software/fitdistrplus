@@ -22,26 +22,62 @@
 ###         R functions
 ### 
 
-descdist <- function(data,discrete=FALSE,boot=NULL,graph=TRUE)
+descdist <- function(data,discrete=FALSE,boot=NULL,method="unbiased",graph=TRUE,
+obs.col="red",boot.col="pink")
 {
     #if(is.mcnode(data)) data <- as.vector(data)
     if (missing(data) || !is.vector(data,mode="numeric"))
         stop("data must be a numeric vector")
+    if (length(data) < 4)
+        stop("data must be a numeric vector containing at least four values")
     moment <- function(data,k){
-        m1<-mean(data)
+        m1 <- mean(data)
         return(sum((data-m1)^k)/length(data))
     }
-    skewness <- function(data){
-        sd<-sqrt(moment(data,2))
-        return(moment(data,3)/sd^3)
+    if (method=="unbiased")
+    {
+        skewness <- function(data){
+        # unbiased estimation (Fisher 1930)
+            sd <- sqrt(moment(data,2))
+            n <- length(data)
+            gamma1 <- moment(data,3)/sd^3
+            unbiased.skewness <- sqrt(n*(n-1)) * gamma1 / (n-2) 
+            return(unbiased.skewness)
+        }
+        kurtosis <- function(data){
+        # unbiased estimation (Fisher 1930)
+            n <- length(data)
+            var<-moment(data,2)
+            gamma2 <- moment(data,4)/var^2 - 3
+            unbiased.kurtosis <- (n-1)/ ((n-2)*(n-3)) * ((n+1)*gamma2 + 6 ) + 3
+            return(unbiased.kurtosis)
+        }
+        standdev <- function(data){
+            sd(data)
+        }
     }
-    kurtosis <- function(data){
-        var<-moment(data,2)
-        return(moment(data,4)/var^2)
-    }
+    else
+        if (method=="sample")
+        {
+            skewness <- function(data) 
+            {
+                sd <- sqrt(moment(data, 2))
+                return(moment(data, 3)/sd^3)
+            }
+            kurtosis <- function(data) 
+            {
+                var <- moment(data, 2)
+                return(moment(data, 4)/var^2)
+            }
+            standdev <- function(data){
+                sqrt(moment(data,2))
+            }
+        }
+    else
+        stop("The only possible value for the argument method are 'unbiased' or 'sample'")
     
     res<-list(min=min(data),max=max(data),median=median(data),
-    mean=mean(data),sd=sqrt(moment(data,2)),
+    mean=mean(data),sd=standdev(data),
     skewness=skewness(data),kurtosis=kurtosis(data))
     
     #op<-options()
@@ -51,9 +87,20 @@ descdist <- function(data,discrete=FALSE,boot=NULL,graph=TRUE)
     cat("min: ",res$min,"  max: ",res$max,"\n")
     cat("median: ",res$median,"\n")
     cat("mean: ",res$mean,"\n")
-    cat("sample sd: ",res$sd,"\n")
-    cat("sample skewness: ",res$skewness,"\n")
-    cat("sample kurtosis: ",res$kurtosis,"\n")
+    if (method=="sample")
+    {
+        cat("sample sd: ",res$sd,"\n")
+        cat("sample skewness: ",res$skewness,"\n")
+        cat("sample kurtosis: ",res$kurtosis,"\n")
+    }
+    else
+    if (method=="unbiased")
+    {
+        cat("estimated sd: ",res$sd,"\n")
+        cat("estimated skewness: ",res$skewness,"\n")
+        cat("estimated kurtosis: ",res$kurtosis,"\n")
+    }
+
     #options(op)
     
     skewdata<-res$skewness
@@ -115,10 +162,10 @@ descdist <- function(data,discrete=FALSE,boot=NULL,graph=TRUE)
             y<-kurtmax-(es2^4+2*es2^3+3*es2^2-3)
             lines(s2,y,lty=3)
                 
-            legend(xmax*0.2,ymax*1.03,pch=16,legend="Observation",bty="n",cex=0.8,pt.cex=1.2)
+            legend(xmax*0.2,ymax*1.03,pch=16,legend="Observation",bty="n",cex=0.8,pt.cex=1.2,col=obs.col)
             if (!is.null(boot)) {
             legend(xmax*0.2,ymax*0.98,pch=1,legend="bootstrapped values",
-                bty="n",cex=0.8,col="blue")        
+                bty="n",cex=0.8,col=boot.col)        
             }
             legend(xmax*0.55,ymax*1.03,legend="Theoretical distributions",bty="n",cex=0.8)
             legend(xmax*0.6,0.98*ymax,pch=8,legend="normal",bty="n",cex=0.8)
@@ -149,7 +196,7 @@ descdist <- function(data,discrete=FALSE,boot=NULL,graph=TRUE)
             legend(xmax*0.2,ymax*1.03,pch=16,legend="Observation",bty="n",cex=0.8,pt.cex=1.2)
             if (!is.null(boot)) {
             legend(xmax*0.2,ymax*0.98,pch=1,legend="bootstrapped values",
-                bty="n",cex=0.8,col="blue")        
+                bty="n",cex=0.8,col=boot.col)        
             }
             legend(xmax*0.55,ymax*1.03,legend="Theoretical distributions",bty="n",cex=0.8)
             legend(xmax*0.6,0.98*ymax,pch=8,legend="normal",bty="n",cex=0.8)
@@ -165,10 +212,10 @@ descdist <- function(data,discrete=FALSE,boot=NULL,graph=TRUE)
         }
         # bootstrap sample for observed distribution
         if (!is.null(boot)) {
-            points(s2boot,kurtmax-kurtboot,pch=1,col="blue",cex=0.5)
+            points(s2boot,kurtmax-kurtboot,pch=1,col=boot.col,cex=0.5)
         } 
         # observed distribution
-        points(skewness(data)^2,kurtmax-kurtosis(data),pch=16,cex=2)
+        points(skewness(data)^2,kurtmax-kurtosis(data),pch=16,cex=2,col=obs.col)
         # norm dist
         points(0,kurtmax-3,pch=8,cex=1.5,lwd=2)
         if (!discrete) {
