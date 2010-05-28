@@ -65,7 +65,8 @@ gofstat(f, chisqbreaks, meancount, print.test = FALSE)
     Anderson-Darling and Kolmogorov statistics for continuous distributions and
     Chi-squared statistics for discrete ones ( \code{"binom"}, 
     \code{"nbinom"}, \code{"geom"}, \code{"hyper"} and \code{"pois"} ). Results of the tests are printed
-    only if \code{print.test=TRUE}.
+    only if \code{print.test=TRUE}. Even not printed, all the available results may be found in the list 
+    returned by the function. 
     
 }
 

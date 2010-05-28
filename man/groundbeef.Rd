@@ -1,0 +1,35 @@
+\name{groundbeef}
+\alias{groundbeef}
+\docType{data}
+%- Also NEED an '\alias' for EACH other topic documented here.
+
+\title{ Ground beef serving size data sets }
+
+\description{
+Serving sizes collected in a French survey, for ground beef patties consumed by children under 5 years old. 
+}
+
+\usage{
+data(groundbeef)
+}
+%- maybe also 'usage' for other objects documented here.
+
+\format{ 
+\code{groundbeef} is a data frame with 1 column (serving: serving sizes in grams)
+}
+
+\source{ 
+Delignette-Muller, M.L., Cornu, M. 2008. Quantitative risk assessment for Escherichia coli O157:H7 in 
+frozen ground beef patties consumed by young children in French households. \emph{International Journal 
+of Food Microbiology}, \bold{128}, 158-164.
+ }
+
+%\references{  }
+
+\examples{
+data(groundbeef)
+descdist(groundbeef$serving)
+plotdist(groundbeef$serving)
+}
+
+\keyword{ datasets }% at least one, from doc/KEYWORDS

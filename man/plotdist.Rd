@@ -36,7 +36,10 @@ plotdist(data,distr,para,breaks="default",discrete=FALSE,...)
     in density and in cdf. For continuous distributions, the function \code{\link{hist}} is used with its default
     breaks definition if \code{breaks} is \code{"default"} or passing \code{breaks} as an argument if it differs
     from \code{"default"}. For continuous distribution and when a theoretical distribution is specified
-    by both arguments \code{distname} and \code{para}, Q-Q plot and P-P plot are also plotted (Cullen and Fray, 1999).
+    by both arguments \code{distname} and \code{para}, Q-Q plot
+    (plot of the quantiles of the theoretical fitted distribution (x-axis) against the empirical quantiles of the data)
+    and P-P plot (i.e. for each value of the data set, plot of the cumulative density function of the fitted distribution
+    (x-axis) against the empirical cumulative density function (y-axis)) are also given (Cullen and Frey, 1999).
     The function \code{\link{ppoints}} is used for the Q-Q plot, to generate the set of probabilities at 
     which to evaluate the inverse distribution.
 }
@@ -70,6 +73,9 @@ plotdist(x2,"pois",para=list(lambda=mean(x2)),col="red",lwd="2")
 xn<-rnorm(n=100,mean=10,sd=5)
 plotdist(xn,"norm",para=list(mean=mean(xn),sd=sd(xn)))
 plotdist(xn,"norm",para=list(mean=mean(xn),sd=sd(xn)),pch=16,col="green")
+
+data(groundbeef)
+plotdist(groundbeef$serving)
 }
 
 \keyword{ distribution }% at least one, from doc/KEYWORDS

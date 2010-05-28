@@ -174,14 +174,14 @@ gofstat <- function (f, chisqbreaks, meancount, print.test = FALSE)
                 cat("Degree of freedom of the Chi-squared distribution: ",chisqdf,"\n")
                 if (chisqdf<=0) 
                 {
-                    cat("!!! The degree of freedom of the chi-squared distribution is less than 1 !!! \n") 
-                    cat("The number of cells is insufficient to calculate the p-value.  \n") 
+                    cat("  The degree of freedom of the chi-squared distribution is less than 1  \n") 
+                    cat("  The number of cells is insufficient to calculate the p-value.  \n") 
                 }
                 else
                 { 
                     cat("Chi-squared p-value: ",chisqpvalue,"\n")
                     if (any(chisqtable[,2]<5)) 
-                    cat("!!! the p-value may be wrong with some theoretical counts < 5 !!! \n")
+                    cat("   the p-value may be wrong with some theoretical counts < 5  \n")
                 }
             }
         }
@@ -195,8 +195,8 @@ gofstat <- function (f, chisqbreaks, meancount, print.test = FALSE)
             if (!is.null(kstest)) 
             {
                 cat("Kolmogorov-Smirnov test: ",kstest,"\n")
-                cat("!!! The result of this test may be too conservative as it  \n")
-                cat("     assumes that the distribution parameters are known !!! \n")
+                cat("   The result of this test may be too conservative as it  \n")
+                cat("   assumes that the distribution parameters are known\n")
             }
             else
                 cat("Kolmogorov-Smirnov test: not calculated \n")

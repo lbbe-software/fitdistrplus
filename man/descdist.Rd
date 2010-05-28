@@ -29,20 +29,27 @@ descdist(data,discrete=FALSE,boot=NULL,method="unbiased",graph=TRUE,obs.col="red
     Minimum, maximum, median, mean, sample sd, and sample (if \code{method=="sample"}) or by default 
     unbiased estimations of skewness and 
     Pearsons's kurtosis values (Fisher, 1930) are printed. Be careful, estimations of skewness and kurtosis
-    are unbiased only for normal distributions and estimated values are then only indicative.
+    are unbiased only for normal distributions and estimated values are thus only indicative.
     A skewness-kurtosis plot such as the one proposed by Cullen and Frey (1999) is given for the 
     empirical distribution. On this plot, values for common distributions are also displayed as a tools 
-    to help the choice of distributions to fit to data. In order to take into account the uncertainty 
-    of the estimated values of kurtosis and skewness, the data set may be boostraped by 
+    to help the choice of distributions to fit to data. For some distributions (normal, uniform,
+    logistic, exponential for example), there is only one possible value for the skewness and the kurtosis
+    (for a normal distribution for example, skewness = 0 and kurtosis = 3), and the distribution 
+    is thus represented by a point on the plot. For other distributions, 
+    areas of possible values are represented, consisting in lines (gamma and lognormal distributions for example), 
+    or larger areas (beta distribution for example). The Weibull distribution is not represented on the graph but it 
+    is indicated on the legend that
+    shapes close to lognormal and gamma distributions may be obtained with this distribution.
+    
+    In order to take into account the uncertainty 
+    of the estimated values of kurtosis and skewness from data, the data set may be boostraped by 
     fixing the argument \code{boot} to an integer above 10. \code{boot} values of skewness and kurtosis 
     corresponding to the \code{boot} bootstrap samples are then computed and reported in blue color on the 
     skewness-kurtosis plot.
     
     If \code{discrete} is \code{TRUE}, 
     the represented distributions are the Poisson, negative binomial and normal distributions. 
-    If \code{discrete} is \code{FALSE}, these are uniform, normal, lognormal, beta and gamma distributions.
-    The Weibull distribution is not represented on the graph but it is indicated on the legend that
-    shapes close to lognormal and gamma distributions may be obtained with this distribution.
+    If \code{discrete} is \code{FALSE}, these are uniform, normal, logistic, lognormal, beta and gamma distributions.
 }
 
 \value{ 
@@ -83,6 +90,10 @@ descdist(rbeta(100,shape1=0.05,shape2=1),boot=1000)
 descdist(rgamma(100,shape=2,rate=1),boot=1000)
 
 descdist(rpois(100,lambda=2),discrete=TRUE,boot=1000)
+
+data(groundbeef)
+serving <- groundbeef$serving
+descdist(serving, boot=1000)
 }
 
 \keyword{ distribution }% at least one, from doc/KEYWORDS
