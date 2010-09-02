@@ -11,6 +11,8 @@ changed to take into account these optional arguments if they are defined in the
 - an argument added to fitdist, fitdistcens and mledist, named fix.arg, and giving the possibility to fix some
 of the distribution parameters while maximizing the likelihood. Functions bootdist, bootdistcens and gofstat were also
 changed in order to take this new argument into account.
+- a new data file of bacterial contamination censored data extracted from Busschaert et al. 2000 and examples 
+corresponding to analysis of this dataset. 
 
 BUG FIXES
 
