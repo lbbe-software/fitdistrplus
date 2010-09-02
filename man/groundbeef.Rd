@@ -3,7 +3,7 @@
 \docType{data}
 %- Also NEED an '\alias' for EACH other topic documented here.
 
-\title{ Ground beef serving size data sets }
+\title{ Ground beef serving size data set }
 
 \description{
 Serving sizes collected in a French survey, for ground beef patties consumed by children under 5 years old. 
@@ -27,9 +27,23 @@ of Food Microbiology}, \bold{128}, 158-164.
 %\references{  }
 
 \examples{
+# (1) load of data
+#
 data(groundbeef)
-descdist(groundbeef$serving)
-plotdist(groundbeef$serving)
+
+# (2) description and plot of data
+#
+serving <- groundbeef$serving
+descdist(serving)
+plotdist(serving)
+
+# (3) fit of a Weibull distribution to data
+#
+fitW <- fitdist(serving,"weibull")
+summary(fitW)
+plot(fitW)
+gofstat(fitW)
+
 }
 
 \keyword{ datasets }% at least one, from doc/KEYWORDS

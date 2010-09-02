@@ -1,6 +1,22 @@
 === fitdistrplus : Help to fit of a parametric distribution ===
 
 
+Version 0.1-4
+=============
+
+NEW FEATURES
+- a component named dots added to the list returned by fitdist and fitdistcens in order to pass optional arguments
+for the control of optimization in mledist to bootdist and bootdistcens. bootdist and bootdistcens
+changed to take into account these optional arguments if they are defined in the call to fitdist or fitdistcens.
+- an argument added to fitdist, fitdistcens and mledist, named fix.arg, and giving the possibility to fix some
+of the distribution parameters while maximizing the likelihood. Functions bootdist, bootdistcens and gofstat were also
+changed in order to take this new argument into account.
+
+BUG FIXES
+
+- correction of a bug in the print and the plot of boostraped samples using bootdist or bootdistcens
+when there was only one parameter estimated by maximum likelihood.
+
 Version 0.1-3
 =============
 

@@ -13,7 +13,7 @@
 }
 
 \usage{
-fitdist(data, distr, method=c("mle", "mme"), start,...)
+fitdist(data, distr, method=c("mle", "mme"), start=NULL, fix.arg=NULL,...)
 \method{print}{fitdist}(x,...)
 \method{plot}{fitdist}(x,breaks="default",...)
 \method{summary}{fitdist}(object,...)
@@ -27,10 +27,13 @@ fitdist(data, distr, method=c("mle", "mme"), start,...)
     corresponding quantile function \code{qname} must be defined, or directly the density function.}
 \item{method}{ A character string coding for the fitting method: 
     \code{"mle"} for 'maximum likelihood estimation and \code{"mme"} for 'matching moment estimation'.}
-\item{start}{ A named list giving the initial values of parameters of the named distribution. 
+\item{start}{ An named list giving the initial values of parameters of the named distribution. 
     This argument will not be taken into account if \code{method="mme"},
     and may be omitted for some distributions for which reasonable 
     starting values are computed if \code{method="mle"} (see details).  }
+\item{fix.arg}{ An optional named list giving the values of parameters of the named distribution
+    that must kept fixed rather than estimated by maximum likelihood. 
+    The use of this argument is not possible if \code{method="mme"}. }
 \item{x}{ an object of class 'fitdist'.  }
 \item{object}{ an object of class 'fitdist'.  }
 \item{breaks}{ If \code{"default"} the histogram is plotted with the function \code{hist} 
@@ -88,6 +91,10 @@ fitdist(data, distr, method=c("mle", "mme"), start,...)
    \item{ n }{ the length of the data set }
     \item{ data }{ the dataset }
     \item{ distname }{ the name of the distribution }
+    \item{ fix.arg }{ the named list giving the values of parameters of the named distribution
+    that must kept fixed rather than estimated by maximum likelihood or NULL if there are no such parameters. }
+    \item{ dots }{ the list of  further arguments passed in \dots to be used in \code{bootdist} to
+    control the optimization method used in iterative calls to \code{mledist} or NULL if no such arguments}
 }
 
 \seealso{ 
@@ -123,6 +130,7 @@ f1 <- fitdist(x1,"norm")
 print(f1)
 plot(f1)
 summary(f1)
+gofstat(f1)
 
 # (2) use the moment matching estimation
 #
@@ -154,6 +162,7 @@ x2<-c(rep(4,1),rep(2,3),rep(1,7),rep(0,12))
 f2<-fitdist(x2,"pois")
 plot(f2)
 summary(f2)
+gofstat(f2)
 
 # (6) how to change the optimisation method?
 #
@@ -220,6 +229,19 @@ summary(res2)
     summary(fit2)
 }
 
+# (9) estimation of the standard deviation of a normal distribution 
+# by maximum likelihood with the mean fixed at 10 using the argument fix.arg
+#
+fitdist(x1,"norm",start=list(sd=5),fix.arg=list(mean=10))
+
+# (10) fit of a Weibull distribution to serving size data
+#
+data(groundbeef)
+serving <- groundbeef$serving
+fW <- fitdist(serving,"weibull")
+summary(fW)
+plot(fW)
+gofstat(fW)
 
 }
 \keyword{ distribution }

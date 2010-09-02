@@ -34,6 +34,7 @@ gofstat <- function (f, chisqbreaks, meancount, print.test = FALSE)
     distname <- f$distname
     pdistname <- paste("p", distname,sep="")
     estimate <- f$estimate
+    fix.arg <- f$fix.arg
 
     # Goodness of fit statistics
     if (is.element(distname,c("binom","nbinom","geom","hyper","pois"))) 
@@ -71,7 +72,7 @@ gofstat <- function (f, chisqbreaks, meancount, print.test = FALSE)
         if(!is.numeric(chisqbreaks))
             stop("chisqbreaks must be a numeric vector defining the cell boundaries")
         nbreaks <- length(chisqbreaks)  
-        pbreaks <- do.call(pdistname,c(list(q=chisqbreaks),as.list(estimate)))
+        pbreaks <- do.call(pdistname,c(list(q=chisqbreaks),as.list(estimate),fix.arg))
         Fobsbreaks <- ecdf(data)(chisqbreaks)
         Fobsunder <- c(0,Fobsbreaks[1:nbreaks-1]) 
         punder <- c(0,pbreaks[1:nbreaks-1])
@@ -103,7 +104,7 @@ gofstat <- function (f, chisqbreaks, meancount, print.test = FALSE)
         s <- sort(data)
         obspu <- seq(1,n)/n
         obspl <- seq(0,n-1)/n
-        theop <- do.call(pdistname,c(list(q=s),as.list(estimate)))
+        theop <- do.call(pdistname,c(list(q=s),as.list(estimate),fix.arg))
         ks <- max(pmax(abs(theop-obspu),abs(theop-obspl)))
         Dmod <- ks*(sqrt(n)+0.12+0.11/sqrt(n))
         if (n>=30)
@@ -113,11 +114,13 @@ gofstat <- function (f, chisqbreaks, meancount, print.test = FALSE)
         
         # Anderson-Darling statistic
         ad <-  -n-sum((2*(1:n)-1)*log(theop) + (2*n+1-2*(1:n))*log(1-theop))/n 
-        if ((distname == "norm" | distname == "lnorm") & n>=5) {
+        if (is.null(fix.arg))
+        {
+          if ((distname == "norm" | distname == "lnorm") & n>=5) {
             a2mod <- ad*(1+0.75/n+2.25/n^2)
             adtest <- ifelse(a2mod>0.752,"rejected","not rejected")
-        } 
-        else
+          } 
+          else
             if (distname == "exp" & n>=5) {
                 a2mod <- ad*(1+0.6/n)
                 adtest <- ifelse(a2mod>1.321,"rejected","not rejected")
@@ -148,7 +151,9 @@ gofstat <- function (f, chisqbreaks, meancount, print.test = FALSE)
                                 adtest <- ifelse(ad>interp(n),"rejected","not rejected")
                             }
                             else adtest <- NULL
-        
+        }  # if (is.null(fix.arg))
+        else 
+            adtest <- NULL
         if (length(table(data))!=length(data))
         warnings("Kolmogorov-Smirnov and Anderson-Darling statistics may not be correct with ties")
     }

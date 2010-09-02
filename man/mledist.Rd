@@ -9,7 +9,7 @@
 }
 
 \usage{
-mledist(data, distr, start, optim.method="default", lower=-Inf, upper=Inf, custom.optim=NULL, ...)
+mledist(data, distr, start=NULL, fix.arg=NULL, optim.method="default", lower=-Inf, upper=Inf, custom.optim=NULL, ...)
 }
 
 \arguments{
@@ -29,6 +29,8 @@ mledist(data, distr, start, optim.method="default", lower=-Inf, upper=Inf, custo
 \item{start}{ A named list giving the initial values of parameters of the named distribution. 
     This argument may be omitted for some distributions for which reasonable 
     starting values are computed (see details).  }
+\item{fix.arg}{ An optional named list giving the values of parameters of the named distribution
+    that must kept fixed rather than estimated by maximum likelihood. }
 \item{optim.method}{ \code{"default"} (see details) or optimization method to pass to \code{\link{optim}}.  }
 \item{lower}{ Left bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
 \item{upper}{ Right bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }

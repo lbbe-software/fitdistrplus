@@ -143,6 +143,12 @@ f4<-fitdist(x4,"weibull")
 g4 <-gofstat(f4,meancount=10)
 print(g4)
 
+# (5) estimation of the standard deviation of a normal distribution 
+# by maximum likelihood with the mean fixed at 10 using the argument fix.arg
+#
+f1b <- fitdist(x1,"norm",start=list(sd=5),fix.arg=list(mean=10))
+gofstat(f1b)
+
 
 }
 \keyword{ distribution }

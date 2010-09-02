@@ -12,7 +12,7 @@
 }
 
 \usage{
-fitdistcens(censdata, distr, start,...)
+fitdistcens(censdata, distr, start=NULL, fix.arg=NULL,...)
 \method{print}{fitdistcens}(x,...)
 \method{plot}{fitdistcens}(x,...)
 \method{summary}{fitdistcens}(object,...)
@@ -34,6 +34,9 @@ fitdistcens(censdata, distr, start,...)
 \item{start}{ A named list giving the initial values of parameters of the named distribution. 
     This argument may be omitted for some distributions for which reasonable 
     starting values are computed (see details).  }
+\item{fix.arg}{ An optional named list giving the values of parameters of the named distribution
+    that must kept fixed rather than estimated by maximum likelihood. 
+    The use of this argument is not possible if \code{method="mme"}. }
 \item{x}{ an object of class 'fitdistcens'.  }
 \item{object}{ an object of class 'fitdistcens'.  }
 \item{...}{ further arguments to be passed to generic functions, or to the function \code{"mledist"} 
@@ -71,6 +74,8 @@ fitdistcens(censdata, distr, start,...)
     \item{ bic }{ the the so-called BIC or SBC (Schwarz Bayesian criterion)}
     \item{ censdata }{ the censored dataset }
     \item{ distname }{ the name of the distribution }
+    \item{ dots }{ the list of  further arguments passed in \dots to be used in \code{bootdistcens} to
+    control the optimization method used in iterative calls to \code{mledist} or NULL if no such arguments}
 }
 
 
@@ -157,6 +162,18 @@ fitdistcens(d3,"gamma",optim.method="L-BFGS-B",lower=c(0,0))
 
     summary(fit.with.genoud)
 }
+
+# (6) estimation of the standard deviation of a normal distribution 
+# by maximum likelihood with the mean fixed at 0.1 using the argument fix.arg
+#
+fitdistcens(d1, "norm", start=list(sd=1.5),fix.arg=list(mean=0.1))
+
+# (7) Fit of a lognormal distribution to bacterial contamination data
+#
+data(smokedfish)
+fitsf <- fitdistcens(smokedfish,"norm")
+summary(fitsf)
+plot(fitsf)
 
 }
 

@@ -22,7 +22,7 @@
 ###         R functions
 ### 
 
-fitdist <- function (data, distr, method=c("mle", "mme"), start, ...) 
+fitdist <- function (data, distr, method=c("mle", "mme"), start=NULL, fix.arg=NULL,...) 
 {
     if (!is.character(distr)) 
         distname <- substring(as.character(match.call()$distr),2)
@@ -40,10 +40,13 @@ fitdist <- function (data, distr, method=c("mle", "mme"), start, ...)
         warning("the name \"mom\" for matching moments is NO MORE used and is replaced by \"mme\".")
     
     method <- match.arg(method)
-
+    dots <- list(...)
+    if (length(dots)==0) dots=NULL
     
-    if (!missing(start) & method=="mme")
+    if (!is.null(start) & method=="mme")
         warnings("Starting values for parameters will not be used with matching moments")  
+    if (!is.null(fix.arg) & method=="mme")
+        stop("Matching moments cannot be used when some distribution parameters are fixed")  
     if (!(is.vector(data) & is.numeric(data) & length(data)>1))
         stop("data must be a numeric vector of length greater than 1")
     n <- length(data)
@@ -59,10 +62,7 @@ fitdist <- function (data, distr, method=c("mle", "mme"), start, ...)
     }
     else
     {
-        if (missing(start))
-            mle <- mledist(data, distname, ...) 
-        else 
-            mle <- mledist(data, distname, start, ...)
+        mle <- mledist(data, distname, start, fix.arg, ...)
         if (mle$convergence>0) 
            stop("the function mle failed to estimate the parameters, 
                 with the error code ",mle$convergence, "\n") 
@@ -90,7 +90,7 @@ fitdist <- function (data, distr, method=c("mle", "mme"), start, ...)
     
     return(structure(list(estimate = estimate, method = method, sd = sd, 
     cor = correl, loglik = loglik, aic=aic, bic=bic,
-    n = n, data=data, distname=distname), class = "fitdist"))
+    n = n, data=data, distname=distname, fix.arg=as.list(fix.arg), dots=dots), class = "fitdist"))
         
 }
 
@@ -113,7 +113,7 @@ plot.fitdist <- function(x, breaks="default", ...){
     if (!inherits(x, "fitdist"))
         stop("Use only with 'fitdist' objects")
     plotdist(data=x$data,distr=x$distname,
-    para=as.list(x$estimate),breaks=breaks,...)
+    para=c(as.list(x$estimate),as.list(x$fix.arg)),breaks=breaks,...)
 }
 
 summary.fitdist <- function(object, ...){

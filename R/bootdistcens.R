@@ -34,11 +34,18 @@ bootdistcens<-function (f, niter=1001)
     rnumrow<-sample(numrow,size=niter*n,replace=TRUE)
     dim(rnumrow)<-c(n,niter)
     start<-f$estimate
-    funcmle<-function(iter) {
-    mle<-mledist(data.frame(left=f$censdata[rnumrow[,iter],]$left,
-            right=f$censdata[rnumrow[,iter],]$right),f$distname,start)
+    if (is.null(f$dots))
+        funcmle<-function(iter) {
+        mle <- do.call(mledist,list(data=data.frame(left=f$censdata[rnumrow[,iter],]$left,
+            right=f$censdata[rnumrow[,iter],]$right),distr=f$distname,start=start))
         return(c(mle$estimate,mle$convergence))
-    }
+        }
+    else
+        funcmle<-function(iter) {
+        mle <- do.call(mledist,c(list(data=data.frame(left=f$censdata[rnumrow[,iter],]$left,
+            right=f$censdata[rnumrow[,iter],]$right),distr=f$distname,start=start),f$dots))
+        return(c(mle$estimate,mle$convergence))
+        }
     resboot<-sapply(1:niter,funcmle)
     rownames(resboot)<-c(names(start),"convergence")
     if (length(resboot[,1])>2) {
@@ -49,7 +56,7 @@ bootdistcens<-function (f, niter=1001)
         colnames(bootCI) <- c("Median","2.5%","97.5%")
     }
     else {
-        estim<-as.data.frame(resboot[,-length(resboot[,1])])
+        estim<-as.data.frame(t(resboot)[,-length(resboot[,1])])
         names(estim)<-names(f$estimate)
         bootCI <- c(median(resboot[-length(resboot[,1]),],na.rm=TRUE),
             quantile(resboot[-length(resboot[,1]),],0.025,na.rm=TRUE),
@@ -81,7 +88,7 @@ print.bootdistcens <- function(x,...){
 plot.bootdistcens <- function(x,...){
     if (!inherits(x, "bootdistcens"))
         stop("Use only with 'bootdistcens' objects")
-    if (dim(x$estim)[1]==1) {
+    if (dim(x$estim)[2]==1) {
         stripchart(x$estim,method="jitter",
         xlab="Boostrapped values of the parameter",...)
     }

@@ -24,7 +24,7 @@
 ### many ideas are taken from the fitdistr function of the MASS package and 
 ### the mle function of the stat package.
 
-mledist <- function (data, distr, start=NULL, optim.method="default",
+mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="default",
     lower=-Inf, upper=Inf, custom.optim=NULL, ...)
     # data may correspond to a vector for non censored data or to
     # a dataframe of two columns named left and right for censored data 
@@ -39,6 +39,9 @@ mledist <- function (data, distr, start=NULL, optim.method="default",
         stop(paste("The ", ddistname, " function must be defined"))
     if (distname == "unif")
         stop("Maximum likelihood estimation is not available for the uniform distribution")
+
+    if (!is.null(fix.arg) & is.null(start))
+        stop("Starting values must be defined when some distribution parameters are fixed")
     
     if (is.vector(data)) {
         cens <- FALSE
@@ -149,55 +152,55 @@ mledist <- function (data, distr, start=NULL, optim.method="default",
    
    ############# MLE fit using optim or custom.optim ##########
     vstart <- unlist(start)
+    vfix.arg <- unlist(fix.arg)
     # check of the names of the arguments of the density function
     argddistname <- names(formals(ddistname))   
-#   print(argddistname)
-#   print(argddistname[1])  
     m <- match(names(start), argddistname)
-#   print(m)
-#   print(c(list(data), vstart, log=TRUE))
-    
+    mfix <- match(names(vfix.arg), argddistname)
     if (any(is.na(m)))
         stop("'start' must specify names which are arguments to 'distr'")
+    if (any(is.na(mfix)))
+        stop("'fix.arg' must specify names which are arguments to 'distr'")
+    # check that some parameters are not both in fix.arg and start
+    minter <- match(names(start), names(fix.arg))
+    if (any(!is.na(minter)))
+        stop("a distribution parameter cannot be specified both in 'start' and 'fix.arg'")
 
     # definition of the function to minimize : - log likelihood
     # for non censored data
     if (!cens) {
         # the argument names are:
         # - par for parameters (like in optim function)
+        # - fix.arg for optional fixed parameters
         # - obs for observations (previously dat but conflicts with genoud data.type.int argument)
         # - ddistnam for distribution name
         if ("log" %in% argddistname){
-            fnobj <- function(par, obs, ddistnam){
-    #           cat("par", unlist(par), "\n") 
-    #           cat("ddistnam", ddistnam, "\n")
-    #           cat("obs", obs, "\n")
-                -sum(do.call(ddistnam, c(list(obs), par, log=TRUE) ) )
+            fnobj <- function(par, fix.arg, obs, ddistnam){
+                -sum(do.call(ddistnam, c(list(obs), as.list(par), as.list(fix.arg), log=TRUE) ) )
             }
         }
         else{
-        fnobj <- function(par, obs, ddistnam) {
-#               cat(unlist(par), "--\n")
-            -sum(log(do.call(ddistnam, c(list(obs), par) ) ) )
+        fnobj <- function(par, fix.arg, obs, ddistnam) {
+            -sum(log(do.call(ddistnam, c(list(obs), as.list(par), as.list(fix.arg)) ) ) )
             }
         }
     }
     else {# if !cens
         argpdistname<-names(formals(pdistname))
         if (("log" %in% argddistname) & ("log.p" %in% argpdistname))
-            fnobjcens <- function(par,rcens,lcens,icens,ncens,ddistnam,pdistnam)
-                -sum(do.call(ddistnam,c(list(x=ncens),as.list(par),list(log=TRUE)))) -
-                sum(do.call(pdistnam,c(list(q=lcens),as.list(par),list(log=TRUE)))) -
-                sum(do.call(pdistnam,c(list(q=rcens),as.list(par),list(lower.tail=FALSE),list(log=TRUE)))) -
-                sum(log(do.call(pdistnam,c(list(q=icens$right),as.list(par))) - # without log=TRUE here
-                do.call(pdistnam,c(list(q=icens$left),as.list(par))) )) # without log=TRUE here
+            fnobjcens <- function(par,fix.arg,rcens,lcens,icens,ncens,ddistnam,pdistnam)
+                -sum(do.call(ddistnam,c(list(x=ncens),as.list(par),as.list(fix.arg),list(log=TRUE)))) -
+                sum(do.call(pdistnam,c(list(q=lcens),as.list(par),as.list(fix.arg),list(log=TRUE)))) -
+                sum(do.call(pdistnam,c(list(q=rcens),as.list(par),as.list(fix.arg),list(lower.tail=FALSE),list(log=TRUE)))) -
+                sum(log(do.call(pdistnam,c(list(q=icens$right),as.list(par),as.list(fix.arg))) - # without log=TRUE here
+                do.call(pdistnam,c(list(q=icens$left),as.list(par),as.list(fix.arg))) )) # without log=TRUE here
         else
-            fnobjcens <- function(par,rcens,lcens,icens,ncens,ddistnam,pdistnam)
-                -sum(log(do.call(ddistnam,c(list(x=ncens),as.list(par))))) -
-                sum(log(do.call(pdistnam,c(list(q=lcens),as.list(par))))) -
-                sum(log(1-do.call(pdistnam,c(list(q=rcens),as.list(par))))) -
-                sum(log(do.call(pdistnam,c(list(q=icens$right),as.list(par))) - 
-                do.call(pdistnam,c(list(q=icens$left),as.list(par))) ))
+            fnobjcens <- function(par,fix.arg, rcens,lcens,icens,ncens,ddistnam,pdistnam)
+                -sum(log(do.call(ddistnam,c(list(x=ncens),as.list(par),as.list(fix.arg))))) -
+                sum(log(do.call(pdistnam,c(list(q=lcens),as.list(par),as.list(fix.arg))))) -
+                sum(log(1-do.call(pdistnam,c(list(q=rcens),as.list(par),as.list(fix.arg))))) -
+                sum(log(do.call(pdistnam,c(list(q=icens$right),as.list(par),as.list(fix.arg))) - 
+                do.call(pdistnam,c(list(q=icens$left),as.list(par),as.list(fix.arg))) ))
     }
     # Choice of the optimization method    
     if (optim.method=="default")
@@ -210,10 +213,10 @@ mledist <- function (data, distr, start=NULL, optim.method="default",
     if(is.null(custom.optim))
     {
         if (!cens)
-            opttryerror <- try(opt <- optim(par=vstart, fn=fnobj, obs=data, ddistnam=ddistname,
+            opttryerror <- try(opt <- optim(par=vstart, fn=fnobj, fix.arg=fix.arg, obs=data, ddistnam=ddistname,
             hessian=TRUE, method=meth, lower=lower, upper=upper, ...), silent=TRUE)        
         else 
-            opttryerror <-try(opt<-optim(par=vstart,fn=fnobjcens,rcens=rcens,lcens=lcens,icens=icens,ncens=ncens,
+            opttryerror <-try(opt<-optim(par=vstart,fn=fnobjcens, fix.arg=fix.arg, rcens=rcens,lcens=lcens,icens=icens,ncens=ncens,
             ddistnam=ddistname,pdistnam=pdistname,hessian=TRUE,
             method=meth,lower=lower,upper=upper,...),silent=TRUE)              
                 
@@ -238,9 +241,9 @@ mledist <- function (data, distr, start=NULL, optim.method="default",
     else # Try to minimize the minus (log-)likelihood using a user-supplied optim function 
     {
         if (!cens)
-            opttryerror <- try(opt <- custom.optim(fn=fnobj, obs=data, ddistnam=ddistname, par=vstart, ...), silent=TRUE)
+            opttryerror <- try(opt <- custom.optim(fn=fnobj, fix.arg=fix.arg, obs=data, ddistnam=ddistname, par=vstart, ...), silent=TRUE)
         else
-            opttryerror <-try(opt<-custom.optim(fn=fnobjcens,rcens=rcens,lcens=lcens,icens=icens,ncens=ncens,
+            opttryerror <-try(opt<-custom.optim(fn=fnobjcens,fix.arg=fix.arg, rcens=rcens,lcens=lcens,icens=icens,ncens=ncens,
             ddistnam=ddistname,pdistnam=pdistname,par=vstart,...),silent=TRUE)              
         
         if (inherits(opttryerror,"try-error"))

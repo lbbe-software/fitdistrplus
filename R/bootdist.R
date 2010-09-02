@@ -35,7 +35,7 @@ bootdist<-function (f, bootmethod="param", niter=1001)
     if (!exists(rdistname,mode="function"))
         stop(paste("The ",rdistname," function must be defined"))
     if (bootmethod=="param") { # parametric bootstrap
-        rdata<-do.call(rdistname,c(list(n=niter*f$n),as.list(f$estimate)))
+        rdata<-do.call(rdistname,c(list(n=niter*f$n),as.list(f$estimate),f$fix.arg))
         dim(rdata)<-c(f$n,niter)
     }
     else { # non parametric bootstrap
@@ -44,10 +44,16 @@ bootdist<-function (f, bootmethod="param", niter=1001)
     }
     if (f$method=="mle") {
         start<-f$estimate
-        funcmle<-function(iter) {
-            mle<-mledist(rdata[,iter],f$distname,start)
-            return(c(mle$estimate,mle$convergence))
-        }
+        if (is.null(f$dots))
+            funcmle<-function(iter) {
+                mle <- do.call(mledist,list(data=rdata[,iter],distr=f$distname,start=start,fix.arg=f$fix.arg))
+                return(c(mle$estimate,mle$convergence))
+            }
+        else
+            funcmle<-function(iter) {
+                mle <- do.call(mledist,c(list(data=rdata[,iter],distr=f$distname,start=start,fix.arg=f$fix.arg),f$dots))
+                return(c(mle$estimate,mle$convergence))
+            }
         resboot<-sapply(1:niter,funcmle)
         rownames(resboot)<-c(names(start),"convergence")
         if (length(resboot[,1])>2) {
@@ -58,7 +64,7 @@ bootdist<-function (f, bootmethod="param", niter=1001)
             colnames(bootCI) <- c("Median","2.5%","97.5%")
         }
         else {
-            estim<-as.data.frame(resboot[,-length(resboot[,1])])
+            estim<-as.data.frame(t(resboot)[,-length(resboot[,1])])
             names(estim)<-names(f$estimate)
             bootCI <- c(median(resboot[-length(resboot[,1]),],na.rm=TRUE),
             quantile(resboot[-length(resboot[,1]),],0.025,na.rm=TRUE),

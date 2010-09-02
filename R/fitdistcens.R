@@ -22,12 +22,16 @@
 ###         R functions
 ### 
 
-fitdistcens<-function (censdata, distr, start,...) 
+fitdistcens<-function (censdata, distr, start=NULL, fix.arg=NULL,...) 
 {
     if (missing(censdata) ||
         !(is.vector(censdata$left) & is.vector(censdata$right) & length(censdata[,1])>1))
         stop("datacens must be a dataframe with two columns named left 
             and right and more than one line")
+    leftsupright <- censdata$left>censdata$right
+    leftsupright <- leftsupright[!is.na(leftsupright)]
+    if (any(leftsupright))
+        stop("each left value must be less or equal to the corresponding right value")
     if (!is.character(distr)) distname<-substring(as.character(match.call()$distr),2)
     else distname<-distr
     ddistname<-paste("d",distname,sep="")
@@ -36,11 +40,13 @@ fitdistcens<-function (censdata, distr, start,...)
     pdistname<-paste("p",distname,sep="")
     if (!exists(pdistname,mode="function"))
         stop(paste("The ",pdistname," function must be defined"))
+        
+    dots <- list(...)
+    if (length(dots)==0) dots=NULL
+    
+        
     # MLE fit with mledist 
-    if (missing(start))
-        mle<-mledist(censdata,distname,...) 
-    else 
-    mle<-mledist(censdata,distname,start,...)
+    mle<-mledist(censdata,distname,start,fix.arg,...)
     if (mle$convergence>0) 
         stop("the function mle failed to estimate the parameters, 
         with the error code ",mle$convergence) 
@@ -55,7 +61,7 @@ fitdistcens<-function (censdata, distr, start,...)
     bic<--2*loglik+log(n)*npar
          
     return(structure(list(estimate = estimate, sd = sd, cor = correl, loglik = loglik,aic=aic,bic=bic, 
-        censdata=censdata, distname=distname), class = "fitdistcens"))
+        censdata=censdata, distname=distname, fix.arg=as.list(fix.arg), dots=dots), class = "fitdistcens"))
         
 }
 
@@ -75,7 +81,7 @@ plot.fitdistcens <- function(x,...){
     if (!inherits(x, "fitdistcens"))
         stop("Use only with 'fitdistcens' objects")
     plotdistcens(censdata=x$censdata,distr=x$distname,
-    para=as.list(x$estimate),...)
+    para=c(as.list(x$estimate),as.list(x$fix.arg)),...)
 }
 
 summary.fitdistcens <- function(object,...){
