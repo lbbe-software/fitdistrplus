@@ -88,9 +88,10 @@ fitdist <- function (data, distr, method=c("mle", "mme"), start=NULL, fix.arg=NU
         bic <- -2*loglik+log(n)*npar
     }     
     
+    if (!is.null(fix.arg)) fix.arg <- as.list(fix.arg)
     return(structure(list(estimate = estimate, method = method, sd = sd, 
     cor = correl, loglik = loglik, aic=aic, bic=bic,
-    n = n, data=data, distname=distname, fix.arg=as.list(fix.arg), dots=dots), class = "fitdist"))
+    n = n, data=data, distname=distname, fix.arg=fix.arg, dots=dots), class = "fitdist"))
         
 }
 
