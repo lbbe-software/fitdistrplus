@@ -1,11 +1,10 @@
 \name{mledist}
 \alias{mledist}
-%- Also NEED an '\alias' for EACH other topic documented here.
-
+\alias{mle}
 \title{ Maximum likelihood fitting of univariate distributions}
 
 \description{
- Fits a univariate distribution by maximum likelihood.  
+ Fit a univariate distribution by maximum likelihood.  
 }
 
 \usage{
@@ -97,7 +96,7 @@ mledist(data, distr, start=NULL, fix.arg=NULL, optim.method="default", lower=-In
 
 
 \seealso{ 
-    \code{\link{mmedist}}, \code{\link{fitdist}},\code{\link{fitdistcens}}, \code{\link{optim}},
+    \code{\link{mmedist}}, \code{\link{qmedist}}, \code{\link{fitdist}},\code{\link{fitdistcens}}, \code{\link{optim}},
     \code{\link{bootdistcens}} and \code{\link{bootdist}}.
 }
 

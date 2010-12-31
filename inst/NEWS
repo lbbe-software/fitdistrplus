@@ -1,5 +1,13 @@
 === fitdistrplus : Help to fit of a parametric distribution ===
 
+Version 0.1-5
+=============
+
+NEW FEATURES
+- a new fitting method has been implemented: the quantile matching estimation. For the moment, only available for non censored data.
+- the moment matching estimation has been extended to non R base
+distributions.
+
 
 Version 0.1-4
 =============

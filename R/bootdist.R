@@ -29,12 +29,16 @@ bootdist<-function (f, bootmethod="param", niter=1001)
         stop("niter must be an integer above 10")
     if (!is.element(bootmethod,c("param","nonparam")))
         stop("bootmethod must be affected to 'param' or 'nonparam'") 
+#on pourrait utiliser la fonction match.arg directement?
+	
     if (!inherits(f, "fitdist"))
         stop("Use only with 'fitdist' objects")
     rdistname<-paste("r",f$distname,sep="")
     if (!exists(rdistname,mode="function"))
         stop(paste("The ",rdistname," function must be defined"))
-    if (bootmethod=="param") { # parametric bootstrap
+	
+	#simulate bootstrap data
+    if (bootmethod == "param") { # parametric bootstrap
         rdata<-do.call(rdistname,c(list(n=niter*f$n),as.list(f$estimate),f$fix.arg))
         dim(rdata)<-c(f$n,niter)
     }
@@ -42,6 +46,8 @@ bootdist<-function (f, bootmethod="param", niter=1001)
         rdata<-sample(f$data,size=niter*f$n,replace=TRUE)
         dim(rdata)<-c(f$n,niter)
     }
+	
+	#compute bootstrap estimates
     if (f$method=="mle") {
         start<-f$estimate
         if (is.null(f$dots))
@@ -74,30 +80,91 @@ bootdist<-function (f, bootmethod="param", niter=1001)
         return(structure(list(estim=estim,
         converg=t(resboot)[,length(resboot[,1])],method=bootmethod, CI=bootCI),
         class="bootdist"))
-    }
-    else { # f$method=="mom"
-        funcmom<-function(iter) {
-            mom<-mmedist(rdata[,iter],f$distname)
-        }
-        resboot<-sapply(1:niter,funcmom)
-        if (is.vector(resboot)) {
-            estim<-as.data.frame(resboot)
-            names(estim)<-names(f$estimate)
-            bootCI <- c(median(resboot,na.rm=TRUE),quantile(resboot,0.025,na.rm=TRUE),
-            quantile(resboot,0.975,na.rm=TRUE))
-            names(bootCI)<-c("Median","2.5%","97.5%") 
-        }           
-         else {
-            estim<-data.frame(t(resboot))
-            bootCI <- cbind(apply(resboot,1,median,na.rm=TRUE),
-                apply(resboot,1,quantile,0.025,na.rm=TRUE),
-            apply(resboot,1,quantile,0.975,na.rm=TRUE))
+    }else if (f$method == "mme")
+	{
+        start<-f$estimate		
+		if (is.null(f$dots))
+		funcmme<-function(iter) {
+			mme <- do.call(mmedist,list(data=rdata[,iter], distr=f$distname, order=f$order,
+										memp=f$memp, start=start, fix.arg=f$fix.arg))
+			return(c(mme$estimate, mme$convergence))
+		}
+		else
+		funcmme<-function(iter) {
+			mme <- do.call(mmedist,c(list(data=rdata[,iter],distr=f$distname, 
+										  start=start, fix.arg=f$fix.arg),f$dots))
+			return(c(mme$estimate, mme$convergence))
+		}
+	
+        resboot<-sapply(1:niter, funcmme)
+		
+		print(head(resboot))
+		
+#ce qui suit est repete, on pourrait le sortir du if-elseif.. ?
+        rownames(resboot)<-c(names(start),"convergence")
+        if (length(resboot[,1])>2) {
+            estim<-data.frame(t(resboot)[,-length(resboot[,1])])
+            bootCI <- cbind(apply(resboot[-length(resboot[,1]),],1,median,na.rm=TRUE),
+							apply(resboot[-length(resboot[,1]),],1,quantile,0.025,na.rm=TRUE),
+							apply(resboot[-length(resboot[,1]),],1,quantile,0.975,na.rm=TRUE))
             colnames(bootCI) <- c("Median","2.5%","97.5%")
-         }
+        }
+        else {
+            estim<-as.data.frame(t(resboot)[,-length(resboot[,1])])
+            names(estim)<-names(f$estimate)
+            bootCI <- c(median(resboot[-length(resboot[,1]),],na.rm=TRUE),
+						quantile(resboot[-length(resboot[,1]),],0.025,na.rm=TRUE),
+						quantile(resboot[-length(resboot[,1]),],0.975,na.rm=TRUE)) 
+            names(bootCI)<-c("Median","2.5%","97.5%") 
+        }       
+		
         return(structure(list(estim=estim, 
         converg=NULL,method=bootmethod,CI=bootCI), 
         class="bootdist"))
-    }
+    }else if (f$method == "qme")
+	{
+        start<-f$estimate
+		
+		if (is.null(f$dots))
+		funcqme<-function(iter) {
+			qme <- do.call(qmedist,list(data=rdata[,iter], distr=f$distname, probs=f$probs,
+										start=start, fix.arg=f$fix.arg))
+			return(c(qme$estimate, qme$convergence))
+		}
+		else
+		funcqme<-function(iter) {
+			qme <- do.call(qmedist,c(list(data=rdata[,iter],distr=f$distname, probs=f$probs,
+										  start=start, fix.arg=f$fix.arg),f$dots))
+			return(c(qme$estimate, qme$convergence))
+		}
+		
+        resboot<-sapply(1:niter, funcqme)
+
+#ce qui suit est repete, on pourrait le sortir du if-elseif.. ?
+        rownames(resboot)<-c(names(start),"convergence")
+        if (length(resboot[,1])>2) {
+            estim<-data.frame(t(resboot)[,-length(resboot[,1])])
+            bootCI <- cbind(apply(resboot[-length(resboot[,1]),],1,median,na.rm=TRUE),
+							apply(resboot[-length(resboot[,1]),],1,quantile,0.025,na.rm=TRUE),
+							apply(resboot[-length(resboot[,1]),],1,quantile,0.975,na.rm=TRUE))
+            colnames(bootCI) <- c("Median","2.5%","97.5%")
+        }
+        else {
+            estim<-as.data.frame(t(resboot)[,-length(resboot[,1])])
+            names(estim)<-names(f$estimate)
+            bootCI <- c(median(resboot[-length(resboot[,1]),],na.rm=TRUE),
+						quantile(resboot[-length(resboot[,1]),],0.025,na.rm=TRUE),
+						quantile(resboot[-length(resboot[,1]),],0.975,na.rm=TRUE)) 
+            names(bootCI)<-c("Median","2.5%","97.5%") 
+        }       
+		
+        return(structure(list(estim=estim, 
+							  converg=NULL,method=bootmethod,CI=bootCI), 
+						 class="bootdist"))
+	}else
+	{
+		stop("wrong estimation method.")
+	}
 }
 
 print.bootdist <- function(x,...){

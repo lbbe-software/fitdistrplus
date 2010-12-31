@@ -22,45 +22,54 @@
 ###         R functions
 ### 
 
-fitdist <- function (data, distr, method=c("mle", "mme"), start=NULL, fix.arg=NULL,...) 
+fitdist <- function (data, distr, method=c("mle", "mme", "qme"), start=NULL, fix.arg=NULL, probs, ...) 
 {
     if (!is.character(distr)) 
         distname <- substring(as.character(match.call()$distr),2)
     else 
         distname <- distr
     ddistname <- paste("d",distname,sep="")
-    
-    if (!exists(ddistname,mode="function"))
+    if (!exists(ddistname, mode="function"))
         stop(paste("The ",ddistname," function must be defined"))
+	
     pdistname <- paste("p",distname,sep="")
-    if (!exists(pdistname,mode="function"))
+    if (!exists(pdistname, mode="function"))
         stop(paste("The ",pdistname," function must be defined"))
         
     if(any(method == "mom"))
         warning("the name \"mom\" for matching moments is NO MORE used and is replaced by \"mme\".")
     
-    method <- match.arg(method)
+    method <- match.arg(method, c("mle", "mme", "qme"))
     dots <- list(...)
-    if (length(dots)==0) dots=NULL
+    if (length(dots)==0) 
+		dots <- NULL
     
-    if (!is.null(start) & method=="mme")
-        warnings("Starting values for parameters will not be used with matching moments")  
-    if (!is.null(fix.arg) & method=="mme")
-        stop("Matching moments cannot be used when some distribution parameters are fixed")  
+#   if (!is.null(start) & method=="mme")
+#        warnings("Starting values for parameters will not be used with matching moments")  
+#    if (!is.null(fix.arg) & method=="mme")
+#       stop("Matching moments cannot be used when some distribution parameters are fixed")  
     if (!(is.vector(data) & is.numeric(data) & length(data)>1))
         stop("data must be a numeric vector of length greater than 1")
+	if (missing(probs) & method == "qme")
+		stop("missing probs argument for quantile matching estimation")
+		
+	
     n <- length(data)
     # MLE fit with mledist or matching moments fit with mmedist
-    if (method=="mme")
+    if (method == "mme")
     {
-        estimate <- mmedist(data, distname)
+        mme <- mmedist(data, distname, start=start, fix.arg=fix.arg, ...)
+				
         sd <- NULL
-        loglik <- NULL
-        aic <- NULL
-        bic <- NULL
         correl <- NULL
-    }
-    else
+		
+		estimate <- mme$estimate
+        loglik <- mme$loglik
+		npar <- length(estimate)
+        aic <- -2*loglik+2*npar
+        bic <- -2*loglik+log(n)*npar
+		convergence <- mme$convergence
+    }else if (method == "mle")
     {
         mle <- mledist(data, distname, start, fix.arg, ...)
         if (mle$convergence>0) 
@@ -86,13 +95,41 @@ fitdist <- function (data, distr, method=c("mle", "mme"), start=NULL, fix.arg=NU
         npar <- length(estimate)
         aic <- -2*loglik+2*npar
         bic <- -2*loglik+log(n)*npar
-    }     
+		convergence <- mle$convergence		
+    }else if (method == "qme")
+	{
+        qme <- qmedist(data, distname, probs, start, fix.arg, ...)
+
+		estimate <- qme$estimate
+        sd <- NULL
+        loglik <- qme$loglik
+		npar <- length(estimate)
+        aic <- -2*loglik+2*npar
+        bic <- -2*loglik+log(n)*npar
+        correl <- NULL
+		
+		convergence <- qme$convergence		
+	}else
+	{
+		stop("match.arg does not work correctly.")
+	}
     
     if (!is.null(fix.arg)) fix.arg <- as.list(fix.arg)
-    return(structure(list(estimate = estimate, method = method, sd = sd, 
-    cor = correl, loglik = loglik, aic=aic, bic=bic,
-    n = n, data=data, distname=distname, fix.arg=fix.arg, dots=dots), class = "fitdist"))
-        
+	
+	reslist <- list(estimate = estimate, method = method, sd = sd, cor = correl, 
+					loglik = loglik, aic=aic, bic=bic, n = n, data=data, 
+					distname = distname, fix.arg = fix.arg, dots = dots, 
+					convergence = convergence)
+
+	
+	if (method == "qme")
+		reslist <- c(reslist, list(probs=qme$probs))
+	if (method == "mme")
+		reslist <- c(reslist, list(order=mme$order, memp=mme$memp))
+
+	
+    return(structure(reslist, class = "fitdist"))
+
 }
 
 print.fitdist <- function(x, ...){
@@ -100,9 +137,12 @@ print.fitdist <- function(x, ...){
         stop("Use only with 'fitdist' objects")
     if (x$method=="mme") 
         cat("Fitting of the distribution '",x$distname,"' by matching moments \n")
-    else
+    else if (x$method=="mle") 
        cat("Fitting of the distribution '",x$distname,"' by maximum likelihood \n")
-    cat("Parameters:\n")
+    else if (x$method=="qme") 
+		cat("Fitting of the distribution '",x$distname,"' by matching quantiles \n")
+    
+	cat("Parameters:\n")
     if (x$method=="mle") 
         print(cbind.data.frame("estimate" = x$estimate, "Std. Error" = x$sd), ...)
      else 
@@ -122,6 +162,7 @@ summary.fitdist <- function(object, ...){
         stop("Use only with 'fitdist' objects")
     object$ddistname <- paste("d", object$distname,sep="")
     object$pdistname <- paste("p", object$distname,sep="")
+    object$qdistname <- paste("q", object$distname,sep="")
     
     class(object) <- c("summary.fitdist", class(object))    
     object
@@ -136,23 +177,27 @@ print.summary.fitdist <- function(x, ...){
     
     if (x$method=="mme") 
         cat("Fitting of the distribution '",x$distname,"' by matching moments \n")
-    else
+    else if (x$method=="mle") 
        cat("Fitting of the distribution '",x$distname,"' by maximum likelihood \n")
+	else if (x$method=="qme") 
+		cat("Fitting of the distribution '",x$distname,"' by matching quantiles \n")
+    
     cat("Parameters : \n")
+	if (x$method == "mle")
+		print(cbind.data.frame("estimate" = x$estimate, "Std. Error" = x$sd), ...)
+	else
+		print(cbind.data.frame("estimate" = x$estimate), ...)
+
+	cat("Loglikelihood: ",x$loglik,"  ")
+	cat("AIC: ",x$aic,"  ")
+	cat("BIC: ",x$bic,"\n")
     
     if (x$method=="mle") {
-        print(cbind.data.frame("estimate" = x$estimate, "Std. Error" = x$sd), ...)
-        cat("Loglikelihood: ",x$loglik,"  ")
-        cat("AIC: ",x$aic,"  ")
-        cat("BIC: ",x$bic,"\n")
         if (length(x$estimate) > 1) {
             cat("Correlation matrix:\n")
             print(x$cor)
             cat("\n")
         }
-    }
-    else {
-        print(cbind.data.frame("estimate" = x$estimate))
     }
     
     invisible(x)

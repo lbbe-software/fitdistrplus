@@ -4,16 +4,14 @@
 \alias{print.fitdist}
 \alias{summary.fitdist}
 \alias{fitdistrplus}
-%- Also NEED an '\alias' for EACH other topic documented here.
-
 \title{ Fitting of univariate distributions to non-censored data}
 
 \description{
- Fits a univariate distribution to non-censored data by maximum likelihood or matching moments.  
+ Fit a univariate distribution to non-censored data by maximum likelihood or matching moments.  
 }
 
 \usage{
-fitdist(data, distr, method=c("mle", "mme"), start=NULL, fix.arg=NULL,...)
+fitdist(data, distr, method=c("mle", "mme", "qme"), start=NULL, fix.arg=NULL, probs, ...) 
 \method{print}{fitdist}(x,...)
 \method{plot}{fitdist}(x,breaks="default",...)
 \method{summary}{fitdist}(object,...)
@@ -26,7 +24,8 @@ fitdist(data, distr, method=c("mle", "mme"), start=NULL, fix.arg=NULL,...)
     density function \code{dname}, the corresponding distribution function \code{pname} and the 
     corresponding quantile function \code{qname} must be defined, or directly the density function.}
 \item{method}{ A character string coding for the fitting method: 
-    \code{"mle"} for 'maximum likelihood estimation and \code{"mme"} for 'matching moment estimation'.}
+    \code{"mle"} for 'maximum likelihood estimation, \code{"mme"} for 'moment matching estimation'
+	and \code{"qme"} for 'quantile matching estimation'.}
 \item{start}{ An named list giving the initial values of parameters of the named distribution. 
     This argument will not be taken into account if \code{method="mme"},
     and may be omitted for some distributions for which reasonable 
@@ -65,14 +64,22 @@ fitdist(data, distr, method=c("mle", "mme"), start=NULL, fix.arg=NULL,...)
 
     
     When \code{method="mme"},
-    the estimated values of the distribution parameters are provided only for the following
-    distributions : \code{"norm"}, \code{"lnorm"}, \code{"pois"}, \code{"exp"}, \code{"gamma"},
+    the estimated values of the distribution parameters are computed by a closed 
+	formula for the following distributions : \code{"norm"}, \code{"lnorm"}, 
+	\code{"pois"}, \code{"exp"}, \code{"gamma"},
     \code{"nbinom"}, \code{"geom"}, \code{"beta"}, \code{"unif"} and \code{"logis"}.
     For distributions characterized by one parameter (\code{"geom"}, \code{"pois"} and \code{"exp"}), 
-    this parameter is simply 
-    estimated by matching theoretical and observed means, and for distributions characterized by 
+    this parameter is simply estimated by matching theoretical and 
+	observed means, and for distributions characterized by 
     two parameters, these parameters are estimated by matching theoretical and observed means
     and variances (Vose, 2000). 
+	For other distributions, the theoretical and the empirical moments are matched numerically.
+	
+	When \code{method = "qme"},
+	the function carries out a minimization of a statistic distance of the theoretical
+	quantiles against the empirical ones.
+
+	
          
     The plot of an object of class "fitdist" returned by \code{fitdist} uses the function 
     \code{\link{plotdist}}.
@@ -98,7 +105,7 @@ fitdist(data, distr, method=c("mle", "mme"), start=NULL, fix.arg=NULL,...)
 }
 
 \seealso{ 
-    \code{\link{plotdist}}, \code{\link{optim}}, \code{\link{mledist}}, \code{\link{mmedist}} ,
+    \code{\link{plotdist}}, \code{\link{optim}}, \code{\link{mledist}}, \code{\link{mmedist}}, \code{\link{qmedist}},
     \code{\link{gofstat}}
     and \code{\link{fitdistcens}}.
 }
