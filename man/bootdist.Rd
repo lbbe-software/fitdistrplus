@@ -59,7 +59,7 @@ bootdist(f, bootmethod="param", niter=1001)
         
 
 \seealso{ 
-    \code{\link{fitdist}}, \code{\link{mledist}} and \code{\link{mmedist}}.
+    \code{\link{fitdist}}, \code{\link{mledist}}, \code{\link{qmedist}} and \code{\link{mmedist}}.
 }
 
 \references{ 
@@ -68,7 +68,7 @@ Cullen AC and Frey HC (1999) Probabilistic techniques in exposure assessment. Pl
 
 
 \author{ 
-Marie-Laure Delignette-Muller \email{ml.delignette@vet-lyon.fr} 
+Marie-Laure Delignette-Muller \email{ml.delignette@vetagro-sup.fr} 
 }
 
 %\note{  }

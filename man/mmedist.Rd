@@ -1,67 +1,58 @@
 \name{mmedist}
 \alias{mmedist}
 \alias{mme}
-\title{ Fitting of univariate distributions by matching moments}
+\title{ Matching moment fit of univariate distributions}
 
 \description{
- Fit a univariate distribution by matching moments (raw or centered).
+ Fit of univariate distributions by matching moments (raw or centered) for non censored data.
 }
 
 \usage{
 mmedist(data, distr, order, memp, start=NULL, fix.arg=NULL,
-	optim.method="default", lower=-Inf, upper=Inf, custom.optim=NULL, ...) 
+    optim.method="default", lower=-Inf, upper=Inf, custom.optim=NULL, ...) 
 
 }
 \arguments{
-\item{data}{A numeric vector.}
-\item{distr}{A character string \code{"name"} naming a distribution or directly the moment function.}
-\item{order}{A numeric vector for the moment order(s).}
+\item{data}{A numeric vector for non censored data.}
+\item{distr}{A character string \code{"name"} naming a distribution (see 'details').}
+\item{order}{A numeric vector for the moment order(s). The length of this vector must be equal
+to the number of parameters to estimate.}
 \item{memp}{A function implementing empirical moments, raw or centered but has to be consistent with 
-	\code{distr} argument.}
+    \code{distr} argument. This function must have two arguments : as a first one the numeric vector of the data
+    and as a second the order of the moment returned by the function.}
 \item{start}{A named list giving the initial values of parameters of the named distribution. 
     This argument may be omitted for some distributions for which reasonable 
     starting values are computed (see details). }
 \item{fix.arg}{ An optional named list giving the values of parameters of the named distribution
-    that must kept fixed rather than estimated by maximum likelihood. }
-\item{optim.method}{ \code{"default"} (see details) or optimization method to pass to \code{\link{optim}}.  }
+    that must kept fixed rather than estimated. }
+\item{optim.method}{ \code{"default"} or optimization method to pass to \code{\link{optim}}.  }
 \item{lower}{ Left bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
 \item{upper}{ Right bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
-\item{custom.optim}{a function carrying the MLE optimisation (see details).}
-\item{\dots}{further arguments passed to the \code{optim} or \code{custom.optim} function.}	
+\item{custom.optim}{a function carrying the optimization .}
+\item{\dots}{further arguments passed to the \code{optim} or \code{custom.optim} function.} 
 }
 
 \details{ 
-
-The argument \code{distr} is a character or a function.
-
-\describe{
-
-\item{character:}{
-	The argument \code{distr} can be one of the base R distributions: \code{"norm"}, \code{"lnorm"},
+    The argument \code{distr} can be one of the base R distributions: \code{"norm"}, \code{"lnorm"},
     \code{"exp"} and \code{"pois"}, \code{"gamma"}, \code{"logis"},
     \code{"nbinom"} , \code{"geom"}, \code{"beta"} and \code{"unif"}.
-	The argument \code{distr} can also be the distribution name
-	as long as a corresponding \code{mdistr} function exists, e.g. \code{"pareto"} if \code{"mpareto"} exists.
-
-	For distributions characterized by one parameter (\code{"geom"}, \code{"pois"} and \code{"exp"}),
-	this parameter is simply estimated by matching theoretical and observed means, and for distributions 
-	characterized by two parameters, these parameters are estimated by matching theoretical and observed 
-	means and variances (Vose, 2000). 
-}
-\item{function:}{
-	The argument \code{distr} is a function implementing theoretical moments, e.g. \code{mpareto} in 
-	the \code{actuar} package.
-}		
-}
-In the case \code{distr} is one of the base R distributions, no other arguments are
-	required, because the estimate is computed by a closed formula, otherwise other arguments
-	has to be supplied in order to carry out the optimization. See the 'details' section of 
-	\code{\link{mledist}} for details.
+    In that case, no other arguments than \code{data} and \code{distr} are
+    required, because the estimate is computed by a closed formula.
+    For distributions characterized by one parameter (\code{"geom"}, \code{"pois"} and \code{"exp"}),
+    this parameter is simply estimated by matching theoretical and observed means, and for distributions 
+    characterized by two parameters, these parameters are estimated by matching theoretical and observed 
+    means and variances (Vose, 2000).
+    
+    The argument \code{distr} can also be the distribution name
+    as long as a corresponding \code{mdistr} function exists, e.g. \code{"pareto"} if \code{"mpareto"} exists.
+    In that case other arguments
+    have to be supplied in order to carry out the matching numerically, by minimization of the
+    sum of squared differences between observed and theoretical moments. See the 'details' section of 
+    \code{\link{mledist}} for details. 
 
 
-This function is not intended to be called directly but is internally called in
-\code{\link{fitdist}} and \code{\link{bootdist}} when used with the matching moments method. 
-
+    This function is not intended to be called directly but is internally called in
+    \code{\link{fitdist}} and \code{\link{bootdist}} when used with the matching moments method. 
      
 }
 
@@ -83,11 +74,11 @@ This function is not intended to be called directly but is internally called in
     \item{ hessian }{ (if appropriate) a symmetric matrix computed by \code{optim} as an estimate of the Hessian
         at the solution found or computed in the user-supplied optimization function.
         It is used in \code{fitdist} to estimate standard errors. }
-    \item{ optim.function }{ (if appropriate) the name of the optimization function used for maximum likelihood. }
-	\item{ memp }{ (if appropriate) the empirical moment function. }
-    \item{ order }{ the order of the moment(s) matched.}    	
-	\item{ method }{either \code{"closed formula"} or the name of the optimization method.}
-	
+    \item{ optim.function }{ (if appropriate) the name of the optimization function. }
+    \item{ memp }{ (if appropriate) the empirical moment function. }
+    \item{ order }{ the order of the moment(s) matched.}        
+    \item{ method }{either \code{"closed formula"} or the name of the optimization method.}
+    
 }
 
 
@@ -103,13 +94,13 @@ This function is not intended to be called directly but is internally called in
 
 
 \author{ 
-Marie-Laure Delignette-Muller \email{ml.delignette@vet-lyon.fr} and 
+Marie-Laure Delignette-Muller \email{ml.delignette@vetagro-sup.fr} and 
 Christophe Dutang
 }
 
 \examples{
 
-# (1) basic fit of a normal distribution with maximum likelihood estimation
+# (1) basic fit of a normal distribution with moment matching estimation
 #
 
 x1<-c(6.4,13.3,4.1,1.3,14.1,10.6,9.9,9.6,15.3,22.1,13.4,
@@ -124,7 +115,7 @@ mmedist(x2,"pois")
 
 
 
-# (4) fit a finite-support distribution (beta)
+# (3) fit a finite-support distribution (beta)
 #
 
 x3<-c(0.80,0.72,0.88,0.84,0.38,0.64,0.69,0.48,0.73,0.58,0.81,
@@ -132,26 +123,22 @@ x3<-c(0.80,0.72,0.88,0.84,0.38,0.64,0.69,0.48,0.73,0.58,0.81,
 mmedist(x3,"beta")
 
 
-# (5) fit a Pareto distribution
+# (4) fit a Pareto distribution
 #
 
 \dontrun{
-	require(actuar)
-	#simulate a sample
-	x4 <- rpareto(1000, 6, 2)
+    require(actuar)
+    #simulate a sample
+    x4 <- rpareto(1000, 6, 2)
 
-	#empirical raw moment
-	memp <- function(x, order)
-		ifelse(order == 1, mean(x), sum(x^order)/length(x))
+    #empirical raw moment
+    memp <- function(x, order)
+        ifelse(order == 1, mean(x), sum(x^order)/length(x))
 
 
-	#fit
-	mmedist(x4, mpareto, order=c(1, 2), memp="memp", start=c(10, 10), 
-	lower=1, upper=Inf)
-
-	#an equivalent call
-	mmedist(x4, "pareto", order=c(1, 2), memp="memp", start=c(10, 10), 
-	lower=1, upper=Inf)
+    #fit
+    mmedist(x4, "pareto", order=c(1, 2), memp="memp", start=c(10, 10), 
+    lower=1, upper=Inf)
 
 }
 

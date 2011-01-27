@@ -1,14 +1,15 @@
 \name{mledist}
 \alias{mledist}
 \alias{mle}
-\title{ Maximum likelihood fitting of univariate distributions}
+\title{ Maximum likelihood fit of univariate distributions}
 
 \description{
- Fit a univariate distribution by maximum likelihood.  
+ Fit of univariate distributions using maximum likelihood for censored or non censored data.  
 }
 
 \usage{
-mledist(data, distr, start=NULL, fix.arg=NULL, optim.method="default", lower=-Inf, upper=Inf, custom.optim=NULL, ...)
+mledist(data, distr, start=NULL, fix.arg=NULL, optim.method="default", 
+    lower=-Inf, upper=Inf, custom.optim=NULL, ...)
 }
 
 \arguments{
@@ -21,7 +22,7 @@ mledist(data, distr, start=NULL, fix.arg=NULL, optim.method="default", lower=-In
      The \code{right} column contains either \code{NA} for right censored observations,
      the right bound of the interval for interval censored observations,
      or the observed value for non-censored observations. }
-\item{distr}{ A character string \code{"name"} naming a distribution (or directly the density function)
+\item{distr}{ A character string \code{"name"} naming a distribution 
      for which the corresponding 
     density function \code{dname} and the corresponding distribution \code{pname}
     must be classically defined. }
@@ -106,7 +107,7 @@ mledist(data, distr, start=NULL, fix.arg=NULL, optim.method="default", lower=-In
 
 
 \author{ 
-Marie-Laure Delignette-Muller \email{ml.delignette@vet-lyon.fr} and
+Marie-Laure Delignette-Muller \email{ml.delignette@vetagro-sup.fr} and
 Christophe Dutang
 }
 

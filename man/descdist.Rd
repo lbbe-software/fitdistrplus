@@ -76,7 +76,7 @@ Proc. R. Soc. London, Series A 130, 16-28.
 }
 
 \author{ 
-Marie-Laure Delignette-Muller \email{ml.delignette@vet-lyon.fr} 
+Marie-Laure Delignette-Muller \email{ml.delignette@vetagro-sup.fr} 
 }
 
 %\note{  }

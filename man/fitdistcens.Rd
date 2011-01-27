@@ -90,7 +90,7 @@ Venables WN and Ripley BD (2002) Modern applied statistics with S. Springer, New
 
 
 \author{ 
-Marie-Laure Delignette-Muller \email{ml.delignette@vet-lyon.fr} 
+Marie-Laure Delignette-Muller \email{ml.delignette@vetagro-sup.fr} 
 }
 
 %\note{  }

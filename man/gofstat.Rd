@@ -100,7 +100,7 @@ Vose D (2000) Risk analysis, a quantitative guide. John Wiley & Sons Ltd, Chisch
 
 
 \author{ 
-Marie-Laure Delignette-Muller \email{ml.delignette@vet-lyon.fr} and
+Marie-Laure Delignette-Muller \email{ml.delignette@vetagro-sup.fr} and
 Christophe Dutang
 }
 

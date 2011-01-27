@@ -84,25 +84,33 @@ plot.fitdistcens <- function(x,...){
     para=c(as.list(x$estimate),as.list(x$fix.arg)),...)
 }
 
-summary.fitdistcens <- function(object,...){
+summary.fitdistcens <- function(object, ...){
     if (!inherits(object, "fitdistcens"))
         stop("Use only with 'fitdistcens' objects")
-    ddistname<-paste("d",object$distname,sep="")
-    pdistname<-paste("p",object$distname,sep="")
+    object$ddistname <- paste("d", object$distname,sep="")
+    object$pdistname <- paste("p", object$distname,sep="")
     
-    op<-options()
-    options(digits=3)
-    cat("FITTING OF THE DISTRIBUTION '",object$distname,
+    class(object) <- c("summary.fitdistcens", class(object))    
+    object
+}
+
+print.summary.fitdistcens <- function(x,...){
+    if (!inherits(x, "summary.fitdistcens"))
+        stop("Use only with 'fitdistcens' objects")
+    ddistname <- x$ddistname
+    pdistname <- x$pdistname
+    
+    cat("FITTING OF THE DISTRIBUTION '",x$distname,
     "' BY MAXIMUM LIKELIHOOD ON CENSORED DATA \n")
     cat("PARAMETERS\n")
-    print(cbind.data.frame("estimate" = object$estimate, "Std. Error" = object$sd))
-    cat("Loglikelihood: ",object$loglik,"  ")
-    cat("AIC: ",object$aic,"  ")
-    cat("BIC: ",object$bic,"\n")
-    if (length(object$estimate) > 1) {
+    print(cbind.data.frame("estimate" = x$estimate, "Std. Error" = x$sd))
+    cat("Loglikelihood: ",x$loglik,"  ")
+    cat("AIC: ",x$aic,"  ")
+    cat("BIC: ",x$bic,"\n")
+    if (length(x$estimate) > 1) {
         cat("Correlation matrix:\n")
-        print(object$cor)
+        print(x$cor)
         cat("\n")
     }
-    options(op)
+    invisible(x)
 }

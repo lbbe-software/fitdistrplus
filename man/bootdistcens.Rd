@@ -63,7 +63,7 @@ Cullen AC and Frey HC (1999) Probabilistic techniques in exposure assessment. Pl
 
 
 \author{ 
-Marie-Laure Delignette-Muller \email{ml.delignette@vet-lyon.fr} 
+Marie-Laure Delignette-Muller \email{ml.delignette@vetagro-sup.fr} 
 }
 
 %\note{  }

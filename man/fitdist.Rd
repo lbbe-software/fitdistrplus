@@ -4,14 +4,16 @@
 \alias{print.fitdist}
 \alias{summary.fitdist}
 \alias{fitdistrplus}
-\title{ Fitting of univariate distributions to non-censored data}
+\title{ Fit of univariate distributions to non-censored data}
 
 \description{
- Fit a univariate distribution to non-censored data by maximum likelihood or matching moments.  
+ Fit of univariate distributions to non-censored data by maximum likelihood,
+ quantile matching or moment matching.  
 }
 
 \usage{
-fitdist(data, distr, method=c("mle", "mme", "qme"), start=NULL, fix.arg=NULL, probs, ...) 
+fitdist(data, distr, method=c("mle", "mme", "qme"), 
+    start=NULL, fix.arg=NULL,  ...) 
 \method{print}{fitdist}(x,...)
 \method{plot}{fitdist}(x,breaks="default",...)
 \method{summary}{fitdist}(object,...)
@@ -25,7 +27,7 @@ fitdist(data, distr, method=c("mle", "mme", "qme"), start=NULL, fix.arg=NULL, pr
     corresponding quantile function \code{qname} must be defined, or directly the density function.}
 \item{method}{ A character string coding for the fitting method: 
     \code{"mle"} for 'maximum likelihood estimation, \code{"mme"} for 'moment matching estimation'
-	and \code{"qme"} for 'quantile matching estimation'.}
+    and \code{"qme"} for 'quantile matching estimation'.}
 \item{start}{ An named list giving the initial values of parameters of the named distribution. 
     This argument will not be taken into account if \code{method="mme"},
     and may be omitted for some distributions for which reasonable 
@@ -39,8 +41,9 @@ fitdist(data, distr, method=c("mle", "mme", "qme"), start=NULL, fix.arg=NULL, pr
     with its default breaks definition. Else \code{breaks} is passed to the function \code{hist}.
     This argument is not taken into account with discrete distributions: \code{"binom"}, 
     \code{"nbinom"}, \code{"geom"}, \code{"hyper"} and \code{"pois"}. }
-\item{\dots}{ further arguments to be passed to generic functions, or to the function \code{"mledist"} 
-    if 'maximum likelihood' is the chosen method, in order to control the optimization method.}
+\item{\dots}{ further arguments to be passed to generic functions, or to one of the functions
+    \code{"mledist"},  \code{"mmedist"} and \code{"qmedist"} depending of the chosen method
+    (see the help pages of these functions for details).}
 }
 
 \details{
@@ -65,21 +68,24 @@ fitdist(data, distr, method=c("mle", "mme", "qme"), start=NULL, fix.arg=NULL, pr
     
     When \code{method="mme"},
     the estimated values of the distribution parameters are computed by a closed 
-	formula for the following distributions : \code{"norm"}, \code{"lnorm"}, 
-	\code{"pois"}, \code{"exp"}, \code{"gamma"},
+    formula for the following distributions : \code{"norm"}, \code{"lnorm"}, 
+    \code{"pois"}, \code{"exp"}, \code{"gamma"},
     \code{"nbinom"}, \code{"geom"}, \code{"beta"}, \code{"unif"} and \code{"logis"}.
     For distributions characterized by one parameter (\code{"geom"}, \code{"pois"} and \code{"exp"}), 
     this parameter is simply estimated by matching theoretical and 
-	observed means, and for distributions characterized by 
+    observed means, and for distributions characterized by 
     two parameters, these parameters are estimated by matching theoretical and observed means
     and variances (Vose, 2000). 
-	For other distributions, the theoretical and the empirical moments are matched numerically.
-	
-	When \code{method = "qme"},
-	the function carries out a minimization of a statistic distance of the theoretical
-	quantiles against the empirical ones.
+    For other distributions, the theoretical and the empirical moments are matched numerically,
+    by minimization of the
+    sum of squared differences between observed and theoretical moments
+    (see \code{\link{mmedist}} for details).
+    
+    When \code{method = "qme"},
+    the function carries out the quantile matching numerically, by minimization of the
+    sum of squared differences between observed and theoretical quantiles
+    (see \code{\link{qmedist}} for details).
 
-	
          
     The plot of an object of class "fitdist" returned by \code{fitdist} uses the function 
     \code{\link{plotdist}}.
@@ -89,19 +95,21 @@ fitdist(data, distr, method=c("mle", "mme", "qme"), start=NULL, fix.arg=NULL, pr
     \code{fitdist} returns an object of class 'fitdist', a list with following components,
     \item{ estimate }{ the parameter estimates }
     \item{ method }{ the character string coding for the fitting method : 
-        \code{"mle"} for 'maximum likelihood estimation' and \code{"mme"} for 'matching moment estimation' }
-    \item{ sd }{ the estimated standard errors or \code{NULL} if \code{method="mme"} }
-    \item{ cor }{ the estimated correlation matrix or \code{NULL} if \code{method="mme"}}
-    \item{ loglik }{ the log-likelihood or \code{NULL} if \code{method="mme"}}
-     \item{ aic }{ the Akaike information criterion or \code{NULL} if \code{method="mme"}}
-    \item{ bic }{ the the so-called BIC or SBC (Schwarz Bayesian criterion) or \code{NULL} if \code{method="mme"}}
+        \code{"mle"} for 'maximum likelihood estimation', \code{"mme"} for 'matching moment estimation'
+        and \code{"qme"} for 'matching quantile estimation' }
+    \item{ sd }{ the estimated standard errors or \code{NULL} if not available }
+    \item{ cor }{ the estimated correlation matrix or \code{NULL} if not available}
+    \item{ loglik }{ the log-likelihood}
+     \item{ aic }{ the Akaike information criterion}
+    \item{ bic }{ the the so-called BIC or SBC (Schwarz Bayesian criterion)}
    \item{ n }{ the length of the data set }
     \item{ data }{ the dataset }
     \item{ distname }{ the name of the distribution }
     \item{ fix.arg }{ the named list giving the values of parameters of the named distribution
     that must kept fixed rather than estimated by maximum likelihood or NULL if there are no such parameters. }
     \item{ dots }{ the list of  further arguments passed in \dots to be used in \code{bootdist} to
-    control the optimization method used in iterative calls to \code{mledist} or NULL if no such arguments}
+    control the optimization method used in iterative calls to \code{mledist},
+    \code{mmedist} or \code{qmedist}, or NULL if no such arguments}
 }
 
 \seealso{ 
@@ -120,7 +128,7 @@ Vose D (2000) Risk analysis, a quantitative guide. John Wiley & Sons Ltd, Chisch
 
 
 \author{ 
-Marie-Laure Delignette-Muller \email{ml.delignette@vet-lyon.fr} and
+Marie-Laure Delignette-Muller \email{ml.delignette@vetagro-sup.fr} and
 Christophe Dutang
 }
 
@@ -139,13 +147,13 @@ plot(f1)
 summary(f1)
 gofstat(f1)
 
-# (2) use the moment matching estimation
+# (2) use the moment matching estimation (using a closed formula)
 #
 
 f1b <- fitdist(x1,"norm",method="mme")
 summary(f1b)
 
-# (3) MME for log normal distribution
+# (3) moment matching estimation (using a closed formula) for log normal distribution
 #
 
 f1c <- fitdist(x1,"lnorm",method="mme")
@@ -179,7 +187,7 @@ fitdist(x1,"gamma",optim.method="BFGS")
 fitdist(x1,"gamma",optim.method="L-BFGS-B",lower=c(0,0))
 fitdist(x1,"gamma",optim.method="SANN")
 
-# (7) custom optimisation function
+# (7) custom optimization function
 #
 
 #create the sample
@@ -249,6 +257,32 @@ fW <- fitdist(serving,"weibull")
 summary(fW)
 plot(fW)
 gofstat(fW)
+
+# (11) Fit of a Pareto distribution by numerical moment matching estimation
+#
+\dontrun{
+    require(actuar)
+    #simulate a sample
+    x4 <- rpareto(1000, 6, 2)
+
+    #empirical raw moment
+    memp <- function(x, order)
+        ifelse(order == 1, mean(x), sum(x^order)/length(x))
+
+
+    #fit
+    fP <- fitdist(x4, "pareto", method="mme",order=c(1, 2), memp="memp", 
+    start=c(10, 10), lower=1, upper=Inf)
+    summary(fP)
+
+}
+
+# (12) Fit of a normal distribution by quantile matching estimation
+#
+
+f1qme <- fitdist(x1, "norm", method="qme",probs=c(1/3, 2/3))
+summary(f1qme)
+
 
 }
 \keyword{ distribution }

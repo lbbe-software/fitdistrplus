@@ -1,5 +1,5 @@
 #############################################################################
-#   Copyright (c) 2010 Christophe Dutang
+#   Copyright (c) 2010 Christophe Dutang and Marie Laure Delignette-Muller
 #                                                                                                                                                                        
 #   This program is free software; you can redistribute it and/or modify                                               
 #   it under the terms of the GNU General Public License as published by                                         
@@ -23,31 +23,34 @@
 ### 
 
 qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL, 
-	qtype=7, distance=c("CvM","AD","KS"),
-	optim.method="default", lower=-Inf, upper=Inf, custom.optim=NULL, ...)
+    qtype=7, 
+    optim.method="default", lower=-Inf, upper=Inf, custom.optim=NULL, ...)
     # data may correspond to a vector for non censored data or to
     # a dataframe of two columns named left and right for censored data 
 {
     if (!is.character(distr)) 
-        distname <- substring(as.character(match.call()$distr), 2)
+        # distname <- substring(as.character(match.call()$distr), 2)
+        stop("distr must be a character string naming a distribution")
     else 
         distname <- distr
     qdistname <- paste("q",distname,sep="")
-	ddistname <- paste("d",distname,sep="")
+    ddistname <- paste("d",distname,sep="")
     
     if (!exists(qdistname, mode="function"))
         stop(paste("The ", qdistname, " function must be defined."))
     if (!exists(ddistname, mode="function"))
-		stop(paste("The ", ddistname, " function must be defined."))
+        stop(paste("The ", ddistname, " function must be defined."))
+
+    if (missing(probs))
+        stop("missing probs argument for quantile matching estimation")
 
     if (!is.null(fix.arg) & is.null(start))
-        stop("Starting values must be defined when some distribution parameters are fixed.")	
-	
-	distance <- match.arg(distance, c("CvM","AD","KS"))
-	if(qtype < 1 || qtype > 9)
-		stop("wrong type for the R quantile function.")
+        stop("Starting values must be defined when some distribution parameters are fixed.")    
+    
+    if(qtype < 1 || qtype > 9)
+        stop("wrong type for the R quantile function.")
 
-	
+    
     if (is.vector(data)) {
         cens <- FALSE
         if (!(is.numeric(data) & length(data)>1)) 
@@ -156,8 +159,8 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
    } # end of the definition of starting values 
 
     if(length(start) != length(probs))
-		stop("wrong dimension for the quantiles to match.")
-	
+        stop("wrong dimension for the quantiles to match.")
+    
    ############# QME fit using optim or custom.optim ##########
     vstart <- unlist(start)
     vfix.arg <- unlist(fix.arg)
@@ -174,7 +177,7 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
     if (any(!is.na(minter)))
         stop("a distribution parameter cannot be specified both in 'start' and 'fix.arg'")
 
-    # definition of the function to minimize : statistic distance
+    # definition of the function to minimize : 
     # for non censored data
     if (!cens) {
         # the argument names are:
@@ -182,54 +185,39 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
         # - fix.arg for optional fixed parameters
         # - obs for observations (previously dat but conflicts with genoud data.type.int argument)
         # - qdistnam for distribution name
-		
-		#Cramer - von Mises
-		dCvM <- function(par, fix.arg, prob, obs, qdistnam, qtype)
-		{
-			qtheo <- do.call(qdistnam, c(as.list(prob), as.list(par), as.list(fix.arg)) )
-			qemp <- as.numeric(quantile(obs, probs=prob, type=qtype))
-			(qemp - qtheo)^2
-		}
-		#Anderson - Darling
-		dAD<- function(par, fix.arg, prob, obs, qdistnam, qtype)
-		{
-			qtheo <- do.call(qdistnam, c(as.list(prob), as.list(par), as.list(fix.arg)) )
-			qemp <- as.numeric(quantile(obs, probs=prob, type=qtype))
-			(qemp - qtheo)^2 / qtheo / (1 - qtheo)
-		}
-		
-		if(distance == "CvM") #Cramer - von Mises
-			fnobj <- function(par, fix.arg, obs, qdistnam, qtype)
-				sum( sapply(probs, function(p) dCvM(par, fix.arg, p, obs, qdistnam, qtype)) )
-		if(distance == "AD") # Anderson - Darling
-			fnobj <- function(par, fix.arg, obs, qdistnam, qtype)
-				sum( sapply(probs, function(p) dAD(par, fix.arg, p, obs, qdistnam, qtype)) )
-		if(distance == "KS") # Kolmogorov - Smirnov
-			fnobj <- function(par, fix.arg, obs, qdistnam, qtype)
-				max( sapply(probs, function(p) dCvM(par, fix.arg, p, obs, qdistnam, qtype)) )
-		
+        
+        DIFF2Q <- function(par, fix.arg, prob, obs, qdistnam, qtype)
+        {
+            qtheo <- do.call(qdistnam, c(as.list(prob), as.list(par), as.list(fix.arg)) )
+            qemp <- as.numeric(quantile(obs, probs=prob, type=qtype))
+            (qemp - qtheo)^2
+        }
+        
+        fnobj <- function(par, fix.arg, obs, qdistnam, qtype)
+            sum( sapply(probs, function(p) DIFF2Q(par, fix.arg, p, obs, qdistnam, qtype)) )
+        
         
     }
     else {
-		stop("censored quantile matching estimation not yet available.")
+        stop("Quantile matching estimation is not yet available for censored data.")
     }
-	
-	loglik <- function(par, fix.arg, obs, ddistnam) {
-		sum(log(do.call(ddistnam, c(list(obs), as.list(par), as.list(fix.arg)) ) ) )
-	}
-	
-	
+    
+    loglik <- function(par, fix.arg, obs, ddistnam) {
+        sum(log(do.call(ddistnam, c(list(obs), as.list(par), as.list(fix.arg)) ) ) )
+    }
+    
+    
     # Choice of the optimization method    
     if (optim.method == "default")
-	{
-		if(is.infinite(lower) && is.infinite(upper))
-		{ 
-			if (length(vstart) > 1) 
-				meth <- "Nelder-Mead"
-			else 
-				meth <- "BFGS"
-		}else
-			meth <- "L-BFGS-B"
+    {
+        if(is.infinite(lower) && is.infinite(upper))
+        { 
+            if (length(vstart) > 1) 
+                meth <- "Nelder-Mead"
+            else 
+                meth <- "BFGS"
+        }else
+            meth <- "L-BFGS-B"
     }else
         meth <- optim.method
         
@@ -238,9 +226,9 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
     {
         if (!cens)
             opttryerror <- try(opt <- optim(par=vstart, fn=fnobj, fix.arg=fix.arg, obs=data, qdistnam=qdistname,
-				qtype=qtype, hessian=TRUE, method=meth, lower=lower, upper=upper, ...), silent=TRUE)        
+                qtype=qtype, hessian=TRUE, method=meth, lower=lower, upper=upper, ...), silent=TRUE)        
         else 
-			stop("censored quantile matching estimation not yet available.")
+            stop("Quantile matching estimation is not yet available for censored data.")
                 
         if (inherits(opttryerror,"try-error"))
         {
@@ -257,17 +245,17 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
         }
         
         return(list(estimate = opt$par, convergence = opt$convergence, value = opt$value, hessian = opt$hessian, 
-					probs=probs, optim.function="optim", distance=distance, 
-					loglik=loglik(opt$par, fix.arg, data, ddistname) ))  
+                    probs=probs, optim.function="optim",  
+                    loglik=loglik(opt$par, fix.arg, data, ddistname) ))  
         
     }
     else # Try to minimize the stat distance using a user-supplied optim function 
     {
         if (!cens)
             opttryerror <- try(opt <- custom.optim(fn=fnobj, fix.arg=fix.arg, obs=data, qdistnam=qdistname, 
-				qtype=qtype, par=vstart, ...), silent=TRUE)
+                qtype=qtype, par=vstart, ...), silent=TRUE)
         else
-			stop("censored quantile matching estimation not yet available.")
+            stop("Quantile matching estimation is not yet available for censored data.")
         
         if (inherits(opttryerror,"try-error"))
         {
@@ -285,8 +273,8 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
         }
         
         return(list(estimate = opt$par, convergence = opt$convergence, value = opt$value, hessian = opt$hessian, 
-					probs=probs, optim.function=custom.optim, distance=distance, 
-					loglik=loglik(opt$par, fix.arg, data, ddistname)))  
+                    probs=probs, optim.function=custom.optim,  
+                    loglik=loglik(opt$par, fix.arg, data, ddistname)))  
 
     }   
         

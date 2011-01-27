@@ -1,56 +1,45 @@
 \name{qmedist}
 \alias{qmedist}
 \alias{qme}
-\title{ Quantile matching estimation of univariate distributions}
+\title{ Quantile matching fit of univariate distributions}
 
 \description{
- Fit a univariate distribution by matching quantiles.  
+ Fit of univariate distribution by matching quantiles for non censored data.  
 }
 
 \usage{
-qmedist(data, distr, probs, start=NULL, fix.arg=NULL, 
-	qtype=7, distance=c("CvM","AD","KS"),
-	optim.method="default", lower=-Inf, upper=Inf, custom.optim=NULL, ...)
+qmedist(data, distr, probs, start=NULL, fix.arg=NULL, qtype=7, 
+    optim.method="default", lower=-Inf, upper=Inf, custom.optim=NULL, ...)
 
 }
 
 \arguments{
 \item{data}{ A numeric vector for non censored data. }
-\item{distr}{ A character string \code{"name"} naming a distribution (or directly 
-	the quantile function) for which the corresponding density function 
-	\code{qname} and the corresponding distribution \code{dname} must be classically defined. }
-\item{probs}{The probabilities on which the optimization is done.}	
+\item{distr}{ A character string \code{"name"} naming a distribution  for which the corresponding 
+    quantile function 
+    \code{qname} and the corresponding density distribution \code{dname} must be classically defined. }
+\item{probs}{A numeric vector of the probabilities for which the quantile matching is done.
+    The length of this vector must be equal
+    to the number of parameters to estimate.}  
 \item{start}{ A named list giving the initial values of parameters of the named distribution. 
     This argument may be omitted for some distributions for which reasonable 
     starting values are computed (see details).  }
 \item{fix.arg}{ An optional named list giving the values of parameters of the named distribution
-    that must kept fixed rather than estimated by maximum likelihood. }
+    that must kept fixed rather than estimated. }
 \item{qtype}{The quantile type used by the R \code{\link{quantile}} function to 
-	compute the empirical quantiles.}
-\item{distance}{A character for the statistic distance: \code{"CvM"} for Cramer - von Mises (default),
-	\code{"AD"} for Andersson - Darling or \code{"KS"} for Kolmogorov - Smirnov.}		
-\item{optim.method}{ \code{"default"} (see details) or optimization method to pass to \code{\link{optim}}.  }
+    compute the empirical quantiles.}
+\item{optim.method}{ \code{"default"} or optimization method to pass to \code{\link{optim}}.  }
 \item{lower}{ Left bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
 \item{upper}{ Right bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
-\item{custom.optim}{a function carrying the MLE optimisation (see details).}
+\item{custom.optim}{a function carrying the optimization.}
 \item{\dots}{further arguments passed to the \code{optim} or \code{custom.optim} function.}
 }
 
 \details{
-	The \code{qmedist} function carries out a minimization of a statistic distance:
-\describe{
-	\item{Cramer - von Mises}{when \code{distance = "CvM"}, the minimized distance is 
-	\eqn{\sum_p (Q_n(p) - Q(p))^2} where \eqn{Q_n(p)} denotes the empirical quantile for 
-	\eqn{p} and \eqn{Q(p)} the theoretical quantile for \eqn{p}.}		
-	\item{Andersson - Darling}{when \code{distance = "AD"}, the minimized distance is 
-	\eqn{\sum_p (Q_n(p) - Q(p))^2 / Q(p) / (1-Q(p))} where \eqn{Q_n(p)} denotes the empirical quantile for 
-	\eqn{p} and \eqn{Q(p)} the theoretical quantile for \eqn{p}.}		
-	\item{Kolmogorov - Smirnov}{when \code{distance = "KS"}, the minimized distance is 
-	\eqn{\max_p (Q_n(p) - Q(p))^2} where \eqn{Q_n(p)} denotes the empirical quantile for 
-	\eqn{p} and \eqn{Q(p)} the theoretical quantile for \eqn{p}.}		
-}
-	The minimization process is the same as \code{\link{mledist}}, see the 'details' section 
-	of  \code{\link{mledist}}.
+    The \code{qmedist} function carries out the quantile matching numerically, by minimization of the
+    sum of squared differences between observed and theoretical quantiles.
+    The minimization process is the same as \code{\link{mledist}}, see the 'details' section 
+    of  \code{\link{mledist}}.
 
     This function is not intended to be called directly but is internally called in
     \code{\link{fitdist}} and \code{\link{bootdist}}.
@@ -73,9 +62,8 @@ qmedist(data, distr, probs, start=NULL, fix.arg=NULL,
     \item{ value }{the value of the statistic distance corresponding to estimate.}    
     \item{ hessian }{ a symmetric matrix computed by \code{optim} as an estimate of the Hessian
         at the solution found or computed in the user-supplied optimization function. }
-	\item{ probs }{ the probability vector on which quantiles are computed. }	
-    \item{ optim.function }{ the name of the optimization function used for maximum likelihood  }
-	\item{ distance }{ the statistic distance used for the optimization. }
+    \item{ probs }{ the probability vector on which quantiles are matched. }   
+    \item{ optim.function }{ the name of the optimization function used.  }
     \item{ loglik }{ the log-likelihood. }
 }
 
@@ -85,17 +73,17 @@ qmedist(data, distr, probs, start=NULL, fix.arg=NULL,
 }
 
 \references{ 
-	TODO
+    
 }
 
 
 \author{ 
-Christophe Dutang
+Christophe Dutang and Marie Laure Delignette-Muller
 }
 
 \examples{
 
-# (1) basic fit of a normal distribution with maximum likelihood estimation
+# (1) basic fit of a normal distribution 
 #
 
 x1<-c(6.4,13.3,4.1,1.3,14.1,10.6,9.9,9.6,15.3,22.1,13.4,

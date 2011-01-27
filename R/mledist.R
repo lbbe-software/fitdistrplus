@@ -30,7 +30,8 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
     # a dataframe of two columns named left and right for censored data 
 {
     if (!is.character(distr)) 
-        distname <- substring(as.character(match.call()$distr), 2)
+#        distname <- substring(as.character(match.call()$distr), 2)
+    stop("distr must be a character string naming a distribution")
     else 
         distname <- distr
     ddistname <- paste("d",distname,sep="")

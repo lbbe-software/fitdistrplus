@@ -1,10 +1,10 @@
 Package: fitdistrplus
 Title: Help to fit of a parametric distribution to non-censored or censored data
 Version: 0.1-5
-Date: 2010-12-29
-Author: Marie Laure Delignette-Muller <ml.delignette@vet-lyon.fr>, Regis Pouillot <rpouillot@yahoo.fr>, Jean-Baptiste
+Date: 2011-01-27
+Author: Marie Laure Delignette-Muller <ml.delignette@vetagro-sup.fr>, Regis Pouillot <rpouillot@yahoo.fr>, Jean-Baptiste
         Denis <jbdenis@jouy.inra.fr> and Christophe Dutang <christophe.dutang@ensimag.fr>
-Maintainer: Marie Laure Delignette-Muller <ml.delignette@vet-lyon.fr>
+Maintainer: Marie Laure Delignette-Muller <ml.delignette@vetagro-sup.fr>
 Depends: R (>= 2.9.2)
 Description: Extends the fitdistr function (of the MASS package) with several functions to help the fit of a parametric distribution to non-censored or censored data. Censored data may contain left censored, right censored and interval censored values, with several lower and upper bounds. The package also provides moment matching and quantile matching estimation methods.
 License: GPL (>= 2)
