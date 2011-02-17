@@ -3,7 +3,7 @@
 \docType{data}
 %- Also NEED an '\alias' for EACH other topic documented here.
 
-\title{ Contamination data of \emph{Listeria monocytogenes} in smoked fish }
+\title{ Contamination data of Listeria monocytogenes in smoked fish }
 
 \description{
 Contamination data of \emph{Listeria monocytogenes} in smoked fish on the Belgian market in the period

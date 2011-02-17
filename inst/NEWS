@@ -4,6 +4,7 @@ Version 0.1-5
 =============
 
 NEW FEATURES
+- 
 - a new fitting method has been implemented : the quantile matching estimation (function "qmedist"). 
 For the moment, only available for non censored data.
 - the moment matching estimation has been extended (in function mmedist) to enable numerical 

@@ -49,6 +49,8 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
     
     if(meth == "closed formula")
     {
+        if (!is.null(fix.arg))
+            warnings("argument fix.arg cannot be used when a closed formula is used")
         # Fitting by matching moments
         if (!(is.vector(data) & is.numeric(data) & length(data)>1))
             stop("data must be a numeric vector of length greater than 1")

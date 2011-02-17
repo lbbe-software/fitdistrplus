@@ -33,11 +33,14 @@ bootdist(f, bootmethod="param", niter=1001)
 \details{
     Samples are drawn by parametric bootstrap (resampling from the distribution fitted by \code{fitdist}) or
     non parametric bootstrap (resampling with replacement from the data set). On each bootstrap sample the function 
-    \code{mledist}  or the function \code{mmedist} (according to the component \code{f$method} of the 
-    object of class 'fitdist') is used to estimate bootstrapped values of parameters. When \code{mledist} fails
+    \code{mledist}  (or \code{mmedist} or \code{qmedist} according to the component \code{f$method} of the 
+    object of class 'fitdist') is used to estimate bootstrapped values of parameters. When that function fails
     to converge, \code{NA} values are returned. Medians and 2.5 and 97.5 percentiles are computed by removing
-    \code{NA} values. The number of iterations for which \code{mledist} converges is printed in the summary with
-    the medians and the 95 percent confidence intervals of parameters (2.5 and 97.5 percentiles).
+    \code{NA} values. 
+    The medians and the 95 percent confidence intervals of parameters (2.5 and 97.5 percentiles) are printed 
+    in the summary.
+    If inferior to the whole number of iterations, the number of iterations for which the function converges 
+    is also printed in the summary.
     
     The plot of an object of class 'bootdist' consists in a scatterplot or a matrix of scatterplots
     of the bootstrapped values of parameters.
@@ -50,8 +53,9 @@ bootdist(f, bootmethod="param", niter=1001)
 \value{ 
     \code{bootdist} returns an object of class 'bootdist', a list with 4 components,
     \item{ estim }{ a data frame containing the boostrapped values of parameters.}
-    \item{ converg }{ a vector containing the codes for convergence obtained when using \code{mledist} on 
-        each bootstraped data set or \code{NULL} if \code{mmedist} is used.}
+    \item{ converg }{ a vector containing the codes for convergence obtained if an iterative method is
+        used to estimate parameters on 
+        each bootstraped data set (and 0 if a closed formula is used).}
     \item{ method }{ A character string coding for the type of resampling : \code{"param"} for a parametric
         resampling and \code{"nonparam"} for a nonparametric resampling of data. }
     \item{ CI }{ bootstrap medians and 95 percent confidence percentile intervals of parameters. }
@@ -112,13 +116,52 @@ b1d <- bootdist(f1d)
 summary(b1d)
 plot(b1d)
 
-# (6) fit of a discrete distribution followed by parametric bootstrap
+# (6) fit of a discrete distribution by matching moment estimation 
+# (using a closed formula) followed by parametric bootstrap
 #
 x2<-c(rep(4,1),rep(2,3),rep(1,7),rep(0,12))
 f2<-fitdist(x2,"pois",method="mme")
 b2<-bootdist(f2)
 plot(b2,pch=16)
 summary(b2)
+
+# (7) fit of a Weibull distribution to serving size data by maximum likelihood estimation
+#  or by quantile matching estimation (in this example matching first and third quartiles)
+# followed by parametric bootstrap
+#
+data(groundbeef)
+serving <- groundbeef$serving
+
+fWmle <- fitdist(serving,"weibull")
+bWmle <- bootdist(fWmle,niter=101)
+summary(bWmle)
+
+fWqme <- fitdist(serving,"weibull",method="qme",probs=c(0.25,0.75))
+bWqme <- bootdist(fWqme,niter=101)
+summary(bWqme)
+
+# (8) Fit of a Pareto distribution by numerical moment matching estimation
+# followed by parametric bootstrap
+#
+\dontrun{
+    require(actuar)
+    #simulate a sample
+    x4 <- rpareto(1000, 6, 2)
+    memp <- function(x, order)
+        ifelse(order == 1, mean(x), sum(x^order)/length(x))
+
+    f4 <- fitdist(x4, "pareto", "mme", order=1:2, 
+        start=c(shape=10, scale=10), 
+        lower=1, memp="memp", upper=50)
+
+    b4 <- bootdist(f4, niter=101)
+    summary(b4)
+
+    b4npar <- bootdist(f4, niter=101, bootmethod="nonparam")
+    summary(b4npar)
+
+}
+
 
 }
 

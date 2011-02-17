@@ -45,10 +45,11 @@ to the number of parameters to estimate.}
     
     The argument \code{distr} can also be the distribution name
     as long as a corresponding \code{mdistr} function exists, e.g. \code{"pareto"} if \code{"mpareto"} exists.
-    In that case other arguments
+    In that case arguments arguments \code{order} and \code{memp} 
     have to be supplied in order to carry out the matching numerically, by minimization of the
-    sum of squared differences between observed and theoretical moments. See the 'details' section of 
-    \code{\link{mledist}} for details. 
+    sum of squared differences between observed and theoretical moments. 
+    Optionnally other aguments may be supplied to control optimization (see the 'details' section of 
+    \code{\link{mledist}} for details about arguments for the control of optimization). 
 
 
     This function is not intended to be called directly but is internally called in

@@ -26,7 +26,7 @@ plotdistcens(censdata,distr,para,leftNA=-Inf,rightNA=Inf,...)
     density function \code{dname} and the corresponding distribution function \code{pname}
     must be defined, or directly the density function.}
 \item{para}{ A named list giving the parameters of the named distribution. This argument may be 
-    omitted only if \code{distname} is omitted.  }
+    omitted only if \code{distr} is omitted.  }
 \item{leftNA}{ the real value of the left bound of left censored observations : \code{-Inf} 
     or a finite value such as \code{0} for positive data for example.}
 \item{rightNA}{ the real value of the right bound of right censored observations : \code{Inf}
@@ -60,21 +60,34 @@ plotdistcens(censdata,distr,para,leftNA=-Inf,rightNA=Inf,...)
 
 
 \author{ 
-Marie-Laure Delignette-Muller \email{ml.delignette@vet-lyon.fr} 
+Marie-Laure Delignette-Muller \email{ml.delignette@vetagro-sup.fr} 
 }
 
 %\note{  }
 
 \examples{
+# (1) Plot of an empirical censored distribution (censored data) as a CDF
+#
 d1<-data.frame(
 left=c(1.73,1.51,0.77,1.96,1.96,-1.4,-1.4,NA,-0.11,0.55,
     0.41,2.56,NA,-0.53,0.63,-1.4,-1.4,-1.4,NA,0.13),
 right=c(1.73,1.51,0.77,1.96,1.96,0,-0.7,-1.4,-0.11,0.55,
     0.41,2.56,-1.4,-0.53,0.63,0,-0.7,NA,-1.4,0.13))
 plotdistcens(d1)
+
+# (2) Plot of the same empirical distribution defining a realistic maximum value 
+# for right censored values
+#
 plotdistcens(d1,rightNA=3)
+
+
+# (3) Add the CDF of a normal distribution
+#
 plotdistcens(d1,"norm",para=list(mean=0.12,sd=1.4),rightNA=3)
 
+# (4) Plot of the CDF of the same dataset after logarithmic transformation
+#   and add of a lognormal distribution
+#
 d3<-data.frame(left=10^(d1$left),right=10^(d1$right))
 plotdistcens(d3,leftNA=0)
 plotdistcens(d3,"lnorm",para=list(meanlog=0.27,sdlog=3.3),leftNA=0)

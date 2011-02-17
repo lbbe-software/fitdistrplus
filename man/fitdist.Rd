@@ -29,12 +29,12 @@ fitdist(data, distr, method=c("mle", "mme", "qme"),
     \code{"mle"} for 'maximum likelihood estimation, \code{"mme"} for 'moment matching estimation'
     and \code{"qme"} for 'quantile matching estimation'.}
 \item{start}{ An named list giving the initial values of parameters of the named distribution. 
-    This argument will not be taken into account if \code{method="mme"},
-    and may be omitted for some distributions for which reasonable 
-    starting values are computed if \code{method="mle"} (see details).  }
+    This argument may be omitted for some distributions for which reasonable 
+    starting values are computed if \code{method="mle"} (see details), 
+    and will not be taken into account if a closed formula is used to estimate parameters.  }
 \item{fix.arg}{ An optional named list giving the values of parameters of the named distribution
-    that must kept fixed rather than estimated by maximum likelihood. 
-    The use of this argument is not possible if \code{method="mme"}. }
+    that must kept fixed rather than estimated. 
+    The use of this argument is not possible if \code{method="mme"} and a closed formula is used. }
 \item{x}{ an object of class 'fitdist'.  }
 \item{object}{ an object of class 'fitdist'.  }
 \item{breaks}{ If \code{"default"} the histogram is plotted with the function \code{hist} 
@@ -50,21 +50,6 @@ fitdist(data, distr, method=c("mle", "mme", "qme"),
     When \code{method="mle"},
     maximum likelihood estimations of the distribution parameters are computed using 
     the function \code{\link{mledist}}. 
-    By default direct optimization of the log-likelihood is performed using \code{\link{optim}},
-    with the "Nelder-Mead" method for distributions characterized by more than one parameter
-    and the "BFGS" method for distributions characterized by only one parameter. 
-    The method used in \code{\link{optim}} may be chosen or another optimization method
-    may be chosen using ... argument (see \code{\link{mledist}} for details).
-    For the following named distributions, reasonable starting values will 
-    be computed if \code{start} is omitted : \code{"norm"}, \code{"lnorm"},
-    \code{"exp"} and \code{"pois"}, \code{"cauchy"}, \code{"gamma"}, \code{"logis"},
-    \code{"nbinom"} (parametrized by mu and size), \code{"geom"}, \code{"beta"} and \code{"weibull"}. 
-    Note that these starting 
-    values may not be good enough if the fit is poor. The function is not able to fit a uniform distribution.     
-    With the parameter estimates, the function returns the log-likelihood and the standard errors of 
-    the estimates calculated from the 
-    Hessian at the solution found by \code{optim} or by the user-supplied function passed to mledist.
-
     
     When \code{method="mme"},
     the estimated values of the distribution parameters are computed by a closed 
@@ -85,6 +70,23 @@ fitdist(data, distr, method=c("mle", "mme", "qme"),
     the function carries out the quantile matching numerically, by minimization of the
     sum of squared differences between observed and theoretical quantiles
     (see \code{\link{qmedist}} for details).
+    
+    By default direct minimization of the log-likelihood (or other criteria depending
+    of the chosen method) is performed using \code{\link{optim}},
+    with the "Nelder-Mead" method for distributions characterized by more than one parameter
+    and the "BFGS" method for distributions characterized by only one parameter. 
+    The method used in \code{\link{optim}} may be chosen or another optimization method
+    may be chosen using ... argument (see \code{\link{mledist}} for details).
+    For the following named distributions, reasonable starting values will 
+    be computed if \code{start} is omitted : \code{"norm"}, \code{"lnorm"},
+    \code{"exp"} and \code{"pois"}, \code{"cauchy"}, \code{"gamma"}, \code{"logis"},
+    \code{"nbinom"} (parametrized by mu and size), \code{"geom"}, \code{"beta"} and \code{"weibull"}. 
+    Note that these starting 
+    values may not be good enough if the fit is poor. The function is not able to fit a uniform distribution.     
+    With the parameter estimates, the function returns the log-likelihood whatever the estimation method
+    and for maximum likelihood estimation the standard errors of 
+    the estimates calculated from the 
+    Hessian at the solution found by \code{optim} or by the user-supplied function passed to mledist.
 
          
     The plot of an object of class "fitdist" returned by \code{fitdist} uses the function 
@@ -107,8 +109,8 @@ fitdist(data, distr, method=c("mle", "mme", "qme"),
     \item{ distname }{ the name of the distribution }
     \item{ fix.arg }{ the named list giving the values of parameters of the named distribution
     that must kept fixed rather than estimated by maximum likelihood or NULL if there are no such parameters. }
-    \item{ dots }{ the list of  further arguments passed in \dots to be used in \code{bootdist} to
-    control the optimization method used in iterative calls to \code{mledist},
+    \item{ dots }{ the list of  further arguments passed in \dots to be used in \code{bootdist} 
+    in iterative calls to \code{mledist},
     \code{mmedist} or \code{qmedist}, or NULL if no such arguments}
 }
 
@@ -153,14 +155,17 @@ gofstat(f1)
 f1b <- fitdist(x1,"norm",method="mme")
 summary(f1b)
 
-# (3) moment matching estimation (using a closed formula) for log normal distribution
+# (3) moment matching estimation (using a closed formula) 
+# for log normal distribution
 #
 
 f1c <- fitdist(x1,"lnorm",method="mme")
 summary(f1c)
 
 # (4) defining your own distribution functions, here for the Gumbel distribution
-# for other distributions, see the CRAN task view dedicated to probability distributions
+# for other distributions, see the CRAN task view 
+# dedicated to probability distributions
+#
 
 dgumbel <- function(x,a,b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
 pgumbel <- function(q,a,b) exp(-exp((a-q)/b))
@@ -204,15 +209,18 @@ summary(res1)
 #to meet the standard 'fn' argument and specific name arguments, we wrap optimize,
 myoptimize <- function(fn, par, ...) 
 {
-    res <- optimize(f=fn, ..., maximum=FALSE)  #assume the optimization function minimize
+    res <- optimize(f=fn, ..., maximum=FALSE)  
+    #assume the optimization function minimize
     
-    standardres <- c(res, convergence=0, value=res$objective, par=res$minimum, hessian=NA)
+    standardres <- c(res, convergence=0, value=res$objective, 
+        par=res$minimum, hessian=NA)
     
     return(standardres)
 }
 
 #call fitdist with a 'custom' optimization function
-res2 <- fitdist(mysample, dexp, start=mystart, custom.optim=myoptimize, interval=c(0, 100))
+res2 <- fitdist(mysample, dexp, start=mystart, custom.optim=myoptimize, 
+    interval=c(0, 100))
 
 #show the result
 summary(res2)
@@ -222,7 +230,8 @@ summary(res2)
 #
 \dontrun{
     #set a sample
-    x1 <- c(6.4, 13.3, 4.1, 1.3, 14.1, 10.6, 9.9, 9.6, 15.3, 22.1, 13.4, 13.2, 8.4, 6.3, 8.9, 5.2, 10.9, 14.4) 
+    x1 <- c(6.4, 13.3, 4.1, 1.3, 14.1, 10.6, 9.9, 9.6, 15.3, 22.1,
+         13.4, 13.2, 8.4, 6.3, 8.9, 5.2, 10.9, 14.4) 
     fit1 <- fitdist(x1, "gamma")
     summary(fit1)
 
@@ -249,14 +258,22 @@ summary(res2)
 #
 fitdist(x1,"norm",start=list(sd=5),fix.arg=list(mean=10))
 
-# (10) fit of a Weibull distribution to serving size data
+# (10) fit of a Weibull distribution to serving size data by maximum likelihood estimation
+#  or by quantile matching estimation (in this example matching first and third quartiles)
 #
 data(groundbeef)
 serving <- groundbeef$serving
-fW <- fitdist(serving,"weibull")
-summary(fW)
-plot(fW)
-gofstat(fW)
+
+fWmle <- fitdist(serving,"weibull")
+summary(fWmle)
+plot(fWmle)
+gofstat(fWmle)
+
+fWqme <- fitdist(serving,"weibull",method="qme",probs=c(0.25,0.75))
+summary(fWqme)
+plot(fWqme)
+gofstat(fWqme)
+
 
 # (11) Fit of a Pareto distribution by numerical moment matching estimation
 #
@@ -276,12 +293,6 @@ gofstat(fW)
     summary(fP)
 
 }
-
-# (12) Fit of a normal distribution by quantile matching estimation
-#
-
-f1qme <- fitdist(x1, "norm", method="qme",probs=c(1/3, 2/3))
-summary(f1qme)
 
 
 }

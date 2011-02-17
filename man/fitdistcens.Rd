@@ -35,8 +35,7 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL,...)
     This argument may be omitted for some distributions for which reasonable 
     starting values are computed (see details).  }
 \item{fix.arg}{ An optional named list giving the values of parameters of the named distribution
-    that must kept fixed rather than estimated by maximum likelihood. 
-    The use of this argument is not possible if \code{method="mme"}. }
+    that must kept fixed rather than estimated by maximum likelihood. }
 \item{x}{ an object of class 'fitdistcens'.  }
 \item{object}{ an object of class 'fitdistcens'.  }
 \item{...}{ further arguments to be passed to generic functions, or to the function \code{"mledist"} 
@@ -110,7 +109,9 @@ summary(f1n)
 plot(f1n,rightNA=3)
 
 # (2) defining your own distribution functions, here for the Gumbel distribution
-# for other distributions, see the CRAN task view dedicated to probability distributions
+# for other distributions, see the CRAN task view dedicated to 
+# probability distributions
+#
 
 dgumbel <- function(x,a,b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
 pgumbel <- function(q,a,b) exp(-exp((a-q)/b))

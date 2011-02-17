@@ -72,9 +72,9 @@ qmedist(data, distr, probs, start=NULL, fix.arg=NULL, qtype=7,
     \code{\link{mmedist}}, \code{\link{mledist}}, \code{\link{fitdist}}.
 }
 
-\references{ 
-    
-}
+%\references{ 
+%TO DO    
+%}
 
 
 \author{ 

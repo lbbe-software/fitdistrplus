@@ -34,7 +34,11 @@ gofstat(f, chisqbreaks, meancount, print.test = FALSE)
     by the argument 
     \code{chisqbreaks} or cells automatically defined from the data in order 
     to reach roughly the same number of observations per cell, roughly equal to the argument
-    \code{meancount}, or sligthly more if there are some ties. If \code{chisqbreaks} and \code{meancount} 
+    \code{meancount}, or sligthly more if there are some ties. 
+    The choice to define cells from the empirical distribution (data) and not from the
+    theoretical distribution was done to enable the comparison of Chi-squared values obtained
+    with different distributions fitted on a same dataset.
+    If \code{chisqbreaks} and \code{meancount} 
     are both omitted, \code{meancount} is fixed in order to obtain roughly \eqn{(4n)^{2/5}} cells, 
     with \eqn{n} the length of the dataset (Vose, 2000).
     The Chi-squared statistic is not computed if the program fails

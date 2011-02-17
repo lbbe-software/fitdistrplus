@@ -33,8 +33,10 @@ bootdistcens(f, niter=1001)
     non parametric bootstrap (resampling with replacement from the data set). On each bootstrap sample the function 
     \code{mledist} is used to estimate bootstrapped values of parameters. When \code{mledist} fails
     to converge, \code{NA} values are returned. Medians and 2.5 and 97.5 percentiles are computed by removing
-    \code{NA} values. The number of iterations for which \code{mledist} converges is printed in the summary with
-    the medians and the 95 percent confidence intervals of parameters (2.5 and 97.5 percentiles).
+    \code{NA} values. The medians and the 95 percent confidence intervals of parameters (2.5 and 97.5 percentiles) 
+    are printed in the summary.
+    If inferior to the whole number of iterations, the number of iterations for which \code{mledist} converges 
+    is also printed in the summary.
     
     The plot of an object of class 'bootdistcens' consists in a scatterplot or a matrix of scatterplots
     of the bootstrapped values of parameters.
@@ -48,7 +50,7 @@ bootdistcens(f, niter=1001)
     \code{bootdistcens} returns an object of class 'bootdistcens', a list with 3 components,
     \item{ estim }{ a data frame containing the boostrapped values of parameters.}
     \item{ converg }{ a vector containing the codes for convergence obtained when using \code{mledist} on 
-        each bootstraped data set or \code{NULL} if \code{mmedist} is used.}
+        each bootstraped data set.}
     \item{ CI }{ bootstrap medians and 95 percent confidence percentile intervals of parameters. }
 }
         
@@ -69,7 +71,7 @@ Marie-Laure Delignette-Muller \email{ml.delignette@vetagro-sup.fr}
 %\note{  }
 
 \examples{
-# (1) fit of a normal distribution followed by nonparametric bootstrap
+# (1) Fit of a normal distribution followed by nonparametric bootstrap
 #
 d1<-data.frame(
 left=c(1.73,1.51,0.77,1.96,1.96,-1.4,-1.4,NA,-0.11,0.55,
@@ -82,28 +84,28 @@ b1
 summary(b1)
 plot(b1)
 
-# (2) fit of a gamma distribution followed by nonparametric bootstrap
+# (2) Fit of a gamma distribution followed by nonparametric bootstrap
 #
 d3<-data.frame(left=10^(d1$left),right=10^(d1$right))
 f3 <- fitdistcens(d3,"gamma")
-b3 <- bootdistcens(f3)
+b3 <- bootdistcens(f3,niter=101)
 summary(b3)
 plot(b3)
 
-# (3) fit of a gamma distribution followed by nonparametric bootstrap
+# (3) Fit of a gamma distribution followed by nonparametric bootstrap
 # with control of the optimization method
 #
 f3BFGS <- fitdistcens(d3,"gamma",optim.method="L-BFGS-B",lower=c(0,0))
-b3BFGS <- bootdistcens(f3BFGS)
+b3BFGS <- bootdistcens(f3BFGS,niter=101)
 summary(b3BFGS)
 plot(b3BFGS)
 
-# (4) estimation of the standard deviation of a normal distribution 
+# (4) Estimation of the standard deviation of a normal distribution 
 # by maximum likelihood with the mean fixed at 0.1 using the argument fix.arg
 # followed by nonparametric bootstrap
 #
 f1b <- fitdistcens(d1, "norm", start=list(sd=1.5),fix.arg=list(mean=0.1))
-b1b<-bootdistcens(f1b)
+b1b<-bootdistcens(f1b,niter=101)
 summary(b1b)
 plot(b1b)
 

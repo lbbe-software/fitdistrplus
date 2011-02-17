@@ -75,11 +75,12 @@ print.bootdistcens <- function(x,...){
     #op<-options()
     #options(digits=3)
     print(x$estim,...)    
-    if (!is.null(x$converg)) { 
-        nconverg<-length(x$converg[x$converg==0])
+    nconverg<-length(x$converg[x$converg==0])
+    if (nconverg < length(x$converg))
+    {
         cat("\n")
-        cat("Maximum likelihood method converged for ",nconverg," among ",
-        length(x$converg)," iterations \n")
+        cat("The estimation method converged only for ",nconverg," among ",
+                length(x$converg)," iterations \n")
     }
     #options(op)
 
@@ -110,11 +111,12 @@ summary.bootdistcens <- function(object,...){
     cat("Nonparametric bootstrap medians and 95% percentile CI \n")
     print(object$CI)
     
-     if (!is.null(object$converg)) { 
-        nconverg<-length(object$converg[object$converg==0])
-        cat(" \n")
-        cat("Maximum likelihood method converged for ",nconverg," among ",
-        length(object$converg)," iterations \n")
+    nconverg<-length(object$converg[object$converg==0])
+    if (nconverg < length(object$converg))
+    {
+        cat("\n")
+        cat("The estimation method converged only for ",nconverg," among ",
+                length(object$converg)," iterations \n")
     }
    #options(op)
 }
