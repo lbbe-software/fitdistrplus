@@ -1,7 +1,7 @@
 Package: fitdistrplus
 Title: Help to fit of a parametric distribution to non-censored or censored data
 Version: 0.1-5
-Date: 2011-02-17
+Date: 2011-02-24
 Author: Marie Laure Delignette-Muller <ml.delignette@vetagro-sup.fr>, Regis Pouillot <rpouillot@yahoo.fr>, Jean-Baptiste
         Denis <jbdenis@jouy.inra.fr> and Christophe Dutang <christophe.dutang@ensimag.fr>
 Maintainer: Marie Laure Delignette-Muller <ml.delignette@vetagro-sup.fr>

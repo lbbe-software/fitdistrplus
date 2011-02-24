@@ -100,11 +100,11 @@ gofstat <- function (f, chisqbreaks, meancount, print.test = FALSE)
    }
         
     if (!discrete) {
-        # Kolmogorov-Smirnov statistic
         s <- sort(data)
         obspu <- seq(1,n)/n
         obspl <- seq(0,n-1)/n
         theop <- do.call(pdistname,c(list(q=s),as.list(estimate),fix.arg))
+        # Kolmogorov-Smirnov statistic
         ks <- max(pmax(abs(theop-obspu),abs(theop-obspl)))
         Dmod <- ks*(sqrt(n)+0.12+0.11/sqrt(n))
         if (n>=30)
@@ -113,8 +113,9 @@ gofstat <- function (f, chisqbreaks, meancount, print.test = FALSE)
             kstest <- NULL
         
         # Anderson-Darling statistic
-        ad <-  -n-sum((2*(1:n)-1)*log(theop) + (2*n+1-2*(1:n))*log(1-theop))/n 
-        if (is.null(fix.arg))
+        ad <- - n - mean( (2 * seq(1:n) - 1) * (log(theop) + log(1 - rev(theop))) ) 
+        # ad <-  -n-sum((2*(1:n)-1)*log(theop) + (2*n+1-2*(1:n))*log(1-theop))/n 
+        if (is.null(fix.arg) & f$method == "mle")
         {
           if ((distname == "norm" | distname == "lnorm") & n>=5) {
             a2mod <- ad*(1+0.75/n+2.25/n^2)
@@ -151,23 +152,70 @@ gofstat <- function (f, chisqbreaks, meancount, print.test = FALSE)
                                 adtest <- ifelse(ad>interp(n),"rejected","not rejected")
                             }
                             else adtest <- NULL
-        }  # if (is.null(fix.arg))
+        }  # if (is.null(fix.arg)...)
         else 
             adtest <- NULL
+            
+                    # Cramer-von Mises statistic
+        cvm <- 1/(12*n) + sum( ( theop - (2 * seq(1:n) - 1)/(2 * n) )^2 )
+        
+        if (is.null(fix.arg) & f$method == "mle")
+        {
+          if ((distname == "norm" | distname == "lnorm") & n>=5) {
+            w2mod <- cvm*(1+0.5/n)
+            cvmtest <- ifelse(w2mod>0.126,"rejected","not rejected")
+          } 
+          else
+            if (distname == "exp" & n>=5) {
+                w2mod <- cvm*(1+0.16/n)
+                cvmtest <- ifelse(w2mod>0.222,"rejected","not rejected")
+            }
+            else
+                if (distname == "gamma" & n>=5) {
+                    m <- as.list(estimate)$shape
+                    interp <- approxfun(c(1,2,3,4,5,6,8,10,12,15,20),
+                    c(0.136,0.131,0.129,0.128,0.128,0.128,0.127,0.127,0.127,0.127,0.126),
+                    yright=0.126)
+                    cvmtest <- ifelse(cvm>interp(m),"rejected","not rejected")
+                }
+                else
+                    if (distname == "weibull" & n>=5) {
+                        w2mod <- ad*(1+0.2/sqrt(n))
+                        cvmtest <- ifelse(w2mod>0.124,"rejected","not rejected")
+                    }
+                    else
+                        if (distname == "logis" & n>=5) {
+                            w2mod <- (n*cvm - 0.08)/(n - 1)
+                            cvmtest <- ifelse(w2mod>0.098,"rejected","not rejected")
+                        }
+                        else
+                            if (distname == "cauchy" & n>=5) {
+                                interp <- approxfun(c(5,8,10,12,15,20,25,30,40,50,60,100),
+                                c(0.393,0.703,0.833,0.896,0.904,0.835,0.726,0.615,0.460,0.381,0.330,0.2378),
+                                yright=0.170)
+                                cvmtest <- ifelse(cvm>interp(n),"rejected","not rejected")
+                            }
+                            else cvmtest <- NULL
+        }  # if (is.null(fix.arg))
+        else 
+            cvmtest <- NULL
+            
         if (length(table(data))!=length(data))
-        warnings("Kolmogorov-Smirnov and Anderson-Darling statistics may not be correct with ties")
+        warnings("Kolmogorov-Smirnov, Cramer-von Mises and Anderson-Darling statistics may not be correct with ties")
     }
     else { # so if discrete
         ks <- NULL
         kstest <- NULL
+        cvm <- NULL
+        cvmtest <- NULL
         ad <- NULL
         adtest <- NULL
     }
 
     res<-list(chisq = chisq, chisqbreaks=chisqbreaks,
-    chisqpvalue=chisqpvalue,
-    chisqdf=chisqdf,chisqtable=chisqtable, 
-    ad = ad,adtest=adtest,ks = ks,kstest=kstest)
+    chisqpvalue = chisqpvalue,
+    chisqdf = chisqdf,chisqtable = chisqtable, 
+    cvm = cvm,cvmtest = cvmtest,ad = ad,adtest = adtest,ks = ks,kstest=kstest)
     
     if (discrete) 
     {
@@ -205,6 +253,14 @@ gofstat <- function (f, chisqbreaks, meancount, print.test = FALSE)
             }
             else
                 cat("Kolmogorov-Smirnov test: not calculated \n")
+        }
+        cat("Cramer-von Mises statistic: ",cvm,"\n")
+        if (print.test) 
+        {
+            if (!is.null(cvmtest)) 
+                cat("Cramer-von Mises test: ",cvmtest,"\n")
+            else
+                cat("Crame-von Mises test: not calculated \n")
         }
         cat("Anderson-Darling statistic: ",ad,"\n")
         if (print.test) 

@@ -48,8 +48,8 @@ gofstat(f, chisqbreaks, meancount, print.test = FALSE)
     
     For the distributions assumed continuous (all but \code{"binom"}, 
     \code{"nbinom"}, \code{"geom"}, \code{"hyper"} and \code{"pois"} for R base distributions), 
-    Kolmogorov-Smirnov and Anderson-Darling statistics are also computed, 
-    as defined by Cullen and Frey (1999). 
+    Kolmogorov-Smirnov, Cramer-von Mises and Anderson-Darling  and statistics are also computed, 
+    as defined by Stephens (1986). 
     
     An approximate Kolmogorov-Smirnov test is 
     performed by assuming the distribution parameters known. The critical value defined by Stephens (1986) 
@@ -61,12 +61,14 @@ gofstat(f, chisqbreaks, meancount, print.test = FALSE)
     For datasets with more than 5 observations and for distributions for 
     which the test is described by Stephens (1986) (\code{"norm"}, \code{"lnorm"},
     \code{"exp"}, \code{"cauchy"}, \code{"gamma"}, \code{"logis"} and \code{"weibull"}),
-    the Anderson-darling test is performed as described by Stephens (1986). This test takes into 
+    the Cramer-von Mises and Anderson-darling tests are performed as described by Stephens (1986). 
+    Those tests take into 
     account the fact that the parameters are not known but estimated from the data. The result is the 
-    decision to reject or not the distribution at the significance level 0.05.
+    decision to reject or not the distribution at the significance level 0.05. Those tests are available
+    only for maximum likelihood estimations.
     
     Only recommended statistics are automatically printed, i.e.
-    Anderson-Darling and Kolmogorov statistics for continuous distributions and
+    Cramer-von Mises, Anderson-Darling and Kolmogorov statistics for continuous distributions and
     Chi-squared statistics for discrete ones ( \code{"binom"}, 
     \code{"nbinom"}, \code{"geom"}, \code{"hyper"} and \code{"pois"} ). Results of the tests are printed
     only if \code{print.test=TRUE}. Even not printed, all the available results may be found in the list 
@@ -81,6 +83,8 @@ gofstat(f, chisqbreaks, meancount, print.test = FALSE)
     \item{ chisqpvalue }{ p-value of the Chi-squared statistic or \code{NULL} if not computed}
     \item{ chisqdf }{ degree of freedom of the Chi-squared distribution or \code{NULL} if not computed }
     \item{ chisqtable }{ a table with observed and theoretical counts used for the Chi-squared calculations }
+    \item{ cvm }{ the Cramer-von Mises statistic or \code{NULL} if not computed }
+    \item{ cvmtest }{ the decision of the Cramer-von Mises test or \code{NULL} if not computed }
     \item{ ad }{ the Anderson-Darling statistic or \code{NULL} if not computed }
     \item{ adtest }{ the decision of the Anderson-Darling test or \code{NULL} if not computed }
     \item{ ks }{ the Kolmogorov-Smirnov statistic or \code{NULL} if not computed }
