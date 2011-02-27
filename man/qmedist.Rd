@@ -27,7 +27,7 @@ qmedist(data, distr, probs, start=NULL, fix.arg=NULL, qtype=7,
 \item{fix.arg}{ An optional named list giving the values of parameters of the named distribution
     that must kept fixed rather than estimated. }
 \item{qtype}{The quantile type used by the R \code{\link{quantile}} function to 
-    compute the empirical quantiles.}
+    compute the empirical quantiles, (default 7 corresponds to the default quantile method in R).}
 \item{optim.method}{ \code{"default"} or optimization method to pass to \code{\link{optim}}.  }
 \item{lower}{ Left bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
 \item{upper}{ Right bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
@@ -69,16 +69,18 @@ qmedist(data, distr, probs, start=NULL, fix.arg=NULL, qtype=7,
 
 
 \seealso{ 
-    \code{\link{mmedist}}, \code{\link{mledist}}, \code{\link{fitdist}}.
+    \code{\link{mmedist}}, \code{\link{mledist}}, \code{\link{fitdist}} for other estimation methods and 
+	\code{\link{quantile}} for empirical quantile estimation in R.
 }
 
-%\references{ 
-%TO DO    
-%}
+\references{ 
+    Klugman et al. (2004) Loss Models: From Data to Decisions, 2nd edition. 
+	Wiley Series in Probability and Statistics, p. 331.
+}
 
 
 \author{ 
-Christophe Dutang and Marie Laure Delignette-Muller
+Christophe Dutang and Marie Laure Delignette-Muller.
 }
 
 \examples{

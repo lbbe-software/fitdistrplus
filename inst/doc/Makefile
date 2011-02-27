@@ -1,4 +1,4 @@
-TEXI2DVI = texi2dvi --pdf
+TEXI2DVI = R CMD texi2dvi --pdf
 SWEAVE = R CMD Sweave
 RM = rm -rf
 
