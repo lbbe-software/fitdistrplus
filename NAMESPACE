@@ -36,6 +36,8 @@ export(mmedist)
 
 export(qmedist)
 
+export(mgedist)
+
 export(plotdist, plotdistcens)
 
 ### use dynamic library for C code

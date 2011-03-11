@@ -154,6 +154,9 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
         if (distname == "cauchy") {
             start <- list(location=median(data),scale=IQR(data)/2)
         }
+        if (distname == "unif") {
+            start <- list(min=min(data),max=max(data))
+        }
         if (!is.list(start)) 
             stop("'start' must be defined as a named list for this distribution") 
    } # end of the definition of starting values 
@@ -202,6 +205,7 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
         stop("Quantile matching estimation is not yet available for censored data.")
     }
     
+    # Function to calculate the loglikelihood to return
     loglik <- function(par, fix.arg, obs, ddistnam) {
         sum(log(do.call(ddistnam, c(list(obs), as.list(par), as.list(fix.arg)) ) ) )
     }

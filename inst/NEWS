@@ -1,5 +1,12 @@
 === fitdistrplus : Help to fit of a parametric distribution ===
 
+Version 0.2-1
+=============
+
+NEW FEATURES
+- a new fitting method was implemented for continuous distributions : the maximum goodness-of-fit
+estimation (function "mgedist") (for the moment only available for non censored data).
+
 Version 0.1-5
 =============
 

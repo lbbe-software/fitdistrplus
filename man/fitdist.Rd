@@ -12,7 +12,7 @@
 }
 
 \usage{
-fitdist(data, distr, method=c("mle", "mme", "qme"), 
+fitdist(data, distr, method=c("mle", "mme", "qme", "mge"), 
     start=NULL, fix.arg=NULL,  ...) 
 \method{print}{fitdist}(x,...)
 \method{plot}{fitdist}(x,breaks="default",...)
@@ -26,11 +26,11 @@ fitdist(data, distr, method=c("mle", "mme", "qme"),
     density function \code{dname}, the corresponding distribution function \code{pname} and the 
     corresponding quantile function \code{qname} must be defined, or directly the density function.}
 \item{method}{ A character string coding for the fitting method: 
-    \code{"mle"} for 'maximum likelihood estimation, \code{"mme"} for 'moment matching estimation'
-    and \code{"qme"} for 'quantile matching estimation'.}
+    \code{"mle"} for 'maximum likelihood estimation', \code{"mme"} for 'moment matching estimation',
+    \code{"qme"} for 'quantile matching estimation' and \code{"mge"} for 'maximum goodness-of-fit estimation'.}
 \item{start}{ An named list giving the initial values of parameters of the named distribution. 
     This argument may be omitted for some distributions for which reasonable 
-    starting values are computed if \code{method="mle"} (see details), 
+    starting values are computed (see details), 
     and will not be taken into account if a closed formula is used to estimate parameters.  }
 \item{fix.arg}{ An optional named list giving the values of parameters of the named distribution
     that must kept fixed rather than estimated. 
@@ -42,7 +42,8 @@ fitdist(data, distr, method=c("mle", "mme", "qme"),
     This argument is not taken into account with discrete distributions: \code{"binom"}, 
     \code{"nbinom"}, \code{"geom"}, \code{"hyper"} and \code{"pois"}. }
 \item{\dots}{ further arguments to be passed to generic functions, or to one of the functions
-    \code{"mledist"},  \code{"mmedist"} and \code{"qmedist"} depending of the chosen method
+    \code{"mledist"},  \code{"mmedist"}, \code{"qmedist"} or \code{"mgedist"}
+    depending of the chosen method
     (see the help pages of these functions for details).}
 }
 
@@ -63,14 +64,28 @@ fitdist(data, distr, method=c("mle", "mme", "qme"),
     and variances (Vose, 2000). 
     For other distributions, the theoretical and the empirical moments are matched numerically,
     by minimization of the
-    sum of squared differences between observed and theoretical moments
+    sum of squared differences between observed and theoretical moments. In this last case,
+    further arguments are needed in the call to \code{fitdist}: \code{order} and \code{memp}
     (see \code{\link{mmedist}} for details).
     
     When \code{method = "qme"},
     the function carries out the quantile matching numerically, by minimization of the
-    sum of squared differences between observed and theoretical quantiles
+    sum of squared differences between observed and theoretical quantiles.
+    The use of this method requires an additional argument \code{probs},
+    defined as the numeric vector of the probabilities 
+    for which the quantile matching is done, of length equal to the number of parameters to estimate
     (see \code{\link{qmedist}} for details).
     
+    When \code{method = "mge"},
+    the distribution parameters are estimated by maximization of 
+    the goodness-of-fit distance. The use of this method requires an additional argument 
+    \code{gof} coding for the goodness-of-fit distance chosen. 
+    One may use the classical Cramer-von Mises distance (\code{"CvM"}), the classical
+    Kolmogorov-Smirnov distance (\code{"KS"}), the classical Anderson-Darling distance (\code{"AD"})
+    which gives more weight to the tails of the distribution,
+    or one of the variants of this last distance proposed by Luceno (2006)
+    (see \code{\link{mgedist}} for more details). This method is not suitable for discrete distributions.
+
     By default direct minimization of the log-likelihood (or other criteria depending
     of the chosen method) is performed using \code{\link{optim}},
     with the "Nelder-Mead" method for distributions characterized by more than one parameter
@@ -111,12 +126,12 @@ fitdist(data, distr, method=c("mle", "mme", "qme"),
     that must kept fixed rather than estimated by maximum likelihood or NULL if there are no such parameters. }
     \item{ dots }{ the list of  further arguments passed in \dots to be used in \code{bootdist} 
     in iterative calls to \code{mledist},
-    \code{mmedist} or \code{qmedist}, or NULL if no such arguments}
+    \code{mmedist}, \code{qmedist}, \code{mgedist} or NULL if no such arguments}
 }
 
 \seealso{ 
     \code{\link{plotdist}}, \code{\link{optim}}, \code{\link{mledist}}, \code{\link{mmedist}}, \code{\link{qmedist}},
-    \code{\link{gofstat}}
+    \code{\link{mgedist}}, \code{\link{gofstat}}
     and \code{\link{fitdistcens}}.
 }
 
@@ -293,6 +308,37 @@ gofstat(fWqme)
     summary(fP)
 
 }
+
+# (12) Fit of a Weibull distribution to serving size data by maximum 
+# goodness-of-fit estimation using all the distances available
+# 
+
+data(groundbeef)
+serving <- groundbeef$serving
+fitdist(serving,"weibull",method="mge",gof="CvM")
+fitdist(serving,"weibull",method="mge",gof="KS")
+fitdist(serving,"weibull",method="mge",gof="AD")
+fitdist(serving,"weibull",method="mge",gof="ADR")
+fitdist(serving,"weibull",method="mge",gof="ADL")
+fitdist(serving,"weibull",method="mge",gof="AD2R")
+fitdist(serving,"weibull",method="mge",gof="AD2L")
+fitdist(serving,"weibull",method="mge",gof="AD2")
+
+# (13) Fit of a uniform distribution using Cramer-von Mises or
+# Kolmogorov-Smirnov distance
+# 
+
+u <- runif(50,min=5,max=10)
+
+fuCvM <- fitdist(u,"unif",method="mge",gof="CvM")
+summary(fuCvM)
+plot(fuCvM)
+gofstat(fuCvM)
+
+fuKS <- fitdist(u,"unif",method="mge",gof="KS")
+summary(fuKS)
+plot(fuKS)
+gofstat(fuKS)
 
 
 }

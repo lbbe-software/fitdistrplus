@@ -48,7 +48,7 @@ bootdist<-function (f, bootmethod="param", niter=1001)
     }
     
     #compute bootstrap estimates
-    foncestim <- switch(f$method,"mle"=mledist,"qme"=qmedist,"mme"=mmedist)
+    foncestim <- switch(f$method,"mle"=mledist,"qme"=qmedist,"mme"=mmedist,"mge"=mgedist)
     start<-f$estimate
         if (is.null(f$dots))
             func<-function(iter) {

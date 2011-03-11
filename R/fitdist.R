@@ -22,7 +22,7 @@
 ###         R functions
 ### 
 
-fitdist <- function (data, distr, method=c("mle", "mme", "qme"), start=NULL, fix.arg=NULL, ...) 
+fitdist <- function (data, distr, method=c("mle", "mme", "qme", "mge"), start=NULL, fix.arg=NULL, ...) 
 {
     if (!is.character(distr)) 
         distname <- substring(as.character(match.call()$distr),2)
@@ -39,7 +39,7 @@ fitdist <- function (data, distr, method=c("mle", "mme", "qme"), start=NULL, fix
     if(any(method == "mom"))
         warning("the name \"mom\" for matching moments is NO MORE used and is replaced by \"mme\".")
     
-    method <- match.arg(method, c("mle", "mme", "qme"))
+    method <- match.arg(method, c("mle", "mme", "qme", "mge"))
     dots <- list(...)
     if (length(dots)==0) 
         dots <- NULL
@@ -53,7 +53,7 @@ fitdist <- function (data, distr, method=c("mle", "mme", "qme"), start=NULL, fix
         
     
     n <- length(data)
-    # Fit with mledist, qmedist or mmedist
+    # Fit with mledist, qmedist, mgedist or mmedist
     if (method == "mme")
     {
         mme <- mmedist(data, distname, start=start, fix.arg=fix.arg, ...)
@@ -107,6 +107,19 @@ fitdist <- function (data, distr, method=c("mle", "mme", "qme"), start=NULL, fix
         correl <- NULL
         
         convergence <- qme$convergence      
+    }else if (method == "mge")
+    {
+       mge <- mgedist(data, distname, start, fix.arg, ...)
+
+        estimate <- mge$estimate
+        sd <- NULL
+        loglik <- mge$loglik
+        npar <- length(estimate)
+        aic <- -2*loglik+2*npar
+        bic <- -2*loglik+log(n)*npar
+        correl <- NULL
+        
+        convergence <- mge$convergence      
     }else
     {
         stop("match.arg does not work correctly.")
@@ -119,11 +132,13 @@ fitdist <- function (data, distr, method=c("mle", "mme", "qme"), start=NULL, fix
                     distname = distname, fix.arg = fix.arg, dots = dots, 
                     convergence = convergence)
 
-    
-    if (method == "qme")
-        reslist <- c(reslist, list(probs=qme$probs))
-    if (method == "mme")
-        reslist <- c(reslist, list(order=mme$order, memp=mme$memp))
+# i think lines below are not required, as those arguments are in dots    (ML)
+#    if (method == "qme")
+#        reslist <- c(reslist, list(probs=qme$probs))
+#    if (method == "mge")
+#        reslist <- c(reslist, list(gof=mge$gof))
+#    if (method == "mme")
+#        reslist <- c(reslist, list(order=mme$order, memp=mme$memp))
 
     
     return(structure(reslist, class = "fitdist"))
@@ -139,6 +154,8 @@ print.fitdist <- function(x, ...){
        cat("Fitting of the distribution '",x$distname,"' by maximum likelihood \n")
     else if (x$method=="qme") 
         cat("Fitting of the distribution '",x$distname,"' by matching quantiles \n")
+    else if (x$method=="mge") 
+        cat("Fitting of the distribution '",x$distname,"' by maximum goodness-of-fit \n")
     
     cat("Parameters:\n")
     if (x$method=="mle") 
@@ -179,6 +196,8 @@ print.summary.fitdist <- function(x, ...){
        cat("Fitting of the distribution '",x$distname,"' by maximum likelihood \n")
     else if (x$method=="qme") 
         cat("Fitting of the distribution '",x$distname,"' by matching quantiles \n")
+    else if (x$method=="mge") 
+        cat("Fitting of the distribution '",x$distname,"' by maximum goodness-of-fit \n")
     
     cat("Parameters : \n")
     if (x$method == "mle")

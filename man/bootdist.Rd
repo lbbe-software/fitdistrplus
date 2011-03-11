@@ -33,7 +33,8 @@ bootdist(f, bootmethod="param", niter=1001)
 \details{
     Samples are drawn by parametric bootstrap (resampling from the distribution fitted by \code{fitdist}) or
     non parametric bootstrap (resampling with replacement from the data set). On each bootstrap sample the function 
-    \code{mledist}  (or \code{mmedist} or \code{qmedist} according to the component \code{f$method} of the 
+    \code{mledist}  (or \code{mmedist}, \code{qmedist} or \code{mgedist} 
+    according to the component \code{f$method} of the 
     object of class 'fitdist') is used to estimate bootstrapped values of parameters. When that function fails
     to converge, \code{NA} values are returned. Medians and 2.5 and 97.5 percentiles are computed by removing
     \code{NA} values. 
@@ -42,7 +43,7 @@ bootdist(f, bootmethod="param", niter=1001)
     If inferior to the whole number of iterations, the number of iterations for which the function converges 
     is also printed in the summary.
     
-    The plot of an object of class 'bootdist' consists in a scatterplot or a matrix of scatterplots
+    The plot of an object of class \code{bootdist} consists in a scatterplot or a matrix of scatterplots
     of the bootstrapped values of parameters.
     It uses the function \code{\link{stripchart}} when the fitted distribution
     is characterized by only one parameter, and the function \code{\link{plot}} in other cases.
@@ -63,7 +64,7 @@ bootdist(f, bootmethod="param", niter=1001)
         
 
 \seealso{ 
-    \code{\link{fitdist}}, \code{\link{mledist}}, \code{\link{qmedist}} and \code{\link{mmedist}}.
+    \code{\link{fitdist}}, \code{\link{mledist}}, \code{\link{qmedist}}, \code{\link{mmedist}}, and \code{\link{mgedist}}.
 }
 
 \references{ 
@@ -161,6 +162,18 @@ summary(bWqme)
     summary(b4npar)
 
 }
+
+# (9) Fit of a uniform distribution using Cramer-von Mises 
+# followed by parametric boostrap
+# 
+
+u <- runif(50,min=5,max=10)
+
+fu <- fitdist(u,"unif",method="mge",gof="CvM")
+bu <- bootdist(fu, bootmethod="param")
+summary(bu)
+plot(bu)
+
 
 
 }

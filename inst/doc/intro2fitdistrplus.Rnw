@@ -60,9 +60,10 @@ library(fitdistrplus)
 \pagebreak
 
 \section{Specification of a distribution from non-censored continuous data}
-%si on enlève l'étoile on a des numéros de section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Graphical display of the observed distribution}
+%%%%%%%%%%
 
  First of all, the observed distribution may be plotted using the function \texttt{plotdist}.
 
@@ -74,6 +75,7 @@ plotdist(x1)
 @
 
 \subsection{Characterization of the observed distribution}
+%%%%%%%%%%
 
 Descriptive parameters of the empirical distribution may be computed using the function \texttt{descdist}.
 This function will also provide by default a skewness-kurtosis plot which may help you to select 
@@ -95,13 +97,13 @@ descdist(x1,boot=1000)
 @
 
 \subsection{Fitting of a distribution}
+%%%%%%%%%%
 
 One or more parametric distributions may then be fitted to the data set, one at a time, using the
 fonction \texttt{fitdist}. This function uses the maximum likelihood
-method if the argument \texttt{method="mle"} (or if it is omitted) 
-or the matching moments estimation if the argument \texttt{method="mme"}.
+method by default or other estimation methods described in part 5 if specified in the argument \texttt{method}.
 When fitting continuous distributions, 
-Kolmogorov-Smirnov and Anderson-Darling statistics may be computed using the function \texttt{gofstat}. 
+Cramer-von Mises, Kolmogorov-Smirnov and Anderson-Darling statistics may be computed using the function \texttt{gofstat}. 
 Four goodness of fit plots are also provided.
  
 
@@ -113,13 +115,13 @@ gofstat(f1l)
 plot(f1l)
 @
 
-In that case the Anderson-Darling test may be used to test the adequation of the distribution to data. 
+In that case Cramer-von Mises and Anderson-Darling tests may be used to test the adequation of the distribution to data. 
 <<>>=
 gofstat(f1l,print.test=TRUE)
 @
 
 Generally goodness-of-fit tests may be used carefully.
-In somme cases, especially on very big datasets, even if the null hypothesis is rejected a fitted distribution may be 
+In some cases, especially on very big datasets, even if the null hypothesis is rejected a fitted distribution may be 
 chosen as the best one among simple distributions to describe an empirical distribution, if the goodness-of-fit
 plots do not show strong differences between empirical and theoretical distributions.
 
@@ -135,7 +137,8 @@ gofstat(fitdist(x1,"norm"))
 gofstat(fitdist(x1,"weibull"))
 @
 
-Regarding the Kolmogorov-Smirnov statistic, the fit of a normal distribution seems better while regarding the 
+Regarding the Cramer-von Mises and Kolmogorov-Smirnov statistics, 
+the fit of a normal distribution seems better while regarding the 
 Anderson-Darling statistic the fit of a logistic distribution seems better.
 It is recommended to base the comparison of fits on the Anderson-Darling statistic when the modelling of the tails of 
 a distribution is important, as it is often the case in risk assessment.
@@ -182,6 +185,7 @@ gofstat(fgu)
 @
 
 \subsection{Simulation of the uncertainty by boostrap}
+%%%%%%%%%%
 
 The uncertainty in the parameters of the fitted distribution may be simulated by parametric or nonparametric
 boostrap using the function \texttt{boodist}. This function returns the boostrapped values of parameters which
@@ -197,6 +201,7 @@ summary(b1l)
 @
 
 \section{Specification of a distribution from non-censored discrete data}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  
  A discrete data set may be considered as a continuous one for example for a large data set
  from a binomial distribution converging to a normal one. A discrete plot of the distribution 
@@ -216,7 +221,7 @@ descdist(x2,discrete=T,boot=1000)
 @
 
 As for continuous distributions, one or more parametric distributions may then be fitted 
-to the data set by maximum likelihood or matching moments. 
+to the data set by maximum likelihood or alternative methods described in part 5. 
 
 Below is the result of the fit of a Poisson distribution with the bootstrap simulations.
 <<fitdistx2p,fig=TRUE>>=
@@ -245,7 +250,8 @@ looking at the skewness-kurtosis graph. This graph must be used cautiously espec
 distributions far from the normal distribution or for discrete distributions. It is only indicative.
 
 \section{Specification of a distribution from censored data}
-%si on enlève l'étoile on a des numéros de section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 Censored data may contain left censored, right censored and interval censored values, 
 with several lower and upper bounds. Data must be coded into a dataframe with two columns,
  respectively named \texttt{left} 
@@ -258,6 +264,7 @@ with several lower and upper bounds. Data must be coded into a dataframe with tw
  or the observed value for non-censored observations.
      
 \subsection{Graphical display of the observed distribution}
+%%%%%%%%%%
 
 First of all, the observed distribution may be plotted using the function \texttt{plotdistcens}.
 Data are reported directly as segments for interval, left and right censored data, 
@@ -290,6 +297,7 @@ plotdistcens(d1,rightNA=3)
 @
 
 \subsection{Fitting of a distribution}
+%%%%%%%%%%
 
 One or more parametric distributions may then be fitted to the censored data set, one at a time, using the
 fonction \texttt{fitdistcens}. This function always uses the maximum likelihood
@@ -341,12 +349,14 @@ the distribution parameters in non trivial cases, by an manual iterative use if 
 previously for non-censored continuous data.
 
 \section{Changing the optimization algorithm used to maximize the likelihood}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Sometimes the default algorithm used to maximize the likelihood fails to converge. It may then
 be interesting to change some options of the function \texttt{optim} or to use another optimization
 function than \texttt{optim} to maximize the likelihood.
 
 \subsection{Changing the arguments passed to \texttt{optim}}
+%%%%%%%%%%
 
 The argument optim.method may be used in the call to \texttt{fitdist} or
 \texttt{fitdistcens}. It will internally be passed to \texttt{mledist} and to \texttt{optim}.
@@ -368,6 +378,7 @@ fitdist(x1,"gamma",optim.method="SANN")
 @
 
 \subsection{Supplying another optimization function}
+%%%%%%%%%%
 
 You may also want to use another function than \texttt{optim} to maximize the likelihood.
 This optimization function has to be specified by the argument \texttt{custom.optim} 
@@ -403,5 +414,53 @@ fitdist(x1, "gamma", custom.optim=mygenoud, nvars=2,
    Domains=cbind(c(0,0), c(10, 10)), boundary.enforcement=1, 
    print.level=1, hessian=TRUE)
 \end{verbatim}
+
+\section{Alternative methods to maximum likelihhod for non censored data}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+For non censored data, alternative methods to maximum likelihood are available.
+
+\subsection{Moment matching estimation}
+%%%%%%%%%%
+Moment matching may be performed fixing the argument \texttt{method}
+to \texttt{"mme"} in the call to fitdist (see the help file page of the function
+\texttt{mmedist} in \texttt{fitdistrplus} reference manual for details).
+Below is an example of fit of a uniform distribution to data randomly
+generated in a uniform distribution.
+<<>>=
+u <- runif(50,min=5,max=10)
+fitdist(u,"unif",method="mme")
+@
+
+\subsection{Quantile matching estimation}
+%%%%%%%%%%
+Quantile matching may also be performed fixing the argument \texttt{method}
+to \texttt{"qme"} in the call to fitdist and adding an argument \texttt{probs}
+defining the probabilities for which the quantile matching is done.
+The length of this vector must be equal
+to the number of parameters to estimate.(see the help file page of the function
+\texttt{qmedist} in \texttt{fitdistrplus} reference manual for details).
+Below is an example of fit of a uniform distribution to the same dataset by matching first
+and third quartiles.
+<<>>=
+fitdist(u,"unif",method="qme",probs=c(0.25,0.75))
+@
+
+\subsection{Maximum goodness-of-fit estimation}
+%%%%%%%%%%
+Parameters may also be estimated by maximizing a goodness-of-fit distance
+by fixing the argument \texttt{method}
+to \texttt{"mge"} in the call to fitdist and adding an argument \texttt{gof}
+coding for the goodness-of-fit distance chosen. One may use the classical 
+Cramer-von Mises distance (\texttt{"CvM"}), the classical
+Kolmogorov-Smirnov distance (\texttt{"KS"}), the classical Anderson-Darling distance (\texttt{"AD"})
+which gives more weight to the tails of the distribution,
+or one of the variants of this last distance (see the help file page of the function
+\texttt{mgedist} in \texttt{fitdistrplus} reference manual for details).
+Below is an example of fit of a uniform distribution to the same dataset by maximizing the 
+Kolmogorov-Smirnov distance.
+<<>>=
+fitdist(u,"unif",method="mge",gof="KS")
+@
+
  
 \end{document}
