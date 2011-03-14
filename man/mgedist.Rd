@@ -4,7 +4,7 @@
 \title{ Maximum goodness-of-fit fit of univariate continuous distributions}
 
 \description{
- Fit of univariate continuous distribution by maximizing a goodness-of-fit distance for non censored data.  
+ Fit of univariate continuous distribution by maximizing goodness-of-fit (or minimizing distance) for non censored data.  
 }
 
 \usage{
@@ -35,15 +35,17 @@ mgedist(data, distr, gof="CvM", start=NULL, fix.arg=NULL,
 }
 
 \details{
-    The \code{mgedist} function numerically maximizes the goodness-of-fit distance coded by the argument 
-    \code{gof}. One may use the classical Cramer-von Mises distance (\code{"CvM"}), the classical
-    Kolmogorov-Smirnov distance (\code{"KS"}), the classical Anderson-Darling distance (\code{"AD"})
+    The \code{mgedist} function numerically maximizes goodness-of-fit, 
+    or minimizes a goodness-of-fit distance coded by the argument 
+    \code{gof}. One may use one of the classical distances defined in Stephens (1986), 
+    the Cramer-von Mises distance (\code{"CvM"}), the
+    Kolmogorov-Smirnov distance (\code{"KS"}) or the Anderson-Darling distance (\code{"AD"})
     which gives more weight to the tails of the distribution,
     or one of the variants of this last distance proposed by Luceno (2006). The right-tail AD (\code{"ADR"})
     gives more weight only to the right tail, the left-tail AD (\code{"ADL"})
     gives more weight only to the left tail. Either of the tails, or both of them, can receive even larger
     weights by using second order Anderson-Darling Statistics (using \code{"AD2R"}, \code{"AD2L"} or \code{"AD2"}).
-    The minimization process is the same as \code{\link{mledist}}, see the 'details' section 
+    The optimization process is the same as \code{\link{mledist}}, see the 'details' section 
     of  \code{\link{mledist}}.
 
     This function is not intended to be called directly but is internally called in
@@ -83,6 +85,9 @@ mgedist(data, distr, gof="CvM", start=NULL, fix.arg=NULL,
 \references{ 
     Luceno, A. 2006. Fitting the generalized Pareto distribution to data using
     maximum goodness-of-fit estimators. \emph{Computational Statistics and Data Analysis}, \bold{51}, 904-917.
+
+    Stephens MA (1986) Tests based on edf statistics. In Goodness-of-fit techniques (D'Agostino RB and
+    Stephens MA, eds), Marcel dekker, New York, pp. 97-194.
 }
 
 

@@ -447,7 +447,7 @@ fitdist(u,"unif",method="qme",probs=c(0.25,0.75))
 
 \subsection{Maximum goodness-of-fit estimation}
 %%%%%%%%%%
-Parameters may also be estimated by maximizing a goodness-of-fit distance
+Parameters may also be estimated by maximizing goodness-of-fit (or minimizing a goodness-of-fit distance)
 by fixing the argument \texttt{method}
 to \texttt{"mge"} in the call to fitdist and adding an argument \texttt{gof}
 coding for the goodness-of-fit distance chosen. One may use the classical 

@@ -38,7 +38,7 @@ qmedist(data, distr, probs, start=NULL, fix.arg=NULL, qtype=7,
 \details{
     The \code{qmedist} function carries out the quantile matching numerically, by minimization of the
     sum of squared differences between observed and theoretical quantiles.
-    The minimization process is the same as \code{\link{mledist}}, see the 'details' section 
+    The optimization process is the same as \code{\link{mledist}}, see the 'details' section 
     of  \code{\link{mledist}}.
 
     This function is not intended to be called directly but is internally called in
@@ -70,12 +70,12 @@ qmedist(data, distr, probs, start=NULL, fix.arg=NULL, qtype=7,
 
 \seealso{ 
     \code{\link{mmedist}}, \code{\link{mledist}}, \code{\link{fitdist}} for other estimation methods and 
-	\code{\link{quantile}} for empirical quantile estimation in R.
+    \code{\link{quantile}} for empirical quantile estimation in R.
 }
 
 \references{ 
     Klugman et al. (2004) Loss Models: From Data to Decisions, 2nd edition. 
-	Wiley Series in Probability and Statistics, p. 331.
+    Wiley Series in Probability and Statistics, p. 331.
 }
 
 

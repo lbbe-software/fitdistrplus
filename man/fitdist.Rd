@@ -77,8 +77,8 @@ fitdist(data, distr, method=c("mle", "mme", "qme", "mge"),
     (see \code{\link{qmedist}} for details).
     
     When \code{method = "mge"},
-    the distribution parameters are estimated by maximization of 
-    the goodness-of-fit distance. The use of this method requires an additional argument 
+    the distribution parameters are estimated by maximization  
+    of goodness-of-fit (or minimization of a goodness-of-fit distance). The use of this method requires an additional argument 
     \code{gof} coding for the goodness-of-fit distance chosen. 
     One may use the classical Cramer-von Mises distance (\code{"CvM"}), the classical
     Kolmogorov-Smirnov distance (\code{"KS"}), the classical Anderson-Darling distance (\code{"AD"})
@@ -86,7 +86,7 @@ fitdist(data, distr, method=c("mle", "mme", "qme", "mge"),
     or one of the variants of this last distance proposed by Luceno (2006)
     (see \code{\link{mgedist}} for more details). This method is not suitable for discrete distributions.
 
-    By default direct minimization of the log-likelihood (or other criteria depending
+    By default direct optimization of the log-likelihood (or other criteria depending
     of the chosen method) is performed using \code{\link{optim}},
     with the "Nelder-Mead" method for distributions characterized by more than one parameter
     and the "BFGS" method for distributions characterized by only one parameter. 
@@ -241,7 +241,7 @@ res2 <- fitdist(mysample, dexp, start=mystart, custom.optim=myoptimize,
 summary(res2)
 
 
-# (8) custom optimisation function - another example with the genetic algorithm
+# (8) custom optimization function - another example with the genetic algorithm
 #
 \dontrun{
     #set a sample
