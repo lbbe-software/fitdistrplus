@@ -1,5 +1,12 @@
 === fitdistrplus : Help to fit of a parametric distribution ===
 
+Version 0.2-2
+=============
+
+BUG FIXES
+
+- elimination of NON-ASCII characters in the vignette.
+
 Version 0.2-1
 =============
 
