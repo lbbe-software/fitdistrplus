@@ -360,9 +360,9 @@ function than \texttt{optim} to maximize the likelihood.
 
 The argument optim.method may be used in the call to \texttt{fitdist} or
 \texttt{fitdistcens}. It will internally be passed to \texttt{mledist} and to \texttt{optim}.
-This argument may be fixed to \texttt{"Nelder-Mead"} (the robust Nelder and Mead method), 
-\texttt{"BFGS"} (the BFGS quasi-Newton method), \texttt{"CG"} (a conjugate gradients method), 
-\texttt{"SANN"} (a variant of simulated annealing) or \texttt{"L-BFGS-B"} (a modification of the BFGS 
+This argument may be fixed to ``Nelder-Mead'' (the robust Nelder and Mead method), 
+``BFGS'' (the BFGS quasi-Newton method), ``CG'' (a conjugate gradients method), 
+``SANN'' (a variant of simulated annealing) or ``L-BFGS-B'' (a modification of the BFGS 
 quasi-Newton method which enables box constraints optimization). For the use of the last method the 
 arguments \texttt{lower} and/or \texttt{upper} also have to be passed. More details on these optimization
 functions may be found in the help page of \texttt{optim} from the package \texttt{stats}.
@@ -415,14 +415,14 @@ fitdist(x1, "gamma", custom.optim=mygenoud, nvars=2,
    print.level=1, hessian=TRUE)
 \end{verbatim}
 
-\section{Alternative methods to maximum likelihhod for non censored data}
+\section{Alternative methods to maximum likelihood for non censored data}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 For non censored data, alternative methods to maximum likelihood are available.
 
 \subsection{Moment matching estimation}
 %%%%%%%%%%
 Moment matching may be performed fixing the argument \texttt{method}
-to \texttt{"mme"} in the call to fitdist (see the help file page of the function
+to ``mme'' in the call to fitdist (see the help file page of the function
 \texttt{mmedist} in \texttt{fitdistrplus} reference manual for details).
 Below is an example of fit of a uniform distribution to data randomly
 generated in a uniform distribution.
@@ -434,7 +434,7 @@ fitdist(u,"unif",method="mme")
 \subsection{Quantile matching estimation}
 %%%%%%%%%%
 Quantile matching may also be performed fixing the argument \texttt{method}
-to \texttt{"qme"} in the call to fitdist and adding an argument \texttt{probs}
+to ``qme'' in the call to fitdist and adding an argument \texttt{probs}
 defining the probabilities for which the quantile matching is done.
 The length of this vector must be equal
 to the number of parameters to estimate.(see the help file page of the function
@@ -447,12 +447,12 @@ fitdist(u,"unif",method="qme",probs=c(0.25,0.75))
 
 \subsection{Maximum goodness-of-fit estimation}
 %%%%%%%%%%
-Parameters may also be estimated by maximizing goodness-of-fit (or minimizing a goodness-of-fit distance)
+Parameters may also be estimated by maximizing a goodness-of-fit distance
 by fixing the argument \texttt{method}
-to \texttt{"mge"} in the call to fitdist and adding an argument \texttt{gof}
+to ``mge'' in the call to fitdist and adding an argument \texttt{gof}
 coding for the goodness-of-fit distance chosen. One may use the classical 
-Cramer-von Mises distance (\texttt{"CvM"}), the classical
-Kolmogorov-Smirnov distance (\texttt{"KS"}), the classical Anderson-Darling distance (\texttt{"AD"})
+Cramer-von Mises distance (``CvM''), the classical
+Kolmogorov-Smirnov distance (``KS''), the classical Anderson-Darling distance (``AD'')
 which gives more weight to the tails of the distribution,
 or one of the variants of this last distance (see the help file page of the function
 \texttt{mgedist} in \texttt{fitdistrplus} reference manual for details).
