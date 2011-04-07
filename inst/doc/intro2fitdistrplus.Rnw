@@ -34,7 +34,7 @@
 
 \title{Use of the package \texttt{fitdistrplus} to specify a distribution from 
 non-censored or censored data}
-\author{Marie Laure Delignette-Muller, Régis Pouillot , Jean-Baptiste Denis and Christophe Dutang}
+\author{Marie Laure Delignette-Muller, R\'egis Pouillot , Jean-Baptiste Denis and Christophe Dutang}
 
 \begin{document}
 \setkeys{Gin}{width=0.6\textwidth} 
