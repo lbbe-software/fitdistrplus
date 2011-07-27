@@ -45,8 +45,9 @@ plotdist(data,distr,para,breaks="default",discrete=FALSE,...)
 }
 
 \seealso{ 
-    \code{\link{descdist}}, \code{\link{hist}},  \code{\link{plot}}, \code{\link{plotdistcens}} and \code{\link{ppoints}}.
+    \code{\link{cdfcomp}}, \code{\link{descdist}}, \code{\link{hist}},  \code{\link{plot}}, \code{\link{plotdistcens}} and \code{\link{ppoints}}.
 }
+
 
 \references{ 
 Cullen AC and Frey HC (1999) Probabilistic techniques in exposure assessment. Plenum Press, USA, pp. 81-159.
@@ -59,7 +60,8 @@ Marie-Laure Delignette-Muller \email{ml.delignette@vetagro-sup.fr}
 %\note{  }
 
 \examples{
-# (1) Plot of an empirical distribution with changing of default line types for CDF and colors
+# (1) Plot of an empirical distribution with changing 
+# of default line types for CDF and colors
 #
 x1<-c(6.4,13.3,4.1,1.3,14.1,10.6,9.9,9.6,15.3,22.1,13.4,
 13.2,8.4,6.3,8.9,5.2,10.9,14.4)

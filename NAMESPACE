@@ -40,5 +40,7 @@ export(mgedist)
 
 export(plotdist, plotdistcens)
 
+export(cdfcomp)
+
 ### use dynamic library for C code
 #useDynLib(fitdistrplus, .registration = TRUE)

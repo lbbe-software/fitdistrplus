@@ -105,7 +105,9 @@ fitdist(data, distr, method=c("mle", "mme", "qme", "mge"),
 
          
     The plot of an object of class "fitdist" returned by \code{fitdist} uses the function 
-    \code{\link{plotdist}}.
+    \code{\link{plotdist}}. An object of class "fitdist" or a list of objects of class
+    "fitdist" corresponding to various fits using the same data set may also be plotted
+    as cumulative distributions using the function \code{\link{cdfcomp}}.
 }
 
 \value{ 
@@ -130,7 +132,7 @@ fitdist(data, distr, method=c("mle", "mme", "qme", "mge"),
 }
 
 \seealso{ 
-    \code{\link{plotdist}}, \code{\link{optim}}, \code{\link{mledist}}, \code{\link{mmedist}}, \code{\link{qmedist}},
+    \code{\link{plotdist}}, \code{\link{cdfcomp}}, \code{\link{optim}}, \code{\link{mledist}}, \code{\link{mmedist}}, \code{\link{qmedist}},
     \code{\link{mgedist}}, \code{\link{gofstat}}
     and \code{\link{fitdistcens}}.
 }
@@ -153,42 +155,43 @@ Christophe Dutang
 
 \examples{
 
-# (1) basic fit of a normal distribution with maximum likelihood estimation
+# (1) basic fit of a gamma distribution by maximum likelihood estimation
 #
+data(groundbeef)
+serving <- groundbeef$serving
+fitg <- fitdist(serving,"gamma")
+summary(fitg)
+plot(fitg)
+cdfcomp(fitg,addlegend=FALSE)
 
-x1 <- c(6.4,13.3,4.1,1.3,14.1,10.6,9.9,9.6,15.3,22.1,13.4,
-13.2,8.4,6.3,8.9,5.2,10.9,14.4)
-f1 <- fitdist(x1,"norm")
-print(f1)
-plot(f1)
-summary(f1)
-gofstat(f1)
 
 # (2) use the moment matching estimation (using a closed formula)
 #
 
-f1b <- fitdist(x1,"norm",method="mme")
-summary(f1b)
+fitgmme <- fitdist(serving,"gamma",method="mme")
+summary(fitgmme)
 
-# (3) moment matching estimation (using a closed formula) 
-# for log normal distribution
+# (3) fit and comparison of various fits
 #
-
-f1c <- fitdist(x1,"lnorm",method="mme")
-summary(f1c)
+fitW <- fitdist(serving,"weibull")
+fitg <- fitdist(serving,"gamma")
+fitln <- fitdist(serving,"lnorm")
+summary(fitW)
+summary(fitg)
+summary(fitln)
+cdfcomp(list(fitW,fitg,fitln),legendtext=c("Weibull","gamma","lognormal"))
 
 # (4) defining your own distribution functions, here for the Gumbel distribution
 # for other distributions, see the CRAN task view 
 # dedicated to probability distributions
 #
-
 dgumbel <- function(x,a,b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
 pgumbel <- function(q,a,b) exp(-exp((a-q)/b))
 qgumbel <- function(p,a,b) a-b*log(-log(p))
 
-f1c <- fitdist(x1,"gumbel",start=list(a=10,b=5))
-print(f1c)
-plot(f1c)
+fitgumbel <- fitdist(serving,"gumbel",start=list(a=10,b=10))
+summary(fitgumbel)
+plot(fitgumbel)
 
 # (5) fit a discrete distribution (Poisson)
 #
@@ -202,10 +205,10 @@ gofstat(f2)
 # (6) how to change the optimisation method?
 #
 
-fitdist(x1,"gamma",optim.method="Nelder-Mead")
-fitdist(x1,"gamma",optim.method="BFGS") 
-fitdist(x1,"gamma",optim.method="L-BFGS-B",lower=c(0,0))
-fitdist(x1,"gamma",optim.method="SANN")
+fitdist(serving,"gamma",optim.method="Nelder-Mead")
+fitdist(serving,"gamma",optim.method="BFGS") 
+fitdist(serving,"gamma",optim.method="L-BFGS-B",lower=c(0,0))
+fitdist(serving,"gamma",optim.method="SANN")
 
 # (7) custom optimization function
 #
@@ -271,10 +274,14 @@ summary(res2)
 # (9) estimation of the standard deviation of a normal distribution 
 # by maximum likelihood with the mean fixed at 10 using the argument fix.arg
 #
+x1 <- c(6.4, 13.3, 4.1, 1.3, 14.1, 10.6, 9.9, 9.6, 15.3, 22.1,
+         13.4, 13.2, 8.4, 6.3, 8.9, 5.2, 10.9, 14.4) 
 fitdist(x1,"norm",start=list(sd=5),fix.arg=list(mean=10))
 
-# (10) fit of a Weibull distribution to serving size data by maximum likelihood estimation
-#  or by quantile matching estimation (in this example matching first and third quartiles)
+# (10) fit of a Weibull distribution to serving size data 
+# by maximum likelihood estimation
+# or by quantile matching estimation (in this example 
+# matching first and third quartiles)
 #
 data(groundbeef)
 serving <- groundbeef$serving
@@ -315,14 +322,16 @@ gofstat(fWqme)
 
 data(groundbeef)
 serving <- groundbeef$serving
-fitdist(serving,"weibull",method="mge",gof="CvM")
-fitdist(serving,"weibull",method="mge",gof="KS")
-fitdist(serving,"weibull",method="mge",gof="AD")
-fitdist(serving,"weibull",method="mge",gof="ADR")
-fitdist(serving,"weibull",method="mge",gof="ADL")
-fitdist(serving,"weibull",method="mge",gof="AD2R")
-fitdist(serving,"weibull",method="mge",gof="AD2L")
-fitdist(serving,"weibull",method="mge",gof="AD2")
+(f1 <- fitdist(serving,"weibull",method="mge",gof="CvM"))
+(f2 <- fitdist(serving,"weibull",method="mge",gof="KS"))
+(f3 <- fitdist(serving,"weibull",method="mge",gof="AD"))
+(f4 <- fitdist(serving,"weibull",method="mge",gof="ADR"))
+(f5 <- fitdist(serving,"weibull",method="mge",gof="ADL"))
+(f6 <- fitdist(serving,"weibull",method="mge",gof="AD2R"))
+(f7 <- fitdist(serving,"weibull",method="mge",gof="AD2L"))
+(f8 <- fitdist(serving,"weibull",method="mge",gof="AD2"))
+cdfcomp(list(f1,f2,f3,f4,f5,f6,f7,f8))
+cdfcomp(list(f1,f2,f3,f4,f5,f6,f7,f8),xlogscale=TRUE)
 
 # (13) Fit of a uniform distribution using Cramer-von Mises or
 # Kolmogorov-Smirnov distance

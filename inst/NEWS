@@ -1,5 +1,12 @@
 === fitdistrplus : Help to fit of a parametric distribution ===
 
+Version 0.3-0
+=============
+
+NEW FEATURES
+- a new function ("cdfcomp") to plot cumulative distributions correponding to various fits using a same data set).
+- add of two data sets : "endosulfan" and "toxocara".
+
 Version 0.2-2
 =============
 
@@ -18,11 +25,11 @@ Version 0.1-5
 =============
 
 NEW FEATURES
-- a new goodness-of-fit statistic was added in gofstat, with corresponding test : 
+- a new goodness-of-fit statistic was added in gofstat, with corresponding test :
 the Cramer-von Mises distance
-- a new fitting method has been implemented : the quantile matching estimation (function "qmedist"). 
+- a new fitting method has been implemented : the quantile matching estimation (function "qmedist").
 For the moment, only available for non censored data.
-- the moment matching estimation has been extended (in function mmedist) to enable numerical 
+- the moment matching estimation has been extended (in function mmedist) to enable numerical
 matching when closed formula are not available.
 
 BUG FIXES
@@ -41,8 +48,8 @@ changed to take into account these optional arguments if they are defined in the
 - an argument added to fitdist, fitdistcens and mledist, named fix.arg, and giving the possibility to fix some
 of the distribution parameters while maximizing the likelihood. Functions bootdist, bootdistcens and gofstat were also
 changed in order to take this new argument into account.
-- a new data file of bacterial contamination censored data extracted from Busschaert et al. 2000 and examples 
-corresponding to analysis of this dataset. 
+- a new data file of bacterial contamination censored data extracted from Busschaert et al. 2000 and examples
+corresponding to analysis of this dataset.
 
 BUG FIXES
 
@@ -54,7 +61,7 @@ Version 0.1-3
 
 NEW FEATURES
 - new data file "groundbeef" (groundbeef.rda and groundbeef.Rd) and new use of this dataset in some examples.
-- new function gofstat. 
+- new function gofstat.
     Goodness-of-fit statistics are no more computed by fitdist but may computed and printed
     by the use of the function gofstat. In this new function, the whole results computed are not printed :
     results of tests are printed only if the argument print.test==TRUE and for continuous distributions
@@ -62,7 +69,7 @@ NEW FEATURES
     are returned by gofstat).
 - modifications in descdist : three arguments were added in descdist
     1/ method, to choose between unbiased estimations
-    of standard deviation, skewness and kurtosis (default choice) and 
+    of standard deviation, skewness and kurtosis (default choice) and
     sample values.
     2/ obs.col to choose the color used to plot the observed point on the graph.
     3/ boot.col to choose the color used to plot the bootstrap sample of points on the graph.
@@ -73,7 +80,7 @@ NEW FEATURES
 BUG FIXES
 
 - correction of a bug in plotdist due to the redefinition in the previous version
-    of the parameter "ylim" for the plot of a histogram with theoretical density function 
+    of the parameter "ylim" for the plot of a histogram with theoretical density function
     (there was a problem with infinite values of theoretical density function)
 
 Version 0.1-2
@@ -86,18 +93,18 @@ to maximize likelihood for both censored and non censored data.
 - possibility to choose the optimization method used for maximum
 likelihood estimation (MLE) of distribution parameters using the new
 argument "optim.method" of mledist.
-- possibility to specify contraints on distribution parameters using 
+- possibility to specify contraints on distribution parameters using
 the new arguments "lower" and "upper" of mledist.
-- possibility to use a custom optimization function for MLE using the 
+- possibility to use a custom optimization function for MLE using the
 new argument "custom.optim".
 - moment matching estimation is no longer done with argument method
 set to "mom" but set to "mme" in fitdist.
 - renaming of momdist in mmedist.
-- calculation of AIC and BIC criterion after maximum likelihood 
+- calculation of AIC and BIC criterion after maximum likelihood
 estimation of distribution parameters
-- change of the default number of iterations from 999 to 1001 
+- change of the default number of iterations from 999 to 1001
 for boostrap in order to avoid interpolation using the quantile function
-- use of the argument "log" and (resp. "log.p") of density (resp. 
+- use of the argument "log" and (resp. "log.p") of density (resp.
 distribution) when available to compute the loglikelihood.
 
 BUG FIXES
@@ -105,7 +112,7 @@ BUG FIXES
 - omitting the name of the first argument in calls to the density function
 during maximization of the likelihood in order to enable the use of a density
 function defined with a first parameter (the vector of quantiles) with a name
-differing from "x" (classical name for density distributions defined in R), 
+differing from "x" (classical name for density distributions defined in R),
 such as the density function dexGAUS from the package gamlss.dist.
 
 
