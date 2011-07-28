@@ -32,7 +32,7 @@ data(toxocara)
 
 # (2) description and plot of data
 #
-number <- toxacara$number
+number <- toxocara$number
 descdist(number,discrete=TRUE,boot=1000)
 plotdist(number,discrete=TRUE)
 
