@@ -1,6 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%   Copyright (c) 2009 Marie Laure Delignette-Muller, Regis Pouillot, Jean-Baptiste Denis,
-%   Christophe Dutang                        
+%   Copyright (c) 2009 Marie Laure Delignette-Muller, Christophe Dutang                        
 %                                                                                                                                                       
 %    This program is free software; you can redistribute it and/or modify                               
 %    it under the terms of the GNU General Public License as published by                        
@@ -31,10 +30,11 @@
 
 
 \usepackage[a4paper,textwidth=18cm,textheight=27cm]{geometry}
+\usepackage{url}
 
-\title{Use of the package \texttt{fitdistrplus} to specify a distribution from 
-non-censored or censored data}
-\author{Marie Laure Delignette-Muller, R\'egis Pouillot , Jean-Baptiste Denis and Christophe Dutang}
+\title{Fitting parametric univariate distributions  to non censored or
+censored data using the R \texttt{fitdistrplus} package}
+\author{Marie Laure Delignette-Muller and Christophe Dutang}
 
 \begin{document}
 \setkeys{Gin}{width=0.6\textwidth} 
@@ -45,202 +45,487 @@ non-censored or censored data}
 options(digits=3)
 @
 
-Here you will find some easy examples of use of the functions of the package \texttt{fitdistrplus}. 
-The aim is to show you by examples how to use these functions to help you to specify a parametric distribution 
-from data corresponding to a random sample drawn from a theoretical distribution that you want to describe. 
-For details, see the documentation of each function, using the R help command (ex.: \texttt{?fitdist}). 
-Do not forget to load the package using the function \texttt{library} or \texttt{require}
-before testing following examples.
-<<>>=
+% A enlever dans version JSS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+\tableofcontents
+
+%\pagebreak
+
+
+\section{Introduction}
+\label{Introduction}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Overview}
+\label{Overview}
+%%%%%%%%%%%
+
+Fitting distributions to data is a very common task in statistics. It consists of choosing
+a probability distribution that gives a good representation of a statistical
+variable. It requires judgment and expertise and generally needs an iterative process of
+distribution choice, parameter estimation, and quality of fit evaluation. 
+Function \texttt{fitdistr} in the R package \texttt{MASS} \cite{MASS} 
+is a well known general-purpose maximum-likelihood
+fitting routine for the parameter estimation step in R. Other steps of
+the process may be developed using R \cite{Ricci05}. Our first objective while developping
+package \texttt{fitdistrplus} \cite{fitdistrplus} 
+was to provide R users a set of functions dedicated to help the overall
+process of fitting a univariate parametric distribution to data.
+
+Function \texttt{fitdistr} estimates distribution parameters by maximizing the log-likelihood
+using function \texttt{optim}. In some cases, other estimation methods could be prefered, 
+such as maximum goodness-of-fit estimation also commonly called minimum distance estimation, and
+proposed in package \texttt{actuar} 
+%\cite{actuar}
+with three different goodness-of-fit distances. While developping
+package \texttt{fitdistrplus}, our second objective  was to extend function \texttt{fitdistr} 
+by providing various
+estimation methods to fit distributions in addition to maximum likelihood. Functions
+were developped to enable matching moment estimation, matching quantile estimation, and 
+maximum goodness-of-fit estimation (or minimum distance estimation) using eight different distances.
+Moreover, package \texttt{fitdistrplus} offers the possibility to specify a user-supplied function
+for optimization, 
+useful in cases where optimization techniques not included in function \texttt{optim} may be more adequate.
+
+In applied statistics, it is not uncommon to have to fit distributions to censored data. 
+Function \texttt{fitdistr} 
+does not enable maximum likelihood estimation from this type data. Some packages 
+deal with censored data, especially survival data \cite{survival},
+but those packages generally focused on specific models, enabling the fit of only one distribution or a 
+restricted family of distributions. Our third objective was thus to provide R users a function 
+to estimate univariate distribution parameters from censored data, whatever the type of censoring. 
+
+% A changer en cas de mise à jour de fitdistrplus !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+This paper reviews the various features of version 0.3-0 of \texttt{fitdistrplus}. The package
+is available from the Comprehensive R Archive Network at \url{http://cran.r-project.org/package=fitdistrplus}.
+The development version of the package is located at R-forge as one the packages of the 
+project ``Risk Assessment with R''
+(\url{http://r-forge.r-project.org/projects/riskassessment/})
+The following command will load the package.
+<<results=hide>>=
 library(fitdistrplus)
 @
 
-\tableofcontents
 
-\pagebreak
+\subsection{Running examples}
+\label{Examples}
+%%%%%%%%%%%
+For illustrating the use of various functions of package \texttt{fitdistrplus}, we will use
+four examples published in various biological areas, 
+corresponding to data sets included in the package.
+% voir si on en met 3 ou 4 au final !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-\section{Specification of a distribution from non-censored continuous data}
+The two first data sets correspond to the observation of a continuous variable on a random sample
+of a population of interest. 
+
+The ``ground beef'' data set contains values of
+serving sizes in grams, collected in a French survey, for ground beef patties consumed by 
+children under 5 years old. This data set was used in a quantitative risk assessment published
+in a food microbiology journal (\cite{Delignette08}).
+<<echo=TRUE>>=
+data(groundbeef)
+str(groundbeef)
+@
+
+The ``endosulfan'' data set contains
+acute toxicity values for the organochlorine pesticide endosulfan
+(geometric mean of LC50 ou EC50 values in $\mu g.L^{-1}$),
+tested on Australian and non-Australian laboratory-species 
+(arthropods, fish or nonarthropod invertebrates) (\cite{Hose04}).
+<<echo=TRUE>>=
+data(endosulfan)
+str(endosulfan)
+@
+
+The third data set corresponds to the observation of a discrete variable, 
+the number of \emph{Toxocara cati} parasites present in digestive tract,
+on a random sample of feral 
+cats living on Kerguelen island (\cite{Fromont01}).
+<<echo=TRUE>>=
+data(toxocara)
+str(toxocara)
+@
+
+The last data set corresponds to the observation of a continuous censored variable, 
+the \emph{Listeria monocytogenes} microbial concentration, on a random
+sample of smoked fish distributed on the Belgian market in the period
+2005 to 2007 (\cite{Busschaert10}).
+Censored data are coded within 2 columns named left and right, describing
+each observed value of \emph{Listeria monocytogenes} concentration 
+(in $CFU.g^{-1}$) as an interval. 
+The left column contains either \texttt{NA} for
+left censored observations, the left bound of the interval for interval censored
+observations, or the observed value for non-censored observations. The right
+column contains either \texttt{NA} for right censored observations, the right bound of
+the interval for interval censored observations, or the observed value for noncensored
+observations.
+<<echo=TRUE>>=
+data(smokedfish)
+str(smokedfish)
+@
+
+
+\section{Choice of candidate distributions}
+\label{Choice}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Before fitting one or more distributions to a data set, it is generally
+necessary to choose good candidates among a predefined family of distributions.
+To help the user in this preliminary task, we developed functions to plot and
+characterise empirical distributions.
 
 \subsection{Graphical display of the observed distribution}
+\label{Graphical}
 %%%%%%%%%%
 
- First of all, the observed distribution may be plotted using the function \texttt{plotdist}.
+First of all, an empirical distribution may be plotted using classical R function
+or using Function \texttt{plotdist} which provides plots
+in density and in cdf as done in (Figure~\ref{plotdistcont}) for a continuous variable:
 
-<<plotdistx1,fig=TRUE>>=
-x1<-c(6.4,13.3,4.1,1.3,14.1,10.6,
-9.9,9.6,15.3,22.1,13.4,13.2,
-8.4,6.3,8.9,5.2,10.9,14.4)
-plotdist(x1)
+<<echo=TRUE, fig=FALSE>>=
+plotdist(groundbeef$serving)
 @
+\begin{figure}[htb]
+  \centering
+<<echo=FALSE, fig=TRUE>>=
+plotdist(groundbeef$serving)
+@
+  \caption{Density and cdf plots of an empirical distribution for a continuous variable}
+  \label{plotdistcont}
+\end{figure}
 
-\subsection{Characterization of the observed distribution}
+In some cases a discrete variable may be plotted as a continuous one, for example for a large data set
+from a binomial distribution converging to a normal one, but
+Function \texttt{plotdist} also proposes specific plots in density and in cdf
+for discrete variables (Figure~\ref{plotdistdisc}):
+
+<<echo=TRUE, fig=FALSE>>=
+plotdist(toxocara$number,discrete = TRUE)
+@
+\begin{figure}[htb]
+  \centering
+<<echo=FALSE, fig=TRUE>>=
+plotdist(toxocara$number,discrete = TRUE)
+@
+  \caption{Density and cdf plots of an empirical distribution for a discrete variable}
+  \label{plotdistcont}
+\end{figure}
+
+%\clearpage
+
+\subsection{Empirical basis for selecting candidate distributions}
+\label{Empirical}
 %%%%%%%%%%
+Function \texttt{descdist} 
+Descriptives statistics may help the choice of good candidates to describe an empirical distribution
+among a family of parametric distributions. Especially the skewness and kurtosis are useful for this
+purpose. The concept of skewness relates to deviations from symmetry of the distribution.
+The normal distribution has a skewness of zero. A positive (resp. negative) skewness indicates 
+that the right (resp. left) tail of the distribution is more extended than the left (resp. right) one.
+The concept of kurtosis relates to the tail weight. The normal distribution has a kurtosis of 3.
+Distributions with a higher kurtosis are said to be leptokurtic, with heavier tails, such as the 
+logistic distribution, while distributions with a smaller kurtosis are said platykurtic, with lighter 
+tails, such as the uniform distribution.
 
-Descriptive parameters of the empirical distribution may be computed using the function \texttt{descdist}.
-This function will also provide by default a skewness-kurtosis plot which may help you to select 
-which distribution(s) to fit among the potential candidates. 
+Function \texttt{descdist} provides calculations of classical descriptive statistics
+(minimum, maximum, median, mean, sample sd) and by default 
+unbiased estimations of skewness and 
+Pearsons's kurtosis values. Nevertheless estimations of skewness and kurtosis
+are unbiased only for normal distributions and estimated values are thus only indicative.
+A skewness-kurtosis plot such as the one proposed by \cite{Cullen99} is also provided for the 
+empirical distribution (Figure~\ref{Cullenplotcont}). 
+On this plot, values for common distributions are displayed as a tools 
+to help the choice of distributions to fit to data. For some distributions (normal, uniform,
+logistic, exponential for example), there is only one possible value for the skewness and the kurtosis
+ and the distribution is thus represented by a point on the plot. For other distributions, 
+areas of possible values are represented, consisting in lines (as for gamma and lognormal distributions), 
+or larger areas (as for beta distribution).
+    
+Skewness and kurtosis are known not to be robust. In order to take into account the uncertainty 
+of the estimated values of kurtosis and skewness from data, the data set may be boostraped by 
+fixing the argument \texttt{boot} to an integer above 10. Values of skewness and kurtosis 
+corresponding to bootstrap samples are then computed and reported on the 
+skewness-kurtosis plot.
 
-<<descdistx1,fig=TRUE>>=
-descdist(x1)
+<<echo=TRUE, fig=FALSE>>=
+descdist(groundbeef$serving,boot=1000)
 @
-
-Skewness and kurtosis are known not to be robust. In order to try to
-take into account the uncertainty on the estimated values of kurtosis and skewness, 
-the data set may be boostrapped by fixing the argument \texttt{boot} to an integer above 10 in \texttt{descdist}. 
-\texttt{boot} values of 
-skewness and kurtosis corresponding to the boot nonparametric bootstrap samples are then computed and reported
-on the skewness-kurtosis plot.
-
-<<descdistx1boot,fig=TRUE>>=
-descdist(x1,boot=1000)
+\begin{figure}[htb]
+  \centering
+<<echo=FALSE, results=hide, fig=TRUE>>=
+descdist(groundbeef$serving,boot=1000)
 @
+  \caption{Skewness-kurtosis plot for a continuous variable}
+  \label{Cullenplotcont}
+\end{figure}
 
-\subsection{Fitting of a distribution}
+For discrete variable, skewness and kurtosis values or set of values of Poisson and negative binomial
+distributions are represented in the skewness-kurtosis plot (Figure~\ref{Cullenplotdisc}), 
+together with values for the
+normal distribution, to which discrete distributions may converge. 
+
+<<echo=TRUE, fig=FALSE>>=
+descdist(toxocara$number,discrete = TRUE,boot=1000)
+@
+\begin{figure}[htb]
+  \centering
+<<echo=FALSE, results=hide, fig=TRUE>>=
+descdist(toxocara$number,discrete = TRUE,boot=1000)
+@
+  \caption{Skewness-kurtosis plot for a continuous variable}
+  \label{Cullenplotdisc}
+\end{figure}
+
+\clearpage
+
+
+\section{Fit of a distribution}
+\label{FIT}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Parameter estimation}
+\label{Estim}
 %%%%%%%%%%
+Once selected, one or more parametric distributions may be fitted to the data set, one at a time, using
+Function \texttt{fitdist}. By default, distribution parameters $\theta$ are estimated by maximizing the
+likelihood defined as:
+  \begin{equation}
+    \label{likelihood}
+    L(\theta)=\prod_{i=1}^n f(y_{i}|\theta)
+  \end{equation}
+with $y_{i}$ the $n$ observations of variable $y$ and $f$ the density function of the fitted 
+parametric distribution.
 
-One or more parametric distributions may then be fitted to the data set, one at a time, using the
-fonction \texttt{fitdist}. This function uses the maximum likelihood
-method by default or other estimation methods described in part 5 if specified in the argument \texttt{method}.
-When fitting continuous distributions, 
-Cramer-von Mises, Kolmogorov-Smirnov and Anderson-Darling statistics may be computed using the function \texttt{gofstat}. 
-Four goodness of fit plots are also provided.
- 
+The other proposed estimation methods are described in Section~\ref{Alternatives}. 
 
-Below is the result of the fit of a logistic distribution by maximum likelihood to the previous dataset.
-<<fitdistx1l,fig=TRUE>>=
-f1l<-fitdist(x1,"logis")
-summary(f1l)
-gofstat(f1l)
-plot(f1l)
+Function \texttt{fitdist} returns the results of the fit of any parametric distribution 
+to a data set as an S3 class object that may be easily printed, 
+summarized or plotted (see Figure~\ref{fitgamma} in Section~\ref{GOF plots}). 
+The parametric distribution must be a classically defined R distributions,
+with at least d, p and q functions respectively for the density cdf and quantile functions
+(for example \texttt{dnorm}, \texttt{pnorm} and \texttt{qnorm} for the normal distribution).
+The name of the fitted distribution is specified in the first argument by its classical 
+abbreviation used as the second part of d, p and q functions (for example ``norm''
+for the normal distribution. Numerical results returned by Function \texttt{fitdist} are 
+parameter estimates with estimated standard errors computed from the estimate
+of the Hessian matrix at the maximum likelihood solution, correlation matrix
+between parameter estimates, the loglikelihood, the Akaïke and the Schwarz information criteria 
+(so called AIC and BIC).
+<<echo = TRUE,fig = FALSE>>=
+fw <- fitdist(groundbeef$serving,"weibull")
+print(fw)
+summary(fw)
 @
 
-In that case Cramer-von Mises and Anderson-Darling tests may be used to test the adequation of the distribution to data. 
-<<>>=
-gofstat(f1l,print.test=TRUE)
-@
-
-Generally goodness-of-fit tests may be used carefully.
-In some cases, especially on very big datasets, even if the null hypothesis is rejected a fitted distribution may be 
-chosen as the best one among simple distributions to describe an empirical distribution, if the goodness-of-fit
-plots do not show strong differences between empirical and theoretical distributions.
-
-In that case, the fit seems correct, but it is easy to compare goodness-of-fit statistics
-for other distributions fitted on the same dataset in order to check that other distributions could not give
-a better fit. Below are computed the goodness-of-fit
-statistics for logistic, lognormal, gamma, normal and weibull distributions. 
-<<>>=
-gofstat(fitdist(x1,"logis"))
-gofstat(fitdist(x1,"lnorm"))
-gofstat(fitdist(x1,"gamma"))
-gofstat(fitdist(x1,"norm"))
-gofstat(fitdist(x1,"weibull"))
-@
-
-Regarding the Cramer-von Mises and Kolmogorov-Smirnov statistics, 
-the fit of a normal distribution seems better while regarding the 
-Anderson-Darling statistic the fit of a logistic distribution seems better.
-It is recommended to base the comparison of fits on the Anderson-Darling statistic when the modelling of the tails of 
-a distribution is important, as it is often the case in risk assessment.
-
-In order to choose between both distributions, the goodness-of-fit plot and the summary
-of the fit of a normal chould be compared to the 
-ones already obtained for the logistic distribution, but in that case the differences seem very small.
-<<fitdistx1n,fig=TRUE>>=
-f1n <- fitdist(x1,"norm")
-plot(f1n)
-summary(f1n)
-plot(f1n)
+The same procedure is required to fit a discrete distribution. As an example, 
+using ``toxocara'' data set, Poisson and
+negative distributions may be easily fitted and AIC values compared, in this case
+giving the preference
+to the negative binomial distribution, with a much smaller AIC value.
+<<echo = TRUE,fig = FALSE>>=
+(fp <- fitdist(toxocara$number,"pois"))
+(fnb <- fitdist(toxocara$number,"nbinom"))
+fp$aic
+fnb$aic
 @
 
 For some distributions (see the help of \texttt{fitdist} for details), it is necessary to specify initial 
 values for the distribution parameters in the argument \texttt{start} when using the maximum likelihood method.
 \texttt{start} must be a named list
 of parameters initial values. The names of
-the parameters in \texttt{start} must correspond exactly to their definition in R or to their 
-definition in a previous R code.
- The function \texttt{plotdist} may help to find correct initial values for 
-the distribution parameters in non trivial cases, by an manual iterative use if necessary.
+the parameters in \texttt{start} must correspond exactly to their definition in R or in a user-supplied R code.
+Function \texttt{plotdist} (see Section~\ref{GOF plots}), 
+which can plot any parametric distribution with specified parameter values
+in argument \texttt{para} may help to find correct initial values for 
+the distribution parameters in non trivial cases, by iterative calls if necessary (see~\cite{fitdistrplus}
+for examples).
+ 
+% Faudra trouver un autre exemple ou une autre distribution ou enlever cette partie
 
-For example, below is the definition of the Gumbel distribution (also named extreme value distribution) and 
-a first plot of the data set with the Gumbel distribution with arbitrary values for parameters.
-<<plotdistx1gu1,fig=TRUE>>=
-dgumbel<-function(x,a,b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
-pgumbel<-function(q,a,b) exp(-exp((a-q)/b))
-qgumbel<-function(p,a,b) a-b*log(-log(p))
-plotdist(x1,"gumbel",para=list(a=3,b=2))
+%As an example, here is the fit of a user-supplied distribution, the Gumbel distribution 
+%(also named extreme value distribution) to an arbitrary data set, preceded by 
+%a plot of this data set with the Gumbel distribution which parameters 
+%were fixed at initial values manually obtained after iterative plots.
+
+%<<echo=TRUE,fig=TRUE>>=
+%x1 <- c(6.4, 13.3, 4.1, 1.3, 14.1, 10.6, 9.9, 9.6, 15.3, 22.1,
+%13.4, 13.2, 8.4, 6.3, 8.9, 5.2, 10.9, 14.4)
+%dgumbel<-function(x,a,b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
+%pgumbel<-function(q,a,b) exp(-exp((a-q)/b))
+%qgumbel<-function(p,a,b) a-b*log(-log(p))
+%plotdist(x1,"gumbel",para=list(a=10,b=5))
+%fitdist(x1,"gumbel",start=list(a=10,b=5))
+%@
+%\begin{figure}[htb]
+%  \centering
+%<<echo=FALSE, results=hide, fig=TRUE>>=
+%plotdist(x1,"gumbel",para=list(a=10,b=5))
+%@
+%  \caption{Preliminar plot of a distribution against data to find initial values for parameters}
+%  \label{plotdist}
+%\end{figure}
+
+\subsection{Goodness-of-fit plots}
+\label{GOF plots}
+%%%%%%%%%%
+The plot of an object of class \texttt{fitdist} provides two types of results depending of the nature 
+of the distribution, continuous or discrete. For continuous distributions, 
+four goodness-of-fit plots are provided : a draw of pdf curve and histogram together, an cdf plot
+of both empirical and theoretical distributions, a Q-Q plot
+(plot of the quantiles of the theoretical fitted distribution (x-axis) against the empirical quantiles of the data)
+and a P-P plot (i.e. for each value of the data set, plot of the cumulative density function of the fitted distribution
+(x-axis) against the empirical cumulative density function (y-axis)) are also given (\cite{Cullen99}).
+As an exemple, let us look at the plot of the previous fit of a weibull distribution to ``groundbeef'' data set.
+
+<<echo=TRUE, fig=FALSE>>=
+plot(fw)
+@
+\begin{figure}[htb]
+  \centering
+<<echo=FALSE, results=hide, fig=TRUE>>=
+plot(fw)
+@
+  \caption{Plot of the fit of a continuous distribution}
+  \label{plotcontfit}
+\end{figure}
+
+For continuous distributions, Function \texttt{cdfcomp} enables the visual comparison
+of empirical and theoretical cumulative distributions for various distributions fitted
+on a same data set. Function \texttt{cdfcomp} must be called with a first argument 
+corresponding to a list of objects of class \texttt{fitdist}, and optionnaly
+further arguments to customize the plot, as in the following example comparing the fit of
+Weibull, lognormal and gamma distributions to ``groundbeef'' data set.
+<<echo=TRUE, fig=FALSE>>=
+    fg <- fitdist(groundbeef$serving,"gamma")
+    fln <- fitdist(groundbeef$serving,"lnorm")
+    cdfcomp(list(fw,fln,fg),legendtext=c("Weibull","lognormal","gamma"),
+    xlab="serving sizes (g)",lwd=2)
+@
+\begin{figure}[htb]
+  \centering
+<<echo=FALSE, results=hide, fig=TRUE>>=
+    cdfcomp(list(fw,fln,fg),legendtext=c("Weibull","lognormal","gamma"),
+    xlab="serving sizes (g)",lwd=2)
+@
+  \caption{Comparison of CDF plots of various distributions fitted on continuous data}
+  \label{compcdf}
+\end{figure}
+
+In such a plot, data may be represented in a log scale when required, by just fixing the argument
+\texttt{xlogscale} to \texttt{TRUE} in the call to \texttt{cdfcomp}.
+% Ajouter ex endosulfan avec la bibliothèque actuar !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+% mais comment faire dans la vignette : indiquer que fitdistrplus nécessite actuar????????????????????????????
+
+
+For discrete distributions, the plot of an object of class \texttt{fitdist} provides
+two goodness-of-fit plots comparing empirical and theoretical distributions
+in pdf and in cdf.
+As an exemple, let us look at the plot of the previous fit of a negative binomial distribution 
+to ``toxocara'' data set. 
+
+<<echo=TRUE, fig=FALSE>>=
+plot(fnb)
+@
+\begin{figure}[htb]
+  \centering
+<<echo=FALSE, results=hide, fig=TRUE>>=
+plot(fnb)
+@
+  \caption{Plot of the fit of a discrete distribution}
+  \label{plotdiscfit}
+\end{figure}
+
+\subsection{Measures of goodness-of-fit}
+\label{GOF measures}
+%%%%%%%%%%
+When fitting continuous distributions, 
+Cramer-von Mises, Kolmogorov-Smirnov and Anderson-Darling statistics may be computed using the function \texttt{gofstat}
+as defined by Stephens (\cite{Stephens86}).
+<<echo=TRUE,fig=FALSE>>=
+gofstat(fw)
 @
 
-The same data set may be plotted with a Gumbel distribution with modified values for parameters.
-<<plotdistx1gu2,fig=TRUE>>=
-plotdist(x1,"gumbel",para=list(a=10,b=5))
+% ADD the definition of these statistics !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+EQUATIONS TO BE ADDED
+
+As giving  more weight to distribution tails, 
+Anderson-Darling statistics is of special interest where it is important to place equal 
+emphasis on fitting a distribution at the tails as well as the main body, 
+as it is often the case in risk assessment \cite{Cullen99,Vose10}. 
+
+% ADD AN EXAMPLE with comparison !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Nevertheless, this statistics should 
+be used cautiously when comparing fits of various distributions, keeping in mind that the weighting of each
+cdf quadratic difference is dependent of the theoretical distribution. 
+
+When fitting discrete distributions, the Chi-squared statistic is computed by 
+Function \texttt{gofstat} using cells defined 
+by the argument \texttt{chisqbreaks} or cells automatically defined from the data in order 
+to reach roughly the same number of observations per cell, roughly equal to the argument
+\texttt{meancount}, or sligthly more if there are some ties. 
+The choice to define cells from the empirical distribution (data) and not from the
+theoretical distribution was done to enable the comparison of Chi-squared values obtained
+with different distributions fitted on a same dataset.
+If arguments \texttt{chisqbreaks} and \texttt{meancount} 
+are both omitted, \texttt{meancount} is fixed in order to obtain roughly $(4n)^{2/5}$ cells, 
+with $n$ the length of the dataset~\cite{Vose10}. Using this default option with 
+the fit of a negative binomial distribution to ``toxocara'' data set gives following results :
+<<echo=TRUE,fig=FALSE>>=
+gofstat(fnb)
 @
 
-And a Gumbel distribution may be fitted to data with these values for initial parameter values.
-<<fitdistx1gu,fig=TRUE>>=
-fgu<-fitdist(x1,"gumbel",start=list(a=10,b=5))
-plot(fgu)
-summary(fgu)
-gofstat(fgu)
+Among its returned values, Function \texttt{gofstat} provides a table with observed and theoretical 
+counts used for the Chi-squared calculations:
+<<echo=TRUE,fig=FALSE>>=
+gofstat(fnb)$chisqtable
 @
 
-\subsection{Simulation of the uncertainty by boostrap}
+Even if specifically recommended for discrete distributions, the Chi-squares statistic may also be used for
+continuous distributions (see~\cite{fitdistrplus} for examples).
+
+\subsection{Goodness-of-fit tests}
+\label{GOF tests}
 %%%%%%%%%%
 
-The uncertainty in the parameters of the fitted distribution may be simulated by parametric or nonparametric
-boostrap using the function \texttt{boodist}. This function returns the boostrapped values of parameters which
-may be plotted to visualize the bootstrap region. It also calculates the 95 percent confidence intervals for each 
-parameter from the 2.5 and 97.5 percentiles
-of the boostrap values of each parameter (see the help of the function \texttt{bootdist} for details).
+For continuous distributions, an approximate Kolmogorov-Smirnov test is 
+performed by assuming the distribution parameters known. The critical value defined by Stephens~\cite{Stephens86} 
+for a completely specified distribution is used to reject or not the 
+distribution at the significance level 0.05. Because of this approximation, the result of the test
+(decision of rejection of the distribution or not) is returned only for datasets with more 
+than 30 observations. Note that this approximate test may be too conservative. 
 
-Below is an example of the use of this function with the previous fit of the logistic distribution. 
-<<bootdistf1l,fig=TRUE>>=
-b1l<-bootdist(f1l)
-plot(b1l)
-summary(b1l)
+For datasets with more than 5 observations and for continuous distributions for 
+which the test is described by Stephens~\cite{Stephens86} (normal, lognormal,
+exponential, Cauchy, gamma, logistic and Weibull),
+the Cramer-von Mises and Anderson-darling tests are performed as described by Stephens~\cite{Stephens86}. 
+Those tests take into 
+account the fact that the parameters are not known but estimated from the data. The result is the 
+decision to reject or not the distribution at the significance level 0.05. Both tests are available
+only for maximum likelihood estimations.
+
+When the Chi-squared statistic is computed (for discrete or optionnaly continuous distributions), 
+and if the degree of freedom (nb of cells - nb of parameters - 1)  of the corresponding distribution 
+is strictly positive, the p-value of the Chi-squared test is returned.
+
+Goodness-of-fit tests may be used carefully. As for any null-hypothesis significance
+test, the non reject of the null hypothesis dose not imply its acceptation. However, this
+misinterpretation of p-values is very common and comes from the wrong assumption that
+absence of evidence is evidence of absence~\cite{Altman96}.
+On the contrary, in some cases, especially on very big datasets, 
+even if the null hypothesis is rejected a fitted distribution may be 
+chosen as the best one among simple distributions to describe an empirical distribution, if the goodness-of-fit
+plots do not show strong differences between empirical and theoretical distributions.
+
+% ADD an example to argument that !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+Now let us look at the Chi-squared test results for the fit of a negative binomial distribution 
+to ``toxocara'' data set :
+<<echo=TRUE,fig=FALSE>>=
+gofstat(fnb,print.test = TRUE)
 @
 
-\section{Specification of a distribution from non-censored discrete data}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- 
- A discrete data set may be considered as a continuous one for example for a large data set
- from a binomial distribution converging to a normal one. A discrete plot of the distribution 
- may also be provided, fixing the argument discrete of the function \texttt{plotdist} to \texttt{TRUE}.
- 
-<<plotdistx2,fig=TRUE>>=
-x2<-rnbinom(n=100,size=2,prob=0.3)
-plotdist(x2,discrete=TRUE)
-@
-
-As for continuous distributions, descriptive parameters of the empirical distribution 
-may be computed using the function \texttt{descdist} which also provides a skewness-kurtosis plot 
-which may help you to choose which distribution(s) to fit.
-
-<<descdistx2,fig=TRUE>>=
-descdist(x2,discrete=T,boot=1000)
-@
-
-As for continuous distributions, one or more parametric distributions may then be fitted 
-to the data set by maximum likelihood or alternative methods described in part 5. 
-
-Below is the result of the fit of a Poisson distribution with the bootstrap simulations.
-<<fitdistx2p,fig=TRUE>>=
-f2p<-fitdist(x2,"pois")
-plot(f2p)
-summary(f2p)
-gofstat(f2p,print.test=TRUE)
-b2p<-bootdist(f2p)
-summary(b2p)
-@
-
-Below is the result of the fit of a negative binomial distribution with the boostrap simulations.
-<<fitdistx2nb,fig=TRUE>>=
-f2n<-fitdist(x2,"nbinom")
-plot(f2n)
-summary(f2n)
-gofstat(f2n,print.test=TRUE)
-b2n<-bootdist(f2n)
-summary(b2n)
+A warning message appears as one of the theoretical counts is under 5 using the default breaks 
+(see Section~\ref{GOF measures}). In order to solve this problem, one may specify breaks 
+more adapted for the realization of the test.
+<<echo=TRUE,fig=FALSE>>=
+gofstat(fnb,chisqbreaks=c(0,1,4,8,20),print.test=TRUE)$chisqtable
 @
 
 From goodness-of-fit graphs, Chi-squared statistics, AIC and BIC values,
@@ -249,7 +534,11 @@ for this dataset even it has one more parameter than the Poisson one. This was n
 looking at the skewness-kurtosis graph. This graph must be used cautiously especially for continuous 
 distributions far from the normal distribution or for discrete distributions. It is only indicative.
 
-\section{Specification of a distribution from censored data}
+%\clearpage
+
+
+\section{The special case of censored data}
+\label{censored}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Censored data may contain left censored, right censored and interval censored values, 
@@ -264,101 +553,224 @@ with several lower and upper bounds. Data must be coded into a dataframe with tw
  or the observed value for non-censored observations.
      
 \subsection{Graphical display of the observed distribution}
+\label{censored graph}
 %%%%%%%%%%
 
-First of all, the observed distribution may be plotted using the function \texttt{plotdistcens}.
+Using censored data such as those coded in the ``smokedfish'' data set,
+the empirical distribution may be plotted using the function \texttt{plotdistcens}.
 Data are reported directly as segments for interval, left and right censored data, 
-and as points for non-censored data. For more details, see the help of the function \texttt{plotdistcens}.
-
-<<plotdistcensd1,fig=TRUE>>=
-d1<-data.frame(
-left=c(1.73,1.51,0.77,1.96,1.96,-1.4,-1.4,NA,-0.11,0.55,0.41,
-    2.56,NA,-0.53,0.63,-1.4,-1.4,-1.4,NA,0.13),
-right=c(1.73,1.51,0.77,1.96,1.96,0,-0.7,-1.4,-0.11,0.55,0.41,
-    2.56,-1.4,-0.53,0.63,0,-0.7,NA,-1.4,0.13))
-plotdistcens(d1)
-@
-
-When left or right NA-values correspond to finite value (for example 0 for
-left NA-values of positive data), the arguments \texttt{leftNA} (or \texttt{rightNA})
-must be affected to this finite value to ensure a correct plot of left (or right) censored
-observations, as in the example below.
-
-<<plotdistcensd2,fig=TRUE>>=
-d2<-data.frame(left=10^(d1$left),right=10^(d1$right))
-plotdistcens(d2,leftNA=0)
-@
-
-It is also possible to fix \texttt{rightNA} or \texttt{leftNA} to a realistic 
+and as points for non-censored data. Before plotting, observations are ordered and a rank r
+is associated to each of them. Left censored observations are ordered
+first, by their right bounds. Interval censored and non censored observations
+are then ordered by their mid-points and, at last, right censored observations are
+ordered by their left bounds. If argument \texttt{leftNA} (resp. \texttt{rightNA}) is finite,
+left censored (resp. right censored) observations are considered as interval censored
+observations and ordered by mid-points with non-censored and interval censored data.
+It is sometimes necessary to fix \texttt{leftNA} or \texttt{rightNA} to a realistic 
 extreme value, even if not exactly known, to obtain a reasonable global ranking of 
-observations, as in the example below for the first dataset.
-<<plotdistcensd1bis,fig=TRUE>>=
-plotdistcens(d1,rightNA=3)
-@
+observations. After ranking, each of the n observations is plotted as a point (one x-value) 
+or a segment (an interval of possible x-values),
+with an y-value equal to r/n, r being the rank of each observation in the global ordering
+previously described.
 
-\subsection{Fitting of a distribution}
+Let us see the sulting plot for ``smokedfish'' data set after classical transformation
+of microbila counts in decimal logarithm.
+
+<<echo=TRUE, fig=FALSE>>=
+log10C <- data.frame(left=log10(smokedfish$left),right=log10(smokedfish$right))
+plotdistcens(log10C)
+@
+\begin{figure}[htb]
+  \centering
+<<echo=FALSE, results=hide, fig=TRUE>>=
+plotdistcens(log10C)
+@
+  \caption{CDF plot of a censored data set as}
+  \label{plotdistcens}
+\end{figure}
+
+\subsection{Maximum likelihood estimation}
+\label{censored MLE}
 %%%%%%%%%%
 
-One or more parametric distributions may then be fitted to the censored data set, one at a time, using the
-fonction \texttt{fitdistcens}. This function always uses the maximum likelihood
-method.  For more details, see the help of the function \texttt{fitdistcens}.
-Only one goodness of fit plot is provided for censored data, in cumulative frequencies.
-The uncertainty in the parameters of the fitted distribution may be simulated by nonparametric
-boostrap only, using the function \texttt{boodistcens}.
+As for non censored data, one or more parametric distributions may then 
+be fitted to the censored data set, one at a time, but using in this case 
+Function \texttt{fitdistcens}. This function estimates the distribution parameters
+by maximizing the likelihood given by following equation for censored data.
+As \texttt{fitdist}, it returns the results of the fit of any parametric distribution 
+to a data set as an S3 class object that may be easily printed, 
+summarized or plotted.
+% ADD the equation !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+EQUATION TO ADD
 
-Below is the result of a fit of a Weibull distribution by maximum likelihood and the results of the 
-corresponding boostrap simulations.
-<<fitdistcensd2w,fig=TRUE>>=
-f2w<-fitdistcens(d2,"weibull")
-summary(f2w)
-plot(f2w,leftNA=0)
+For ``smokedfish'' data set, a normal distribution may be fitted to log
+transformed data as commonly done for microbial count data. 
+<<echo=TRUE,fig=FALSE>>=
+flog10C <- fitdistcens(log10C,"norm")
+print(flog10C)
+summary(flog10C)
 @
 
-<<bootdistcensf2w,fig=TRUE>>=
-b2w<-bootdistcens(f2w)
-summary(b2w)
-plot(b2w)
-@
-
-Goodness of fit statistics are not computed for fit on censored data, so the quality of fit 
-may only be estimated from the loglikelihood and the goodness of fit plot.
-
-Below is the fit of a lognormal distribution to the same censored data set.
-<<fitdistcensd2ln,fig=TRUE>>=
-f2l<-fitdistcens(d2,"lnorm")
-summary(f2l)
-plot(f2l,leftNA=0)
-@
-
-Below is the fit of an exponential distribution.
-<<fitdistcensd2e,fig=TRUE>>=
-f2e<-fitdistcens(d2,"exp")
-summary(f2e)
-plot(f2e,leftNA=0)
-@
-
-As with \texttt{fitdist}, for some distributions (see the help of \texttt{fitdistcens} for details), 
+As with \texttt{fitdist}, for some distributions (see \cite{fitdistrplus} for details), 
 it is necessary to specify initial 
 values for the distribution parameters in the argument \texttt{start}.
-\texttt{start} must be a named list
-of parameters initial values. The names of
-the parameters in \texttt{start} must correspond exactly to their definition in R or to their 
-definition in a previous R code.
 The function \texttt{plotdistcens} may help to find correct initial values for 
-the distribution parameters in non trivial cases, by an manual iterative use if necessary, as explained 
-previously for non-censored continuous data.
+the distribution parameters in non trivial cases, by an manual iterative use if necessary.
 
-\section{Changing the optimization algorithm used to maximize the likelihood}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Goodness-of-fit plot}
+\label{censored GOF graph}
+%%%%%%%%%%
+Only one goodness-of-fit plot is provided for censored data, correponding to the theoretical 
+cumulative distribution function added to the plot of censored data presented
+in Section~\ref{censored graph}.
 
-Sometimes the default algorithm used to maximize the likelihood fails to converge. It may then
+<<echo=TRUE, fig=FALSE>>=
+plot(flog10C)
+@
+\begin{figure}[htb]
+  \centering
+<<echo=FALSE, results=hide, fig=TRUE>>=
+plot(flog10C)
+@
+  \caption{Goodness-of-fit CDF plot for a fit of a continuous distribution
+  on censored data}
+  \label{plotfitdistcens}
+\end{figure}
+
+
+Computations of goodness of fit statistics have not yet been 
+developed for fits using censored data, so the quality of fit 
+may only be estimated from the loglikelihood and the goodness-of-fit CDF plot.
+
+
+\section{Alternative methods for parameter estimation}
+\label{Alternatives}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Maximum goodness-of-fit estimation}
+\label{MGE}
+%%%%%%%%%%
+Maximum likelihood is only the default estimation method proposed by Function
+\texttt{fitdist}, but other methods may be used to estimate parameters for non-censored data.
+One of the alternative for continuous distributions
+is the maximum goodness-of-fit estimation method also called
+minimum distance estimation method. In this package this method is proposed with
+eight different distances the three classical distances defined in \cite{Stephens86}, 
+(Cramer-von Mises, Kolmogorov-Smirnov and Anderson-Darling 
+which gives more weight to the tails of the distribution),
+or one of the variants of this last distance proposed by \cite{Luceno06}. 
+The right-tail AD gives more weight only to the right tail, the left-tail AD 
+gives more weight only to the left tail. Either of the tails, or both of them, 
+can receive even larger
+weights by using second order Anderson-Darling Statistics.
+
+%Computational forms of these distances are given in Table~\ref{MGEdist}.
+% ADD TABLE with formulas !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+TABLE with formulas TO BE ADDED
+
+To fit a distribution by maximum goodness-of-fit estimation, one
+needs to fix the argument \texttt{method}
+to ``mge'' in the call to \texttt{fitdist} and to specify the argument \texttt{gof}
+coding for the chosen goodness-of-fit distance. 
+% Character string coding for the eight 
+% proposed goodness-of-fit distances are given in Table~\ref{MGEdist}.
+This function is intended to be used only with continuous variables and distributions.
+It may be useful to fit distributions for which maximum likelihood does not provide
+good estimations, such as the uniform distribution (\cite{Luceno06}).
+
+<<>>=
+u <- runif(50)
+fitdist(u,"unif",method="mge",gof="KS")
+@
+
+Maximum goddness-of-fit estimation may also be useful to give
+more weight to data at one tail of the distribution. In ecotoxicology, species sensitivity distributions such 
+as those presented in \cite{Hose04} are often
+fitted by a lognormal distribution (or another parametric distribution)
+so as to estimate a low percentile, often 5$\%$ percentile,
+named the hazardous concentration 5$\%$ (HC5). This value is then interpreted as a value of the
+contaminant concentration protecting 95$\%$ of the species. In this context, one may consider
+to fit the parametric distribution by giving more weight to the left tail of the empirical distribution
+such as in the following example using left tail Anderson-Darling distances of first or second order.
+
+<<echo=TRUE, fig=FALSE>>=
+data(endosulfan)
+ATV <-subset(endosulfan,group == "NonArthroInvert")$ATV
+flnMGEKS <- fitdist(ATV,"lnorm",method="mge",gof="KS")
+flnMGEAD <- fitdist(ATV,"lnorm",method="mge",gof="AD")
+flnMGEADL <- fitdist(ATV,"lnorm",method="mge",gof="ADL")
+flnMGEAD2L <- fitdist(ATV,"lnorm",method="mge",gof="AD2L")
+cdfcomp(list(flnMGEKS,flnMGEAD,flnMGEADL,flnMGEAD2L),
+xlogscale = TRUE,main="",
+legendtext = c("Kolmogorov-Smirnov (KS)","Anderson-Darling",
+"Left-tail Anderson-Darling","Left tailed Anderson-Darling of second order"),cex=0.7,
+xlegend = 500, ylegend = 0.15)
+@
+\begin{figure}[htb]
+  \centering
+<<echo=FALSE, results=hide, fig=TRUE>>=
+cdfcomp(list(flnMGEKS,flnMGEAD,flnMGEADL,flnMGEAD2L),
+xlogscale = TRUE,main="",
+legendtext = c("Kolmogorov-Smirnov (KS)","Anderson-Darling",
+"Left-tail Anderson-Darling","Left tailed Anderson-Darling of second order"),cex=0.7,
+xlegend = 500, ylegend = 0.15)
+@
+  \caption{Comparison of lognormal distributions fitted by maximum goodness-of-fit using
+  various goodness-of-fit distances}
+  \label{plotfitMGE}
+\end{figure}
+
+\subsection{Moment matching estimation}
+\label{MME}
+%%%%%%%%%%
+Moment matching estimation may also be performed fixing the argument \texttt{method}
+to ``mme'' in the call to fitdist.
+<<>>=
+fitdist(u,"unif",method="mme")
+@
+
+The estimate is computed by a closed formula for following distributions:
+normal, lognormal, exponential, Poisson, gamma, logistic, negative binomial,
+geometric, beta and uniform distributions.
+For distributions characterized by one parameter (geometric, Poisson and exponential),
+this parameter is simply estimated by matching theoretical and observed means, and for distributions 
+characterized by two parameters, these parameters are estimated by matching theoretical and observed 
+means and variances (\cite{Vose10}).
+    
+For other distributions, Function \texttt{fitdist} carries out 
+the matching numerically, by minimization of the
+sum of squared differences between observed and theoretical moments (see \cite{fitdistrplus}
+for technical details).
+
+\subsection{Quantile matching estimation}
+\label{QME}
+%%%%%%%%%%
+Quantile matching may also be performed fixing the argument \texttt{method}
+to ``qme'' in the call to fitdist and adding an argument \texttt{probs}
+defining the probabilities for which the quantile matching is performed.
+The length of this vector must be equal
+to the number of parameters to estimate. The quantile matching is carried out numerically, 
+by minimizing the
+sum of squared differences between observed and theoretical quantiles.
+Here is an example of fit of a uniform distribution by matching first
+and third quartiles.
+<<>>=
+fitdist(u,"unif",method="qme",probs=c(0.25,0.75))
+@
+
+\subsection{Customization of the optimization algorithm}
+\label{Customization}
+%%%%%%%%%%
+Each time a numerical minimization (or maximization) is carried out using \texttt{fitdist}, 
+Function \texttt{optim}of the package \texttt{stats} is used by default with the 
+``Nelder-Mead'' method for distributions characterized by more than one parameter and
+the ``BFGS'' method for distributions characterized by only one parameter 
+
+Sometimes the default algorithm fails to converge. It may then
 be interesting to change some options of the function \texttt{optim} or to use another optimization
 function than \texttt{optim} to maximize the likelihood.
 
-\subsection{Changing the arguments passed to \texttt{optim}}
-%%%%%%%%%%
-
-The argument optim.method may be used in the call to \texttt{fitdist} or
+The argument \texttt{optim.method} may be used in the call to \texttt{fitdist} or
 \texttt{fitdistcens}. It will internally be passed to \texttt{mledist} and to \texttt{optim}.
 This argument may be fixed to ``Nelder-Mead'' (the robust Nelder and Mead method), 
 ``BFGS'' (the BFGS quasi-Newton method), ``CG'' (a conjugate gradients method), 
@@ -367,18 +779,16 @@ quasi-Newton method which enables box constraints optimization). For the use of 
 arguments \texttt{lower} and/or \texttt{upper} also have to be passed. More details on these optimization
 functions may be found in the help page of \texttt{optim} from the package \texttt{stats}.
 
-Below are examples of fits of a gamma distribution to non censored data with various options
+Here are examples of fits of a gamma distribution to ``ground beeef'' data set with various options
 of \texttt{optim}.
 
 <<>>=
-fitdist(x1,"gamma",optim.method="Nelder-Mead")
-fitdist(x1,"gamma",optim.method="BFGS") 
-fitdist(x1,"gamma",optim.method="L-BFGS-B",lower=c(0,0))
-fitdist(x1,"gamma",optim.method="SANN")
+fitdist(groundbeef$serving,"gamma",optim.method="Nelder-Mead")
+fitdist(groundbeef$serving,"gamma",optim.method="BFGS") 
+fitdist(groundbeef$serving,"gamma",optim.method="L-BFGS-B",lower=c(0,0))
+fitdist(groundbeef$serving,"gamma",optim.method="SANN")
 @
 
-\subsection{Supplying another optimization function}
-%%%%%%%%%%
 
 You may also want to use another function than \texttt{optim} to maximize the likelihood.
 This optimization function has to be specified by the argument \texttt{custom.optim} 
@@ -404,63 +814,86 @@ mygenoud <- function(fn, par, ...)
 The customized optimization function may then be passed as the argument \texttt{custom.optim} 
 in the call to \texttt{fitdist}
 or \texttt{fitdistcens}. The following code may for example be used to fit a gamma distribution to the
-non censored data \texttt{x1}. Note that in this example various arguments are also passed from \texttt{fitdist} 
+``ground beef'' data set. Note that in this example various arguments are also passed from \texttt{fitdist} 
 to \texttt{genoud} :
 \texttt{nvars}, \texttt{Domains}, \texttt{boundary.enforcement}, 
 \texttt{print.level} and \texttt{hessian}.
 
 \begin{verbatim}
-fitdist(x1, "gamma", custom.optim=mygenoud, nvars=2,    
+fitdist(groundbeef$serving, "gamma", custom.optim=mygenoud, nvars=2,    
    Domains=cbind(c(0,0), c(10, 10)), boundary.enforcement=1, 
    print.level=1, hessian=TRUE)
 \end{verbatim}
 
-\section{Alternative methods to maximum likelihood for non censored data}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-For non censored data, alternative methods to maximum likelihood are available.
 
-\subsection{Moment matching estimation}
+\section{Uncertainty on parameter estimates}
+\label{Uncertainty}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Bootstrap procedures}
+\label{Bootstrap}
 %%%%%%%%%%
-Moment matching may be performed fixing the argument \texttt{method}
-to ``mme'' in the call to fitdist (see the help file page of the function
-\texttt{mmedist} in \texttt{fitdistrplus} reference manual for details).
-Below is an example of fit of a uniform distribution to data randomly
-generated in a uniform distribution.
-<<>>=
-u <- runif(50,min=5,max=10)
-fitdist(u,"unif",method="mme")
+
+The uncertainty in the parameters of the fitted distribution may be simulated by parametric or nonparametric
+boostrap using the function \texttt{boodist}. This function returns the boostrapped values of parameters in a 
+S3 class object which
+may be plotted to visualize the bootstrap region. 
+The medians and the 95 percent confidence intervals of parameters (2.5 and 97.5 percentiles) are printed 
+in the summary.
+If inferior to the whole number of iterations, the number of iterations for which the function converges 
+is also printed in the summary.
+    
+The plot of an object of class \texttt{bootdist} consists in a scatterplot or a matrix of scatterplots
+of the bootstrapped values of parameters providing
+a representation of the joint uncertainty distribution of the fitted parameters.
+
+
+Below is an example of the use of this function with the previous of the Weibull distribution to 
+``groundbeef`` data set. 
+<<echo=TRUE, fig=FALSE>>=
+bw<-bootdist(fw,niter=1001)
+plot(bw)
+summary(bw)
+@
+\begin{figure}[htb]
+  \centering
+<<echo=FALSE, results=hide, fig=TRUE>>=
+plot(bw)
+@
+  \caption{Boostrappped values of parameters for a fit of a distribution
+characterized by two parameters on data}
+  \label{bootstrap}
+\end{figure}
+
+Function \texttt{boodistcens} provides the same type of results for fit on continuous distributions to
+censored data.
+<<echo=TRUE, fig=FALSE>>=
+blog10C<-bootdistcens(flog10C,niter=1001)
+summary(blog10C)
 @
 
-\subsection{Quantile matching estimation}
-%%%%%%%%%%
-Quantile matching may also be performed fixing the argument \texttt{method}
-to ``qme'' in the call to fitdist and adding an argument \texttt{probs}
-defining the probabilities for which the quantile matching is done.
-The length of this vector must be equal
-to the number of parameters to estimate.(see the help file page of the function
-\texttt{qmedist} in \texttt{fitdistrplus} reference manual for details).
-Below is an example of fit of a uniform distribution to the same dataset by matching first
-and third quartiles.
-<<>>=
-fitdist(u,"unif",method="qme",probs=c(0.25,0.75))
-@
+ADD an example with the Burr distribution characterized by three parameters
 
-\subsection{Maximum goodness-of-fit estimation}
+\subsection{Bootstrap confidence intervals and regions}
+\label{confidence}
 %%%%%%%%%%
-Parameters may also be estimated by maximizing a goodness-of-fit distance
-by fixing the argument \texttt{method}
-to ``mge'' in the call to fitdist and adding an argument \texttt{gof}
-coding for the goodness-of-fit distance chosen. One may use the classical 
-Cramer-von Mises distance (``CvM''), the classical
-Kolmogorov-Smirnov distance (``KS''), the classical Anderson-Darling distance (``AD'')
-which gives more weight to the tails of the distribution,
-or one of the variants of this last distance (see the help file page of the function
-\texttt{mgedist} in \texttt{fitdistrplus} reference manual for details).
-Below is an example of fit of a uniform distribution to the same dataset by maximizing the 
-Kolmogorov-Smirnov distance.
-<<>>=
-fitdist(u,"unif",method="mge",gof="KS")
-@
 
+To articulate with previous part
+
+\subsection{Use of bootstrap samples in a second order Monte Carlo simulations}
+\label{MC2D}
+%%%%%%%%%%
+TO BE DONE
+
+
+
+\clearpage
+
+\section{Conclusion}
+\label{ccl}
+%%%%%%%%%%
+TO BE DONE
+
+\bibliographystyle{plain}
+\bibliography{intro2fitdistrplus}
  
 \end{document}
