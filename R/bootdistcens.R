@@ -96,10 +96,10 @@ plot.bootdistcens <- function(x,...){
     else {
         if (dim(x$estim)[2]==2)
             plot(x$estim,
-            main="Boostrapped values of the two parameters",...)
+            main="Bootstrapped values of the two parameters",...)
         else 
             plot(x$estim,
-            main="Boostrapped values of parameters",...)
+            main="Bootstrapped values of parameters",...)
     }
 }
 

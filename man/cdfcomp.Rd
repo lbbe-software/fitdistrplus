@@ -11,8 +11,8 @@
 
 \usage{
 cdfcomp(ft,xlogscale=FALSE,addlegend=TRUE,legendtext,
-datapch,datacol,fitcol,fitlty,xlab,ylab,
-main,xlegend,ylegend,...)
+datapch,datacol,fitcol,fitlty,xlab,ylab,xlim,
+main,xlegend,ylegend,horizontals = TRUE, verticals = FALSE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 
@@ -33,9 +33,13 @@ main,xlegend,ylegend,...)
      types of lines used to plot fitted cumulative distributions}
 \item{xlab}{A title for the x axis}
 \item{ylab}{A title for the y axis}
+\item{xlim}{numeric vectors of length 2, giving the x coordinates range}
 \item{main}{An overall title for the plot}
 \item{xlegend}{The x co-ordinate to be used to position the legend}
 \item{ylegend}{The y co-ordinate to be used to position the legend}
+\item{horizontals}{If TRUE, draws horizontal lines for step empirical cdf function}
+\item{verticals}{If TRUE, draws also vertical lines for step empirical cdf function. Only taken
+into account if \code{horizontals} is TRUE }
 \item{\dots}{ further graphical arguments passed to graphical functions used in cdfcomp }
 }
 
@@ -66,10 +70,12 @@ serving <- groundbeef$serving
 fitW <- fitdist(serving,"weibull")
 fitln <- fitdist(serving,"lnorm")
 fitg <- fitdist(serving,"gamma")
-cdfcomp(list(fitW,fitln,fitg))
+cdfcomp(list(fitW,fitln,fitg),horizontals = FALSE)
+cdfcomp(list(fitW,fitln,fitg),horizontals = TRUE)
+cdfcomp(list(fitW,fitln,fitg),horizontals = TRUE, verticals=TRUE,datacol="orange")
 cdfcomp(list(fitW,fitln,fitg),legendtext=c("Weibull","lognormal","gamma"),
     main="ground beef fits",xlab="serving sizes (g)",
-    ylab="F")
+    ylab="F",xlim = c(0,250))
 
 
 # (2) Plot in of lognormal distributions fitted by 
@@ -85,7 +91,8 @@ flnMGEAD2L <- fitdist(ATV,"lnorm",method="mge",gof="AD2L")
 cdfcomp(list(flnMGEKS,flnMGEAD,flnMGEADL,flnMGEAD2L),
 xlogscale=TRUE,main="fits of a lognormal dist. using various GOF dist.",
 legendtext=c("MGE KS","MGE AD","MGE ADL","MGE AD2L"))
-
+cdfcomp(list(flnMGEKS,flnMGEAD,flnMGEADL,flnMGEAD2L),
+xlogscale=TRUE,verticals=TRUE,xlim=c(10,100000))
 
 }
 

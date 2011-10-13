@@ -1,5 +1,14 @@
 === fitdistrplus : Help to fit of a parametric distribution ===
 
+Version 0.3-2
+=============
+
+NEW FEATURES
+- new plot of the empirical cdf curve in plotdistcens, using the Turnbull algorithm by a call
+to function survfit{survival}
+- new arguments to function "cdfcomp" : verticals, horizontals and xlim
+
+
 Version 0.3-1
 =============
 

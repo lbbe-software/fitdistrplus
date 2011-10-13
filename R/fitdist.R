@@ -22,7 +22,7 @@
 ###         R functions
 ### 
 
-fitdist <- function (data, distr, method=c("mle", "mme", "qme", "mge"), start=NULL, fix.arg=NULL, ...) 
+fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=NULL, fix.arg=NULL, ...) 
 {
     if (!is.character(distr)) 
         distname <- substring(as.character(match.call()$distr),2)

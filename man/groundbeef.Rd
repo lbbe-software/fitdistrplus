@@ -19,7 +19,7 @@ data(groundbeef)
 }
 
 \source{ 
-Delignette-Muller, M.L., Cornu, M. 2008. Quantitative risk assessment for Escherichia coli O157:H7 in 
+Delignette-Muller, M.L., Cornu, M. 2008. Quantitative risk assessment for \emph{Escherichia coli} O157:H7 in 
 frozen ground beef patties consumed by young children in French households. \emph{International Journal 
 of Food Microbiology}, \bold{128}, 158-164.
  }

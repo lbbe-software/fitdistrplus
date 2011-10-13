@@ -106,7 +106,7 @@ right=c(1.73,1.51,0.77,1.96,1.96,0,-0.7,-1.4,-0.11,0.55,0.41,
 f1n<-fitdistcens(d1, "norm")
 f1n
 summary(f1n)
-plot(f1n,rightNA=3)
+plot(f1n)
 
 # (2) defining your own distribution functions, here for the Gumbel distribution
 # for other distributions, see the CRAN task view dedicated to 
@@ -118,7 +118,7 @@ pgumbel <- function(q,a,b) exp(-exp((a-q)/b))
 qgumbel <- function(p,a,b) a-b*log(-log(p))
 f1g<-fitdistcens(d1,"gumbel",start=list(a=0,b=2))
 summary(f1g)
-plot(f1g,rightNA=3)
+plot(f1g)
 
 # (3) comparison of fits of various distributions
 # 
@@ -126,13 +126,13 @@ plot(f1g,rightNA=3)
 d3<-data.frame(left=10^(d1$left),right=10^(d1$right))
 f3w<-fitdistcens(d3,"weibull")
 summary(f3w)
-plot(f3w,leftNA=0)
+plot(f3w)
 f3l<-fitdistcens(d3,"lnorm")
 summary(f3l)
-plot(f3l,leftNA=0)
+plot(f3l)
 f3e<-fitdistcens(d3,"exp")
 summary(f3e)
-plot(f3e,leftNA=0)
+plot(f3e)
 
 # (4) how to change the optimisation method?
 #
@@ -175,6 +175,7 @@ data(smokedfish)
 fitsf <- fitdistcens(smokedfish,"norm")
 summary(fitsf)
 plot(fitsf)
+plot(fitsf, Turnbull = FALSE)
 
 }
 

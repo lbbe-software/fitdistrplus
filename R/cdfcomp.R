@@ -25,8 +25,8 @@
 ###
 
 cdfcomp <-
-function(ft,xlogscale=FALSE,addlegend=TRUE,legendtext,datapch,datacol,fitcol,fitlty,xlab,ylab,
-main,xlegend,ylegend,...){
+function(ft,xlogscale=FALSE,addlegend=TRUE,legendtext,datapch,datacol,fitcol,fitlty,xlab,ylab,xlim,
+main,xlegend,ylegend,horizontals = TRUE,verticals = FALSE, ...){
 
 
     if(inherits(ft, "fitdist"))
@@ -73,9 +73,17 @@ main,xlegend,ylegend,...){
         stop("log transformation of data requires only positive
     values")
 
-    xmin <- min(data)
-    xmax <- max(data)
-
+    if (missing(xlim))
+    {
+        xmin <- min(data)
+        xmax <- max(data)
+        xlim <- c(xmin,xmax)
+    }
+    else
+    {
+        xmin <- xlim[1]
+        xmax <- xlim[2]
+    }
 
     verif.ftidata <- function(fti)
     {
@@ -90,9 +98,28 @@ main,xlegend,ylegend,...){
     s <- sort(data)
     obsp <- ecdf(s)(s)
     if (xlogscale == TRUE)
-        plot(s,obsp,main=main,xlab=xlab,ylab=ylab,ylim=c(0,1),log="x",pch=datapch,col=datacol,...)
+        plot(s,obsp,main=main,xlab=xlab,ylab=ylab,xlim=xlim,ylim=c(0,1),log="x",pch=datapch,col=datacol,...)
     else
-        plot(s,obsp,main=main,xlab=xlab,ylab=ylab,ylim=c(0,1),pch=datapch,col=datacol,...)
+        plot(s,obsp,main=main,xlab=xlab,ylab=ylab,xlim=xlim,ylim=c(0,1),pch=datapch,col=datacol,...)
+    # optional add of horizontal and vbertical lines for step function
+    if (horizontals)
+    {
+        xhleft <- s[-length(s)]
+        xhright <- s[-1L]
+        yh <- obsp[-length(s)]
+        segments(xhleft,yh,xhright,yh,col=datacol,...)
+        segments(s[length(s)],1,xmax,1,col=datacol,lty = 2, ...)
+        
+        segments(xmin,0,s[1],0,col=datacol,lty = 2, ...)
+        if (verticals)
+        {
+           xv <-xhright
+           yvdown <- yh
+           yvup <- obsp[-1L] 
+           segments(xv,yvdown,xv,yvup,col=datacol,...)
+           segments(s[1],0,s[1],obsp[1],col=datacol, ...)
+        }
+    }
 
     # plot of each fitted distribution
     plot.fti <- function(i,...)

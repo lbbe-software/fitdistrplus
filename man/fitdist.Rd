@@ -12,7 +12,7 @@
 }
 
 \usage{
-fitdist(data, distr, method=c("mle", "mme", "qme", "mge"), 
+fitdist(data, distr, method = c("mle", "mme", "qme", "mge"), 
     start=NULL, fix.arg=NULL,  ...) 
 \method{print}{fitdist}(x,...)
 \method{plot}{fitdist}(x,breaks="default",...)
@@ -331,7 +331,7 @@ serving <- groundbeef$serving
 (f7 <- fitdist(serving,"weibull",method="mge",gof="AD2L"))
 (f8 <- fitdist(serving,"weibull",method="mge",gof="AD2"))
 cdfcomp(list(f1,f2,f3,f4,f5,f6,f7,f8))
-cdfcomp(list(f1,f2,f3,f4,f5,f6,f7,f8),xlogscale=TRUE)
+cdfcomp(list(f1,f2,f3,f4,f5,f6,f7,f8),xlogscale=TRUE,xlim=c(8,250),verticals=TRUE)
 
 # (13) Fit of a uniform distribution using Cramer-von Mises or
 # Kolmogorov-Smirnov distance
