@@ -4,6 +4,13 @@ Version 0.3-2
 =============
 
 NEW FEATURES
+- a new function ("cdfcompcens") to plot cumulative distributions corresponding to various fits using a same 
+censored data set.
+
+Version 0.3-2
+=============
+
+NEW FEATURES
 - new plot of the empirical cdf curve in plotdistcens, using the Turnbull algorithm by a call
 to function survfit{survival}
 - new arguments to function "cdfcomp" : verticals, horizontals and xlim
@@ -19,7 +26,8 @@ Version 0.3-0
 =============
 
 NEW FEATURES
-- a new function ("cdfcomp") to plot cumulative distributions correponding to various fits using a same data set).
+- a new function ("cdfcomp") to plot cumulative distributions corresponding to various fits using a same 
+non censored data set.
 - add of two data sets : "endosulfan" and "toxocara".
 
 Version 0.2-2

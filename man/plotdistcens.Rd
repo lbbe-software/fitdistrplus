@@ -39,7 +39,8 @@ plotdistcens(censdata,distr,para,leftNA=-Inf,rightNA=Inf,Turnbull=TRUE,...)
 \details{
     Empirical and, if specified, theoretical distributions are plotted
     in cdf. 
-    If \code{Turnbull} is \code{TRUE}, the EM approach of Turnbull is used to compute the overall 
+    If \code{Turnbull} is \code{TRUE}, the EM approach of Turnbull (Turnbull, 1974) 
+    is used to compute the overall 
     empirical cdf curve with confidence intervals, 
     by calls to functions \code{survfit} and \code{plot.survfit} from the 
     \code{survival} package. 
@@ -88,6 +89,7 @@ left=c(1.73,1.51,0.77,1.96,1.96,-1.4,-1.4,NA,-0.11,0.55,
 right=c(1.73,1.51,0.77,1.96,1.96,0,-0.7,-1.4,-0.11,0.55,
     0.41,2.56,-1.4,-0.53,0.63,0,-0.7,NA,-1.4,0.13))
 plotdistcens(d1)
+plotdistcens(d1,col="red")
 
 # (2) Add the CDF of a normal distribution 
 #

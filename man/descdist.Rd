@@ -11,7 +11,7 @@
 
 \usage{
 descdist(data,discrete=FALSE,boot=NULL,method="unbiased",
-graph=TRUE,obs.col="red",boot.col="pink")
+graph=TRUE,obs.col="darkblue",boot.col="blue")
 }
 %- maybe also 'usage' for other objects documented here.
 

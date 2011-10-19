@@ -37,7 +37,7 @@ plotdistcens <- function(censdata,distr,para,leftNA=-Inf,rightNA=Inf,Turnbull=TR
         survdata <- Surv(time = censdata$left, time2 = censdata$right, type="interval2")
         survfitted <- survfit(survdata ~ 1)
         plot(survfitted,fun="event",xlab="censored data",
-        ylab="CDF",main="Cumulative distribution")
+        ylab="CDF",main="Cumulative distribution",...)
         xmin <- par("usr")[1]
         xmax <- par("usr")[2]
     }
@@ -77,7 +77,7 @@ plotdistcens <- function(censdata,distr,para,leftNA=-Inf,rightNA=Inf,Turnbull=TR
         xmax<-xmax+0.3*xrange
         xlim<-c(xmin,xmax)
         plot(c(0,0),c(0,0),type="n",xlim=xlim,ylim=c(0,1),xlab="censored data",
-        ylab="CDF",main="Cumulative distribution")
+        ylab="CDF",main="Cumulative distribution",...)
         # functions to plot one interval or point for each observation for 
         # observation ordered i out of n
         plotlcens<-function(i) {
@@ -124,7 +124,7 @@ plotdistcens <- function(censdata,distr,para,leftNA=-Inf,rightNA=Inf,Turnbull=TR
         # plot of continuous data with theoretical distribution
         s<-seq(xmin,xmax,by=(xmax-xmin)/100)
         theop<-do.call(pdistname,c(list(q=s),as.list(para)))
-        lines(s,theop,lty=1)
+        lines(s,theop,...)
      }
     par(def.par)    
     

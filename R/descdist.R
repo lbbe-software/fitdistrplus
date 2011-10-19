@@ -23,7 +23,7 @@
 ### 
 
 descdist <- function(data,discrete=FALSE,boot=NULL,method="unbiased",graph=TRUE,
-obs.col="red",boot.col="pink")
+obs.col="darkblue",boot.col="blue")
 {
     #if(is.mcnode(data)) data <- as.vector(data)
     if (missing(data) || !is.vector(data,mode="numeric"))
@@ -147,7 +147,7 @@ obs.col="red",boot.col="pink")
             yb<-kurtmax-(3*(p+q+1)*(p*q*(p+q-6)+2*(p+q)^2)/(p*q*(p+q+2)*(p+q+3)))
             s2<-c(s2a,s2b)
             y<-c(ya,yb)
-            polygon(s2,y,col="grey",border="grey80")
+            polygon(s2,y,col="lightgrey",border="lightgrey")
             # gamma dist
             lshape<-seq(-100,100,0.1)
             shape<-exp(lshape)

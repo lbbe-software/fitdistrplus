@@ -73,6 +73,8 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL,...)
     \item{ bic }{ the the so-called BIC or SBC (Schwarz Bayesian criterion)}
     \item{ censdata }{ the censored dataset }
     \item{ distname }{ the name of the distribution }
+    \item{ fix.arg }{ the named list giving the values of parameters of the named distribution
+    that must kept fixed rather than estimated by maximum likelihood or NULL if there are no such parameters. }
     \item{ dots }{ the list of  further arguments passed in \dots to be used in \code{bootdistcens} to
     control the optimization method used in iterative calls to \code{mledist} or NULL if no such arguments}
 }

@@ -42,5 +42,7 @@ export(plotdist, plotdistcens)
 
 export(cdfcomp)
 
+export(cdfcompcens)
+
 ### use dynamic library for C code
 #useDynLib(fitdistrplus, .registration = TRUE)

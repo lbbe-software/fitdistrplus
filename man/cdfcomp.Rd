@@ -46,7 +46,7 @@ into account if \code{horizontals} is TRUE }
 \details{
     Empirical and theoretical distributions are simply plotted in cdf. 
     By default a legend is added to the plot. Arguments
-    legendtext,datapch,datacol,fitcol,fitlty,xlab,ylab,main,xlegend,ylegend are optional and
+    legendtext,datapch,datacol,fitcol,fitlty,xlab,ylab,xlim,main,xlegend,ylegend are optional and
     fixed to default values if omitted.
 }
 
