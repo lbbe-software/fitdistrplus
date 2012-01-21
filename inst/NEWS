@@ -1,11 +1,12 @@
 === fitdistrplus : Help to fit of a parametric distribution ===
 
-Version 0.3-2
+Version 0.3-3
 =============
 
 NEW FEATURES
 - a new function ("cdfcompcens") to plot cumulative distributions corresponding to various fits using a same 
 censored data set.
+- add an example with scaling problem in man pages.
 
 Version 0.3-2
 =============
@@ -111,7 +112,7 @@ Version 0.1-2
 
 NEW FEATURES
 
-- supression of mledistcens and modification of mledist in order
+- deletion of mledistcens and modification of mledist in order
 to maximize likelihood for both censored and non censored data.
 - possibility to choose the optimization method used for maximum
 likelihood estimation (MLE) of distribution parameters using the new

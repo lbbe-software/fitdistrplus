@@ -29,6 +29,12 @@
 %\VignetteKeyword{distribution}
 
 
+% accents 8 bits dans le fichier
+%\usepackage[applemac]{inputenc} %MAC encoding
+%\usepackage[utf8]{inputenc} %UNIX encoding
+\usepackage[ansinew]{inputenc} %WINDOWS encoding
+
+
 \usepackage[a4paper,textwidth=18cm,textheight=27cm]{geometry}
 \usepackage{url}
 
@@ -94,7 +100,7 @@ but those packages generally focused on specific models, enabling the fit of onl
 restricted family of distributions. Our third objective was thus to provide R users a function 
 to estimate univariate distribution parameters from censored data, whatever the type of censoring. 
 
-% A changer en cas de mise à jour de fitdistrplus !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+% A changer en cas de mise â€¡ jour de fitdistrplus !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 This paper reviews the various features of version 0.3-0 of \texttt{fitdistrplus}. The package
 is available from the Comprehensive R Archive Network at \url{http://cran.r-project.org/package=fitdistrplus}.
 The development version of the package is located at R-forge as one the packages of the 
@@ -306,7 +312,7 @@ abbreviation used as the second part of d, p and q functions (for example ``norm
 for the normal distribution. Numerical results returned by Function \texttt{fitdist} are 
 parameter estimates with estimated standard errors computed from the estimate
 of the Hessian matrix at the maximum likelihood solution, correlation matrix
-between parameter estimates, the loglikelihood, the Akaïke and the Schwarz information criteria 
+between parameter estimates, the loglikelihood, the AkaÃ”ke and the Schwarz information criteria 
 (so called AIC and BIC).
 <<echo = TRUE,fig = FALSE>>=
 fw <- fitdist(groundbeef$serving,"weibull")
@@ -410,8 +416,8 @@ Weibull, lognormal and gamma distributions to ``groundbeef'' data set.
 
 In such a plot, data may be represented in a log scale when required, by just fixing the argument
 \texttt{xlogscale} to \texttt{TRUE} in the call to \texttt{cdfcomp}.
-% Ajouter ex endosulfan avec la bibliothèque actuar !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-% mais comment faire dans la vignette : indiquer que fitdistrplus nécessite actuar????????????????????????????
+% Ajouter ex endosulfan avec la bibliothÃ‹que actuar !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+% mais comment faire dans la vignette : indiquer que fitdistrplus nÃˆcessite actuar????????????????????????????
 
 
 For discrete distributions, the plot of an object of class \texttt{fitdist} provides
