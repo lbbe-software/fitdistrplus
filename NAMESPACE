@@ -12,6 +12,7 @@ export(fitdistcens)
 S3method(summary, fitdistcens)
 S3method(plot, fitdistcens)
 S3method(print, fitdistcens)
+S3method(print, summary.fitdistcens)
 
 #bootdist class
 export(bootdist)

@@ -26,7 +26,7 @@
 
 cdfcomp <-
 function(ft,xlogscale=FALSE,addlegend=TRUE,legendtext,datapch,datacol,fitcol,fitlty,xlab,ylab,xlim,
-main,xlegend,ylegend,horizontals = TRUE,verticals = FALSE, ...){
+main,xlegend = "bottomright",ylegend = NULL,horizontals = TRUE,verticals = FALSE, ...){
 
 
     if(inherits(ft, "fitdist"))
@@ -149,17 +149,18 @@ main,xlegend,ylegend,horizontals = TRUE,verticals = FALSE, ...){
     if (addlegend==TRUE)
     {
         if (missing(legendtext)) legendtext <- paste("fit",1:nft)
-        if (missing(xlegend))
-        {
-            if ((xlogscale == TRUE))
-            {
-                xlegendlog10 <- log10(xmin) + (log10(xmax) - log10(xmin))*2/3
-                xlegend <- 10^xlegendlog10
-            }
-            else
-                xlegend <- xmin + (xmax - xmin)*2/3
-        }
-        if (missing(ylegend)) ylegend <- 0.5
+#       next lines replaced by default argument xlegend fixed to "bottomright"
+#        if (missing(xlegend))
+#        {
+#            if ((xlogscale == TRUE))
+#            {
+#                xlegendlog10 <- log10(xmin) + (log10(xmax) - log10(xmin))*2/3
+#                xlegend <- 10^xlegendlog10
+#            }
+#            else
+#                xlegend <- xmin + (xmax - xmin)*2/3
+#        }
+#        if (missing(ylegend)) ylegend <- 0.5
 
         legend(x=xlegend,y=ylegend,bty="n",legend=legendtext,lty=fitlty,col=fitcol,...)
     }

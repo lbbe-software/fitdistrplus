@@ -95,7 +95,7 @@ to the number of parameters to estimate.}
 
 
 \author{ 
-Marie-Laure Delignette-Muller \email{ml.delignette@vetagro-sup.fr} and 
+Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr} and 
 Christophe Dutang
 }
 

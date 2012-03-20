@@ -74,7 +74,7 @@ censored data.\emph{Journal of American Statistical Association}, \bold{69}, 169
 
 
 \author{ 
-Marie-Laure Delignette-Muller \email{ml.delignette@vetagro-sup.fr} 
+Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr} 
 }
 
 %\note{  }

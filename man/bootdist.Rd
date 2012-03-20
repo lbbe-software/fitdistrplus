@@ -73,7 +73,7 @@ Cullen AC and Frey HC (1999) Probabilistic techniques in exposure assessment. Pl
 
 
 \author{ 
-Marie-Laure Delignette-Muller \email{ml.delignette@vetagro-sup.fr} 
+Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr} 
 }
 
 %\note{  }
@@ -126,9 +126,9 @@ b2<-bootdist(f2)
 plot(b2,pch=16)
 summary(b2)
 
-# (7) fit of a Weibull distribution to serving size data by maximum likelihood estimation
-#  or by quantile matching estimation (in this example matching first and third quartiles)
-# followed by parametric bootstrap
+# (7) fit of a Weibull distribution to serving size data by maximum likelihood 
+# estimation or by quantile matching estimation (in this example matching 
+# first and third quartiles) followed by parametric bootstrap
 #
 data(groundbeef)
 serving <- groundbeef$serving

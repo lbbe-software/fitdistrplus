@@ -93,8 +93,9 @@ x1<-c(6.4,13.3,4.1,1.3,14.1,10.6,9.9,9.6,15.3,22.1,13.4,
 qmedist(x1, "norm", probs=c(1/3, 2/3))
 
 
-# (2) defining your own distribution functions, here for the Gumbel distribution
-# for other distributions, see the CRAN task view dedicated to probability distributions
+# (2) defining your own distribution functions, here for the Gumbel 
+# distribution for other distributions, see the CRAN task view dedicated 
+# to probability distributions
 
 dgumbel <- function(x, a, b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
 qgumbel <- function(p, a, b) a - b*log(-log(p))

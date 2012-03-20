@@ -149,7 +149,7 @@ Vose D (2000) Risk analysis, a quantitative guide. John Wiley & Sons Ltd, Chisch
 
 
 \author{ 
-Marie-Laure Delignette-Muller \email{ml.delignette@vetagro-sup.fr} and
+Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr} and
 Christophe Dutang
 }
 
@@ -374,7 +374,7 @@ x <- c(-0.00707717, -0.000947418, -0.00189753,
 -0.00241138, -0.00144963)
 
 for(i in 6:0)
-	cat(i, try(fitdist(x*10^i, "cauchy", method="mle")$estimate, silent=TRUE), "\n")
+    cat(i, try(fitdist(x*10^i, "cauchy", method="mle")$estimate, silent=TRUE), "\n")
 
 }
 \keyword{ distribution }

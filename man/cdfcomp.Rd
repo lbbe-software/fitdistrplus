@@ -12,7 +12,8 @@
 \usage{
 cdfcomp(ft,xlogscale=FALSE,addlegend=TRUE,legendtext,
 datapch,datacol,fitcol,fitlty,xlab,ylab,xlim,
-main,xlegend,ylegend,horizontals = TRUE, verticals = FALSE, ...)
+main,xlegend = "bottomright",ylegend = NULL,horizontals = TRUE, 
+verticals = FALSE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 
@@ -35,8 +36,9 @@ main,xlegend,ylegend,horizontals = TRUE, verticals = FALSE, ...)
 \item{ylab}{A title for the y axis}
 \item{xlim}{numeric vectors of length 2, giving the x coordinates range}
 \item{main}{An overall title for the plot}
-\item{xlegend}{The x co-ordinate to be used to position the legend}
-\item{ylegend}{The y co-ordinate to be used to position the legend}
+\item{xlegend,ylegend}{the x and y co-ordinates to be used to position the legend.
+          They can be specified by keyword or in any way which is
+          accepted by 'xy.coords': See \code{\link{legend}} for details.}
 \item{horizontals}{If TRUE, draws horizontal lines for step empirical cdf function}
 \item{verticals}{If TRUE, draws also vertical lines for step empirical cdf function. Only taken
 into account if \code{horizontals} is TRUE }
@@ -51,13 +53,13 @@ into account if \code{horizontals} is TRUE }
 }
 
 \seealso{ 
-    \code{\link{plotdist}}.
+    \code{\link{plotdist}}, \code{\link{legend}}.
 }
 
 
 
 \author{ 
-Marie-Laure Delignette-Muller \email{ml.delignette@vetagro-sup.fr} 
+Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr} 
 }
 
 %\note{  }
@@ -76,6 +78,9 @@ cdfcomp(list(fitW,fitln,fitg),horizontals = TRUE, verticals=TRUE,datacol="orange
 cdfcomp(list(fitW,fitln,fitg),legendtext=c("Weibull","lognormal","gamma"),
     main="ground beef fits",xlab="serving sizes (g)",
     ylab="F",xlim = c(0,250))
+cdfcomp(list(fitW,fitln,fitg),legendtext=c("Weibull","lognormal","gamma"),
+    main="ground beef fits",xlab="serving sizes (g)",
+    ylab="F",xlim = c(0,250),xlegend = "topleft")
 
 
 # (2) Plot in of lognormal distributions fitted by 

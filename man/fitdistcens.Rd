@@ -38,8 +38,10 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL,...)
     that must kept fixed rather than estimated by maximum likelihood. }
 \item{x}{ an object of class 'fitdistcens'.  }
 \item{object}{ an object of class 'fitdistcens'.  }
-\item{...}{ further arguments to be passed to generic functions, or to the function \code{"mledist"} 
-     in order to control the optimization method.}
+\item{...}{ further arguments to be passed to generic functions,
+    to the function \code{"plotdistcens"} in order to control the type of ecdf-plot used for censored data, 
+    or to the function \code{"mledist"} 
+    in order to control the optimization method.}
 }
 
 \details{
@@ -91,7 +93,7 @@ Venables WN and Ripley BD (2002) Modern applied statistics with S. Springer, New
 
 
 \author{ 
-Marie-Laure Delignette-Muller \email{ml.delignette@vetagro-sup.fr} 
+Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr} 
 }
 
 %\note{  }
@@ -176,7 +178,9 @@ fitdistcens(d1, "norm", start=list(sd=1.5),fix.arg=list(mean=0.1))
 data(smokedfish)
 fitsf <- fitdistcens(smokedfish,"norm")
 summary(fitsf)
+# default plot using the Turnbull algorithm
 plot(fitsf)
+# basic plot using intervals and points (see ?plotdiscens for details)
 plot(fitsf, Turnbull = FALSE)
 
 }

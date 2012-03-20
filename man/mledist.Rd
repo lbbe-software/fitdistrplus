@@ -109,7 +109,7 @@ mledist(data, distr, start=NULL, fix.arg=NULL, optim.method="default",
 
 
 \author{ 
-Marie-Laure Delignette-Muller \email{ml.delignette@vetagro-sup.fr} and
+Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr} and
 Christophe Dutang
 }
 
@@ -190,9 +190,9 @@ x <- c(-0.00707717, -0.000947418, -0.00189753,
 
 #only i == 0, no scaling, should not converge.
 for(i in 6:0)
-	cat(i, try(mledist(x*10^i, "cauchy")$estimate, silent=TRUE), "\n")
-		
-	
+    cat(i, try(mledist(x*10^i, "cauchy")$estimate, silent=TRUE), "\n")
+        
+    
 }
 
 \keyword{ distribution }% at least one, from doc/KEYWORDS

@@ -10,8 +10,9 @@
 }
 
 \usage{
-cdfcompcens(ft,xlogscale=FALSE,addlegend=TRUE,legendtext,datacol,fitcol,fitlty,
-xlab,ylab,main,xlegend,ylegend, ...)
+cdfcompcens(ft,xlogscale=FALSE,addlegend=TRUE,legendtext,datacol,
+fitcol,fitlty,xlab,ylab,main,xlegend = "bottomright",
+ylegend = NULL, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 
@@ -31,8 +32,9 @@ xlab,ylab,main,xlegend,ylegend, ...)
 \item{xlab}{A title for the x axis}
 \item{ylab}{A title for the y axis}
 \item{main}{An overall title for the plot}
-\item{xlegend}{The x co-ordinate to be used to position the legend}
-\item{ylegend}{The y co-ordinate to be used to position the legend}
+\item{xlegend,ylegend}{the x and y co-ordinates to be used to position the legend.
+          They can be specified by keyword or in any way which is
+          accepted by 'xy.coords': See \code{\link{legend}} for details.}
 \item{\dots}{ further graphical arguments passed to graphical functions used in cdfcompcens }
 }
 
@@ -48,7 +50,7 @@ xlab,ylab,main,xlegend,ylegend, ...)
 }
 
 \seealso{ 
-    \code{\link{plotdistcens}}, \code{\link{survfit.formula}}.
+    \code{\link{plotdistcens}}, \code{\link{survfit.formula}}, \code{\link{legend}}.
 }
 
 \references{ 
@@ -58,7 +60,7 @@ censored data.\emph{Journal of American Statistical Association}, \bold{69}, 169
 
 
 \author{ 
-Marie-Laure Delignette-Muller \email{ml.delignette@vetagro-sup.fr} 
+Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr} 
 }
 
 %\note{  }
@@ -82,7 +84,13 @@ summary(fitsfg)
 cdfcompcens(list(fitsfn,fitsfl,fitsfg))
 cdfcompcens(list(fitsfn,fitsfl,fitsfg),datacol="orange",
     legendtext=c("normal","logistic","Gumbel"),
-    main="bacterial contamination fits",xlab="bacterial concentration (CFU/g)",ylab="F")
+    main="bacterial contamination fits",
+    xlab="bacterial concentration (CFU/g)",ylab="F")
+cdfcompcens(list(fitsfn,fitsfl,fitsfg),datacol="orange",
+    legendtext=c("normal","logistic","Gumbel"),
+    main="bacterial contamination fits",
+    xlab="bacterial concentration (CFU/g)",ylab="F",
+    xlegend = "center")
 
 # (2) Same plot in x logscale
 #
