@@ -5,6 +5,7 @@ Version 0.3-4
 
 NEW FEATURES
 - posibility to fix xlegend to a keyword (e.g. "bottomright") in "cdfcomp" and "cdfcompdens"
+- improvement of the new vignette
 
 BUG FIXES
 - correction of the NAMESPACE file in order to enable the correct print of a summary of a fitdistcens object

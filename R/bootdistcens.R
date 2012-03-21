@@ -91,7 +91,7 @@ plot.bootdistcens <- function(x,...){
         stop("Use only with 'bootdistcens' objects")
     if (dim(x$estim)[2]==1) {
         stripchart(x$estim,method="jitter",
-        xlab="Boostrapped values of the parameter",...)
+        xlab="Bootstrapped values of the parameter",...)
     }
     else {
         if (dim(x$estim)[2]==2)

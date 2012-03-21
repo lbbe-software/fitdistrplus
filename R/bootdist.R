@@ -109,7 +109,7 @@ plot.bootdist <- function(x,...){
         stop("Use only with 'bootdist' objects")
     if (dim(x$estim)[2]==1) {
         stripchart(x$estim,method="jitter",
-            xlab="Boostrapped values of the parameter",...)
+            xlab="Bootstrapped values of the parameter",...)
     }
     else {
         if (dim(x$estim)[2]==2)

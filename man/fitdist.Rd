@@ -209,7 +209,6 @@ gofstat(f2)
 
 fitdist(serving,"gamma",optim.method="Nelder-Mead")
 fitdist(serving,"gamma",optim.method="BFGS") 
-fitdist(serving,"gamma",optim.method="L-BFGS-B",lower=c(0,0))
 fitdist(serving,"gamma",optim.method="SANN")
 
 # (7) custom optimization function
