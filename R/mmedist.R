@@ -149,7 +149,7 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
         
         if(length(start) != length(order))
             stop("wrong dimension for the moment order to match.")
-        if(!exists(memp, mode="function")) 
+        if(!exists("memp", mode="function")) 
             stop("the empirical moment function must be defined.")
 
         
