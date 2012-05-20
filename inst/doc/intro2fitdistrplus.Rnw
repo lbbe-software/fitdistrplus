@@ -31,8 +31,8 @@
 
 % accents 8 bits dans le fichier
 %\usepackage[applemac]{inputenc} %MAC encoding
-%\usepackage[utf8]{inputenc} %UNIX encoding
-\usepackage[ansinew]{inputenc} %WINDOWS encoding
+\usepackage[utf8]{inputenc} %UNIX encoding
+%\usepackage[ansinew]{inputenc} %WINDOWS encoding
 
 
 \usepackage[a4paper,textwidth=18cm,textheight=27cm]{geometry}
