@@ -39,11 +39,17 @@ export(qmedist)
 
 export(mgedist)
 
-export(plotdist, plotdistcens)
+export(plotdist)
+
+export(plotdistcens)
 
 export(cdfcomp)
 
 export(cdfcompcens)
+
+export(quantiledist)
+
+export(quantiledistcens)
 
 ### use dynamic library for C code
 #useDynLib(fitdistrplus, .registration = TRUE)
