@@ -3,7 +3,7 @@
 \docType{data}
 %- Also NEED an '\alias' for EACH other topic documented here.
 
-\title{ Species-Sensitivity Distribution (SSD) for Endosulfan }
+\title{ Species-Sensitivity Distribution (SSD) for endosulfan }
 
 \description{
 Summary of 48- to 96-hour acute toxicity values (LC50 and EC50 values)
@@ -53,9 +53,35 @@ summary(fln)
 fll <- fitdist(log10ATV,"logis")
 summary(fll)
 
-cdfcomp(list(fln,fll),legendtext=c("normal","logistic"))
+cdfcomp(list(fln,fll),legendtext=c("normal","logistic"),
+xlab="log10ATV")
 
-# (4) fit of a logistic distribution 
+# (4) estimation of the 5 percent quantile value of 
+# each fitted distribution (5 percent hazardous concentration  : HC5)
+# with its two-sided 95 percent confidence interval calculated by 
+# non parametric bootstrap
+#
+# in log10(ATV)
+HC5ln <- quantiledist(fln,probs = 0.05,bootstrap=TRUE)
+HC5ll <- quantiledist(fll,probs = 0.05,bootstrap=TRUE)
+# in ATV
+10^(HC5ln$quantiles)
+10^(HC5ln$quantCI)
+10^(HC5ll$quantiles)
+10^(HC5ll$quantCI)
+
+# (5) estimation of the 5 percent quantile value of 
+# the fitted lognormal distribution (5 percent hazardous concentration  : HC5)
+# with its one-sided 95 percent confidence interval (type "greater")
+# calculated by non parametric bootstrap
+#
+# in log10(ATV)
+HC5ln <- quantiledist(fln,probs = 0.05,bootstrap=TRUE,CI.type="greater")
+# in ATV
+10^(HC5ln$quantiles)
+10^(HC5ln$quantCI)
+
+# (6) fit of a logistic distribution 
 # by minimizing the modified Anderson-Darling AD2L distance
 # cf. ?mgedist for definition of this distance
 #
@@ -63,7 +89,6 @@ cdfcomp(list(fln,fll),legendtext=c("normal","logistic"))
 fllAD2L <- fitdist(log10ATV,"logis",method="mge",gof="AD2L")
 summary(fllAD2L)
 plot(fllAD2L)
-
 
 }
 

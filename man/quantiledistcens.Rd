@@ -10,25 +10,35 @@
 }
 
 \usage{
-quantiledistcens(f, probs = seq(0.1,0.9,0.1), bootstrap = TRUE, 
-                bootstrap.arg = list(niter=1001))
+quantiledistcens(f, probs = seq(0.1,0.9,0.1), bootstrap = TRUE,
+    CI.type = "two.sided",
+    bootstrap.arg = list(niter=1001))
 }
 %- maybe also 'usage' for other objects documented here.
 
 \arguments{
 \item{f}{An object of class 'fitdistcens', result of the function \code{fitdistcens}.}
-\item{probs}{numeric vector of probabilities with values in [0,1].}
+\item{probs}{Numeric vector of probabilities with values in [0,1].}
 \item{bootstrap}{If \code{TRUE}, bootstrap is performed to calculate quantile confidence intervals. }
-\item{bootstrap.arg}{list of arguments to be passed to \code{\link{bootdistcens}}  }
+\item{CI.type}{Type of confidence interval, \code{"two.sided"}, or one-sided \code{"less"}
+     or \code{"greater"}}
+\item{bootstrap.arg}{List of arguments to be passed to \code{\link{bootdistcens}}  }
 }
 
 \details{
     Quantiles of the parametric distribution are calculated for
-    each probability specified in \code{probs}, using the estimated parameters given by the 'fitdist' result.
+    each probability specified in \code{probs}, using the estimated parameters given by the 'fitdistcens' result.
     If \code{bootstrap} is \code{TRUE}, a bootstrap procedure is then performed using \code{\link{bootdistcens}}
-    on the 'fitdist' result, and quantiles of the parametric distribution are calculated for
-    each probability specified in \code{probs}, using each set of boostrapped values of parameters. 
-    The 95 percent confidence intervals of quantiles (2.5 and 97.5 percentiles) are calculated.
+    on the 'fitdistcens' result, and quantiles of the parametric distribution are calculated for
+    each probability specified in \code{probs}, using each set of boostrapped values of parameters.  
+    If inferior to the whole number of bootstrap iterations, the number of iterations for which the estimation converges 
+    is also printed in the summary.
+    If \code{CI.type} is \code{two.sided},
+    the 95 percent two-sided confidence intervals of quantiles (2.5th and 97.5th percentiles) are calculated.
+    If \code{CI.type} is \code{less},
+    the 95 percent one-sided confidence intervals of quantiles (95th percentiles) are calculated.
+    If \code{CI.type} is \code{greater},
+    the 95 percent one-sided confidence intervals of quantiles (5th percentiles) are calculated.
     
 }
 
@@ -42,15 +52,18 @@ quantiledistcens(f, probs = seq(0.1,0.9,0.1), bootstrap = TRUE,
          (many rows, as specified in the call to \code{\link{bootdist}},
          and as many columns as values in \code{probs}, or NULL if 
         \code{bootstrap} is \code{FALSE} }
-    \item{quantCI}{ bounds of the  95 percent confidence intervals for each quantile 
-        (two rows, the first one for the 2.5 percentile and the second one for the 97.5 percentile,
-         and as many columns as values in \code{probs}, or NULL if 
-        \code{bootstrap} is \code{FALSE}}
+    \item{quantCI}{ by default bounds of the  95 percent two.sided confidence interval for each quantile 
+        (two rows, the first one for the 2.5th percentile and the second one for the 97.5th percentile,
+         and as many columns as values in \code{probs}), or NULL if 
+        \code{bootstrap} is \code{FALSE}. If \code{CI.type} is \code{less}, right bound of the 95 percent
+        one.sided confidence interval for each quantile (one row with 95th percentiles).
+        If \code{CI.type} is \code{greater}, left bound of the 95 percent
+        one.sided confidence interval for each quantile (one row with 5th percentiles). }
 }
         
 
 \seealso{ 
-    \code{\link{fitdistcens}}, \code{\link{bootdistcens}}.
+    \code{\link{fitdistcens}}, \code{\link{bootdistcens}},  \code{\link{quantiledist}}.
 }
 
 
@@ -61,20 +74,48 @@ Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr}
 %\note{  }
 
 \examples{
-# (1) Fit of a normal distribution on censored data
-# followed by estimation of quantiles of 
-# the fitted distribution for various probabilities
+# (1) Fit of a lognormal distribution on acute toxicity values of fluazinam for
+# macroinvertebrates and zooplancton, using maximum likelihood estimation
+# to estimate what is called a species sensitivity distribution 
+# (SSD) in ecotoxicology, followed by estimation of the 5 percent quantile value of 
+# the fitted distribution, what is called the 5 percent hazardous concentration (HC5)
+# in ecotoxicology, with its two-sided 95 percent confidence interval calculated by 
+# non parametric bootstrap
 #
-d1<-data.frame(
-left=c(1.73,1.51,0.77,1.96,1.96,-1.4,-1.4,NA,-0.11,0.55,0.41,
-    2.56,NA,-0.53,0.63,-1.4,-1.4,-1.4,NA,0.13),
-right=c(1.73,1.51,0.77,1.96,1.96,0,-0.7,-1.4,-0.11,0.55,0.41,
-    2.56,-1.4,-0.53,0.63,0,-0.7,NA,-1.4,0.13))
-f1n<-fitdistcens(d1, "norm")
-f1n
-q1 <- quantiledistcens(f1n, probs=c(0.05,0.1,0.2,0.5),bootstrap = FALSE)
-q1b <- quantiledistcens(f1n, probs=c(0.05,0.1,0.2,0.5),bootstrap = TRUE)
-q1b
+data(fluazinam)
+log10EC50 <-log10(fluazinam)
+fln <- fitdistcens(log10EC50,"norm")
+# in log10(EC50)
+HC5ln <- quantiledistcens(fln,probs = 0.05,bootstrap=TRUE)
+HC5ln
+# in EC50
+10^(HC5ln$quantiles)
+10^(HC5ln$quantCI)
+
+
+# (2) Estimation of quantiles of the same fitted distribution 
+# and two-sided 95 percent confidence intervals for various probabilities 
+#
+quantiledistcens(fln,probs = c(0.05,0.1,0.2),bootstrap = TRUE)
+
+
+# (3) Estimation of quantiles of the same fitted distribution 
+# and one-sided 95 percent confidence intervals (type "greater") for various 
+# probabilities 
+#
+quantiledistcens(fln,probs = c(0.05,0.1,0.2),bootstrap = TRUE,CI.type = "greater")
+
+# (4) Fit of a loglogistic distribution on the same acute toxicity values and
+# estimation of the 5 percent quantile (HC5) of the fitted distribution 
+# and associated two-sided 95 percent confidence interval 
+#
+fll <- fitdistcens(log10EC50,"logis")
+# in log10(EC50)
+HC5ll <- quantiledistcens(fll,probs = 0.05,bootstrap=TRUE)
+HC5ll
+# in EC50
+10^(HC5ll$quantiles)
+10^(HC5ll$quantCI)
 
 }
 

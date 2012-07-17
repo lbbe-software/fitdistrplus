@@ -18,16 +18,32 @@
 #                                                                                                                                                                         
 #############################################################################
 ### calculation of theoretical quantiles from a parametric distribution
-### fitted on non-censored data
+### fitted on censored or non-censored data
 ### and associated bootstrap confidence intervals
 ###
 ###         R functions
 ### 
-quantiledist <- function(f, probs = seq(0.1,0.9,0.1), bootstrap = TRUE, 
+quantiledist <- function(f, probs = seq(0.1,0.9,0.1), bootstrap = TRUE, CI.type = "two.sided",
                 bootstrap.arg = list(bootmethod="param", niter=1001))
 {
     if (!inherits(f, "fitdist"))
         stop("Use only with 'fitdist' objects")
+    cens <- FALSE
+    quantiles(f = f,probs = probs,bootstrap = bootstrap,CI.type = CI.type,bootstrap.arg = bootstrap.arg,cens)
+}
+
+quantiledistcens <- function(f, probs = seq(0.1,0.9,0.1), bootstrap = TRUE, CI.type = "two.sided",
+                bootstrap.arg = list(niter=1001))
+{
+    if (!inherits(f, "fitdistcens"))
+        stop("Use only with 'fitdistcens' objects")
+    cens <- TRUE
+    quantiles(f = f,probs = probs,bootstrap = bootstrap,CI.type = CI.type,bootstrap.arg = bootstrap.arg,cens)
+}
+
+quantiles <- function(f, probs , bootstrap , CI.type , bootstrap.arg, cens )
+{    
+    CI.type <- match.arg(CI.type, c("two.sided","less","greater"))
     
     qdistname<-paste("q",f$distname,sep="")
     if (!exists(qdistname,mode="function"))
@@ -48,7 +64,11 @@ quantiledist <- function(f, probs = seq(0.1,0.9,0.1), bootstrap = TRUE,
     # 2/ calculation of bootstraped quantiles and 95 percent CI      
     if (bootstrap)
     {
+        if (cens)
+        resbootdist <- do.call(bootdistcens,c(list(f),as.list(bootstrap.arg)))
+        else
         resbootdist <- do.call(bootdist,c(list(f),as.list(bootstrap.arg)))
+        
         calcquant <- function(i)
         {
             parai=c(as.list(resbootdist$estim[i,]),as.list(f$fix.arg))
@@ -63,14 +83,46 @@ quantiledist <- function(f, probs = seq(0.1,0.9,0.1), bootstrap = TRUE,
             bootquant <- as.data.frame(bootquant)
         colnames(bootquant) <- paste("prob=",probs,sep="")
         
-        quantCI <- rbind(
-        apply(bootquant,MARGIN=2,quantile,0.025,na.rm=TRUE),
-        apply(bootquant,MARGIN=2,quantile,0.975,na.rm=TRUE))
-        rownames(quantCI) <- c("2.5%","97.5%")
+        if (CI.type == "two.sided")
+        {
+            quantCI <- rbind(
+            apply(bootquant,MARGIN=2,quantile,0.025,na.rm=TRUE),
+            apply(bootquant,MARGIN=2,quantile,0.975,na.rm=TRUE))
+            rownames(quantCI) <- c("2.5%","97.5%")
+            cat("\n")
+            cat("two-sided 95% CI of each quantile\n")
+            print(quantCI)
+        }
+        else
+        {
+            if (CI.type == "less")
+            {
+                quantCI <- 
+                t(apply(bootquant,MARGIN=2,quantile,0.95,na.rm=TRUE))
+                rownames(quantCI) <- c("95%")
+                cat("\n")
+                cat("right bound of one-sided 95% CI of each quantile\n")
+                print(quantCI)
+            }
+            else
+            {
+                quantCI <- 
+                t(apply(bootquant,MARGIN=2,quantile,0.05,na.rm=TRUE))
+                rownames(quantCI) <- c("5%")
+                cat("\n")
+                cat("left bound of one-sided 95% CI (bootstrap) of each quantile\n")
+                print(quantCI)
+            }
+        }
         
-        cat("\n")
-        cat("95% percentile CI (bootstrap) of each quantile\n")
-        print(quantCI)
+        # message when lack of convergence
+        nconverg<-length(resbootdist$converg[resbootdist$converg==0])
+        if (nconverg < length(resbootdist$converg))
+        {
+            cat("\n")
+            cat("The estimation method converged only for ",nconverg," among ",
+                    length(resbootdist$converg)," bootstrap iterations \n")
+        }
 
         reslist <- list(quantiles = quantiles, resbootdist = resbootdist, bootquant = bootquant, quantCI = as.data.frame(quantCI))
 

@@ -12,7 +12,8 @@
 
 \usage{
 quantiledist(f, probs = seq(0.1,0.9,0.1), bootstrap = TRUE, 
-                bootstrap.arg = list(bootmethod="param", niter=1001))
+    CI.type = "two.sided",
+    bootstrap.arg = list(bootmethod="param", niter=1001))
 }
 %- maybe also 'usage' for other objects documented here.
 
@@ -20,6 +21,8 @@ quantiledist(f, probs = seq(0.1,0.9,0.1), bootstrap = TRUE,
 \item{f}{An object of class 'fitdist', result of the function \code{fitdist}.}
 \item{probs}{numeric vector of probabilities with values in [0,1].}
 \item{bootstrap}{If \code{TRUE}, bootstrap is performed to calculate quantile confidence intervals. }
+\item{CI.type}{Type of confidence interval, \code{"two.sided"}, or one-sided \code{"less"}
+     or \code{"greater"}}
 \item{bootstrap.arg}{list of arguments to be passed to \code{\link{bootdist}}  }
 }
 
@@ -29,7 +32,15 @@ quantiledist(f, probs = seq(0.1,0.9,0.1), bootstrap = TRUE,
     If \code{bootstrap} is \code{TRUE}, a bootstrap procedure is then performed using \code{\link{bootdist}}
     on the 'fitdist' result, and quantiles of the parametric distribution are calculated for
     each probability specified in \code{probs}, using each set of boostrapped values of parameters. 
-    The 95 percent confidence intervals of quantiles (2.5 and 97.5 percentiles) are calculated.
+    If inferior to the whole number of bootstrap iterations, the number of iterations for which the estimation converges 
+    is also printed in the summary.
+    If \code{CI.type} is \code{two.sided},
+    the 95 percent two-sided confidence intervals of quantiles (2.5th and 97.5th percentiles) are calculated.
+    If \code{CI.type} is \code{less},
+    the 95 percent one-sided confidence intervals of quantiles (95th percentiles) are calculated.
+    If \code{CI.type} is \code{greater},
+    the 95 percent one-sided confidence intervals of quantiles (5th percentiles) are calculated.
+    
     
 }
 
@@ -43,15 +54,18 @@ quantiledist(f, probs = seq(0.1,0.9,0.1), bootstrap = TRUE,
          (many rows, as specified in the call to \code{\link{bootdist}},
          and as many columns as values in \code{probs}, or NULL if 
         \code{bootstrap} is \code{FALSE} }
-    \item{quantCI}{ bounds of the  95 percent confidence intervals for each quantile 
-        (two rows, the first one for the 2.5 percentile and the second one for the 97.5 percentile,
-         and as many columns as values in \code{probs}, or NULL if 
-        \code{bootstrap} is \code{FALSE}}
+    \item{quantCI}{ by default bounds of the  95 percent two.sided confidence interval for each quantile 
+        (two rows, the first one for the 2.5th percentile and the second one for the 97.5th percentile,
+         and as many columns as values in \code{probs}), or NULL if 
+        \code{bootstrap} is \code{FALSE}. If \code{CI.type} is \code{less}, right bound of the 95 percent
+        one.sided confidence interval for each quantile (one row with 95th percentiles).
+        If \code{CI.type} is \code{greater}, left bound of the 95 percent
+        one.sided confidence interval for each quantile (one row with 5th percentiles). }
 }
         
 
 \seealso{ 
-    \code{\link{fitdist}}, \code{\link{bootdist}}.
+    \code{\link{fitdist}}, \code{\link{bootdist}}, \code{\link{quantiledistcens}}.
 }
 
 
@@ -62,24 +76,56 @@ Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr}
 %\note{  }
 
 \examples{
-# (1) Fit of a lognormal distribution with maximum likelihood estimation
-# on toxicity values to estimate (that is called a species sensitivity distribution, 
-# SSD, in ecotoxicology, followed by estimation of the 5 percent quantile value of 
-# the fitted distribution (that is called the HC5 in ecotoxicology)
+# (1) Fit of a lognormal distribution on acute toxicity values of endosulfan for
+# nonarthropod invertebrates, using maximum likelihood estimation
+# to estimate what is called a species sensitivity distribution 
+# (SSD) in ecotoxicology, followed by estimation of the 5 percent quantile value of 
+# the fitted distribution, what is called the 5 percent hazardous concentration (HC5)
+# in ecotoxicology, with its two-sided 95 percent confidence interval calculated by 
+# parametric bootstrap
 #
 data(endosulfan)
 ATV <-subset(endosulfan,group == "NonArthroInvert")$ATV
-fATV <- fitdist(ATV,"lnorm")
-qATV5 <- quantiledist(fATV,probs = 0.05,bootstrap=FALSE)
-qATV5boot <- quantiledist(fATV,probs = 0.05,bootstrap=TRUE)
-qATV5boot
+log10ATV <-log10(subset(endosulfan,group == "NonArthroInvert")$ATV)
+fln <- fitdist(log10ATV,"norm")
+# in log10(ATV)
+HC5ln <- quantiledist(fln,probs = 0.05,bootstrap=TRUE)
+HC5ln
+# in ATV
+10^(HC5ln$quantiles)
+10^(HC5ln$quantCI)
 
-# (2) Estimation of quantiles of 
-# the fitted distribution for various probabilities (HCx with various x in ecotoxicology)
+
+# (2) Estimation of quantiles of the same fitted distribution 
+# and two-sided 95 percent confidence intervals for various probabilities 
 #
-qATVboot <- quantiledist(fATV,probs = c(0.05,0.1,0.2,0.5),bootstrap=TRUE)
-qATVboot
+quantiledist(fln,probs = c(0.05,0.1,0.2),bootstrap = TRUE)
 
+
+# (3) Estimation of quantiles of the same fitted distribution 
+# and one-sided 95 percent confidence intervals (type "greater") for various 
+# probabilities 
+#
+quantiledist(fln,probs = c(0.05,0.1,0.2),bootstrap = TRUE,CI.type = "greater")
+
+# (4) Estimation of quantiles of the fitted distribution 
+# and two-sided 95 percent confidence intervals for various 
+# probabilities using non-parametric bootstrap with 5001 iterations
+#
+quantiledist(fln,probs = c(0.05,0.1,0.2),bootstrap = TRUE,
+    bootstrap.arg = list(bootmethod = "nonparam",niter = 5001))
+
+# (5) Fit of a loglogistic distribution on the same acute toxicity values and
+# estimation of the 5 percent quantile (HC5) of the fitted distribution 
+# and associated two-sided 95 percent confidence interval 
+#
+fll <- fitdist(log10ATV,"logis")
+# in log10(ATV)
+HC5ll <- quantiledist(fll,probs = 0.05,bootstrap=TRUE)
+HC5ll
+# in ATV
+10^(HC5ll$quantiles)
+10^(HC5ll$quantCI)
 }
 
 \keyword{ distribution }% at least one, from doc/KEYWORDS
