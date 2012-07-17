@@ -1,5 +1,13 @@
 === fitdistrplus : Help to fit of a parametric distribution ===
 
+Version 0.4-0
+=============
+
+NEW FEATURES
+- add of functions to calculate quantiles of the fitted distribution, with 95 percent CI calculated by bootstrap
+    (functions "quantiledist" and "quantiledistcens")
+- add of a censored data set: "fluazinam"
+
 Version 0.3-4
 =============
 
