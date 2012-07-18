@@ -13,7 +13,7 @@
 cdfcomp(ft,xlogscale=FALSE,addlegend=TRUE,legendtext,
 datapch,datacol,fitcol,fitlty,xlab,ylab,xlim,
 main,xlegend = "bottomright",ylegend = NULL,horizontals = TRUE, 
-verticals = FALSE, ...)
+verticals = FALSE, use.ppoints = TRUE, a.ppoints = 0.5,...)
 }
 %- maybe also 'usage' for other objects documented here.
 
@@ -42,18 +42,24 @@ verticals = FALSE, ...)
 \item{horizontals}{If TRUE, draws horizontal lines for step empirical cdf function}
 \item{verticals}{If TRUE, draws also vertical lines for step empirical cdf function. Only taken
 into account if \code{horizontals} is TRUE }
+\item{use.ppoints}{If TRUE, probability points are defined as (1:n - a.ppoints)/(n - 2a.ppoints + 1) 
+    for ordinates of the cdf plot of data, using function \code{\link{ppoints}}. If FALSE, 
+    probability points are simply defined as 1:n / n.}
+\item{a.ppoints}{If \code{use.ppoints} is TRUE, this argument is passed to function \code{\link{ppoints}}.}
 \item{\dots}{ further graphical arguments passed to graphical functions used in cdfcomp }
 }
 
 \details{
-    Empirical and theoretical distributions are simply plotted in cdf. 
+    Empirical and theoretical distributions are simply plotted in cdf by default using the Hazen's rule
+    for the empirical distribution, 
+    with probability points defined as (1:n - 0.5)/n. 
     By default a legend is added to the plot. Arguments
     legendtext,datapch,datacol,fitcol,fitlty,xlab,ylab,xlim,main,xlegend,ylegend are optional and
     fixed to default values if omitted.
 }
 
 \seealso{ 
-    \code{\link{plotdist}}, \code{\link{legend}}.
+    \code{\link{plotdist}}, \code{\link{legend}}, \code{\link{ppoints}}.
 }
 
 
@@ -82,8 +88,7 @@ cdfcomp(list(fitW,fitln,fitg),legendtext=c("Weibull","lognormal","gamma"),
     main="ground beef fits",xlab="serving sizes (g)",
     ylab="F",xlim = c(0,250),xlegend = "topleft")
 
-
-# (2) Plot in of lognormal distributions fitted by 
+# (2) Plot lognormal distributions fitted by 
 # maximum goodness-of-fit estimation
 # using various distances (data plotted in log scale)
 #
@@ -98,6 +103,24 @@ xlogscale=TRUE,main="fits of a lognormal dist. using various GOF dist.",
 legendtext=c("MGE KS","MGE AD","MGE ADL","MGE AD2L"))
 cdfcomp(list(flnMGEKS,flnMGEAD,flnMGEADL,flnMGEAD2L),
 xlogscale=TRUE,verticals=TRUE,xlim=c(10,100000))
+
+# (3) Plot normal and logistic distributions fitted by 
+# maximum likelihood estimation
+# using various plotting positions
+#
+data(endosulfan)
+log10ATV <-log10(subset(endosulfan,group == "NonArthroInvert")$ATV)
+fln <- fitdist(log10ATV,"norm")
+fll <- fitdist(log10ATV,"logis")
+# default plot using Hazen plotting position: (1:n - 0.5)/n
+cdfcomp(list(fln,fll),legendtext=c("normal","logistic"),xlab="log10ATV")
+# plot using mean plotting position (named also Gumbel plotting position)
+# (1:n)/(n + 1)
+cdfcomp(list(fln,fll),legendtext=c("normal","logistic"),xlab="log10ATV",
+    use.ppoints = TRUE, a.ppoints = 0)
+# plot using basic plotting position: (1:n)/n
+cdfcomp(list(fln,fll),legendtext=c("normal","logistic"),xlab="log10ATV",
+    use.ppoints = FALSE)
 
 }
 

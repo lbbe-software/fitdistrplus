@@ -1,12 +1,27 @@
 === fitdistrplus : Help to fit of a parametric distribution ===
 
+Version 0.4-2
+=============
+
+NEW FEATURES
+- add of the arguments use.ppoints and a.ppoints in function "cdfcomp" to enable Blom type plotting position
+    for cdf plot (using by default Hazen plotting position)
+
+Version 0.4-1
+=============
+
+NEW FEATURES
+- add of the argument "CI.type" to functions "quantiledist" and "quantiledistcens" 
+- add of a message printed by  functions "quantiledist" and "quantiledistcens" in case of non convergence
+    of parameter estimation for some bootstrap iterations
+- add of a censored data set: "fluazinam" and associated examples
+
 Version 0.4-0
 =============
 
 NEW FEATURES
 - add of functions to calculate quantiles of the fitted distribution, with 95 percent CI calculated by bootstrap
     (functions "quantiledist" and "quantiledistcens")
-- add of a censored data set: "fluazinam"
 
 Version 0.3-4
 =============

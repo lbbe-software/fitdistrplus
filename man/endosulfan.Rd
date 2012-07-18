@@ -59,7 +59,7 @@ xlab="log10ATV")
 # (4) estimation of the 5 percent quantile value of 
 # each fitted distribution (5 percent hazardous concentration  : HC5)
 # with its two-sided 95 percent confidence interval calculated by 
-# non parametric bootstrap
+# parametric bootstrap
 #
 # in log10(ATV)
 HC5ln <- quantiledist(fln,probs = 0.05,bootstrap=TRUE)
@@ -73,7 +73,7 @@ HC5ll <- quantiledist(fll,probs = 0.05,bootstrap=TRUE)
 # (5) estimation of the 5 percent quantile value of 
 # the fitted lognormal distribution (5 percent hazardous concentration  : HC5)
 # with its one-sided 95 percent confidence interval (type "greater")
-# calculated by non parametric bootstrap
+# calculated by parametric bootstrap
 #
 # in log10(ATV)
 HC5ln <- quantiledist(fln,probs = 0.05,bootstrap=TRUE,CI.type="greater")

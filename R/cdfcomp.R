@@ -26,7 +26,8 @@
 
 cdfcomp <-
 function(ft,xlogscale=FALSE,addlegend=TRUE,legendtext,datapch,datacol,fitcol,fitlty,xlab,ylab,xlim,
-main,xlegend = "bottomright",ylegend = NULL,horizontals = TRUE,verticals = FALSE, ...){
+main,xlegend = "bottomright",ylegend = NULL,horizontals = TRUE,verticals = FALSE, 
+use.ppoints = TRUE, a.ppoints = 0.5, ...){
 
 
     if(inherits(ft, "fitdist"))
@@ -96,7 +97,10 @@ main,xlegend = "bottomright",ylegend = NULL,horizontals = TRUE,verticals = FALSE
     # plot of data (ecdf)
     n <- length(data)
     s <- sort(data)
-    obsp <- ecdf(s)(s)
+    if (use.ppoints)
+        obsp <- ppoints(s,a = a.ppoints)
+    else
+        obsp <- ecdf(s)(s) 
     if (xlogscale == TRUE)
         plot(s,obsp,main=main,xlab=xlab,ylab=ylab,xlim=xlim,ylim=c(0,1),log="x",pch=datapch,col=datacol,...)
     else
