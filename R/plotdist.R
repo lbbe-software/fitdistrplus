@@ -34,9 +34,9 @@ plotdist <- function(data,distr,para,breaks="default",discrete=FALSE,...){
         par(mfrow=c(2,1))
         s<-sort(data)
         n<-length(data)
-        obsp<-ecdf(s)(s)
         if (!discrete) {
             # plot for continuous data
+            obsp <- ppoints(s)
             if (breaks=="default") 
                 h<-hist(data,freq=FALSE,xlab="data",main=paste("Histogram"),...)
             else 
@@ -95,7 +95,7 @@ plotdist <- function(data,distr,para,breaks="default",discrete=FALSE,...){
         # plot of continuous data with theoretical distribution
             par(mfrow=c(2,2))
             s <- sort(data)
-            obsp <- ecdf(s)(s)
+            obsp <- ppoints(s)
             theop <- do.call(pdistname,c(list(q=s),as.list(para)))
             # plot of the histogram with theoretical density
             # computes densities in order to define limits for y-axis
@@ -112,8 +112,7 @@ plotdist <- function(data,distr,para,breaks="default",discrete=FALSE,...){
             lines(xhist,yhist)
            
             # plot of the qqplot
-            #theoq<-do.call(qdistname,c(list(p=obsp),as.list(para)))
-            theoq<-do.call(qdistname,c(list(p=ppoints(n)),as.list(para)))
+            theoq<-do.call(qdistname,c(list(p=obsp),as.list(para)))
             plot(theoq,s,main=" QQ-plot",xlab="theoretical quantiles",
             ylab="sample quantiles",...)
             abline(0,1)

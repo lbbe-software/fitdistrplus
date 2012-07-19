@@ -40,8 +40,13 @@ plotdist(data,distr,para,breaks="default",discrete=FALSE,...)
     (plot of the quantiles of the theoretical fitted distribution (x-axis) against the empirical quantiles of the data)
     and P-P plot (i.e. for each value of the data set, plot of the cumulative density function of the fitted distribution
     (x-axis) against the empirical cumulative density function (y-axis)) are also given (Cullen and Frey, 1999).
-    The function \code{\link{ppoints}} is used for the Q-Q plot, to generate the set of probabilities at 
+    The function \code{\link{ppoints}} (with default parameter for argument a)
+    is used for the Q-Q plot, to generate the set of probabilities at 
     which to evaluate the inverse distribution.
+    NOTE THAT FROM VERSION 0.4-3, \code{\link{ppoints}} is also used for P-P plot and cdf plot for continuous data.
+    To personalize the four plots proposed for continuous data, for example to change the plotting position, we recommend 
+    the use of functions \code{\link{cdfcomp}}, \code{denscomp}, \code{QQcomp} and \code{PPcomp} 
+    (the three last ones will be soon available).
 }
 
 \seealso{ 

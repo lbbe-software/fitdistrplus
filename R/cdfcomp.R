@@ -98,9 +98,11 @@ use.ppoints = TRUE, a.ppoints = 0.5, ...){
     n <- length(data)
     s <- sort(data)
     if (use.ppoints)
-        obsp <- ppoints(s,a = a.ppoints)
+        obsp <- ppoints(n,a = a.ppoints)
     else
-        obsp <- ecdf(s)(s) 
+        # previous version with no vizualisation of ex-aequos
+        # obsp <- ecdf(s)(s) 
+        obsp <- (1:n) / n
     if (xlogscale == TRUE)
         plot(s,obsp,main=main,xlab=xlab,ylab=ylab,xlim=xlim,ylim=c(0,1),log="x",pch=datapch,col=datacol,...)
     else

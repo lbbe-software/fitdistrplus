@@ -1,5 +1,13 @@
 === fitdistrplus : Help to fit of a parametric distribution ===
 
+Version 0.4-3
+=============
+
+NEW FEATURES
+- ppoints now used in "fitdist" for QQ plot, PP plot and cdf plot for continuous data
+    (was used only for QQ plot in previous versions)
+
+
 Version 0.4-2
 =============
 
