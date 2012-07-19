@@ -68,8 +68,8 @@ main,xlegend = "bottomright",ylegend = NULL, ...){
     }
 
     censdata <- ft[[1]]$censdata
-    xmin <- min(censdata$left,na.rm=TRUE) 
-    xmax <- max(censdata$right,na.rm=TRUE)
+    xmin <- min(c(censdata$left,censdata$right),na.rm=TRUE) 
+    xmax <- max(c(censdata$left,censdata$right),na.rm=TRUE)
     if ((xlogscale == TRUE) & xmin <= 0) 
         stop("log transformation of data requires only positive values")
 
