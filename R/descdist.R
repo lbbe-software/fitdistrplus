@@ -48,8 +48,8 @@ obs.col="darkblue",boot.col="blue")
         # unbiased estimation (Fisher 1930)
             n <- length(data)
             var<-moment(data,2)
-            gamma2 <- moment(data,4)/var^2 - 3
-            unbiased.kurtosis <- (n-1)/ ((n-2)*(n-3)) * ((n+1)*gamma2 + 6 ) + 3
+            gamma2 <- moment(data,4)/var^2 
+            unbiased.kurtosis <- (n-1)/ ((n-2)*(n-3)) * ((n+1)*gamma2 -3*(n-1) ) + 3
             return(unbiased.kurtosis)
         }
         standdev <- function(data){
