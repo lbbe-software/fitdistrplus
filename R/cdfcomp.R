@@ -1,5 +1,5 @@
 #############################################################################
-#   Copyright (c) 2011 Marie Laure Delignette-Muller
+#   Copyright (c) 2011 Marie Laure Delignette-Muller, Christophe Dutang
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -24,14 +24,28 @@
 ###         R functions
 ###
 
-cdfcomp <-
-function(ft,xlogscale=FALSE,addlegend=TRUE,legendtext,datapch,datacol,fitcol,fitlty,xlab,ylab,xlim,
-main,xlegend = "bottomright",ylegend = NULL,horizontals = TRUE,verticals = FALSE, 
-use.ppoints = TRUE, a.ppoints = 0.5, ...){
+cdfcomp <- function(ft, xlogscale=FALSE, addlegend=TRUE, legendtext, datapch, datacol,
+	fitcol, fitlty, xlab, ylab, xlim, main, xlegend = "bottomright", ylegend = NULL,
+	horizontals = TRUE, verticals = FALSE, use.ppoints = TRUE, a.ppoints = 0.5, ..., 
+	ylogscale=FALSE, ylim=c(0,1), lines01=FALSE)
+{
+	if(inherits(ft, "fitdist"))
+	{
+		ft <- list(ft)
+	}else if(length(ft) == 1)
+	{
+		if(!inherits(ft, "fitdist"))
+			stop("argument ft must a 'fitdist' object or a list of 'fitdist' objects.")
+	}else if(!is.list(ft))
+	{
+		stop("argument ft must be a list of 'fitdist' objects")
+	}else
+	{
+		if(any(sapply(ft, function(x) !inherits(x, "fitdist"))))		
+			stop("argument ft must be a list of 'fitdist' objects")
+	}
 
 
-    if(inherits(ft, "fitdist"))
-            ft <- list(ft)
     nft <- length(ft)
     if (missing(datapch)) datapch <- 16
     if (missing(datacol)) datacol <- "black"
@@ -52,22 +66,22 @@ use.ppoints = TRUE, a.ppoints = 0.5, ...){
     if (missing(main)) main <- paste("Empirical and theoretical CDFs")
 
 # verification of the content of the list ft
-    verif.fti <- function(fti)
-    {
-        if (!inherits(fti, "fitdist"))
-        stop("argument ft must be a list of 'fitdist' objects")
-    }
+#    verif.fti <- function(fti)
+#   {
+#       if (!inherits(fti, "fitdist"))
+#       stop("argument ft must be a list of 'fitdist' objects")
+#   }
 
 
-    if (is.list(ft))
-    {
-        l<-lapply( ft,verif.fti)
-        rm(l)
-    }
-    else
-    {
-        stop("argument ft must be a list of 'fitdist' objects")
-    }
+#    if (is.list(ft))
+#   {
+#       l<-lapply( ft,verif.fti)
+#        rm(l)
+#   }
+#   else
+#   {
+#       stop("argument ft must be a list of 'fitdist' objects")
+#   }
 
     data <- ft[[1]]$data
     if ((xlogscale == TRUE) & min(data)<=0)
@@ -78,7 +92,7 @@ use.ppoints = TRUE, a.ppoints = 0.5, ...){
     {
         xmin <- min(data)
         xmax <- max(data)
-        xlim <- c(xmin,xmax)
+        xlim <- c(xmin, xmax)
     }
     else
     {
@@ -103,27 +117,28 @@ use.ppoints = TRUE, a.ppoints = 0.5, ...){
         # previous version with no vizualisation of ex-aequos
         # obsp <- ecdf(s)(s) 
         obsp <- (1:n) / n
-    if (xlogscale == TRUE)
-        plot(s,obsp,main=main,xlab=xlab,ylab=ylab,xlim=xlim,ylim=c(0,1),log="x",pch=datapch,col=datacol,...)
-    else
-        plot(s,obsp,main=main,xlab=xlab,ylab=ylab,xlim=xlim,ylim=c(0,1),pch=datapch,col=datacol,...)
+	
+	logxy <- paste(ifelse(xlogscale,"x",""), ifelse(ylogscale,"y",""), sep="")
+	plot(s, obsp, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim,
+		 log=logxy, pch=datapch, col=datacol,...)
+
     # optional add of horizontal and vbertical lines for step function
     if (horizontals)
     {
         xhleft <- s[-length(s)]
         xhright <- s[-1L]
         yh <- obsp[-length(s)]
-        segments(xhleft,yh,xhright,yh,col=datacol,...)
-        segments(s[length(s)],1,xmax,1,col=datacol,lty = 2, ...)
+        segments(xhleft, yh, xhright, yh, col=datacol,...)
+        segments(s[length(s)], 1, xmax, 1, col=datacol, lty = 2, ...)
         
-        segments(xmin,0,s[1],0,col=datacol,lty = 2, ...)
+        segments(xmin, 0, s[1], 0, col=datacol, lty = 2, ...)
         if (verticals)
         {
            xv <-xhright
            yvdown <- yh
            yvup <- obsp[-1L] 
-           segments(xv,yvdown,xv,yvup,col=datacol,...)
-           segments(s[1],0,s[1],obsp[1],col=datacol, ...)
+           segments(xv, yvdown, xv, yvup, col=datacol,...)
+           segments(s[1], 0, s[1], obsp[1], col=datacol, ...)
         }
     }
 
@@ -131,15 +146,15 @@ use.ppoints = TRUE, a.ppoints = 0.5, ...){
     plot.fti <- function(i,...)
     {
         fti <- ft[[i]]
-        para=c(as.list(fti$estimate),as.list(fti$fix.arg))
+        para <- c(as.list(fti$estimate),as.list(fti$fix.arg))
         distname <- fti$distname
-        pdistname<-paste("p",distname,sep="")
+        pdistname <- paste("p",distname,sep="")
         if (is.element(distname,c("binom","nbinom","geom","hyper","pois")))
             warning(" Be careful, variables are considered continuous in this function!")
         if (xlogscale == TRUE)
         {
-            sfin<-seq(log10(xmin),log10(xmax),by=(log10(xmax)-log10(xmin))/100)
-            theopfin<-do.call(pdistname,c(list(q=10^sfin),as.list(para)))
+            sfin <- seq(log10(xmin),log10(xmax),by=(log10(xmax)-log10(xmin))/100)
+            theopfin <- do.call(pdistname,c(list(q=10^sfin),as.list(para)))
             lines(10^sfin,theopfin,lty=fitlty[i],col=fitcol[i],...)
         }
         else
@@ -148,10 +163,12 @@ use.ppoints = TRUE, a.ppoints = 0.5, ...){
             theopfin<-do.call(pdistname,c(list(q=sfin),as.list(para)))
             lines(sfin,theopfin,lty=fitlty[i],col=fitcol[i],...)
         }
+		invisible()
     }
-    s<-sapply(1:nft,plot.fti,...)
-    rm(s)
-
+    sapply(1:nft, plot.fti, ...)
+	if(lines01)
+		abline(h=c(0, 1), lty="dashed", col="grey")
+    
     if (addlegend==TRUE)
     {
         if (missing(legendtext)) legendtext <- paste("fit",1:nft)

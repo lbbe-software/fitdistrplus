@@ -26,30 +26,25 @@ S3method(summary, bootdistcens)
 S3method(plot, bootdistcens)
 S3method(print, bootdistcens)
 
+#dedicated fit functions
+export(mledist, mmedist, qmedist, mgedist)
+
+#plot functions
+export(plotdist)
+export(plotdistcens)
+
+#graphical comparison
+export(cdfcomp, denscomp, qqcomp)
+export(cdfcompcens)
+
+#quantile functions
+export(quantiledist)
+export(quantiledistcens)
+
 #other functions
 export(descdist)
 
 export(gofstat)
-
-export(mledist)
-
-export(mmedist)
-
-export(qmedist)
-
-export(mgedist)
-
-export(plotdist)
-
-export(plotdistcens)
-
-export(cdfcomp)
-
-export(cdfcompcens)
-
-export(quantiledist)
-
-export(quantiledistcens)
 
 ### use dynamic library for C code
 #useDynLib(fitdistrplus, .registration = TRUE)
