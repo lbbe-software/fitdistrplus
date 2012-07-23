@@ -29,8 +29,7 @@ graph=TRUE,obs.col="darkblue",boot.col="blue")
 \details{
     Minimum, maximum, median, mean, sample sd, and sample (if \code{method=="sample"}) or by default 
     unbiased estimations of skewness and 
-    Pearsons's kurtosis values (Fisher, 1930) are printed. Be careful, estimations of skewness and kurtosis
-    are unbiased only for normal distributions and estimated values are thus only indicative.
+    Pearsons's kurtosis values are printed (Sokal and Rohlf, 1995).
     A skewness-kurtosis plot such as the one proposed by Cullen and Frey (1999) is given for the 
     empirical distribution. On this plot, values for common distributions are also displayed as a tools 
     to help the choice of distributions to fit to data. For some distributions (normal, uniform,
@@ -70,10 +69,11 @@ graph=TRUE,obs.col="darkblue",boot.col="blue")
 
 \references{ 
 Cullen AC and Frey HC (1999) Probabilistic techniques in exposure assessment. Plenum Press, USA, pp. 81-159.
+
 Evans M, Hastings N and Peacock B (2000) Statistical distributions. John Wiley and Sons Inc.
 
-Fisher RA (1930) The moments of the distribution for normal samples of measures of departures from normality.
-Proc. R. Soc. London, Series A 130, 16-28.
+Sokal RR and Rohlf FJ (1995) Biometry. W.H. Freeman and Company, USA, pp. 111-115.
+
 }
 
 \author{ 
