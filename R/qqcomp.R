@@ -25,9 +25,10 @@
 ###
 
 
-qqcomp <- function(ft, addlegend=TRUE, legendtext, datapch, datacol, xlogscale=FALSE, ylogscale=FALSE,
-	fitcol, fitlty, xlab, ylab, xlim, ylim, main, xlegend = "bottomright", ylegend = NULL,
-	..., use.ppoints = TRUE, a.ppoints = 0.5)
+qqcomp <- function(ft, addlegend=TRUE, legendtext, xlogscale=FALSE, ylogscale=FALSE,
+	fitcol, fitpch, xlab, ylab, xlim, ylim, main, xlegend = "bottomright", ylegend = NULL,
+	..., use.ppoints = TRUE, a.ppoints = 0.5, line01=TRUE, line01col="black", line01lty=1,
+	ynoise=TRUE)
 {
 	if(inherits(ft, "fitdist"))
 	{
@@ -47,35 +48,19 @@ qqcomp <- function(ft, addlegend=TRUE, legendtext, datapch, datacol, xlogscale=F
 	
 	
     nft <- length(ft)
-	if (missing(datapch)) datapch <- 21
-    if (missing(datacol)) datacol <- "black"    
-	if (missing(fitcol)) fitcol <- 2:(nft+1)
+	if (missing(fitcol)) fitcol <- 1:nft
+	if (missing(fitpch)) fitpch <- rep(21, nft)
     if (length(fitcol) != nft)
 		stop("if specified, fitcol must be a vector of length
 		 the number of fitted distributions to represent")
-    if (missing(fitlty)) fitlty <- 1:nft
-    if (length(fitlty) != nft)
-		stop("if specified, fitlty must be a vector of length
-		 the number of fitted distributions to represent")
     if (missing(xlab))
-		xlab <- "data"
+		xlab <- "Theoretical quantiles"
     if (missing(ylab)) 
-		ylab <- "Probability"
+		ylab <- "Empirical quantiles"
     if (missing(main)) 
 		main <- "Empirical and theoretical quantiles"
 	
     mydata <- ft[[1]]$data
-	
-    if (missing(xlim))
-    {
-        xmin <- min(mydata)
-        xmax <- max(mydata)
-        xlim <- range(mydata)
-    }else
-    {
-        xmin <- xlim[1]
-        xmax <- xlim[2]
-    }
 
     verif.ftidata <- function(fti)
     {
@@ -86,42 +71,59 @@ qqcomp <- function(ft, addlegend=TRUE, legendtext, datapch, datacol, xlogscale=F
 	lapply(ft, verif.ftidata)
 
 	n <- length(mydata)
+	sdata <- sort(mydata)
 	if (use.ppoints)
 		obsp <- ppoints(n, a = a.ppoints)
     else
 		obsp <- (1:n) / n
-	if (missing(ylim))
-		ylim <- range(obsp)
-
-	if(ylim[1] == 0)
-		ylim[1] <- tail(sort(obsp), -1)[1] * 0.1
-	probseq <- seq(ylim[1], ylim[2],by=(ylim[2]-ylim[1])/101)
 	
 	
-	logxy <- paste(ifelse(xlogscale,"x",""), ifelse(ylogscale,"y",""), sep="")
-
 # computation of each fitted distribution
     comput.fti <- function(i, ...)
     {
         fti <- ft[[i]]
         para <- c(as.list(fti$estimate), as.list(fti$fix.arg))
         distname <- fti$distname
-
         qdistname <- paste("q", distname, sep="")
-		do.call(qdistname, c(list(p=probseq), as.list(para)))
+		do.call(qdistname, c(list(p=obsp), as.list(para)))
 	}
     fittedquant <- sapply(1:nft, comput.fti, ...)
-			
 	
-	resquant <- plot(sort(mydata), obsp, main=main, xlab=xlab, ylab=ylab, log=logxy,
-			pch=datapch, xlim=range(xlim, fittedquant), ylim=ylim, col=datacol, ...)
-	for(i in 1:nft)
-		lines(fittedquant[,i], probseq, lty=fitlty[i], col=fitcol[i], ...)
+	if (missing(xlim))
+		xlim <- range(fittedquant)
+	if (missing(ylim))
+		ylim <- range(mydata)
+    	
+
+	logxy <- paste(ifelse(xlogscale,"x",""), ifelse(ylogscale,"y",""), sep="")
+	
+	resquant <- plot(fittedquant[,1], sdata, main=main, xlab=xlab, ylab=ylab, log=logxy,
+			pch=fitpch[1], xlim=xlim, ylim=ylim, col=fitcol[1], ...)
+	if(nft > 1 && !ynoise)
+		for(i in 2:nft)
+			points(fittedquant[,i], sdata, pch=fitpch[i], col=fitcol[i], ...)
+	if(nft > 1 && ynoise)
+		for(i in 2:nft)
+			points(fittedquant[,i], sdata*(1 + rnorm(n, 0, 0.01)), pch=fitpch[i], col=fitcol[i], ...)
+	
+	if(line01)
+	{
+		abline(0, 1, lty=line01lty, col=line01col)
+
+#		if(xlogscale && ylogscale)
+#			lines(log10(yseq), log10(yseq), lty=line01lty, col=line01col)
+#		else if(!xlogscale && ylogscale)
+#			lines(yseq, log10(yseq), lty=line01lty, col=line01col)
+#		else if(xlogscale && !ylogscale)
+#			lines(log10(yseq), yseq, lty=line01lty, col=line01col)
+#		else 
+#			lines(yseq, yseq, lty=line01lty, col=line01col)
+	}
     
     if (addlegend)
     {
         if (missing(legendtext)) 
 			legendtext <- paste("fit",1:nft)
-        legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, lty=fitlty, col=fitcol, ...)
+        legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, pch=fitpch, col=fitcol, ...)
     }
 }
