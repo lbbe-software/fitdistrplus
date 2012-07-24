@@ -4,6 +4,7 @@ Version 0.4-3
 =============
 
 NEW FEATURES
+- update cdfcompt and start denscomp, ppcomp and qqcomp functions.
 - ppoints now used in "fitdist" for QQ plot, PP plot and cdf plot for continuous data
     (was used only for QQ plot in previous versions)
 

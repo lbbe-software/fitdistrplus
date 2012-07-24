@@ -65,8 +65,7 @@ qqcomp(list(flnMGEKS, flnMGEAD, flnMGEADL, flnMGEAD2L),
 qqcomp(llfit, xlogscale=TRUE, 
 	main="fits of a lognormal dist. using various GOF dist.",
 	legendtext=c("MGE KS","MGE AD","MGE ADL","MGE AD2L"), 
-	fitcol=c("black", "darkgreen", "yellowgreen", "yellow2"), 
-	datapch="+", datacol="grey")
+	fitcol=c("black", "darkgreen", "yellowgreen", "yellow2"))
 	
 qqcomp(list(flnMGEKS, flnMGEAD, flnMGEADL, flnMGEAD2L), ynoise=FALSE,
 	xlogscale=TRUE, ylogscale=TRUE, xlim=c(10,100000), ylim=c(10,100000))
@@ -107,6 +106,43 @@ f2 <- fitdist(x1,"gumbel",start=list(a=10,b=5))
 f3 <- fitdist(x1, "exp")
 
 qqcomp(list(f1, f2, f3), xlim=range(x), fitcol=c("red","green","blue"))
+
+
+# (4) normal mixture
+#
+
+#mixture of two normal distributions
+#density
+dnorm2 <- function(x, poid, m1, s1, m2, s2)
+	poid*dnorm(x, m1, s1) + (1-poid)*dnorm(x, m2, s2)
+#numerical approximate quantile function
+qnorm2 <- function(p, poid, m1, s1, m2, s2)
+{
+	L2 <- function(x, prob)
+		(prob - pnorm2(x, poid, m1, s1, m2, s2))^2	
+	sapply(p, function(pr) optimize(L2, c(-1000, 1000), prob=pr)$minimum)
+}	
+#distribution function		
+pnorm2 <- function(q, poid, m1, s1, m2, s2)
+	poid*pnorm(q, m1, s1) + (1-poid)*pnorm(q, m2, s2)		
+
+
+#basic normal distribution
+set.seed(1234)
+x2 <- c(rnorm(1000, 5),  rnorm(1000, 10))
+#MLE fit
+fit1 <- fitdist(x2, "norm2", "mle", start=list(poid=1/3, m1=4, s1=2, m2=8, s2=2), 
+	lower=c(0, 0, 0, 0, 0))
+fit2 <- fitdist(x2, "norm2", "qme", probs=c(1/6, 1/4, 1/3, 1/2, 2/3), 
+	start=list(poid=1/3, m1=4, s1=2, m2=8, s2=2), 
+	lower=c(0, 0, 0, 0, 0), upper=c(1/2, Inf, Inf, Inf, Inf))
+fit3 <- fitdist(x2, "norm2", "mge", gof="AD", 
+	start=list(poid=1/3, m1=4, s1=2, m2=8, s2=2), 
+	lower=c(0, 0, 0, 0, 0), upper=c(1/2, Inf, Inf, Inf, Inf))
+
+qqcomp(list(fit1, fit2, fit3), fitpch=rep(".", 3), 
+	fitcol=c("green", "red", "blue"))
+
 
 
 

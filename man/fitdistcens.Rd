@@ -3,9 +3,8 @@
 \alias{plot.fitdistcens}
 \alias{print.fitdistcens}
 \alias{summary.fitdistcens}
-%- Also NEED an '\alias' for EACH other topic documented here.
-
-\title{ Fitting of univariate distributions to censored data}
+\alias{quantile.fitdistcens}
+\title{Fitting of univariate distributions to censored data}
 
 \description{
  Fits a univariate distribution to censored data by maximum likelihood.  
@@ -13,9 +12,16 @@
 
 \usage{
 fitdistcens(censdata, distr, start=NULL, fix.arg=NULL,...)
-\method{print}{fitdistcens}(x,...)
-\method{plot}{fitdistcens}(x,...)
-\method{summary}{fitdistcens}(object,...)
+
+\method{print}{fitdistcens}(x, \dots)
+
+\method{plot}{fitdistcens}(x, \dots)
+
+\method{summary}{fitdistcens}(object, \dots)
+
+\method{quantile}{fitdistcens}(x, probs = seq(0.1,0.9,0.1), bootstrap = TRUE,
+    CI.type = "two.sided", bootstrap.arg = list(niter=1001), \dots)
+	
 }
 %- maybe also 'usage' for other objects documented here.
 
@@ -38,10 +44,16 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL,...)
     that must kept fixed rather than estimated by maximum likelihood. }
 \item{x}{ an object of class 'fitdistcens'.  }
 \item{object}{ an object of class 'fitdistcens'.  }
-\item{...}{ further arguments to be passed to generic functions,
+\item{\dots}{ further arguments to be passed to generic functions,
     to the function \code{"plotdistcens"} in order to control the type of ecdf-plot used for censored data, 
     or to the function \code{"mledist"} 
     in order to control the optimization method.}
+\item{probs}{Numeric vector of probabilities with values in [0,1].}
+\item{bootstrap}{If \code{TRUE}, bootstrap is performed to calculate quantile confidence intervals. }
+\item{CI.type}{Type of confidence interval, \code{"two.sided"}, or one-sided \code{"less"}
+     or \code{"greater"}}
+\item{bootstrap.arg}{List of arguments to be passed to \code{\link{bootdistcens}}  }
+	
 }
 
 \details{
@@ -102,12 +114,12 @@ Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr}
 # (1) basic fit of a normal distribution on censored data
 #
 
-d1<-data.frame(
+d1 <- data.frame(
 left=c(1.73,1.51,0.77,1.96,1.96,-1.4,-1.4,NA,-0.11,0.55,0.41,
     2.56,NA,-0.53,0.63,-1.4,-1.4,-1.4,NA,0.13),
 right=c(1.73,1.51,0.77,1.96,1.96,0,-0.7,-1.4,-0.11,0.55,0.41,
     2.56,-1.4,-0.53,0.63,0,-0.7,NA,-1.4,0.13))
-f1n<-fitdistcens(d1, "norm")
+f1n <- fitdistcens(d1, "norm")
 f1n
 summary(f1n)
 plot(f1n)
@@ -117,24 +129,24 @@ plot(f1n)
 # probability distributions
 #
 
-dgumbel <- function(x,a,b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
-pgumbel <- function(q,a,b) exp(-exp((a-q)/b))
-qgumbel <- function(p,a,b) a-b*log(-log(p))
-f1g<-fitdistcens(d1,"gumbel",start=list(a=0,b=2))
+dgumbel  <-  function(x,a,b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
+pgumbel  <-  function(q,a,b) exp(-exp((a-q)/b))
+qgumbel  <-  function(p,a,b) a-b*log(-log(p))
+f1g <- fitdistcens(d1,"gumbel",start=list(a=0,b=2))
 summary(f1g)
 plot(f1g)
 
 # (3) comparison of fits of various distributions
 # 
 
-d3<-data.frame(left=10^(d1$left),right=10^(d1$right))
-f3w<-fitdistcens(d3,"weibull")
+d3 <- data.frame(left=10^(d1$left),right=10^(d1$right))
+f3w <- fitdistcens(d3,"weibull")
 summary(f3w)
 plot(f3w)
-f3l<-fitdistcens(d3,"lnorm")
+f3l <- fitdistcens(d3,"lnorm")
 summary(f3l)
 plot(f3l)
-f3e<-fitdistcens(d3,"exp")
+f3e <- fitdistcens(d3,"exp")
 summary(f3e)
 plot(f3e)
 
@@ -151,17 +163,17 @@ fitdistcens(d3,"gamma",optim.method="L-BFGS-B",lower=c(0,0))
 \dontrun{
 
     #wrap genoud function rgenoud package
-    mygenoud <- function(fn, par, ...) 
+    mygenoud  <-  function(fn, par, ...) 
     {
         require(rgenoud)
-        res <- genoud(fn, starting.values=par, ...)        
-        standardres <- c(res, convergence=0)
+        res  <-  genoud(fn, starting.values=par, ...)        
+        standardres  <-  c(res, convergence=0)
             
         return(standardres)
     }
 
     # call fitdistcens with a 'custom' optimization function
-    fit.with.genoud<-fitdistcens(d3, "gamma", custom.optim=mygenoud, nvars=2,    
+    fit.with.genoud <- fitdistcens(d3, "gamma", custom.optim=mygenoud, nvars=2,    
         Domains=cbind(c(0,0), c(10, 10)), boundary.enforcement=1, 
         print.level=1, hessian=TRUE)
 
@@ -176,7 +188,7 @@ fitdistcens(d1, "norm", start=list(sd=1.5),fix.arg=list(mean=0.1))
 # (7) Fit of a lognormal distribution to bacterial contamination data
 #
 data(smokedfish)
-fitsf <- fitdistcens(smokedfish,"norm")
+fitsf  <-  fitdistcens(smokedfish,"norm")
 summary(fitsf)
 # default plot using the Turnbull algorithm
 plot(fitsf)

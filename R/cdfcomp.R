@@ -24,10 +24,11 @@
 ###         R functions
 ###
 
-cdfcomp <- function(ft, xlogscale=FALSE, addlegend=TRUE, legendtext, datapch, datacol,
-	fitcol, fitlty, xlab, ylab, xlim, main, xlegend = "bottomright", ylegend = NULL,
-	horizontals = TRUE, verticals = FALSE, use.ppoints = TRUE, a.ppoints = 0.5, ..., 
-	ylogscale=FALSE, ylim=c(0,1), lines01=FALSE)
+
+cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
+	datapch, datacol, fitlty, fitcol, addlegend = TRUE, legendtext, 
+	xlegend = "bottomright", ylegend = NULL, horizontals = TRUE, verticals = FALSE, 
+	use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, ...)
 {
 	if(inherits(ft, "fitdist"))
 	{
@@ -50,51 +51,26 @@ cdfcomp <- function(ft, xlogscale=FALSE, addlegend=TRUE, legendtext, datapch, da
     if (missing(datapch)) datapch <- 16
     if (missing(datacol)) datacol <- "black"
     if (missing(fitcol)) fitcol <- 2:(nft+1)
-    if (length(fitcol)!=nft)
-        stop("if specified, fitcol must be a vector of length
-        the number of fitted distributions to represent")
-    if (missing(fitlty)) fitlty <- 1:nft
-    if (length(fitlty)!=nft)
-        stop("if specified, fitlty must be a vector of length
-        the number of fitted distributions to represent")
+	if (missing(fitlty)) fitlty <- 1:nft
+	fitcol <- rep(fitcol, length.out=nft)
+	fitlty <- rep(fitlty, length.out=nft)
+
     if (missing(xlab))
-    {
-        if (xlogscale == TRUE) xlab <- "data in log scale"
-        else xlab <- "data"
-    }
+		xlab <- ifelse(xlogscale, "data in log scale", "data")
     if (missing(ylab)) ylab <- "CDF"
     if (missing(main)) main <- paste("Empirical and theoretical CDFs")
 
-# verification of the content of the list ft
-#    verif.fti <- function(fti)
-#   {
-#       if (!inherits(fti, "fitdist"))
-#       stop("argument ft must be a list of 'fitdist' objects")
-#   }
-
-
-#    if (is.list(ft))
-#   {
-#       l<-lapply( ft,verif.fti)
-#        rm(l)
-#   }
-#   else
-#   {
-#       stop("argument ft must be a list of 'fitdist' objects")
-#   }
-
-    data <- ft[[1]]$data
-    if ((xlogscale == TRUE) & min(data)<=0)
+    mydata <- ft[[1]]$data
+    if ((xlogscale == TRUE) & min(mydata) <= 0)
         stop("log transformation of data requires only positive
     values")
 
-    if (missing(xlim))
+    if(missing(xlim))
     {
-        xmin <- min(data)
-        xmax <- max(data)
+        xmin <- min(mydata)
+        xmax <- max(mydata)
         xlim <- c(xmin, xmax)
-    }
-    else
+    }else
     {
         xmin <- xlim[1]
         xmax <- xlim[2]
@@ -102,25 +78,52 @@ cdfcomp <- function(ft, xlogscale=FALSE, addlegend=TRUE, legendtext, datapch, da
 
     verif.ftidata <- function(fti)
     {
-        if (any(fti$data != data))
+        if (any(fti$data != mydata))
             stop("All compared fits must have been obtained with the same dataset")
+		invisible()
     }
-    l<-lapply( ft,verif.ftidata)
-    rm(l)
-
+    lapply( ft,verif.ftidata)
+    
     # plot of data (ecdf)
-    n <- length(data)
-    s <- sort(data)
+    n <- length(mydata)
+    s <- sort(mydata)
+	if(xlogscale)
+		sfin <- seq(log10(xmin), log10(xmax), by=(log10(xmax)-log10(xmin))/100)
+	else
+		sfin <- seq(xmin, xmax, by=(xmax-xmin)/100)
+
     if (use.ppoints)
         obsp <- ppoints(n,a = a.ppoints)
     else
         # previous version with no vizualisation of ex-aequos
         # obsp <- ecdf(s)(s) 
         obsp <- (1:n) / n
+	if(missing(ylim))
+		ylim <- range(obsp)	
+	
+	# computation of each fitted distribution
+    comput.fti <- function(i)
+    {
+        fti <- ft[[i]]
+        para <- c(as.list(fti$estimate), as.list(fti$fix.arg))
+        distname <- fti$distname
+        pdistname <- paste("p",distname,sep="")
+        if (is.element(distname,c("binom","nbinom","geom","hyper","pois")))
+			warning(" Be careful, variables are considered continuous in this function!")
+        if(xlogscale)
+        {
+			do.call(pdistname, c(list(q=10^sfin), as.list(para)))
+		}else
+        {
+            do.call(pdistname, c(list(q=sfin), as.list(para)))
+		}
+    }
+    fittedprob <- sapply(1:nft, comput.fti)	
 	
 	logxy <- paste(ifelse(xlogscale,"x",""), ifelse(ylogscale,"y",""), sep="")
-	plot(s, obsp, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim,
-		 log=logxy, pch=datapch, col=datacol,...)
+	#main plotting
+	plot(s, obsp, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=range(ylim, fittedprob),
+		 log=logxy, pch=datapch, col=datacol, ...)
 
     # optional add of horizontal and vbertical lines for step function
     if (horizontals)
@@ -141,50 +144,22 @@ cdfcomp <- function(ft, xlogscale=FALSE, addlegend=TRUE, legendtext, datapch, da
            segments(s[1], 0, s[1], obsp[1], col=datacol, ...)
         }
     }
+	#plot fitted cdfs
+	if(!xlogscale)
+		for(i in 1:nft)
+			lines(sfin, fittedprob[,i], lty=fitlty[i], col=fitcol[i], ...)
+	if(xlogscale)
+		for(i in 1:nft)
+			lines(10^sfin, fittedprob[,i], lty=fitlty[i], col=fitcol[i], ...)
 
-    # plot of each fitted distribution
-    plot.fti <- function(i,...)
-    {
-        fti <- ft[[i]]
-        para <- c(as.list(fti$estimate),as.list(fti$fix.arg))
-        distname <- fti$distname
-        pdistname <- paste("p",distname,sep="")
-        if (is.element(distname,c("binom","nbinom","geom","hyper","pois")))
-            warning(" Be careful, variables are considered continuous in this function!")
-        if (xlogscale == TRUE)
-        {
-            sfin <- seq(log10(xmin),log10(xmax),by=(log10(xmax)-log10(xmin))/100)
-            theopfin <- do.call(pdistname,c(list(q=10^sfin),as.list(para)))
-            lines(10^sfin,theopfin,lty=fitlty[i],col=fitcol[i],...)
-        }
-        else
-        {
-            sfin<-seq(xmin,xmax,by=(xmax-xmin)/100)
-            theopfin<-do.call(pdistname,c(list(q=sfin),as.list(para)))
-            lines(sfin,theopfin,lty=fitlty[i],col=fitcol[i],...)
-        }
-		invisible()
-    }
-    sapply(1:nft, plot.fti, ...)
 	if(lines01)
 		abline(h=c(0, 1), lty="dashed", col="grey")
     
-    if (addlegend==TRUE)
+    if(addlegend)
     {
-        if (missing(legendtext)) legendtext <- paste("fit",1:nft)
-#       next lines replaced by default argument xlegend fixed to "bottomright"
-#        if (missing(xlegend))
-#        {
-#            if ((xlogscale == TRUE))
-#            {
-#                xlegendlog10 <- log10(xmin) + (log10(xmax) - log10(xmin))*2/3
-#                xlegend <- 10^xlegendlog10
-#            }
-#            else
-#                xlegend <- xmin + (xmax - xmin)*2/3
-#        }
-#        if (missing(ylegend)) ylegend <- 0.5
-
-        legend(x=xlegend,y=ylegend,bty="n",legend=legendtext,lty=fitlty,col=fitcol,...)
+        if(missing(legendtext)) 
+			legendtext <- paste("fit", 1:nft)
+		legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, 
+			   lty=fitlty, col=fitcol,...)
     }
 }

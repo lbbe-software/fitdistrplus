@@ -3,6 +3,7 @@
 \alias{plot.fitdist}
 \alias{print.fitdist}
 \alias{summary.fitdist}
+\alias{quantile.fitdist}
 \alias{fitdistrplus}
 \title{ Fit of univariate distributions to non-censored data}
 
@@ -13,10 +14,17 @@
 
 \usage{
 fitdist(data, distr, method = c("mle", "mme", "qme", "mge"), 
-    start=NULL, fix.arg=NULL,  ...) 
-\method{print}{fitdist}(x,...)
-\method{plot}{fitdist}(x,breaks="default",...)
-\method{summary}{fitdist}(object,...)
+    start=NULL, fix.arg=NULL, \dots)
+	
+\method{print}{fitdist}(x, \dots)
+
+\method{plot}{fitdist}(x, breaks="default", \dots)
+
+\method{summary}{fitdist}(object, \dots)
+
+\method{quantile}{fitdist}(x, probs = seq(0.1,0.9,0.1), bootstrap = TRUE, 
+    CI.type = "two.sided", bootstrap.arg = list(bootmethod="param", niter=1001), \dots)
+
 }
 %- maybe also 'usage' for other objects documented here.
 
@@ -45,6 +53,11 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
     \code{"mledist"},  \code{"mmedist"}, \code{"qmedist"} or \code{"mgedist"}
     depending of the chosen method
     (see the help pages of these functions for details).}
+\item{probs}{numeric vector of probabilities with values in [0,1].}
+\item{bootstrap}{If \code{TRUE}, bootstrap is performed to calculate quantile confidence intervals. }
+\item{CI.type}{Type of confidence interval, \code{"two.sided"}, or one-sided \code{"less"}
+     or \code{"greater"}}
+\item{bootstrap.arg}{list of arguments to be passed to \code{\link{bootdist}}  }	
 }
 
 \details{
@@ -198,8 +211,8 @@ plot(fitgumbel)
 # (5) fit a discrete distribution (Poisson)
 #
 
-x2<-c(rep(4,1),rep(2,3),rep(1,7),rep(0,12))
-f2<-fitdist(x2,"pois")
+x2 <- c(rep(4,1),rep(2,3),rep(1,7),rep(0,12))
+f2 <- fitdist(x2,"pois")
 plot(f2)
 summary(f2)
 gofstat(f2)

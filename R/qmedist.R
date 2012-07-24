@@ -237,6 +237,7 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
         if (inherits(opttryerror,"try-error"))
         {
             warnings("The function optim encountered an error and stopped")
+            print(opttryerror)			
             return(list(estimate = rep(NA,length(vstart)), convergence = 100, value = NA, 
                         hessian = NA))
         }
@@ -248,10 +249,13 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
                         value = NA, hessian = NA))
         }
         
-        return(list(estimate = opt$par, convergence = opt$convergence, value = opt$value, hessian = opt$hessian, 
-                    probs=probs, optim.function="optim",  
-                    loglik=loglik(opt$par, fix.arg, data, ddistname) ))  
-        
+        res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, hessian = opt$hessian, 
+			probs=probs, optim.function="optim", loglik=loglik(opt$par, fix.arg, data, ddistname) )
+		if(!is.null(fix.arg))
+			res <- c(res, fix.arg=fix.arg)
+		
+        return(res)
+		
     }
     else # Try to minimize the stat distance using a user-supplied optim function 
     {
@@ -263,8 +267,8 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
         
         if (inherits(opttryerror,"try-error"))
         {
-            print(opttryerror)
             warnings("The customized optimization function encountered an error and stopped")
+            print(opttryerror)			
             return(list(estimate = rep(NA,length(vstart)), convergence = 100, value = NA, 
                         hessian = NA))
         }
@@ -276,10 +280,13 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
                         value = NA, hessian = NA))
         }
         
-        return(list(estimate = opt$par, convergence = opt$convergence, value = opt$value, hessian = opt$hessian, 
-                    probs=probs, optim.function=custom.optim,  
-                    loglik=loglik(opt$par, fix.arg, data, ddistname)))  
-
+        res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, hessian = opt$hessian, 
+			probs=probs, optim.function=custom.optim, loglik=loglik(opt$par, fix.arg, data, ddistname))
+		if(!is.null(fix.arg))
+			res <- c(res, fix.arg=fix.arg)
+		
+        return(res)
+		
     }   
         
      

@@ -10,32 +10,34 @@
 }
 
 \usage{
-cdfcompcens(ft,xlogscale=FALSE,addlegend=TRUE,legendtext,datacol,
-fitcol,fitlty,xlab,ylab,main,xlegend = "bottomright",
-ylegend = NULL, ...)
+cdfcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
+	datacol, fitlty, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", 
+	ylegend = NULL, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 
 \arguments{
-\item{ft}{ A list of object of class 'fitdist'.  }
-\item{xlogscale}{ If TRUE the cdf plot uses a log scale for data (x axis) }
-\item{addlegend}{ If TRUE a legend is added to the plot to link colors and types of lines
-    to the fitted distributions }
-\item{legendtext}{An expression vector of length the number of fits to compare, so 
-    the length of list ft }
-\item{datacol}{A specification of the color to be 
-    used in plotting data points (ecdf)}
-\item{fitcol}{A vector of length the number of fits to compare specifying the
-     colors of lines used to plot fitted cumulative distributions}
-\item{fitlty}{A vector of length the number of fits to compare specifying the
-     types of lines used to plot fitted cumulative distributions}
-\item{xlab}{A title for the x axis}
-\item{ylab}{A title for the y axis}
-\item{main}{An overall title for the plot}
-\item{xlegend,ylegend}{the x and y co-ordinates to be used to position the legend.
+\item{ft}{One 'fitdist' object or a list of objects of class 'fitdist'.}
+\item{xlim}{The \eqn{x}-limits \code{(x1, x2)} of the plot.}
+\item{ylim}{The \eqn{y}-limits of the plot.}
+\item{xlogscale}{If \code{TRUE}, use a logarithmic scale for the \eqn{x}-axis.}
+\item{ylogscale}{If \code{TRUE}, use a logarithmic scale for the \eqn{y}-axis.}
+\item{main}{A main title for the plot, see also \code{\link{title}}.}
+\item{xlab}{A label for the \eqn{x}-axis, defaults to a description of \code{x}.}
+\item{ylab}{A label for the \eqn{y}-axis, defaults to a description of \code{y}.}
+\item{datacol}{A specification of the color to be used in plotting data points.}
+\item{fitcol}{A (vector of) color(s) to plot fitted distributions. 
+	If there are fewer colors than points they are recycled in the standard fashion.}
+\item{fitlty}{A (vector of) line type(s) to plot fitted distributions/densities. 
+	If there are fewer colors than points they are recycled in the standard fashion.
+	See also \code{\link{par}}.}
+\item{addlegend}{If \code{TRUE}, a legend is added to the plot.}
+\item{legendtext}{A character or expression vector of length \eqn{\geq 1} to appear
+	in the legend, see also \code{\link{legend}}.}
+\item{xlegend, ylegend}{The \eqn{x} and \eqn{y} co-ordinates to be used to position the legend.
           They can be specified by keyword or in any way which is
-          accepted by 'xy.coords': See \code{\link{legend}} for details.}
-\item{\dots}{ further graphical arguments passed to graphical functions used in cdfcompcens }
+          accepted by 'xy.coords': see \code{\link{legend}} for details.}
+\item{\dots}{Further graphical arguments passed to graphical functions used in \code{cdfcompcens}.}
 }
 
 \details{

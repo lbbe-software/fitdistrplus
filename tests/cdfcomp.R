@@ -19,11 +19,11 @@ try(cdfcomp(list(fitW, fitln, fitg, a=1),horizontals = FALSE), silent=TRUE)
 cdfcomp(list(fitW, fitln, fitg),horizontals = FALSE)
 cdfcomp(list(fitW, fitln, fitg),horizontals = TRUE)
 cdfcomp(list(fitW, fitln, fitg),horizontals = TRUE, 	
-	verticals=TRUE,datacol="orange")
+	verticals=TRUE, datacol="grey")
 
 cdfcomp(list(fitW,fitln,fitg),legendtext=c("Weibull","lognormal","gamma"),
     main="ground beef fits",xlab="serving sizes (g)",
-    ylab="F",xlim = c(0,250))
+    ylab="F", xlim = c(0,250))
 
 cdfcomp(list(fitW,fitln,fitg),legendtext=c("Weibull","lognormal","gamma"),
     main="ground beef fits",xlab="serving sizes (g)",
@@ -66,10 +66,9 @@ cdfcomp(list(flnMGEKS, flnMGEAD, flnMGEADL, flnMGEAD2L),
 	horizontals=FALSE, datapch="+")
 
 cdfcomp(llfit,
-	xlogscale=TRUE,main="fits of a lognormal dist. using various GOF dist.",
-	legendtext=c("MGE KS","MGE AD","MGE ADL","MGE AD2L"), 
-	fitcol=c("black", "darkgreen", "yellowgreen", "yellow2"), 
-	horizontals=FALSE, datapch=21, datacol="grey")
+	xlogscale=TRUE, main="fits of a lognormal dist. using various GOF dist.",
+	legendtext=paste("MGE", c("KS","AD","ADL","AD2L")), fitcol="grey35", 	
+	fitlty="dotted", horizontals=FALSE, datapch=21, datacol="grey30")
 	
 cdfcomp(list(flnMGEKS, flnMGEAD, flnMGEADL, flnMGEAD2L),
 	xlogscale=TRUE, verticals=TRUE, xlim=c(10,100000), datapch=21)
@@ -114,5 +113,53 @@ f3 <- fitdist(x1, "exp")
 
 cdfcomp(list(f1, f2, f3), xlim=range(x), fitcol=c("red","green","blue"))
 
+
+
+
+# (4) normal mixture
+#
+
+#mixture of two normal distributions
+#density
+dnorm2 <- function(x, poid, m1, s1, m2, s2)
+	poid*dnorm(x, m1, s1) + (1-poid)*dnorm(x, m2, s2)
+#numerically approximate quantile function
+qnorm2 <- function(p, poid, m1, s1, m2, s2)
+{
+	L2 <- function(x, prob)
+		(prob - pnorm2(x, poid, m1, s1, m2, s2))^2	
+	sapply(p, function(pr) optimize(L2, c(-1000, 1000), prob=pr)$minimum)
+}	
+#distribution function		
+pnorm2 <- function(q, poid, m1, s1, m2, s2)
+	poid*pnorm(q, m1, s1) + (1-poid)*pnorm(q, m2, s2)		
+
+
+#basic normal distribution
+set.seed(1234)
+x2 <- c(rnorm(1000, 5),  rnorm(1000, 10))
+#MLE fit
+fit1 <- fitdist(x2, "norm2", "mle", start=list(poid=1/3, m1=4, s1=2, m2=8, s2=2), 
+	lower=c(0, 0, 0, 0, 0))
+fit2 <- fitdist(x2, "norm2", "qme", probs=c(1/6, 1/4, 1/3, 1/2, 2/3), 
+	start=list(poid=1/3, m1=4, s1=2, m2=8, s2=2), 
+	lower=c(0, 0, 0, 0, 0), upper=c(1/2, Inf, Inf, Inf, Inf))
+fit3 <- fitdist(x2, "norm2", "mge", gof="AD", 
+	start=list(poid=1/3, m1=4, s1=2, m2=8, s2=2), 
+	lower=c(0, 0, 0, 0, 0), upper=c(1/2, Inf, Inf, Inf, Inf))
+
+cdfcomp(list(fit1, fit2, fit3), datapch=".")
+cdfcomp(list(fit1, fit2, fit3), datapch=".", xlim=c(6, 8), ylim=c(.4, .55))
+
+
+# (5) discrete example
+#
+
+x3 <- rpois(20, 10)
+
+fit1 <- fitdist(x3, "pois", "mle")
+fit2 <- fitdist(x3, "nbinom", "qme", probs=c(1/3, 2/3))
+
+cdfcomp(list(fit1, fit2), datapch=21, horizontals=FALSE)
 
 

@@ -62,8 +62,8 @@ xlab="log10ATV")
 # parametric bootstrap
 #
 # in log10(ATV)
-HC5ln <- quantiledist(fln,probs = 0.05,bootstrap=TRUE)
-HC5ll <- quantiledist(fll,probs = 0.05,bootstrap=TRUE)
+HC5ln <- quantile(fln,probs = 0.05,bootstrap=TRUE)
+HC5ll <- quantile(fll,probs = 0.05,bootstrap=TRUE)
 # in ATV
 10^(HC5ln$quantiles)
 10^(HC5ln$quantCI)
@@ -76,7 +76,7 @@ HC5ll <- quantiledist(fll,probs = 0.05,bootstrap=TRUE)
 # calculated by parametric bootstrap
 #
 # in log10(ATV)
-HC5ln <- quantiledist(fln,probs = 0.05,bootstrap=TRUE,CI.type="greater")
+HC5ln <- quantile(fln,probs = 0.05,bootstrap=TRUE,CI.type="greater")
 # in ATV
 10^(HC5ln$quantiles)
 10^(HC5ln$quantCI)

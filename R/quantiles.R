@@ -23,25 +23,27 @@
 ###
 ###         R functions
 ### 
-quantiledist <- function(f, probs = seq(0.1,0.9,0.1), bootstrap = TRUE, CI.type = "two.sided",
-                bootstrap.arg = list(bootmethod="param", niter=1001))
+
+
+quantile.fitdist <- function(x, probs = seq(0.1,0.9,0.1), bootstrap = TRUE, CI.type = "two.sided",
+                bootstrap.arg = list(bootmethod="param", niter=1001), ...)
 {
-    if (!inherits(f, "fitdist"))
+    if (!inherits(x, "fitdist"))
         stop("Use only with 'fitdist' objects")
     cens <- FALSE
-    quantiles(f = f,probs = probs,bootstrap = bootstrap,CI.type = CI.type,bootstrap.arg = bootstrap.arg,cens)
+    quantiles(f = x,probs = probs,bootstrap = bootstrap,CI.type = CI.type,bootstrap.arg = bootstrap.arg,cens)
 }
 
-quantiledistcens <- function(f, probs = seq(0.1,0.9,0.1), bootstrap = TRUE, CI.type = "two.sided",
-                bootstrap.arg = list(niter=1001))
+quantile.fitdistcens <- function(x, probs = seq(0.1,0.9,0.1), bootstrap = TRUE, CI.type = "two.sided",
+                bootstrap.arg = list(niter=1001), ...)
 {
-    if (!inherits(f, "fitdistcens"))
+    if (!inherits(x, "fitdistcens"))
         stop("Use only with 'fitdistcens' objects")
     cens <- TRUE
-    quantiles(f = f,probs = probs,bootstrap = bootstrap,CI.type = CI.type,bootstrap.arg = bootstrap.arg,cens)
+    quantiles(f = x,probs = probs,bootstrap = bootstrap,CI.type = CI.type,bootstrap.arg = bootstrap.arg,cens)
 }
 
-quantiles <- function(f, probs , bootstrap , CI.type , bootstrap.arg, cens )
+quantiles <- function(f, probs, bootstrap, CI.type, bootstrap.arg, cens )
 {    
     CI.type <- match.arg(CI.type, c("two.sided","less","greater"))
     

@@ -209,6 +209,7 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             if (inherits(opttryerror,"try-error"))
             {
                 warnings("The function optim encountered an error and stopped")
+                print(opttryerror)				
                 return(list(estimate = rep(NA,length(vstart)), convergence = 100, value = NA, 
                             hessian = NA))
             }
@@ -233,8 +234,8 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             
             if (inherits(opttryerror,"try-error"))
             {
-                print(opttryerror)
                 warnings("The customized optimization function encountered an error and stopped")
+                print(opttryerror)				
                 return(list(estimate = rep(NA,length(vstart)), convergence = 100, value = NA, 
                             hessian = NA))
             }
@@ -260,6 +261,8 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
         loglik <- loglik(res$estimate, fix.arg, data, ddistname)
     else
         loglik <- NULL
+	if(!is.null(fix.arg))
+		res <- c(res, fix.arg=fix.arg)
     
     return( c(res, list(loglik=loglik, method=meth)) )
     

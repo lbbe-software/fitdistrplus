@@ -4,11 +4,11 @@ citHeader("To cite fitdistrplus in publications use:")
 citEntry(entry="Manual",
          title = "fitdistrplus: help to fit of a parametric distribution to non-censored or censored data ",
          author = "Marie Laure Delignette-Muller, Regis Pouillot, Jean-Baptiste Denis and Christophe Dutang",
-     year = 2010,
-         note = "R package version 0.1-3",
+     year = 2012,
+         note = "R package version 0.4-3",
 
          textVersion =
      paste( "M. L. Delignette-Muller, R. Pouillot, J.-B. Denis and C. Dutang",
-        "(2010),",
+        "(2012),",
             "fitdistrplus: help to fit of a parametric distribution to non-censored or censored data")
 )

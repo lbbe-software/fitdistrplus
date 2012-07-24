@@ -96,14 +96,17 @@ HC5ln
 # (2) Estimation of quantiles of the same fitted distribution 
 # and two-sided 95 percent confidence intervals for various probabilities 
 #
-quantiledistcens(fln,probs = c(0.05,0.1,0.2),bootstrap = TRUE)
+quantiledistcens(fln,probs = c(0.05,0.1,0.2), bootstrap = TRUE, bootstrap.arg = list(niter=501))
+
 
 
 # (3) Estimation of quantiles of the same fitted distribution 
 # and one-sided 95 percent confidence intervals (type "greater") for various 
 # probabilities 
 #
-quantiledistcens(fln,probs = c(0.05,0.1,0.2),bootstrap = TRUE,CI.type = "greater")
+quantiledistcens(fln, probs = c(0.05,0.1,0.2), bootstrap = TRUE, 
+	CI.type = "greater", bootstrap.arg = list(niter=501))
+
 
 # (4) Fit of a loglogistic distribution on the same acute toxicity values and
 # estimation of the 5 percent quantile (HC5) of the fitted distribution 
@@ -111,7 +114,7 @@ quantiledistcens(fln,probs = c(0.05,0.1,0.2),bootstrap = TRUE,CI.type = "greater
 #
 fll <- fitdistcens(log10EC50,"logis")
 # in log10(EC50)
-HC5ll <- quantiledistcens(fll,probs = 0.05,bootstrap=TRUE)
+HC5ll <- quantiledistcens(fll,probs = 0.05, bootstrap=TRUE, bootstrap.arg = list(niter=501))
 HC5ll
 # in EC50
 10^(HC5ll$quantiles)

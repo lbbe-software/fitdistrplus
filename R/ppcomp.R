@@ -17,7 +17,7 @@
 #   59 Temple Place, Suite 330, Boston, MA 02111-1307, USA
 #
 #############################################################################
-### plot density functions for various fits
+### PP-plot for various fits
 ### of continuous distribution(s) (fitdist results)
 ### on a same dataset
 ###
@@ -25,7 +25,8 @@
 ###
 
 
-qqcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
+
+ppcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
 	fitpch, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", ylegend = NULL, 
 	use.ppoints = TRUE, a.ppoints = 0.5, line01 = TRUE, line01col = "black", line01lty = 1,
 	ynoise = TRUE, ...)
@@ -49,16 +50,16 @@ qqcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
 	
     nft <- length(ft)
 	if (missing(fitcol)) fitcol <- 1:nft
-	if (missing(fitpch)) fitpch <- rep(21, nft)
+	if (missing(fitpch)) fitpch <- 21
 	fitcol <- rep(fitcol, length.out=nft)
 	fitpch <- rep(fitpch, length.out=nft)
 	
-    if (missing(xlab))
-		xlab <- "Theoretical quantiles"
+	if (missing(xlab))
+		xlab <- "Theoretical probabilities"
     if (missing(ylab)) 
-		ylab <- "Empirical quantiles"
+		ylab <- "Empirical probabilities"
     if (missing(main)) 
-		main <- "Empirical and theoretical quantiles"
+		main <- "Empirical and theoretical probabilities"
 	
     mydata <- ft[[1]]$data
 
@@ -77,40 +78,39 @@ qqcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
     else
 		obsp <- (1:n) / n
 	
-	
-# computation of each fitted distribution
+	# computation of each fitted distribution
     comput.fti <- function(i, ...)
     {
         fti <- ft[[i]]
         para <- c(as.list(fti$estimate), as.list(fti$fix.arg))
         distname <- fti$distname
-        qdistname <- paste("q", distname, sep="")
-		do.call(qdistname, c(list(p=obsp), as.list(para)))
+        pdistname <- paste("p", distname, sep="")
+		do.call(pdistname, c(list(q=sdata), as.list(para)))
 	}
-    fittedquant <- sapply(1:nft, comput.fti, ...)
+    fittedprob <- sapply(1:nft, comput.fti, ...)
 	
-	if(missing(xlim))
-		xlim <- range(fittedquant)
-	if(missing(ylim))
-		ylim <- range(mydata)    	
+	if (missing(xlim))
+		xlim <- range(fittedprob)
+	if (missing(ylim))
+		ylim <- range(obsp)
 
 	logxy <- paste(ifelse(xlogscale,"x",""), ifelse(ylogscale,"y",""), sep="")
 	#main plotting
-	resquant <- plot(fittedquant[,1], sdata, main=main, xlab=xlab, ylab=ylab, log=logxy,
+	resquant <- plot(fittedprob[,1], obsp, main=main, xlab=xlab, ylab=ylab, log=logxy,
 			pch=fitpch[1], xlim=xlim, ylim=ylim, col=fitcol[1], ...)
-	#plot of fitted quantiles
+	
+	#plot fitted quantiles
 	if(nft > 1 && !ynoise)
 		for(i in 2:nft)
-			points(fittedquant[,i], sdata, pch=fitpch[i], col=fitcol[i], ...)
+			points(fittedprob[,i], obsp, pch=fitpch[i], col=fitcol[i], ...)
 	if(nft > 1 && ynoise)
 		for(i in 2:nft)
-			points(fittedquant[,i], sdata*(1 + rnorm(n, 0, 0.01)), 
-				   pch=fitpch[i], col=fitcol[i], ...)
+			points(fittedprob[,i], obsp*(1 + rnorm(n, 0, 0.01)), pch=fitpch[i], col=fitcol[i], ...)
 	
 	if(line01)
 		abline(0, 1, lty=line01lty, col=line01col)
     
-    if (addlegend)
+    if(addlegend)
     {
         if (missing(legendtext)) 
 			legendtext <- paste("fit",1:nft)

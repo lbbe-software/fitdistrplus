@@ -66,8 +66,10 @@ xlab = "log10(EC50)")
 # non parametric bootstrap
 #
 # in log10(EC50)
-HC5ln <- quantiledistcens(fln,probs = 0.05,bootstrap=TRUE)
-HC5ll <- quantiledistcens(fll,probs = 0.05,bootstrap=TRUE)
+HC5ln <- quantile(fln,probs = 0.05,bootstrap=TRUE, 
+	bootstrap.arg = list(niter=501))
+HC5ll <- quantile(fll,probs = 0.05,bootstrap=TRUE,
+	bootstrap.arg = list(niter=501))
 # in EC50
 10^(HC5ln$quantiles)
 10^(HC5ln$quantCI)
@@ -80,7 +82,9 @@ HC5ll <- quantiledistcens(fll,probs = 0.05,bootstrap=TRUE)
 # calculated by non parametric bootstrap
 #
 # in log10(EC50)
-HC5ln <- quantiledistcens(fln,probs = 0.05,bootstrap=TRUE,CI.type="greater")
+HC5ln <- quantile(fln,probs = 0.05,bootstrap=TRUE,CI.type="greater", 
+	bootstrap.arg = list(niter=501))
+
 # in EC50
 10^(HC5ln$quantiles)
 10^(HC5ln$quantCI)

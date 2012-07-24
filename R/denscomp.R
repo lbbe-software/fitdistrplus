@@ -25,9 +25,9 @@
 ###
 
 
-denscomp <- function(ft, addlegend=TRUE, legendtext, datapch, datacol, probability,
-	fitcol, fitlty, xlab, ylab, xlim, ylim, main, xlegend = "topright", ylegend = NULL,
-	..., demp=FALSE, dempcol="grey")
+denscomp <- function(ft, xlim, ylim, probability, main, xlab, ylab, datapch, datacol, fitlty, fitcol, 
+	addlegend = TRUE, legendtext, xlegend = "bottomright", ylegend = NULL, 
+	demp = FALSE, dempcol = "grey", ...)
 {
 	if(inherits(ft, "fitdist"))
 	{
@@ -49,14 +49,11 @@ denscomp <- function(ft, addlegend=TRUE, legendtext, datapch, datacol, probabili
     nft <- length(ft)
     if (missing(datapch)) datapch <- 16
     if (missing(datacol)) datacol <- NULL    
-	if (missing(fitcol)) fitcol <- 2:(nft+1)
-    if (length(fitcol)!=nft)
-		stop("if specified, fitcol must be a vector of length
-		 the number of fitted distributions to represent")
-    if (missing(fitlty)) fitlty <- 1:nft
-    if (length(fitlty) != nft)
-		stop("if specified, fitlty must be a vector of length
-		 the number of fitted distributions to represent")
+    if (missing(fitcol)) fitcol <- 2:(nft+1)
+	if (missing(fitlty)) fitlty <- 1:nft
+	fitcol <- rep(fitcol, length.out=nft)
+	fitlty <- rep(fitlty, length.out=nft)
+	
 	if(missing(probability))
 		probability <- TRUE
     if (missing(xlab))
@@ -69,13 +66,12 @@ denscomp <- function(ft, addlegend=TRUE, legendtext, datapch, datacol, probabili
 	
     mydata <- ft[[1]]$data
 	
-    if (missing(xlim))
+    if(missing(xlim))
     {
         xmin <- min(mydata)
         xmax <- max(mydata)
         xlim <- range(mydata)
-    }
-    else
+    }else
     {
         xmin <- xlim[1]
         xmax <- xlim[2]
@@ -108,20 +104,22 @@ denscomp <- function(ft, addlegend=TRUE, legendtext, datapch, datacol, probabili
     comput.fti <- function(i, ...)
     {
         fti <- ft[[i]]
-        para <- c(as.list(fti$estimate),as.list(fti$fix.arg))
+        para <- c(as.list(fti$estimate), as.list(fti$fix.arg))
         distname <- fti$distname
-        ddistname <- paste("d",distname,sep="")
+        ddistname <- paste("d", distname, sep="")
 		
 		do.call(ddistname, c(list(x=sfin), as.list(para))) * scalefactor
     }
     fitteddens <- sapply(1:nft, comput.fti, ...)
 	
-	
+	#main plotting
 	reshist <- hist(mydata, main=main, xlab=xlab, ylab=ylab, xlim=xlim, 
 					ylim=range(ylim, fitteddens), col=datacol, probability=probability, ...)
+	#plot fitted densities
 	for(i in 1:nft)
 		lines(sfin, fitteddens[,i], lty=fitlty[i], col=fitcol[i], ...)
     
+	#plot empirical density
 	if(demp)
 		lines(density(mydata)$x, density(mydata)$y * scalefactor, col=dempcol)
 	

@@ -88,7 +88,7 @@ Christophe Dutang and Marie Laure Delignette-Muller.
 # (1) basic fit of a normal distribution 
 #
 
-x1<-c(6.4,13.3,4.1,1.3,14.1,10.6,9.9,9.6,15.3,22.1,13.4,
+x1 <- c(6.4,13.3,4.1,1.3,14.1,10.6,9.9,9.6,15.3,22.1,13.4,
 13.2,8.4,6.3,8.9,5.2,10.9,14.4)
 qmedist(x1, "norm", probs=c(1/3, 2/3))
 
@@ -104,14 +104,14 @@ qmedist(x1, "gumbel", probs=c(1/3, 2/3), start=list(a=10,b=5))
 # (3) fit a discrete distribution (Poisson)
 #
 
-x2<-c(rep(4,1),rep(2,3),rep(1,7),rep(0,12))
+x2 <- c(rep(4,1),rep(2,3),rep(1,7),rep(0,12))
 qmedist(x2, "pois", probs=1/2)
 qmedist(x2, "nbinom", probs=c(1/3, 2/3))
 
 # (4) fit a finite-support distribution (beta)
 #
 
-x3<-c(0.80,0.72,0.88,0.84,0.38,0.64,0.69,0.48,0.73,0.58,0.81,
+x3 <- c(0.80,0.72,0.88,0.84,0.38,0.64,0.69,0.48,0.73,0.58,0.81,
 0.83,0.71,0.75,0.59)
 qmedist(x3, "beta", probs=c(1/3, 2/3))
 

@@ -118,27 +118,27 @@ Christophe Dutang
 # (1) basic fit of a normal distribution with maximum likelihood estimation
 #
 
-x1<-c(6.4,13.3,4.1,1.3,14.1,10.6,9.9,9.6,15.3,22.1,13.4,
+x1 <- c(6.4,13.3,4.1,1.3,14.1,10.6,9.9,9.6,15.3,22.1,13.4,
 13.2,8.4,6.3,8.9,5.2,10.9,14.4)
 mledist(x1,"norm")
 
 # (2) defining your own distribution functions, here for the Gumbel distribution
 # for other distributions, see the CRAN task view dedicated to probability distributions
 
-dgumbel<-function(x,a,b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
+dgumbel <- function(x,a,b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
 mledist(x1,"gumbel",start=list(a=10,b=5))
 
 # (3) fit a discrete distribution (Poisson)
 #
 
-x2<-c(rep(4,1),rep(2,3),rep(1,7),rep(0,12))
+x2 <- c(rep(4,1),rep(2,3),rep(1,7),rep(0,12))
 mledist(x2,"pois")
 mledist(x2,"nbinom")
 
 # (4) fit a finite-support distribution (beta)
 #
 
-x3<-c(0.80,0.72,0.88,0.84,0.38,0.64,0.69,0.48,0.73,0.58,0.81,
+x3 <- c(0.80,0.72,0.88,0.84,0.38,0.64,0.69,0.48,0.73,0.58,0.81,
 0.83,0.71,0.75,0.59)
 mledist(x3,"beta")
 
@@ -153,15 +153,15 @@ mledist(x4, "nbinom")
 # (6) fit a continuous distribution (Gumbel) to censored data.
 #
 
-d1<-data.frame(
+d1 <- data.frame(
 left=c(1.73,1.51,0.77,1.96,1.96,-1.4,-1.4,NA,-0.11,0.55,0.41,
     2.56,NA,-0.53,0.63,-1.4,-1.4,-1.4,NA,0.13),
 right=c(1.73,1.51,0.77,1.96,1.96,0,-0.7,-1.4,-0.11,0.55,0.41,
     2.56,-1.4,-0.53,0.63,0,-0.7,NA,-1.4,0.13))
 mledist(d1,"norm")
 
-dgumbel<-function(x,a,b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
-pgumbel<-function(q,a,b) exp(-exp((a-q)/b))
+dgumbel <- function(x,a,b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
+pgumbel <- function(q,a,b) exp(-exp((a-q)/b))
 mledist(d1,"gumbel",start=list(a=0,b=2),optim.method="Nelder-Mead")
 
 

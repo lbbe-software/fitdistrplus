@@ -6,6 +6,7 @@ S3method(summary, fitdist)
 S3method(plot, fitdist)
 S3method(print, fitdist)
 S3method(print, summary.fitdist)
+S3method(quantile, fitdist)
 
 #fitditscens class
 export(fitdistcens)
@@ -13,33 +14,35 @@ S3method(summary, fitdistcens)
 S3method(plot, fitdistcens)
 S3method(print, fitdistcens)
 S3method(print, summary.fitdistcens)
+S3method(quantile, fitdistcens)
 
 #bootdist class
 export(bootdist)
 S3method(summary, bootdist)
 S3method(plot, bootdist)
 S3method(print, bootdist)
+S3method(print, summary.bootdist)
 
 #bootdistcens class
 export(bootdistcens)
 S3method(summary, bootdistcens)
 S3method(plot, bootdistcens)
 S3method(print, bootdistcens)
+S3method(print, summary.bootdistcens)
 
 #dedicated fit functions
 export(mledist, mmedist, qmedist, mgedist)
 
 #plot functions
-export(plotdist)
-export(plotdistcens)
+export(plotdist, plotdistcens)
 
 #graphical comparison
-export(cdfcomp, denscomp, qqcomp)
+export(cdfcomp, denscomp, qqcomp, ppcomp)
 export(cdfcompcens)
 
 #quantile functions
-export(quantiledist)
-export(quantiledistcens)
+#export(quantiledist)
+#export(quantiledistcens)
 
 #other functions
 export(descdist)

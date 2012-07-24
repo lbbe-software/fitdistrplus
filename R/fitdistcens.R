@@ -22,91 +22,91 @@
 ###         R functions
 ### 
 
-fitdistcens<-function (censdata, distr, start=NULL, fix.arg=NULL,...) 
+fitdistcens <- function (censdata, distr, start=NULL, fix.arg=NULL, ...) 
 {
     if (missing(censdata) ||
-        !(is.vector(censdata$left) & is.vector(censdata$right) & length(censdata[,1])>1))
+        !(is.vector(censdata$left) & is.vector(censdata$right) & length(censdata[, 1])>1))
         stop("datacens must be a dataframe with two columns named left 
             and right and more than one line")
     leftsupright <- censdata$left>censdata$right
     leftsupright <- leftsupright[!is.na(leftsupright)]
     if (any(leftsupright))
         stop("each left value must be less or equal to the corresponding right value")
-    if (!is.character(distr)) distname<-substring(as.character(match.call()$distr),2)
-    else distname<-distr
-    ddistname<-paste("d",distname,sep="")
-    if (!exists(ddistname,mode="function"))
-        stop(paste("The ",ddistname," function must be defined"))
-    pdistname<-paste("p",distname,sep="")
-    if (!exists(pdistname,mode="function"))
-        stop(paste("The ",pdistname," function must be defined"))
+    if (!is.character(distr)) distname <- substring(as.character(match.call()$distr), 2)
+    else distname <- distr
+    ddistname <- paste("d", distname, sep="")
+    if (!exists(ddistname, mode="function"))
+        stop(paste("The ", ddistname, " function must be defined"))
+    pdistname <- paste("p", distname, sep="")
+    if (!exists(pdistname, mode="function"))
+        stop(paste("The ", pdistname, " function must be defined"))
         
     dots <- list(...)
     if (length(dots)==0) dots=NULL
     
         
     # MLE fit with mledist 
-    mle<-mledist(censdata,distname,start,fix.arg,...)
+    mle <- mledist(censdata, distname, start, fix.arg, ...)
     if (mle$convergence>0) 
         stop("the function mle failed to estimate the parameters, 
-        with the error code ",mle$convergence) 
-    estimate<-mle$estimate
-    varcovar<-solve(mle$hessian)
-    sd<-sqrt(diag(varcovar))
-    correl<-cov2cor(varcovar)
-    loglik<-mle$loglik
-    n<-nrow(censdata)
-    npar<-length(estimate)
-    aic<--2*loglik+2*npar
-    bic<--2*loglik+log(n)*npar
+        with the error code ", mle$convergence) 
+    estimate <- mle$estimate
+    varcovar <- solve(mle$hessian)
+    sd <- sqrt(diag(varcovar))
+    correl <- cov2cor(varcovar)
+    loglik <- mle$loglik
+    n <- nrow(censdata)
+    npar <- length(estimate)
+    aic <- -2*loglik+2*npar
+    bic <- -2*loglik+log(n)*npar
          
-    return(structure(list(estimate = estimate, sd = sd, cor = correl, loglik = loglik,aic=aic,bic=bic, 
+    return(structure(list(estimate = estimate, sd = sd, cor = correl, loglik = loglik, aic=aic, bic=bic, 
         censdata=censdata, distname=distname, fix.arg=as.list(fix.arg), dots=dots), class = "fitdistcens"))
         
 }
 
-print.fitdistcens <- function(x,...){
+print.fitdistcens <- function(x, ...){
     if (!inherits(x, "fitdistcens"))
         stop("Use only with 'fitdistcens' objects")
-    cat("Fitting of the distribution '",x$distname,"' on censored data by maximum likelihood \n")
+    cat("Fitting of the distribution '", x$distname, "' on censored data by maximum likelihood \n")
     cat("Parameters:\n")
-    op<-options()
+    op <- options()
     options(digits=3)
-    print(data.frame("estimate" = x$estimate),...)
+    print(data.frame("estimate" = x$estimate), ...)
     options(op)
 
 }
 
-plot.fitdistcens <- function(x,...){
+plot.fitdistcens <- function(x, ...){
     if (!inherits(x, "fitdistcens"))
         stop("Use only with 'fitdistcens' objects")
-    plotdistcens(censdata=x$censdata,distr=x$distname,
-    para=c(as.list(x$estimate),as.list(x$fix.arg)),...)
+    plotdistcens(censdata=x$censdata, distr=x$distname, 
+    para=c(as.list(x$estimate), as.list(x$fix.arg)), ...)
 }
 
 summary.fitdistcens <- function(object, ...){
     if (!inherits(object, "fitdistcens"))
         stop("Use only with 'fitdistcens' objects")
-    object$ddistname <- paste("d", object$distname,sep="")
-    object$pdistname <- paste("p", object$distname,sep="")
+    object$ddistname <- paste("d", object$distname, sep="")
+    object$pdistname <- paste("p", object$distname, sep="")
     
     class(object) <- c("summary.fitdistcens", class(object))    
     object
 }
 
-print.summary.fitdistcens <- function(x,...){
+print.summary.fitdistcens <- function(x, ...){
     if (!inherits(x, "summary.fitdistcens"))
         stop("Use only with 'fitdistcens' objects")
     ddistname <- x$ddistname
     pdistname <- x$pdistname
     
-    cat("FITTING OF THE DISTRIBUTION '",x$distname,
+    cat("FITTING OF THE DISTRIBUTION '", x$distname, 
     "' BY MAXIMUM LIKELIHOOD ON CENSORED DATA \n")
     cat("PARAMETERS\n")
     print(cbind.data.frame("estimate" = x$estimate, "Std. Error" = x$sd))
-    cat("Loglikelihood: ",x$loglik,"  ")
-    cat("AIC: ",x$aic,"  ")
-    cat("BIC: ",x$bic,"\n")
+    cat("Loglikelihood: ", x$loglik, "  ")
+    cat("AIC: ", x$aic, "  ")
+    cat("BIC: ", x$bic, "\n")
     if (length(x$estimate) > 1) {
         cat("Correlation matrix:\n")
         print(x$cor)
@@ -114,3 +114,6 @@ print.summary.fitdistcens <- function(x,...){
     }
     invisible(x)
 }
+
+#see quantiles.R for quantile.fitdist
+
