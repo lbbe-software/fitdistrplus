@@ -26,7 +26,7 @@
 
 
 denscomp <- function(ft, xlim, ylim, probability, main, xlab, ylab, datapch, datacol, fitlty, fitcol, 
-	addlegend = TRUE, legendtext, xlegend = "bottomright", ylegend = NULL, 
+	addlegend = TRUE, legendtext, xlegend = "topright", ylegend = NULL, 
 	demp = FALSE, dempcol = "grey", ...)
 {
 	if(inherits(ft, "fitdist"))
@@ -78,9 +78,7 @@ denscomp <- function(ft, xlim, ylim, probability, main, xlab, ylab, datapch, dat
     }
 	if (missing(ylim))
 	{
-		options(warn=-1)
-		reshist <- hist(mydata, plot=FALSE, probability=probability)
-		options(warn=getOption("warn"))
+		reshist <- hist(mydata, plot=FALSE)
 		if(!probability)
 			ylim <- c(0, max(reshist$counts))
 		else

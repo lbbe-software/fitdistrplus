@@ -58,8 +58,8 @@ mgedist(data, distr, gof="CvM", start=NULL, fix.arg=NULL,
 
 \value{ 
     \code{mgedist} returns a list with following components,
-    \item{ estimate }{ the parameter estimates.}
-    \item{ convergence }{ an integer code for the convergence of \code{optim} defined as below
+    \item{estimate}{ the parameter estimates.}
+    \item{convergence}{ an integer code for the convergence of \code{optim} defined as below
     or defined by the user in the user-supplied optimization function. 
     
         \code{0} indicates successful convergence.
@@ -70,12 +70,16 @@ mgedist(data, distr, gof="CvM", start=NULL, fix.arg=NULL,
 
         \code{100} indicates that \code{optim} encountered an internal error.
         }
-    \item{ value }{the value of the statistic distance corresponding to estimate.}    
-    \item{ hessian }{ a symmetric matrix computed by \code{optim} as an estimate of the Hessian
+    \item{value}{the value of the statistic distance corresponding to estimate.}    
+    \item{hessian}{ a symmetric matrix computed by \code{optim} as an estimate of the Hessian
         at the solution found or computed in the user-supplied optimization function. }
-    \item{ gof }{ the code of the goodness-of-fit distance maximized. }   
-    \item{ optim.function }{ the name of the optimization function used.  }
-    \item{ loglik }{ the log-likelihood. }
+    \item{gof}{ the code of the goodness-of-fit distance maximized. }   
+    \item{optim.function}{ the name of the optimization function used.  }
+    \item{loglik}{ the log-likelihood. }
+    \item{fix.arg}{ the named list giving the values of parameters of the named distribution
+		that must kept fixed rather than estimated by maximum likelihood or \code{NULL} 
+		if there are no such parameters. }
+	
 }
 
 

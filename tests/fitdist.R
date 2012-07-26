@@ -204,7 +204,7 @@ gofstat(fuKS)
 # (14) scaling problem
 #
 
-x <- c(-0.00707717, -0.000947418, -0.00189753, 
+x2 <- c(-0.00707717, -0.000947418, -0.00189753, 
 -0.000474947, -0.00190205, -0.000476077, 0.00237812, 0.000949668, 
 0.000474496, 0.00284226, -0.000473149, -0.000473373, 0, 0, 0.00283688, 
 -0.0037843, -0.0047506, -0.00238379, -0.00286807, 0.000478583, 
@@ -224,5 +224,44 @@ x <- c(-0.00707717, -0.000947418, -0.00189753,
 -0.00241138, -0.00144963)
 
 for(i in 6:0)
-cat(i, try(fitdist(x*10^i, "cauchy", method="mle")$estimate, silent=TRUE), "\n")
+	cat(i, try(fitdist(x2*10^i, "cauchy", method="mle")$estimate, silent=TRUE), "\n")
+
+
+# (15) Fit of a lognormal distribution on acute toxicity values of endosulfan for
+# nonarthropod invertebrates, using maximum likelihood estimation
+# to estimate what is called a species sensitivity distribution 
+# (SSD) in ecotoxicology, followed by estimation of the 5 percent quantile value of 
+# the fitted distribution, what is called the 5 percent hazardous concentration (HC5)
+# in ecotoxicology, with its two-sided 95 percent confidence interval calculated by 
+# parametric bootstrap
+#
+data(endosulfan)
+ATV <- subset(endosulfan, group == "NonArthroInvert")$ATV
+log10ATV <- log10(subset(endosulfan, group == "NonArthroInvert")$ATV)
+fln <- fitdist(log10ATV, "norm")
+
+quantile(fln, probs = 0.05, bootstrap=TRUE, 
+	bootstrap.arg = list(bootmethod = "param", niter = 501))
+
+quantile(fln, probs = c(0.05,0.1,0.2), bootstrap = TRUE, CI.type = "greater",
+	bootstrap.arg = list(bootmethod = "param", niter = 501))
+
+quantile(fln, probs = 0.05, bootstrap=TRUE, 
+	bootstrap.arg = list(bootmethod = "nonparam", niter = 501))
+
+
+
+# (16) uniform distribution
+#
+
+x3 <- runif(1000, 1/2, 5/2)
+fitdist(x3, "unif", method="mle")
+# mledist(x3, "unif")
+fitdist(x3, "unif", method="mge", gof="CvM")
+# mgedist(x3, "unif")
+fitdist(x3, "unif", method="qme", probs=c(1/10, 9/10))
+
+
+
+
 

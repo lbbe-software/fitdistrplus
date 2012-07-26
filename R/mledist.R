@@ -1,5 +1,5 @@
 #############################################################################
-#   Copyright (c) 2009 Marie Laure Delignette-Muller, Regis Pouillot, Jean-Baptiste Denis                                                                                                  
+#   Copyright (c) 2009 Marie Laure Delignette-Muller, Regis Pouillot, Jean-Baptiste Denis, Christophe Dutang                                                                                                  
 #                                                                                                                                                                        
 #   This program is free software; you can redistribute it and/or modify                                               
 #   it under the terms of the GNU General Public License as published by                                         
@@ -24,7 +24,7 @@
 ### many ideas are taken from the fitdistr function of the MASS package and 
 ### the mle function of the stat package.
 
-mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="default",
+mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="default", 
     lower=-Inf, upper=Inf, custom.optim=NULL, ...)
     # data may correspond to a vector for non censored data or to
     # a dataframe of two columns named left and right for censored data 
@@ -33,12 +33,12 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
 		stop("distr must be a character string naming a distribution")
     else 
         distname <- distr
-    ddistname <- paste("d",distname,sep="")
+    ddistname <- paste("d", distname, sep="")
     
     if (!exists(ddistname, mode="function"))
         stop(paste("The ", ddistname, " function must be defined"))
-    if (distname == "unif")
-        stop("Maximum likelihood estimation is not available for the uniform distribution")
+#    if (distname == "unif")
+#       stop("Maximum likelihood estimation is not available for the uniform distribution")
 
     if (!is.null(fix.arg) & is.null(start))
         stop("Starting values must be defined when some distribution parameters are fixed")
@@ -52,29 +52,29 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
     else {
         cens <- TRUE
         censdata <- data
-        if (!(is.vector(censdata$left) & is.vector(censdata$right) & length(censdata[,1])>1))
+        if (!(is.vector(censdata$left) & is.vector(censdata$right) & length(censdata[, 1])>1))
         stop("data must be a numeric vector of length greater than 1 for non censored data
         or a dataframe with two columns named left and right and more than one line for censored data")
-        pdistname<-paste("p",distname,sep="")
-        if (!exists(pdistname,mode="function"))
-            stop(paste("The ",pdistname," function must be defined to apply maximum likelihood to censored data"))
+        pdistname<-paste("p", distname, sep="")
+        if (!exists(pdistname, mode="function"))
+            stop(paste("The ", pdistname, " function must be defined to apply maximum likelihood to censored data"))
 
     }
     
     if (cens) {
-        # Definition of datasets lcens (left censored)=vector, rcens (right censored)= vector,
+        # Definition of datasets lcens (left censored)=vector, rcens (right censored)= vector, 
         #   icens (interval censored) = dataframe with left and right 
         # and ncens (not censored) = vector
-        lcens<-censdata[is.na(censdata$left),]$right
+        lcens<-censdata[is.na(censdata$left), ]$right
         if (any(is.na(lcens)) )
             stop("An observation cannot be both right and left censored, coded with two NA values")
-        rcens<-censdata[is.na(censdata$right),]$left
+        rcens<-censdata[is.na(censdata$right), ]$left
         ncens<-censdata[censdata$left==censdata$right & !is.na(censdata$left) & 
-            !is.na(censdata$right),]$left
+            !is.na(censdata$right), ]$left
         icens<-censdata[censdata$left!=censdata$right & !is.na(censdata$left) & 
-            !is.na(censdata$right),]
+            !is.na(censdata$right), ]
         # Definition of a data set for calculation of starting values
-        data<-c(rcens,lcens,ncens,(icens$left+icens$right)/2)
+        data<-c(rcens, lcens, ncens, (icens$left+icens$right)/2)
     }
     
     # MLE fit 
@@ -105,7 +105,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
             n <- length(data)
             m <- mean(data)
             v <- (n - 1)/n*var(data)
-            start <- list(shape=m^2/v,rate=m/v)
+            start <- list(shape=m^2/v, rate=m/v)
         }
         if (distname == "nbinom") {
             n <- length(data)
@@ -128,7 +128,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
             m <- mean(data)
             v <- (n - 1)/n*var(data)
             aux <- m*(1-m)/v - 1
-            start <- list(shape1=m*aux,shape2=(1-m)*aux)
+            start <- list(shape1=m*aux, shape2=(1-m)*aux)
         }
         if (distname == "weibull") {
             m <- mean(log(data))
@@ -141,17 +141,30 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
             n <- length(data)
             m <- mean(data)
             v <- (n - 1)/n*var(data)
-            start <- list(location=m,scale=sqrt(3*v)/pi)
+            start <- list(location=m, scale=sqrt(3*v)/pi)
         }
         if (distname == "cauchy") {
-            start <- list(location=median(data),scale=IQR(data)/2)
+            start <- list(location=median(data), scale=IQR(data)/2)
         }
+		if (distname == "unif"){
+			start <- list(min=0, max=1)
+		}
+
         if (!is.list(start)) 
             stop("'start' must be defined as a named list for this distribution") 
    } # end of the definition of starting values 	
 	
+	############# closed formula for uniform distribution ##########
+	if(distname == "unif")
+	{
+		par <- c(min=min(data), max=max(data))
+		res <- list(estimate = par[!names(par) %in% names(fix.arg)], convergence = 0, loglik = NA, 
+                    hessian = NA, optim.function= NA, fix.arg = fix.arg)
+		return(res)
+	}
+	
    
-   ############# MLE fit using optim or custom.optim ##########
+	############# MLE fit using optim or custom.optim ##########
     vstart <- unlist(start)
     vfix.arg <- unlist(fix.arg)
     # check of the names of the arguments of the density function
@@ -189,19 +202,19 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
     else {# if !cens
         argpdistname<-names(formals(pdistname))
         if (("log" %in% argddistname) & ("log.p" %in% argpdistname))
-            fnobjcens <- function(par,fix.arg,rcens,lcens,icens,ncens,ddistnam,pdistnam)
-                -sum(do.call(ddistnam,c(list(x=ncens),as.list(par),as.list(fix.arg),list(log=TRUE)))) -
-                sum(do.call(pdistnam,c(list(q=lcens),as.list(par),as.list(fix.arg),list(log=TRUE)))) -
-                sum(do.call(pdistnam,c(list(q=rcens),as.list(par),as.list(fix.arg),list(lower.tail=FALSE),list(log=TRUE)))) -
-                sum(log(do.call(pdistnam,c(list(q=icens$right),as.list(par),as.list(fix.arg))) - # without log=TRUE here
-                do.call(pdistnam,c(list(q=icens$left),as.list(par),as.list(fix.arg))) )) # without log=TRUE here
+            fnobjcens <- function(par, fix.arg, rcens, lcens, icens, ncens, ddistnam, pdistnam)
+                -sum(do.call(ddistnam, c(list(x=ncens), as.list(par), as.list(fix.arg), list(log=TRUE)))) -
+                sum(do.call(pdistnam, c(list(q=lcens), as.list(par), as.list(fix.arg), list(log=TRUE)))) -
+                sum(do.call(pdistnam, c(list(q=rcens), as.list(par), as.list(fix.arg), list(lower.tail=FALSE), list(log=TRUE)))) -
+                sum(log(do.call(pdistnam, c(list(q=icens$right), as.list(par), as.list(fix.arg))) - # without log=TRUE here
+                do.call(pdistnam, c(list(q=icens$left), as.list(par), as.list(fix.arg))) )) # without log=TRUE here
         else
-            fnobjcens <- function(par,fix.arg, rcens,lcens,icens,ncens,ddistnam,pdistnam)
-                -sum(log(do.call(ddistnam,c(list(x=ncens),as.list(par),as.list(fix.arg))))) -
-                sum(log(do.call(pdistnam,c(list(q=lcens),as.list(par),as.list(fix.arg))))) -
-                sum(log(1-do.call(pdistnam,c(list(q=rcens),as.list(par),as.list(fix.arg))))) -
-                sum(log(do.call(pdistnam,c(list(q=icens$right),as.list(par),as.list(fix.arg))) - 
-                do.call(pdistnam,c(list(q=icens$left),as.list(par),as.list(fix.arg))) ))
+            fnobjcens <- function(par, fix.arg, rcens, lcens, icens, ncens, ddistnam, pdistnam)
+                -sum(log(do.call(ddistnam, c(list(x=ncens), as.list(par), as.list(fix.arg))))) -
+                sum(log(do.call(pdistnam, c(list(q=lcens), as.list(par), as.list(fix.arg))))) -
+                sum(log(1-do.call(pdistnam, c(list(q=rcens), as.list(par), as.list(fix.arg))))) -
+                sum(log(do.call(pdistnam, c(list(q=icens$right), as.list(par), as.list(fix.arg))) - 
+                do.call(pdistnam, c(list(q=icens$left), as.list(par), as.list(fix.arg))) ))
     }
     # Choice of the optimization method    
     if (optim.method == "default")
@@ -226,30 +239,26 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
 				...), silent=TRUE)        
         else 
             opttryerror <- try(opt <- optim(par=vstart, fn=fnobjcens, fix.arg=fix.arg, 
-				rcens=rcens,lcens=lcens,icens=icens,ncens=ncens, ddistnam=ddistname, 
+				rcens=rcens, lcens=lcens, icens=icens, ncens=ncens, ddistnam=ddistname, 
 				pdistnam=pdistname, hessian=TRUE, method=meth, lower=lower, upper=upper, 
 				...), silent=TRUE)   
 		
-        if (inherits(opttryerror,"try-error"))
+        if (inherits(opttryerror, "try-error"))
         {
             warnings("The function optim encountered an error and stopped")
             print(opttryerror)			
-            return(list(estimate = rep(NA,length(vstart)), convergence = 100, loglik = NA, 
+            return(list(estimate = rep(NA, length(vstart)), convergence = 100, loglik = NA, 
                         hessian = NA))
         }
         
         if (opt$convergence>0) {
-            warnings("The function optim failed to converge, with the error code ",
+            warnings("The function optim failed to converge, with the error code ", 
                      opt$convergence)
-            return(list(estimate = rep(NA,length(vstart)), convergence = opt$convergence, 
+            return(list(estimate = rep(NA, length(vstart)), convergence = opt$convergence, 
                         loglik = NA, hessian = NA))
         }
         res <- list(estimate = opt$par, convergence = opt$convergence, loglik = -opt$value, 
-                    hessian = opt$hessian, optim.function="optim")
-		if(!is.null(fix.arg))
-			res <- c(res, fix.arg=fix.arg)
-
-        return(res)
+                    hessian = opt$hessian, optim.function="optim", fix.arg = fix.arg)
 	}
     else # Try to minimize the minus (log-)likelihood using a user-supplied optim function 
     {
@@ -257,37 +266,34 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
             opttryerror <- try(opt <- custom.optim(fn=fnobj, fix.arg=fix.arg, obs=data, 
 				ddistnam=ddistname, par=vstart, ...), silent=TRUE)
         else
-            opttryerror <-try(opt<-custom.optim(fn=fnobjcens, fix.arg=fix.arg, rcens=rcens,
-				lcens=lcens, icens=icens, ncens=ncens, ddistnam=ddistname, pdistnam=pdistname,
+            opttryerror <-try(opt<-custom.optim(fn=fnobjcens, fix.arg=fix.arg, rcens=rcens, 
+				lcens=lcens, icens=icens, ncens=ncens, ddistnam=ddistname, pdistnam=pdistname, 
 				par=vstart, ...), silent=TRUE)              
         
-        if (inherits(opttryerror,"try-error"))
+        if (inherits(opttryerror, "try-error"))
         {
             warnings("The customized optimization function encountered an error and stopped")
             print(opttryerror)			
-            return(list(estimate = rep(NA,length(vstart)), convergence = 100, loglik = NA, 
+            return(list(estimate = rep(NA, length(vstart)), convergence = 100, loglik = NA, 
                         hessian = NA))
         }
         
         if (opt$convergence>0) {
-            warnings("The customized optimization function failed to converge, with the error code ",
+            warnings("The customized optimization function failed to converge, with the error code ", 
                      opt$convergence)
-            return(list(estimate = rep(NA,length(vstart)), convergence = opt$convergence, 
-                        loglik = NA, hessian = NA))
+            return(list(estimate = rep(NA, length(vstart)), convergence = opt$convergence, 
+                        loglik = NA, hessian = NA, optim.function=custom.optim))
         }
 		res <- list(estimate = opt$par, convergence = opt$convergence, loglik = -opt$value, 
-                    hessian = opt$hessian, optim.function=custom.optim)
-		if(!is.null(fix.arg))
-			res <- c(res, fix.arg=fix.arg)
+                    hessian = opt$hessian, optim.function=custom.optim, fix.arg = fix.arg)
 		
-        return(res)
     }   
         
-     
+    return(res) 
 }
 
 ## old function with previous name for censored data
-mledistcens <- function(censdata, distr, start=NULL,optim.method="default",lower=-Inf,upper=Inf)
+mledistcens <- function(censdata, distr, start=NULL, optim.method="default", lower=-Inf, upper=Inf)
 {
     stop("The function \"mledistcens\" is no more used. Now the same function \"mledist\" must be used for censored and non censored data.")
 }

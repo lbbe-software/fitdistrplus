@@ -77,8 +77,8 @@ mledist(data, distr, start=NULL, fix.arg=NULL, optim.method="default",
 
 \value{ 
     \code{mledist} returns a list with following components,
-    \item{ estimate }{ the parameter estimates }
-    \item{ convergence }{ an integer code for the convergence of \code{optim} defined as below
+    \item{estimate}{ the parameter estimates }
+    \item{convergence}{ an integer code for the convergence of \code{optim} defined as below
     or defined by the user in the user-supplied optimization function. 
     
         \code{0} indicates successful convergence.
@@ -90,16 +90,21 @@ mledist(data, distr, start=NULL, fix.arg=NULL, optim.method="default",
         \code{100} indicates that \code{optim} encountered an internal error.
         }
         
-    \item{ loglik }{ the log-likelihood }
-    \item{ hessian }{ a symmetric matrix computed by \code{optim} as an estimate of the Hessian
+    \item{loglik}{ the log-likelihood }
+    \item{hessian}{ a symmetric matrix computed by \code{optim} as an estimate of the Hessian
         at the solution found or computed in the user-supplied optimization function.
         It is used in \code{fitdist} to estimate standard errors. }
-    \item{ optim.function }{ the name of the optimization function used for maximum likelihood  }
+    \item{optim.function}{ the name of the optimization function used for maximum likelihood}
+    \item{fix.arg}{ the named list giving the values of parameters of the named distribution
+		that must kept fixed rather than estimated by maximum likelihood or \code{NULL} 
+		if there are no such parameters. }
+
 }
 
 
 \seealso{ 
-    \code{\link{mmedist}}, \code{\link{qmedist}}, \code{\link{fitdist}},\code{\link{fitdistcens}}, \code{\link{optim}},
+    \code{\link{mmedist}}, \code{\link{qmedist}}, \code{\link{mgedist}}, 
+	\code{\link{fitdist}},\code{\link{fitdistcens}}, \code{\link{optim}},
     \code{\link{bootdistcens}} and \code{\link{bootdist}}.
 }
 

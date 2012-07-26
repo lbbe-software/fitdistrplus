@@ -143,26 +143,13 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
                     loglik = loglik, aic=aic, bic=bic, n = n, data=data, 
                     distname = distname, fix.arg = fix.arg, dots = dots, 
                     convergence = convergence)
-
-# I think lines below are not required, as those arguments are in dots    (ML)
-# Yes, but the user does not necessarily remember the ... argument: 
-# e.g. he saves the workspace in a file and open it three months later.
-# mgedist has a default argument for gof. It is also useful in that case 
-# to tell the user about the default gof. (CD)
-# 
-#    if (method == "qme")
-#        reslist <- c(reslist, list(probs=qme$probs))
-#    if (method == "mge")
-#        reslist <- c(reslist, list(gof=mge$gof))
-#    if (method == "mme")
-#        reslist <- c(reslist, list(order=mme$order, memp=mme$memp))
-
     
     return(structure(reslist, class = "fitdist"))
 
 }
 
-print.fitdist <- function(x, ...){
+print.fitdist <- function(x, ...)
+{
     if (!inherits(x, "fitdist"))
         stop("Use only with 'fitdist' objects")
     if (x$method=="mme") 
@@ -182,14 +169,16 @@ print.fitdist <- function(x, ...){
 
 }
 
-plot.fitdist <- function(x, breaks="default", ...){
+plot.fitdist <- function(x, breaks="default", ...)
+{
     if (!inherits(x, "fitdist"))
         stop("Use only with 'fitdist' objects")
     plotdist(data=x$data, distr=x$distname, 
     para=c(as.list(x$estimate), as.list(x$fix.arg)), breaks=breaks, ...)
 }
 
-summary.fitdist <- function(object, ...){
+summary.fitdist <- function(object, ...)
+{
     if (!inherits(object, "fitdist"))
         stop("Use only with 'fitdist' objects")
     object$ddistname <- paste("d", object$distname, sep="")
@@ -200,7 +189,8 @@ summary.fitdist <- function(object, ...){
     object
 }
 
-print.summary.fitdist <- function(x, ...){
+print.summary.fitdist <- function(x, ...)
+{
     if (!inherits(x, "summary.fitdist"))
         stop("Use only with 'fitdist' objects")
 

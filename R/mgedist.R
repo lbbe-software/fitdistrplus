@@ -295,9 +295,6 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
 		res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
                     hessian = opt$hessian, gof=gof, optim.function="optim",
                     loglik=loglik(opt$par, fix.arg, data, ddistname) )
-		if(!is.null(fix.arg))
-			res <- c(res, fix.arg=fix.arg)
-        return(res)        
     }
     else # Try to minimize the gof distance using a user-supplied optim function 
     {
@@ -325,13 +322,9 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
 		res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
                     gof=gof, hessian = opt$hessian, optim.function=custom.optim,
                     loglik=loglik(opt$par, fix.arg, data, ddistname) )
-		
-		if(!is.null(fix.arg))
-			res <- c(res, fix.arg=fix.arg)
-        return(res)        
     }   
-        
-     
+	res <- c(res, fix.arg=fix.arg)
+	return(res)                
 }
 
 ## old function with previous name for censored data

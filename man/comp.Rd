@@ -1,4 +1,5 @@
 \name{cdfcomp}
+\alias{graphcomp}
 \alias{cdfcomp}
 \alias{denscomp}
 \alias{qqcomp}
@@ -18,7 +19,7 @@ cdfcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
 	use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, \dots)
 	
 denscomp(ft, xlim, ylim, probability, main, xlab, ylab, datapch, datacol, fitlty, fitcol, 
-	addlegend = TRUE, legendtext, xlegend = "bottomright", ylegend = NULL, 
+	addlegend = TRUE, legendtext, xlegend = "topright", ylegend = NULL, 
 	demp = FALSE, dempcol = "grey", \dots)
 
 qqcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 

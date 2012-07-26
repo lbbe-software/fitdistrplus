@@ -70,10 +70,10 @@ print.fitdistcens <- function(x, ...){
         stop("Use only with 'fitdistcens' objects")
     cat("Fitting of the distribution '", x$distname, "' on censored data by maximum likelihood \n")
     cat("Parameters:\n")
-    op <- options()
-    options(digits=3)
+#    op <- options()
+#   options(digits=3)
     print(data.frame("estimate" = x$estimate), ...)
-    options(op)
+#   options(op)
 
 }
 
@@ -115,5 +115,5 @@ print.summary.fitdistcens <- function(x, ...){
     invisible(x)
 }
 
-#see quantiles.R for quantile.fitdist
+#see quantiles.R for quantile.fitdistcens
 

@@ -47,8 +47,8 @@ qmedist(data, distr, probs, start=NULL, fix.arg=NULL, qtype=7,
 
 \value{ 
     \code{qmedist} returns a list with following components,
-    \item{ estimate }{ the parameter estimates.}
-    \item{ convergence }{ an integer code for the convergence of \code{optim} defined as below
+    \item{estimate}{ the parameter estimates.}
+    \item{convergence}{ an integer code for the convergence of \code{optim} defined as below
     or defined by the user in the user-supplied optimization function. 
     
         \code{0} indicates successful convergence.
@@ -59,12 +59,16 @@ qmedist(data, distr, probs, start=NULL, fix.arg=NULL, qtype=7,
 
         \code{100} indicates that \code{optim} encountered an internal error.
         }
-    \item{ value }{the value of the statistic distance corresponding to estimate.}    
-    \item{ hessian }{ a symmetric matrix computed by \code{optim} as an estimate of the Hessian
+    \item{value}{the value of the statistic distance corresponding to estimate.}    
+    \item{hessian}{ a symmetric matrix computed by \code{optim} as an estimate of the Hessian
         at the solution found or computed in the user-supplied optimization function. }
-    \item{ probs }{ the probability vector on which quantiles are matched. }   
-    \item{ optim.function }{ the name of the optimization function used.  }
-    \item{ loglik }{ the log-likelihood. }
+    \item{probs}{ the probability vector on which quantiles are matched. }   
+    \item{optim.function }{ the name of the optimization function used.  }
+    \item{loglik}{ the log-likelihood. }
+    \item{fix.arg}{ the named list giving the values of parameters of the named distribution
+		that must kept fixed rather than estimated by maximum likelihood or \code{NULL} 
+		if there are no such parameters. }
+	
 }
 
 

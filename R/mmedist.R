@@ -261,8 +261,7 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
         loglik <- loglik(res$estimate, fix.arg, data, ddistname)
     else
         loglik <- NULL
-	if(!is.null(fix.arg))
-		res <- c(res, fix.arg=fix.arg)
+	res <- c(res, fix.arg=fix.arg)
     
     return( c(res, list(loglik=loglik, method=meth)) )
     

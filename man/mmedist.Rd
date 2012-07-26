@@ -71,14 +71,17 @@ to the number of parameters to estimate.}
 
         \code{100} indicates that \code{optim} encountered an internal error.
         }
-    \item{ loglik }{ the log-likelihood.}
-    \item{ hessian }{ (if appropriate) a symmetric matrix computed by \code{optim} as an estimate of the Hessian
+    \item{loglik}{ the log-likelihood.}
+    \item{hessian}{ (if appropriate) a symmetric matrix computed by \code{optim} as an estimate of the Hessian
         at the solution found or computed in the user-supplied optimization function.
         It is used in \code{fitdist} to estimate standard errors. }
-    \item{ optim.function }{ (if appropriate) the name of the optimization function. }
-    \item{ memp }{ (if appropriate) the empirical moment function. }
-    \item{ order }{ the order of the moment(s) matched.}        
-    \item{ method }{either \code{"closed formula"} or the name of the optimization method.}
+    \item{optim.function}{ (if appropriate) the name of the optimization function. }
+    \item{memp}{ (if appropriate) the empirical moment function. }
+    \item{order}{ the order of the moment(s) matched.}        
+    \item{method}{either \code{"closed formula"} or the name of the optimization method.}
+    \item{fix.arg}{ the named list giving the values of parameters of the named distribution
+		that must kept fixed rather than estimated by maximum likelihood or \code{NULL} 
+		if there are no such parameters. }
     
 }
 

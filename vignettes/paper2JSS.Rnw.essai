@@ -1,0 +1,77 @@
+%%%
+%%% TITLE:       fitdistrplus: an R Package for Distribution Fitting Methods
+%%% AUTHORS:     Marie Laure Delignette Muller*, Christophe Dutang
+%%%              * Corresponding author
+%%% AFFILIATION: LBBE, Université Claude Bernard Lyon 1, Lyon, France
+%%% ADDRESS:     VetAgro Sup Campus Vétérinaire de Lyon
+%%%              1, avenue Bourgelat
+%%%              69820 MARCY L'ETOILE, France
+%%% PHONE:       +33 4 78 87 27 40
+%%% FAX:         +33 4 78 87 27 12
+%%% EMAIL:       marielaure.delignettemuller@vetagro-sup.fr
+%%%
+
+
+\documentclass[article]{jss}
+
+\usepackage{amsmath,amsthm}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage{color, wrapfig, subfig}
+\usepackage[a4paper, textwidth=18cm, textheight=27cm]{geometry}
+
+
+%% need no \usepackage{Sweave.sty}
+  
+\author{ Marie Laure Delignette-Muller \\ Université Claude Bernard Lyon 1 \And
+    Christophe Dutang \\ Université Claude Bernard Lyon 1}
+\title{\pkg{fitdistrplus}: An \proglang{R} Package for Distribution Fitting Methods}
+
+\Plainauthor{Marie Laure Delignette-Muller}
+\Plaintitle{fitdistrplus: an R Package for Distribution Fitting Methods}
+
+\Abstract{%
+    blabla.}
+
+\Keywords{distributions, censored data, \proglang{R}}
+\Plainkeywords{distributions, censored data, R}
+
+%% publication information
+%% NOTE: Typically, this can be left commented and will be filled out by the technical editor
+%% \Volume{50}
+%% \Issue{9}
+%% \Month{June}
+%% \Year{2012}
+%% \Submitdate{2012-09-04}
+%% \Acceptdate{2012-09-04}
+
+\Address{
+    Marie Laure Delignette-Muller \\
+    VetAgro Sup Campus Vétérinaire de Lyon \\
+    1, avenue Bourgelat \\
+    69820 MARCY L'ETOILE\\
+    France \\
+    E-mail: \email{marielaure.delignettemuller@vetagro-sup.fr} \\
+    URL: \url{http://lbbe.univ-lyon1.fr/-Delignette-Muller-Marie-Laure-.html}
+}
+
+
+\begin{document}
+
+%% include your article here, just as usual
+%% Note that you should use the \pkg{}, \proglang{} and \code{} commands.
+
+
+
+essai
+
+
+
+\section*{Acknowledgments}
+
+\bibliography{fitdistrplus}
+
+
+ 
+\end{document}

@@ -74,23 +74,73 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL,...)
     the estimates calculated from the 
     Hessian at the solution found by \code{optim} or by the user-supplied function passed to mledist.
      
-    The plot of an object of class "fitdistcens" returned by \code{fitdistcens} uses the function \code{\link{plotdistcens}}.
+
+	Generic functions:
+\describe{		 
+	\item{\code{print}}{
+	The print of a 'fitdist' object shows few traces about the fitting method and the fitted distribution.
+	}
+	\item{\code{summary}}{
+	The summary provides the d, p, q functions of the fitted distribution and prints log-likelihood, 
+	AIC and BIC statistics.
+	}
+	\item{\code{plot}}{
+	The plot of an object of class "fitdistcens" returned by \code{fitdistcens} uses the 
+	function \code{\link{plotdistcens}}.
+	}
+	\item{\code{quantile}}{
+    Quantiles of the parametric distribution are calculated for
+    each probability specified in \code{probs}, using the estimated parameters given by the 'fitdistcens' result.
+    If \code{bootstrap} is \code{TRUE}, a bootstrap procedure is then performed using \code{\link{bootdistcens}}
+    on the 'fitdistcens' result, and quantiles of the parametric distribution are calculated for
+    each probability specified in \code{probs}, using each set of boostrapped values of parameters.  
+    If inferior to the whole number of bootstrap iterations, the number of iterations for which the estimation converges 
+    is also printed in the summary.
+    If \code{CI.type} is \code{two.sided},
+    the 95 percent two-sided confidence intervals of quantiles (2.5th and 97.5th percentiles) are calculated.
+    If \code{CI.type} is \code{less},
+    the 95 percent one-sided confidence intervals of quantiles (95th percentiles) are calculated.
+    If \code{CI.type} is \code{greater},
+    the 95 percent one-sided confidence intervals of quantiles (5th percentiles) are calculated.
+	}	
+}
 }
 
 \value{ 
-    \code{fitdistcens} returns an object of class 'fitdistcens', a list with following components,
-    \item{ estimate }{ the parameter estimates }
-    \item{ sd }{ the estimated standard errors }
-    \item{ cor }{ the estimated correlation matrix }
-    \item{ loglik }{ the log-likelihood }
-     \item{ aic }{ the Akaike information criterion }
-    \item{ bic }{ the the so-called BIC or SBC (Schwarz Bayesian criterion)}
-    \item{ censdata }{ the censored dataset }
-    \item{ distname }{ the name of the distribution }
-    \item{ fix.arg }{ the named list giving the values of parameters of the named distribution
+    \code{fitdistcens} returns an object of class 'fitdistcens', a list with the following components:
+    \item{estimate}{ the parameter estimates }
+    \item{sd}{ the estimated standard errors }
+    \item{cor}{ the estimated correlation matrix }
+    \item{loglik}{ the log-likelihood }
+	\item{aic}{ the Akaike information criterion }
+    \item{bic}{ the the so-called BIC or SBC (Schwarz Bayesian criterion)}
+    \item{censdata}{ the censored dataset }
+    \item{distname}{ the name of the distribution }
+    \item{fix.arg}{ the named list giving the values of parameters of the named distribution
     that must kept fixed rather than estimated by maximum likelihood or NULL if there are no such parameters. }
-    \item{ dots }{ the list of  further arguments passed in \dots to be used in \code{bootdistcens} to
-    control the optimization method used in iterative calls to \code{mledist} or NULL if no such arguments}
+    \item{dots}{ the list of  further arguments passed in \dots to be used in \code{bootdistcens} to
+    control the optimization method used in iterative calls to \code{mledist} or NULL if no such arguments.}
+	
+	
+	\code{print}, \code{plot} returns an invisible object, while \code{summary} returns an object
+	of class 'summary.fitdist'.
+
+	\code{quantile} returns a list with 4 components:
+    \item{quantiles}{ a dataframe containing the estimated quantiles for each probability value specified in 
+        the argument \code{probs} (one row, and as many columns as values in \code{probs}).}
+    \item{resbootdistcens}{ the output of the function \code{\link{bootdistcens}} applied to \code{f} or NULL if 
+        \code{bootstrap=FALSE}.}
+    \item{bootquant}{ a data frame containing the bootstraped values for each quantile
+         (many rows, as specified in the call to \code{\link{bootdist}},
+         and as many columns as values in \code{probs}, or \code{NULL} if 
+        \code{bootstrap=FALSE}.}
+    \item{quantCI}{ by default bounds of the  95 percent two.sided confidence interval for each quantile 
+        (two rows, the first one for the 2.5th percentile and the second one for the 97.5th percentile,
+         and as many columns as values in \code{probs}), or NULL if 
+        \code{bootstrap} is \code{FALSE}. If \code{CI.type} is \code{less}, right bound of the 95 percent
+        one.sided confidence interval for each quantile (one row with 95th percentiles).
+        If \code{CI.type} is \code{greater}, left bound of the 95 percent
+        one.sided confidence interval for each quantile (one row with 5th percentiles). }
 }
 
 
@@ -194,6 +244,38 @@ summary(fitsf)
 plot(fitsf)
 # basic plot using intervals and points (see ?plotdiscens for details)
 plot(fitsf, Turnbull = FALSE)
+
+
+# (8) Fit of a lognormal distribution on acute toxicity values of fluazinam for
+# macroinvertebrates and zooplancton, using maximum likelihood estimation
+# to estimate what is called a species sensitivity distribution 
+# (SSD) in ecotoxicology, followed by estimation of the 5 percent quantile value of 
+# the fitted distribution, what is called the 5 percent hazardous concentration (HC5)
+# in ecotoxicology, with its two-sided 95 percent confidence interval calculated by 
+# non parametric bootstrap
+
+data(fluazinam)
+log10EC50 <-log10(fluazinam)
+fln <- fitdistcens(log10EC50,"norm")
+
+quantile(fln, probs = 0.05, bootstrap=TRUE,
+	bootstrap.arg = list(niter=501))
+
+quantile(fln, probs = c(0.05,0.1,0.2), bootstrap=TRUE, 
+	bootstrap.arg = list(niter=501))
+
+quantile(fln, probs = c(0.05,0.1,0.2), bootstrap = TRUE, 
+	CI.type = "greater", bootstrap.arg = list(niter=501))
+
+
+# Fit of a loglogistic distribution on the same acute toxicity values and
+# estimation of the 5 percent quantile (HC5) of the fitted distribution 
+# and associated two-sided 95 percent confidence interval 
+
+fll <- fitdistcens(log10EC50,"logis")
+
+quantile(fll, probs = 0.05, bootstrap=TRUE, 
+	bootstrap.arg = list(niter=501))
 
 }
 
