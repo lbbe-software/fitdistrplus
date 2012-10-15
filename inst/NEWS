@@ -1,10 +1,27 @@
 === fitdistrplus : Help to fit of a parametric distribution ===
 
+Version 1.0-0
+=============
+
+NEW FEATURES
+- add of an argument Turnbull.confint to functions plotdistcens and cdfcompcens in order to 
+    draw confidence intervals on the empirical distribution only if requested
+- many changes in the examples given in the reference manual
+- add of two data sets : danishuni and danishmulti
+
+BUG FIXES
+- correction the formula for the CvM test for Weibull distribution
+- elimination of CvM and AD tests for normal, lognormal and logistic distributions : 
+formulas previously used (given by Stephens 1986) do not use exactly MLE estimates and thus
+results were only approximates.
+- make arguments xlim and ylim functional in cdfcompcens
+
+
 Version 0.4-3
 =============
 
 NEW FEATURES
-- update cdfcompt and start denscomp, ppcomp and qqcomp functions.
+- update cdfcomp and add denscomp, ppcomp and qqcomp functions.
 - ppoints now used in "fitdist" for QQ plot, PP plot and cdf plot for continuous data
     (was used only for QQ plot in previous versions)
 
@@ -120,7 +137,7 @@ corresponding to analysis of this dataset.
 
 BUG FIXES
 
-- correction of a bug in the print and the plot of boostraped samples using bootdist or bootdistcens
+- correction of a bug in the print and the plot of bootstraped samples using bootdist or bootdistcens
 when there was only one parameter estimated by maximum likelihood.
 
 Version 0.1-3
@@ -170,7 +187,7 @@ set to "mom" but set to "mme" in fitdist.
 - calculation of AIC and BIC criterion after maximum likelihood
 estimation of distribution parameters
 - change of the default number of iterations from 999 to 1001
-for boostrap in order to avoid interpolation using the quantile function
+for bootstrap in order to avoid interpolation using the quantile function
 - use of the argument "log" and (resp. "log.p") of density (resp.
 distribution) when available to compute the loglikelihood.
 

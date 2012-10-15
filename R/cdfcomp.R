@@ -26,37 +26,37 @@
 
 
 cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
-	datapch, datacol, fitlty, fitcol, addlegend = TRUE, legendtext, 
-	xlegend = "bottomright", ylegend = NULL, horizontals = TRUE, verticals = FALSE, 
-	use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, ...)
+    datapch, datacol, fitlty, fitcol, addlegend = TRUE, legendtext, 
+    xlegend = "bottomright", ylegend = NULL, horizontals = TRUE, verticals = FALSE, 
+    use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, ...)
 {
-	if(inherits(ft, "fitdist"))
-	{
-		ft <- list(ft)
-	}else if(length(ft) == 1)
-	{
-		if(!inherits(ft, "fitdist"))
-			stop("argument ft must a 'fitdist' object or a list of 'fitdist' objects.")
-	}else if(!is.list(ft))
-	{
-		stop("argument ft must be a list of 'fitdist' objects")
-	}else
-	{
-		if(any(sapply(ft, function(x) !inherits(x, "fitdist"))))		
-			stop("argument ft must be a list of 'fitdist' objects")
-	}
+    if(inherits(ft, "fitdist"))
+    {
+        ft <- list(ft)
+    }else if(length(ft) == 1)
+    {
+        if(!inherits(ft, "fitdist"))
+            stop("argument ft must a 'fitdist' object or a list of 'fitdist' objects.")
+    }else if(!is.list(ft))
+    {
+        stop("argument ft must be a list of 'fitdist' objects")
+    }else
+    {
+        if(any(sapply(ft, function(x) !inherits(x, "fitdist"))))        
+            stop("argument ft must be a list of 'fitdist' objects")
+    }
 
 
     nft <- length(ft)
     if (missing(datapch)) datapch <- 16
     if (missing(datacol)) datacol <- "black"
     if (missing(fitcol)) fitcol <- 2:(nft+1)
-	if (missing(fitlty)) fitlty <- 1:nft
-	fitcol <- rep(fitcol, length.out=nft)
-	fitlty <- rep(fitlty, length.out=nft)
+    if (missing(fitlty)) fitlty <- 1:nft
+    fitcol <- rep(fitcol, length.out=nft)
+    fitlty <- rep(fitlty, length.out=nft)
 
     if (missing(xlab))
-		xlab <- ifelse(xlogscale, "data in log scale", "data")
+        xlab <- ifelse(xlogscale, "data in log scale", "data")
     if (missing(ylab)) ylab <- "CDF"
     if (missing(main)) main <- paste("Empirical and theoretical CDFs")
 
@@ -70,7 +70,8 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
         xmin <- min(mydata)
         xmax <- max(mydata)
         xlim <- c(xmin, xmax)
-    }else
+    }
+    else
     {
         xmin <- xlim[1]
         xmax <- xlim[2]
@@ -80,17 +81,17 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
     {
         if (any(fti$data != mydata))
             stop("All compared fits must have been obtained with the same dataset")
-		invisible()
+        invisible()
     }
     lapply( ft,verif.ftidata)
     
     # plot of data (ecdf)
     n <- length(mydata)
     s <- sort(mydata)
-	if(xlogscale)
-		sfin <- seq(log10(xmin), log10(xmax), by=(log10(xmax)-log10(xmin))/100)
-	else
-		sfin <- seq(xmin, xmax, by=(xmax-xmin)/100)
+    if(xlogscale)
+        sfin <- seq(log10(xmin), log10(xmax), by=(log10(xmax)-log10(xmin))/100)
+    else
+        sfin <- seq(xmin, xmax, by=(xmax-xmin)/100)
 
     if (use.ppoints)
         obsp <- ppoints(n,a = a.ppoints)
@@ -98,10 +99,10 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
         # previous version with no vizualisation of ex-aequos
         # obsp <- ecdf(s)(s) 
         obsp <- (1:n) / n
-	if(missing(ylim))
-		ylim <- range(obsp)	
-	
-	# computation of each fitted distribution
+    if(missing(ylim))
+        ylim <- range(obsp) 
+    
+    # computation of each fitted distribution
     comput.fti <- function(i)
     {
         fti <- ft[[i]]
@@ -109,21 +110,21 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
         distname <- fti$distname
         pdistname <- paste("p",distname,sep="")
         if (is.element(distname,c("binom","nbinom","geom","hyper","pois")))
-			warning(" Be careful, variables are considered continuous in this function!")
+            warning(" Be careful, variables are considered continuous in this function!")
         if(xlogscale)
         {
-			do.call(pdistname, c(list(q=10^sfin), as.list(para)))
-		}else
+            do.call(pdistname, c(list(q=10^sfin), as.list(para)))
+        }else
         {
             do.call(pdistname, c(list(q=sfin), as.list(para)))
-		}
+        }
     }
-    fittedprob <- sapply(1:nft, comput.fti)	
-	
-	logxy <- paste(ifelse(xlogscale,"x",""), ifelse(ylogscale,"y",""), sep="")
-	#main plotting
-	plot(s, obsp, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=range(ylim, fittedprob),
-		 log=logxy, pch=datapch, col=datacol, ...)
+    fittedprob <- sapply(1:nft, comput.fti) 
+    
+    logxy <- paste(ifelse(xlogscale,"x",""), ifelse(ylogscale,"y",""), sep="")
+    #main plotting
+    plot(s, obsp, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=range(ylim, fittedprob),
+         log=logxy, pch=datapch, col=datacol, ...)
 
     # optional add of horizontal and vbertical lines for step function
     if (horizontals)
@@ -144,22 +145,22 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
            segments(s[1], 0, s[1], obsp[1], col=datacol, ...)
         }
     }
-	#plot fitted cdfs
-	if(!xlogscale)
-		for(i in 1:nft)
-			lines(sfin, fittedprob[,i], lty=fitlty[i], col=fitcol[i], ...)
-	if(xlogscale)
-		for(i in 1:nft)
-			lines(10^sfin, fittedprob[,i], lty=fitlty[i], col=fitcol[i], ...)
+    #plot fitted cdfs
+    if(!xlogscale)
+        for(i in 1:nft)
+            lines(sfin, fittedprob[,i], lty=fitlty[i], col=fitcol[i], ...)
+    if(xlogscale)
+        for(i in 1:nft)
+            lines(10^sfin, fittedprob[,i], lty=fitlty[i], col=fitcol[i], ...)
 
-	if(lines01)
-		abline(h=c(0, 1), lty="dashed", col="grey")
+    if(lines01)
+        abline(h=c(0, 1), lty="dashed", col="grey")
     
     if(addlegend)
     {
         if(missing(legendtext)) 
-			legendtext <- paste("fit", 1:nft)
-		legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, 
-			   lty=fitlty, col=fitcol,...)
+            legendtext <- paste("fit", 1:nft)
+        legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, 
+               lty=fitlty, col=fitcol,...)
     }
 }

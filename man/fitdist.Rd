@@ -16,7 +16,7 @@
 \usage{
 fitdist(data, distr, method = c("mle", "mme", "qme", "mge"), 
     start=NULL, fix.arg=NULL, \dots)
-	
+    
 \method{print}{fitdist}(x, \dots)
 
 \method{plot}{fitdist}(x, breaks="default", \dots)
@@ -36,7 +36,7 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
 \item{method}{A character string coding for the fitting method: 
     \code{"mle"} for 'maximum likelihood estimation', \code{"mme"} for 'moment matching estimation', 
     \code{"qme"} for 'quantile matching estimation' and \code{"mge"} for 'maximum goodness-of-fit estimation'.}
-\item{start}{An named list giving the initial values of parameters of the named distribution. 
+\item{start}{A named list giving the initial values of parameters of the named distribution. 
     This argument may be omitted for some distributions for which reasonable 
     starting values are computed (see details), 
     and will not be taken into account if a closed formula is used to estimate parameters.  }
@@ -57,11 +57,11 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
 \item{bootstrap}{If \code{TRUE}, bootstrap is performed to calculate quantile confidence intervals. }
 \item{CI.type}{Type of confidence interval, \code{"two.sided"}, or one-sided \code{"less"}
      or \code{"greater"}}
-\item{bootstrap.arg}{A list of arguments to be passed to \code{\link{bootdist}}  }	
+\item{bootstrap.arg}{A list of arguments to be passed to \code{\link{bootdist}}  }  
 }
 
 \details{
-	Fittting methods:
+    Fittting methods:
 \describe{
     \item{When \code{method="mle"}}{
     maximum likelihood estimations of the distribution parameters are computed using 
@@ -93,16 +93,17 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
     }
     \item{When \code{method = "mge"}}{
     the distribution parameters are estimated by maximization  
-    of goodness-of-fit (or minimization of a goodness-of-fit distance). The use of this method requires an additional argument 
+    of goodness-of-fit (or minimization of a goodness-of-fit distance). The use of this method 
+    requires an additional argument 
     \code{gof} coding for the goodness-of-fit distance chosen. 
     One may use the classical Cramer-von Mises distance (\code{"CvM"}), the classical
     Kolmogorov-Smirnov distance (\code{"KS"}), the classical Anderson-Darling distance (\code{"AD"})
     which gives more weight to the tails of the distribution, 
     or one of the variants of this last distance proposed by Luceno (2006)
     (see \code{\link{mgedist}} for more details). This method is not suitable for discrete distributions.
-	}
+    }
 }
-		
+        
     By default direct optimization of the log-likelihood (or other criteria depending
     of the chosen method) is performed using \code{\link{optim}}, 
     with the "Nelder-Mead" method for distributions characterized by more than one parameter
@@ -112,39 +113,44 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
     For the following named distributions, reasonable starting values will 
     be computed if \code{start} is omitted : \code{"norm"}, \code{"lnorm"}, 
     \code{"exp"} and \code{"pois"}, \code{"cauchy"}, \code{"gamma"}, \code{"logis"}, 
-    \code{"nbinom"} (parametrized by mu and size), \code{"geom"}, \code{"beta"} and \code{"weibull"}. 
+    \code{"nbinom"} (parametrized by mu and size), \code{"geom"}, \code{"beta"}, 
+    \code{"unif"}, and \code{"weibull"}. 
     Note that these starting 
-    values may not be good enough if the fit is poor. The function is not able to fit a uniform distribution.     
+    values may not be good enough if the fit is poor.      
     With the parameter estimates, the function returns the log-likelihood whatever the estimation method
     and for maximum likelihood estimation the standard errors of 
     the estimates calculated from the 
     Hessian at the solution found by \code{optim} or by the user-supplied function passed to mledist.
 
-    NB: if your data are particularly low or high, a scaling may be needed 
-	before the optimization process. See example (14).
+    NB: if your data values are particularly small or large, a scaling may be needed 
+    before the optimization process. See example (14).
 
      
-	Generic functions:
-\describe{		 
-	\item{\code{print}}{
-	The print of a 'fitdist' object shows few traces about the fitting method and the fitted distribution.
-	}
-	\item{\code{summary}}{
-	The summary provides the d, p, q functions of the fitted distribution and prints log-likelihood, 
-	AIC and BIC statistics.
-	}
-	\item{\code{plot}}{
-	The plot of an object of class "fitdist" returned by \code{fitdist} uses the function 
+    Generic functions:
+\describe{       
+    \item{\code{print}}{
+    The print of a 'fitdist' object shows few traces about the fitting method and the fitted distribution.
+    }
+    \item{\code{summary}}{
+    The summary provides the parameter estimates of the fitted distribution, the log-likelihood, 
+    AIC and BIC statistics and when the maximum likelihood is used, the standard errors of the 
+    parameter estimates and the correlation matrix between parameter estimates.
+    }
+    \item{\code{plot}}{
+    The plot of an object of class "fitdist" returned by \code{fitdist} uses the function 
     \code{\link{plotdist}}. An object of class "fitdist" or a list of objects of class
     "fitdist" corresponding to various fits using the same data set may also be plotted
-    as cumulative distributions using the function \code{\link{cdfcomp}} and \code{\link{graphcomp}}.
-	}
-	\item{\code{quantile}}{
-	Quantiles of the parametric distribution are calculated for
+    using a cdf plot (function \code{\link{cdfcomp}}),
+    a density plot(function \code{\link{denscomp}}),
+    a density Q-Q plot (function \code{\link{qqcomp}}),
+    or a P-P plot (function \code{\link{ppcomp}}).
+    }
+    \item{\code{quantile}}{
+    Quantiles of the parametric distribution are calculated for
     each probability specified in \code{probs}, using the estimated parameters given by the 'fitdist' result.
     If \code{bootstrap=TRUE}, a bootstrap procedure is then performed using \code{\link{bootdist}}
     on the 'fitdist' result, and quantiles of the parametric distribution are calculated for
-    each probability specified in \code{probs}, using each set of boostrapped values of parameters. 
+    each probability specified in \code{probs}, using each set of bootstrapped values of parameters. 
     If inferior to the whole number of bootstrap iterations, the number of iterations for which the estimation converges 
     is also printed in the summary.
     If \code{CI.type} is \code{two.sided}, 
@@ -153,44 +159,45 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
     the 95 percent one-sided confidence intervals of quantiles (95th percentiles) are calculated.
     If \code{CI.type} is \code{greater}, 
     the 95 percent one-sided confidence intervals of quantiles (5th percentiles) are calculated.
-	}		     
+    }            
     
 }
-	
+    
 }
 
 \value{ 
     \code{fitdist} returns an object of class 'fitdist', a list with the following components:
     \item{estimate }{ the parameter estimates }
     \item{method }{ the character string coding for the fitting method : 
-        \code{"mle"} for 'maximum likelihood estimation', \code{"mme"} for 'matching moment estimation'
-        and \code{"qme"} for 'matching quantile estimation' }
+        \code{"mle"} for 'maximum likelihood estimation', \code{"mme"} for 'matching moment estimation',
+         \code{"qme"} for 'matching quantile estimation'
+         and \code{"mge"} for 'maximum goodness-of-fit estimation' }
     \item{sd}{ the estimated standard errors or \code{NULL} if not available }
     \item{cor}{ the estimated correlation matrix or \code{NULL} if not available}
     \item{loglik}{ the log-likelihood}
-	\item{aic}{ the Akaike information criterion}
+    \item{aic}{ the Akaike information criterion}
     \item{bic}{ the the so-called BIC or SBC (Schwarz Bayesian criterion)}
     \item{n}{ the length of the data set }
     \item{data}{ the dataset }
     \item{distname}{ the name of the distribution }
     \item{fix.arg}{ the named list giving the values of parameters of the named distribution
-		that must kept fixed rather than estimated by maximum likelihood or \code{NULL} 
-		if there are no such parameters. }
+        that must kept fixed rather than estimated by maximum likelihood or \code{NULL} 
+        if there are no such parameters. }
     \item{dots}{ the list of  further arguments passed in \dots to be used in \code{bootdist} 
-		in iterative calls to \code{mledist}, \code{mmedist}, \code{qmedist}, \code{mgedist} or 
-		\code{NULL} if no such arguments.}
-	
-	\code{print}, \code{plot} returns an invisible object, while \code{summary} returns an object
-	of class 'summary.fitdist'.
-	
-	\code{quantile} returns a list with 4 components:
+        in iterative calls to \code{mledist}, \code{mmedist}, \code{qmedist}, \code{mgedist} or 
+        \code{NULL} if no such arguments.}
+    
+    \code{print}, \code{plot} returns an invisible object, while \code{summary} returns an object
+    of class 'summary.fitdist'.
+    
+    \code{quantile} returns a list with 4 components:
     \item{quantiles}{ a dataframe containing the estimated quantiles for each probability value specified in 
         the argument \code{probs} (one row, and as many columns as values in \code{probs}}
-    \item{resbootdist}{ the output of the function \code{\link{bootdist}} applied to \code{f} or NULL if 
+    \item{resbootdist}{ the output of the function \code{\link{bootdist}} applied to \code{x} or NULL if 
         \code{bootstrap} is \code{FALSE}}
     \item{bootquant }{ a data frame containing the bootstraped values for each quantile
-         (many rows, as specified in the call to \code{\link{bootdist}}, 
-         and as many columns as values in \code{probs}, or NULL if 
+         (many rows, as specified in the call to \code{\link{bootdist}}  in  the argument \code{niter}, 
+         and as many columns as values in \code{probs}), or NULL if 
         \code{bootstrap} is \code{FALSE} }
     \item{quantCI}{ by default bounds of the  95 percent two.sided confidence interval for each quantile 
         (two rows, the first one for the 2.5th percentile and the second one for the 97.5th percentile, 
@@ -203,11 +210,11 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
 }
 
 \seealso{ 
-	See \code{\link{mledist}}, \code{\link{mmedist}}, \code{\link{qmedist}}, 
+    See \code{\link{mledist}}, \code{\link{mmedist}}, \code{\link{qmedist}}, 
     \code{\link{mgedist}}, \code{\link{gofstat}},
     \code{\link{plotdist}}, \code{\link{graphcomp}} and \code{\link{fitdistcens}}.
-	
-	See \code{\link{optim}} for base R optimization procedures.
+    
+    See \code{\link{optim}} for base R optimization procedures.
 }
 
 \references{ 
@@ -226,14 +233,18 @@ Christophe Dutang
 
 \examples{
 
-# (1) basic fit of a gamma distribution by maximum likelihood estimation
+# (1) fit of a gamma distribution by maximum likelihood estimation
 #
+
 data(groundbeef)
 serving <- groundbeef$serving
 fitg <- fitdist(serving, "gamma")
 summary(fitg)
 plot(fitg)
 cdfcomp(fitg, addlegend=FALSE)
+denscomp(fitg, addlegend=FALSE)
+ppcomp(fitg, addlegend=FALSE)
+qqcomp(fitg, addlegend=FALSE)
 
 
 # (2) use the moment matching estimation (using a closed formula)
@@ -242,8 +253,9 @@ cdfcomp(fitg, addlegend=FALSE)
 fitgmme <- fitdist(serving, "gamma", method="mme")
 summary(fitgmme)
 
-# (3) fit and comparison of various fits
+# (3) Comparison of various fits 
 #
+
 fitW <- fitdist(serving, "weibull")
 fitg <- fitdist(serving, "gamma")
 fitln <- fitdist(serving, "lnorm")
@@ -251,11 +263,15 @@ summary(fitW)
 summary(fitg)
 summary(fitln)
 cdfcomp(list(fitW, fitg, fitln), legendtext=c("Weibull", "gamma", "lognormal"))
+denscomp(list(fitW, fitg, fitln), legendtext=c("Weibull", "gamma", "lognormal"))
+qqcomp(list(fitW, fitg, fitln), legendtext=c("Weibull", "gamma", "lognormal"))
+ppcomp(list(fitW, fitg, fitln), legendtext=c("Weibull", "gamma", "lognormal"))
 
 # (4) defining your own distribution functions, here for the Gumbel distribution
 # for other distributions, see the CRAN task view 
 # dedicated to probability distributions
 #
+
 dgumbel <- function(x, a, b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
 pgumbel <- function(q, a, b) exp(-exp((a-q)/b))
 qgumbel <- function(p, a, b) a-b*log(-log(p))
@@ -264,18 +280,23 @@ fitgumbel <- fitdist(serving, "gumbel", start=list(a=10, b=10))
 summary(fitgumbel)
 plot(fitgumbel)
 
-# (5) fit a discrete distribution (Poisson)
+# (5) fit discrete distributions (Poisson and negative binomial)
 #
 
-x2 <- c(rep(4, 1), rep(2, 3), rep(1, 7), rep(0, 12))
-f2 <- fitdist(x2, "pois")
-plot(f2)
-summary(f2)
-gofstat(f2)
+data(toxocara)
+number <- toxocara$number
+fitp <- fitdist(number,"pois")
+summary(fitp)
+plot(fitp)
+fitnb <- fitdist(number,"nbinom")
+summary(fitnb)
+plot(fitnb)
 
 # (6) how to change the optimisation method?
 #
 
+data(groundbeef)
+serving <- groundbeef$serving
 fitdist(serving, "gamma", optim.method="Nelder-Mead")
 fitdist(serving, "gamma", optim.method="BFGS") 
 fitdist(serving, "gamma", optim.method="SANN")
@@ -284,6 +305,7 @@ fitdist(serving, "gamma", optim.method="SANN")
 #
 
 #create the sample
+set.seed(1234)
 mysample <- rexp(100, 5)
 mystart <- 8
 
@@ -341,21 +363,24 @@ summary(res2)
     summary(fit2)
 }
 
-# (9) estimation of the standard deviation of a normal distribution 
-# by maximum likelihood with the mean fixed at 10 using the argument fix.arg
+# (9) estimation of the standard deviation of a gamma distribution 
+# by maximum likelihood with the shape fixed at 4 using the argument fix.arg
 #
-x1 <- c(6.4, 13.3, 4.1, 1.3, 14.1, 10.6, 9.9, 9.6, 15.3, 22.1, 
-         13.4, 13.2, 8.4, 6.3, 8.9, 5.2, 10.9, 14.4) 
-fitdist(x1, "norm", start=list(sd=5), fix.arg=list(mean=10))
+
+data(groundbeef)
+serving <- groundbeef$serving
+f1c  <- fitdist(serving,"gamma",start=list(rate=0.1),fix.arg=list(shape=4))
+summary(f1c)
+plot(f1c)
 
 # (10) fit of a Weibull distribution to serving size data 
 # by maximum likelihood estimation
 # or by quantile matching estimation (in this example 
 # matching first and third quartiles)
 #
+
 data(groundbeef)
 serving <- groundbeef$serving
-
 fWmle <- fitdist(serving, "weibull")
 summary(fWmle)
 plot(fWmle)
@@ -369,6 +394,7 @@ gofstat(fWqme)
 
 # (11) Fit of a Pareto distribution by numerical moment matching estimation
 #
+
 \dontrun{
     require(actuar)
     #simulate a sample
@@ -402,12 +428,20 @@ serving <- groundbeef$serving
 (f8 <- fitdist(serving, "weibull", method="mge", gof="AD2"))
 cdfcomp(list(f1, f2, f3, f4, f5, f6, f7, f8))
 cdfcomp(list(f1, f2, f3, f4, f5, f6, f7, f8), xlogscale=TRUE, xlim=c(8, 250), verticals=TRUE)
+denscomp(list(f1, f2, f3, f4, f5, f6, f7, f8))
 
-# (13) Fit of a uniform distribution using Cramer-von Mises or
-# Kolmogorov-Smirnov distance
+# (13) Fit of a uniform distribution using maximum likelihood 
+# (a closed formula is used in this special case where the loglikelihood is not defined),
+# or maximum goodness-of-fit with Cramer-von Mises or Kolmogorov-Smirnov distance
 # 
 
+set.seed(1234)
 u <- runif(50, min=5, max=10)
+
+fumle <- fitdist(u, "unif", method="mle")
+summary(fumle)
+plot(fumle)
+gofstat(fumle)
 
 fuCvM <- fitdist(u, "unif", method="mge", gof="CvM")
 summary(fuCvM)
@@ -420,30 +454,15 @@ plot(fuKS)
 gofstat(fuKS)
 
 # (14) scaling problem
-#
+# the simulated dataset (below) has particularly small values, hence without scaling (10^0),
+# the optimization raises an error. The for loop shows how scaling by 10^i
+# for i=1,...,6 makes the fitting procedure work correctly.
 
-x <- c(-0.00707717, -0.000947418, -0.00189753, 
--0.000474947, -0.00190205, -0.000476077, 0.00237812, 0.000949668, 
-0.000474496, 0.00284226, -0.000473149, -0.000473373, 0, 0, 0.00283688, 
--0.0037843, -0.0047506, -0.00238379, -0.00286807, 0.000478583, 
-0.000478354, -0.00143575, 0.00143575, 0.00238835, 0.0042847, 
-0.00237248, -0.00142281, -0.00142484, 0, 0.00142484, 0.000948767, 
-0.00378609, -0.000472478, 0.000472478, -0.0014181, 0, -0.000946522, 
--0.00284495, 0, 0.00331832, 0.00283554, 0.00141476, -0.00141476, 
--0.00188947, 0.00141743, -0.00236351, 0.00236351, 0.00235794, 
-0.00235239, -0.000940292, -0.0014121, -0.00283019, 0.000472255, 
-0.000472032, 0.000471809, -0.0014161, 0.0014161, -0.000943842, 
-0.000472032, -0.000944287, -0.00094518, -0.00189304, -0.000473821, 
--0.000474046, 0.00331361, -0.000472701, -0.000946074, 0.00141878, 
--0.000945627, -0.00189394, -0.00189753, -0.0057143, -0.00143369, 
--0.00383326, 0.00143919, 0.000479272, -0.00191847, -0.000480192, 
-0.000960154, 0.000479731, 0, 0.000479501, 0.000958313, -0.00383878, 
--0.00240674, 0.000963391, 0.000962464, -0.00192586, 0.000481812, 
--0.00241138, -0.00144963)
+set.seed(1234)
+x2 <- rnorm(100, 1e-4, 2e-4)
 
-for(i in 6:0)
-    cat(i, try(fitdist(x*10^i, "cauchy", method="mle")$estimate, silent=TRUE), "\n")
-
+for(i in 0:6)
+        cat(i, try(fitdist(x2*10^i, "cauchy", method="mle")$estimate, silent=TRUE), "\n")
 
 # (15) Fit of a lognormal distribution on acute toxicity values of endosulfan for
 # nonarthropod invertebrates, using maximum likelihood estimation
@@ -451,6 +470,8 @@ for(i in 6:0)
 # (SSD) in ecotoxicology, followed by estimation of the 5 percent quantile value of 
 # the fitted distribution, what is called the 5 percent hazardous concentration (HC5)
 # in ecotoxicology, with its two-sided 95 percent confidence interval calculated by 
+# parametric bootstrap or non parametric bootstrap, and
+# its one-sided (greater) 95 percent confidence interval calculated by 
 # parametric bootstrap
 #
 data(endosulfan)
@@ -459,14 +480,28 @@ log10ATV <- log10(subset(endosulfan, group == "NonArthroInvert")$ATV)
 fln <- fitdist(log10ATV, "norm")
 
 quantile(fln, probs = 0.05, bootstrap=TRUE, 
-	bootstrap.arg = list(bootmethod = "param", niter = 501))
+    bootstrap.arg = list(bootmethod = "param"))
+
+\dontrun{
+quantile(fln, probs = 0.05, bootstrap=TRUE, 
+    bootstrap.arg = list(bootmethod = "nonparam",niter = 2001))
 
 quantile(fln, probs = c(0.05,0.1,0.2), bootstrap = TRUE, CI.type = "greater",
-	bootstrap.arg = list(bootmethod = "param", niter = 501))
+    bootstrap.arg = list(bootmethod = "param"))
+}
 
-quantile(fln, probs = 0.05, bootstrap=TRUE, 
-	bootstrap.arg = list(bootmethod = "nonparam", niter = 501))
 
+# (16) Fit of a triangular distribution using Cramer-von Mises or
+# Kolmogorov-Smirnov distance
+# 
+
+\dontrun{
+set.seed(1234)
+t <- rtriang(100,min=5,mode=6,max=10)
+fCvM <- fitdist(t,"triang",method="mge",start = list(min=4, mode=6,max=9),gof="CvM")
+fKS <- fitdist(t,"triang",method="mge",start = list(min=4, mode=6,max=9),gof="KS")
+cdfcomp(list(fCvM,fKS))
+}
 
 }
 \keyword{ distribution }

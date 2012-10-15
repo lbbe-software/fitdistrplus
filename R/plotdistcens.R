@@ -22,7 +22,8 @@
 ###         R functions
 ### 
 
-plotdistcens <- function(censdata,distr,para,leftNA=-Inf,rightNA=Inf,Turnbull=TRUE,...){
+plotdistcens <- function(censdata,distr,para,leftNA = -Inf,rightNA = Inf,Turnbull = TRUE,
+Turnbull.confint = FALSE, ...){
     def.par <- par(no.readonly = TRUE)
     if (missing(censdata) ||
         !(is.vector(censdata$left) & is.vector(censdata$right) & length(censdata[,1])>1))
@@ -36,8 +37,12 @@ plotdistcens <- function(censdata,distr,para,leftNA=-Inf,rightNA=Inf,Turnbull=TR
     {
         survdata <- Surv(time = censdata$left, time2 = censdata$right, type="interval2")
         survfitted <- survfit(survdata ~ 1)
-        plot(survfitted,fun="event",xlab="censored data",
-        ylab="CDF",main="Cumulative distribution",...)
+        if (Turnbull.confint)
+            plot(survfitted,fun="event",xlab="censored data",
+            ylab="CDF",main="Cumulative distribution",...)
+        else
+            plot(survfitted,fun="event",xlab="censored data",
+            ylab="CDF",main="Cumulative distribution", conf.int = FALSE, ...)
         xmin <- par("usr")[1]
         xmax <- par("usr")[2]
     }

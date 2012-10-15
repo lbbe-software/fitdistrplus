@@ -4,7 +4,7 @@
 \alias{danishmulti}
 
 \docType{data}
-\title{ Ground beef serving size data set }
+\title{ Danish reinsurance claim dataset }
 
 \description{
 The univariate dataset was collected at Copenhagen Reinsurance and 
@@ -33,9 +33,9 @@ data(danishmulti)
 \code{danishmulti} contains five columns:
 \describe{
     \item{\code{Date}}{The day of claim occurence.}
-	\item{\code{Building}}{The loss amount (mDKK) of the building coverage.}
-	\item{\code{Contents}}{The loss amount (mDKK) of the contents coverage.}
-	\item{\code{Profits}}{The loss amount (mDKK) of the profit coverage.}
+    \item{\code{Building}}{The loss amount (mDKK) of the building coverage.}
+    \item{\code{Contents}}{The loss amount (mDKK) of the contents coverage.}
+    \item{\code{Profits}}{The loss amount (mDKK) of the profit coverage.}
     \item{\code{Total}}{The total loss amount (mDKK).}
 }
 All columns are numeric except Date columns of class Date. 
@@ -68,11 +68,11 @@ data(danishmulti)
 #
 idx <- sample(1:NROW(danishmulti), 10)
 barplot(danishmulti$Building[idx], col="grey25", 
-	ylim=c(0, max(danishmulti$Total[idx])), main="Some claims of danish dataset")
+    ylim=c(0, max(danishmulti$Total[idx])), main="Some claims of danish dataset")
 barplot(danishmulti$Content[idx], add=TRUE, col="grey50", axes=FALSE)
 barplot(danishmulti$Profits[idx], add=TRUE, col="grey75", axes=FALSE)
 legend("topleft", legend=c("Building", "Content", "Profits"), fill=c("grey25", 
-	"grey50", "grey75"))
+    "grey50", "grey75"))
 
 
 }

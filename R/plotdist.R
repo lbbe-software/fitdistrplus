@@ -147,23 +147,23 @@ plotdist <- function(data, distr, para, breaks="default", discrete=FALSE, ...){
             ydmax <- max(yd, ydobs)
             plot(xvalfin+xlinesdec, yd, type='h', xlim=c(min(xval), max(xval)+xlinesdec), 
                 ylim=c(0, ydmax), lty=3, 
-                main="Empirical (full line) and theoretical (dotted line) distr.", xlab="data", 
+                main="Emp. and theo. distr.", xlab="data", 
                 ylab="Density", ...)
             points(xval, ydobs, type='h', lty=1, ...)
-            #legend(xval[1]+0.8*(max(xval)-min(xval)), ydmax, lty=c(1, 2), 
-            #    legend=c("empirical", paste("theoretical")), 
-            #    col=c('black', 'red'), bty='n', cex=0.8)
+            legend("topright", lty=c(1, 3), 
+                legend=c("empirical", paste("theoretical")), 
+                bty='n', cex=0.8,...)
             
             # plot of the cumulative probability distributions
             ycdfobs <- ecdf(data)(xvalfin)
             ycdf <- do.call(pdistname, c(list(q=xvalfin), as.list(para)))
             plot(xvalfin+xlinesdec, ycdf, type='h', xlim=c(min(xval), max(xval)+xlinesdec), 
                 ylim=c(0, 1), lty=3, 
-                main="Empirical (full line) and theoretical (dotted line) CDFs", xlab="data", 
+                main="Emp. and theo. CDFs", xlab="data", 
                 ylab="CDF", ...)
             points(xvalfin, ycdfobs, type='h', lty=1, ...)
-            #legend(xval[1], 1, lty=c(1, 2), legend=c("empirical", paste("theoretical")), 
-            #col=c('black', 'red'), bty='n', cex=0.8)
+            legend("topleft", lty=c(1, 3), legend=c("empirical", paste("theoretical")), 
+             bty='n', cex=0.8,...)
         }
     }
     par(def.par)    

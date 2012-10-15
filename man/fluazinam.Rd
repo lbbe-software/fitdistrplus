@@ -61,20 +61,16 @@ cdfcompcens(list(fln,fll),legendtext=c("normal","logistic"),
 xlab = "log10(EC50)")
 
 # (4) estimation of the 5 percent quantile value of 
-# each fitted distribution (5 percent hazardous concentration  : HC5)
+# the normal fitted distribution (5 percent hazardous concentration  : HC5)
 # with its two-sided 95 percent confidence interval calculated by 
 # non parametric bootstrap
 #
 # in log10(EC50)
 HC5ln <- quantile(fln,probs = 0.05,bootstrap=TRUE, 
-	bootstrap.arg = list(niter=501))
-HC5ll <- quantile(fll,probs = 0.05,bootstrap=TRUE,
-	bootstrap.arg = list(niter=501))
+    bootstrap.arg = list(niter=501))
 # in EC50
 10^(HC5ln$quantiles)
 10^(HC5ln$quantCI)
-10^(HC5ll$quantiles)
-10^(HC5ll$quantCI)
 
 # (5) estimation of the 5 percent quantile value of 
 # the fitted lognormal distribution (5 percent hazardous concentration  : HC5)
@@ -83,7 +79,7 @@ HC5ll <- quantile(fll,probs = 0.05,bootstrap=TRUE,
 #
 # in log10(EC50)
 HC5ln <- quantile(fln,probs = 0.05,bootstrap=TRUE,CI.type="greater", 
-	bootstrap.arg = list(niter=501))
+    bootstrap.arg = list(niter=501))
 
 # in EC50
 10^(HC5ln$quantiles)

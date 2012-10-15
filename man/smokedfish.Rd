@@ -46,7 +46,7 @@ plotdistcens(smokedfish)
 
 # (3) plot of transformed data in log10[CFU/g]
 #
-Clog10 <- data.frame(left=log10(smokedfish$left),right=log10(smokedfish$right))
+Clog10 <- log10(smokedfish)
 plotdistcens(Clog10)
 
 # (4) Fit of a normal distribution to data in log10[CFU/g]

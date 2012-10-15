@@ -9,7 +9,7 @@
 }
 
 \usage{
-plotdistcens(censdata,distr,para,leftNA=-Inf,rightNA=Inf,Turnbull=TRUE,...)
+plotdistcens(censdata,distr,para,leftNA=-Inf,rightNA=Inf,Turnbull=TRUE,Turnbull.confint = FALSE,...)
 }
 %- maybe also 'usage' for other objects documented here.
 
@@ -33,6 +33,7 @@ plotdistcens(censdata,distr,para,leftNA=-Inf,rightNA=Inf,Turnbull=TRUE,...)
      or a finite value such as a realistic maximum value.}
 \item{Turnbull}{ if TRUE the Turnbull algorithm is used to estimate the cdf curve of the censored data
     and previous arguments \code{leftNA} and \code{rightNA} are not used (see details)}
+\item{Turnbull.confint}{ if TRUE confidence intervals will be added to the Turnbull plot.}
 \item{...}{ further graphical arguments passed to other methods }
 }
 
@@ -41,8 +42,8 @@ plotdistcens(censdata,distr,para,leftNA=-Inf,rightNA=Inf,Turnbull=TRUE,...)
     in cdf. 
     If \code{Turnbull} is \code{TRUE}, the EM approach of Turnbull (Turnbull, 1974) 
     is used to compute the overall 
-    empirical cdf curve with confidence intervals, 
-    by calls to functions \code{survfit} and \code{plot.survfit} from the 
+    empirical cdf curve, with confidence intervals if \code{Turnbull.confint} is \code{TRUE}, 
+    by calls to functions \code{\link{survfit}} and \code{\link{plot.survfit}} from the 
     \code{survival} package. 
     
     Else data are reported directly as segments for interval, left and right censored data, 
@@ -83,31 +84,25 @@ Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr}
 # (1) Plot of an empirical censored distribution (censored data) as a CDF
 # using the default Turnbull method
 #
-d1 <- data.frame(
-left=c(1.73,1.51,0.77,1.96,1.96,-1.4,-1.4,NA,-0.11,0.55,
-    0.41,2.56,NA,-0.53,0.63,-1.4,-1.4,-1.4,NA,0.13),
-right=c(1.73,1.51,0.77,1.96,1.96,0,-0.7,-1.4,-0.11,0.55,
-    0.41,2.56,-1.4,-0.53,0.63,0,-0.7,NA,-1.4,0.13))
+data(smokedfish)
+d1 <- as.data.frame(log10(smokedfish))
 plotdistcens(d1)
-plotdistcens(d1,col="red")
 
 # (2) Add the CDF of a normal distribution 
 #
-plotdistcens(d1,"norm",para=list(mean=0.12,sd=1.4))
+plotdistcens(d1,"norm",para=list(mean=-1.6,sd=1.5))
 
-# (3) Basic plot of the same empirical distribution with intervals and points
-# defining a realistic maximum value for right censored values
-# in the second plot
+# (3) Various plots of the same empirical distribution 
 #
-plotdistcens(d1,Turnbull = FALSE)
+# default Turnbull plot
+plotdistcens(d1,Turnbull = TRUE)
+# Turnbull plot with confidence intervals
+plotdistcens(d1,Turnbull = TRUE,Turnbull.confint = TRUE)
+# with intervals and points
 plotdistcens(d1,rightNA=3, Turnbull = FALSE)
-
-# (4) Plot of the CDF of the same dataset after logarithmic transformation
-#   with a lognormal distribution, successively using the two proposed methods
-#
-d3 <- data.frame(left=10^(d1$left),right=10^(d1$right))
-plotdistcens(d3,"lnorm",para=list(meanlog=0.27,sdlog=3.3))
-plotdistcens(d3,"lnorm",para=list(meanlog=0.27,sdlog=3.3),Turnbull = FALSE, leftNA=0)
+# with intervals and points
+# defining a minimum value for left censored values
+plotdistcens(d1,leftNA=-3, Turnbull = FALSE)
 
 }
 

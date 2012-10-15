@@ -42,7 +42,7 @@ graph=TRUE,obs.col="darkblue",boot.col="blue")
     shapes close to lognormal and gamma distributions may be obtained with this distribution.
     
     In order to take into account the uncertainty 
-    of the estimated values of kurtosis and skewness from data, the data set may be boostraped by 
+    of the estimated values of kurtosis and skewness from data, the data set may be bootstraped by 
     fixing the argument \code{boot} to an integer above 10. \code{boot} values of skewness and kurtosis 
     corresponding to the \code{boot} bootstrap samples are then computed and reported in blue color on the 
     skewness-kurtosis plot.
@@ -77,7 +77,7 @@ Sokal RR and Rohlf FJ (1995) Biometry. W.H. Freeman and Company, USA, pp. 111-11
 }
 
 \author{ 
-Marie-Laure Delignette-Muller \email{ml.delignette@vetagro-sup.fr} 
+Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr} 
 }
 
 %\note{  }

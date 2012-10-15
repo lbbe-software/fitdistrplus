@@ -3,7 +3,7 @@
 \docType{data}
 %- Also NEED an '\alias' for EACH other topic documented here.
 
-\title{ Species-Sensitivity Distribution (SSD) for endosulfan }
+\title{ Species Sensitivity Distribution (SSD) for endosulfan }
 
 \description{
 Summary of 48- to 96-hour acute toxicity values (LC50 and EC50 values)
@@ -37,15 +37,15 @@ Contamination and Toxicology},
 #
 data(endosulfan)
 
-# (2) plot and description of data for non Australian fish in logarithm
+# (2) plot and description of data for non Australian fish in decimal logarithm
 #
 log10ATV <-log10(subset(endosulfan,(Australian == "no") & (group == "Fish"))$ATV)
 plotdist(log10ATV)
 descdist(log10ATV,boot=1000)
 
-# (3) fit of a lognormal and a logistic distribution to data
+# (3) fit of a normal and a logistic distribution to data in log10
 # (classical distributions used for SSD)
-# and visual comparison of the fits using a cdf plot
+# and visual comparison of the fits
 #
 fln <- fitdist(log10ATV,"norm")
 summary(fln)
@@ -56,30 +56,33 @@ summary(fll)
 cdfcomp(list(fln,fll),legendtext=c("normal","logistic"),
 xlab="log10ATV")
 
+denscomp(list(fln,fll),legendtext=c("normal","logistic"),
+xlab="log10ATV")
+
+
 # (4) estimation of the 5 percent quantile value of 
-# each fitted distribution (5 percent hazardous concentration  : HC5)
+# logistic fitted distribution (5 percent hazardous concentration  : HC5)
 # with its two-sided 95 percent confidence interval calculated by 
 # parametric bootstrap
 #
 # in log10(ATV)
-HC5ln <- quantile(fln,probs = 0.05,bootstrap=TRUE)
 HC5ll <- quantile(fll,probs = 0.05,bootstrap=TRUE)
 # in ATV
-10^(HC5ln$quantiles)
-10^(HC5ln$quantCI)
 10^(HC5ll$quantiles)
 10^(HC5ll$quantCI)
 
 # (5) estimation of the 5 percent quantile value of 
-# the fitted lognormal distribution (5 percent hazardous concentration  : HC5)
+# the fitted logistic distribution (5 percent hazardous concentration  : HC5)
 # with its one-sided 95 percent confidence interval (type "greater")
-# calculated by parametric bootstrap
+# calculated by non parametric bootstrap with less iterations
 #
 # in log10(ATV)
-HC5ln <- quantile(fln,probs = 0.05,bootstrap=TRUE,CI.type="greater")
+HC5llgreater <- quantile(fll,probs = 0.05,bootstrap=TRUE,
+bootstrap.arg = list(bootmethod = "nonparam",niter = 501),
+CI.type="greater")
 # in ATV
-10^(HC5ln$quantiles)
-10^(HC5ln$quantCI)
+10^(HC5llgreater$quantiles)
+10^(HC5llgreater$quantCI)
 
 # (6) fit of a logistic distribution 
 # by minimizing the modified Anderson-Darling AD2L distance

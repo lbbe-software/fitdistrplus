@@ -21,7 +21,7 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL,...)
 
 \method{quantile}{fitdistcens}(x, probs = seq(0.1,0.9,0.1), bootstrap = TRUE,
     CI.type = "two.sided", bootstrap.arg = list(niter=1001), \dots)
-	
+    
 }
 %- maybe also 'usage' for other objects documented here.
 
@@ -53,7 +53,7 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL,...)
 \item{CI.type}{Type of confidence interval, \code{"two.sided"}, or one-sided \code{"less"}
      or \code{"greater"}}
 \item{bootstrap.arg}{List of arguments to be passed to \code{\link{bootdistcens}}  }
-	
+    
 }
 
 \details{
@@ -75,25 +75,26 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL,...)
     Hessian at the solution found by \code{optim} or by the user-supplied function passed to mledist.
      
 
-	Generic functions:
-\describe{		 
-	\item{\code{print}}{
-	The print of a 'fitdist' object shows few traces about the fitting method and the fitted distribution.
-	}
-	\item{\code{summary}}{
-	The summary provides the d, p, q functions of the fitted distribution and prints log-likelihood, 
-	AIC and BIC statistics.
-	}
-	\item{\code{plot}}{
-	The plot of an object of class "fitdistcens" returned by \code{fitdistcens} uses the 
-	function \code{\link{plotdistcens}}.
-	}
-	\item{\code{quantile}}{
+    Generic functions:
+\describe{       
+    \item{\code{print}}{
+    The print of a 'fitdist' object shows few traces about the fitting method and the fitted distribution.
+    }
+    \item{\code{summary}}{
+    The summary provides the parameter estimates of the fitted distribution, the log-likelihood, 
+    AIC and BIC statistics, the standard errors of the 
+    parameter estimates and the correlation matrix between parameter estimates.
+    }
+    \item{\code{plot}}{
+    The plot of an object of class "fitdistcens" returned by \code{fitdistcens} uses the 
+    function \code{\link{plotdistcens}}.
+    }
+    \item{\code{quantile}}{
     Quantiles of the parametric distribution are calculated for
     each probability specified in \code{probs}, using the estimated parameters given by the 'fitdistcens' result.
     If \code{bootstrap} is \code{TRUE}, a bootstrap procedure is then performed using \code{\link{bootdistcens}}
     on the 'fitdistcens' result, and quantiles of the parametric distribution are calculated for
-    each probability specified in \code{probs}, using each set of boostrapped values of parameters.  
+    each probability specified in \code{probs}, using each set of bootstrapped values of parameters.  
     If inferior to the whole number of bootstrap iterations, the number of iterations for which the estimation converges 
     is also printed in the summary.
     If \code{CI.type} is \code{two.sided},
@@ -102,7 +103,7 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL,...)
     the 95 percent one-sided confidence intervals of quantiles (95th percentiles) are calculated.
     If \code{CI.type} is \code{greater},
     the 95 percent one-sided confidence intervals of quantiles (5th percentiles) are calculated.
-	}	
+    }   
 }
 }
 
@@ -112,7 +113,7 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL,...)
     \item{sd}{ the estimated standard errors }
     \item{cor}{ the estimated correlation matrix }
     \item{loglik}{ the log-likelihood }
-	\item{aic}{ the Akaike information criterion }
+    \item{aic}{ the Akaike information criterion }
     \item{bic}{ the the so-called BIC or SBC (Schwarz Bayesian criterion)}
     \item{censdata}{ the censored dataset }
     \item{distname}{ the name of the distribution }
@@ -120,20 +121,20 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL,...)
     that must kept fixed rather than estimated by maximum likelihood or NULL if there are no such parameters. }
     \item{dots}{ the list of  further arguments passed in \dots to be used in \code{bootdistcens} to
     control the optimization method used in iterative calls to \code{mledist} or NULL if no such arguments.}
-	
-	
-	\code{print}, \code{plot} returns an invisible object, while \code{summary} returns an object
-	of class 'summary.fitdist'.
+    
+    
+    \code{print}, \code{plot} returns an invisible object, while \code{summary} returns an object
+    of class 'summary.fitdist'.
 
-	\code{quantile} returns a list with 4 components:
+    \code{quantile} returns a list with 4 components:
     \item{quantiles}{ a dataframe containing the estimated quantiles for each probability value specified in 
         the argument \code{probs} (one row, and as many columns as values in \code{probs}).}
     \item{resbootdistcens}{ the output of the function \code{\link{bootdistcens}} applied to \code{f} or NULL if 
         \code{bootstrap=FALSE}.}
-    \item{bootquant}{ a data frame containing the bootstraped values for each quantile
-         (many rows, as specified in the call to \code{\link{bootdist}},
-         and as many columns as values in \code{probs}, or \code{NULL} if 
-        \code{bootstrap=FALSE}.}
+    \item{bootquant }{ a data frame containing the bootstraped values for each quantile
+         (many rows, as specified in the call to \code{\link{bootdistcens}}  in  the argument \code{niter}, 
+         and as many columns as values in \code{probs}), or NULL if 
+        \code{bootstrap} is \code{FALSE} }
     \item{quantCI}{ by default bounds of the  95 percent two.sided confidence interval for each quantile 
         (two rows, the first one for the 2.5th percentile and the second one for the 97.5th percentile,
          and as many columns as values in \code{probs}), or NULL if 
@@ -161,20 +162,43 @@ Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr}
 %\note{  }
 
 \examples{
-# (1) basic fit of a normal distribution on censored data
+# (1) Fit of a lognormal distribution to bacterial contamination data
+#
+data(smokedfish)
+fitsf  <-  fitdistcens(smokedfish,"lnorm")
+summary(fitsf)
+# default plot using the Turnbull algorithm
+plot(fitsf)
+# plot using the Turnbull algorithm with confidence intervals for the 
+# empirical distribution
+plot(fitsf, Turnbull.confint = TRUE)
+# basic plot using intervals and points (see ?plotdiscens for details)
+plot(fitsf, Turnbull = FALSE)
+# plot of the same fit using the Turnbull algorithm in logscale
+cdfcompcens(fitsf,main="bacterial contamination fits",
+    xlab="bacterial concentration (CFU/g)",ylab="F",
+    addlegend = FALSE,lines01 = TRUE, xlogscale = TRUE, xlim = c(1e-2,1e2))
+# zoom on large values of F
+cdfcompcens(fitsf,main="bacterial contamination fits",
+    xlab="bacterial concentration (CFU/g)",ylab="F",
+    addlegend = FALSE,lines01 = TRUE, xlogscale = TRUE, 
+    xlim = c(1e-2,1e2),ylim=c(0.4,1))
+
+# (2) Fit of a normal distribution on acute toxicity values 
+# of fluazinam (in decimal logarithm) for
+# macroinvertebrates and zooplancton, using maximum likelihood estimation
+# to estimate what is called a species sensitivity distribution 
+# (SSD) in ecotoxicology
 #
 
-d1 <- data.frame(
-left=c(1.73,1.51,0.77,1.96,1.96,-1.4,-1.4,NA,-0.11,0.55,0.41,
-    2.56,NA,-0.53,0.63,-1.4,-1.4,-1.4,NA,0.13),
-right=c(1.73,1.51,0.77,1.96,1.96,0,-0.7,-1.4,-0.11,0.55,0.41,
-    2.56,-1.4,-0.53,0.63,0,-0.7,NA,-1.4,0.13))
-f1n <- fitdistcens(d1, "norm")
-f1n
-summary(f1n)
-plot(f1n)
+data(fluazinam)
+log10EC50 <-log10(fluazinam)
+fln <- fitdistcens(log10EC50,"norm")
+fln
+summary(fln)
+plot(fln)
 
-# (2) defining your own distribution functions, here for the Gumbel distribution
+# (3) defining your own distribution functions, here for the Gumbel distribution
 # for other distributions, see the CRAN task view dedicated to 
 # probability distributions
 #
@@ -182,33 +206,27 @@ plot(f1n)
 dgumbel  <-  function(x,a,b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
 pgumbel  <-  function(q,a,b) exp(-exp((a-q)/b))
 qgumbel  <-  function(p,a,b) a-b*log(-log(p))
-f1g <- fitdistcens(d1,"gumbel",start=list(a=0,b=2))
-summary(f1g)
-plot(f1g)
+fg <- fitdistcens(log10EC50,"gumbel",start=list(a=1,b=1))
+summary(fg)
+plot(fg)
 
-# (3) comparison of fits of various distributions
+# (4) comparison of fits of various distributions
 # 
 
-d3 <- data.frame(left=10^(d1$left),right=10^(d1$right))
-f3w <- fitdistcens(d3,"weibull")
-summary(f3w)
-plot(f3w)
-f3l <- fitdistcens(d3,"lnorm")
-summary(f3l)
-plot(f3l)
-f3e <- fitdistcens(d3,"exp")
-summary(f3e)
-plot(f3e)
+fll <- fitdistcens(log10EC50,"logis")
+summary(fll)
 
-# (4) how to change the optimisation method?
+cdfcompcens(list(fln,fll,fg),legendtext=c("normal","logistic","gumbel"),
+xlab = "log10(EC50)")
+
+# (5) how to change the optimisation method?
 #
 
-fitdistcens(d3,"gamma",optim.method="Nelder-Mead")
-fitdistcens(d3,"gamma",optim.method="BFGS") 
-fitdistcens(d3,"gamma",optim.method="SANN") 
-fitdistcens(d3,"gamma",optim.method="L-BFGS-B",lower=c(0,0)) 
+fitdistcens(log10EC50,"logis",optim.method="Nelder-Mead")
+fitdistcens(log10EC50,"logis",optim.method="BFGS") 
+fitdistcens(log10EC50,"logis",optim.method="SANN") 
 
-# (5) custom optimisation function - example with the genetic algorithm
+# (6) custom optimisation function - example with the genetic algorithm
 #
 \dontrun{
 
@@ -223,59 +241,36 @@ fitdistcens(d3,"gamma",optim.method="L-BFGS-B",lower=c(0,0))
     }
 
     # call fitdistcens with a 'custom' optimization function
-    fit.with.genoud <- fitdistcens(d3, "gamma", custom.optim=mygenoud, nvars=2,    
-        Domains=cbind(c(0,0), c(10, 10)), boundary.enforcement=1, 
+    fit.with.genoud <- fitdistcens(log10EC50,"logis", custom.optim=mygenoud, nvars=2,    
+        Domains=cbind(c(0,0), c(5, 5)), boundary.enforcement=1, 
         print.level=1, hessian=TRUE)
 
     summary(fit.with.genoud)
 }
 
-# (6) estimation of the standard deviation of a normal distribution 
-# by maximum likelihood with the mean fixed at 0.1 using the argument fix.arg
+# (7) estimation of the mean of a normal distribution 
+# by maximum likelihood with the standard deviation fixed at 1 using the argument fix.arg
 #
-fitdistcens(d1, "norm", start=list(sd=1.5),fix.arg=list(mean=0.1))
-
-# (7) Fit of a lognormal distribution to bacterial contamination data
-#
-data(smokedfish)
-fitsf  <-  fitdistcens(smokedfish,"norm")
-summary(fitsf)
-# default plot using the Turnbull algorithm
-plot(fitsf)
-# basic plot using intervals and points (see ?plotdiscens for details)
-plot(fitsf, Turnbull = FALSE)
-
+flnb <- fitdistcens(log10EC50, "norm", start = list(mean = 1),fix.arg = list(sd = 1))
 
 # (8) Fit of a lognormal distribution on acute toxicity values of fluazinam for
 # macroinvertebrates and zooplancton, using maximum likelihood estimation
 # to estimate what is called a species sensitivity distribution 
 # (SSD) in ecotoxicology, followed by estimation of the 5 percent quantile value of 
 # the fitted distribution, what is called the 5 percent hazardous concentration (HC5)
-# in ecotoxicology, with its two-sided 95 percent confidence interval calculated by 
+# in ecotoxicology, with its two-sided 95 percent confidence interval and
+# its one-sided (greater) 95 percent confidence interval calculated by 
 # non parametric bootstrap
 
 data(fluazinam)
 log10EC50 <-log10(fluazinam)
 fln <- fitdistcens(log10EC50,"norm")
 
-quantile(fln, probs = 0.05, bootstrap=TRUE,
-	bootstrap.arg = list(niter=501))
+quantile(fln, probs = 0.05, bootstrap=TRUE)
 
-quantile(fln, probs = c(0.05,0.1,0.2), bootstrap=TRUE, 
-	bootstrap.arg = list(niter=501))
-
-quantile(fln, probs = c(0.05,0.1,0.2), bootstrap = TRUE, 
-	CI.type = "greater", bootstrap.arg = list(niter=501))
-
-
-# Fit of a loglogistic distribution on the same acute toxicity values and
-# estimation of the 5 percent quantile (HC5) of the fitted distribution 
-# and associated two-sided 95 percent confidence interval 
-
-fll <- fitdistcens(log10EC50,"logis")
-
-quantile(fll, probs = 0.05, bootstrap=TRUE, 
-	bootstrap.arg = list(niter=501))
+\dontrun{
+quantile(fln, probs = c(0.05,0.1,0.2), bootstrap = TRUE, CI.type = "greater")
+}
 
 }
 

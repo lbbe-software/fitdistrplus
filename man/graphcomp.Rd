@@ -1,11 +1,11 @@
-\name{cdfcomp}
+\name{graphcomp}
 \alias{graphcomp}
 \alias{cdfcomp}
 \alias{denscomp}
 \alias{qqcomp}
 \alias{ppcomp}
-\title{Graphical comparison of multiple fitted distributions (for non-censored data)}
-\description{	
+\title{Graphical comparison of multiple fitted distributions (for non-censored continuous data)}
+\description{   
  \code{cdfcomp} plots the empirical cumulative distribution against fitted distribution functions,
  \code{denscomp} plots the histogram against fitted density functions, 
  \code{qqcomp} plots theoretical quantiles against empirical ones,
@@ -14,23 +14,23 @@
 
 \usage{
 cdfcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
-	datapch, datacol, fitlty, fitcol, addlegend = TRUE, legendtext, 
-	xlegend = "bottomright", ylegend = NULL, horizontals = TRUE, verticals = FALSE, 
-	use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, \dots)
-	
-denscomp(ft, xlim, ylim, probability, main, xlab, ylab, datapch, datacol, fitlty, fitcol, 
-	addlegend = TRUE, legendtext, xlegend = "topright", ylegend = NULL, 
-	demp = FALSE, dempcol = "grey", \dots)
+    datapch, datacol, fitlty, fitcol, addlegend = TRUE, legendtext, 
+    xlegend = "bottomright", ylegend = NULL, horizontals = TRUE, verticals = FALSE, 
+    use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, \dots)
+    
+denscomp(ft, xlim, ylim, probability = TRUE, main, xlab, ylab, datapch, datacol, fitlty, fitcol, 
+    addlegend = TRUE, legendtext, xlegend = "topright", ylegend = NULL, 
+    demp = FALSE, dempcol = "grey", \dots)
 
 qqcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
-	fitpch, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", ylegend = NULL, 
-	use.ppoints = TRUE, a.ppoints = 0.5, line01 = TRUE, line01col = "black", line01lty = 1,
-	ynoise = TRUE, \dots)	
-	
+    fitpch, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", ylegend = NULL, 
+    use.ppoints = TRUE, a.ppoints = 0.5, line01 = TRUE, line01col = "black", line01lty = 1,
+    ynoise = TRUE, \dots)   
+    
 ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
-	fitpch, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", ylegend = NULL, 
-	use.ppoints = TRUE, a.ppoints = 0.5, line01 = TRUE, line01col = "black", line01lty = 1,
-	ynoise = TRUE, \dots)
+    fitpch, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", ylegend = NULL, 
+    use.ppoints = TRUE, a.ppoints = 0.5, line01 = TRUE, line01col = "black", line01lty = 1,
+    ynoise = TRUE, \dots)
 }
 \arguments{
 \item{ft}{One 'fitdist' object or a list of objects of class 'fitdist'.}
@@ -42,28 +42,29 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
 \item{xlab}{A label for the \eqn{x}-axis, defaults to a description of \code{x}.}
 \item{ylab}{A label for the \eqn{y}-axis, defaults to a description of \code{y}.}
 \item{datapch}{An integer specifying a symbol to be used in plotting data points, 
-	see also \code{\link{points}}.}
+    see also \code{\link{points}}.}
 \item{datacol}{A specification of the color to be used in plotting data points.}
 \item{fitcol}{A (vector of) color(s) to plot fitted distributions. 
-	If there are fewer colors than points they are recycled in the standard fashion.}
+    If there are fewer colors than points they are recycled in the standard fashion.}
 \item{fitlty}{A (vector of) line type(s) to plot fitted distributions/densities. 
-	If there are fewer colors than points they are recycled in the standard fashion.
-	See also \code{\link{par}}.}
+    If there are fewer colors than points they are recycled in the standard fashion.
+    See also \code{\link{par}}.}
 \item{fitpch}{A (vector of) line type(s) to plot fitted quantiles/probabilities. 
-	If there are fewer colors than points they are recycled in the standard fashion.}
+    If there are fewer colors than points they are recycled in the standard fashion.}
 \item{addlegend}{If \code{TRUE}, a legend is added to the plot.}
 \item{legendtext}{A character or expression vector of length \eqn{\geq 1} to appear
-	in the legend, see also \code{\link{legend}}.}
+    in the legend, see also \code{\link{legend}}.}
 \item{xlegend, ylegend}{The \eqn{x} and \eqn{y} co-ordinates to be used to position the legend.
           They can be specified by keyword or in any way which is
           accepted by 'xy.coords': see \code{\link{legend}} for details.}
 \item{horizontals}{If \code{TRUE}, draws horizontal lines for the step empirical cdf function.
-	See also \code{\link{plot.stepfun}}.}
+    See also \code{\link{plot.stepfun}}.}
 \item{verticals}{If \code{TRUE}, draws also vertical lines for the empirical cdf function. 
-	Only taken into account if \code{horizontals=TRUE}. }
-\item{use.ppoints}{If \code{TRUE}, probability points are defined as 
-	\code{(1:n - a.ppoints)/(n - 2a.ppoints + 1)}
-    for ordinates of the cdf plot of data, using function \code{\link{ppoints}}. If FALSE, 
+    Only taken into account if \code{horizontals=TRUE}. }
+\item{use.ppoints}{If \code{TRUE}, probability points of the empirical distribution
+    are defined as 
+    \code{(1:n - a.ppoints)/(n - 2a.ppoints + 1)}
+     using function \code{\link{ppoints}}. If FALSE, 
     probability points are simply defined as 1:n / n.}
 \item{a.ppoints}{If \code{use.ppoints=TRUE}, this is passed to function \code{\link{ppoints}}.}
 \item{lines01}{A logical to plot two horizontal lines at \code{h=0} and \code{h=1} for \code{cdfcomp}.}
@@ -72,24 +73,32 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
 \item{demp}{A logical to plot empirical density.}
 \item{dempcol}{A color for the empirical density.}
 \item{ynoise}{A logical to add a small Gaussian noise when plotting empirical 
-	quantiles/probabilities for \code{qqcomp} and \code{ppcomp}.}
-\item{probability}{A logical to use the probability	scale for \code{denscomp}, 
-	see also \code{\link{hist}}.}
-\item{\dots}{Further graphical arguments passed to graphical functions used in cdfcomp.}
+    quantiles/probabilities for \code{qqcomp} and \code{ppcomp}.}
+\item{probability}{A logical to use the probability scale for \code{denscomp}, 
+    see also \code{\link{hist}}.}
+\item{\dots}{Further graphical arguments passed to graphical functions used in cdfcomp, denscomp,
+    ppcomp and qqcomp.}
 }
 
 \details{
-    Empirical and theoretical distributions are simply plotted in cdf by default using the Hazen's rule
+    \code{cdfcomp} provides a plot of the empirical distribution and each fitted distribution 
+    in cdf, by default using the Hazen's rule
     for the empirical distribution, 
     with probability points defined as (1:n - 0.5)/n. 
-    By default a legend is added to the plot. Arguments \code{legendtext}, \code{datapch}, \code{datacol},
-	\code{fitcol}, \code{fitlty}, \code{xlab}, \code{ylab}, \code{xlim}, \code{main}, \code{xlegend}, 
-	\code{ylegend} are optional and fixed to default values if omitted.
+    \code{denscomp} provides a density plot of each fitted distribution
+    with the histogram of the data. 
+    \code{ppcomp} provides a plot of the probabilities of each fitted distribution
+    (x-axis) against the empirical probabilities (y-axis) by default defined as (1:n - 0.5)/n. 
+    \code{qqcomp} provides a plot of the quantiles of each theoretical distribution (x-axis)
+     against the empirical quantiles of the data (y-axis), by default defining
+     probability points as (1:n - 0.5)/n for theoretical quantile calculation. 
+    By default a legend is added to these plots. Many graphical arguments are optional, 
+    dedicated to personalize the plots, and fixed to default values if omitted.
 }
 
 \seealso{ 
     See \code{\link{plot}}, \code{\link{legend}}, \code{\link{ppoints}}, \code{\link{plot.stepfun}} 
-	for classic plotting functions and \code{\link{plotdist}}.  
+    for classic plotting functions and \code{\link{plotdist}}.  
 }
 
 
@@ -109,13 +118,17 @@ fitln <- fitdist(serving,"lnorm")
 fitg <- fitdist(serving,"gamma")
 cdfcomp(list(fitW,fitln,fitg),horizontals = FALSE)
 cdfcomp(list(fitW,fitln,fitg),horizontals = TRUE)
-cdfcomp(list(fitW,fitln,fitg),horizontals = TRUE, verticals=TRUE,datacol="orange")
+cdfcomp(list(fitW,fitln,fitg),horizontals = TRUE, verticals=TRUE,datacol="purple")
 cdfcomp(list(fitW,fitln,fitg),legendtext=c("Weibull","lognormal","gamma"),
     main="ground beef fits",xlab="serving sizes (g)",
-    ylab="F",xlim = c(0,250))
-cdfcomp(list(fitW,fitln,fitg),legendtext=c("Weibull","lognormal","gamma"),
-    main="ground beef fits",xlab="serving sizes (g)",
-    ylab="F",xlim = c(0,250),xlegend = "topleft")
+    ylab="F",xlim = c(0,250),xlegend = "center",lines01 = TRUE)
+denscomp(list(fitW,fitln,fitg),legendtext=c("Weibull","lognormal","gamma"),
+    main="ground beef fits",xlab="serving sizes (g)",xlim = c(0,250),xlegend = "topright")
+ppcomp(list(fitW,fitln,fitg),legendtext=c("Weibull","lognormal","gamma"),
+    main="ground beef fits",xlegend = "bottomright",line01 = TRUE)
+qqcomp(list(fitW,fitln,fitg),legendtext=c("Weibull","lognormal","gamma"),
+    main="ground beef fits",xlegend = "bottomright",line01 = TRUE,
+    xlim = c(0,300), ylim = c(0,300), fitpch=16)
 
 # (2) Plot lognormal distributions fitted by 
 # maximum goodness-of-fit estimation
@@ -128,14 +141,20 @@ flnMGEAD <- fitdist(ATV,"lnorm",method="mge",gof="AD")
 flnMGEADL <- fitdist(ATV,"lnorm",method="mge",gof="ADL")
 flnMGEAD2L <- fitdist(ATV,"lnorm",method="mge",gof="AD2L")
 cdfcomp(list(flnMGEKS,flnMGEAD,flnMGEADL,flnMGEAD2L),
-xlogscale=TRUE,main="fits of a lognormal dist. using various GOF dist.",
-legendtext=c("MGE KS","MGE AD","MGE ADL","MGE AD2L"))
-cdfcomp(list(flnMGEKS,flnMGEAD,flnMGEADL,flnMGEAD2L),
-xlogscale=TRUE,verticals=TRUE,xlim=c(10,100000))
+    xlogscale=TRUE,main="fits of a lognormal dist. using various GOF dist.",
+    legendtext=c("MGE KS","MGE AD","MGE ADL","MGE AD2L"),
+    verticals=TRUE,xlim=c(10,100000))
+qqcomp(list(flnMGEKS,flnMGEAD,flnMGEADL,flnMGEAD2L),
+    main="fits of a lognormal dist. using various GOF dist.",
+    legendtext=c("MGE KS","MGE AD","MGE ADL","MGE AD2L"),
+    xlogscale = TRUE, ylogscale = TRUE)
+ppcomp(list(flnMGEKS,flnMGEAD,flnMGEADL,flnMGEAD2L),
+    main="fits of a lognormal dist. using various GOF dist.",
+    legendtext=c("MGE KS","MGE AD","MGE ADL","MGE AD2L"))
 
 # (3) Plot normal and logistic distributions fitted by 
 # maximum likelihood estimation
-# using various plotting positions
+# using various plotting positions in cdf plots
 #
 data(endosulfan)
 log10ATV <-log10(subset(endosulfan,group == "NonArthroInvert")$ATV)

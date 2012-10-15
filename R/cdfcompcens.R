@@ -25,8 +25,8 @@
 ###
 
 cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
-	datacol, fitlty, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", 
-	ylegend = NULL, ...)
+    datacol, fitlty, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", 
+    ylegend = NULL, lines01 = FALSE,Turnbull.confint = FALSE,...)
 {
 
 
@@ -35,16 +35,16 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
     nft <- length(ft)
     if (missing(datacol)) datacol <- "black"
     if (missing(fitcol)) fitcol <- 2:(nft+1)
-	if (missing(fitlty)) fitlty <- 1:nft
-	fitcol <- rep(fitcol, length.out=nft)
-	fitlty <- rep(fitlty, length.out=nft)
+    if (missing(fitlty)) fitlty <- 1:nft
+    fitcol <- rep(fitcol, length.out=nft)
+    fitlty <- rep(fitlty, length.out=nft)
 
     if (missing(xlab))
-		xlab <- ifelse(xlogscale, "censored data in log scale", "censored data")
+        xlab <- ifelse(xlogscale, "censored data in log scale", "censored data")
     if (missing(ylab)) ylab <- "CDF"
     if (missing(main)) main <- paste("Empirical and theoretical CDFs")
 
-	# verification of the content of the list ft
+    # verification of the content of the list ft
     verif.fti <- function(fti)
     {
         if (!inherits(fti, "fitdistcens"))
@@ -62,8 +62,17 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
     }
 
     censdata <- ft[[1]]$censdata
-    xmin <- min(c(censdata$left, censdata$right), na.rm=TRUE) 
-    xmax <- max(c(censdata$left, censdata$right), na.rm=TRUE)
+    if(missing(xlim))
+    {
+        xmin <- min(c(censdata$left, censdata$right), na.rm=TRUE)
+        xmax <- max(c(censdata$left, censdata$right), na.rm=TRUE)
+        xlim <- c(xmin, xmax)
+    }
+    else
+    {
+        xmin <- xlim[1]
+        xmax <- xlim[2]
+    }
     if ((xlogscale == TRUE) & xmin <= 0) 
         stop("log transformation of data requires only positive values")
 
@@ -80,11 +89,27 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
     # plot of data (ecdf) using Turnbull algorithm
     survdata <- Surv(time = censdata$left, time2 = censdata$right, type="interval2")
     survfitted <- survfit(survdata ~ 1)
-	
-	logxy <- paste(ifelse(xlogscale, "x", ""), ifelse(ylogscale, "y", ""), sep="")
-	#main plotting
-	plot(survfitted, fun="event", xlab=xlab, ylab=ylab, main=main, log=logxy, col=datacol, ...)
-
+    
+    logxy <- paste(ifelse(xlogscale, "x", ""), ifelse(ylogscale, "y", ""), sep="")
+    #main plotting
+    if(missing(ylim))
+    {
+        if (Turnbull.confint)
+            plot(survfitted, fun="event", xlab=xlab, ylab=ylab, main=main, 
+                log=logxy, col=datacol, xlim = xlim, ...)
+        else
+            plot(survfitted, fun="event", xlab=xlab, ylab=ylab, main=main, 
+                log=logxy, col=datacol, conf.int = FALSE, xlim = xlim, ...)
+    }
+    else
+    {
+        if (Turnbull.confint)
+            plot(survfitted, fun="event", xlab=xlab, ylab=ylab, main=main, 
+                log=logxy, col=datacol, xlim = xlim, ylim=ylim, ...)
+        else
+            plot(survfitted, fun="event", xlab=xlab, ylab=ylab, main=main, 
+                log=logxy, col=datacol, conf.int = FALSE, xlim = xlim, ylim = ylim, ...)
+    }
     # plot of each fitted distribution
     plot.fti <- function(i, ...)
     {
@@ -110,10 +135,13 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
     s <- sapply(1:nft, plot.fti, ...)
     rm(s)
 
+    if(lines01)
+        abline(h=c(0, 1), lty="dashed", col="grey")
+
     if (addlegend)
     {
         if (missing(legendtext)) 
-			legendtext <- paste("fit", 1:nft)
+            legendtext <- paste("fit", 1:nft)
         legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, lty=fitlty, col=fitcol, ...)
     }
 }

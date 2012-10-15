@@ -25,47 +25,45 @@
 ###
 
 
-denscomp <- function(ft, xlim, ylim, probability, main, xlab, ylab, datapch, datacol, fitlty, fitcol, 
-	addlegend = TRUE, legendtext, xlegend = "topright", ylegend = NULL, 
-	demp = FALSE, dempcol = "grey", ...)
+denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab, datapch, datacol, fitlty, fitcol, 
+    addlegend = TRUE, legendtext, xlegend = "topright", ylegend = NULL, 
+    demp = FALSE, dempcol = "grey", ...)
 {
-	if(inherits(ft, "fitdist"))
-	{
-		ft <- list(ft)
-	}else if(length(ft) == 1)
-	{
-		if(!inherits(ft, "fitdist"))
-		stop("argument ft must a 'fitdist' object or a list of 'fitdist' objects.")
-	}else if(!is.list(ft))
-	{
-		stop("argument ft must be a list of 'fitdist' objects")
-	}else
-	{
-		if(any(sapply(ft, function(x) !inherits(x, "fitdist"))))		
-		stop("argument ft must be a list of 'fitdist' objects")
-	}
-	
-	
+    if(inherits(ft, "fitdist"))
+    {
+        ft <- list(ft)
+    }else if(length(ft) == 1)
+    {
+        if(!inherits(ft, "fitdist"))
+        stop("argument ft must a 'fitdist' object or a list of 'fitdist' objects.")
+    }else if(!is.list(ft))
+    {
+        stop("argument ft must be a list of 'fitdist' objects")
+    }else
+    {
+        if(any(sapply(ft, function(x) !inherits(x, "fitdist"))))        
+        stop("argument ft must be a list of 'fitdist' objects")
+    }
+    
+    
     nft <- length(ft)
     if (missing(datapch)) datapch <- 16
     if (missing(datacol)) datacol <- NULL    
     if (missing(fitcol)) fitcol <- 2:(nft+1)
-	if (missing(fitlty)) fitlty <- 1:nft
-	fitcol <- rep(fitcol, length.out=nft)
-	fitlty <- rep(fitlty, length.out=nft)
-	
-	if(missing(probability))
-		probability <- TRUE
+    if (missing(fitlty)) fitlty <- 1:nft
+    fitcol <- rep(fitcol, length.out=nft)
+    fitlty <- rep(fitlty, length.out=nft)
+    
     if (missing(xlab))
-		xlab <- "data"
+        xlab <- "data"
     if (missing(ylab)) 
-		ylab <- ifelse(probability, "Density", "Frequency")
+        ylab <- ifelse(probability, "Density", "Frequency")
     if (missing(main)) 
-		main <- ifelse(probability, "Histogram and theoretical densities", 
-					   "Histogram and theoretical frequencies")
-	
+        main <- ifelse(probability, "Histogram and theoretical densities", 
+                       "Histogram and theoretical frequencies")
+    
     mydata <- ft[[1]]$data
-	
+    
     if(missing(xlim))
     {
         xmin <- min(mydata)
@@ -76,28 +74,28 @@ denscomp <- function(ft, xlim, ylim, probability, main, xlab, ylab, datapch, dat
         xmin <- xlim[1]
         xmax <- xlim[2]
     }
-	if (missing(ylim))
-	{
-		reshist <- hist(mydata, plot=FALSE)
-		if(!probability)
-			ylim <- c(0, max(reshist$counts))
-		else
-			ylim <- c(0, max(reshist$density))
-	}
-	
+    if (missing(ylim))
+    {
+        reshist <- hist(mydata, plot=FALSE)
+        if(!probability)
+            ylim <- c(0, max(reshist$counts))
+        else
+            ylim <- c(0, max(reshist$density))
+    }
+    
     verif.ftidata <- function(fti)
     {
         if (any(fti$data != mydata))
-			stop("All compared fits must have been obtained with the same dataset")
-		invisible()
+            stop("All compared fits must have been obtained with the same dataset")
+        invisible()
     }
-	lapply(ft, verif.ftidata)
+    lapply(ft, verif.ftidata)
 
-	n <- length(mydata)
-	sfin <- seq(xmin, xmax, by=(xmax-xmin)/100)
-	scalefactor <- ifelse(probability, 1, n * diff(reshist$breaks))
+    n <- length(mydata)
+    sfin <- seq(xmin, xmax, by=(xmax-xmin)/100)
+    scalefactor <- ifelse(probability, 1, n * diff(reshist$breaks))
 
-	
+    
 # computation of each fitted distribution
     comput.fti <- function(i, ...)
     {
@@ -105,40 +103,40 @@ denscomp <- function(ft, xlim, ylim, probability, main, xlab, ylab, datapch, dat
         para <- c(as.list(fti$estimate), as.list(fti$fix.arg))
         distname <- fti$distname
         ddistname <- paste("d", distname, sep="")
-		
-		do.call(ddistname, c(list(x=sfin), as.list(para))) * scalefactor
+        
+        do.call(ddistname, c(list(x=sfin), as.list(para))) * scalefactor
     }
     fitteddens <- sapply(1:nft, comput.fti, ...)
-	
-	#main plotting
-	reshist <- hist(mydata, main=main, xlab=xlab, ylab=ylab, xlim=xlim, 
-					ylim=range(ylim, fitteddens), col=datacol, probability=probability, ...)
-	#plot fitted densities
-	for(i in 1:nft)
-		lines(sfin, fitteddens[,i], lty=fitlty[i], col=fitcol[i], ...)
     
-	#plot empirical density
-	if(demp)
-		lines(density(mydata)$x, density(mydata)$y * scalefactor, col=dempcol)
-	
+    #main plotting
+    reshist <- hist(mydata, main=main, xlab=xlab, ylab=ylab, xlim=xlim, 
+                    ylim=range(ylim, fitteddens), col=datacol, probability=probability, ...)
+    #plot fitted densities
+    for(i in 1:nft)
+        lines(sfin, fitteddens[,i], lty=fitlty[i], col=fitcol[i], ...)
+    
+    #plot empirical density
+    if(demp)
+        lines(density(mydata)$x, density(mydata)$y * scalefactor, col=dempcol)
+    
     if (addlegend)
     {
         if (missing(legendtext) && !demp) 
-		{
-			legendtext <- paste("fit", 1:nft)
-		}else if (missing(legendtext) && demp) 
-		{
-			legendtext <- c(paste("fit", 1:nft), "emp.")
-			fitlty <- c(fitlty, 1)
-			fitcol <- c(fitcol, dempcol)
-		}else if(demp)
-		{
-			legendtext <- c(legendtext, "emp.")
-			fitlty <- c(fitlty, 1)
-			fitcol <- c(fitcol, dempcol)
-		}	
+        {
+            legendtext <- paste("fit", 1:nft)
+        }else if (missing(legendtext) && demp) 
+        {
+            legendtext <- c(paste("fit", 1:nft), "emp.")
+            fitlty <- c(fitlty, 1)
+            fitcol <- c(fitcol, dempcol)
+        }else if(demp)
+        {
+            legendtext <- c(legendtext, "emp.")
+            fitlty <- c(fitlty, 1)
+            fitcol <- c(fitcol, dempcol)
+        }   
 
         legend(x=xlegend, y=ylegend, bty="n", legend=legendtext,
-			   lty=fitlty, col=fitcol, ...)
+               lty=fitlty, col=fitcol, ...)
     }
 }
