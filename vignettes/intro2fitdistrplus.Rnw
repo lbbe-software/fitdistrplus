@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%   Copyright (c) 2009 Marie Laure Delignette-Muller, Christophe Dutang                        
+%   Copyright (c) 2012 Marie Laure Delignette-Muller, Christophe Dutang                        
 %                                                                                                                                                       
 %    This program is free software; you can redistribute it and/or modify                               
 %    it under the terms of the GNU General Public License as published by                        
@@ -38,66 +38,103 @@
 \usepackage[a4paper, textwidth=18cm, textheight=27cm]{geometry}
 \usepackage{url}
 
+%reference hypertext
+\usepackage[pagebackref=true, hyperfootnotes=false]{hyperref}
+
+
+
+% les macros generales
+
+%layout
+\newcommand{\HRuleTop}{\noindent\rule{\linewidth}{.5pt}}
+\newcommand{\HRuleBottom}{\rule{\linewidth}{.5pt}}
+\newcommand{\ligne}{\rule[2mm]{.3\textwidth}{0,5mm}\\}
+\newcommand{\myskip}{\vspace{\parskip}}
+\newcommand{\mytodo}[1]{\todo[color=green]{TODO}#1}
+\newcommand{\blank}{ \clearpage{\pagestyle{empty}\cleardoublepage} }
+
+
+%text style (some are common with the JSS latex class)
+\newcommand{\pkg}{\textbf}
+\newcommand{\sigle}{\textsc}
+\newcommand{\code}{\texttt}
+\newcommand{\proglang}{\textsf}
+\newcommand{\txtm}[1]{\textrm{~~#1~~}}
+\newcommand{\expo}{\textsuperscript}
+
+
+
 \title{Fitting parametric univariate distributions  to non censored or
-censored data using the R \texttt{fitdistrplus} package}
+censored data using the \proglang{R} package \pkg{fitdistrplus}}
 \author{Marie Laure Delignette-Muller and Christophe Dutang}
 
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 \setkeys{Gin}{width=0.6\textwidth} 
 
 \maketitle
 
 
 
-% A enlever dans version JSS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+% A enlever dans version JSS !
 \tableofcontents
 
 
-%\pagebreak
+\newpage
 
 
 \section{Introduction}
 \label{Introduction}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Overview}
-\label{Overview}
+%\subsection{Overview}
+%\label{Overview}
 %%%%%%%%%%%
 
-Fitting distributions to data is a very common task in statistics. It consists in choosing
+Fitting distributions to data is a very common task in statistics and consists in choosing
 a probability distribution that gives a good representation of a statistical
-variable. It requires judgment and expertise and generally needs an iterative process of
-distribution choice, parameter estimation, and quality of fit evaluation. 
-Function \texttt{fitdistr} in the R package \texttt{MASS} \cite{MASS} 
+variable as well as finding parameter estimates of that distribution. 
+It requires judgment and expertise and generally needs an iterative process of
+distribution choice, parameter estimation, and quality of fit evaluation.
+In this paper, we present our package \pkg{fitdistrplus} for the statistical software \proglang{R} of \cite{R12}.
+
+Function \code{fitdistr} in the \proglang{R} package \pkg{MASS} by \cite{MASS} 
 is a well known general-purpose maximum-likelihood
-fitting routine for the parameter estimation step in R. Other steps of
-the process may be developed using R \cite{Ricci05}. Our first objective by developping
-package \texttt{fitdistrplus} \cite{fitdistrplus} 
-was to provide R users a set of functions dedicated to help the overall
+fitting routine for the parameter estimation step in \proglang{R}. Other steps of
+the process may be developed using \proglang{R} \cite{Ricci05}. Our first objective by developping
+package \pkg{fitdistrplus} \cite{fitdistrplus} 
+was to provide \proglang{R} users a set of functions dedicated to help the overall
 process of fitting a univariate parametric distribution to data.
 
-Function \texttt{fitdistr} estimates distribution parameters by maximizing the log-likelihood
-using function \texttt{optim}. In some cases, other estimation methods could be prefered, 
+Function \code{fitdistr} estimates distribution parameters by maximizing the log-likelihood
+using function \code{optim}.
+In some cases, other estimation methods could be prefered, 
 such as maximum goodness-of-fit estimation also commonly called minimum distance estimation, and
-proposed in package \texttt{actuar} 
-with three different goodness-of-fit distances. While developping
-package \texttt{fitdistrplus}, our second objective  was to extend function \texttt{fitdistr} 
+proposed in package \pkg{actuar} with three different goodness-of-fit distances, see \cite{actuarJSS}. 
+While developping package \pkg{fitdistrplus}, our second objective  was to extend function \code{fitdistr} 
 by providing various
 estimation methods to fit distributions in addition to maximum likelihood. Functions
 were developped to enable matching moment estimation, matching quantile estimation, and 
 maximum goodness-of-fit estimation (or minimum distance estimation) using eight different distances.
-Moreover, package \texttt{fitdistrplus} offers the possibility to specify a user-supplied function
+Moreover, package \pkg{fitdistrplus} offers the possibility to specify a user-supplied function
 for optimization, 
-useful in cases where optimization techniques not included in function \texttt{optim} may be more adequate.
+useful in cases where optimization techniques not included in function \code{optim} may be more adequate.
 
-% POUR JSS citation papier actuar
-% POUR JSS faudra replacer notre package par rapport au package distrMod qui manipule
-% des distributions sous forme d objets de type S4 et propose aussi diverses methodes d ajustement
-% cf. package et article dans JSS (Kohl 2010)
-% CHRISTOPHE, EST-CE QUE TU CONNAIS CE PACKAGE ET TE SENS d'ECRIRE CA??????
-% Ca a l air assez lourd ‡ utiliser vu comme cela, et il ne me semble pas que cela permette de
-% prendre en compte des donnÈes censurees
-% ON PEUT AUSSI METTRE CE PARAGRAPHE EN DISCUSSION, A VOIR 
+Few packages on \sigle{CRAN} provide estimation procedures for a general distribution and a general type of data. 
+The \pkg{distrMod} package of \cite{distrModJSS} provides an object-oriented (S4) 
+implementation of probability models 
+and includes distribution fitting procedures for a given minimization criterion.
+In \pkg{fitdistrplus}, we use the standard S3 class system, we believe, simpler than the full object-oriented S4 model for most \proglang{R} users.
+Furthermore, the \pkg{distrMod} package does not allow to fit censored data.
+The \code{mle} function of \pkg{stats4} package provides a procedure for maximum likelihood estimation whose output has class \code{"mle"}.
+Many generic methods are implemented for this type of object, e.g. \code{confint}, \code{logLik},...
+When designing the \pkg{fitdistrplus} package, we also take this into account.
+Finally, various packages provide functions to estimate the mode, the moments or the L-moments of a distribution, see the reference manuals of packages \pkg{modeest}, \pkg{lmomco} and \pkg{Lmoments}.
+
+
+
+
+
 
 In applied statistics, it is not uncommon to have to fit distributions to censored data. 
 % POUR JSS AJOUTER DES REF A DES PAPIERS QUI DISENT QU'ON MANQUE D OUTILS POUR PRENDRE EN COMPTE CES DONNES !!!!!!!!!!!!!
@@ -109,17 +146,17 @@ In applied statistics, it is not uncommon to have to fit distributions to censor
 % -Jordan (2005). Simulating the sensitivity of pooled-sample herd tests for fecal Salmonella in cattle. Preventive veterinary medicine. 70:59-73.
 % -Pouillot et al. (2007) Quantitative Risk Assessment of Listeria monocytogenes in French cold-smoked salmon: I. Quantitative exposure assessment. Risk Analysis 27, 683-700. + Beaufort et al. (2007) Prevalence and growth of Listeria monocytogenes in naturally contaminated cold-smoked salmon. Lett Appl Microbiol 44, 406-411. 
 
-Function \texttt{fitdistr} 
+Function \code{fitdistr} 
 does not enable maximum likelihood estimation from this type data. Some packages 
 deal with censored data, especially survival data \cite{survival},
 but those packages generally focused on specific models, enabling the fit of only one distribution or a 
-restricted family of distributions. Our third objective was thus to provide R users a function 
+restricted family of distributions. Our third objective was thus to provide \proglang{R} users a function 
 to estimate univariate distribution parameters from censored data, whatever the type of censoring. 
 
 % A CHANGER POUR CONFORMITE AVEC NO VERSION CRAN !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-This manuscript reviews the various features of version 0.4-4 of \texttt{fitdistrplus}. The package
-is available from the Comprehensive R Archive Network at \url{http://cran.r-project.org/package=fitdistrplus}.
-The development version of the package is located at R-forge as one the packages of the 
+This manuscript reviews the various features of version 1.0-0 of \pkg{fitdistrplus}. The package
+is available from the Comprehensive \proglang{R} Archive Network at \url{http://cran.r-project.org/package=fitdistrplus}.
+The development version of the package is located at \proglang{R}-forge as one the packages of the 
 project ``Risk Assessment with R''
 (\url{http://r-forge.r-project.org/projects/riskassessment/})
 The following command will load the package.
@@ -132,13 +169,20 @@ options(digits=3)
 library(fitdistrplus)
 @
 % POUR JSS AJOUTER quelques lignes sur les travaux publies utilisant le package !!!!!!!!!!!!!!! 
+
+Papers citing \pkg{fitdistrplus} are \cite{busschaertetal10,brooksetal11,aktassjostrand11,eling12,croucheretal12,commeauetal12,bagariaetal12,anandetal12,eikhermann12}
+
+% A continuer
+
 % POUR JSS AJOUTER UN PLAN DU PAPIER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-\subsection{Running examples}
+
+
+\subsection{Running examples TO BE REMOVED}
 \label{Examples}
 %%%%%%%%%%%
-For illustrating the use of various functions of package \texttt{fitdistrplus}, we will use
+For illustrating the use of various functions of package \pkg{fitdistrplus}, we will use
 four examples published in various biological areas, 
 corresponding to data sets included in the package.
 
@@ -183,10 +227,10 @@ sample of smoked fish distributed on the Belgian market in the period
 Censored data are coded within 2 columns named left and right, describing
 each observed value of \emph{Listeria monocytogenes} concentration 
 (in $CFU.g^{-1}$) as an interval. 
-The left column contains either \texttt{NA} for
+The left column contains either \code{NA} for
 left censored observations, the left bound of the interval for interval censored
 observations, or the observed value for non-censored observations. The right
-column contains either \texttt{NA} for right censored observations, the right bound of
+column contains either \code{NA} for right censored observations, the right bound of
 the interval for interval censored observations, or the observed value for noncensored
 observations.
 %%% R code
@@ -196,20 +240,23 @@ str(smokedfish)
 @
 
 
-\section{Choice of candidate distributions}
-\label{Choice}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Fitting distributions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Choice of candidate distributions}
+\label{Choice}
 Before fitting one or more distributions to a data set, it is generally
 necessary to choose good candidates among a predefined family of distributions.
 To help the user in this preliminary task, we developed functions to plot and
 characterise empirical distributions.
 
-\subsection{Graphical display of the observed distribution}
+\subsubsection{Graphical display of the observed distribution}
 \label{Graphical}
 %%%%%%%%%%
 
-First of all, an empirical distribution may be plotted using classical R function
-or using Function \texttt{plotdist} which provides plots
+First of all, an empirical distribution may be plotted using classical \proglang{R} function
+or using Function \code{plotdist} which provides plots
 in density and in cdf as done in (Figure~\ref{plotdistcont}) for a continuous variable:
 %%% R code
 <<figgroundbeef.echo, echo=TRUE, fig=FALSE, eval=FALSE>>=
@@ -228,7 +275,7 @@ plotdist(groundbeef$serving)
 
 In some cases a discrete variable may be plotted as a continuous one, for example for a large data set
 from a binomial distribution converging to a normal one, but
-Function \texttt{plotdist} also proposes specific plots in density and in cdf
+Function \code{plotdist} also proposes specific plots in density and in cdf
 for discrete variables (Figure~\ref{plotdistdisc}):
 %%% R code
 <<figtoxocara.echo, echo=TRUE, fig=FALSE, eval=FALSE>>=
@@ -247,7 +294,7 @@ plotdist(toxocara$number,discrete = TRUE)
 
 %\clearpage
 
-\subsection{Empirical basis for selecting candidate distributions}
+\subsubsection{Empirical basis for selecting candidate distributions}
 \label{Empirical}
 %%%%%%%%%% 
 Descriptives statistics may help the choice of good candidates to describe an empirical distribution
@@ -260,9 +307,9 @@ Distributions with a higher kurtosis are said to be leptokurtic, with heavier ta
 logistic distribution, while distributions with a smaller kurtosis are said platykurtic, with lighter 
 tails, such as the uniform distribution.
 
-Function \texttt{descdist} provides calculations of classical descriptive statistics
+Function \code{descdist} provides calculations of classical descriptive statistics
 (minimum, maximum, median, mean, standard deviation) and skewness and Pearsons's kurtosis. By default 
-unbiased estimations of the three last statistics are provided but the argument \texttt{method}
+unbiased estimations of the three last statistics are provided but the argument \code{method}
 may be used to obtain  them without correction for bias. 
 Formulas for unbiased skewness  and kurtosis :
   \begin{equation}
@@ -288,10 +335,10 @@ areas of possible values are represented, consisting in lines (as for gamma and 
 or larger areas (as for beta distribution).
     
 Skewness and kurtosis are known not to be robust. In order to take into account the uncertainty 
-of the estimated values of kurtosis and skewness from data, the data set may be boostraped by 
-fixing the argument \texttt{boot} to an integer above 10. Values of skewness and kurtosis 
+of the estimated values of kurtosis and skewness from data, the data set may be boostraped\footnote{The bootstrap is a statistical procedure providing random samples of statistical estimates.} by 
+fixing the argument \code{boot} to an integer above 10. Values of skewness and kurtosis 
 corresponding to bootstrap samples are then computed and reported on the 
-skewness-kurtosis plot. Below is a call to function \texttt{descdist} to describe the distribution 
+skewness-kurtosis plot. Below is a call to function \code{descdist} to describe the distribution 
 of the serving size from the ``ground beef'' data set and to draw the corresponding skewness-kurtosis
 plot (Figure~\ref{Cullenplotcont}). Looking at the results on this example
 with a positive skewness and a kurtosis not far from 3,
@@ -338,14 +385,14 @@ normal distribution, to which discrete distributions may converge.
 %\clearpage
 
 
-\section{Fit of a distribution by maximum likelihood estimation}
+\subsection{Fit of a distribution by maximum likelihood estimation}
 \label{FIT}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Parameter estimation}
+\subsubsection{Parameter estimation}
 \label{Estim}
 %%%%%%%%%%
 Once selected, one or more parametric distributions may be fitted to the data set, one at a time, using
-Function \texttt{fitdist}. By default, distribution parameters $\theta$ are estimated by maximizing the
+Function \code{fitdist}. By default, distribution parameters $\theta$ are estimated by maximizing the
 likelihood defined as:
   \begin{equation}
     \label{likelihood}
@@ -355,20 +402,20 @@ with $x_{i}$ the $n$ observations of variable $x$ and $f$ the density function o
 parametric distribution.
 The other proposed estimation methods are described in Section~\ref{Alternatives}. 
 
-Function \texttt{fitdist} returns the results of the fit of any parametric distribution 
+Function \code{fitdist} returns the results of the fit of any parametric distribution 
 to a data set as an S3 class object that may be easily printed, 
 summarized or plotted (see Figure~\ref{plotcontfit} in Section~\ref{GOF plots}). 
-The parametric distribution must be a classically defined R distributions,
+The parametric distribution must be a classically defined \proglang{R} distributions,
 with at least d, p and q functions respectively for the density cdf and quantile functions
-(for example \texttt{dnorm}, \texttt{pnorm} and \texttt{qnorm} for the normal distribution).
+(for example \code{dnorm}, \code{pnorm} and \code{qnorm} for the normal distribution).
 The name of the fitted distribution is specified in the first argument by its classical 
 abbreviation used as the second part of d, p and q functions (for example ``norm''
-for the normal distribution). Numerical results returned by Function \texttt{fitdist} are 
+for the normal distribution). Numerical results returned by Function \code{fitdist} are 
 parameter estimates with estimated standard errors computed from the estimate
 of the Hessian matrix at the maximum likelihood solution, correlation matrix
 between parameter estimates, the loglikelihood, the Akaike and the Schwarz information criteria 
 (so called AIC and BIC).
-Below is a call to function \texttt{fitdist} to fit a Weibull distribution 
+Below is a call to function \code{fitdist} to fit a Weibull distribution 
 to the serving size in the ``ground beef'' data set.
 %%% R code
 <<fitgroundbeef.weibull, echo = TRUE, fig = FALSE>>=
@@ -389,14 +436,14 @@ fp$aic
 fnb$aic
 @
 
-For some distributions (see the help of \texttt{fitdist} for details), it is necessary to specify initial 
-values for the distribution parameters in the argument \texttt{start} when using the maximum likelihood method.
-\texttt{start} must be a named list
+For some distributions (see the help of \code{fitdist} for details), it is necessary to specify initial 
+values for the distribution parameters in the argument \code{start} when using the maximum likelihood method.
+\code{start} must be a named list
 of parameters initial values. The names of
-the parameters in \texttt{start} must correspond exactly to their definition in R or in a user-supplied R code.
-Function \texttt{plotdist} (see Section~\ref{GOF plots}), 
+the parameters in \code{start} must correspond exactly to their definition in \proglang{R} or in a user-supplied \proglang{R} code.
+Function \code{plotdist} (see Section~\ref{GOF plots}), 
 which can plot any parametric distribution with specified parameter values
-in argument \texttt{para} may help to find correct initial values for 
+in argument \code{para} may help to find correct initial values for 
 the distribution parameters in non trivial cases, by iterative calls if necessary (see the reference 
 manual~\cite{fitdistrplus} for examples).
  
@@ -425,10 +472,10 @@ manual~\cite{fitdistrplus} for examples).
 %  \label{plotdist}
 %\end{figure}
 
-\subsection{Goodness-of-fit plots}
+\subsubsection{Goodness-of-fit plots}
 \label{GOF plots}
 %%%%%%%%%%
-The plot of an object of class \texttt{fitdist} provides two types of results depending of the nature 
+The plot of an object of class \code{"fitdist"} provides two types of results depending of the nature 
 of the distribution, continuous or discrete. For continuous distributions, 
 four goodness-of-fit plots are provided : a draw of pdf curve and histogram together (density plot), an cdf plot
 of both empirical and theoretical distributions, a Q-Q plot
@@ -436,7 +483,7 @@ of both empirical and theoretical distributions, a Q-Q plot
 and a P-P plot (i.e. for each value of the data set, plot of the cumulative density function of the fitted distribution
 (x-axis) against the empirical cumulative density function (y-axis)) are also given \cite{Cullen99}.
 For all these four plots, the probability plotting position is defined as recommended by Blom \cite{Blom},
-by a call to Function \texttt{ppoints} from the \texttt{stats} package with its default arguments.
+by a call to Function \code{ppoints} from the \pkg{stats} package with its default arguments.
 The Q-Q plot emphasizes the lack-of-fit at the distribution tails while the P-P plot emphasizes
 the lack-of-fit at the distribution center.
 As an example, let us look at the plot of the previous fit of a Weibull distribution to the``groundbeef'' data set
@@ -457,12 +504,12 @@ plot(fw)
   \label{plotcontfit}
 \end{figure}
 
-For continuous distributions, Function \texttt{denscomp}, \texttt{cdfcomp},
-\texttt{qqcomp} and \texttt{ppcomp}, enable the visual comparison
+For continuous distributions, Function \code{denscomp}, \code{cdfcomp},
+\code{qqcomp} and \code{ppcomp}, enable the visual comparison
 of the empirical and various theoretical distributions fitted
 on a same data set, using one of the four plots
-provided by \texttt{plotdist}. These functions must be called with a first argument 
-corresponding to a list of objects of class \texttt{fitdist}, and optionaly
+provided by \code{plotdist}. These functions must be called with a first argument 
+corresponding to a list of objects of class \code{fitdist}, and optionaly
 further arguments to customize the plot (see the reference 
 manual~\cite{fitdistrplus} for lists of arguments that may be changed
 for each plot), as in the following example comparing the fit of
@@ -513,7 +560,7 @@ Weibull, lognormal and gamma distributions to ``groundbeef'' data set with a den
 %\texttt{xlogscale} to \texttt{TRUE} in the call to \texttt{cdfcomp}.
 % completer avec tout ce qu'on peut changer dans cdfcomp : PAS FORCEMENT UTILE
 
-For discrete distributions, the plot of an object of class \texttt{fitdist} simply provides
+For discrete distributions, the plot of an object of class \code{"fitdist"} simply provides
 two goodness-of-fit plots comparing empirical and theoretical distributions
 in pdf and in cdf.
 %As an exemple, let us look at the plot of the previous fit of a negative binomial distribution 
@@ -534,7 +581,7 @@ in pdf and in cdf.
 
 
 
-\subsection{Measures of goodness-of-fit}
+\subsubsection{Measures of goodness-of-fit}
 \label{GOF measures}
 %%%%%%%%%%
 The purpose of goodness-of-fit statistics is to measure the distance beetween
@@ -542,7 +589,7 @@ the cumulative distribution function $F$ defined from the fitted parametric dist
 with the empirical distribution function $F_{n}$ defined from the data.
 When fitting continuous distributions, three classical goodness-of-fit statistics, 
 Cramer-von Mises, Kolmogorov-Smirnov and Anderson-Darling statistics, may be computed using 
-the function \texttt{gofstat}
+the function \code{gofstat}
 as defined by Stephens \cite{Stephens86} (Table \ref{tabKSCvMAD}).
 
 \begin{table}[t]
@@ -585,15 +632,15 @@ be used cautiously when comparing fits of various distributions, keeping in mind
 cdf quadratic difference is dependent of the theoretical distribution. 
 
 When fitting discrete distributions, the Chi-squared statistic is computed by 
-Function \texttt{gofstat} using cells defined 
-by the argument \texttt{chisqbreaks} or cells automatically defined from the data in order 
+Function \code{gofstat} using cells defined 
+by the argument \code{chisqbreaks} or cells automatically defined from the data in order 
 to reach roughly the same number of observations per cell, roughly equal to the argument
-\texttt{meancount}, or sligthly more if there are some ties. 
+\code{meancount}, or sligthly more if there are some ties. 
 The choice to define cells from the empirical distribution (data) and not from the
 theoretical distribution was done to enable the comparison of Chi-squared values obtained
 with different distributions fitted on a same dataset.
-If arguments \texttt{chisqbreaks} and \texttt{meancount} 
-are both omitted, \texttt{meancount} is fixed in order to obtain roughly $(4n)^{2/5}$ cells, 
+If arguments \code{chisqbreaks} and \code{meancount} 
+are both omitted, \code{meancount} is fixed in order to obtain roughly $(4n)^{2/5}$ cells, 
 with $n$ the length of the dataset~\cite{Vose10}. Using this default option with 
 the fit of a negative binomial distribution to ``toxocara'' data set gives following results :
 %%% R code
@@ -601,7 +648,7 @@ the fit of a negative binomial distribution to ``toxocara'' data set gives follo
 gofstat(fnb)
 @
 
-Among its returned values, Function \texttt{gofstat} provides a table with observed and theoretical 
+Among its returned values, Function \code{gofstat} provides a table with observed and theoretical 
 counts used for the Chi-squared calculations:
 %%% R code
 <<fittoxocara.poisnbinom.gof.chisq, echo=TRUE,fig=FALSE>>=
@@ -612,7 +659,7 @@ Even if specifically recommended for discrete distributions, the Chi-squared sta
 continuous distributions (see the reference 
 manual~\cite{fitdistrplus} for examples) for examples).
 
-\subsection{Goodness-of-fit tests}
+\subsubsection{Goodness-of-fit tests}
 \label{GOF tests}
 %%%%%%%%%%
 
@@ -636,8 +683,8 @@ When the Chi-squared statistic is computed (for discrete or optionnaly continuou
 and if the degree of freedom (nb of cells - nb of parameters - 1)  of the corresponding distribution 
 is strictly positive, the p-value of the Chi-squared test is returned.
 
-The results of the tests are not printed, unless the argument \texttt{print.test}
-is fixed to \texttt{TRUE}. We chose not to print their results by default, as 
+The results of the tests are not printed, unless the argument \code{print.test}
+is set to \code{TRUE}. We chose not to print their results by default, as 
 goodness-of-fit tests are often misused. As for any null-hypothesis significance
 test, the non reject of the null hypothesis dose not imply its acceptation. However, this
 misinterpretation of p-values is very common and comes from the wrong assumption that
@@ -675,12 +722,12 @@ plots do not show strong differences between empirical and theoretical distribut
 
 Censored data may contain left censored, right censored and interval censored values, 
 with several lower and upper bounds. Data must be coded into a dataframe with two columns,
- respectively named \texttt{left} 
- and \texttt{right}, describing each observed value as an interval.
- The \texttt{left} column contains either \texttt{NA} for left censored observations,
+ respectively named \code{left} 
+ and \code{right}, describing each observed value as an interval.
+ The \code{left} column contains either \code{NA} for left censored observations,
  the left bound of the interval for interval censored observations,
  or the observed value for non-censored observations.
- The \texttt{right} column contains either \texttt{NA} for right censored observations,
+ The \code{right} column contains either \code{NA} for right censored observations,
  the right bound of the interval for interval censored observations,
  or the observed value for non-censored observations.
      
@@ -689,10 +736,10 @@ with several lower and upper bounds. Data must be coded into a dataframe with tw
 %%%%%%%%%%
 
 Using censored data such as those coded in the ``smokedfish'' data set,
-the empirical distribution may be plotted using the \texttt{plotdistcens}function.
+the empirical distribution may be plotted using the \code{plotdistcens} function.
 By default this function uses the EM approach of Turnbull \cite{Turnbull74} to compute the overall
-empirical cdf curve with confidence intervals, by calls to \texttt{survfit}
-and \texttt{plot.survfit} functions from the \texttt{survival} package.
+empirical cdf curve with confidence intervals, by calls to \code{survfit}
+and \code{plot.survfit} functions from the \pkg{survival} package.
 Let us see such a plot for ``smokedfish'' data set after classical transformation
 of microbial counts in decimal logarithm (Figure~\ref{plotdistcens}).
 
@@ -735,7 +782,7 @@ plotdistcens(log10C)
 
 As for non censored data, one or more parametric distributions may then
 be fitted to the censored data set, one at a time, but using in this case
-the \texttt{fitdistcens}function. This function estimates distribution parameters $\theta$
+the \code{fitdistcens} function. This function estimates distribution parameters $\theta$
 by maximizing the likelihood for censored data defined as:
   \begin{equation}
     \label{likelihoodC}
@@ -750,7 +797,7 @@ $x^{lower}_{k}$ lower values defining the $N_{rightC}$ right-censored observatio
 $[x^{lower}_{m} ; x^{upper}_{m}]$ the intervals defining the $N_{intC}$ interval-censored observations,
 and F the cumulative distribution function of the parametric distribution.
 
-As \texttt{fitdist}, it returns the results of the fit of any parametric distribution
+As \code{fitdist}, it returns the results of the fit of any parametric distribution
 to a data set as an S3 class object that may be easily printed,
 summarized or plotted.
 For ``smokedfish'' data set, a normal distribution may be fitted to log
@@ -761,10 +808,10 @@ flog10Cn <- fitdistcens(log10C,"norm")
 summary(flog10Cn)
 @
 
-As with \texttt{fitdist}, for some distributions (see \cite{fitdistrplus} for details), 
+As with \code{fitdist}, for some distributions (see \cite{fitdistrplus} for details), 
 it is necessary to specify initial 
-values for the distribution parameters in the argument \texttt{start}.
-The \texttt{plotdistcens} function can help to find correct initial values for 
+values for the distribution parameters in the argument \code{start}.
+The \code{plotdistcens} function can help to find correct initial values for 
 the distribution parameters in non trivial cases, by an manual iterative use if necessary.
 
 \subsection{Goodness-of-fit plot}
@@ -772,8 +819,8 @@ the distribution parameters in non trivial cases, by an manual iterative use if 
 %%%%%%%%%%
 Only one goodness-of-fit plot is provided for censored data, corresponding to the theoretical 
 cumulative distribution function added to the plot of censored data presented
-in Section~\ref{censored graph}. The \texttt{cdfcompcens} function can be used to compare the fit of various
-distributions to the same censored data set. Its call is similar to the one \texttt{cdfcomp}. Below is
+in Section~\ref{censored graph}. The \code{cdfcompcens} function can be used to compare the fit of various
+distributions to the same censored data set. Its call is similar to the one \code{cdfcomp}. Below is
 an example of comparison of two fitted distribution to ``smokedfish'' data set (Figure~\ref{cdfcompcens}).
 %%% R code
 <<fitsmokedfish.cdfcomp.echo, echo=TRUE, fig=FALSE, eval=FALSE>>=
@@ -816,16 +863,18 @@ Computations of goodness of fit statistics have not yet been
 developed for fits using censored data, so the quality of fit 
 may only be estimated from the loglikelihood and the goodness-of-fit CDF plot.
 
-
-\section{Alternative methods for parameter estimation}
-\label{Alternatives}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Advanced topics}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Maximum goodness-of-fit estimation}
+\subsection{Alternative methods for parameter estimation}
+\label{Alternatives}
+
+\subsubsection{Maximum goodness-of-fit estimation}
 \label{MGE}
 %%%%%%%%%%
 Maximum likelihood is only the default estimation method proposed by 
-\texttt{fitdist}, but other methods may be used to estimate parameters for non-censored data.
+\code{fitdist}, but other methods may be used to estimate parameters for non-censored data.
 One of the alternative for continuous distributions
 is the maximum goodness-of-fit estimation method also called
 minimum distance estimation method. In this package this method is proposed with
@@ -871,8 +920,8 @@ weights by using second order Anderson-Darling Statistics.
 \end{table}
 
 To fit a distribution by maximum goodness-of-fit estimation, one
-needs to fix the argument \texttt{method}
-to ``mge'' in the call to \texttt{fitdist} and to specify the argument \texttt{gof}
+needs to fix the argument \code{method}
+to ``mge'' in the call to \code{fitdist} and to specify the argument \texttt{gof}
 coding for the chosen goodness-of-fit distance. 
 % Character string coding for the eight 
 % proposed goodness-of-fit distances are given in Table~\ref{MGEdist}.
@@ -927,7 +976,7 @@ xlegend = 500, ylegend = 0.15)
   \label{plotfitMGE}
 \end{figure}
 
-\subsection{Moment matching estimation}
+\subsubsection{Moment matching estimation}
 \label{MME}
 %%%%%%%%%%
 Another method commonly used to fit parametric distribution consists in estimating
@@ -939,7 +988,7 @@ distribution equal to the empirical moments (Equation~\ref{moments}).
   \end{equation}
 for $k=1,\ldots,p$, with $p$ the number of parameters to estimate and
  $x_{i}$ the $n$ observations of variable $x$.
-This method called moment matching estimation can be performed fixing the argument \texttt{method}
+This method called moment matching estimation can be performed fixing the argument \code{method}
 to ``mme'' in the call to fitdist.
 %%% R code
 <<mme.unif, echo=TRUE>>=
@@ -954,13 +1003,13 @@ this parameter is simply estimated by matching theoretical and observed means, a
 characterized by two parameters, these parameters are estimated by matching theoretical and observed 
 means and variances (\cite{Vose10}).
     
-For other distributions, Function \texttt{fitdist} carries out 
+For other distributions, Function \code{fitdist} carries out 
 the matching numerically, by minimization of the
-sum of squared differences between observed and theoretical moments (see the \texttt{fitdistrplus} reference
+sum of squared differences between observed and theoretical moments (see the \pkg{fitdistrplus} reference
 manual~\cite{fitdistrplus}
 for technical details).
 
-\subsection{Quantile matching estimation}
+\subsubsection{Quantile matching estimation}
 \label{QME}
 %%%%%%%%%%
 Fitting of a parametric distribution may also be done by estimating
@@ -974,12 +1023,12 @@ for $k=1,\ldots,p$, with $p$ the number of parameters to estimate (dimension of 
 no fixed parameters) and
  $Q_{n,p_{k}}$ the empirical quantiles calculated from data for specified probabilities $p_{k}$.
 
-Quantile matching can be performed by fixing the argument \texttt{method}
-to ``qme'' in the call to fitdist and adding an argument \texttt{probs}
+Quantile matching can be performed by fixing the argument \code{method}
+to ``qme'' in the call to fitdist and adding an argument \code{probs}
 defining the probabilities for which the quantile matching is performed.
 The length of this vector must be equal
 to the number of parameters to estimate. Empirical quantiles are computed using the
-\texttt{quantile} function of the \texttt{stats} package using the \texttt{type} 
+\code{quantile} function of the \pkg{stats} package using the \texttt{type} 
 argument  equal to 7 by default, but the type of quantile
 can be easily changed using the \texttt{qty} argument in the call to the \texttt{qme} function.   
 The quantile matching is carried out numerically, 
@@ -992,28 +1041,28 @@ and third quartiles.
 fitdist(u, "unif", method="qme", probs=c(0.25,0.75))
 @
 
-\subsection{Customization of the optimization algorithm}
+\subsubsection{Customization of the optimization algorithm}
 \label{Customization}
 %%%%%%%%%%
-Each time a numerical minimization (or maximization) is carried out using \texttt{fitdist}, 
-the \texttt{optim} function of the \texttt{stats} package  is used by default with the 
+Each time a numerical minimization (or maximization) is carried out using \code{fitdist}, 
+the \code{optim} function of the \pkg{stats} package  is used by default with the 
 ``Nelder-Mead'' method for distributions characterized by more than one parameter and
 the ``BFGS'' method for distributions characterized by only one parameter 
 Sometimes the default algorithm fails to converge. It may then
-be interesting to change some options of the \texttt{optim} function or to use another optimization
-function than \texttt{optim} to maximize the likelihood.
+be interesting to change some options of the \code{optim} function or to use another optimization
+function than \code{optim} to maximize the likelihood.
 
-The argument \texttt{optim.method} may be used in the call to \texttt{fitdist} or
-\texttt{fitdistcens}. It will internally be passed to \texttt{mledist} and to \texttt{optim}.
+The argument \code{optim.method} may be used in the call to \code{fitdist} or
+\code{fitdistcens}. It will internally be passed to \code{mledist} and to \code{optim}.
 This argument may be fixed to ``Nelder-Mead'' (the robust Nelder and Mead method), 
 ``BFGS'' (the BFGS quasi-Newton method), ``CG'' (a conjugate gradients method), 
 ``SANN'' (a variant of simulated annealing) or ``L-BFGS-B'' (a modification of the BFGS 
 quasi-Newton method which enables box constraints optimization). For the use of the last method the 
-arguments \texttt{lower} and/or \texttt{upper} also have to be passed. More details on these optimization
-functions may be found in the help page of \texttt{optim} from the package \texttt{stats}.
+arguments \code{lower} and/or \code{upper} also have to be passed. More details on these optimization
+functions may be found in the help page of \code{optim} from the package \pkg{stats}.
 
 Here are examples of fits of a gamma distribution to ``ground beef'' data set with various options
-of \texttt{optim}.
+of \code{optim}.
 
 %%% R code
 <<optimmethod.gamma, echo=TRUE>>=
@@ -1023,17 +1072,17 @@ fitdist(groundbeef$serving, "gamma", optim.method="SANN")
 @
 
 
-You may also want to use another function than \texttt{optim} to maximize the likelihood.
-This optimization function has to be specified by the argument \texttt{custom.optim} 
-in the call to \texttt{fitdist} or
-\texttt{fitdistcens}. But before that, it is necessary to customize this optimization function :
-\texttt{custom.optim} function must have (at least) the following arguments,
-\texttt{fn} for the function to be optimized, \texttt{par} for the initialized parameters. 
-It is assumed that \texttt{custom.optim} should carry out a MINIMIZATION. Finally, it should return
-at least the following components: \texttt{par} for the estimate, \texttt{convergence} for the convergence
-code, \texttt{value} for \texttt{fn(par)} and \texttt{hessian}.
+You may also want to use another function than \code{optim} to maximize the likelihood.
+This optimization function has to be specified by the argument \code{custom.optim} 
+in the call to \code{fitdist} or
+\code{fitdistcens}. But before that, it is necessary to customize this optimization function :
+\code{custom.optim} function must have (at least) the following arguments,
+\code{fn} for the function to be optimized, \code{par} for the initialized parameters. 
+It is assumed that \code{custom.optim} should carry out a MINIMIZATION. Finally, it should return
+at least the following components: \code{par} for the estimate, \code{convergence} for the convergence
+code, \code{value} for \code{fn(par)} and \code{hessian}.
 % POUR JSS CA DEVIENT HYPER TECHNIQUE, on enleve? on revoit aux exemples de fitdist? on met en annexe?
-Below is an example of code written to customize \texttt{genoud} function from \texttt{rgenoud} package.
+Below is an example of code written to customize \code{genoud} function from \pkg{rgenoud} package.
 %%% R code
 <<optimmethod.customgenoud, echo=TRUE>>=
 mygenoud <- function(fn, par, ...) 
@@ -1045,13 +1094,13 @@ mygenoud <- function(fn, par, ...)
 }
 @
 
-The customized optimization function may then be passed as the argument \texttt{custom.optim} 
-in the call to \texttt{fitdist}
-or \texttt{fitdistcens}. The following code may for example be used to fit a gamma distribution to the
-``ground beef'' data set. Note that in this example various arguments are also passed from \texttt{fitdist} 
-to \texttt{genoud} :
-\texttt{nvars}, \texttt{Domains}, \texttt{boundary.enforcement}, 
-\texttt{print.level} and \texttt{hessian}.
+The customized optimization function may then be passed as the argument \code{custom.optim} 
+in the call to \code{fitdist}
+or \code{fitdistcens}. The following code may for example be used to fit a gamma distribution to the
+``ground beef'' data set. Note that in this example various arguments are also passed from \code{fitdist} 
+to \code{genoud} :
+\code{nvars}, \code{Domains}, \code{boundary.enforcement}, 
+\code{print.level} and \code{hessian}.
 
 %%% R code
 <<optimmethod.customgenoud.fitdist, echo=TRUE, eval=FALSE>>=
@@ -1061,16 +1110,17 @@ fitdist(groundbeef$serving, "gamma", custom.optim=mygenoud, nvars=2,
 @
 
 
-\section{Uncertainty in parameter estimates}
+\subsection{Uncertainty in parameter estimates}
 \label{Uncertainty}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Bootstrap procedures}
+
+
+\subsubsection{Bootstrap procedures}
 \label{Bootstrap}
 %%%%%%%%%%
 
 The uncertainty in the parameters of the fitted distribution may be simulated by parametric or nonparametric
-bootstrap using the \texttt{boodist} function for non censored data and
-by nonparametric bootstrap using \texttt{boodistcens} function for censored data. 
+bootstrap using the \code{boodist} function for non censored data and
+by nonparametric bootstrap using \code{boodistcens} function for censored data. 
 These functions return the boostrapped values of parameters in a 
 S3 class object which
 may be plotted to visualize the bootstrap region. 
@@ -1079,13 +1129,13 @@ in the summary.
 If inferior to the whole number of iterations, the number of iterations for which the function converges 
 is also printed in the summary.
     
-The plot of an object of class \texttt{bootdist}  or \texttt{bootdistcens}
+The plot of an object of class \code{bootdist}  or \code{bootdistcens}
  consists in a scatterplot or a matrix of scatterplots
 of the bootstrapped values of parameters providing
 a representation of the joint uncertainty distribution of the fitted parameters (Figure~\ref{bootstrap}).
 
 
-Below is an example of the use of the \texttt{bootdist} function with the previous of the Weibull distribution to 
+Below is an example of the use of the \code{bootdist} function with the previous of the Weibull distribution to 
 ``groundbeef`` data set. 
 %%% R code
 <<fitgroundbeef.weibull.boot.echo, echo=TRUE, fig=FALSE>>=
@@ -1116,7 +1166,7 @@ serving sizes from the ``ground beef'' data set)}
 % to show high correlations between parameters
 
 
-\subsection{Use of bootstrap samples}
+\subsubsection{Use of bootstrap samples}
 %\label{MC2D}
 %%%%%%%%%%
 %TO BE DONE
@@ -1127,24 +1177,24 @@ to look at the potential structural correlation between parameters.
 
 The use of the whole bootstrap sample is also of interest in the risk assessment field. Its use enables
 the characterization of uncertainty in distribution parameters. It can be directly used within a second order Monte Carlo
-simulation framework, especially within the package \texttt{mc2d} (\cite{mc2d}). One could refer to Pouillot \emph{et al.}
-(\cite{Pouillot10}) for an introduction to the use of \texttt{mc2d} 
-and \texttt{fitdistrplus} packages in the context of quantitative 
+simulation framework, especially within the package \pkg{mc2d} (\cite{mc2d}). One could refer to Pouillot \emph{et al.}
+(\cite{Pouillot10}) for an introduction to the use of \pkg{mc2d} 
+and \pkg{fitdistrplus} packages in the context of quantitative 
 risk assessment.
 
 Bootstrap can also be used to calculate confidence intervals on quantiles of the fitted distribution.
-For this purpose, a generic \texttt{quantile} function is provided for class \texttt{fitdist} for non censored data and \texttt{fitdistcens} for censored data. 
+For this purpose, a generic \code{quantile} function is provided for class \code{fitdist} for non censored data and \code{fitdistcens} for censored data. 
 They must be called with a first argument corresponding
-to an object of class \texttt{fitdist} or \texttt{fitdistcens}, and as a second argument the vector of probabilities
+to an object of class \code{fitdist} or \code{fitdistcens}, and as a second argument the vector of probabilities
 at which the quantiles of the fitted distribution must be estimated. By default quantiles calculated
 at the estimated parameters are provided, followed by $95\%$ bootstrap confidence intervals for each quantile.
-These two functions are internally calling to \texttt{bootdist} or \texttt{bootdistcens} and give
-the complete results of these calls as a part of their output, in \texttt{resbootdist} and \texttt{resbootdistcens}.
-The \texttt{quantile} function is of great interest in the ecotoxicology
+These two functions are internally calling to \code{bootdist} or \code{bootdistcens} and give
+the complete results of these calls as a part of their output, in \code{resbootdist} and \code{resbootdistcens}.
+The \code{quantile} function is of great interest in the ecotoxicology
 field, while a hazardous concentration at $x\%$ (HCx) is computed from species sensitivity distributions, 
 that is interpreted as the contaminant concentration protecting $(100-x)\%$ of the species.
 % POUR JSS AJOUTER REF EN ECOTOX
-Below is an example of use of \texttt{quantile} to estimate HCx values for different x-values, with
+Below is an example of use of \code{quantile} to estimate HCx values for different x-values, with
 $95\%$ bootstrap confidence intervals, using the maximum likelihood
  fit of a lognormal distribution on the ``endosulfan'' data set.
  %%% R code
@@ -1164,7 +1214,7 @@ quantile(flnMLE, probs = c(0.05, 0.10, 0.20, 0.50))
 %TO BE DONE
 
 \bibliographystyle{plain}
-\bibliography{fitdistrplus}
+\bibliography{fitdistrplus,paperscitingfitdistrplus}
 
 
  
