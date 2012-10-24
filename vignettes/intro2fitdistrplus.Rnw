@@ -64,7 +64,7 @@
 
 
 
-\title{Fitting parametric univariate distributions  to non censored or
+\title{Fitting parametric univariate distributions  to non-censored or
 censored data using the \proglang{R} package \pkg{fitdistrplus}}
 \author{Marie Laure Delignette-Muller and Christophe Dutang}
 
@@ -96,9 +96,9 @@ a probability distribution that gives a good representation of a statistical
 variable as well as finding parameter estimates of that distribution. 
 It requires judgment and expertise and generally needs an iterative process of
 distribution choice, parameter estimation, and quality of fit evaluation.
-In this paper, we present our package \pkg{fitdistrplus} for the statistical software \proglang{R} of \cite{R12}.
+In this paper, we present our package \pkg{fitdistrplus} for the statistical software \proglang{R} \cite{R12}.
 
-Function \code{fitdistr} in the \proglang{R} package \pkg{MASS} by \cite{MASS} 
+Function \code{fitdistr} in the \proglang{R} package \pkg{MASS} \cite{MASS} 
 is a well known general-purpose maximum-likelihood
 fitting routine for the parameter estimation step in \proglang{R}. Other steps of
 the process may be developed using \proglang{R} \cite{Ricci05}. Our first objective by developping
@@ -120,6 +120,23 @@ Moreover, package \pkg{fitdistrplus} offers the possibility to specify a user-su
 for optimization, 
 useful in cases where optimization techniques not included in function \code{optim} may be more adequate.
 
+In applied statistics, it is not uncommon to have to fit distributions to censored data. 
+Function \code{fitdistr} 
+does not enable maximum likelihood estimation from this type data. Some packages 
+deal with censored data, especially survival data \cite{survival},
+but those packages generally focused on specific models, enabling the fit of only one distribution or a 
+restricted family of distributions. Our third objective was thus to provide \proglang{R} users a function 
+to estimate univariate distribution parameters from censored data, whatever the type of censoring. 
+% POUR JSS AJOUTER DES REF A DES PAPIERS QUI DISENT QU'ON MANQUE D OUTILS POUR PRENDRE EN COMPTE CES DONNES !!!!!!!!!!!!!
+% ou qui tout simplement ne les prennent pas en compte comme il faut
+% ex.: Hickey 2012, Fox 2010, Buschaert ????, ...
+% EXPLORER LES REF SUIVANTES en microbio et en chercher en ecotox et ailleurs
+% -Hirano et al. (1994). Estimation of and temporal changes in means and variances of populations of Pseudomonas syringae on snap bean leaflets. Phytopathology  89: 934-940.
+% -FDA/USDA (2003)  "Quantitative Assessment of Relative Risk to Public Health from Foodborne Listeria monocytogenes Among Selected Categories of Ready-to-Eat Foods" , voir "http://www.foodsafety.gov/~dms/lmr2-3.html#Modeling-Retail" 
+% -Jordan (2005). Simulating the sensitivity of pooled-sample herd tests for fecal Salmonella in cattle. Preventive veterinary medicine. 70:59-73.
+% -Pouillot et al. (2007) Quantitative Risk Assessment of Listeria monocytogenes in French cold-smoked salmon: I. Quantitative exposure assessment. Risk Analysis 27, 683-700. + Beaufort et al. (2007) Prevalence and growth of Listeria monocytogenes in naturally contaminated cold-smoked salmon. Lett Appl Microbiol 44, 406-411. 
+
+
 Few packages on \sigle{CRAN} provide estimation procedures for a general distribution and a general type of data. 
 The \pkg{distrMod} package of \cite{distrModJSS} provides an object-oriented (S4) 
 implementation of probability models 
@@ -130,28 +147,6 @@ The \code{mle} function of \pkg{stats4} package provides a procedure for maximum
 Many generic methods are implemented for this type of object, e.g. \code{confint}, \code{logLik},...
 When designing the \pkg{fitdistrplus} package, we also take this into account.
 Finally, various packages provide functions to estimate the mode, the moments or the L-moments of a distribution, see the reference manuals of packages \pkg{modeest}, \pkg{lmomco} and \pkg{Lmoments}.
-
-
-
-
-
-
-In applied statistics, it is not uncommon to have to fit distributions to censored data. 
-% POUR JSS AJOUTER DES REF A DES PAPIERS QUI DISENT QU'ON MANQUE D OUTILS POUR PRENDRE EN COMPTE CES DONNES !!!!!!!!!!!!!
-% ou qui tout simplement ne les prennent pas en compte comme il faut
-% ex.: Hickey 2012, Fox 2010, Buschaert ????, ...
-% EXPLORER LES REF SUIVANTES en microbio et en chercher en ecotox et ailleurs
-% -Hirano et al. (1994). Estimation of and temporal changes in means and variances of populations of Pseudomonas syringae on snap bean leaflets. Phytopathology  89: 934-940.
-% -FDA/USDA (2003)  "Quantitative Assessment of Relative Risk to Public Health from Foodborne Listeria monocytogenes Among Selected Categories of Ready-to-Eat Foods" , voir "http://www.foodsafety.gov/~dms/lmr2-3.html#Modeling-Retail" 
-% -Jordan (2005). Simulating the sensitivity of pooled-sample herd tests for fecal Salmonella in cattle. Preventive veterinary medicine. 70:59-73.
-% -Pouillot et al. (2007) Quantitative Risk Assessment of Listeria monocytogenes in French cold-smoked salmon: I. Quantitative exposure assessment. Risk Analysis 27, 683-700. + Beaufort et al. (2007) Prevalence and growth of Listeria monocytogenes in naturally contaminated cold-smoked salmon. Lett Appl Microbiol 44, 406-411. 
-
-Function \code{fitdistr} 
-does not enable maximum likelihood estimation from this type data. Some packages 
-deal with censored data, especially survival data \cite{survival},
-but those packages generally focused on specific models, enabling the fit of only one distribution or a 
-restricted family of distributions. Our third objective was thus to provide \proglang{R} users a function 
-to estimate univariate distribution parameters from censored data, whatever the type of censoring. 
 
 % A CHANGER POUR CONFORMITE AVEC NO VERSION CRAN !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 This manuscript reviews the various features of version 1.0-0 of \pkg{fitdistrplus}. The package
@@ -168,81 +163,48 @@ options(digits=3)
 <<pkgload1, results=hide>>=
 library(fitdistrplus)
 @
-% POUR JSS AJOUTER quelques lignes sur les travaux publies utilisant le package !!!!!!!!!!!!!!! 
-
-Papers citing \pkg{fitdistrplus} are \cite{busschaertetal10,brooksetal11,aktassjostrand11,eling12,croucheretal12,commeauetal12,bagariaetal12,anandetal12,eikhermann12}
 
 % A continuer
 
 % POUR JSS AJOUTER UN PLAN DU PAPIER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-
-
-\subsection{Running examples TO BE REMOVED}
-\label{Examples}
+%\subsection{Running examples TO BE REMOVED}
+%\label{Examples}
 %%%%%%%%%%%
-For illustrating the use of various functions of package \pkg{fitdistrplus}, we will use
-four examples published in various biological areas, 
-corresponding to data sets included in the package.
+%For illustrating the use of various functions of package \pkg{fitdistrplus}, we will use
+%four examples published in various biological areas, 
+%corresponding to data sets included in the package.
 
-The two first data sets correspond to the observation of a continuous variable on a random sample
-of a population of interest. 
 
-The ``ground beef'' data set contains values of
+%The ``endosulfan'' data set contains
+%acute toxicity values for the organochlorine pesticide endosulfan
+%(geometric mean of LC50 ou EC50 values in $\mu g.L^{-1}$),
+%tested on Australian and non-Australian laboratory-species 
+%(arthropods, fish or nonarthropod invertebrates) (\cite{Hose04}).
+%%% R code
+%<<datendosulfan, echo=TRUE>>=
+%data(endosulfan)
+%str(endosulfan)
+%@
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Fitting distributions to continuous non-censored data}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+For illustrating the use of various functions of package \pkg{fitdistrplus} 
+to help the fit of a distribution to continuous data, we will use
+a data set named ``ground beef'' and included in the package.
+This data set contains pointwise values of
 serving sizes in grams, collected in a French survey, for ground beef patties consumed by 
-children under 5 years old. This data set was used in a quantitative risk assessment published
+children under 5 years old. It was used in a quantitative risk assessment published
 in a food microbiology journal (\cite{Delignette08}).
 %%% R code
 <<datgroundbeef, echo=TRUE>>=
 data(groundbeef)
 str(groundbeef)
 @
-
-The ``endosulfan'' data set contains
-acute toxicity values for the organochlorine pesticide endosulfan
-(geometric mean of LC50 ou EC50 values in $\mu g.L^{-1}$),
-tested on Australian and non-Australian laboratory-species 
-(arthropods, fish or nonarthropod invertebrates) (\cite{Hose04}).
-%%% R code
-<<datendosulfan, echo=TRUE>>=
-data(endosulfan)
-str(endosulfan)
-@
-
-The ``Toxocara'' data set corresponds to the observation of a discrete variable, 
-the number of \emph{Toxocara cati} parasites present in digestive tract,
-on a random sample of feral 
-cats living on Kerguelen island (\cite{Fromont01}).
-%%% R code
-<<dattoxocara, echo=TRUE>>=
-data(toxocara)
-str(toxocara)
-@
-
-The ``smoked fish'' data set corresponds to the observation of a continuous censored variable, 
-the \emph{Listeria monocytogenes} microbial concentration, on a random
-sample of smoked fish distributed on the Belgian market in the period
-2005 to 2007 (\cite{Busschaert10}).
-Censored data are coded within 2 columns named left and right, describing
-each observed value of \emph{Listeria monocytogenes} concentration 
-(in $CFU.g^{-1}$) as an interval. 
-The left column contains either \code{NA} for
-left censored observations, the left bound of the interval for interval censored
-observations, or the observed value for non-censored observations. The right
-column contains either \code{NA} for right censored observations, the right bound of
-the interval for interval censored observations, or the observed value for noncensored
-observations.
-%%% R code
-<<datsmokedfish, echo=TRUE>>=
-data(smokedfish)
-str(smokedfish)
-@
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Fitting distributions}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Choice of candidate distributions}
 \label{Choice}
@@ -273,25 +235,6 @@ plotdist(groundbeef$serving)
   \label{plotdistcont}
 \end{figure}
 
-In some cases a discrete variable may be plotted as a continuous one, for example for a large data set
-from a binomial distribution converging to a normal one, but
-Function \code{plotdist} also proposes specific plots in density and in cdf
-for discrete variables (Figure~\ref{plotdistdisc}):
-%%% R code
-<<figtoxocara.echo, echo=TRUE, fig=FALSE, eval=FALSE>>=
-plotdist(toxocara$number,discrete = TRUE)
-@
-\begin{figure}[htb!]
-  \centering
-  %%% R code
-<<figtoxocaraplot, echo=FALSE, fig=TRUE, width=10, height=5, eps=FALSE>>=
-plotdist(toxocara$number,discrete = TRUE)
-@
-  \caption{Density and cdf plots of an empirical distribution for a discrete variable
-  (number of \emph{Toxocara cati} parasites from the ``Toxocara'' data set)}
-  \label{plotdistdisc}
-\end{figure}
-
 %\clearpage
 
 \subsubsection{Empirical basis for selecting candidate distributions}
@@ -311,15 +254,15 @@ Function \code{descdist} provides calculations of classical descriptive statisti
 (minimum, maximum, median, mean, standard deviation) and skewness and Pearsons's kurtosis. By default 
 unbiased estimations of the three last statistics are provided but the argument \code{method}
 may be used to obtain  them without correction for bias. 
-Formulas for unbiased skewness  and kurtosis :
+Formulas for unbiased skewness  and kurtosis are :
   \begin{equation}
     \label{skewness}
-    skewness=\frac{\sqrt{n(n-1)}}{n-2}\times\frac{m_{3}}{m_{2}^{\frac{3}{2}}}
+    unbiased~skewness=\frac{\sqrt{n(n-1)}}{n-2}\times\frac{m_{3}}{m_{2}^{\frac{3}{2}}}
   \end{equation}
 
   \begin{equation}
     \label{kurtosis}
-    kurtosis=\frac{n-1}{(n-2)(n-3)}((n+1) \times \frac{m_{4}}{m_{2}^{2}}-3(n-1)) + 3
+    unbiased~kurtosis=\frac{n-1}{(n-2)(n-3)}((n+1) \times \frac{m_{4}}{m_{2}^{2}}-3(n-1)) + 3
   \end{equation}
 with $m_{2}$, $m_{3}$, $m_{4}$ moments defined by
 $m_{r}=\frac{1}{n}\sum_{i=1}^n(x_{i}-\overline{x})^{r}$, with
@@ -335,9 +278,14 @@ areas of possible values are represented, consisting in lines (as for gamma and 
 or larger areas (as for beta distribution).
     
 Skewness and kurtosis are known not to be robust. In order to take into account the uncertainty 
-of the estimated values of kurtosis and skewness from data, the data set may be boostraped\footnote{The bootstrap is a statistical procedure providing random samples of statistical estimates.} by 
-fixing the argument \code{boot} to an integer above 10. Values of skewness and kurtosis 
-corresponding to bootstrap samples are then computed and reported on the 
+of the estimated values of kurtosis and skewness from data, a bootstrap procedure can be performed
+by fixing the argument \code{boot} to an integer above 10.
+%\footnote{The 
+% bootstrap is a statistical procedure providing random samples of statistical estimates.}
+\code{boot} bootstrap samples of the same size of the original data set
+are then constructed by random sampling with replacement from that original data set.
+Values of skewness and kurtosis 
+are computed on that bootstrap samples and reported on the 
 skewness-kurtosis plot. Below is a call to function \code{descdist} to describe the distribution 
 of the serving size from the ``ground beef'' data set and to draw the corresponding skewness-kurtosis
 plot (Figure~\ref{Cullenplotcont}). Looking at the results on this example
@@ -358,29 +306,6 @@ descdist(groundbeef$serving, boot=1000)
   (serving size from the ``ground beef'' data set)}
   \label{Cullenplotcont}
 \end{figure}
-
-For discrete variables, such as the number of \emph{Toxocara cati} parasites from 
-the ``Toxacara'' data set,  skewness and kurtosis values or set of values of Poisson and negative binomial
-distributions are represented in the skewness-kurtosis plot 
-%(Figure~\ref{Cullenplotdisc}), 
-together with values for the
-normal distribution, to which discrete distributions may converge. 
-%Looking at the skewness-kurtosis plot (Figure~\ref{Cullenplotdisc}) obtained
-%for the number of \emph{Toxocara cati} parasites from 
-%the ``Toxacara'' data set, one could try the fit of Poisson and negative-binomial distributions.
-
-%<<echo=TRUE, fig=FALSE>>=
-%descdist(toxocara$number,discrete = TRUE,boot=1000)
-%@
-%\begin{figure}[htb]
-%  \centering
-%<<echo=FALSE, results=hide, fig=TRUE>>=
-%descdist(toxocara$number,discrete = TRUE,boot=1000)
-%@
-%  \caption{Skewness-kurtosis plot for a discrete variable
-%  (number of \emph{Toxocara cati} parasites from the ``Toxocara'' data set)}
-%  \label{Cullenplotdisc}
-%\end{figure}
 
 %\clearpage
 
@@ -406,7 +331,7 @@ Function \code{fitdist} returns the results of the fit of any parametric distrib
 to a data set as an S3 class object that may be easily printed, 
 summarized or plotted (see Figure~\ref{plotcontfit} in Section~\ref{GOF plots}). 
 The parametric distribution must be a classically defined \proglang{R} distributions,
-with at least d, p and q functions respectively for the density cdf and quantile functions
+with at least d, p and q functions respectively for the density, cdf and quantile functions
 (for example \code{dnorm}, \code{pnorm} and \code{qnorm} for the normal distribution).
 The name of the fitted distribution is specified in the first argument by its classical 
 abbreviation used as the second part of d, p and q functions (for example ``norm''
@@ -421,19 +346,6 @@ to the serving size in the ``ground beef'' data set.
 <<fitgroundbeef.weibull, echo = TRUE, fig = FALSE>>=
 fw <- fitdist(groundbeef$serving,"weibull")
 summary(fw)
-@
-
-The same procedure is required to fit a discrete distribution. As an example, 
-using ``toxocara'' data set, Poisson and
-negative distributions may be easily fitted and AIC values compared, in this case
-giving the preference
-to the negative binomial distribution, with a much smaller AIC value.
-%%% R code
-<<fittoxocara.poisnbinom, echo = TRUE, fig = FALSE>>=
-(fp <- fitdist(toxocara$number,"pois"))
-(fnb <- fitdist(toxocara$number,"nbinom"))
-fp$aic
-fnb$aic
 @
 
 For some distributions (see the help of \code{fitdist} for details), it is necessary to specify initial 
@@ -475,9 +387,9 @@ manual~\cite{fitdistrplus} for examples).
 \subsubsection{Goodness-of-fit plots}
 \label{GOF plots}
 %%%%%%%%%%
-The plot of an object of class \code{"fitdist"} provides two types of results depending of the nature 
-of the distribution, continuous or discrete. For continuous distributions, 
-four goodness-of-fit plots are provided : a draw of pdf curve and histogram together (density plot), an cdf plot
+The plot of an object of class \code{"fitdist"} corresponding to the fit of a continuous 
+distribution to non-censored data, provides 
+four goodness-of-fit plots : a draw of pdf curve and histogram together (density plot), an cdf plot
 of both empirical and theoretical distributions, a Q-Q plot
 (plot of the quantiles of the theoretical fitted distribution (x-axis) against the empirical quantiles of the data (y-axis))
 and a P-P plot (i.e. for each value of the data set, plot of the cumulative density function of the fitted distribution
@@ -504,7 +416,7 @@ plot(fw)
   \label{plotcontfit}
 \end{figure}
 
-For continuous distributions, Function \code{denscomp}, \code{cdfcomp},
+Functions \code{denscomp}, \code{cdfcomp},
 \code{qqcomp} and \code{ppcomp}, enable the visual comparison
 of the empirical and various theoretical distributions fitted
 on a same data set, using one of the four plots
@@ -560,26 +472,8 @@ Weibull, lognormal and gamma distributions to ``groundbeef'' data set with a den
 %\texttt{xlogscale} to \texttt{TRUE} in the call to \texttt{cdfcomp}.
 % completer avec tout ce qu'on peut changer dans cdfcomp : PAS FORCEMENT UTILE
 
-For discrete distributions, the plot of an object of class \code{"fitdist"} simply provides
-two goodness-of-fit plots comparing empirical and theoretical distributions
-in pdf and in cdf.
-%As an exemple, let us look at the plot of the previous fit of a negative binomial distribution 
-%to ``toxocara'' data set. 
 
-%<<echo=TRUE, fig=FALSE>>=
-%plot(fnb)
-%@
-%\begin{figure}[htb]
-%  \centering
-%<<echo=FALSE, results=hide, fig=TRUE>>=
-%plot(fnb)
-%@
-%  \caption{Plot of the fit of a discrete distribution (a negative binomial distribution
-%  fitted to numbers of \emph{Toxocara cati} parasites from the ``Toxocara'' data set)}
-%  \label{plotdiscfit}
-%\end{figure}
-
-
+ADD THE TWO OTHER GRAPHS, AND COMMENT THEM, ESPECIALLY THE QQPLOT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 \subsubsection{Measures of goodness-of-fit}
 \label{GOF measures}
@@ -631,37 +525,18 @@ Nevertheless, this statistics should
 be used cautiously when comparing fits of various distributions, keeping in mind that the weighting of each
 cdf quadratic difference is dependent of the theoretical distribution. 
 
-When fitting discrete distributions, the Chi-squared statistic is computed by 
-Function \code{gofstat} using cells defined 
-by the argument \code{chisqbreaks} or cells automatically defined from the data in order 
-to reach roughly the same number of observations per cell, roughly equal to the argument
-\code{meancount}, or sligthly more if there are some ties. 
-The choice to define cells from the empirical distribution (data) and not from the
-theoretical distribution was done to enable the comparison of Chi-squared values obtained
-with different distributions fitted on a same dataset.
-If arguments \code{chisqbreaks} and \code{meancount} 
-are both omitted, \code{meancount} is fixed in order to obtain roughly $(4n)^{2/5}$ cells, 
-with $n$ the length of the dataset~\cite{Vose10}. Using this default option with 
-the fit of a negative binomial distribution to ``toxocara'' data set gives following results :
-%%% R code
-<<fittoxocara.poisnbinom.gof, echo=TRUE, fig=FALSE>>=
-gofstat(fnb)
-@
-
-Among its returned values, Function \code{gofstat} provides a table with observed and theoretical 
-counts used for the Chi-squared calculations:
-%%% R code
-<<fittoxocara.poisnbinom.gof.chisq, echo=TRUE,fig=FALSE>>=
-gofstat(fnb)$chisqtable
-@
 
 Even if specifically recommended for discrete distributions, the Chi-squared statistic may also be used for
-continuous distributions (see the reference 
-manual~\cite{fitdistrplus} for examples) for examples).
+continuous distributions (see Section~\ref{discrete GOF stat} and the reference 
+manual~\cite{fitdistrplus} for examples).
+
+ADD A PART ON THE DRAWBACKS OF EACH GOFSTAT AND THE PREFERABLE USE OF AIC AND BIC TO COMPARE
+FITS ESPECIALLY WHEN THE NUMBER OF PARAMETERS CHARACTERIZING THE DISTRIBUTIONS DIFFERS 
 
 \subsubsection{Goodness-of-fit tests}
 \label{GOF tests}
 %%%%%%%%%%
+TO BE REMOVED AT LEAST IN THE JSS VERSION
 
 For continuous distributions, an approximate Kolmogorov-Smirnov test is 
 performed by assuming the distribution parameters known. The critical value defined by Stephens~\cite{Stephens86} 
@@ -671,8 +546,8 @@ distribution at the significance level 0.05. Because of this approximation, the 
 than 30 observations. Note that this approximate test may be too conservative. 
 
 For datasets with more than 5 observations and for continuous distributions for 
-which the test is described by Stephens~\cite{Stephens86} (normal, lognormal,
-exponential, Cauchy, gamma, logistic and Weibull),
+which the test is described by Stephens~\cite{Stephens86} for maximum likelihood
+estimations (exponential, Cauchy, gamma and Weibull),
 the Cramer-von Mises and Anderson-darling tests are performed as described by Stephens~\cite{Stephens86}. 
 Those tests take into 
 account the fact that the parameters are not known but estimated from the data. The result is the 
@@ -715,8 +590,146 @@ plots do not show strong differences between empirical and theoretical distribut
 
 %\clearpage
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Fitting distributions to other types of data}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{The special case of censored data}
+\subsection{The case of discrete data}
+\label{discrete}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The ``Toxocara'' data set corresponds to the observation of a discrete variable, 
+the number of \emph{Toxocara cati} parasites present in digestive tract,
+on a random sample of feral 
+cats living on Kerguelen island (\cite{Fromont01}). We will use it in order 
+to illustrate the case of discrete data.
+%%% R code
+<<dattoxocara, echo=TRUE>>=
+data(toxocara)
+str(toxocara)
+@
+
+
+
+\subsubsection{Graphical display of the observed distribution}
+\label{discrete graph}
+%%%%%%%%%%
+In some cases a discrete variable may be plotted as a continuous one, for example for a large data set
+from a binomial distribution converging to a normal one, but
+Function \code{plotdist} also proposes specific plots in density and in cdf
+for discrete variables (Figure~\ref{plotdistdisc}):
+%%% R code
+<<figtoxocara.echo, echo=TRUE, fig=FALSE, eval=FALSE>>=
+plotdist(toxocara$number,discrete = TRUE)
+@
+\begin{figure}[htb!]
+  \centering
+  %%% R code
+<<figtoxocaraplot, echo=FALSE, fig=TRUE, width=10, height=5, eps=FALSE>>=
+plotdist(toxocara$number,discrete = TRUE)
+@
+  \caption{Density and cdf plots of an empirical distribution for a discrete variable
+  (number of \emph{Toxocara cati} parasites from the ``Toxocara'' data set)}
+  \label{plotdistdisc}
+\end{figure}
+
+As for continuous non-censored data (see Section~\ref{Empirical})
+Function \texttt{descdist} can be used, but with the argument \texttt{discrete}
+fixed to \texttt{TRUE}. This function will especially 
+compute skewness and kurtosis values, and plot them in a skewness-kurtosis plot 
+ with skewness and kurtosis values or set of values of 
+Poisson and negative binomial
+%(Figure~\ref{Cullenplotdisc}), 
+together with values for the
+normal distribution, to which discrete distributions may converge. 
+
+%Looking at the skewness-kurtosis plot (Figure~\ref{Cullenplotdisc}) obtained
+%for the number of \emph{Toxocara cati} parasites from 
+%the ``Toxacara'' data set, one could try the fit of Poisson and negative-binomial distributions.
+
+%<<echo=TRUE, fig=FALSE>>=
+%descdist(toxocara$number,discrete = TRUE,boot=1000)
+%@
+%\begin{figure}[htb]
+%  \centering
+%<<echo=FALSE, results=hide, fig=TRUE>>=
+%descdist(toxocara$number,discrete = TRUE,boot=1000)
+%@
+%  \caption{Skewness-kurtosis plot for a discrete variable
+%  (number of \emph{Toxocara cati} parasites from the ``Toxocara'' data set)}
+%  \label{Cullenplotdisc}
+%\end{figure}
+
+
+\subsubsection{Maximum likelihood estimation}
+\label{discrete MLE}
+%%%%%%%%%%
+The fit of a discrete distribution to discrete data by maximum
+likelihood estimation requires the same procedure as for continuous non-censored data. 
+As an example, 
+using the ``toxocara'' data set, Poisson and
+negative distributions may be easily fitted and AIC values compared, in this case
+giving the preference
+to the negative binomial distribution, with a much smaller AIC value.
+%%% R code
+<<fittoxocara.poisnbinom, echo = TRUE, fig = FALSE>>=
+fp <- fitdist(toxocara$number,"pois")
+summary(fp)
+fnb <- fitdist(toxocara$number,"nbinom")
+summary(fnb)
+@
+
+\subsubsection{Goodness-of-fit plot}
+\label{discrete GOF graph}
+%%%%%%%%%%
+For discrete distributions, the plot of an object of class \code{"fitdist"} simply provides
+two goodness-of-fit plots comparing empirical and theoretical distributions
+in pdf and in cdf.
+As an exemple, let us look at the plot of the previous fit of a negative binomial distribution 
+to the ``toxocara'' data set. 
+
+<<echo=TRUE, fig=FALSE>>=
+plot(fnb)
+@
+\begin{figure}[htb]
+  \centering
+<<echo=FALSE, results=hide, fig=TRUE>>=
+plot(fnb)
+@
+  \caption{Plot of the fit of a discrete distribution (a negative binomial distribution
+  fitted to numbers of \emph{Toxocara cati} parasites from the ``Toxocara'' data set)}
+  \label{plotdiscfit}
+\end{figure}
+
+
+\subsubsection{Measures of goodness-of-fit}
+\label{discrete GOF stat}
+%%%%%%%%%%
+
+When fitting discrete distributions, the Chi-squared statistic is computed by 
+Function \code{gofstat} using cells defined 
+by the argument \code{chisqbreaks} or cells automatically defined from the data in order 
+to reach roughly the same number of observations per cell, roughly equal to the argument
+\code{meancount}, or sligthly more if there are some ties. 
+The choice to define cells from the empirical distribution (data) and not from the
+theoretical distribution was done to enable the comparison of Chi-squared values obtained
+with different distributions fitted on a same dataset.
+If arguments \code{chisqbreaks} and \code{meancount} 
+are both omitted, \code{meancount} is fixed in order to obtain roughly $(4n)^{2/5}$ cells, 
+with $n$ the length of the dataset~\cite{Vose10}. Using this default option with 
+the fit of a negative binomial distribution to ``toxocara'' data set gives following results :
+%%% R code
+<<fittoxocara.poisnbinom.gof, echo=TRUE, fig=FALSE>>=
+gofstat(fnb)
+@
+
+Among its returned values, Function \code{gofstat} provides a table with observed and theoretical 
+counts used for the Chi-squared calculations:
+%%% R code
+<<fittoxocara.poisnbinom.gof.chisq, echo=TRUE,fig=FALSE>>=
+gofstat(fnb)$chisqtable
+@
+
+\subsection{The special case of censored data}
 \label{censored}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -730,8 +743,28 @@ with several lower and upper bounds. Data must be coded into a dataframe with tw
  The \code{right} column contains either \code{NA} for right censored observations,
  the right bound of the interval for interval censored observations,
  or the observed value for non-censored observations.
+ 
+The ``smoked fish'' data set, included in the package,
+corresponds to the observation of a continuous censored variable, 
+the \emph{Listeria monocytogenes} microbial concentration, on a random
+sample of smoked fish distributed on the Belgian market in the period
+2005 to 2007 (\cite{Busschaert10}).
+Censored data are coded within 2 columns named left and right, describing
+each observed value of \emph{Listeria monocytogenes} concentration 
+(in $CFU.g^{-1}$) as an interval. 
+The left column contains either \code{NA} for
+left censored observations, the left bound of the interval for interval censored
+observations, or the observed value for non-censored observations. The right
+column contains either \code{NA} for right censored observations, the right bound of
+the interval for interval censored observations, or the observed value for noncensored
+observations.
+%%% R code
+<<datsmokedfish, echo=TRUE>>=
+data(smokedfish)
+str(smokedfish)
+@
      
-\subsection{Graphical display of the observed distribution}
+\subsubsection{Graphical display of the observed distribution}
 \label{censored graph}
 %%%%%%%%%%
 
@@ -776,7 +809,7 @@ plotdistcens(log10C)
   \label{plotdistcens}
 \end{figure}
 
-\subsection{Maximum likelihood estimation}
+\subsubsection{Maximum likelihood estimation}
 \label{censored MLE}
 %%%%%%%%%%
 
@@ -814,7 +847,7 @@ values for the distribution parameters in the argument \code{start}.
 The \code{plotdistcens} function can help to find correct initial values for 
 the distribution parameters in non trivial cases, by an manual iterative use if necessary.
 
-\subsection{Goodness-of-fit plot}
+\subsubsection{Goodness-of-fit plot}
 \label{censored GOF graph}
 %%%%%%%%%%
 Only one goodness-of-fit plot is provided for censored data, corresponding to the theoretical 
@@ -1121,7 +1154,7 @@ fitdist(groundbeef$serving, "gamma", custom.optim=mygenoud, nvars=2,
 The uncertainty in the parameters of the fitted distribution may be simulated by parametric or nonparametric
 bootstrap using the \code{boodist} function for non censored data and
 by nonparametric bootstrap using \code{boodistcens} function for censored data. 
-These functions return the boostrapped values of parameters in a 
+These functions return the bootstrapped values of parameters in a 
 S3 class object which
 may be plotted to visualize the bootstrap region. 
 The medians and the 95 percent confidence intervals of parameters (2.5 and 97.5 percentiles) are printed 
@@ -1167,9 +1200,8 @@ serving sizes from the ``ground beef'' data set)}
 
 
 \subsubsection{Use of bootstrap samples}
-%\label{MC2D}
+\label{bootstrap}
 %%%%%%%%%%
-%TO BE DONE
 Bootstrap samples of parameter estimates may be used to calculate confidence intervals on each parameter
 of the fitted distribution, but it is also interesting to look at the marginal distribution of the bootstrap
 values in a scatterplot (or a matrix of scatterplots if the number of parameters exceeds two), and especially
@@ -1208,10 +1240,12 @@ quantile(flnMLE, probs = c(0.05, 0.10, 0.20, 0.50))
 
 \clearpage
 
-%\section{Conclusion}
-%\label{ccl}
+\section{Conclusion}
+\label{ccl}
 %%%%%%%%%%
-%TO BE DONE
+% POUR JSS AJOUTER quelques lignes sur les travaux publies utilisant le package !!!!!!!!!!!!!!! 
+
+Papers citing \pkg{fitdistrplus} are \cite{busschaertetal10,brooksetal11,aktassjostrand11,eling12,croucheretal12,commeauetal12,bagariaetal12,anandetal12,eikhermann12}
 
 \bibliographystyle{plain}
 \bibliography{fitdistrplus,paperscitingfitdistrplus}
