@@ -29,6 +29,9 @@
 %\VignetteKeyword{distribution}
 
 
+%American Mathematical Society (AMS) math symbols
+\usepackage{amsfonts,amssymb,amsmath}
+
 % accents 8 bits dans le fichier
 %\usepackage[applemac]{inputenc} %MAC encoding
 \usepackage[utf8]{inputenc} %UNIX encoding
@@ -41,6 +44,8 @@
 %reference hypertext
 \usepackage[pagebackref=true, hyperfootnotes=false]{hyperref}
 
+%todo notes
+\usepackage{todonotes}
 
 
 % les macros generales
@@ -75,6 +80,10 @@ censored data using the \proglang{R} package \pkg{fitdistrplus}}
 \maketitle
 
 
+\HRuleTop\\
+TODO abstract\\
+\HRuleBottom
+
 
 % A enlever dans version JSS !
 \tableofcontents
@@ -87,9 +96,7 @@ censored data using the \proglang{R} package \pkg{fitdistrplus}}
 \label{Introduction}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%\subsection{Overview}
-%\label{Overview}
-%%%%%%%%%%%
+
 
 Fitting distributions to data is a very common task in statistics and consists in choosing
 a probability distribution that gives a good representation of a statistical
@@ -194,12 +201,12 @@ library(fitdistrplus)
 \section{Fitting distributions to continuous non-censored data}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 For illustrating the use of various functions of package \pkg{fitdistrplus} 
-to help the fit of a distribution to continuous data, we will use
-a data set named ``ground beef'' and included in the package.
+to help the fit of a distribution to continuous data, we  use
+a data set named ``ground beef'' which is included in our package.
 This data set contains pointwise values of
 serving sizes in grams, collected in a French survey, for ground beef patties consumed by 
-children under 5 years old. It was used in a quantitative risk assessment published
-in a food microbiology journal (\cite{Delignette08}).
+children under 5 years old. This data set is used by  \cite{Delignette08}, a quantitative risk assessment 
+published in the international journal of food microbiology journal.
 %%% R code
 <<datgroundbeef, echo=TRUE>>=
 data(groundbeef)
@@ -211,15 +218,18 @@ str(groundbeef)
 Before fitting one or more distributions to a data set, it is generally
 necessary to choose good candidates among a predefined family of distributions.
 To help the user in this preliminary task, we developed functions to plot and
-characterise empirical distributions.
+characterise the empirical distribution.
 
 \subsubsection{Graphical display of the observed distribution}
 \label{Graphical}
 %%%%%%%%%%
 
-First of all, an empirical distribution may be plotted using classical \proglang{R} function
-or using Function \code{plotdist} which provides plots
-in density and in cdf as done in (Figure~\ref{plotdistcont}) for a continuous variable:
+First of all, the empirical distribution and density functions may be plotted using the 
+classical \proglang{R} functions \code{ecdf} and \code{hist}
+or using Function \code{plotdist}.
+This function provides such plots : the left-hand plot is the histogram (on a density level) 
+and the right-hand plot is the empirical cumulative distribution function (cdf).
+Below, we give an example for a continuous variables giving in Figure~\ref{plotdistcont}.
 %%% R code
 <<figgroundbeef.echo, echo=TRUE, fig=FALSE, eval=FALSE>>=
 plotdist(groundbeef$serving)
@@ -240,36 +250,40 @@ plotdist(groundbeef$serving)
 \subsubsection{Empirical basis for selecting candidate distributions}
 \label{Empirical}
 %%%%%%%%%% 
-Descriptives statistics may help the choice of good candidates to describe an empirical distribution
-among a family of parametric distributions. Especially the skewness and kurtosis are useful for this
-purpose. The concept of skewness relates to deviations from symmetry of the distribution.
+In addition to empirical plots, descriptives statistics may help to choose good candidates to describe a distribution
+among a family of parametric distributions. Especially the skewness and kurtosis, linked to the third and fourth moments, 
+are useful for this purpose. The concept of skewness relates to deviations from symmetry of the distribution is defined as
 The normal distribution has a skewness of zero. A positive (resp. negative) skewness indicates 
 that the right (resp. left) tail of the distribution is more extended than the left (resp. right) one.
 The concept of kurtosis relates to the tail weight. The normal distribution has a kurtosis of 3.
 Distributions with a higher kurtosis are said to be leptokurtic, with heavier tails, such as the 
 logistic distribution, while distributions with a smaller kurtosis are said platykurtic, with lighter 
-tails, such as the uniform distribution.
+tails, such as the uniform distribution, see 
 
 Function \code{descdist} provides calculations of classical descriptive statistics
 (minimum, maximum, median, mean, standard deviation) and skewness and Pearsons's kurtosis. By default 
 unbiased estimations of the three last statistics are provided but the argument \code{method}
 may be used to obtain  them without correction for bias. 
-Formulas for unbiased skewness  and kurtosis are :
+Skewness and kurtosis with their corresponding unbiased estimator of a sample $(X_i)_i \stackrel{\text{i.i.d.}}{\sim} X$ 
+are given by
   \begin{equation}
     \label{skewness}
-    unbiased~skewness=\frac{\sqrt{n(n-1)}}{n-2}\times\frac{m_{3}}{m_{2}^{\frac{3}{2}}}
+    sk(X) = \frac{E[(X-E(X))^3]}{Var(X)^{\frac{3}{2}}}~,~
+    \widehat{sk}=\frac{\sqrt{n(n-1)}}{n-2}\times\frac{m_{3}}{m_{2}^{\frac{3}{2}}},
   \end{equation}
 
   \begin{equation}
     \label{kurtosis}
-    unbiased~kurtosis=\frac{n-1}{(n-2)(n-3)}((n+1) \times \frac{m_{4}}{m_{2}^{2}}-3(n-1)) + 3
+    kr(X) = \frac{E[(X-E(X))^4]}{Var(X)^{2}}~,~
+    \widehat{kr}=\frac{n-1}{(n-2)(n-3)}((n+1) \times \frac{m_{4}}{m_{2}^{2}}-3(n-1)) + 3,
   \end{equation}
-with $m_{2}$, $m_{3}$, $m_{4}$ moments defined by
+where $m_{2}$, $m_{3}$, $m_{4}$ denote empirical moments defined by
 $m_{r}=\frac{1}{n}\sum_{i=1}^n(x_{i}-\overline{x})^{r}$, with
 $x_{i}$ the $n$ observations of variable $x$ and $\overline{x}$ their mean value. 
 
-A skewness-kurtosis plot such as the one proposed by \cite{Cullen99} is also provided for the 
-empirical distribution (Figure~\ref{Cullenplotcont}). 
+A skewness-kurtosis plot such as the one proposed by \cite{Cullen99} is  provided by 
+the function \code{descdist} for the empirical distribution (see Figure~\ref{Cullenplotcont} for the \code{groundbeef}
+data set). 
 On this plot, values for common distributions are displayed as tools 
 to help the choice of distributions to fit to data. For some distributions (normal, uniform,
 logistic, exponential for example), there is only one possible value for the skewness and the kurtosis
@@ -280,8 +294,6 @@ or larger areas (as for beta distribution).
 Skewness and kurtosis are known not to be robust. In order to take into account the uncertainty 
 of the estimated values of kurtosis and skewness from data, a bootstrap procedure can be performed
 by fixing the argument \code{boot} to an integer above 10.
-%\footnote{The 
-% bootstrap is a statistical procedure providing random samples of statistical estimates.}
 \code{boot} bootstrap samples of the same size of the original data set
 are then constructed by random sampling with replacement from that original data set.
 Values of skewness and kurtosis 
@@ -299,7 +311,7 @@ descdist(groundbeef$serving, boot=1000)
 \begin{figure}[htb]
   \centering
  %%% R code
-<<descgroundbeefplot, echo=FALSE, fig=TRUE, width=5, height=5, eps=FALSE>>=
+<<descgroundbeefplot, echo=FALSE, fig=TRUE, width=4, height=4, eps=FALSE>>=
 descdist(groundbeef$serving, boot=1000)
 @
   \caption{Skewness-kurtosis plot for a continuous variable 
@@ -316,12 +328,13 @@ descdist(groundbeef$serving, boot=1000)
 \subsubsection{Parameter estimation}
 \label{Estim}
 %%%%%%%%%%
-Once selected, one or more parametric distributions may be fitted to the data set, one at a time, using
-Function \code{fitdist}. By default, distribution parameters $\theta$ are estimated by maximizing the
+Once selected, one or more parametric distributions $f(.\vert \theta)$ may be fitted to the data set, one at a time, using
+Function \code{fitdist}. 
+Under the i.i.d. sample assumption, distribution parameters $\theta$ are by default estimated by maximizing the
 likelihood defined as:
   \begin{equation}
     \label{likelihood}
-    L(\theta)=\prod_{i=1}^n f(x_{i}|\theta)
+    L(\theta)=\prod_{i=1}^n f(x_{i}\vert \theta)
   \end{equation}
 with $x_{i}$ the $n$ observations of variable $x$ and $f$ the density function of the 
 parametric distribution.
@@ -329,12 +342,12 @@ The other proposed estimation methods are described in Section~\ref{Alternatives
 
 Function \code{fitdist} returns the results of the fit of any parametric distribution 
 to a data set as an S3 class object that may be easily printed, 
-summarized or plotted (see Figure~\ref{plotcontfit} in Section~\ref{GOF plots}). 
+summarized or plotted (see Figure~\ref{plotcontfit} in Section~\ref{GOF:plots}). 
 The parametric distribution must be a classically defined \proglang{R} distributions,
-with at least d, p and q functions respectively for the density, cdf and quantile functions
+with at least d, p and q functions respectively for the density, cumulative distribution and quantile functions
 (for example \code{dnorm}, \code{pnorm} and \code{qnorm} for the normal distribution).
 The name of the fitted distribution is specified in the first argument by its classical 
-abbreviation used as the second part of d, p and q functions (for example ``norm''
+abbreviation used as the second part of d, p and q functions (for example \code{"norm"}
 for the normal distribution). Numerical results returned by Function \code{fitdist} are 
 parameter estimates with estimated standard errors computed from the estimate
 of the Hessian matrix at the maximum likelihood solution, correlation matrix
@@ -344,7 +357,7 @@ Below is a call to function \code{fitdist} to fit a Weibull distribution
 to the serving size in the ``ground beef'' data set.
 %%% R code
 <<fitgroundbeef.weibull, echo = TRUE, fig = FALSE>>=
-fw <- fitdist(groundbeef$serving,"weibull")
+fw <- fitdist(groundbeef$serving, "weibull")
 summary(fw)
 @
 
@@ -353,28 +366,23 @@ values for the distribution parameters in the argument \code{start} when using t
 \code{start} must be a named list
 of parameters initial values. The names of
 the parameters in \code{start} must correspond exactly to their definition in \proglang{R} or in a user-supplied \proglang{R} code.
-Function \code{plotdist} (see Section~\ref{GOF plots}), 
+Function \code{plotdist} (see Section~\ref{GOF:plots}), 
 which can plot any parametric distribution with specified parameter values
 in argument \code{para} may help to find correct initial values for 
 the distribution parameters in non trivial cases, by iterative calls if necessary (see the reference 
 manual~\cite{fitdistrplus} for examples).
  
-% Faudra trouver un autre exemple ou une autre distribution ou enlever cette partie
 
-%As an example, here is the fit of a user-supplied distribution, the Gumbel distribution 
-%(also named extreme value distribution) to an arbitrary data set, preceded by 
-%a plot of this data set with the Gumbel distribution which parameters 
-%were fixed at initial values manually obtained after iterative plots.
+For a pedagogic purpose, here is a fit of a user-supplied distribution. 
+We fit the Gumbel distribution 
+(also named the extreme value distribution) on the \code{groundbeef} data set.
+<<fitdanish1, echo=TRUE, fig=FALSE>>=
+dgumbel<-function(x,a,b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
+pgumbel<-function(q,a,b) exp(-exp((a-q)/b))
+qgumbel<-function(p,a,b) a-b*log(-log(p))
+summary(fitdist(groundbeef$serving, "gumbel", start=list(a=5, b=10)))
+@
 
-%<<echo=TRUE,fig=TRUE>>=
-%x1 <- c(6.4, 13.3, 4.1, 1.3, 14.1, 10.6, 9.9, 9.6, 15.3, 22.1,
-%13.4, 13.2, 8.4, 6.3, 8.9, 5.2, 10.9, 14.4)
-%dgumbel<-function(x,a,b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
-%pgumbel<-function(q,a,b) exp(-exp((a-q)/b))
-%qgumbel<-function(p,a,b) a-b*log(-log(p))
-%plotdist(x1,"gumbel",para=list(a=10,b=5))
-%fitdist(x1,"gumbel",start=list(a=10,b=5))
-%@
 %\begin{figure}[htb]
 %  \centering
 %<<echo=FALSE, results=hide, fig=TRUE>>=
@@ -384,8 +392,9 @@ manual~\cite{fitdistrplus} for examples).
 %  \label{plotdist}
 %\end{figure}
 
+
 \subsubsection{Goodness-of-fit plots}
-\label{GOF plots}
+\label{GOF:plots}
 %%%%%%%%%%
 The plot of an object of class \code{"fitdist"} corresponding to the fit of a continuous 
 distribution to non-censored data, provides 
@@ -398,9 +407,9 @@ For all these four plots, the probability plotting position is defined as recomm
 by a call to Function \code{ppoints} from the \pkg{stats} package with its default arguments.
 The Q-Q plot emphasizes the lack-of-fit at the distribution tails while the P-P plot emphasizes
 the lack-of-fit at the distribution center.
-As an example, let us look at the plot of the previous fit of a Weibull distribution to the``groundbeef'' data set
+As an example, let us look at the plot of the previous fit of a Weibull distribution to the \code{groundbeef} data set
 (Figure~\ref{plotcontfit}). The fit is not perfect,
-especially in the center of the distribution, but seems correct while looking at the tails.
+especially in the center of the distribution, but seems correct when looking at the tails.
 %%% R code
 <<fitgroundbeef.weibull.echo, echo=TRUE, fig=FALSE, eval=FALSE>>=
 plot(fw)
@@ -408,14 +417,18 @@ plot(fw)
 \begin{figure}[htb]
   \centering
   %%% R code
-<<fitgroundbeefweibullplot, echo=FALSE, fig=TRUE, width=5, height=5, eps=FALSE>>=
+<<fitgroundbeefweibullplot, echo=FALSE, fig=TRUE, width=7, height=7, eps=FALSE>>=
 plot(fw)
 @
   \caption{Plot of the fit of a continuous distribution (a Weibull
-  distribution fitted to serving sizes from the ``ground beef'' data set)}
+  distribution fitted to serving sizes from the \code{groundbeef} data set)}
   \label{plotcontfit}
 \end{figure}
 
+
+
+\subsubsection{Plots to compare multiple fits}
+\label{multfit:plots}
 Functions \code{denscomp}, \code{cdfcomp},
 \code{qqcomp} and \code{ppcomp}, enable the visual comparison
 of the empirical and various theoretical distributions fitted
@@ -425,27 +438,47 @@ corresponding to a list of objects of class \code{fitdist}, and optionaly
 further arguments to customize the plot (see the reference 
 manual~\cite{fitdistrplus} for lists of arguments that may be changed
 for each plot), as in the following example comparing the fit of
-Weibull, lognormal and gamma distributions to ``groundbeef'' data set with a density plot and a cdf plot
-(Figure~\ref{compdens} and ~\ref{compcdf}).
+Weibull, lognormal and gamma distributions to \code{groundbeef} data set.
+On Figure~\ref{groundbeef:comp}, we compare density, quantile, distribution and
+probability functions.
 %%% R code
 <<fittoxocara.poisnbinom.echo, echo=TRUE, fig=FALSE>>=
-    fg <- fitdist(groundbeef$serving,"gamma")
-    fln <- fitdist(groundbeef$serving,"lnorm")
-    denscomp(list(fw,fln,fg), legendtext=c("Weibull","lognormal","gamma"),
-    	xlab="serving sizes (g)",lwd=2)
-    cdfcomp(list(fw,fln,fg), legendtext=c("Weibull","lognormal","gamma"),
-    	xlab="serving sizes (g)",lwd=2)
+fg <- fitdist(groundbeef$serving,"gamma")
+fln <- fitdist(groundbeef$serving,"lnorm")
+par(mfrow=c(2, 2))
+denscomp(list(fw,fln,fg), legendtext=c("Weibull", "lognormal", "gamma"),
+  xlab="serving sizes (g)", lwd=2)
+qqcomp(list(fw,fln,fg), legendtext=c("Weibull", "lognormal", "gamma"),
+	xlab="theo. quantiles", lwd=2, line01=FALSE, fitcol=2:4)
+cdfcomp(list(fw,fln,fg), legendtext=c("Weibull", "lognormal", "gamma"),
+  xlab="serving sizes (g)", lwd=2)
+ppcomp(list(fw,fln,fg), legendtext=c("Weibull", "lognormal", "gamma"),
+  xlab="theo. prob.", lwd=2, line01=FALSE, fitcol=2:4)
 @
+
 \begin{figure}[htb!]
   \centering
+<<fittoxocarapoisnbinomplot, echo=FALSE, fig=TRUE, width=7, height=7, eps=FALSE>>=
+fg <- fitdist(groundbeef$serving,"gamma")
+fln <- fitdist(groundbeef$serving,"lnorm")
+par(mfrow=c(2, 2))
+denscomp(list(fw,fln,fg), legendtext=c("Weibull","lognormal","gamma"),
+  xlab="serving sizes (g)", lwd=2)
+qqcomp(list(fw,fln,fg), legendtext=c("Weibull","lognormal","gamma"),
+  xlab="theo. quantiles", lwd=2, line01=FALSE, fitcol=2:4)
+cdfcomp(list(fw,fln,fg), legendtext=c("Weibull","lognormal","gamma"),
+  xlab="serving sizes (g)", lwd=2)
+ppcomp(list(fw,fln,fg), legendtext=c("Weibull","lognormal","gamma"),
+  xlab="theo. prob.", lwd=2, line01=FALSE, fitcol=2:4)
+@  
   
-\subfloat[Densities]{ 
-  %%% R code
-<<fittoxocarapoisnbinomplot, echo=FALSE, fig=TRUE, width=4, height=4, eps=FALSE>>=
-    denscomp(list(fw,fln,fg),legendtext=c("Weibull","lognormal","gamma"),
-    xlab="serving sizes (g)",lwd=2)
-@
-\label{compdens}}
+%\subfloat[Densities]{ 
+% %%% R code
+%<<fittoxocarapoisnbinomplot, echo=FALSE, fig=TRUE, width=4, height=4, eps=FALSE>>=
+%    denscomp(list(fw,fln,fg),legendtext=c("Weibull","lognormal","gamma"),
+%    xlab="serving sizes (g)",lwd=2)
+%@
+%\label{compdens}}
 %  \caption{Comparison of density plots of various distributions fitted on continuous data
 %  (Weibull, gamma and lognormal
 %  distributions fitted to serving sizes from the ``ground beef'' data set)}
@@ -455,38 +488,47 @@ Weibull, lognormal and gamma distributions to ``groundbeef'' data set with a den
 %\begin{figure}[htb]
 %  \centering
   
-  \subfloat[CDFs]{ 
-  %%% R code
-<<fittoxocarapoisnbinomcdfcomp, echo=FALSE, fig=TRUE, width=4, height=4, eps=FALSE>>=
-    cdfcomp(list(fw,fln,fg), legendtext=c("Weibull","lognormal","gamma"),
-    	xlab="serving sizes (g)", lwd=2)
-@
-\label{compcdf} }
+%  \subfloat[CDFs]{ 
+%  %%% R code
+%<<fittoxocarapoisnbinomcdfcomp, echo=FALSE, fig=TRUE, width=4, height=4, eps=FALSE>>=
+%    cdfcomp(list(fw,fln,fg), legendtext=c("Weibull","lognormal","gamma"),
+%    	xlab="serving sizes (g)", lwd=2)
+%@
+%\label{compcdf} }
   \caption{Comparison of CDF plots of various distributions fitted on continuous data
   (Weibull, gamma and lognormal
   distributions fitted to serving sizes from the ``ground beef'' data set)}
+\label{groundbeef:comp}  
 %  \label{compcdf}
 \end{figure}
+
 
 %In such a plot, data may be represented in a log scale when required, by just fixing the argument
 %\texttt{xlogscale} to \texttt{TRUE} in the call to \texttt{cdfcomp}.
 % completer avec tout ce qu'on peut changer dans cdfcomp : PAS FORCEMENT UTILE
 
 
-ADD THE TWO OTHER GRAPHS, AND COMMENT THEM, ESPECIALLY THE QQPLOT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+\mytodo{COMMENT THEM, ESPECIALLY THE QQPLOT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!}
+
+
+\clearpage
 
 \subsubsection{Measures of goodness-of-fit}
-\label{GOF measures}
+\label{GOF:measures}
 %%%%%%%%%%
-The purpose of goodness-of-fit statistics is to measure the distance beetween
+The purpose of goodness-of-fit statistics aims to measure the distance beetween
 the cumulative distribution function $F$ defined from the fitted parametric distribution
-with the empirical distribution function $F_{n}$ defined from the data.
-When fitting continuous distributions, three classical goodness-of-fit statistics, 
-Cramer-von Mises, Kolmogorov-Smirnov and Anderson-Darling statistics, may be computed using 
-the function \code{gofstat}
-as defined by Stephens \cite{Stephens86} (Table \ref{tabKSCvMAD}).
+with the empirical distribution function $F_{n}$ based on the data.
+When fitting continuous distributions, three  goodness-of-fit statistics are classicaly considered: 
+Cramer-von Mises, Kolmogorov-Smirnov and Anderson-Darling statistics.
+They can be computed using the function \code{gofstat}
+as defined by Stephens \cite{Stephens86}.
+Table \ref{tabKSCvMAD} gives the definition and their empirical estimate.
 
-\begin{table}[t]
+
+\mytodo{check formula in Table 1}
+
+\begin{table}[htb!]
   \begin{center}
     \caption{Goodness-of-fit statistics as defined by Stephens \cite{Stephens86}.}
     \begin{tabular}{lll}
@@ -494,17 +536,18 @@ as defined by Stephens \cite{Stephens86} (Table \ref{tabKSCvMAD}).
       Statistic  & General formula & Computational formula\\
     \hline
       Kolmogorov-Smirnov   & $\sup|F_{n}(x) - F(x)|$ &
-      $max(D^{+},D^{-})$ with\\
-      (KS)&& $D^{+}=max_{i}(\frac{i}{n} - F(x_{i}));D^{-}=max_{i}(F(x_{i})-\frac{i-1}{n})$ \\
+      $\max(D^{+},D^{-})$ with\\
+      (KS)&& $D^{+}=\max\limits_{i=1,\dots,n}\left(\frac{i}{n} - F(x_{i})\right)
+      ;D^{-}=\max\limits_{i=1,\dots,n}\left(F(x_{i})-\frac{i-1}{n}\right)$ \\
     \hline
       Cramer-von Mises  & n $\int_{-\infty}^{\infty}(F_{n}(x) - F(x))^2 dx$ &
-        $\frac{1}{12n} + \sum_{i}(F(x_{i})-\frac{2i-1}{2n})^{2}$\\
+        $\frac{1}{12n} + \sum\limits_{i=1}^n \left(F(x_{i})-\frac{2i-1}{2n} \right)^{2}$\\
       (CvM)&&\\
 % cvm <- 1/(12*n) + sum( ( theop - (2 * seq(1:n) - 1)/(2 * n) )^2 )
     \hline
-      Anderson-Darling  & n $\int_{-\infty}^{\infty}(F_{n}(x) - F(x))^2 \psi(x) dx$
-      & $-n -\frac{1}{n}\sum_{i}((2i-1)(ln(F(x_{i}))+ln(1-F(x_{n+1-i}))))$ \\
-      (AD) &  with $\psi(x) = (F(x) \times (1 - F(x)))^{-1}$  &\\
+      Anderson-Darling  & n $\int_{-\infty}^{\infty}\frac{(F_{n}(x) - F(x))^2}{F(x) (1 - F(x))} dx$
+      & $-n -\frac{1}{n}\sum\limits_{i=1}^n \left((2i-1)\log(F(x_{i})+\log(1-F(x_{n+1-i})) )\right)$ \\
+      (AD) &    & \\
 % ad <- - n - mean( (2 * seq(1:n) - 1) * (log(theop) + log(1 - rev(theop))) )
     \hline
     \end{tabular}
@@ -527,14 +570,14 @@ cdf quadratic difference is dependent of the theoretical distribution.
 
 
 Even if specifically recommended for discrete distributions, the Chi-squared statistic may also be used for
-continuous distributions (see Section~\ref{discrete GOF stat} and the reference 
+continuous distributions (see Section~\ref{discrete:GOF:stat} and the reference 
 manual~\cite{fitdistrplus} for examples).
 
 ADD A PART ON THE DRAWBACKS OF EACH GOFSTAT AND THE PREFERABLE USE OF AIC AND BIC TO COMPARE
 FITS ESPECIALLY WHEN THE NUMBER OF PARAMETERS CHARACTERIZING THE DISTRIBUTIONS DIFFERS 
 
 \subsubsection{Goodness-of-fit tests}
-\label{GOF tests}
+\label{GOF:tests}
 %%%%%%%%%%
 TO BE REMOVED AT LEAST IN THE JSS VERSION
 
@@ -576,7 +619,7 @@ plots do not show strong differences between empirical and theoretical distribut
 %@
 
 %A warning message appears as one of the theoretical counts is under 5 using the default breaks 
-%(see Section~\ref{GOF measures}). In order to solve this problem, one may specify breaks 
+%(see Section~\ref{GOF:measures}). In order to solve this problem, one may specify breaks 
 %more adapted for the realization of the test.
 %<<echo=TRUE,fig=FALSE>>=
 %gofstat(fnb,chisqbreaks=c(0,1,4,8,20),print.test=TRUE)$chisqtable
@@ -611,7 +654,7 @@ str(toxocara)
 
 
 \subsubsection{Graphical display of the observed distribution}
-\label{discrete graph}
+\label{discrete:graph}
 %%%%%%%%%%
 In some cases a discrete variable may be plotted as a continuous one, for example for a large data set
 from a binomial distribution converging to a normal one, but
@@ -661,7 +704,7 @@ normal distribution, to which discrete distributions may converge.
 
 
 \subsubsection{Maximum likelihood estimation}
-\label{discrete MLE}
+\label{discrete:MLE}
 %%%%%%%%%%
 The fit of a discrete distribution to discrete data by maximum
 likelihood estimation requires the same procedure as for continuous non-censored data. 
@@ -679,7 +722,7 @@ summary(fnb)
 @
 
 \subsubsection{Goodness-of-fit plot}
-\label{discrete GOF graph}
+\label{discrete:GOF:graph}
 %%%%%%%%%%
 For discrete distributions, the plot of an object of class \code{"fitdist"} simply provides
 two goodness-of-fit plots comparing empirical and theoretical distributions
@@ -702,7 +745,7 @@ plot(fnb)
 
 
 \subsubsection{Measures of goodness-of-fit}
-\label{discrete GOF stat}
+\label{discrete:GOF:stat}
 %%%%%%%%%%
 
 When fitting discrete distributions, the Chi-squared statistic is computed by 
@@ -765,7 +808,7 @@ str(smokedfish)
 @
      
 \subsubsection{Graphical display of the observed distribution}
-\label{censored graph}
+\label{censored:graph}
 %%%%%%%%%%
 
 Using censored data such as those coded in the ``smokedfish'' data set,
@@ -810,7 +853,7 @@ plotdistcens(log10C)
 \end{figure}
 
 \subsubsection{Maximum likelihood estimation}
-\label{censored MLE}
+\label{censored:MLE}
 %%%%%%%%%%
 
 As for non censored data, one or more parametric distributions may then
@@ -848,7 +891,7 @@ The \code{plotdistcens} function can help to find correct initial values for
 the distribution parameters in non trivial cases, by an manual iterative use if necessary.
 
 \subsubsection{Goodness-of-fit plot}
-\label{censored GOF graph}
+\label{censored:GOF:graph}
 %%%%%%%%%%
 Only one goodness-of-fit plot is provided for censored data, corresponding to the theoretical 
 cumulative distribution function added to the plot of censored data presented

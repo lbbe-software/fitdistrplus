@@ -264,4 +264,13 @@ fitdist(x3, "unif", method="qme", probs=c(1/10, 9/10))
 
 
 
+# (17) uniform distribution
+#
+dgumbel <- function(x, a, b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
+pgumbel <- function(q, a, b) exp(-exp((a-q)/b))
+qgumbel <- function(p, a, b) a-b*log(-log(p))
+
+data(danishuni)
+fitdist(danishuni$Loss, "gumbel", start=list(a=5, b=10))
+
 
