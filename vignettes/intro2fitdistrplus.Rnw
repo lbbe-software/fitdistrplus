@@ -449,7 +449,7 @@ par(mfrow=c(2, 2))
 denscomp(list(fw,fln,fg), legendtext=c("Weibull", "lognormal", "gamma"),
   xlab="serving sizes (g)", lwd=2)
 qqcomp(list(fw,fln,fg), legendtext=c("Weibull", "lognormal", "gamma"),
-	xlab="theo. quantiles", lwd=2, line01=FALSE, fitcol=2:4)
+	xlab="theo. quantiles", lwd=2, line01=FALSE, fitcol=2:4, ylim=c(0,300))
 cdfcomp(list(fw,fln,fg), legendtext=c("Weibull", "lognormal", "gamma"),
   xlab="serving sizes (g)", lwd=2)
 ppcomp(list(fw,fln,fg), legendtext=c("Weibull", "lognormal", "gamma"),
@@ -465,7 +465,7 @@ par(mfrow=c(2, 2))
 denscomp(list(fw,fln,fg), legendtext=c("Weibull","lognormal","gamma"),
   xlab="serving sizes (g)", lwd=2)
 qqcomp(list(fw,fln,fg), legendtext=c("Weibull","lognormal","gamma"),
-  xlab="theo. quantiles", lwd=2, line01=FALSE, fitcol=2:4)
+  xlab="theo. quantiles", lwd=2, line01=FALSE, fitcol=2:4, ylim=c(0,300))
 cdfcomp(list(fw,fln,fg), legendtext=c("Weibull","lognormal","gamma"),
   xlab="serving sizes (g)", lwd=2)
 ppcomp(list(fw,fln,fg), legendtext=c("Weibull","lognormal","gamma"),
@@ -558,6 +558,8 @@ Table \ref{tabKSCvMAD} gives the definition and their empirical estimate.
 %%% R code
 <<fitgroundbeef.weibull.gof, echo=TRUE, fig=FALSE>>=
 gofstat(fw)
+gofstat(fln)
+gofstat(fg)
 @
 
 As giving  more weight to distribution tails, 
@@ -573,13 +575,16 @@ Even if specifically recommended for discrete distributions, the Chi-squared sta
 continuous distributions (see Section~\ref{discrete:GOF:stat} and the reference 
 manual~\cite{fitdistrplus} for examples).
 
+
+\mytodo{
 ADD A PART ON THE DRAWBACKS OF EACH GOFSTAT AND THE PREFERABLE USE OF AIC AND BIC TO COMPARE
 FITS ESPECIALLY WHEN THE NUMBER OF PARAMETERS CHARACTERIZING THE DISTRIBUTIONS DIFFERS 
+}
 
 \subsubsection{Goodness-of-fit tests}
 \label{GOF:tests}
 %%%%%%%%%%
-TO BE REMOVED AT LEAST IN THE JSS VERSION
+\mytodo{TO BE REMOVED AT LEAST IN THE JSS VERSION}
 
 For continuous distributions, an approximate Kolmogorov-Smirnov test is 
 performed by assuming the distribution parameters known. The critical value defined by Stephens~\cite{Stephens86} 
@@ -640,7 +645,7 @@ plots do not show strong differences between empirical and theoretical distribut
 \subsection{The case of discrete data}
 \label{discrete}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-The ``Toxocara'' data set corresponds to the observation of a discrete variable, 
+The \code{toxocara} data set corresponds to the observation of a discrete variable, 
 the number of \emph{Toxocara cati} parasites present in digestive tract,
 on a random sample of feral 
 cats living on Kerguelen island (\cite{Fromont01}). We will use it in order 
@@ -662,22 +667,22 @@ Function \code{plotdist} also proposes specific plots in density and in cdf
 for discrete variables (Figure~\ref{plotdistdisc}):
 %%% R code
 <<figtoxocara.echo, echo=TRUE, fig=FALSE, eval=FALSE>>=
-plotdist(toxocara$number,discrete = TRUE)
+plotdist(toxocara$number, discrete = TRUE)
 @
 \begin{figure}[htb!]
   \centering
   %%% R code
-<<figtoxocaraplot, echo=FALSE, fig=TRUE, width=10, height=5, eps=FALSE>>=
-plotdist(toxocara$number,discrete = TRUE)
+<<figtoxocaraplot, echo=FALSE, fig=TRUE, width=12, height=6, eps=FALSE>>=
+plotdist(toxocara$number, discrete = TRUE)
 @
   \caption{Density and cdf plots of an empirical distribution for a discrete variable
-  (number of \emph{Toxocara cati} parasites from the ``Toxocara'' data set)}
+  (number of \emph{Toxocara cati} parasites from the \code{toxocara} data set)}
   \label{plotdistdisc}
 \end{figure}
 
 As for continuous non-censored data (see Section~\ref{Empirical})
-Function \texttt{descdist} can be used, but with the argument \texttt{discrete}
-fixed to \texttt{TRUE}. This function will especially 
+Function \code{descdist} can be used, but with the argument \code{discrete}
+fixed to \code{TRUE}. This function will especially 
 compute skewness and kurtosis values, and plot them in a skewness-kurtosis plot 
  with skewness and kurtosis values or set of values of 
 Poisson and negative binomial
@@ -709,15 +714,15 @@ normal distribution, to which discrete distributions may converge.
 The fit of a discrete distribution to discrete data by maximum
 likelihood estimation requires the same procedure as for continuous non-censored data. 
 As an example, 
-using the ``toxocara'' data set, Poisson and
+using the \code{toxocara} data set, Poisson and
 negative distributions may be easily fitted and AIC values compared, in this case
 giving the preference
 to the negative binomial distribution, with a much smaller AIC value.
 %%% R code
 <<fittoxocara.poisnbinom, echo = TRUE, fig = FALSE>>=
-fp <- fitdist(toxocara$number,"pois")
+fp <- fitdist(toxocara$number, "pois")
 summary(fp)
-fnb <- fitdist(toxocara$number,"nbinom")
+fnb <- fitdist(toxocara$number, "nbinom")
 summary(fnb)
 @
 
@@ -728,18 +733,18 @@ For discrete distributions, the plot of an object of class \code{"fitdist"} simp
 two goodness-of-fit plots comparing empirical and theoretical distributions
 in pdf and in cdf.
 As an exemple, let us look at the plot of the previous fit of a negative binomial distribution 
-to the ``toxocara'' data set. 
+to the \code{toxocara} data set. 
 
-<<echo=TRUE, fig=FALSE>>=
-plot(fnb)
+<<fittoxocara.poisnbinom.echo, echo=TRUE, fig=FALSE>>=
+plot(fnb, col="blue")
 @
 \begin{figure}[htb]
   \centering
-<<echo=FALSE, results=hide, fig=TRUE>>=
-plot(fnb)
+<<fittoxocarapoisnbinomplot, echo=FALSE, results=hide, fig=TRUE, width=12, height=6, eps=FALSE>>=
+plot(fnb, col="blue")
 @
   \caption{Plot of the fit of a discrete distribution (a negative binomial distribution
-  fitted to numbers of \emph{Toxocara cati} parasites from the ``Toxocara'' data set)}
+  fitted to numbers of \emph{Toxocara cati} parasites from the \code{toxocara} data set)}
   \label{plotdiscfit}
 \end{figure}
 
@@ -759,7 +764,7 @@ with different distributions fitted on a same dataset.
 If arguments \code{chisqbreaks} and \code{meancount} 
 are both omitted, \code{meancount} is fixed in order to obtain roughly $(4n)^{2/5}$ cells, 
 with $n$ the length of the dataset~\cite{Vose10}. Using this default option with 
-the fit of a negative binomial distribution to ``toxocara'' data set gives following results :
+the fit of a negative binomial distribution to \code{toxocara} data set gives following results :
 %%% R code
 <<fittoxocara.poisnbinom.gof, echo=TRUE, fig=FALSE>>=
 gofstat(fnb)
@@ -787,7 +792,7 @@ with several lower and upper bounds. Data must be coded into a dataframe with tw
  the right bound of the interval for interval censored observations,
  or the observed value for non-censored observations.
  
-The ``smoked fish'' data set, included in the package,
+The \code{smokedfish} data set, included in the package,
 corresponds to the observation of a continuous censored variable, 
 the \emph{Listeria monocytogenes} microbial concentration, on a random
 sample of smoked fish distributed on the Belgian market in the period
@@ -811,12 +816,12 @@ str(smokedfish)
 \label{censored:graph}
 %%%%%%%%%%
 
-Using censored data such as those coded in the ``smokedfish'' data set,
+Using censored data such as those coded in the \code{smokedfish} data set,
 the empirical distribution may be plotted using the \code{plotdistcens} function.
-By default this function uses the EM approach of Turnbull \cite{Turnbull74} to compute the overall
+By default, this function uses the EM approach of Turnbull \cite{Turnbull74} to compute the overall
 empirical cdf curve with confidence intervals, by calls to \code{survfit}
 and \code{plot.survfit} functions from the \pkg{survival} package.
-Let us see such a plot for ``smokedfish'' data set after classical transformation
+Let us see such a plot for \code{smokedfish} data set after classical transformation
 of microbial counts in decimal logarithm (Figure~\ref{plotdistcens}).
 
 % ------------------ previous method -----------------------------
@@ -838,19 +843,21 @@ of microbial counts in decimal logarithm (Figure~\ref{plotdistcens}).
 % VIRER? INUTILE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 %%% R code
 <<plotsmokedfish.echo, echo=TRUE, fig=FALSE>>=
-log10C <- data.frame(left=log10(smokedfish$left),right=log10(smokedfish$right))
+log10C <- data.frame(left=log10(smokedfish$left), right=log10(smokedfish$right))
 plotdistcens(log10C)
 @
 \begin{figure}[htb!]
   \centering
   %%% R code
-<<plotsmokedfishplot, echo=FALSE, fig=TRUE, width=4, height=4, eps=FALSE>>=
+<<plotsmokedfishplot, echo=FALSE, fig=TRUE, width=4, height=4, eps=FALSE, result=hide>>=
 plotdistcens(log10C)
 @
   \caption{CDF plot of censored data (microbial counts from 
-   the ``smoked fish'' data set)}
+   the \code{smokedfish} data set)}
   \label{plotdistcens}
 \end{figure}
+
+
 
 \subsubsection{Maximum likelihood estimation}
 \label{censored:MLE}
@@ -880,7 +887,7 @@ For ``smokedfish'' data set, a normal distribution may be fitted to log
 transformed data as commonly done for microbial count data. 
 %%% R code
 <<fitsmokedfish.echo, echo=TRUE, fig=FALSE>>=
-flog10Cn <- fitdistcens(log10C,"norm")
+flog10Cn <- fitdistcens(log10C, "norm")
 summary(flog10Cn)
 @
 
@@ -895,9 +902,9 @@ the distribution parameters in non trivial cases, by an manual iterative use if 
 %%%%%%%%%%
 Only one goodness-of-fit plot is provided for censored data, corresponding to the theoretical 
 cumulative distribution function added to the plot of censored data presented
-in Section~\ref{censored graph}. The \code{cdfcompcens} function can be used to compare the fit of various
+in Section~\ref{censored:graph}. The \code{cdfcompcens} function can be used to compare the fit of various
 distributions to the same censored data set. Its call is similar to the one \code{cdfcomp}. Below is
-an example of comparison of two fitted distribution to ``smokedfish'' data set (Figure~\ref{cdfcompcens}).
+an example of comparison of two fitted distribution to \code{smokedfish} data set (see Figure~\ref{cdfcompcens}).
 %%% R code
 <<fitsmokedfish.cdfcomp.echo, echo=TRUE, fig=FALSE, eval=FALSE>>=
 flog10Cl <- fitdistcens(log10C, "logis")
@@ -916,7 +923,7 @@ cdfcompcens(list(flog10Cn,flog10Cl),
 @
   \caption{Goodness-of-fit CDF plots for fits of continuous distributions
   on censored data (Comparison of lognormal and loglogistic distributions fitted to microbial counts from 
-   the ``smoked fish'' data set)}
+   the \code{smokedfish} data set)}
   \label{cdfcompcens}
 \end{figure}
 
@@ -946,11 +953,17 @@ may only be estimated from the loglikelihood and the goodness-of-fit CDF plot.
 \subsection{Alternative methods for parameter estimation}
 \label{Alternatives}
 
+Despite maximum likelihood estimation is the default estimation proposed by 
+\code{fitdist}, other classical estimation methods can be handled to estimate parameters for non-censored data.
+Thus, this subsection focuses on alternative estimation methods.
+We use a classical data set from the Danish insurance industry published in \cite{mcneil97}.
+In \pkg{fitdistrplus}, the data set is stored in \code{danishuni} and \code{danishmulti} for univariate and
+multivariate versions, respectively.
+
+
 \subsubsection{Maximum goodness-of-fit estimation}
 \label{MGE}
 %%%%%%%%%%
-Maximum likelihood is only the default estimation method proposed by 
-\code{fitdist}, but other methods may be used to estimate parameters for non-censored data.
 One of the alternative for continuous distributions
 is the maximum goodness-of-fit estimation method also called
 minimum distance estimation method. In this package this method is proposed with
@@ -963,7 +976,7 @@ gives more weight only to the left tail. Either of the tails, or both of them,
 can receive even larger
 weights by using second order Anderson-Darling Statistics.
 
-\begin{table}[t]
+\begin{table}[htb!]
   \begin{center}
     \caption{Modified Anderson-Darling statistics as defined by Luceno \cite{Luceno06}.}
     \begin{tabular}{lll}
@@ -997,13 +1010,15 @@ weights by using second order Anderson-Darling Statistics.
 
 To fit a distribution by maximum goodness-of-fit estimation, one
 needs to fix the argument \code{method}
-to ``mge'' in the call to \code{fitdist} and to specify the argument \texttt{gof}
+to \code{"mge"} in the call to \code{fitdist} and to specify the argument \code{gof}
 coding for the chosen goodness-of-fit distance. 
 % Character string coding for the eight 
 % proposed goodness-of-fit distances are given in Table~\ref{MGEdist}.
 This function is intended to be used only with continuous variables and distributions.
-It may be useful to fit distributions for which maximum likelihood does not provide
-good estimations, such as the uniform distribution (\cite{Luceno06}).
+%It may be useful to fit distributions for which maximum likelihood does not provide
+%good estimations, such as the uniform distribution (\cite{Luceno06}).
+
+\mytodo{Update the example}
 
 %%% R code
 <<mge.unif, echo=TRUE>>=
