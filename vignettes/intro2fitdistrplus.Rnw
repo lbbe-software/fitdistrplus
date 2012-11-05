@@ -1017,25 +1017,51 @@ coding for the chosen goodness-of-fit distance.
 This function is intended to be used only with continuous variables and distributions.
 %It may be useful to fit distributions for which maximum likelihood does not provide
 %good estimations, such as the uniform distribution (\cite{Luceno06}).
-
-\mytodo{Update the example}
-
+Below an example of estimation on the \code{danishuni} data set with the three classical 
+goodness-of-fit distances.
+We compare the fitting methods with the distribution function.
 %%% R code
-<<mge.unif, echo=TRUE>>=
-u <- runif(50)
-fitdist(u,"unif",method="mge",gof="KS")
+<<danish.mge, echo=TRUE, fig=FALSE>>=
+data(danishuni)
+flndanishAD <- fitdist(danishuni$Loss, "lnorm", method="mge", gof="AD")
+flndanishAD2L <- fitdist(danishuni$Loss, "lnorm", method="mge", gof="AD2L")
+flndanishKS <- fitdist(danishuni$Loss, "lnorm", method="mge", gof="KS")
+flndanishCvM <- fitdist(danishuni$Loss, "lnorm", method="mge", gof="CvM")
+flndanishMLE <- fitdist(danishuni$Loss, "lnorm", method="mle")
+cdfcomp(list(flndanishAD, flndanishAD2L, flndanishKS, flndanishCvM, flndanishMLE), 
+        legend=c("AD", "AD2L", "KS", "CvM", "MLE"), main="Fitting lognormal distribution",
+        xlogscale=TRUE, datapch="*")
 @
 
+As plotted \ref{fig:danish:mge}, the lognormal distribution is not appropriate to model heavy-tailed datae, but
+this is not the purpose here.
+The second-order Anderson-Darling distance provides the least conservative fit for high quantiles, whereas the
+(classic)  Anderson-Darling distance is the most conservative fit among goodness-of-fit distances.
+
+\begin{figure}[htb!]
+  \centering
+%%% R code
+<<danishmgeplot, echo=FALSE, fig=TRUE, eps=FALSE, width=4, height=4>>=
+cdfcomp(list(flndanishAD, flndanishAD2L, flndanishKS, flndanishCvM, flndanishMLE), 
+        legend=c("AD", "AD2L", "KS", "CvM", "MLE"), main="Fitting lognormal distribution",
+        xlogscale=TRUE, datapch="*")
+@
+\caption{Comparison of statistical distance when fitting lognormal distribution on \code{danishuni}}
+\label{fig:danish:mge}
+\end{figure}
+
 Maximum goodness-of-fit estimation may also be useful to give
-more weight to data at one tail of the distribution. In ecotoxicology, species sensitivity distributions such 
+more weight to data at one tail of the distribution. 
+In ecotoxicology, species sensitivity distributions such 
 as those presented in \cite{Hose04} are often
 fitted by a lognormal or a loglogistic distribution
 so as to estimate a low percentile, often 5$\%$ percentile,
 named the hazardous concentration 5$\%$ (HC5). This value is then interpreted as a value of the
 contaminant concentration protecting 95$\%$ of the species. In this context, one may consider
-to fit the parametric distribution by giving more weight to the left tail of the empirical distribution
-such as in the following example using left tail Anderson-Darling distances of first or second order
-(Figure~\ref{plotfitMGE}).
+to fit the parametric distribution by giving more weight to the left tail of the empirical distribution.
+In the following example of \code{endosulfan} data set, we use left tail 
+Anderson-Darling distances of first or second order
+(see Figure~\ref{plotfitMGE}).
 
 %%% R code
 <<mge.gofcomp.echo, echo=TRUE, fig=FALSE>>=
@@ -1046,9 +1072,9 @@ flnMGEAD <- fitdist(ATV,"lnorm",method="mge",gof="AD")
 flnMGEADL <- fitdist(ATV,"lnorm",method="mge",gof="ADL")
 flnMGEAD2L <- fitdist(ATV,"lnorm",method="mge",gof="AD2L")
 cdfcomp(list(flnMGECvM, flnMGEAD, flnMGEADL, flnMGEAD2L),
-xlogscale = TRUE,main="",
-legendtext = c("Cramer-von Mises (CvM)","Anderson-Darling",
-"Left-tail Anderson-Darling","Left tailed Anderson-Darling of second order"),cex=0.7,
+xlogscale = TRUE, main = "GOF estimation with different stat. distances",
+legendtext = c("Cramer-von Mises (CvM)", "Anderson-Darling",
+"Left-tail Anderson-Darling", "Left tailed Anderson-Darling of second order"),cex=0.7,
 xlegend = 500, ylegend = 0.15)
 @
 \begin{figure}[htb!]
@@ -1063,7 +1089,7 @@ xlegend = 500, ylegend = 0.15)
 @
   \caption{Comparison of one distribution fitted by maximum goodness-of-fit using
   various goodness-of-fit distances (a lognormal distribution fitted to acute toxicity values
-  from the ``endosulfan'' data set)}
+  from the \code{endosulfan} data set)}
   \label{plotfitMGE}
 \end{figure}
 
@@ -1082,9 +1108,29 @@ for $k=1,\ldots,p$, with $p$ the number of parameters to estimate and
 This method called moment matching estimation can be performed fixing the argument \code{method}
 to ``mme'' in the call to fitdist.
 %%% R code
-<<mme.unif, echo=TRUE>>=
-fitdist(u,"unif",method="mme")
+<<danish.mme, echo=TRUE, fig=FALSE>>=
+flndanishMME <- fitdist(danishuni$Loss, "lnorm", method="mme", order=1:2)
+cdfcomp(list(flndanishMME, flndanishMLE), 
+        legend=c("MME", "MLE"), main="Fitting lognormal distribution",
+        xlogscale=TRUE, datapch="*")
 @
+
+
+\begin{figure}[htb!]
+  \centering
+  %%% R code
+<<danishmmeplot, echo=FALSE, fig=TRUE, width=4, height=4, eps=FALSE>>=
+cdfcomp(list(flndanishMME, flndanishMLE), 
+        legend=c("MME", "MLE"), main="Fitting lognormal distribution",
+        xlogscale=TRUE, datapch="*")
+@
+\caption{Comparison between MME and MLE when fitting lognormal distribution on \code{danishuni}}
+\label{fig:danish:mme}
+\end{figure}
+
+
+\mytodo{figure a commenter!}
+
 
 The estimate is computed by a closed formula for following distributions:
 normal, lognormal, exponential, Poisson, gamma, logistic, negative binomial,
@@ -1129,6 +1175,7 @@ Here is an example of fit of a uniform distribution by matching first
 and third quartiles.
 %%% R code
 <<qme.unif, echo=TRUE>>=
+u <- runif(50)
 fitdist(u, "unif", method="qme", probs=c(0.25,0.75))
 @
 
