@@ -15,6 +15,7 @@ BUG FIXES
 formulas previously used (given by Stephens 1986) do not use exactly MLE estimates and thus
 results were only approximates.
 - make arguments xlim and ylim functional in cdfcompcens
+- bug fix in the closed formula in mmedist for lognormal distributions.
 
 
 Version 0.4-3

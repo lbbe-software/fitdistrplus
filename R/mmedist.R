@@ -31,8 +31,8 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
     else 
         distname <- distr
     
-    if (is.element(distname, c("norm","lnorm","pois","exp","gamma","nbinom","geom",
-       "beta","unif","logis")))
+    if (is.element(distname, c("norm", "lnorm", "pois", "exp", "gamma", "nbinom", "geom",
+       "beta", "unif", "logis")))
         meth <- "closed formula"
     else
         meth <- optim.method
@@ -66,10 +66,15 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             if (any(data <= 0)) 
                 stop("values must be positive to fit a lognormal distribution")
             n <- length(data)
-            ldata <- log(data)
-            sd0 <- sqrt((n - 1)/n) * sd(ldata)
-            ml <- mean(ldata)
-            estimate <- c(meanlog=ml, sdlog=sd0)
+#biased estimator by Jensen inequality
+#            ldata <- log(data)
+#            sd0 <- sqrt((n - 1)/n) * sd(ldata)
+#            ml <- mean(ldata)
+#
+#by the way, we do not check is.numeric(data)!?
+#
+			sd2 <- log(1+var(data)/mean(data)^2)
+			estimate <- c(meanlog=log(mean(data)) - sd2/2, sdlog=sqrt(sd2))
             order <- 1:2            
 #           names(estimate) <- c("meanlog", "sdlog")
         }
