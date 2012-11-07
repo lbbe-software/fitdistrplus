@@ -127,19 +127,20 @@ if(any(installed.packages()[,"Package"] == "actuar"))
 
 
 
-# (10) custom optim
+# (10) custom optim for exponential distribution
 #
 if(any(installed.packages()[,"Package"] == "rgenoud"))
 {
 	
 
-mysample <- rexp(100, 5)
+mysample <- rexp(1000, 5)
 mystart <- 8
 
-mledist(mysample, "exp", optim.method="Nelder-Mead") 
-mledist(mysample, "exp", optim.method="BFGS") 
-mledist(mysample, "exp", optim.method="L-BFGS-B", lower=0) 
-mledist(mysample, "exp", optim.method="SANN") 
+fNM <- mledist(mysample, "exp", optim.method="Nelder-Mead") 
+fBFGS <- mledist(mysample, "exp", optim.method="BFGS") 
+fLBFGSB <- mledist(mysample, "exp", optim.method="L-BFGS-B", lower=0) 
+fSANN <- mledist(mysample, "exp", optim.method="SANN") 
+fCG <- mledist(mysample, "exp", optim.method="CG") 
 
 #the warning tell us to use optimise...
 
@@ -150,7 +151,7 @@ myoptimize <- function(fn, par, ...)
 	c(res, convergence=0, value=res$objective, par=res$minimum, hessian=NA)
 }
 
-mledist(mysample, "exp", start=mystart, custom.optim=myoptimize, interval=c(0, 100))
+foptimize <- mledist(mysample, "exp", start=mystart, custom.optim=myoptimize, interval=c(0, 100))
 
 
 library(rgenoud)
@@ -163,14 +164,69 @@ mygenoud <- function(fn, par, ...)
 }
 
 
-mledist(mysample, "exp", start=mystart, custom.optim= mygenoud, nvars=1,    
+fgenoud <- mledist(mysample, "exp", start=mystart, custom.optim= mygenoud, nvars=1,    
         Domains=cbind(0, 10), boundary.enforcement=1, 
         hessian=TRUE, print.level=0)
 
 try( mledist(mysample, "exp", start=mystart, custom.optim= mygenoud) )
 
+c(NM=fNM$estimate,
+BFGS=fBFGS$estimate,
+LBFGSB=fLBFGSB$estimate,
+SANN=fSANN$estimate,
+CG=fCG$estimate,
+optimize=foptimize$estimate,
+fgenoud=fgenoud$estimate)
 
+}
+
+
+# (10) custom optim for gamma distribution
+#
+if(any(installed.packages()[,"Package"] == "rgenoud"))
+{
+	
+
+mysample <- rgamma(1000, 5, 3)
+mystart <- c(10, 10)
+
+fNM <- mledist(mysample, "gamma", optim.method="Nelder-Mead") 
+fBFGS <- mledist(mysample, "gamma", optim.method="BFGS") 
+fLBFGSB <- mledist(mysample, "gamma", optim.method="L-BFGS-B", lower=0) 
+fSANN <- mledist(mysample, "gamma", optim.method="SANN") 
+fCG <- mledist(mysample, "gamma", optim.method="CG", control=list(maxit=1000)) 
+
+fgenoud <- mledist(mysample, "gamma", start=mystart, custom.optim= mygenoud, nvars=2,    
+        Domains=cbind(c(0,0), c(100,100)), boundary.enforcement=1, 
+        hessian=TRUE, print.level=0)
+
+cbind(NM=fNM$estimate,
+BFGS=fBFGS$estimate,
+LBFGSB=fLBFGSB$estimate,
+SANN=fSANN$estimate,
+CG=fCG$estimate,
+fgenoud=fgenoud$estimate)
+
+
+fNM <- mledist(groundbeef$serving, "gamma", optim.method="Nelder-Mead") 
+fBFGS <- mledist(groundbeef$serving, "gamma", optim.method="BFGS") 
+fLBFGSB <- mledist(groundbeef$serving, "gamma", optim.method="L-BFGS-B", lower=0) 
+fSANN <- mledist(groundbeef$serving, "gamma", optim.method="SANN") 
+fCG <- mledist(groundbeef$serving, "gamma", optim.method="CG", control=list(maxit=10000)) 
+
+fgenoud <- mledist(groundbeef$serving, "gamma", start=mystart, 
+		custom.optim= mygenoud, nvars=2,    
+        Domains=cbind(c(0,0), c(100,100)), boundary.enforcement=1, 
+        hessian=TRUE, print.level=0)
+
+cbind(NM=fNM$estimate,
+BFGS=fBFGS$estimate,
+LBFGSB=fLBFGSB$estimate,
+SANN=fSANN$estimate,
+CG=fCG$estimate,
+fgenoud=fgenoud$estimate)
 
 
 }
+
 

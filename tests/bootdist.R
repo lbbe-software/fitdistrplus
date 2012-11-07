@@ -96,3 +96,24 @@ bu <- bootdist(fu,  bootmethod="param", niter=101)
 summary(bu)
 plot(bu)
 
+
+
+# (10) Fit of a Burr distribution using MLE 
+# followed by parametric boostrap
+# 
+if(any(installed.packages()[, "Package"] == "actuar"))
+{
+    require(actuar)
+	data(danishuni)
+
+fdan <- fitdist(danishuni$Loss, "burr", method="mle", 
+	start=c(shape1=5, shape2=5, rate=10), lower=0+1e-1, control=list(trace=1))
+bdan <- bootdist(fdan,  bootmethod="param", niter=101)
+summary(bdan)
+plot(bdan)
+cdfcomp(fdan, xlogscale=TRUE)
+
+}
+
+
+
