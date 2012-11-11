@@ -74,8 +74,8 @@ censored data using the \proglang{R} package \pkg{fitdistrplus}}
 \author{Marie Laure Delignette-Muller and Christophe Dutang}
 
 \begin{document}
-\SweaveOpts{concordance=TRUE}
-\setkeys{Gin}{width=0.6\textwidth} 
+\SweaveOpts{concordance=TRUE, prefix.string=figs/intro}
+\setkeys{Gin}{width=0.8\textwidth} %equivalent to \includegraphics[width=0.8\textwidth]{.}
 
 \maketitle
 
@@ -162,9 +162,9 @@ The development version of the package is located at \proglang{R}-forge as one t
 project ``Risk Assessment with R''
 (\url{http://r-forge.r-project.org/projects/riskassessment/})
 The following command will load the package.
-%%% R code
+%%% R code set default options for all R schunks
 <<par4vignette, echo=FALSE, results=hide>>=
-options(digits=3)
+options(digits=4, SweaveHooks=list(fig=function() par(mar=c(5.1, 4.1, 1.1, 2.1))) )
 @
 %%% R code
 <<pkgload1, results=hide>>=
@@ -247,6 +247,9 @@ plotdist(groundbeef$serving)
 
 %\clearpage
 
+
+
+
 \subsubsection{Empirical basis for selecting candidate distributions}
 \label{Empirical}
 %%%%%%%%%% 
@@ -308,17 +311,23 @@ lognormal distributions.
 <<descgroundbeef.echo, echo=TRUE, fig=FALSE, eval=FALSE>>=
 descdist(groundbeef$serving, boot=1000)
 @
+
+
+\setkeys{Gin}{width=0.5\textwidth}
+
 \begin{figure}[htb]
   \centering
  %%% R code
-<<descgroundbeefplot, echo=FALSE, fig=TRUE, width=4, height=4, eps=FALSE>>=
+<<descgroundbeefplot, echo=FALSE, fig=TRUE, width=6, height=6, eps=FALSE>>=
 descdist(groundbeef$serving, boot=1000)
 @
   \caption{Skewness-kurtosis plot for a continuous variable 
-  (serving size from the ``ground beef'' data set)}
+  (serving size from the \code{groundbeef} data set)}
   \label{Cullenplotcont}
 \end{figure}
 
+
+\setkeys{Gin}{width=0.8\textwidth} %default
 %\clearpage
 
 
@@ -414,6 +423,10 @@ especially in the center of the distribution, but seems correct when looking at 
 <<fitgroundbeef.weibull.echo, echo=TRUE, fig=FALSE, eval=FALSE>>=
 plot(fw)
 @
+
+
+\setkeys{Gin}{width=0.65\textwidth} %default
+
 \begin{figure}[htb]
   \centering
   %%% R code
@@ -424,6 +437,7 @@ plot(fw)
   distribution fitted to serving sizes from the \code{groundbeef} data set)}
   \label{plotcontfit}
 \end{figure}
+
 
 
 
@@ -442,7 +456,7 @@ Weibull, lognormal and gamma distributions to \code{groundbeef} data set.
 On Figure~\ref{groundbeef:comp}, we compare density, quantile, distribution and
 probability functions.
 %%% R code
-<<fittoxocara.poisnbinom.echo, echo=TRUE, fig=FALSE>>=
+<<fitgroundbeef.poisnbinom.echo, echo=TRUE, fig=FALSE>>=
 fg <- fitdist(groundbeef$serving,"gamma")
 fln <- fitdist(groundbeef$serving,"lnorm")
 par(mfrow=c(2, 2))
@@ -458,7 +472,7 @@ ppcomp(list(fw,fln,fg), legendtext=c("Weibull", "lognormal", "gamma"),
 
 \begin{figure}[htb!]
   \centering
-<<fittoxocarapoisnbinomplot, echo=FALSE, fig=TRUE, width=7, height=7, eps=FALSE>>=
+<<fitgroundbeefpoisnbinomplot, echo=FALSE, fig=TRUE, width=7, height=7, eps=FALSE>>=
 fg <- fitdist(groundbeef$serving,"gamma")
 fln <- fitdist(groundbeef$serving,"lnorm")
 par(mfrow=c(2, 2))
@@ -471,7 +485,6 @@ cdfcomp(list(fw,fln,fg), legendtext=c("Weibull","lognormal","gamma"),
 ppcomp(list(fw,fln,fg), legendtext=c("Weibull","lognormal","gamma"),
   xlab="theo. prob.", lwd=2, line01=FALSE, fitcol=2:4)
 @  
-  
 %\subfloat[Densities]{ 
 % %%% R code
 %<<fittoxocarapoisnbinomplot, echo=FALSE, fig=TRUE, width=4, height=4, eps=FALSE>>=
@@ -501,6 +514,9 @@ ppcomp(list(fw,fln,fg), legendtext=c("Weibull","lognormal","gamma"),
 \label{groundbeef:comp}  
 %  \label{compcdf}
 \end{figure}
+
+
+\setkeys{Gin}{width=0.8\textwidth} %default
 
 
 %In such a plot, data may be represented in a log scale when required, by just fixing the argument
@@ -846,6 +862,10 @@ of microbial counts in decimal logarithm (Figure~\ref{plotdistcens}).
 log10C <- data.frame(left=log10(smokedfish$left), right=log10(smokedfish$right))
 plotdistcens(log10C)
 @
+
+
+\setkeys{Gin}{width=0.5\textwidth} %default
+
 \begin{figure}[htb!]
   \centering
   %%% R code
@@ -856,6 +876,7 @@ plotdistcens(log10C)
    the \code{smokedfish} data set)}
   \label{plotdistcens}
 \end{figure}
+
 
 
 
@@ -926,6 +947,8 @@ cdfcompcens(list(flog10Cn,flog10Cl),
    the \code{smokedfish} data set)}
   \label{cdfcompcens}
 \end{figure}
+
+
 
 %<<echo=TRUE, fig=FALSE>>=
 %plot(flog10C)
@@ -1365,17 +1388,21 @@ plot(bdan)
 @
 
 
+\setkeys{Gin}{width=0.5\textwidth} %default
+
+
+
 \begin{figure}[htb!]
   \centering
   \subfloat{
   %%% R code
-<<fitgroundbeefweibullbootplot, echo=FALSE, fig=TRUE, width=3, height=3, eps=FALSE>>=
+<<fitgroundbeefweibullbootplot, echo=FALSE, fig=TRUE, width=6, height=6, eps=FALSE>>=
 plot(bw)
 @
 }
 \subfloat{
   %%% R code
-<<fitdanishburrbootplot, echo=FALSE, fig=TRUE, width=3, height=3, eps=FALSE>>=
+<<fitdanishburrbootplot, echo=FALSE, fig=TRUE, width=6, height=6, eps=FALSE>>=
 plot(bdan)
 @
 }
