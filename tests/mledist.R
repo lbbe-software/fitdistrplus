@@ -168,7 +168,6 @@ fgenoud <- mledist(mysample, "exp", start=mystart, custom.optim= mygenoud, nvars
         Domains=cbind(0, 10), boundary.enforcement=1, 
         hessian=TRUE, print.level=0)
 
-try( mledist(mysample, "exp", start=mystart, custom.optim= mygenoud) )
 
 c(NM=fNM$estimate,
 BFGS=fBFGS$estimate,
@@ -207,6 +206,8 @@ SANN=fSANN$estimate,
 CG=fCG$estimate,
 fgenoud=fgenoud$estimate)
 
+
+data(groundbeef)
 
 fNM <- mledist(groundbeef$serving, "gamma", optim.method="Nelder-Mead") 
 fBFGS <- mledist(groundbeef$serving, "gamma", optim.method="BFGS") 
