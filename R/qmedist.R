@@ -170,7 +170,7 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
     argqdistname <- names(formals(qdistname))   
     m <- match(names(start), argqdistname)
     mfix <- match(names(vfix.arg), argqdistname)
-    if (any(is.na(m)))
+    if (any(is.na(m)) || length(m) == 0)
         stop("'start' must specify names which are arguments to 'distr'")
     if (any(is.na(mfix)))
         stop("'fix.arg' must specify names which are arguments to 'distr'")

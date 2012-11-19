@@ -37,8 +37,8 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
     else
         meth <- optim.method
     
-    mdistname <- paste("m",distname,sep="")
-    ddistname <- paste("d",distname,sep="")
+    mdistname <- paste("m", distname, sep="")
+    ddistname <- paste("d", distname, sep="")
 
     if(meth != "closed formula")
     {
@@ -46,6 +46,9 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             stop(paste("The moment function must be defined."))     
     # mdistname contains the good name of the theoretical moment function    
     }
+	if (!(is.numeric(data) & length(data)>1)) 
+		stop("data must be a numeric vector of length greater than 1.")
+	
     
     if(meth == "closed formula")
     {
@@ -70,8 +73,6 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
 #            ldata <- log(data)
 #            sd0 <- sqrt((n - 1)/n) * sd(ldata)
 #            ml <- mean(ldata)
-#
-#by the way, we do not check is.numeric(data)!?
 #
 			sd2 <- log(1+var(data)/mean(data)^2)
 			estimate <- c(meanlog=log(mean(data)) - sd2/2, sdlog=sqrt(sd2))
@@ -165,14 +166,14 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
         argmdistname <- names(formals(mdistname))   
         m <- match(names(start), argmdistname)
         mfix <- match(names(vfix.arg), argmdistname)
-        if (any(is.na(m)))
-        stop("'start' must specify names which are arguments to 'distr'")
+        if (any(is.na(m)) || length(m) == 0)
+			stop("'start' must specify names which are arguments to 'distr'")
         if (any(is.na(mfix)))
-        stop("'fix.arg' must specify names which are arguments to 'distr'")
+			stop("'fix.arg' must specify names which are arguments to 'distr'")
         # check that some parameters are not both in fix.arg and start
         minter <- match(names(start), names(fix.arg))
         if (any(!is.na(minter)))
-        stop("a distribution parameter cannot be specified both in 'start' and 'fix.arg'")
+			stop("a distribution parameter cannot be specified both in 'start' and 'fix.arg'")
         
         # definition of the function to minimize : least square
         #Cramer - von Mises

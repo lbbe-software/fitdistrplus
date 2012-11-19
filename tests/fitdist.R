@@ -63,7 +63,7 @@ fitdist(serving, "gamma", optim.method="SANN")
 
 #create the sample
 mysample <- rexp(100, 5)
-mystart <- 8
+mystart <- list(rate=8)
 
 res1 <- fitdist(mysample, dexp, start= mystart, optim.method="Nelder-Mead")
 
@@ -116,7 +116,7 @@ if(any(installed.packages()[,"Package"] == "rgenoud"))
 #call fitdist with a 'custom' optimization function
     fit2 <- fitdist(x1, "gamma", custom.optim=mygenoud, nvars=2,    
 					Domains=cbind(c(0, 0), c(10, 10)), boundary.enforcement=1, 
-					print.level=1, hessian=TRUE)
+					print.level=0, hessian=TRUE)
 	
     summary(fit2)
 }
@@ -163,7 +163,7 @@ if(any(installed.packages()[,"Package"] == "actuar"))
 	
 #fit
     fP <- fitdist(x4, "pareto", method="mme", order=c(1, 2), memp="memp", 
-				  start=c(10, 10), lower=1, upper=Inf)
+				  start=c(shape=10, scale=10), lower=1, upper=Inf)
     summary(fP)
 	
 }
@@ -273,4 +273,24 @@ qgumbel <- function(p, a, b) a-b*log(-log(p))
 data(danishuni)
 fitdist(danishuni$Loss, "gumbel", start=list(a=5, b=10))
 
+
+# (18) check the 'start' argument
+#
+
+#create the sample
+mysample <- rexp(100, 5)
+mystart2 <- list(rate2=8)
+mystart3 <- list(8)
+
+try( fitdist(mysample, dexp, start= mystart2, method="mle") ) 
+try( fitdist(mysample, dexp, start= mystart3, method="mle") ) 
+
+try( fitdist(mysample, dexp, start= mystart2, method="mme") ) 
+try( fitdist(mysample, dexp, start= mystart3, method="mme") ) 
+
+try( fitdist(mysample, dexp, start= mystart2, method="qme", probs=1/2) ) 
+try( fitdist(mysample, dexp, start= mystart3, method="qme", probs=1/2) ) 
+
+try( fitdist(mysample, dexp, start= mystart2, method="mge", gof="AD") ) 
+try( fitdist(mysample, dexp, start= mystart3, method="mge", gof="AD") ) 
 

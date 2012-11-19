@@ -307,7 +307,7 @@ fitdist(serving, "gamma", optim.method="SANN")
 #create the sample
 set.seed(1234)
 mysample <- rexp(100, 5)
-mystart <- 8
+mystart <- list(rate=8)
 
 res1 <- fitdist(mysample, dexp, start= mystart, optim.method="Nelder-Mead")
 
@@ -407,7 +407,7 @@ gofstat(fWqme)
 
     #fit
     fP <- fitdist(x4, "pareto", method="mme", order=c(1, 2), memp="memp", 
-    start=c(10, 10), lower=1, upper=Inf)
+    start=c(shape=10, scale=10), lower=1, upper=Inf)
     summary(fP)
 
 }

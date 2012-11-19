@@ -121,7 +121,7 @@ if(any(installed.packages()[,"Package"] == "actuar"))
     x4 <- rpareto(1000, 6, 2)
 	
 #fit
-    mledist(x4, "pareto", start=c(10, 10), lower=1, upper=Inf)
+    mledist(x4, "pareto", start=c(shape=10, scale=10), lower=1, upper=Inf)
 	
 }
 
@@ -134,7 +134,7 @@ if(any(installed.packages()[,"Package"] == "rgenoud"))
 	
 
 mysample <- rexp(1000, 5)
-mystart <- 8
+mystart <- list(rate=8)
 
 fNM <- mledist(mysample, "exp", optim.method="Nelder-Mead") 
 fBFGS <- mledist(mysample, "exp", optim.method="BFGS") 
@@ -187,7 +187,7 @@ if(any(installed.packages()[,"Package"] == "rgenoud"))
 	
 
 mysample <- rgamma(1000, 5, 3)
-mystart <- c(10, 10)
+mystart <- c(shape=10, rate=10)
 
 fNM <- mledist(mysample, "gamma", optim.method="Nelder-Mead") 
 fBFGS <- mledist(mysample, "gamma", optim.method="BFGS") 

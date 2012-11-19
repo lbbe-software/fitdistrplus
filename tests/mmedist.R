@@ -40,7 +40,7 @@ if(any(installed.packages()[, "Package"] == "actuar"))
 		
 	
 #fit
-    mmedist(x4, "pareto", order=c(1, 2), memp="memp", start=c(10, 10), 
+    mmedist(x4, "pareto", order=c(1, 2), memp="memp", start=c(shape=10, scale=10), 
 			lower=1, upper=Inf)
 			
 	

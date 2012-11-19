@@ -36,7 +36,7 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
         distname <- distr
         
     if (is.element(distname,c("binom","nbinom","geom","hyper","pois"))) 
-    stop("Maximum goodness-of-fit estimation method is not intended to fit discrete distributions")
+		stop("Maximum goodness-of-fit estimation method is not intended to fit discrete distributions")
 
 
     pdistname <- paste("p",distname,sep="")
@@ -152,7 +152,7 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
     argddistname <- names(formals(ddistname))   
     m <- match(names(start), argddistname)
     mfix <- match(names(vfix.arg), argddistname)
-    if (any(is.na(m)))
+    if (any(is.na(m)) || length(m) == 0)
         stop("'start' must specify names which are arguments to 'distr'")
     if (any(is.na(mfix)))
         stop("'fix.arg' must specify names which are arguments to 'distr'")

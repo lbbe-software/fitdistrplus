@@ -171,7 +171,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
     argddistname <- names(formals(ddistname))   
     m <- match(names(start), argddistname)
     mfix <- match(names(vfix.arg), argddistname)
-    if (any(is.na(m)))
+    if (any(is.na(m)) || length(m) == 0)
         stop("'start' must specify names which are arguments to 'distr'")
     if (any(is.na(mfix)))
         stop("'fix.arg' must specify names which are arguments to 'distr'")
