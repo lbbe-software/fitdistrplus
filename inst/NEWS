@@ -7,7 +7,8 @@ NEW FEATURES
 - add of an argument Turnbull.confint to functions plotdistcens and cdfcompcens in order to 
     draw confidence intervals on the empirical distribution only if requested
 - many changes in the examples given in the reference manual
-- add of two data sets : danishuni and danishmulti
+- many changes in the vignette
+- add of three data sets : saliniy, danishuni and danishmulti
 
 BUG FIXES
 - correction the formula for the CvM test for Weibull distribution

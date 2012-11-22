@@ -59,8 +59,8 @@ gofstat(f, chisqbreaks, meancount, print.test = FALSE)
     than 30 observations. Note that this approximate test may be too conservative. 
     
     For datasets with more than 5 observations and for distributions for 
-    which the test is described by Stephens (1986) (\code{"norm"}, \code{"lnorm"},
-    \code{"exp"}, \code{"cauchy"}, \code{"gamma"}, \code{"logis"} and \code{"weibull"}),
+    which the test is described by Stephens (1986) for maximum likelihood estimations 
+    (\code{"exp"}, \code{"cauchy"}, \code{"gamma"} and \code{"weibull"}),
     the Cramer-von Mises and Anderson-darling tests are performed as described by Stephens (1986). 
     Those tests take into 
     account the fact that the parameters are not known but estimated from the data by maximum likelihood.
