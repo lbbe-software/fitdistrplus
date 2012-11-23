@@ -1292,7 +1292,9 @@ data(groundbeef)
 fNM <- fitdist(groundbeef$serving, "gamma", optim.method="Nelder-Mead")
 fBFGS <- fitdist(groundbeef$serving, "gamma", optim.method="BFGS") 
 fSANN <- fitdist(groundbeef$serving, "gamma", optim.method="SANN")
-fCG <- fitdist(groundbeef$serving, "gamma", optim.method="CG", control=list(maxit=5000))
+fCG <- try(fitdist(groundbeef$serving, "gamma", optim.method="CG", control=list(maxit=10000)))
+if(class(fCG) == "try-error")
+  fCG <- list(estimate=NA)
 @
 
 
@@ -1330,9 +1332,9 @@ The code below compare all the parameter estimates by the different algorithms:
 shape and rate parameters are relatively the same.
 %%% R code
 <<optimmethod.customgenoud.fitdist, echo=TRUE, eval=TRUE>>=
-fgenoud <- fitdist(groundbeef$serving, "gamma", custom.optim=mygenoud, nvars=2,    
-   Domains=cbind(c(0,0), c(100, 100)), boundary.enforcement=1, 
-   print.level=0, hessian=TRUE)
+fgenoud <- mledist(groundbeef$serving, "gamma", custom.optim= mygenoud, nvars=2, 
+    max.generations=10, Domains=cbind(c(0,0), c(10,10)), boundary.enforcement=1, 
+    hessian=TRUE, print.level=0, P9=10)
 cbind(NM=fNM$estimate,
 BFGS=fBFGS$estimate,
 SANN=fSANN$estimate,

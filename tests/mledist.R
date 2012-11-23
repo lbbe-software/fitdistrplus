@@ -213,12 +213,14 @@ fNM <- mledist(groundbeef$serving, "gamma", optim.method="Nelder-Mead")
 fBFGS <- mledist(groundbeef$serving, "gamma", optim.method="BFGS") 
 fLBFGSB <- mledist(groundbeef$serving, "gamma", optim.method="L-BFGS-B", lower=0) 
 fSANN <- mledist(groundbeef$serving, "gamma", optim.method="SANN") 
-fCG <- mledist(groundbeef$serving, "gamma", optim.method="CG", control=list(maxit=10000)) 
+fCG <- try( mledist(groundbeef$serving, "gamma", optim.method="CG", control=list(maxit=10000)) )
+if(class(fCG) == "try-error")
+	fCG <- list(estimate=NA)
 
-fgenoud <- mledist(groundbeef$serving, "gamma", start=mystart, 
-		custom.optim= mygenoud, nvars=2,    
-        Domains=cbind(c(0,0), c(100,100)), boundary.enforcement=1, 
-        hessian=TRUE, print.level=0)
+fgenoud <- mledist(groundbeef$serving, "gamma", 
+		custom.optim= mygenoud, nvars=2, max.generations=10,
+		Domains=cbind(c(0,0), c(10,10)), boundary.enforcement=1, 
+        hessian=TRUE, print.level=0, P9=10)
 
 cbind(NM=fNM$estimate,
 BFGS=fBFGS$estimate,
