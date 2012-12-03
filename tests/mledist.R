@@ -2,32 +2,32 @@ library(fitdistrplus)
 
 
 
+
 # (1) basic fit of a normal distribution with maximum likelihood estimation
 #
 
-x1<-c(6.4,13.3,4.1,1.3,14.1,10.6,9.9,9.6,15.3,22.1,13.4,
-13.2,8.4,6.3,8.9,5.2,10.9,14.4)
+set.seed(1234)
+x1 <- rnorm(n=100)
 mledist(x1,"norm")
 
 # (2) defining your own distribution functions, here for the Gumbel distribution
 # for other distributions, see the CRAN task view dedicated to probability distributions
 
-dgumbel<-function(x,a,b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
+dgumbel <- function(x,a,b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
 mledist(x1,"gumbel",start=list(a=10,b=5))
-mledist(x1,"gumbel",start=list(a=10), fix.arg=list(b=3))
 
 # (3) fit a discrete distribution (Poisson)
 #
 
-x2<-c(rep(4,1),rep(2,3),rep(1,7),rep(0,12))
+set.seed(1234)
+x2 <- rpois(n=30,lambda = 2)
 mledist(x2,"pois")
-mledist(x2,"nbinom")
 
 # (4) fit a finite-support distribution (beta)
 #
 
-x3<-c(0.80,0.72,0.88,0.84,0.38,0.64,0.69,0.48,0.73,0.58,0.81,
-0.83,0.71,0.75,0.59)
+set.seed(1234)
+x3 <- rbeta(n=100,shape1=5, shape2=10)
 mledist(x3,"beta")
 
 
@@ -41,19 +41,27 @@ mledist(x4, "nbinom")
 # (6) fit a continuous distribution (Gumbel) to censored data.
 #
 
-d1<-data.frame(
-left=c(1.73,1.51,0.77,1.96,1.96,-1.4,-1.4,NA,-0.11,0.55,0.41,
-2.56,NA,-0.53,0.63,-1.4,-1.4,-1.4,NA,0.13),
-right=c(1.73,1.51,0.77,1.96,1.96,0,-0.7,-1.4,-0.11,0.55,0.41,
-2.56,-1.4,-0.53,0.63,0,-0.7,NA,-1.4,0.13))
-mledist(d1,"norm")
+data(fluazinam)
+log10EC50 <-log10(fluazinam)
+# definition of the Gumbel distribution
+dgumbel  <-  function(x,a,b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
+pgumbel  <-  function(q,a,b) exp(-exp((a-q)/b))
+qgumbel  <-  function(p,a,b) a-b*log(-log(p))
 
-dgumbel<-function(x,a,b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
-pgumbel<-function(q,a,b) exp(-exp((a-q)/b))
-mledist(d1,"gumbel",start=list(a=0,b=2),optim.method="Nelder-Mead")
-
+mledist(log10EC50,"gumbel",start=list(a=0,b=2),optim.method="Nelder-Mead")
 
 # (7) scaling problem
+# the simulated dataset (below) has particularly small values, hence without scaling (10^0),
+# the optimization raises an error. The for loop shows how scaling by 10^i
+# for i=1,...,6 makes the fitting procedure work correctly.
+
+set.seed(1234)
+x2 <- rnorm(100, 1e-4, 2e-4)
+for(i in 6:0)
+    cat(i, try(mledist(x*10^i, "cauchy")$estimate, silent=TRUE), "\n")
+        
+
+# (8) scaling problem
 #
 
 x <- c(-0.00707717, -0.000947418, -0.00189753, 
@@ -81,14 +89,14 @@ for(i in 6:0)
 cat(i, try(mledist(x*10^i, "cauchy")$estimate, silent=TRUE), "\n")
 
 
-# (8) normal mixture
+# (9) normal mixture
 #
 
 #mixture of two normal distributions
 #density
 dnorm2 <- function(x, poid, m1, s1, m2, s2)
 	poid*dnorm(x, m1, s1) + (1-poid)*dnorm(x, m2, s2)
-#numerically approximate quantile function
+#numerically-approximated quantile function
 qnorm2 <- function(p, poid, m1, s1, m2, s2)
 {
 	L2 <- function(x, prob)
@@ -111,7 +119,7 @@ fit1 <- mledist(x, "norm2", start=list(poid=1/3, m1=4, s1=2, m2=8, s2=2),
 
 
 
-# (9) fit a Pareto distribution
+# (10) fit a Pareto distribution
 #
 
 if(any(installed.packages()[,"Package"] == "actuar"))
@@ -127,7 +135,7 @@ if(any(installed.packages()[,"Package"] == "actuar"))
 
 
 
-# (10) custom optim for exponential distribution
+# (11) custom optim for exponential distribution
 #
 if(any(installed.packages()[,"Package"] == "rgenoud"))
 {
@@ -140,7 +148,9 @@ fNM <- mledist(mysample, "exp", optim.method="Nelder-Mead")
 fBFGS <- mledist(mysample, "exp", optim.method="BFGS") 
 fLBFGSB <- mledist(mysample, "exp", optim.method="L-BFGS-B", lower=0) 
 fSANN <- mledist(mysample, "exp", optim.method="SANN") 
-fCG <- mledist(mysample, "exp", optim.method="CG") 
+fCG <- try(mledist(mysample, "exp", optim.method="CG") )
+if(class(fCG) == "try-error")
+	fCG <- list(estimate=NA)
 
 #the warning tell us to use optimise...
 
@@ -180,7 +190,7 @@ fgenoud=fgenoud$estimate)
 }
 
 
-# (10) custom optim for gamma distribution
+# (12) custom optim for gamma distribution
 #
 if(any(installed.packages()[,"Package"] == "rgenoud"))
 {
@@ -193,8 +203,10 @@ fNM <- mledist(mysample, "gamma", optim.method="Nelder-Mead")
 fBFGS <- mledist(mysample, "gamma", optim.method="BFGS") 
 fLBFGSB <- mledist(mysample, "gamma", optim.method="L-BFGS-B", lower=0) 
 fSANN <- mledist(mysample, "gamma", optim.method="SANN") 
-fCG <- mledist(mysample, "gamma", optim.method="CG", control=list(maxit=1000)) 
-
+fCG <- try( mledist(mysample, "gamma", optim.method="CG", control=list(maxit=1000)) )
+if(class(fCG) == "try-error")
+	fCG <- list(estimate=NA)
+	
 fgenoud <- mledist(mysample, "gamma", start=mystart, custom.optim= mygenoud, nvars=2,    
         Domains=cbind(c(0,0), c(100,100)), boundary.enforcement=1, 
         hessian=TRUE, print.level=0)

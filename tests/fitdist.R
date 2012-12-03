@@ -42,14 +42,17 @@ fitgumbel <- fitdist(serving, "gumbel", start=list(a=10, b=10))
 summary(fitgumbel)
 plot(fitgumbel)
 
-# (5) fit a discrete distribution (Poisson)
+# (5) fit discrete distributions (Poisson and negative binomial)
 #
 
-x2<-c(rep(4, 1), rep(2, 3), rep(1, 7), rep(0, 12))
-f2<-fitdist(x2, "pois")
-plot(f2)
-summary(f2)
-gofstat(f2)
+data(toxocara)
+number <- toxocara$number
+fitp <- fitdist(number,"pois")
+summary(fitp)
+plot(fitp)
+fitnb <- fitdist(number,"nbinom")
+summary(fitnb)
+plot(fitnb)
 
 # (6) how to change the optimisation method?
 #
@@ -62,6 +65,7 @@ fitdist(serving, "gamma", optim.method="SANN")
 #
 
 #create the sample
+set.seed(1234)
 mysample <- rexp(100, 5)
 mystart <- list(rate=8)
 
@@ -98,9 +102,7 @@ if(any(installed.packages()[,"Package"] == "rgenoud"))
 {
 
 #set a sample
-    x1 <- c(6.4, 13.3, 4.1, 1.3, 14.1, 10.6, 9.9, 9.6, 15.3, 22.1, 
-			13.4, 13.2, 8.4, 6.3, 8.9, 5.2, 10.9, 14.4) 
-    fit1 <- fitdist(x1, "gamma")
+    fit1 <- fitdist(serving, "gamma")
     summary(fit1)
 	
 #wrap genoud function rgenoud package
@@ -114,28 +116,26 @@ if(any(installed.packages()[,"Package"] == "rgenoud"))
     }
 	
 #call fitdist with a 'custom' optimization function
-    fit2 <- fitdist(x1, "gamma", custom.optim=mygenoud, nvars=2,    
+    fit2 <- fitdist(serving, "gamma", custom.optim=mygenoud, nvars=2,    
 					Domains=cbind(c(0, 0), c(10, 10)), boundary.enforcement=1, 
 					print.level=0, hessian=TRUE)
 	
     summary(fit2)
 }
 
-# (9) estimation of the standard deviation of a normal distribution 
-# by maximum likelihood with the mean fixed at 10 using the argument fix.arg
+# (9) estimation of the standard deviation of a gamma distribution 
+# by maximum likelihood with the shape fixed at 4 using the argument fix.arg
 #
-x1 <- c(6.4, 13.3, 4.1, 1.3, 14.1, 10.6, 9.9, 9.6, 15.3, 22.1, 
-13.4, 13.2, 8.4, 6.3, 8.9, 5.2, 10.9, 14.4) 
-fitdist(x1, "norm", start=list(sd=5), fix.arg=list(mean=10))
+f1c  <- fitdist(serving,"gamma",start=list(rate=0.1),fix.arg=list(shape=4))
+summary(f1c)
+plot(f1c)
+
 
 # (10) fit of a Weibull distribution to serving size data 
 # by maximum likelihood estimation
 # or by quantile matching estimation (in this example 
 # matching first and third quartiles)
 #
-data(groundbeef)
-serving <- groundbeef$serving
-
 fWmle <- fitdist(serving, "weibull")
 summary(fWmle)
 plot(fWmle)
@@ -153,15 +153,14 @@ if(any(installed.packages()[,"Package"] == "actuar"))
 {
 
     require(actuar)
-#simulate a sample
+	#simulate a sample
     x4 <- rpareto(1000, 6, 2)
 	
-#empirical raw moment
+	#empirical raw moment
     memp <- function(x, order)
-	ifelse(order == 1, mean(x), sum(x^order)/length(x))
+		ifelse(order == 1, mean(x), sum(x^order)/length(x))
 	
-	
-#fit
+	#fit
     fP <- fitdist(x4, "pareto", method="mme", order=c(1, 2), memp="memp", 
 				  start=c(shape=10, scale=10), lower=1, upper=Inf)
     summary(fP)
@@ -185,11 +184,18 @@ serving <- groundbeef$serving
 cdfcomp(list(f1, f2, f3, f4, f5, f6, f7, f8))
 cdfcomp(list(f1, f2, f3, f4, f5, f6, f7, f8), xlogscale=TRUE, xlim=c(8, 250), verticals=TRUE)
 
-# (13) Fit of a uniform distribution using Cramer-von Mises or
-# Kolmogorov-Smirnov distance
+# (13) Fit of a uniform distribution using maximum likelihood 
+# (a closed formula is used in this special case where the loglikelihood is not defined),
+# or maximum goodness-of-fit with Cramer-von Mises or Kolmogorov-Smirnov distance
 # 
 
+set.seed(1234)
 u <- runif(50, min=5, max=10)
+
+fumle <- fitdist(u, "unif", method="mle")
+summary(fumle)
+plot(fumle)
+gofstat(fumle)
 
 fuCvM <- fitdist(u, "unif", method="mge", gof="CvM")
 summary(fuCvM)
@@ -250,18 +256,15 @@ quantile(fln, probs = 0.05, bootstrap=TRUE,
 	bootstrap.arg = list(bootmethod = "nonparam", niter = 501))
 
 
-
-# (16) uniform distribution
-#
-
-x3 <- runif(1000, 1/2, 5/2)
-fitdist(x3, "unif", method="mle")
-# mledist(x3, "unif")
-fitdist(x3, "unif", method="mge", gof="CvM")
-# mgedist(x3, "unif")
-fitdist(x3, "unif", method="qme", probs=c(1/10, 9/10))
-
-
+# (16) Fit of a triangular distribution using Cramer-von Mises or
+# Kolmogorov-Smirnov distance
+# 
+set.seed(1234)
+require(mc2d)
+t <- rtriang(100,min=5,mode=6,max=10)
+fCvM <- fitdist(t,"triang",method="mge",start = list(min=4, mode=6,max=9),gof="CvM")
+fKS <- fitdist(t,"triang",method="mge",start = list(min=4, mode=6,max=9),gof="KS")
+cdfcomp(list(fCvM,fKS))
 
 
 # (17) uniform distribution

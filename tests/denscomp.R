@@ -19,7 +19,11 @@ try(denscomp(list(fitW, fitln, fitg, a=1),horizontals = FALSE), silent=TRUE)
 denscomp(list(fitW, fitln, fitg), probability=TRUE)
 denscomp(list(fitW, fitln, fitg), probability=FALSE)
 
-    
+#test ylim argument
+denscomp(list(fitW, fitln, fitg), probability=TRUE, ylim=c(0, .05))
+denscomp(list(fitW, fitln, fitg), probability=FALSE, ylim=c(0, 100))
+
+#test xlim, legend, main, demp    
 denscomp(list(fitW, fitln, fitg), legendtext=c("Weibull","lognormal","gamma"),
     main="ground beef fits",xlab="serving sizes (g)",
     ylab="F",xlim = c(0,250), xlegend = "topright", demp=TRUE)

@@ -74,14 +74,7 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab, datap
         xmin <- xlim[1]
         xmax <- xlim[2]
     }
-    if (missing(ylim))
-    {
-        reshist <- hist(mydata, plot=FALSE)
-        if(!probability)
-            ylim <- c(0, max(reshist$counts))
-        else
-            ylim <- c(0, max(reshist$density))
-    }
+
     
     verif.ftidata <- function(fti)
     {
@@ -93,10 +86,11 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab, datap
 
     n <- length(mydata)
     sfin <- seq(xmin, xmax, by=(xmax-xmin)/100)
+	reshist <- hist(mydata, plot=FALSE)
     scalefactor <- ifelse(probability, 1, n * diff(reshist$breaks))
 
     
-# computation of each fitted distribution
+	# computation of each fitted distribution
     comput.fti <- function(i, ...)
     {
         fti <- ft[[i]]
@@ -107,10 +101,19 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab, datap
         do.call(ddistname, c(list(x=sfin), as.list(para))) * scalefactor
     }
     fitteddens <- sapply(1:nft, comput.fti, ...)
+    if (missing(ylim))
+    {
+        if(!probability)
+            ylim <- c(0, max(reshist$counts))
+        else
+            ylim <- c(0, max(reshist$density))
+		ylim <- range(ylim, fitteddens)	
+    }else
+		ylim <- range(ylim) #in case of users enter a bad ylim
     
     #main plotting
     reshist <- hist(mydata, main=main, xlab=xlab, ylab=ylab, xlim=xlim, 
-                    ylim=range(ylim, fitteddens), col=datacol, probability=probability, ...)
+                    ylim=ylim, col=datacol, probability=probability, ...)
     #plot fitted densities
     for(i in 1:nft)
         lines(sfin, fitteddens[,i], lty=fitlty[i], col=fitcol[i], ...)

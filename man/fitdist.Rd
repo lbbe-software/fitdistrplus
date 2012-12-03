@@ -340,9 +340,7 @@ summary(res2)
 #
 \dontrun{
     #set a sample
-    x1 <- c(6.4, 13.3, 4.1, 1.3, 14.1, 10.6, 9.9, 9.6, 15.3, 22.1, 
-         13.4, 13.2, 8.4, 6.3, 8.9, 5.2, 10.9, 14.4) 
-    fit1 <- fitdist(x1, "gamma")
+    fit1 <- fitdist(serving, "gamma")
     summary(fit1)
 
     #wrap genoud function rgenoud package
@@ -356,7 +354,7 @@ summary(res2)
     }
 
     #call fitdist with a 'custom' optimization function
-    fit2 <- fitdist(x1, "gamma", custom.optim=mygenoud, nvars=2,    
+    fit2 <- fitdist(serving, "gamma", custom.optim=mygenoud, nvars=2,    
         Domains=cbind(c(0, 0), c(10, 10)), boundary.enforcement=1, 
         print.level=1, hessian=TRUE)
 
@@ -403,7 +401,6 @@ gofstat(fWqme)
     #empirical raw moment
     memp <- function(x, order)
         ifelse(order == 1, mean(x), sum(x^order)/length(x))
-
 
     #fit
     fP <- fitdist(x4, "pareto", method="mme", order=c(1, 2), memp="memp", 

@@ -1,68 +1,81 @@
 library(fitdistrplus)
+nbboot <- 101
 
-# (1) basic fit of a normal distribution with maximum likelihood estimation
+# (1) Fit of a gamma distribution to serving size data
+# using default method (maximum likelihood estimation)
 # followed by parametric bootstrap
 #
-x1 <- c(6.4, 13.3, 4.1, 1.3, 14.1, 10.6, 9.9, 9.6, 15.3, 22.1, 13.4, 
-13.2, 8.4, 6.3, 8.9, 5.2, 10.9, 14.4)
-f1 <- fitdist(x1, "norm", method="mle")
-b1 <- bootdist(f1)
-print(b1)
+data(groundbeef)
+serving <- groundbeef$serving
+f1 <- fitdist(serving, "gamma")
+b1 <- bootdist(f1, niter=nbboot)
+print(lapply(b1, head))
 plot(b1)
 summary(b1)
 
-# (2) non parametric bootstrap
+# (2) non parametric bootstrap on the same fit
+# with less iterations
 #
-b1np <- bootdist(f1, bootmethod="nonparam", niter=101)
-summary(b1np)
-
-# (3) fit of a gamma distribution followed by parametric bootstrap
-#
-f1b <- fitdist(x1, "gamma", method="mle")
-b1b <- bootdist(f1b, niter=101)
+b1b <- bootdist(f1, bootmethod="nonparam", niter=nbboot)
 summary(b1b)
 
-# (4) fit of a gamma distribution with control of the optimization
-# method,  followed by parametric bootstrap
-#
-f1c <- fitdist(x1, "gamma", optim.method="L-BFGS-B", lower=c(0, 0))
-b1c <- bootdist(f1c, niter=101)
-summary(b1c)
-
-# (5) estimation of the standard deviation of a normal distribution 
-# by maximum likelihood with the mean fixed at 10 using the argument fix.arg
+# (3) estimation of the rate of a gamma distribution 
+# by maximum likelihood with the shape fixed at 4 using the argument fix.arg
 # followed by parametric bootstrap
 #
-f1d  <- fitdist(x1, "norm", start=list(sd=5), fix.arg=list(mean=10))
-b1d <- bootdist(f1d, niter=101)
+f1c  <- fitdist(serving, "gamma", start=list(rate=0.1), fix.arg=list(shape=4))
+b1c  <-  bootdist(f1c, niter=nbboot)
+summary(b1c)
+plot(b1c)
+
+# (4) fit of a gamma distribution to serving size data 
+# by quantile matching estimation (in this example matching 
+# first and third quartiles) followed by parametric bootstrap
+#
+f1d  <-  fitdist(serving, "gamma", method="qme", probs=c(0.25,0.75))
+b1d  <-  bootdist(f1d, niter=nbboot)
 summary(b1d)
-plot(b1d)
+
+# (5) fit of a gamma distribution with control of the optimization
+# method,  followed by parametric bootstrap
+#
+f1e <- fitdist(serving, "gamma", optim.method="L-BFGS-B", lower=c(0, 0))
+b1e <- bootdist(f1e, niter=nbboot)
+summary(b1e)
+
 
 # (6) fit of a discrete distribution by matching moment estimation 
 # (using a closed formula) followed by parametric bootstrap
 #
-x2 <- c(rep(4, 1), rep(2, 3), rep(1, 7), rep(0, 12))
+set.seed(1234)
+x2 <- rpois(n=30, lambda = 5)
 f2 <- fitdist(x2, "pois", method="mme")
-b2 <- bootdist(f2, niter=101)
-plot(b2, pch=16)
+b2 <- bootdist(f2, niter=nbboot)
+plot(b2,pch=16)
 summary(b2)
 
-# (7) fit of a Weibull distribution to serving size data by maximum likelihood 
+# (7) Fit of a uniform distribution using the Cramer-von Mises distance
+# followed by parametric bootstrap 
+# 
+x3  <-  runif(50, min=5, max=10)
+f3  <-  fitdist(x3, "unif", method="mge", gof="CvM")
+b3  <-  bootdist(f3, bootmethod="param", niter=nbboot)
+summary(b3)
+plot(b3)
+
+# (9) fit of a Weibull distribution to serving size data by maximum likelihood 
 # estimation or by quantile matching estimation (in this example matching 
 # first and third quartiles) followed by parametric bootstrap
 #
-data(groundbeef)
-serving <- groundbeef$serving
-
 fWmle <- fitdist(serving, "weibull")
-bWmle <- bootdist(fWmle, niter=101)
+bWmle <- bootdist(fWmle, niter=nbboot)
 summary(bWmle)
 
 fWqme <- fitdist(serving, "weibull", method="qme", probs=c(0.25, 0.75))
-bWqme <- bootdist(fWqme, niter=101)
+bWqme <- bootdist(fWqme, niter=nbboot)
 summary(bWqme)
 
-# (8) Fit of a Pareto distribution by numerical moment matching estimation
+# (10) Fit of a Pareto distribution by numerical moment matching estimation
 # followed by parametric bootstrap
 #
 if(any(installed.packages()[, "Package"] == "actuar"))
@@ -77,28 +90,14 @@ if(any(installed.packages()[, "Package"] == "actuar"))
 				  start=c(shape=10,  scale=10),  
 				  lower=1,  memp="memp",  upper=50)
 	
-    b4 <- bootdist(f4,  niter=101)
+    b4 <- bootdist(f4,  niter=nbboot)
     summary(b4)
 	
-    b4npar <- bootdist(f4,  niter=101,  bootmethod="nonparam")
+    b4npar <- bootdist(f4,  niter=nbboot,  bootmethod="nonparam")
     summary(b4npar)
 }	
 
-
-# (9) Fit of a uniform distribution using Cramer-von Mises 
-# followed by parametric boostrap
-# 
-
-u <- runif(50, min=5, max=10)
-
-fu <- fitdist(u, "unif", method="mge", gof="CvM")
-bu <- bootdist(fu,  bootmethod="param", niter=101)
-summary(bu)
-plot(bu)
-
-
-
-# (10) Fit of a Burr distribution using MLE 
+# (11) Fit of a Burr distribution using MLE 
 # followed by parametric boostrap
 # 
 if(any(installed.packages()[, "Package"] == "actuar"))
@@ -107,8 +106,8 @@ if(any(installed.packages()[, "Package"] == "actuar"))
 	data(danishuni)
 
 fdan <- fitdist(danishuni$Loss, "burr", method="mle", 
-	start=c(shape1=5, shape2=5, rate=10), lower=0+1e-1, control=list(trace=1))
-bdan <- bootdist(fdan,  bootmethod="param", niter=101)
+	start=c(shape1=5, shape2=5, rate=10), lower=0+1e-1, control=list(trace=0))
+bdan <- bootdist(fdan,  bootmethod="param", niter=nbboot)
 summary(bdan)
 plot(bdan)
 cdfcomp(fdan, xlogscale=TRUE)

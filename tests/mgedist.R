@@ -1,32 +1,52 @@
 library(fitdistrplus)
 
 
-
 # (1) Fit of a Weibull distribution to serving size data by maximum 
 # goodness-of-fit estimation using all the distances available
 # 
 
 data(groundbeef)
 serving <- groundbeef$serving
-mgedist(serving,"weibull",gof="CvM")
-mgedist(serving,"weibull",gof="KS")
-mgedist(serving,"weibull",gof="AD")
-mgedist(serving,"weibull",gof="ADR")
-mgedist(serving,"weibull",gof="ADL")
-mgedist(serving,"weibull",gof="AD2R")
-mgedist(serving,"weibull",gof="AD2L")
-mgedist(serving,"weibull",gof="AD2")
+mgedist(serving, "weibull", gof="CvM")
+mgedist(serving, "weibull", gof="KS")
+mgedist(serving, "weibull", gof="AD")
+mgedist(serving, "weibull", gof="ADR")
+mgedist(serving, "weibull", gof="ADL")
+mgedist(serving, "weibull", gof="AD2R")
+mgedist(serving, "weibull", gof="AD2L")
+mgedist(serving, "weibull", gof="AD2")
 
 # (2) Fit of a uniform distribution using Cramer-von Mises or
 # Kolmogorov-Smirnov distance
 # 
 
-u <- runif(100,min=5,max=10)
-mgedist(u,"unif",gof="CvM")
-mgedist(u,"unif",gof="KS")
-mgedist(u,"unif",gof="KS", fix.arg=list(max=10), start=list(min=1))
+set.seed(1234)
+u <- runif(100, min=5, max=10)
+mgedist(u, "unif", gof="CvM")
+mgedist(u, "unif", gof="KS")
 
-# (3) scaling problem
+# (3) Fit of a triangular distribution using Cramer-von Mises or
+# Kolmogorov-Smirnov distance
+# 
+require(mc2d)
+set.seed(1234)
+t <- rtriang(100,min=5,mode=6,max=10)
+mgedist(t, "triang", start = list(min=4, mode=6,max=9), gof="CvM")
+mgedist(t, "triang", start = list(min=4, mode=6,max=9), gof="KS")
+
+
+# (4) scaling problem
+# the simulated dataset (below) has particularly small values, hence without scaling (10^0),
+# the optimization raises an error. The for loop shows how scaling by 10^i
+# for i=1,...,6 makes the fitting procedure work correctly.
+
+set.seed(1234)
+x2 <- rnorm(100, 1e-4, 2e-4)
+for(i in 6:0)
+    cat(i, try(mgedist(x2*10^i,"cauchy")$estimate, silent=TRUE), "\n")
+	
+	
+# (5) scaling problem
 #
 
 x <- c(-0.00707717, -0.000947418, -0.00189753, 
@@ -51,5 +71,5 @@ x <- c(-0.00707717, -0.000947418, -0.00189753,
 
 #only i == 0, no scaling, should not converge.
 for(i in 6:0)
-cat(i, try(mgedist(x*10^i,"cauchy")$estimate, silent=TRUE), "\n")
+	cat(i, try(mgedist(x*10^i,"cauchy")$estimate, silent=TRUE), "\n")
 

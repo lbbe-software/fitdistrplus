@@ -110,14 +110,15 @@ Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr}
 
 data(groundbeef)
 serving <- groundbeef$serving
-mgedist(serving,"weibull",gof="CvM")
-mgedist(serving,"weibull",gof="KS")
-mgedist(serving,"weibull",gof="AD")
-mgedist(serving,"weibull",gof="ADR")
-mgedist(serving,"weibull",gof="ADL")
-mgedist(serving,"weibull",gof="AD2R")
-mgedist(serving,"weibull",gof="AD2L")
-mgedist(serving,"weibull",gof="AD2")
+mgedist(serving, "weibull", gof="CvM")
+mgedist(serving, "weibull", gof="KS")
+mgedist(serving, "weibull", gof="AD")
+mgedist(serving, "weibull", gof="ADR")
+mgedist(serving, "weibull", gof="ADL")
+mgedist(serving, "weibull", gof="AD2R")
+mgedist(serving, "weibull", gof="AD2L")
+mgedist(serving, "weibull", gof="AD2")
+
 
 # (2) Fit of a uniform distribution using Cramer-von Mises or
 # Kolmogorov-Smirnov distance

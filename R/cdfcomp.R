@@ -99,8 +99,7 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
         # previous version with no vizualisation of ex-aequos
         # obsp <- ecdf(s)(s) 
         obsp <- (1:n) / n
-    if(missing(ylim))
-        ylim <- range(obsp) 
+    
     
     # computation of each fitted distribution
     comput.fti <- function(i)
@@ -119,11 +118,15 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
             do.call(pdistname, c(list(q=sfin), as.list(para)))
         }
     }
-    fittedprob <- sapply(1:nft, comput.fti) 
+    fittedprob <- sapply(1:nft, comput.fti)  	
+	if(missing(ylim))
+        ylim <- range(obsp, fittedprob) 
+	else
+		ylim <- range(ylim) #in case of users enter a bad ylim
     
     logxy <- paste(ifelse(xlogscale,"x",""), ifelse(ylogscale,"y",""), sep="")
     #main plotting
-    plot(s, obsp, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=range(ylim, fittedprob),
+    plot(s, obsp, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim,
          log=logxy, pch=datapch, col=datacol, ...)
 
     # optional add of horizontal and vbertical lines for step function

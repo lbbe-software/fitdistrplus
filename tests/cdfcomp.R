@@ -23,20 +23,20 @@ cdfcomp(list(fitW, fitln, fitg),horizontals = TRUE,
 
 cdfcomp(list(fitW,fitln,fitg),legendtext=c("Weibull","lognormal","gamma"),
     main="ground beef fits",xlab="serving sizes (g)",
-    ylab="F", xlim = c(0,250))
+    ylab="F(g)", xlim = c(0,250), ylim=c(.5, 1))
 
 cdfcomp(list(fitW,fitln,fitg),legendtext=c("Weibull","lognormal","gamma"),
     main="ground beef fits",xlab="serving sizes (g)",
-    ylab="F", xlogscale=TRUE)
+    ylab="F(g)", xlogscale=TRUE)
 
 cdfcomp(list(fitW,fitln,fitg),legendtext=c("Weibull","lognormal","gamma"),
     main="ground beef fits",xlab="serving sizes (g)",
-    ylab="F", xlogscale=TRUE, ylogscale=TRUE, ylim=c(.01, .99))
+    ylab="F(g)", xlogscale=TRUE, ylogscale=TRUE, ylim=c(.005, .99))
 
     
 cdfcomp(list(fitW,fitln,fitg), legendtext=c("Weibull","lognormal","gamma"),
     main="ground beef fits",xlab="serving sizes (g)",
-    ylab="F",xlim = c(0,250), xlegend = "topleft")
+    ylab="F(g)",xlim = c(0,250), xlegend = "topleft")
 
 
 
@@ -77,7 +77,25 @@ cdfcomp(list(flnMGEKS, flnMGEAD, flnMGEADL, flnMGEAD2L),
 cdfcomp(flnMGEKS, xlogscale=TRUE, verticals=TRUE, xlim=c(10,100000))
 
 
-# (3) Plot lognormal distributions fitted by 
+# (3) Plot normal and logistic distributions fitted by 
+# maximum likelihood estimation
+# using various plotting positions in cdf plots
+#
+data(endosulfan)
+log10ATV <-log10(subset(endosulfan,group == "NonArthroInvert")$ATV)
+fln <- fitdist(log10ATV,"norm")
+fll <- fitdist(log10ATV,"logis")
+# default plot using Hazen plotting position: (1:n - 0.5)/n
+cdfcomp(list(fln,fll),legendtext=c("normal","logistic"),xlab="log10ATV")
+# plot using mean plotting position (named also Gumbel plotting position)
+# (1:n)/(n + 1)
+cdfcomp(list(fln,fll),legendtext=c("normal","logistic"),xlab="log10ATV",
+    use.ppoints = TRUE, a.ppoints = 0)
+# plot using basic plotting position: (1:n)/n
+cdfcomp(list(fln,fll),legendtext=c("normal","logistic"),xlab="log10ATV",
+    use.ppoints = FALSE)
+
+# (4) Plot lognormal distributions fitted by 
 # maximum goodness-of-fit estimation
 # using various distances (data plotted in log scale)
 #
@@ -116,7 +134,7 @@ cdfcomp(list(f1, f2, f3), xlim=range(x), fitcol=c("red","green","blue"))
 
 
 
-# (4) normal mixture
+# (5) normal mixture
 #
 
 #mixture of two normal distributions
@@ -152,7 +170,7 @@ cdfcomp(list(fit1, fit2, fit3), datapch=".")
 cdfcomp(list(fit1, fit2, fit3), datapch=".", xlim=c(6, 8), ylim=c(.4, .55))
 
 
-# (5) discrete example
+# (6) discrete example
 #
 
 x3 <- rpois(20, 10)

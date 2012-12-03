@@ -33,12 +33,12 @@ bootdist <- function (f, bootmethod="param", niter=1001)
     
     if (!inherits(f, "fitdist"))
         stop("Use only with 'fitdist' objects")
-    rdistname <- paste("r", f$distname, sep="")
-    if (!exists(rdistname, mode="function"))
-        stop(paste("The ", rdistname, " function must be defined"))
-    
+        
     #simulate bootstrap data
     if (bootmethod == "param") { # parametric bootstrap
+		rdistname <- paste("r", f$distname, sep="")
+		if (!exists(rdistname, mode="function"))
+			stop(paste("The ", rdistname, " function must be defined"))
         rdata <- do.call(rdistname, c(list(n=niter*f$n), as.list(f$estimate), f$fix.arg))
         dim(rdata) <- c(f$n, niter)
     }
