@@ -1,5 +1,5 @@
 library(fitdistrplus)
-
+nbboot <- 100
 
 
 # (1) basic fit of a gamma distribution by maximum likelihood estimation
@@ -83,7 +83,7 @@ myoptimize <- function(fn, par, ...)
 #assume the optimization function minimize
     
     standardres <- c(res, convergence=0, value=res$objective, 
-					 par=res$minimum, hessian=NA)
+                     par=res$minimum, hessian=NA)
     
     return(standardres)
 }
@@ -104,22 +104,22 @@ if(any(installed.packages()[,"Package"] == "rgenoud"))
 #set a sample
     fit1 <- fitdist(serving, "gamma")
     summary(fit1)
-	
+    
 #wrap genoud function rgenoud package
     mygenoud <- function(fn, par, ...) 
     {
         require(rgenoud)
         res <- genoud(fn, starting.values=par, ...)        
         standardres <- c(res, convergence=0)
-		
+        
         return(standardres)
     }
-	
+    
 #call fitdist with a 'custom' optimization function
     fit2 <- fitdist(serving, "gamma", custom.optim=mygenoud, nvars=2,    
-					Domains=cbind(c(0, 0), c(10, 10)), boundary.enforcement=1, 
-					print.level=0, hessian=TRUE)
-	
+                    Domains=cbind(c(0, 0), c(10, 10)), boundary.enforcement=1, 
+                    print.level=0, hessian=TRUE)
+    
     summary(fit2)
 }
 
@@ -153,18 +153,18 @@ if(any(installed.packages()[,"Package"] == "actuar"))
 {
 
     require(actuar)
-	#simulate a sample
+    #simulate a sample
     x4 <- rpareto(1000, 6, 2)
-	
-	#empirical raw moment
+    
+    #empirical raw moment
     memp <- function(x, order)
-		ifelse(order == 1, mean(x), sum(x^order)/length(x))
-	
-	#fit
+        ifelse(order == 1, mean(x), sum(x^order)/length(x))
+    
+    #fit
     fP <- fitdist(x4, "pareto", method="mme", order=c(1, 2), memp="memp", 
-				  start=c(shape=10, scale=10), lower=1, upper=Inf)
+                  start=c(shape=10, scale=10), lower=1, upper=Inf)
     summary(fP)
-	
+    
 }
 
 # (12) Fit of a Weibull distribution to serving size data by maximum 
@@ -230,7 +230,7 @@ x2 <- c(-0.00707717, -0.000947418, -0.00189753,
 -0.00241138, -0.00144963)
 
 for(i in 6:0)
-	cat(i, try(fitdist(x2*10^i, "cauchy", method="mle")$estimate, silent=TRUE), "\n")
+    cat(i, try(fitdist(x2*10^i, "cauchy", method="mle")$estimate, silent=TRUE), "\n")
 
 
 # (15) Fit of a lognormal distribution on acute toxicity values of endosulfan for
@@ -247,25 +247,27 @@ log10ATV <- log10(subset(endosulfan, group == "NonArthroInvert")$ATV)
 fln <- fitdist(log10ATV, "norm")
 
 quantile(fln, probs = 0.05, bootstrap=TRUE, 
-	bootstrap.arg = list(bootmethod = "param", niter = 501))
+    bootstrap.arg = list(bootmethod = "param", niter = nbboot))
 
 quantile(fln, probs = c(0.05,0.1,0.2), bootstrap = TRUE, CI.type = "greater",
-	bootstrap.arg = list(bootmethod = "param", niter = 501))
+    bootstrap.arg = list(bootmethod = "param", niter = nbboot))
 
 quantile(fln, probs = 0.05, bootstrap=TRUE, 
-	bootstrap.arg = list(bootmethod = "nonparam", niter = 501))
+    bootstrap.arg = list(bootmethod = "nonparam", niter = nbboot))
 
 
 # (16) Fit of a triangular distribution using Cramer-von Mises or
 # Kolmogorov-Smirnov distance
 # 
+if(any(installed.packages()[,"Package"] == "mc2d"))
+{
 set.seed(1234)
 require(mc2d)
 t <- rtriang(100,min=5,mode=6,max=10)
 fCvM <- fitdist(t,"triang",method="mge",start = list(min=4, mode=6,max=9),gof="CvM")
 fKS <- fitdist(t,"triang",method="mge",start = list(min=4, mode=6,max=9),gof="KS")
 cdfcomp(list(fCvM,fKS))
-
+}
 
 # (17) uniform distribution
 #
@@ -297,3 +299,13 @@ try( fitdist(mysample, dexp, start= mystart3, method="qme", probs=1/2) )
 try( fitdist(mysample, dexp, start= mystart2, method="mge", gof="AD") ) 
 try( fitdist(mysample, dexp, start= mystart3, method="mge", gof="AD") ) 
 
+# (19) example with dexgauss
+# would require to suggest the package gamlss.dist in the Description file
+#
+#if(any(installed.packages()[,"Package"] == "gamlss.dist"))
+#{
+#    require(gamlss.dist)
+#    set.seed(1234)
+#    a=rexGAUS(100,mu=500,sigma=50,nu=75)
+#    fitdist(a,dexGAUS,start=list(mu=median(a),sigma=sqrt(var(a)/2),nu=sqrt(var(a)/2)))
+#}

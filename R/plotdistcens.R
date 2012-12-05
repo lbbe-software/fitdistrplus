@@ -38,10 +38,10 @@ Turnbull.confint = FALSE, ...){
         survdata <- Surv(time = censdata$left, time2 = censdata$right, type="interval2")
         survfitted <- survfit(survdata ~ 1)
         if (Turnbull.confint)
-            plot(survfitted,fun="event",xlab="censored data",
+            plot(survfitted,fun="event",xlab="Censored data",
             ylab="CDF",main="Cumulative distribution",...)
         else
-            plot(survfitted,fun="event",xlab="censored data",
+            plot(survfitted,fun="event",xlab="Censored data",
             ylab="CDF",main="Cumulative distribution", conf.int = FALSE, ...)
         xmin <- par("usr")[1]
         xmax <- par("usr")[2]
@@ -81,7 +81,7 @@ Turnbull.confint = FALSE, ...){
         xmin<-xmin-0.3*xrange
         xmax<-xmax+0.3*xrange
         xlim<-c(xmin,xmax)
-        plot(c(0,0),c(0,0),type="n",xlim=xlim,ylim=c(0,1),xlab="censored data",
+        plot(c(0,0),c(0,0),type="n",xlim=xlim,ylim=c(0,1),xlab="Censored data",
         ylab="CDF",main="Cumulative distribution",...)
         # functions to plot one interval or point for each observation for 
         # observation ordered i out of n

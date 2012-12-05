@@ -1,5 +1,6 @@
 ### Imports
 import(stats)
+import(survival)
 
 ### Exports
 

@@ -84,35 +84,46 @@ if(any(installed.packages()[, "Package"] == "actuar"))
 #simulate a sample
     x4 <- rpareto(1000,  6,  2)
     memp <- function(x,  order)
-	ifelse(order == 1,  mean(x),  sum(x^order)/length(x))
-	
+    ifelse(order == 1,  mean(x),  sum(x^order)/length(x))
+    
     f4 <- fitdist(x4,  "pareto",  "mme",  order=1:2,  
-				  start=c(shape=10,  scale=10),  
-				  lower=1,  memp="memp",  upper=50)
-	
+                  start=c(shape=10,  scale=10),  
+                  lower=1,  memp="memp",  upper=50)
+    
     b4 <- bootdist(f4,  niter=nbboot)
     summary(b4)
-	
+    
     b4npar <- bootdist(f4,  niter=nbboot,  bootmethod="nonparam")
     summary(b4npar)
-}	
+}   
 
-# (11) Fit of a Burr distribution using MLE 
+# (11) Fit of a Burr distribution (3 parameters) using MLE 
 # followed by parametric boostrap
 # 
 if(any(installed.packages()[, "Package"] == "actuar"))
 {
     require(actuar)
-	data(danishuni)
+    data(danishuni)
 
 fdan <- fitdist(danishuni$Loss, "burr", method="mle", 
-	start=c(shape1=5, shape2=5, rate=10), lower=0+1e-1, control=list(trace=0))
+    start=c(shape1=5, shape2=5, rate=10), lower=0+1e-1, control=list(trace=0))
 bdan <- bootdist(fdan,  bootmethod="param", niter=nbboot)
 summary(bdan)
 plot(bdan)
 cdfcomp(fdan, xlogscale=TRUE)
-
 }
 
+# (12) Fit of a Triangular distribution (3 parameters) using MLE 
+# followed by parametric boostrap, with crashes of optim
+# 
+if(any(installed.packages()[, "Package"] == "mc2d"))
+{
+    require(mc2d)
+    x4 <- rtriang(100,min=0,mode=4,max=20)
+    fit4t<-fitdist(x4,dtriang,start=list(min=0,mode=4,max=20))
+    summary(fit4t)
+    b4t<-bootdist(fit4t,niter=nbboot) 
+    plot(b4t)
+    summary(b4t)
 
-
+}

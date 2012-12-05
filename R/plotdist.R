@@ -38,10 +38,10 @@ plotdist <- function(data, distr, para, breaks="default", discrete=FALSE, ...){
             # plot for continuous data
             obsp <- ppoints(s)
             if (breaks=="default") 
-                h <- hist(data, freq=FALSE, xlab="data", main=paste("Histogram"), ...)
+                h <- hist(data, freq=FALSE, xlab="Data", main=paste("Histogram"), ...)
             else 
-                h <- hist(data, freq=FALSE, xlab="data", main=paste("Histogram"), breaks=breaks, ...)
-            plot(s, obsp, main=paste("Cumulative distribution"), xlab="data", 
+                h <- hist(data, freq=FALSE, xlab="Data", main=paste("Histogram"), breaks=breaks, ...)
+            plot(s, obsp, main=paste("Cumulative distribution"), xlab="Data", 
             xlim=c(h$breaks[1], h$breaks[length(h$breaks)]), ylab="CDF", ...)
         }
         else {
@@ -55,11 +55,11 @@ plotdist <- function(data, distr, para, breaks="default", discrete=FALSE, ...){
             ydobs <- as.vector(t)/n
             ydmax <- max(ydobs)
             plot(xval, ydobs, type='h', xlim=xlim, ylim=c(0, ydmax), 
-            main="Empirical distribution", xlab="data", ylab="Density", ...)
+            main="Empirical distribution", xlab="Data", ylab="Density", ...)
             # plot of the cumulative probability distributions
             ycdfobs <- ecdf(data)(xvalfin)
             plot(xvalfin, ycdfobs, type='h', xlim=xlim, ylim=c(0, 1), 
-            main="Empirical CDFs", xlab="data", ylab="CDF", ...)
+            main="Empirical CDFs", xlab="Data", ylab="CDF", ...)
         }
     } #end of if (missing(distr))
     else {
@@ -107,29 +107,27 @@ plotdist <- function(data, distr, para, breaks="default", discrete=FALSE, ...){
             yhist <- do.call(ddistname, c(list(x=xhist), as.list(para)))
             ymax <- ifelse(is.finite(max(yhist)), max(max(h$density), max(yhist)), max(h$density)) 
             # plot of histograms and theoretical density
-            hist(data, freq=FALSE, xlab="data", ylim=c(0, ymax), breaks=h$breaks, 
+            hist(data, freq=FALSE, xlab="Data", ylim=c(0, ymax), breaks=h$breaks, 
                 main=paste("Empirical and theoretical distr."), ...)
             lines(xhist, yhist)
            
             # plot of the qqplot
             theoq <- do.call(qdistname, c(list(p=obsp), as.list(para)))
-            plot(theoq, s, main=" QQ-plot", xlab="theoretical quantiles", 
-            ylab="sample quantiles", ...)
+            plot(theoq, s, main=" QQ-plot", xlab="Theoretical quantiles", 
+            ylab="Empirical quantiles", ...)
             abline(0, 1)
             # plot of the cumulative probability distributions
             xmin <- h$breaks[1]
             xmax <- h$breaks[length(h$breaks)]
-            plot(s, obsp, main=paste("Empirical and theoretical CDFs"), xlab="data", 
+            plot(s, obsp, main=paste("Empirical and theoretical CDFs"), xlab="Data", 
             ylab="CDF", xlim=c(xmin, xmax), ...)
             sfin <- seq(xmin, xmax, by=(xmax-xmin)/100)
             theopfin <- do.call(pdistname, c(list(q=sfin), as.list(para)))
             lines(sfin, theopfin, lty=1)
-            #legend(s[1], max(obsp), lty=c(1, 2), legend=c("empirical", paste("theoretical")), 
-            #bty='n')
             
             # plot of the ppplot
-            plot(theop, obsp, main="PP-plot", xlab="theoretical probabilities", 
-            ylab="sample probabilities", ...)
+            plot(theop, obsp, main="PP-plot", xlab="Theoretical probabilities", 
+            ylab="Empirical probabilities", ...)
             abline(0, 1)
         }
         else {
@@ -147,7 +145,7 @@ plotdist <- function(data, distr, para, breaks="default", discrete=FALSE, ...){
             ydmax <- max(yd, ydobs)
             plot(xvalfin+xlinesdec, yd, type='h', xlim=c(min(xval), max(xval)+xlinesdec), 
                 ylim=c(0, ydmax), lty=3, 
-                main="Emp. and theo. distr.", xlab="data", 
+                main="Emp. and theo. distr.", xlab="Data", 
                 ylab="Density", ...)
             points(xval, ydobs, type='h', lty=1, ...)
             legend("topright", lty=c(1, 3), 
@@ -159,7 +157,7 @@ plotdist <- function(data, distr, para, breaks="default", discrete=FALSE, ...){
             ycdf <- do.call(pdistname, c(list(q=xvalfin), as.list(para)))
             plot(xvalfin+xlinesdec, ycdf, type='h', xlim=c(min(xval), max(xval)+xlinesdec), 
                 ylim=c(0, 1), lty=3, 
-                main="Emp. and theo. CDFs", xlab="data", 
+                main="Emp. and theo. CDFs", xlab="Data", 
                 ylab="CDF", ...)
             points(xvalfin, ycdfobs, type='h', lty=1, ...)
             legend("topleft", lty=c(1, 3), legend=c("empirical", paste("theoretical")), 

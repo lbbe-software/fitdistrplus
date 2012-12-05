@@ -28,7 +28,7 @@ observations.
 }
 
 \source{ 
-Keffor, B.J., Nugegoda, D., Metzeling, L., Fields, E. 2006. Validating species sensitivity
+Kefford, B.J., Nugegoda, D., Metzeling, L., Fields, E. 2006. Validating species sensitivity
 distributions using salinity tolerance of riverine macroinvertebrates in
 the southern Murray-darling Basin (Vitoria, Australia). \emph{Canadian Journal of Fisheries
 and Aquatic Science},

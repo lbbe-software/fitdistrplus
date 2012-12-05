@@ -97,66 +97,7 @@ summary(b1)
 b1b <- bootdist(f1,bootmethod="nonparam",niter=501)
 summary(b1b)
 
-# (3) estimation of the rate of a gamma distribution 
-# by maximum likelihood with the shape fixed at 4 using the argument fix.arg
-# followed by parametric bootstrap
-#
-f1c  <- fitdist(x1,"gamma",start=list(rate=0.1),fix.arg=list(shape=4))
-b1c  <-  bootdist(f1c,niter=501)
-summary(b1c)
-plot(b1c)
-
-# (4) fit of a gamma distribution to serving size data 
-# by quantile matching estimation (in this example matching 
-# first and third quartiles) followed by parametric bootstrap
-#
-f1d  <-  fitdist(x1,"gamma",method="qme",probs=c(0.25,0.75))
-b1d  <-  bootdist(f1d,niter=501)
-summary(b1d)
-
-# (5) fit of a discrete distribution by matching moment estimation 
-# (using a closed formula) followed by parametric bootstrap
-#
-set.seed(1234)
-x2 <- rpois(n=30,lambda = 5)
-f2 <- fitdist(x2,"pois",method="mme")
-b2 <- bootdist(f2,niter=501)
-plot(b2,pch=16)
-summary(b2)
-
-# (6) Fit of a uniform distribution using the Cramer-von Mises distance
-# followed by parametric bootstrap 
-# 
-x3  <-  runif(50,min=5,max=10)
-f3  <-  fitdist(x3,"unif",method="mge",gof="CvM")
-b3  <-  bootdist(f3, bootmethod="param", niter=501)
-summary(b3)
-plot(b3)
-
-# (7) Fit of a Pareto distribution by numerical moment matching estimation
-# followed by parametric bootstrap
-#
-\dontrun{
-    require(actuar)
-    #simulate a sample
-    x4  <-  rpareto(1000, 6, 2)
-    memp  <-  function(x, order)
-        ifelse(order == 1, mean(x), sum(x^order)/length(x))
-
-    f4  <-  fitdist(x4, "pareto", "mme", order=1:2, 
-        start=c(shape=10, scale=10), 
-        lower=1, memp="memp", upper=50)
-
-    b4  <-  bootdist(f4, niter=101)
-    summary(b4)
-
-    b4npar  <-  bootdist(f4, niter=101, bootmethod="nonparam")
-    summary(b4npar)
-
 }
 
-
-
-}
 
 \keyword{ distribution }% at least one, from doc/KEYWORDS

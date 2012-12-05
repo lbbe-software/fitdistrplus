@@ -8,7 +8,7 @@ NEW FEATURES
     draw confidence intervals on the empirical distribution only if requested
 - many changes in the examples given in the reference manual
 - many changes in the vignette
-- add of three data sets : saliniy, danishuni and danishmulti
+- add of three data sets : salinity, danishuni and danishmulti
 
 BUG FIXES
 - correction the formula for the CvM test for Weibull distribution

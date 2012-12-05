@@ -59,7 +59,7 @@ ppcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
     if (missing(ylab)) 
         ylab <- "Empirical probabilities"
     if (missing(main)) 
-        main <- "Empirical and theoretical probabilities"
+        main <- "PP-plot"
     
     mydata <- ft[[1]]$data
 
