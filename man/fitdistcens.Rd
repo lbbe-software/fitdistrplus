@@ -19,8 +19,8 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL,...)
 
 \method{summary}{fitdistcens}(object, \dots)
 
-\method{quantile}{fitdistcens}(x, probs = seq(0.1,0.9,0.1), bootstrap = TRUE,
-    CI.type = "two.sided", bootstrap.arg = list(niter=1001), \dots)
+\method{quantile}{fitdistcens}(x, probs = seq(0.1, 0.9, by=0.1), \dots)
+
     
 }
 %- maybe also 'usage' for other objects documented here.
@@ -49,11 +49,6 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL,...)
     or to the function \code{"mledist"} 
     in order to control the optimization method.}
 \item{probs}{Numeric vector of probabilities with values in [0,1].}
-\item{bootstrap}{If \code{TRUE}, bootstrap is performed to calculate quantile confidence intervals. }
-\item{CI.type}{Type of confidence interval, \code{"two.sided"}, or one-sided \code{"less"}
-     or \code{"greater"}}
-\item{bootstrap.arg}{List of arguments to be passed to \code{\link{bootdistcens}}  }
-    
 }
 
 \details{
@@ -266,11 +261,8 @@ data(fluazinam)
 log10EC50 <-log10(fluazinam)
 fln <- fitdistcens(log10EC50,"norm")
 
-quantile(fln, probs = 0.05, bootstrap=TRUE)
-
-\dontrun{
-quantile(fln, probs = c(0.05,0.1,0.2), bootstrap = TRUE, CI.type = "greater")
-}
+quantile(fln, probs = 0.05)
+quantile(fln, probs = c(0.05, 0.1, 0.2))
 
 }
 

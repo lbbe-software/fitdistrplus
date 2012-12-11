@@ -63,9 +63,10 @@ bootdistcens <- function (f, niter=1001)
             quantile(resboot[-length(resboot[, 1]), ], 0.975, na.rm=TRUE)) 
         names(bootCI) <- c("Median", "2.5%", "97.5%")
     }       
-    return(structure(list(estim=estim, 
-        converg=t(resboot)[, length(resboot[, 1])], CI=bootCI), 
-        class="bootdistcens"))
+    res <- structure(list(estim=estim, converg=t(resboot)[, length(resboot[, 1])], 
+						  method="nonparam", nbboot=niter, CI=bootCI, fitpart=f), 
+        class="bootdistcens")
+	res
 }
 
 print.bootdistcens <- function(x, ...){

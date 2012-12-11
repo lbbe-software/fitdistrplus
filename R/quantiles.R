@@ -19,125 +19,240 @@
 #############################################################################
 ### calculation of theoretical quantiles from a parametric distribution
 ### fitted on censored or non-censored data
-### and associated bootstrap confidence intervals
-###
+### 
 ###         R functions
 ### 
 
-
-quantile.fitdist <- function(x, probs = seq(0.1, 0.9, 0.1), bootstrap = TRUE, CI.type = "two.sided", 
-                bootstrap.arg = list(bootmethod="param", niter=1001), ...)
+#quantile function for fitdist objects
+quantile.fitdist <- function(x, probs = seq(0.1, 0.9, by=0.1), ...)
 {
     if (!inherits(x, "fitdist"))
         stop("Use only with 'fitdist' objects")
-    cens <- FALSE
-    myquantiles(f = x, probs = probs, bootstrap = bootstrap, CI.type = CI.type, 
-				bootstrap.arg = bootstrap.arg, cens)
+    myquantiles.fitdist(f = x, probs = probs, cens = FALSE)
 }
 
-quantile.fitdistcens <- function(x, probs = seq(0.1, 0.9, 0.1), bootstrap = TRUE, CI.type = "two.sided", 
-                bootstrap.arg = list(niter=1001), ...)
+#quantile function for fitdistcens objects
+quantile.fitdistcens <- function(x, probs = seq(0.1, 0.9, by=0.1), ...)
 {
     if (!inherits(x, "fitdistcens"))
         stop("Use only with 'fitdistcens' objects")
-    cens <- TRUE
-    myquantiles(f = x, probs = probs, bootstrap = bootstrap, CI.type = CI.type, 
-				bootstrap.arg = bootstrap.arg, cens)
+    myquantiles.fitdist(f = x, probs = probs, cens = TRUE)
 }
 
-myquantiles <- function(f, probs, bootstrap, CI.type, bootstrap.arg, cens )
+#internal quantile function for fitdist
+myquantiles.fitdist <- function(f, probs, cens)
 {    
-    CI.type <- match.arg(CI.type, c("two.sided", "less", "greater"))
-    
     qdistname<-paste("q", f$distname, sep="")
     if (!exists(qdistname, mode="function"))
         stop(paste("The ", qdistname, " function must be defined")) 
      
-    # 1/ calculation and print of quantiles using estimations of parameters   
+    # computation and print of quantiles using estimations of parameters   
     para=c(as.list(f$estimate), as.list(f$fix.arg))
     quantiles <- do.call(qdistname, c(list(p=probs), as.list(para)))
     if (length(probs)>1)
         quantiles <- as.data.frame(t(quantiles))
     else
         quantiles <- as.data.frame(quantiles)
-    colnames(quantiles) <- paste("prob=", probs, sep="")
-        
-    cat("Estimated quantiles for each specified probability \n")
-    print(quantiles)
-#
-#on pourrait avoir un meilleur affichage avec cat?
-#
+    colnames(quantiles) <- paste("p=", probs, sep="")
+	rownames(quantiles) <- "estimate"
 	
-    # 2/ calculation of bootstraped quantiles and 95 percent CI      
-    if (bootstrap)
-    {
-        if (cens)
-        resbootdist <- do.call(bootdistcens, c(list(f), as.list(bootstrap.arg)))
-        else
-        resbootdist <- do.call(bootdist, c(list(f), as.list(bootstrap.arg)))
-        
-        calcquant <- function(i)
-        {
-            parai=c(as.list(resbootdist$estim[i, ]), as.list(f$fix.arg))
-            do.call(qdistname, c(list(p=probs), as.list(parai)))
-        }
-        
-      
-        bootquant <- sapply(1:nrow(resbootdist$estim), calcquant)
-        if (length(probs)>1)
-            bootquant <- as.data.frame(t(bootquant))
-        else
-            bootquant <- as.data.frame(bootquant)
-        colnames(bootquant) <- paste("prob=", probs, sep="")
-        
-        if (CI.type == "two.sided")
-        {
-            quantCI <- rbind(
-            apply(bootquant, MARGIN=2, quantile, 0.025, na.rm=TRUE), 
-            apply(bootquant, MARGIN=2, quantile, 0.975, na.rm=TRUE))
-            rownames(quantCI) <- c("2.5%", "97.5%")
-            cat("\n")
-            cat("two-sided 95% CI of each quantile\n")
-            print(quantCI)
-        }
-        else
-        {
-            if (CI.type == "less")
-            {
-                quantCI <- 
-                t(apply(bootquant, MARGIN=2, quantile, 0.95, na.rm=TRUE))
-                rownames(quantCI) <- c("95%")
-                cat("\n")
-                cat("right bound of one-sided 95% CI of each quantile\n")
-                print(quantCI)
-            }
-            else
-            {
-                quantCI <- 
-                t(apply(bootquant, MARGIN=2, quantile, 0.05, na.rm=TRUE))
-                rownames(quantCI) <- c("5%")
-                cat("\n")
-                cat("left bound of one-sided 95% CI (bootstrap) of each quantile\n")
-                print(quantCI)
-            }
-        }
-        
-        # message when lack of convergence
-        nconverg<-length(resbootdist$converg[resbootdist$converg==0])
-        if (nconverg < length(resbootdist$converg))
-        {
-            cat("\n")
-            cat("The estimation method converged only for ", nconverg, " among ", 
-                    length(resbootdist$converg), " bootstrap iterations \n")
-        }
+	reslist <- list(quantiles = quantiles, probs = probs, cens = cens)
+	if(!cens)
+		class(reslist) <- "quantile.fitdist"    
+	else
+		class(reslist) <- "quantile.fitdistcens"    
 
-        reslist <- list(quantiles = quantiles, resbootdist = resbootdist, bootquant = bootquant, quantCI = as.data.frame(quantCI))
-
-    }
-    else # if (bootstrap)
-    {
-        reslist <- list(quantiles = quantiles, resbootdist = NULL, bootquant = NULL, quantCI = NULL)
-    }
-        
-    invisible(reslist)
+    reslist
 }
+
+print.quantile.fitdist <- function(x, ...)
+{
+	if (!inherits(x, "quantile.fitdist"))
+		stop("Use only with 'quantile.fitdist' objects")
+	typedata <- ifelse(x$cens, "(censored data)", "(non-censored data)")
+	
+    cat("Estimated quantiles for each specified probability ", typedata,"\n", sep="")
+    print(x$quantiles)	
+	invisible(x)	
+}
+
+print.quantile.fitdistcens <- function(x, ...)
+{
+	if (!inherits(x, "quantile.fitdistcens"))
+	stop("Use only with 'quantile.fitdistcens' objects")
+	typedata <- ifelse(x$cens, "(censored data)", "(non-censored data)")
+	
+    cat("Estimated quantiles for each specified probability ", typedata,"\n", sep="")
+    print(x$quantiles)	
+	invisible(x)	
+}
+
+
+
+
+#############################################################################
+### calculation of theoretical quantiles from a parametric distribution
+### fitted on censored or non-censored data
+### and associated bootstrap confidence intervals
+###
+###         R functions
+### 
+
+
+#quantile function for bootdist objects
+quantile.bootdist <- function(x, probs = seq(0.1, 0.9, by=0.1), 
+	CI.type = "two.sided", CI.level = 0.95, ...)
+{
+    if (!inherits(x, "bootdist"))
+		stop("Use only with 'bootdist' objects")
+    myquantiles.bootdist(b = x, probs = probs, CI.type = CI.type, 
+						 CI.level = CI.level, cens = FALSE)
+}
+
+#quantile function for bootdistcens objects
+quantile.bootdistcens <- function(x, probs = seq(0.1, 0.9, by=0.1), 
+	CI.type = "two.sided", CI.level = 0.95, ...)
+{
+    if (!inherits(x, "bootdistcens"))
+		stop("Use only with 'bootdistcens' objects")
+    myquantiles.bootdist(b = x, probs = probs, CI.type = CI.type, 
+						 CI.level = CI.level, cens = TRUE)
+}
+
+#internal quantile function for bootdist
+myquantiles.bootdist <- function(b, probs, CI.type, CI.level, cens)
+{    
+    CI.type <- match.arg(CI.type, c("two.sided", "less", "greater"))
+	if(!is.logical(cens))
+		stop("wrong argument cens.")
+	CI.level <- CI.level[1]
+    	
+	# 1/ computation of quantiles using quantile.fitdist
+	basequant <- quantile(b$fitpart, probs=probs)
+		
+	# 2/ computation of bootstraped quantiles and alpha-percent CI of quantiles     
+	qdistname <- paste("q", b$fitpart$distname, sep="")
+	calcquant <- function(i)
+	{
+		parai <- c(as.list(b$estim[i, ]), as.list(b$fitpart$fix.arg))
+		do.call(qdistname, c(list(p=probs), as.list(parai)))
+	}
+	
+	bootquant <- sapply(1:b$nbboot, calcquant)
+	if (length(probs)>1)
+		bootquant <- as.data.frame(t(bootquant))
+	else
+		bootquant <- as.data.frame(bootquant)
+	colnames(bootquant) <- paste("p=", probs, sep="")
+	
+	if (CI.type == "two.sided")
+	{
+		alpha <- (1-CI.level)/2
+		quantCI <- rbind(
+						 apply(bootquant, MARGIN=2, quantile, alpha, na.rm=TRUE), 
+						 apply(bootquant, MARGIN=2, quantile, 1-alpha, na.rm=TRUE))
+		rownames(quantCI) <- format.perc(c(alpha, 1-alpha), 3)
+	}else if (CI.type == "less")
+	{
+		quantCI <- t(apply(bootquant, MARGIN=2, quantile, CI.level, na.rm=TRUE))
+		rownames(quantCI) <- format.perc(CI.level, 3)
+	}else
+	{
+		quantCI <- t(apply(bootquant, MARGIN=2, quantile, 1-CI.level, na.rm=TRUE))
+		rownames(quantCI) <- format.perc(1-CI.level, 3)
+	}
+	
+	
+	# message when lack of convergence
+	nbconverg <- length(b$converg[b$converg == 0])
+	
+	reslist <- list(basequant = basequant$quantiles, bootquant = bootquant, 
+					quantCI = as.data.frame(quantCI), cens = cens,
+					CI.type =  CI.type, CI.level = CI.level, 
+					nbboot = b$nbboot, nbconverg = nbconverg)
+	if(!cens)
+		class(reslist) <- "quantile.bootdist"
+	else
+		class(reslist) <- "quantile.bootdistcens"
+	reslist
+}
+
+
+print.quantile.bootdist <- function(x, ...)
+{
+	if (!inherits(x, "quantile.bootdist"))
+		stop("Use only with 'quantile.bootdist' objects")
+	typedata <- ifelse(x$cens, "(censored data)", "(non-censored data)")
+	
+	#base quantiles
+	cat("Estimated quantiles for each specified probability ", typedata,"\n", sep="")
+    print(x$basequant)		
+	
+	#confidence intervals
+	cat("\n")
+
+	if (x$CI.type == "two.sided")
+	{
+		cat("two-sided ", format.perc(x$CI.level, 3)," CI of each quantile\n", sep="")
+		print(x$quantCI)
+	}else if (x$CI.type == "less")
+	{
+		cat("right bound of one-sided ", format.perc(x$CI.level, 3)," CI of each quantile\n")
+		print(x$quantCI)
+	}else
+	{
+		cat("left bound of one-sided ", format.perc(x$CI.level, 3)," CI of each quantile\n")
+		print(x$quantCI)
+	}	
+	
+	if (x$nbconverg < x$nbboot)
+	{
+		cat("\n")
+		cat("The estimation method converged only for ", x$nbconverg, " among ", 
+			x$nbboot, " bootstrap iterations.\n")
+	}
+	invisible(x)
+}
+
+print.quantile.bootdistcens <- function(x, ...)
+{
+	if (!inherits(x, "quantile.bootdistcens"))
+		stop("Use only with 'quantile.bootdistcens' objects")
+	typedata <- ifelse(x$cens, "(censored data)", "(non-censored data)")
+	
+	#base quantiles
+	cat("Estimated quantiles for each specified probability ", typedata,"\n", sep="")
+    print(x$basequant)		
+	
+	#confidence intervals
+	cat("\n")
+	
+	if (x$CI.type == "two.sided")
+	{
+		cat("two-sided ", format.perc(x$CI.level, 3)," CI of each quantile\n", sep="")
+		print(x$quantCI)
+	}else if (x$CI.type == "less")
+	{
+		cat("right bound of one-sided ", format.perc(x$CI.level, 3)," CI of each quantile\n")
+		print(x$quantCI)
+	}else
+	{
+		cat("left bound of one-sided ", format.perc(x$CI.level, 3)," CI of each quantile\n")
+		print(x$quantCI)
+	}	
+	
+	if (x$nbconverg < x$nbboot)
+	{
+		cat("\n")
+		cat("The estimation method converged only for ", x$nbconverg, " among ", 
+			x$nbboot, " bootstrap iterations.\n")
+	}
+	invisible(x)
+}
+
+#from the stat package (not exported in fitdistrplus)
+format.perc <- function(probs, digits)
+	## Not yet exported, maybe useful in other contexts:
+	## quantile.default() sometimes uses a version of it
+	paste(format(100 * probs, trim = TRUE, scientific = FALSE, digits = digits), "%")
+

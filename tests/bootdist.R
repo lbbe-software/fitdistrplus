@@ -70,10 +70,13 @@ plot(b3)
 fWmle <- fitdist(serving, "weibull")
 bWmle <- bootdist(fWmle, niter=nbboot)
 summary(bWmle)
+quantile(bWmle, probs=c(0.25, 0.75))
 
 fWqme <- fitdist(serving, "weibull", method="qme", probs=c(0.25, 0.75))
 bWqme <- bootdist(fWqme, niter=nbboot)
 summary(bWqme)
+quantile(bWqme, probs=c(0.25, 0.75))
+
 
 # (10) Fit of a Pareto distribution by numerical moment matching estimation
 # followed by parametric bootstrap

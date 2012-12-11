@@ -23,8 +23,7 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
 
 \method{summary}{fitdist}(object, \dots)
 
-\method{quantile}{fitdist}(x, probs = seq(0.1, 0.9, 0.1), bootstrap = TRUE, 
-    CI.type = "two.sided", bootstrap.arg = list(bootmethod="param", niter=1001), \dots)
+\method{quantile}{fitdist}(x, probs = seq(0.1, 0.9, by=0.1), \dots)
 
 }
 
@@ -54,10 +53,6 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
     depending of the chosen method
     (see the help pages of these functions for details).}
 \item{probs}{A numeric vector of probabilities with values in [0, 1].}
-\item{bootstrap}{If \code{TRUE}, bootstrap is performed to calculate quantile confidence intervals. }
-\item{CI.type}{Type of confidence interval, \code{"two.sided"}, or one-sided \code{"less"}
-     or \code{"greater"}}
-\item{bootstrap.arg}{A list of arguments to be passed to \code{\link{bootdist}}  }  
 }
 
 \details{
@@ -148,18 +143,7 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
     \item{\code{quantile}}{
     Quantiles of the parametric distribution are calculated for
     each probability specified in \code{probs}, using the estimated parameters given by the 'fitdist' result.
-    If \code{bootstrap=TRUE}, a bootstrap procedure is then performed using \code{\link{bootdist}}
-    on the 'fitdist' result, and quantiles of the parametric distribution are calculated for
-    each probability specified in \code{probs}, using each set of bootstrapped values of parameters. 
-    If inferior to the whole number of bootstrap iterations, the number of iterations for which the estimation converges 
-    is also printed in the summary.
-    If \code{CI.type} is \code{two.sided}, 
-    the 95 percent two-sided confidence intervals of quantiles (2.5th and 97.5th percentiles) are calculated.
-    If \code{CI.type} is \code{less}, 
-    the 95 percent one-sided confidence intervals of quantiles (95th percentiles) are calculated.
-    If \code{CI.type} is \code{greater}, 
-    the 95 percent one-sided confidence intervals of quantiles (5th percentiles) are calculated.
-    }            
+	}            
     
 }
     
@@ -211,9 +195,11 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
 
 \seealso{ 
     See \code{\link{mledist}}, \code{\link{mmedist}}, \code{\link{qmedist}}, 
-    \code{\link{mgedist}}, \code{\link{gofstat}},
-    \code{\link{plotdist}}, \code{\link{graphcomp}} and \code{\link{fitdistcens}}.
-    
+    \code{\link{mgedist}} for details on parameter estimation.
+	See \code{\link{gofstat}} for goodness-of-fit statistics.
+	See \code{\link{plotdist}}, \code{\link{graphcomp}} for graphs.
+	See \code{\link{bootdist}} for bootstrap procedures 
+	and \code{\link{fitdistcens}} for censored-data fitting methods.
     See \code{\link{optim}} for base R optimization procedures.
 }
 
@@ -476,16 +462,8 @@ ATV <- subset(endosulfan, group == "NonArthroInvert")$ATV
 log10ATV <- log10(subset(endosulfan, group == "NonArthroInvert")$ATV)
 fln <- fitdist(log10ATV, "norm")
 
-quantile(fln, probs = 0.05, bootstrap=TRUE, 
-    bootstrap.arg = list(bootmethod = "param"))
-
-\dontrun{
-quantile(fln, probs = 0.05, bootstrap=TRUE, 
-    bootstrap.arg = list(bootmethod = "nonparam",niter = 2001))
-
-quantile(fln, probs = c(0.05,0.1,0.2), bootstrap = TRUE, CI.type = "greater",
-    bootstrap.arg = list(bootmethod = "param"))
-}
+quantile(fln, probs = 0.05)
+quantile(fln, probs = c(0.05, 0.1, 0.2))
 
 
 # (16) Fit of a triangular distribution using Cramer-von Mises or
@@ -494,9 +472,10 @@ quantile(fln, probs = c(0.05,0.1,0.2), bootstrap = TRUE, CI.type = "greater",
 
 \dontrun{
 set.seed(1234)
-t <- rtriang(100,min=5,mode=6,max=10)
-fCvM <- fitdist(t,"triang",method="mge",start = list(min=4, mode=6,max=9),gof="CvM")
-fKS <- fitdist(t,"triang",method="mge",start = list(min=4, mode=6,max=9),gof="KS")
+require(mc2d)
+t <- rtriang(100, min=5, mode=6, max=10)
+fCvM <- fitdist(t, "triang", method="mge", start = list(min=4, mode=6,max=9), gof="CvM")
+fKS <- fitdist(t, "triang", method="mge", start = list(min=4, mode=6,max=9), gof="KS")
 cdfcomp(list(fCvM,fKS))
 }
 

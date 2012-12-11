@@ -5,10 +5,12 @@ Version 1.0-0
 
 NEW FEATURES
 - add of an argument Turnbull.confint to functions plotdistcens and cdfcompcens in order to 
-    draw confidence intervals on the empirical distribution only if requested
-- many changes in the examples given in the reference manual
-- many changes in the vignette
-- add of three data sets : salinity, danishuni and danishmulti
+    draw confidence intervals on the empirical distribution only if requested.
+- many changes in the examples given in the reference manual.
+- many changes in the vignette.
+- add of three data sets : salinity, danishuni and danishmulti.
+- quantile generic function is available both for "fitdist" and "bootdist" objects.
+- quantile generic function is available both for "fitdistcens" and "bootdistcens" objects.
 
 BUG FIXES
 - correction the formula for the CvM test for Weibull distribution
@@ -25,7 +27,7 @@ Version 0.4-3
 NEW FEATURES
 - update cdfcomp and add denscomp, ppcomp and qqcomp functions.
 - ppoints now used in "fitdist" for QQ plot, PP plot and cdf plot for continuous data
-    (was used only for QQ plot in previous versions)
+    (was used only for QQ plot in previous versions).
 
 
 Version 0.4-2

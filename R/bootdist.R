@@ -50,37 +50,37 @@ bootdist <- function (f, bootmethod="param", niter=1001)
     #compute bootstrap estimates
     foncestim <- switch(f$method, "mle"=mledist, "qme"=qmedist, "mme"=mmedist, "mge"=mgedist)
     start <- f$estimate
-        if (is.null(f$dots))
-            func <- function(iter) {
-                res <- do.call(foncestim, list(data=rdata[, iter], distr=f$distname, start=start, fix.arg=f$fix.arg))
-                return(c(res$estimate, res$convergence))
-            }
-        else
-            func <- function(iter) {
-                res <- do.call(foncestim, c(list(data=rdata[, iter], distr=f$distname, start=start, fix.arg=f$fix.arg), f$dots))
-                return(c(res$estimate, res$convergence))
-            }
-        resboot <- sapply(1:niter, func)
-        rownames(resboot) <- c(names(start), "convergence")
-        if (length(resboot[, 1])>2) {
-            estim <- data.frame(t(resboot)[, -length(resboot[, 1])])
-            bootCI <- cbind(apply(resboot[-length(resboot[, 1]), ], 1, median, na.rm=TRUE), 
-            apply(resboot[-length(resboot[, 1]), ], 1, quantile, 0.025, na.rm=TRUE), 
-            apply(resboot[-length(resboot[, 1]), ], 1, quantile, 0.975, na.rm=TRUE))
-            colnames(bootCI) <- c("Median", "2.5%", "97.5%")
-        }
-        else {
-            estim <- as.data.frame(t(resboot)[, -length(resboot[, 1])])
-            names(estim) <- names(f$estimate)
-            bootCI <- c(median(resboot[-length(resboot[, 1]), ], na.rm=TRUE), 
-            quantile(resboot[-length(resboot[, 1]), ], 0.025, na.rm=TRUE), 
-            quantile(resboot[-length(resboot[, 1]), ], 0.975, na.rm=TRUE)) 
-            names(bootCI) <- c("Median", "2.5%", "97.5%") 
-        }       
-        return(structure(list(estim=estim, 
-        converg=t(resboot)[, length(resboot[, 1])], method=bootmethod, CI=bootCI), 
-        class="bootdist"))
-        
+	if (is.null(f$dots))
+		func <- function(iter) {
+			res <- do.call(foncestim, list(data=rdata[, iter], distr=f$distname, start=start, fix.arg=f$fix.arg))
+			return(c(res$estimate, res$convergence))
+		}
+	else
+		func <- function(iter) {
+			res <- do.call(foncestim, c(list(data=rdata[, iter], distr=f$distname, start=start, fix.arg=f$fix.arg), f$dots))
+			return(c(res$estimate, res$convergence))
+		}
+	resboot <- sapply(1:niter, func)
+	rownames(resboot) <- c(names(start), "convergence")
+	if (length(resboot[, 1])>2) {
+		estim <- data.frame(t(resboot)[, -length(resboot[, 1])])
+		bootCI <- cbind(apply(resboot[-length(resboot[, 1]), ], 1, median, na.rm=TRUE), 
+		apply(resboot[-length(resboot[, 1]), ], 1, quantile, 0.025, na.rm=TRUE), 
+		apply(resboot[-length(resboot[, 1]), ], 1, quantile, 0.975, na.rm=TRUE))
+		colnames(bootCI) <- c("Median", "2.5%", "97.5%")
+	}
+	else {
+		estim <- as.data.frame(t(resboot)[, -length(resboot[, 1])])
+		names(estim) <- names(f$estimate)
+		bootCI <- c(median(resboot[-length(resboot[, 1]), ], na.rm=TRUE), 
+		quantile(resboot[-length(resboot[, 1]), ], 0.025, na.rm=TRUE), 
+		quantile(resboot[-length(resboot[, 1]), ], 0.975, na.rm=TRUE)) 
+		names(bootCI) <- c("Median", "2.5%", "97.5%") 
+	}       
+	res <- structure(list(estim=estim, converg=t(resboot)[, length(resboot[, 1])], 
+						  method=bootmethod, nbboot=niter, CI=bootCI, fitpart=f), 
+					 class="bootdist")
+    res    
 }
 
 print.bootdist <- function(x, ...){

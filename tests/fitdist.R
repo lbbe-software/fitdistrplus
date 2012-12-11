@@ -246,14 +246,7 @@ ATV <- subset(endosulfan, group == "NonArthroInvert")$ATV
 log10ATV <- log10(subset(endosulfan, group == "NonArthroInvert")$ATV)
 fln <- fitdist(log10ATV, "norm")
 
-quantile(fln, probs = 0.05, bootstrap=TRUE, 
-    bootstrap.arg = list(bootmethod = "param", niter = nbboot))
-
-quantile(fln, probs = c(0.05,0.1,0.2), bootstrap = TRUE, CI.type = "greater",
-    bootstrap.arg = list(bootmethod = "param", niter = nbboot))
-
-quantile(fln, probs = 0.05, bootstrap=TRUE, 
-    bootstrap.arg = list(bootmethod = "nonparam", niter = nbboot))
+quantile(fln, probs = 0.05)
 
 
 # (16) Fit of a triangular distribution using Cramer-von Mises or
