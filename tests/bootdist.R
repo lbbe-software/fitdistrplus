@@ -126,7 +126,9 @@ if(any(installed.packages()[, "Package"] == "mc2d"))
     fit4t<-fitdist(x4,dtriang,start=list(min=0,mode=4,max=20))
     summary(fit4t)
     b4t<-bootdist(fit4t,niter=nbboot) 
+    b4t
     plot(b4t)
     summary(b4t)
+    quantile(b4t)
 
 }

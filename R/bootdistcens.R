@@ -64,17 +64,15 @@ bootdistcens <- function (f, niter=1001)
         names(bootCI) <- c("Median", "2.5%", "97.5%")
     }       
     res <- structure(list(estim=estim, converg=t(resboot)[, length(resboot[, 1])], 
-						  method="nonparam", nbboot=niter, CI=bootCI, fitpart=f), 
+                          method="nonparam", nbboot=niter, CI=bootCI, fitpart=f), 
         class="bootdistcens")
-	res
+    res
 }
 
 print.bootdistcens <- function(x, ...){
     if (!inherits(x, "bootdistcens"))
         stop("Use only with 'bootdistcens' objects")
     cat("Parameter values obtained with nonparametric bootstrap \n")
-    #op <- options()
-    #options(digits=3)
     print(x$estim, ...)    
     nconverg <- length(x$converg[x$converg==0])
     if (nconverg < length(x$converg))
@@ -83,7 +81,6 @@ print.bootdistcens <- function(x, ...){
         cat("The estimation method converged only for ", nconverg, " among ", 
                 length(x$converg), " iterations \n")
     }
-    #options(op)
 
 }
 
@@ -106,19 +103,17 @@ plot.bootdistcens <- function(x, ...){
 
 summary.bootdistcens <- function(object, ...){
     if (!inherits(object, "bootdistcens"))
-		stop("Use only with 'bootdistcens' objects")
-	
-	class(object) <- c("summary.bootdistcens", class(object))  
-	object
-	
+        stop("Use only with 'bootdistcens' objects")
+    
+    class(object) <- c("summary.bootdistcens", class(object))  
+    object
+    
 }
 
 
 print.summary.bootdistcens <- function(x, ...){
     if (!inherits(x, "summary.bootdistcens"))
         stop("Use only with 'summary.bootdistcens' objects")
-    #op <- options()
-    #options(digits=3)
     cat("Nonparametric bootstrap medians and 95% percentile CI \n")
     print(x$CI)
     
@@ -129,5 +124,4 @@ print.summary.bootdistcens <- function(x, ...){
         cat("The estimation method converged only for ", nconverg, " among ", 
                 length(x$converg), " iterations \n")
     }
-   #options(op)
 }

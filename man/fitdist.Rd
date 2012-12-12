@@ -3,7 +3,6 @@
 \alias{plot.fitdist}
 \alias{print.fitdist}
 \alias{summary.fitdist}
-\alias{quantile.fitdist}
 \alias{fitdistrplus}
 \title{ Fit of univariate distributions to non-censored data}
 
@@ -22,8 +21,6 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
 \method{plot}{fitdist}(x, breaks="default", \dots)
 
 \method{summary}{fitdist}(object, \dots)
-
-\method{quantile}{fitdist}(x, probs = seq(0.1, 0.9, by=0.1), \dots)
 
 }
 
@@ -52,7 +49,6 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
     \code{"mledist"},  \code{"mmedist"}, \code{"qmedist"} or \code{"mgedist"}
     depending of the chosen method
     (see the help pages of these functions for details).}
-\item{probs}{A numeric vector of probabilities with values in [0, 1].}
 }
 
 \details{
@@ -119,33 +115,6 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
 
     NB: if your data values are particularly small or large, a scaling may be needed 
     before the optimization process. See example (14).
-
-     
-    Generic functions:
-\describe{       
-    \item{\code{print}}{
-    The print of a 'fitdist' object shows few traces about the fitting method and the fitted distribution.
-    }
-    \item{\code{summary}}{
-    The summary provides the parameter estimates of the fitted distribution, the log-likelihood, 
-    AIC and BIC statistics and when the maximum likelihood is used, the standard errors of the 
-    parameter estimates and the correlation matrix between parameter estimates.
-    }
-    \item{\code{plot}}{
-    The plot of an object of class "fitdist" returned by \code{fitdist} uses the function 
-    \code{\link{plotdist}}. An object of class "fitdist" or a list of objects of class
-    "fitdist" corresponding to various fits using the same data set may also be plotted
-    using a cdf plot (function \code{\link{cdfcomp}}),
-    a density plot(function \code{\link{denscomp}}),
-    a density Q-Q plot (function \code{\link{qqcomp}}),
-    or a P-P plot (function \code{\link{ppcomp}}).
-    }
-    \item{\code{quantile}}{
-    Quantiles of the parametric distribution are calculated for
-    each probability specified in \code{probs}, using the estimated parameters given by the 'fitdist' result.
-	}            
-    
-}
     
 }
 
@@ -170,37 +139,42 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
     \item{dots}{ the list of  further arguments passed in \dots to be used in \code{bootdist} 
         in iterative calls to \code{mledist}, \code{mmedist}, \code{qmedist}, \code{mgedist} or 
         \code{NULL} if no such arguments.}
+        
+
+    Generic functions:
+\describe{       
+    \item{\code{print}}{
+    The print of a 'fitdist' object shows few traces about the fitting method and the fitted distribution.
+    }
+    \item{\code{summary}}{
+    The summary provides the parameter estimates of the fitted distribution, the log-likelihood, 
+    AIC and BIC statistics and when the maximum likelihood is used, the standard errors of the 
+    parameter estimates and the correlation matrix between parameter estimates.
+    }
+    \item{\code{plot}}{
+    The plot of an object of class "fitdist" returned by \code{fitdist} uses the function 
+    \code{\link{plotdist}}. An object of class "fitdist" or a list of objects of class
+    "fitdist" corresponding to various fits using the same data set may also be plotted
+    using a cdf plot (function \code{\link{cdfcomp}}),
+    a density plot(function \code{\link{denscomp}}),
+    a density Q-Q plot (function \code{\link{qqcomp}}),
+    or a P-P plot (function \code{\link{ppcomp}}).
+    }
     
-    \code{print}, \code{plot} returns an invisible object, while \code{summary} returns an object
-    of class 'summary.fitdist'.
-    
-    \code{quantile} returns a list with 4 components:
-    \item{quantiles}{ a dataframe containing the estimated quantiles for each probability value specified in 
-        the argument \code{probs} (one row, and as many columns as values in \code{probs}}
-    \item{resbootdist}{ the output of the function \code{\link{bootdist}} applied to \code{x} or NULL if 
-        \code{bootstrap} is \code{FALSE}}
-    \item{bootquant }{ a data frame containing the bootstraped values for each quantile
-         (many rows, as specified in the call to \code{\link{bootdist}}  in  the argument \code{niter}, 
-         and as many columns as values in \code{probs}), or NULL if 
-        \code{bootstrap} is \code{FALSE} }
-    \item{quantCI}{ by default bounds of the  95 percent two.sided confidence interval for each quantile 
-        (two rows, the first one for the 2.5th percentile and the second one for the 97.5th percentile, 
-         and as many columns as values in \code{probs}), or NULL if 
-        \code{bootstrap} is \code{FALSE}. If \code{CI.type} is \code{less}, right bound of the 95 percent
-        one.sided confidence interval for each quantile (one row with 95th percentiles).
-        If \code{CI.type} is \code{greater}, left bound of the 95 percent
-        one.sided confidence interval for each quantile (one row with 5th percentiles). }
+}
 
 }
 
 \seealso{ 
     See \code{\link{mledist}}, \code{\link{mmedist}}, \code{\link{qmedist}}, 
     \code{\link{mgedist}} for details on parameter estimation.
-	See \code{\link{gofstat}} for goodness-of-fit statistics.
-	See \code{\link{plotdist}}, \code{\link{graphcomp}} for graphs.
-	See \code{\link{bootdist}} for bootstrap procedures 
-	and \code{\link{fitdistcens}} for censored-data fitting methods.
+    See \code{\link{gofstat}} for goodness-of-fit statistics.
+    See \code{\link{plotdist}}, \code{\link{graphcomp}} for graphs.
+    See \code{\link{bootdist}} for bootstrap procedures 
+    and \code{\link{fitdistcens}} for censored-data fitting methods.
     See \code{\link{optim}} for base R optimization procedures.
+    See \code{\link{quantile.fitdist}} for another generic function to calculate 
+    quantiles from the fitted distribution.
 }
 
 \references{ 

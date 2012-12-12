@@ -27,8 +27,6 @@ bootdist <- function (f, bootmethod="param", niter=1001)
 { 
     if (niter<10) 
         stop("niter must be an integer above 10")
-#    if (!is.element(bootmethod, c("param", "nonparam")))
-#        stop("bootmethod must be affected to 'param' or 'nonparam'")
         bootmethod <- match.arg(bootmethod, c("param", "nonparam"))
     
     if (!inherits(f, "fitdist"))
@@ -36,9 +34,9 @@ bootdist <- function (f, bootmethod="param", niter=1001)
         
     #simulate bootstrap data
     if (bootmethod == "param") { # parametric bootstrap
-		rdistname <- paste("r", f$distname, sep="")
-		if (!exists(rdistname, mode="function"))
-			stop(paste("The ", rdistname, " function must be defined"))
+        rdistname <- paste("r", f$distname, sep="")
+        if (!exists(rdistname, mode="function"))
+            stop(paste("The ", rdistname, " function must be defined"))
         rdata <- do.call(rdistname, c(list(n=niter*f$n), as.list(f$estimate), f$fix.arg))
         dim(rdata) <- c(f$n, niter)
     }
@@ -50,36 +48,40 @@ bootdist <- function (f, bootmethod="param", niter=1001)
     #compute bootstrap estimates
     foncestim <- switch(f$method, "mle"=mledist, "qme"=qmedist, "mme"=mmedist, "mge"=mgedist)
     start <- f$estimate
-	if (is.null(f$dots))
-		func <- function(iter) {
-			res <- do.call(foncestim, list(data=rdata[, iter], distr=f$distname, start=start, fix.arg=f$fix.arg))
-			return(c(res$estimate, res$convergence))
-		}
-	else
-		func <- function(iter) {
-			res <- do.call(foncestim, c(list(data=rdata[, iter], distr=f$distname, start=start, fix.arg=f$fix.arg), f$dots))
-			return(c(res$estimate, res$convergence))
-		}
-	resboot <- sapply(1:niter, func)
-	rownames(resboot) <- c(names(start), "convergence")
-	if (length(resboot[, 1])>2) {
-		estim <- data.frame(t(resboot)[, -length(resboot[, 1])])
-		bootCI <- cbind(apply(resboot[-length(resboot[, 1]), ], 1, median, na.rm=TRUE), 
-		apply(resboot[-length(resboot[, 1]), ], 1, quantile, 0.025, na.rm=TRUE), 
-		apply(resboot[-length(resboot[, 1]), ], 1, quantile, 0.975, na.rm=TRUE))
-		colnames(bootCI) <- c("Median", "2.5%", "97.5%")
-	}
-	else {
-		estim <- as.data.frame(t(resboot)[, -length(resboot[, 1])])
-		names(estim) <- names(f$estimate)
-		bootCI <- c(median(resboot[-length(resboot[, 1]), ], na.rm=TRUE), 
-		quantile(resboot[-length(resboot[, 1]), ], 0.025, na.rm=TRUE), 
-		quantile(resboot[-length(resboot[, 1]), ], 0.975, na.rm=TRUE)) 
-		names(bootCI) <- c("Median", "2.5%", "97.5%") 
-	}       
-	res <- structure(list(estim=estim, converg=t(resboot)[, length(resboot[, 1])], 
-						  method=bootmethod, nbboot=niter, CI=bootCI, fitpart=f), 
-					 class="bootdist")
+    if (is.null(f$dots))
+        func <- function(iter) {
+            res <- do.call(foncestim, list(data=rdata[, iter], distr=f$distname, start=start, fix.arg=f$fix.arg))
+            return(c(res$estimate, res$convergence))
+        }
+    else
+        func <- function(iter) {
+            res <- do.call(foncestim, c(list(data=rdata[, iter], distr=f$distname, start=start, fix.arg=f$fix.arg), f$dots))
+            return(c(res$estimate, res$convergence))
+        }
+    resboot <- sapply(1:niter, func)
+    rownames(resboot) <- c(names(start), "convergence")
+    if (length(resboot[, 1])>2) {
+        estim <- data.frame(t(resboot)[, -length(resboot[, 1])])
+        bootCI <- cbind(apply(resboot[-length(resboot[, 1]), ], 1, median, na.rm=TRUE), 
+        apply(resboot[-length(resboot[, 1]), ], 1, quantile, 0.025, na.rm=TRUE), 
+        apply(resboot[-length(resboot[, 1]), ], 1, quantile, 0.975, na.rm=TRUE))
+        colnames(bootCI) <- c("Median", "2.5%", "97.5%")
+    }
+    else {
+        estim <- as.data.frame(t(resboot)[, -length(resboot[, 1])])
+        names(estim) <- names(f$estimate)
+        bootCI <- c(median(resboot[-length(resboot[, 1]), ], na.rm=TRUE), 
+        quantile(resboot[-length(resboot[, 1]), ], 0.025, na.rm=TRUE), 
+        quantile(resboot[-length(resboot[, 1]), ], 0.975, na.rm=TRUE)) 
+        names(bootCI) <- c("Median", "2.5%", "97.5%") 
+    } 
+    
+    # code of convergence of the optimization function for each iteration
+    converg <- t(resboot)[, length(resboot[, 1])]
+
+    res <- structure(list(estim=estim, converg=converg, 
+                          method=bootmethod, nbboot=niter, CI=bootCI, fitpart=f), 
+                     class="bootdist")
     res    
 }
 
@@ -90,8 +92,6 @@ print.bootdist <- function(x, ...){
         cat("Parameter values obtained with parametric bootstrap \n")
     else
        cat("Parameter values obtained with nonparametric bootstrap \n")
-    #op <- options()
-    #options(digits=3)
     print(x$estim, ...)    
     nconverg <- length(x$converg[x$converg==0])
     if (nconverg < length(x$converg))
@@ -100,7 +100,6 @@ print.bootdist <- function(x, ...){
         cat("The estimation method converged only for ", nconverg, " among ", 
                 length(x$converg), " iterations \n")
     }
-    #options(op)
 
 }
 
@@ -124,22 +123,20 @@ plot.bootdist <- function(x, ...){
 summary.bootdist <- function(object, ...){
     if (!inherits(object, "bootdist"))
         stop("Use only with 'bootdist' objects")
-	
-	class(object) <- c("summary.bootdist", class(object))  
-	object
+    
+    class(object) <- c("summary.bootdist", class(object))  
+    object
 }
 
 print.summary.bootdist <- function(x, ...){
-	
-	if (!inherits(x, "summary.bootdist"))
-		stop("Use only with 'summary.bootdist' objects")
+    
+    if (!inherits(x, "summary.bootdist"))
+        stop("Use only with 'summary.bootdist' objects")
 
-#op <- options()
-#options(digits=3)
     if (x$method=="param") 
-		cat("Parametric bootstrap medians and 95% percentile CI \n")
+        cat("Parametric bootstrap medians and 95% percentile CI \n")
     else
-		cat("Nonparametric bootstrap medians and 95% percentile CI \n")
+        cat("Nonparametric bootstrap medians and 95% percentile CI \n")
     print(x$CI)
     
     nconverg <- length(x$converg[x$converg==0])
@@ -147,7 +144,6 @@ print.summary.bootdist <- function(x, ...){
     {
         cat("\n")
         cat("The estimation method converged only for ", nconverg, " among ", 
-			length(x$converg), " iterations \n")
+            length(x$converg), " iterations \n")
     }
-#options(op)
 }

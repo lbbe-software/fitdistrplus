@@ -3,7 +3,6 @@
 \alias{plot.bootdistcens}
 \alias{print.bootdistcens}
 \alias{summary.bootdistcens}
-\alias{quantile.bootdistcens}
 
 \title{ Bootstrap simulation of uncertainty for censored data}
 
@@ -14,24 +13,18 @@
 
 \usage{
 bootdistcens(f, niter=1001)
-\method{print}{bootdistcens}(x,...)
-\method{plot}{bootdistcens}(x,...)
-\method{summary}{bootdistcens}(object,...)
-\method{quantile}{bootdistcens}(x, probs = seq(0.1, 0.9, by=0.1), 
-	CI.type = "two.sided", CI.level = 0.95, \dots)
+\method{print}{bootdistcens}(x,\dots)
+\method{plot}{bootdistcens}(x,\dots)
+\method{summary}{bootdistcens}(object,\dots)
 
 }
 
 \arguments{
-\item{f}{ An object of class 'fitdistcens' result of the function \code{fitdistcens}.}
+\item{f}{ An object of class \code{"fitdistcens"} result of the function \code{fitdistcens}.}
 \item{niter}{ The number of samples drawn by bootstrap.  }
-\item{x}{ An object of class 'bootdistcens'.  }
-\item{object}{ An object of class 'bootdistcens'.  }
+\item{x}{ An object of class \code{"bootdistcens"}.  }
+\item{object}{ An object of class \code{"bootdistcens"}.  }
 \item{\dots}{ Further arguments to be passed to generic methods }
-\item{probs}{ A numeric vector of probabilities with values in [0, 1].}
-\item{CI.type}{ Type of confidence interval: either \code{"two.sided"} or one-sided 
-	intervals (\code{"less"} or \code{"greater"}).}
-\item{CI.level}{ The confidence level required.}
 }
 
 \details{
@@ -44,7 +37,7 @@ bootdistcens(f, niter=1001)
     If inferior to the whole number of iterations, the number of iterations for which \code{mledist} converges 
     is also printed in the summary.
     
-    The plot of an object of class 'bootdistcens' consists in a scatterplot or a matrix of scatterplots
+    The plot of an object of class \code{"bootdistcens"} consists in a scatterplot or a matrix of scatterplots
     of the bootstrapped values of parameters.
     It uses the function \code{\link{stripchart}} when the fitted distribution
     is characterized by only one parameter, and the function \code{\link{plot}} in other cases.
@@ -53,43 +46,43 @@ bootdistcens(f, niter=1001)
 }
 
 \value{ 
-    \code{bootdistcens} returns an object of class 'bootdistcens', a list with 3 components,
-    \item{ estim }{ a data frame containing the bootstrapped values of parameters.}
-    \item{ converg }{ a vector containing the codes for convergence obtained when using \code{mledist} on 
-        each bootstraped data set.}
-    \item{ CI }{ bootstrap medians and 95 percent confidence percentile intervals of parameters. }
-	
+    \code{bootdistcens} returns an object of class \code{"bootdistcens"}, a list with 4 components,
+    \item{estim}{ a data frame containing the bootstrapped values of parameters.}
+    \item{converg}{ a vector containing the codes for convergence obtained if an iterative method is
+        used to estimate parameters on 
+        each bootstraped data set (and 0 if a closed formula is used).}
+    \item{method}{ A character string coding for the type of resampling : 
+     in this case \code{"nonparam"} as it is the only available method for censored data. }
+    \item{nbboot}{ The number of samples drawn by bootstrap.}   
+    \item{CI}{ bootstrap medians and 95 percent confidence percentile intervals of parameters. }
+    \item{fitpart}{ The object of class \code{"fitdistcens"} on which the bootstrap procedure
+        was applied.}
+    
 Generic functions:
 \describe{       
     \item{\code{print}}{
-    The print of a 'bootdistcens' object shows the bootstrap estimates.
+    The print of a \code{"bootdistcens"} object shows the bootstrap parameter estimates. If inferior to the whole number of bootstrap iterations, 
+    the number of iterations 
+    for which the estimation converges is also printed.
     }
     \item{\code{summary}}{
-    The summary provides the median and the quartiles.
-	}
+    The summary provides the median and 2.5 and 97.5 percentiles of each parameter. If inferior to the whole number of bootstrap iterations, 
+    the number of iterations 
+    for which the estimation converges is also printed in the summary.
+    }
     \item{\code{plot}}{
     The plot shows the bootstrap estimates with \code{stripchart} function
-	for univariate parameters and \code{plot} function for multivariate parameters.
-    }
-    \item{\code{quantile}}{
-    Quantiles of the parametric distribution are calculated for 
-	each probability specified in \code{probs}, using the estimated parameters of \code{fitpart}.
-    If \code{CI.type} is \code{two.sided}, 
-    the \code{CI.level} two-sided confidence intervals of quantiles are calculated.
-    If \code{CI.type} is \code{less}, 
-    the \code{CI.level} one-sided confidence intervals of quantiles are calculated.
-    If \code{CI.type} is \code{greater}, 
-    the \code{CI.level} one-sided confidence intervals of quantiles are calculated.
-    If inferior to the whole number of bootstrap iterations, the number of iterations 
-	for which the estimation converges is also printed in the summary.
-    }            
+    for univariate parameters and \code{plot} function for multivariate parameters.
+    }          
     
-}	
+}   
 }
         
 
 \seealso{ 
-    \code{\link{fitdistcens}} and \code{\link{mledist}}.
+    \code{\link{fitdistcens}}, \code{\link{mledist}} and  \code{\link{quantile.bootdistcens}} 
+    for another generic function to calculate 
+    quantiles from the fitted distribution and its bootstrap results.
 }
 
 \references{ 

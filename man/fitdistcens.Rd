@@ -3,7 +3,6 @@
 \alias{plot.fitdistcens}
 \alias{print.fitdistcens}
 \alias{summary.fitdistcens}
-\alias{quantile.fitdistcens}
 \title{Fitting of univariate distributions to censored data}
 
 \description{
@@ -18,8 +17,6 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL,...)
 \method{plot}{fitdistcens}(x, \dots)
 
 \method{summary}{fitdistcens}(object, \dots)
-
-\method{quantile}{fitdistcens}(x, probs = seq(0.1, 0.9, by=0.1), \dots)
 
     
 }
@@ -48,7 +45,6 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL,...)
     to the function \code{"plotdistcens"} in order to control the type of ecdf-plot used for censored data, 
     or to the function \code{"mledist"} 
     in order to control the optimization method.}
-\item{probs}{Numeric vector of probabilities with values in [0,1].}
 }
 
 \details{
@@ -71,35 +67,7 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL,...)
      
 
     Generic functions:
-\describe{       
-    \item{\code{print}}{
-    The print of a 'fitdist' object shows few traces about the fitting method and the fitted distribution.
-    }
-    \item{\code{summary}}{
-    The summary provides the parameter estimates of the fitted distribution, the log-likelihood, 
-    AIC and BIC statistics, the standard errors of the 
-    parameter estimates and the correlation matrix between parameter estimates.
-    }
-    \item{\code{plot}}{
-    The plot of an object of class "fitdistcens" returned by \code{fitdistcens} uses the 
-    function \code{\link{plotdistcens}}.
-    }
-    \item{\code{quantile}}{
-    Quantiles of the parametric distribution are calculated for
-    each probability specified in \code{probs}, using the estimated parameters given by the 'fitdistcens' result.
-    If \code{bootstrap} is \code{TRUE}, a bootstrap procedure is then performed using \code{\link{bootdistcens}}
-    on the 'fitdistcens' result, and quantiles of the parametric distribution are calculated for
-    each probability specified in \code{probs}, using each set of bootstrapped values of parameters.  
-    If inferior to the whole number of bootstrap iterations, the number of iterations for which the estimation converges 
-    is also printed in the summary.
-    If \code{CI.type} is \code{two.sided},
-    the 95 percent two-sided confidence intervals of quantiles (2.5th and 97.5th percentiles) are calculated.
-    If \code{CI.type} is \code{less},
-    the 95 percent one-sided confidence intervals of quantiles (95th percentiles) are calculated.
-    If \code{CI.type} is \code{greater},
-    the 95 percent one-sided confidence intervals of quantiles (5th percentiles) are calculated.
-    }   
-}
+
 }
 
 \value{ 
@@ -118,31 +86,27 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL,...)
     control the optimization method used in iterative calls to \code{mledist} or NULL if no such arguments.}
     
     
-    \code{print}, \code{plot} returns an invisible object, while \code{summary} returns an object
-    of class 'summary.fitdist'.
-
-    \code{quantile} returns a list with 4 components:
-    \item{quantiles}{ a dataframe containing the estimated quantiles for each probability value specified in 
-        the argument \code{probs} (one row, and as many columns as values in \code{probs}).}
-    \item{resbootdistcens}{ the output of the function \code{\link{bootdistcens}} applied to \code{f} or NULL if 
-        \code{bootstrap=FALSE}.}
-    \item{bootquant }{ a data frame containing the bootstraped values for each quantile
-         (many rows, as specified in the call to \code{\link{bootdistcens}}  in  the argument \code{niter}, 
-         and as many columns as values in \code{probs}), or NULL if 
-        \code{bootstrap} is \code{FALSE} }
-    \item{quantCI}{ by default bounds of the  95 percent two.sided confidence interval for each quantile 
-        (two rows, the first one for the 2.5th percentile and the second one for the 97.5th percentile,
-         and as many columns as values in \code{probs}), or NULL if 
-        \code{bootstrap} is \code{FALSE}. If \code{CI.type} is \code{less}, right bound of the 95 percent
-        one.sided confidence interval for each quantile (one row with 95th percentiles).
-        If \code{CI.type} is \code{greater}, left bound of the 95 percent
-        one.sided confidence interval for each quantile (one row with 5th percentiles). }
+\describe{       
+    \item{\code{print}}{
+    The print of a 'fitdist' object shows few traces about the fitting method and the fitted distribution.
+    }
+    \item{\code{summary}}{
+    The summary provides the parameter estimates of the fitted distribution, the log-likelihood, 
+    AIC and BIC statistics, the standard errors of the 
+    parameter estimates and the correlation matrix between parameter estimates.
+    }
+    \item{\code{plot}}{
+    The plot of an object of class "fitdistcens" returned by \code{fitdistcens} uses the 
+    function \code{\link{plotdistcens}}.
+    }
+}
 }
 
 
 \seealso{ 
-    \code{\link{plotdistcens}}, \code{\link{optim}}, \code{\link{mledist}} and 
-    \code{\link{fitdist}}.
+    \code{\link{plotdistcens}}, \code{\link{optim}}, \code{\link{mledist}}, 
+    \code{\link{fitdist}} and \code{\link{quantile.fitdistcens}} for another generic function to calculate 
+    quantiles from the fitted distribution.
 }
 
 \references{ 
