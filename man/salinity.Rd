@@ -67,8 +67,8 @@ cdfcompcens(list(fln,fll),legendtext=c("normal","logistic"),
 # non parametric bootstrap
 #
 # in log10(LC50)
-HC5ln <- quantile(fln,probs = 0.05,bootstrap=TRUE, 
-    bootstrap.arg = list(niter=501))
+bln <- bootdistcens(fln,niter=501)
+HC5ln <- quantile(bln,probs = 0.05)
 # in LC50
 10^(HC5ln$quantiles)
 10^(HC5ln$quantCI)
@@ -79,12 +79,11 @@ HC5ln <- quantile(fln,probs = 0.05,bootstrap=TRUE,
 # calculated by non parametric bootstrap
 #
 # in log10(LC50)
-HC5ln <- quantile(fln,probs = 0.05,bootstrap=TRUE,CI.type="greater", 
-    bootstrap.arg = list(niter=501))
+HC5lnb <- quantile(bln,probs = 0.05,CI.type="greater")
 
 # in LC50
-10^(HC5ln$quantiles)
-10^(HC5ln$quantCI)
+10^(HC5lnb$quantiles)
+10^(HC5lnb$quantCI)
 
 }
 

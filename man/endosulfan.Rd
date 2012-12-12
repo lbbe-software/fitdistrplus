@@ -63,10 +63,11 @@ xlab="log10ATV")
 # (4) estimation of the 5 percent quantile value of 
 # logistic fitted distribution (5 percent hazardous concentration  : HC5)
 # with its two-sided 95 percent confidence interval calculated by 
-# parametric bootstrap
+# parametric bootstrap with 501 iterations
 #
 # in log10(ATV)
-HC5ll <- quantile(fll,probs = 0.05,bootstrap=TRUE)
+bll <- bootdist(fll,niter=501)
+HC5ll <- quantile(bll,probs = 0.05)
 # in ATV
 10^(HC5ll$quantiles)
 10^(HC5ll$quantCI)
@@ -74,12 +75,12 @@ HC5ll <- quantile(fll,probs = 0.05,bootstrap=TRUE)
 # (5) estimation of the 5 percent quantile value of 
 # the fitted logistic distribution (5 percent hazardous concentration  : HC5)
 # with its one-sided 95 percent confidence interval (type "greater")
-# calculated by non parametric bootstrap with less iterations
-#
+# calculated by 
+# nonparametric bootstrap with 501 iterations
+# 
 # in log10(ATV)
-HC5llgreater <- quantile(fll,probs = 0.05,bootstrap=TRUE,
-bootstrap.arg = list(bootmethod = "nonparam",niter = 501),
-CI.type="greater")
+bllnonpar <- bootdist(fll,niter=501,bootmethod = "nonparam")
+HC5llgreater <- quantile(bllnonpar,probs = 0.05, CI.type="greater")
 # in ATV
 10^(HC5llgreater$quantiles)
 10^(HC5llgreater$quantCI)
