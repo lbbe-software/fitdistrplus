@@ -1,5 +1,5 @@
 #############################################################################
-#   Copyright (c) 2009 Marie Laure Delignette-Muller, Regis Pouillot, Jean-Baptiste Denis                                                                                                  
+#   Copyright (c) 2009 Marie Laure Delignette-Muller, Régis Pouillot                                                                                                 
 #                                                                                                                                                                        
 #   This program is free software; you can redistribute it and/or modify                                               
 #   it under the terms of the GNU General Public License as published by                                         
@@ -129,7 +129,7 @@ Turnbull.confint = FALSE, ...){
         # plot of continuous data with theoretical distribution
         s<-seq(xmin,xmax,by=(xmax-xmin)/100)
         theop<-do.call(pdistname,c(list(q=s),as.list(para)))
-        lines(s,theop,...)
+        lines(s,theop,col="red")
      }
     par(def.par)    
     

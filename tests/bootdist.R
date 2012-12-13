@@ -132,3 +132,41 @@ if(any(installed.packages()[, "Package"] == "mc2d"))
     quantile(b4t)
 
 }
+
+# (13) Fit of a Pareto and a Burr distribution, with bootstrap on the Burr distribution
+#
+#
+data(endosulfan)
+ATV <-endosulfan$ATV
+plotdist(ATV)
+descdist(ATV,boot=1000)
+
+fln <- fitdist(ATV, "lnorm")
+summary(fln)
+gofstat(fln)
+
+# use of plotdist to find good reasonable initial values for parameters
+plotdist(ATV, "pareto", para=list(shape=1,scale=500))
+fP <- fitdist(ATV, "pareto", start=list(shape=1,scale=500))
+summary(fP)
+gofstat(fP)
+
+# definition of the initial values from the fit of the Pareto
+# as the Burr distribution is the Pareto when shape2 == 1
+fB <- fitdist(ATV, "burr", start=list(shape1=0.3,shape2=1,rate=1))
+summary(fB)
+gofstat(fB)
+
+cdfcomp(list(fln,fP,fB),xlogscale=TRUE)
+qqcomp(list(fln,fP,fB),xlogscale=TRUE,ylogscale=TRUE)
+ppcomp(list(fln,fP,fB),xlogscale=TRUE,ylogscale=TRUE)
+denscomp(list(fln,fP,fB)) # without great interest as hist does accept argument log="x"
+
+# comparison of HC5 values (5 percent quantiles)
+quantile(fln,probs=0.05)
+quantile(fP,probs=0.05)
+quantile(fB,probs=0.05)
+
+# bootstrap for the Burr distribution
+bfB <- bootdist(fB,niter=nbboot)
+plot(bfB)

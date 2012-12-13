@@ -1,5 +1,5 @@
 #############################################################################
-#   Copyright (c) 2009 Marie Laure Delignette-Muller, Regis Pouillot, Jean-Baptiste Denis, Christophe Dutang                                                                                                  
+#   Copyright (c) 2009 Marie Laure Delignette-Muller, Christophe Dutang                                                                                                  
 #                                                                                                                                                                        
 #   This program is free software; you can redistribute it and/or modify                                               
 #   it under the terms of the GNU General Public License as published by                                         
@@ -30,15 +30,13 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
     # a dataframe of two columns named left and right for censored data 
 {
     if (!is.character(distr)) 
-		stop("distr must be a character string naming a distribution")
+        stop("distr must be a character string naming a distribution")
     else 
         distname <- distr
     ddistname <- paste("d", distname, sep="")
     
     if (!exists(ddistname, mode="function"))
         stop(paste("The ", ddistname, " function must be defined"))
-#    if (distname == "unif")
-#       stop("Maximum likelihood estimation is not available for the uniform distribution")
 
     if (!is.null(fix.arg) & is.null(start))
         stop("Starting values must be defined when some distribution parameters are fixed")
@@ -146,25 +144,25 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
         if (distname == "cauchy") {
             start <- list(location=median(data), scale=IQR(data)/2)
         }
-		if (distname == "unif"){
-			start <- list(min=0, max=1)
-		}
+        if (distname == "unif"){
+            start <- list(min=0, max=1)
+        }
 
         if (!is.list(start)) 
             stop("'start' must be defined as a named list for this distribution") 
-   } # end of the definition of starting values 	
-	
-	############# closed formula for uniform distribution ##########
-	if(distname == "unif")
-	{
-		par <- c(min=min(data), max=max(data))
-		res <- list(estimate = par[!names(par) %in% names(fix.arg)], convergence = 0, loglik = NA, 
+   } # end of the definition of starting values     
+    
+    ############# closed formula for uniform distribution ##########
+    if(distname == "unif")
+    {
+        par <- c(min=min(data), max=max(data))
+        res <- list(estimate = par[!names(par) %in% names(fix.arg)], convergence = 0, loglik = NA, 
                     hessian = NA, optim.function= NA, fix.arg = fix.arg)
-		return(res)
-	}
-	
+        return(res)
+    }
+    
    
-	############# MLE fit using optim or custom.optim ##########
+    ############# MLE fit using optim or custom.optim ##########
     vstart <- unlist(start)
     vfix.arg <- unlist(fix.arg)
     # check of the names of the arguments of the density function
@@ -235,18 +233,18 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
     {
         if (!cens)
             opttryerror <- try(opt <- optim(par=vstart, fn=fnobj, fix.arg=fix.arg, obs=data, 
-				ddistnam=ddistname, hessian=TRUE, method=meth, lower=lower, upper=upper, 
-				...), silent=TRUE)        
+                ddistnam=ddistname, hessian=TRUE, method=meth, lower=lower, upper=upper, 
+                ...), silent=TRUE)        
         else 
             opttryerror <- try(opt <- optim(par=vstart, fn=fnobjcens, fix.arg=fix.arg, 
-				rcens=rcens, lcens=lcens, icens=icens, ncens=ncens, ddistnam=ddistname, 
-				pdistnam=pdistname, hessian=TRUE, method=meth, lower=lower, upper=upper, 
-				...), silent=TRUE)   
-		
+                rcens=rcens, lcens=lcens, icens=icens, ncens=ncens, ddistnam=ddistname, 
+                pdistnam=pdistname, hessian=TRUE, method=meth, lower=lower, upper=upper, 
+                ...), silent=TRUE)   
+        
         if (inherits(opttryerror, "try-error"))
         {
             warnings("The function optim encountered an error and stopped")
-            print(opttryerror)			
+            print(opttryerror)          
             return(list(estimate = rep(NA, length(vstart)), convergence = 100, loglik = NA, 
                         hessian = NA))
         }
@@ -259,21 +257,21 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
         }
         res <- list(estimate = opt$par, convergence = opt$convergence, loglik = -opt$value, 
                     hessian = opt$hessian, optim.function="optim", fix.arg = fix.arg)
-	}
+    }
     else # Try to minimize the minus (log-)likelihood using a user-supplied optim function 
     {
         if (!cens)
             opttryerror <- try(opt <- custom.optim(fn=fnobj, fix.arg=fix.arg, obs=data, 
-				ddistnam=ddistname, par=vstart, ...), silent=TRUE)
+                ddistnam=ddistname, par=vstart, ...), silent=TRUE)
         else
             opttryerror <-try(opt<-custom.optim(fn=fnobjcens, fix.arg=fix.arg, rcens=rcens, 
-				lcens=lcens, icens=icens, ncens=ncens, ddistnam=ddistname, pdistnam=pdistname, 
-				par=vstart, ...), silent=TRUE)              
+                lcens=lcens, icens=icens, ncens=ncens, ddistnam=ddistname, pdistnam=pdistname, 
+                par=vstart, ...), silent=TRUE)              
         
         if (inherits(opttryerror, "try-error"))
         {
             warnings("The customized optimization function encountered an error and stopped")
-            print(opttryerror)			
+            print(opttryerror)          
             return(list(estimate = rep(NA, length(vstart)), convergence = 100, loglik = NA, 
                         hessian = NA))
         }
@@ -284,9 +282,9 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
             return(list(estimate = rep(NA, length(vstart)), convergence = opt$convergence, 
                         loglik = NA, hessian = NA, optim.function=custom.optim))
         }
-		res <- list(estimate = opt$par, convergence = opt$convergence, loglik = -opt$value, 
+        res <- list(estimate = opt$par, convergence = opt$convergence, loglik = -opt$value, 
                     hessian = opt$hessian, optim.function=custom.optim, fix.arg = fix.arg)
-		
+        
     }   
         
     return(res) 

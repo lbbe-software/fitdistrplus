@@ -10,7 +10,7 @@
 }
 
 \usage{
-fitdistcens(censdata, distr, start=NULL, fix.arg=NULL,...)
+fitdistcens(censdata, distr, start=NULL, fix.arg=NULL,\dots)
 
 \method{print}{fitdistcens}(x, \dots)
 
@@ -39,11 +39,11 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL,...)
     starting values are computed (see details).  }
 \item{fix.arg}{ An optional named list giving the values of parameters of the named distribution
     that must kept fixed rather than estimated by maximum likelihood. }
-\item{x}{ an object of class 'fitdistcens'.  }
-\item{object}{ an object of class 'fitdistcens'.  }
+\item{x}{ an object of class \code{"fitdistcens"}.  }
+\item{object}{ an object of class \code{"fitdistcens"}.  }
 \item{\dots}{ further arguments to be passed to generic functions,
-    to the function \code{"plotdistcens"} in order to control the type of ecdf-plot used for censored data, 
-    or to the function \code{"mledist"} 
+    to the function \code{plotdistcens} in order to control the type of ecdf-plot used for censored data, 
+    or to the function \code{mledist} 
     in order to control the optimization method.}
 }
 
@@ -71,7 +71,7 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL,...)
 }
 
 \value{ 
-    \code{fitdistcens} returns an object of class 'fitdistcens', a list with the following components:
+    \code{fitdistcens} returns an object of class \code{"fitdistcens"}, a list with the following components:
     \item{estimate}{ the parameter estimates }
     \item{sd}{ the estimated standard errors }
     \item{cor}{ the estimated correlation matrix }
@@ -88,7 +88,7 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL,...)
     
 \describe{       
     \item{\code{print}}{
-    The print of a 'fitdist' object shows few traces about the fitting method and the fitted distribution.
+    The print of a \code{"fitdist"} object shows few traces about the fitting method and the fitted distribution.
     }
     \item{\code{summary}}{
     The summary provides the parameter estimates of the fitted distribution, the log-likelihood, 
@@ -96,7 +96,7 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL,...)
     parameter estimates and the correlation matrix between parameter estimates.
     }
     \item{\code{plot}}{
-    The plot of an object of class "fitdistcens" returned by \code{fitdistcens} uses the 
+    The plot of an object of class \code{"fitdistcens"} returned by \code{fitdistcens} uses the 
     function \code{\link{plotdistcens}}.
     }
 }

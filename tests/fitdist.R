@@ -154,6 +154,7 @@ if(any(installed.packages()[,"Package"] == "actuar"))
 
     require(actuar)
     #simulate a sample
+    set.seed(1234)
     x4 <- rpareto(1000, 6, 2)
     
     #empirical raw moment
@@ -164,6 +165,7 @@ if(any(installed.packages()[,"Package"] == "actuar"))
     fP <- fitdist(x4, "pareto", method="mme", order=c(1, 2), memp="memp", 
                   start=c(shape=10, scale=10), lower=1, upper=Inf)
     summary(fP)
+    plot(fP)
     
 }
 

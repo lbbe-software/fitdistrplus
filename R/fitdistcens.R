@@ -1,5 +1,5 @@
 #############################################################################
-#   Copyright (c) 2009 Marie Laure Delignette-Muller, Regis Pouillot, Jean-Baptiste Denis                                                                                                  
+#   Copyright (c) 2009 Marie Laure Delignette-Muller                                                                                                  
 #                                                                                                                                                                        
 #   This program is free software; you can redistribute it and/or modify                                               
 #   it under the terms of the GNU General Public License as published by                                         
@@ -116,4 +116,3 @@ print.summary.fitdistcens <- function(x, ...){
 }
 
 #see quantiles.R for quantile.fitdistcens
-

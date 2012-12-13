@@ -1,5 +1,5 @@
 #############################################################################
-#   Copyright (c) 2009 Marie Laure Delignette-Muller, Regis Pouillot, Jean-Baptiste Denis                                                                                                  
+#   Copyright (c) 2009 Marie Laure Delignette-Muller                                                                                                  
 #                                                                                                                                                                        
 #   This program is free software; you can redistribute it and/or modify                                               
 #   it under the terms of the GNU General Public License as published by                                         
@@ -80,8 +80,6 @@ obs.col="darkblue",boot.col="orange")
     mean=mean(data),sd=standdev(data),
     skewness=skewness(data),kurtosis=kurtosis(data))
     
-    #op<-options()
-    #options(digits=3)
     cat("summary statistics\n")
     cat("------\n")
     cat("min: ",res$min,"  max: ",res$max,"\n")
@@ -101,7 +99,6 @@ obs.col="darkblue",boot.col="orange")
         cat("estimated kurtosis: ",res$kurtosis,"\n")
     }
 
-    #options(op)
     
     skewdata<-res$skewness
     kurtdata<-res$kurtosis

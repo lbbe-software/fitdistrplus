@@ -4,13 +4,18 @@ Version 1.0-0
 =============
 
 NEW FEATURES
+- update cdfcomp and add denscomp, ppcomp and qqcomp functions.
 - add of an argument Turnbull.confint to functions plotdistcens and cdfcompcens in order to 
     draw confidence intervals on the empirical distribution only if requested.
+- ppoints now used in "fitdist" for QQ plot, PP plot and cdf plot for continuous data
+    (was used only for QQ plot in previous versions) to enable Blom type plotting position
+    (using by default Hazen plotting position than can be chanfge using arguments use.ppoints and a.ppoints)
 - many changes in the examples given in the reference manual.
-- many changes in the vignette.
-- add of three data sets : salinity, danishuni and danishmulti.
-- quantile generic function is available both for "fitdist" and "bootdist" objects.
-- quantile generic function is available both for "fitdistcens" and "bootdistcens" objects.
+- the vignette was removed, to be transformed in a paper that we will soon submit to a journal.
+- add of four data sets : fluazinam, salinity, danishuni and danishmulti.
+- add of functions to calculate quantiles of the fitted distribution, with 95 percent CI calculated by bootstrap :
+  quantile generic function is available both for "fitdist" and "bootdist" objects and 
+  quantile generic function is available both for "fitdistcens" and "bootdistcens" objects.
 
 BUG FIXES
 - correction the formula for the CvM test for Weibull distribution
@@ -19,39 +24,6 @@ formulas previously used (given by Stephens 1986) do not use exactly MLE estimat
 results were only approximates.
 - make arguments xlim and ylim functional in cdfcompcens
 - bug fix in the closed formula in mmedist for lognormal distributions.
-
-
-Version 0.4-3
-=============
-
-NEW FEATURES
-- update cdfcomp and add denscomp, ppcomp and qqcomp functions.
-- ppoints now used in "fitdist" for QQ plot, PP plot and cdf plot for continuous data
-    (was used only for QQ plot in previous versions).
-
-
-Version 0.4-2
-=============
-
-NEW FEATURES
-- add of the arguments use.ppoints and a.ppoints in function "cdfcomp" to enable Blom type plotting position
-    for cdf plot (using by default Hazen plotting position)
-
-Version 0.4-1
-=============
-
-NEW FEATURES
-- add of the argument "CI.type" to functions "quantiledist" and "quantiledistcens" 
-- add of a message printed by  functions "quantiledist" and "quantiledistcens" in case of non convergence
-    of parameter estimation for some bootstrap iterations
-- add of a censored data set: "fluazinam" and associated examples
-
-Version 0.4-0
-=============
-
-NEW FEATURES
-- add of functions to calculate quantiles of the fitted distribution, with 95 percent CI calculated by bootstrap
-    (functions "quantiledist" and "quantiledistcens")
 
 Version 0.3-4
 =============

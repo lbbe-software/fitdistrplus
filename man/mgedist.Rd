@@ -9,7 +9,7 @@
 
 \usage{
 mgedist(data, distr, gof="CvM", start=NULL, fix.arg=NULL, 
-    optim.method="default", lower=-Inf, upper=Inf, custom.optim=NULL, ...)
+    optim.method="default", lower=-Inf, upper=Inf, custom.optim=NULL, \dots)
 
 }
 

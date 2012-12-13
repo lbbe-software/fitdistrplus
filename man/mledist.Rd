@@ -9,7 +9,7 @@
 
 \usage{
 mledist(data, distr, start=NULL, fix.arg=NULL, optim.method="default", 
-    lower=-Inf, upper=Inf, custom.optim=NULL, ...)
+    lower=-Inf, upper=Inf, custom.optim=NULL, \dots)
 }
 
 \arguments{

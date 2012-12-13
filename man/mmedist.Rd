@@ -9,7 +9,7 @@
 
 \usage{
 mmedist(data, distr, order, memp, start=NULL, fix.arg=NULL,
-    optim.method="default", lower=-Inf, upper=Inf, custom.optim=NULL, ...) 
+    optim.method="default", lower=-Inf, upper=Inf, custom.optim=NULL, \dots) 
 
 }
 \arguments{
@@ -141,7 +141,7 @@ mmedist(x3,"beta")
 
     #fit
     mmedist(x4, "pareto", order=c(1, 2), memp="memp", 
-		start=c(shape=10, scale=10), lower=1, upper=Inf)
+        start=c(shape=10, scale=10), lower=1, upper=Inf)
 
 }
 

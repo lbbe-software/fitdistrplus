@@ -33,7 +33,7 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
     ynoise = TRUE, \dots)
 }
 \arguments{
-\item{ft}{One 'fitdist' object or a list of objects of class 'fitdist'.}
+\item{ft}{One \code{"fitdist"} object or a list of objects of class \code{"fitdist"}.}
 \item{xlim}{The \eqn{x}-limits \code{(x1, x2)} of the plot.}
 \item{ylim}{The \eqn{y}-limits of the plot.}
 \item{xlogscale}{If \code{TRUE}, use a logarithmic scale for the \eqn{x}-axis.}

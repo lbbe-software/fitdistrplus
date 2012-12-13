@@ -30,13 +30,12 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
     # a dataframe of two columns named left and right for censored data 
 {
     if (!is.character(distr)) 
-#        distname <- substring(as.character(match.call()$distr), 2)
     stop("distr must be a character string naming a distribution")
     else 
         distname <- distr
         
     if (is.element(distname,c("binom","nbinom","geom","hyper","pois"))) 
-		stop("Maximum goodness-of-fit estimation method is not intended to fit discrete distributions")
+        stop("Maximum goodness-of-fit estimation method is not intended to fit discrete distributions")
 
 
     pdistname <- paste("p",distname,sep="")
@@ -280,7 +279,7 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
         if (inherits(opttryerror,"try-error"))
         {
             warnings("The function optim encountered an error and stopped")
-            print(opttryerror)			
+            print(opttryerror)          
             return(list(estimate = rep(NA,length(vstart)), convergence = 100, loglik = NA, 
                         hessian = NA))
         }
@@ -292,7 +291,7 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
                         value = NA, hessian = NA))
         }
         
-		res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
+        res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
                     hessian = opt$hessian, gof=gof, optim.function="optim",
                     loglik=loglik(opt$par, fix.arg, data, ddistname) )
     }
@@ -307,7 +306,7 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
         if (inherits(opttryerror,"try-error"))
         {
             warnings("The customized optimization function encountered an error and stopped")
-            print(opttryerror)			
+            print(opttryerror)          
             return(list(estimate = rep(NA,length(vstart)), convergence = 100, value = NA, 
                         hessian = NA))
         }
@@ -319,16 +318,10 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
                         value = NA, hessian = NA))
         }
         
-		res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
+        res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
                     gof=gof, hessian = opt$hessian, optim.function=custom.optim,
                     loglik=loglik(opt$par, fix.arg, data, ddistname) )
     }   
-	res <- c(res, fix.arg=fix.arg)
-	return(res)                
-}
-
-## old function with previous name for censored data
-mledistcens<-function (censdata, distr, start=NULL,optim.method="default",lower=-Inf,upper=Inf)
-{
-    stop("The function \"mledistcens\" is no more used. Now the same function \"mledist\" must be used for censored and non censored data.")
+    res <- c(res, fix.arg=fix.arg)
+    return(res)                
 }

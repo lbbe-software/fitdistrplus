@@ -15,7 +15,7 @@ gofstat(f, chisqbreaks, meancount, print.test = FALSE)
 %- maybe also 'usage' for other objects documented here.
 
 \arguments{
-\item{f}{ An object of class 'fitdist' result of the function \code{fitdist}.}
+\item{f}{ An object of class \code{"fitdist"} result of the function \code{fitdist}.}
 \item{chisqbreaks}{ A numeric vector defining the breaks of the cells used to compute the chi-squared
     statistic. If omitted, these breaks are automatically computed from the data 
     in order to reach roughly the same number of observations per cell, roughly equal to the argument
@@ -109,8 +109,7 @@ Vose D (2000) Risk analysis, a quantitative guide. John Wiley & Sons Ltd, Chisch
 
 
 \author{ 
-Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr} and
-Christophe Dutang
+Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr} 
 }
 
 %\note{  }

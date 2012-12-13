@@ -366,6 +366,7 @@ gofstat(fWqme)
     fP <- fitdist(x4, "pareto", method="mme", order=c(1, 2), memp="memp", 
     start=c(shape=10, scale=10), lower=1, upper=Inf)
     summary(fP)
+    plot(fP)
 
 }
 

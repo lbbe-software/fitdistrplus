@@ -1,5 +1,5 @@
 #############################################################################
-#   Copyright (c) 2009 Marie Laure Delignette-Muller, Regis Pouillot, Jean-Baptiste Denis                                                                                                  
+#   Copyright (c) 2009 Marie Laure Delignette-Muller                                                                                                  
 #                                                                                                                                                                        
 #   This program is free software; you can redistribute it and/or modify                                               
 #   it under the terms of the GNU General Public License as published by                                         
@@ -109,11 +109,11 @@ plotdist <- function(data, distr, para, breaks="default", discrete=FALSE, ...){
             # plot of histograms and theoretical density
             hist(data, freq=FALSE, xlab="Data", ylim=c(0, ymax), breaks=h$breaks, 
                 main=paste("Empirical and theoretical distr."), ...)
-            lines(xhist, yhist)
+            lines(xhist, yhist,lty=1,col="red")
            
             # plot of the qqplot
             theoq <- do.call(qdistname, c(list(p=obsp), as.list(para)))
-            plot(theoq, s, main=" QQ-plot", xlab="Theoretical quantiles", 
+            plot(theoq, s, main=" Q-Q plot", xlab="Theoretical quantiles", 
             ylab="Empirical quantiles", ...)
             abline(0, 1)
             # plot of the cumulative probability distributions
@@ -123,10 +123,10 @@ plotdist <- function(data, distr, para, breaks="default", discrete=FALSE, ...){
             ylab="CDF", xlim=c(xmin, xmax), ...)
             sfin <- seq(xmin, xmax, by=(xmax-xmin)/100)
             theopfin <- do.call(pdistname, c(list(q=sfin), as.list(para)))
-            lines(sfin, theopfin, lty=1)
+            lines(sfin, theopfin, lty=1,col="red")
             
             # plot of the ppplot
-            plot(theop, obsp, main="PP-plot", xlab="Theoretical probabilities", 
+            plot(theop, obsp, main="P-P plot", xlab="Theoretical probabilities", 
             ylab="Empirical probabilities", ...)
             abline(0, 1)
         }
@@ -139,29 +139,29 @@ plotdist <- function(data, distr, para, breaks="default", discrete=FALSE, ...){
             t <- table(data)
             xval <- as.numeric(names(t))
             xvalfin <- seq(min(xval), max(xval))
-            xlinesdec <- min((max(xval)-min(xval))/100, 0.4)
+            xlinesdec <- min((max(xval)-min(xval))/30, 0.4)
             yd <- do.call(ddistname, c(list(x=xvalfin), as.list(para)))
             ydobs <- as.vector(t)/n
             ydmax <- max(yd, ydobs)
             plot(xvalfin+xlinesdec, yd, type='h', xlim=c(min(xval), max(xval)+xlinesdec), 
-                ylim=c(0, ydmax), lty=3, 
+                ylim=c(0, ydmax), lty=3, col="red",
                 main="Emp. and theo. distr.", xlab="Data", 
                 ylab="Density", ...)
-            points(xval, ydobs, type='h', lty=1, ...)
-            legend("topright", lty=c(1, 3), 
+            points(xval, ydobs, type='h', lty=1, col="black",...)
+            legend("topright", lty=c(1, 3), col=c("black","red"),
                 legend=c("empirical", paste("theoretical")), 
-                bty='n', cex=0.8,...)
+                bty="o", bg="white",cex=0.6,...)
             
             # plot of the cumulative probability distributions
             ycdfobs <- ecdf(data)(xvalfin)
             ycdf <- do.call(pdistname, c(list(q=xvalfin), as.list(para)))
             plot(xvalfin+xlinesdec, ycdf, type='h', xlim=c(min(xval), max(xval)+xlinesdec), 
-                ylim=c(0, 1), lty=3, 
+                ylim=c(0, 1), lty=3, col="red", 
                 main="Emp. and theo. CDFs", xlab="Data", 
                 ylab="CDF", ...)
-            points(xvalfin, ycdfobs, type='h', lty=1, ...)
-            legend("topleft", lty=c(1, 3), legend=c("empirical", paste("theoretical")), 
-             bty='n', cex=0.8,...)
+            points(xvalfin, ycdfobs, type='h', lty=1, col="black",...)
+            legend("bottomright", lty=c(1, 3), col=c("black","red"), legend=c("empirical", paste("theoretical")), 
+             bty="o", bg ="white",cex=0.6,...)
         }
     }
     par(def.par)    

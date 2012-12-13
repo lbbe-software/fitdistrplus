@@ -73,10 +73,8 @@ HC5ln <- quantile(bln,probs = 0.05)
 10^(HC5ln$quantiles)
 10^(HC5ln$quantCI)
 
-# (5) estimation of the 5 percent quantile value of 
-# the fitted lognormal distribution (5 percent hazardous concentration  : HC5)
+# (5) estimation of the HC5 value
 # with its one-sided 95 percent confidence interval (type "greater")
-# calculated by non parametric bootstrap
 #
 # in log10(LC50)
 HC5lnb <- quantile(bln,probs = 0.05,CI.type="greater")

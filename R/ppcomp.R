@@ -17,7 +17,7 @@
 #   59 Temple Place, Suite 330, Boston, MA 02111-1307, USA
 #
 #############################################################################
-### PP-plot for various fits
+### P-P plot for various fits
 ### of continuous distribution(s) (fitdist results)
 ### on a same dataset
 ###
@@ -59,7 +59,7 @@ ppcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
     if (missing(ylab)) 
         ylab <- "Empirical probabilities"
     if (missing(main)) 
-        main <- "PP-plot"
+        main <- "P-P plot"
     
     mydata <- ft[[1]]$data
 

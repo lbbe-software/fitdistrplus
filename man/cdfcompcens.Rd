@@ -12,12 +12,12 @@
 \usage{
 cdfcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
     datacol, fitlty, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", 
-    ylegend = NULL, lines01 = FALSE, Turnbull.confint = FALSE,...)
+    ylegend = NULL, lines01 = FALSE, Turnbull.confint = FALSE, \dots)
 }
 %- maybe also 'usage' for other objects documented here.
 
 \arguments{
-\item{ft}{One 'fitdist' object or a list of objects of class 'fitdist'.}
+\item{ft}{One \code{"fitdistcens"} object or a list of objects of class \code{"fitdistcens"}.}
 \item{xlim}{The \eqn{x}-limits \code{(x1, x2)} of the plot.}
 \item{ylim}{The \eqn{y}-limits of the plot.}
 \item{xlogscale}{If \code{TRUE}, use a logarithmic scale for the \eqn{x}-axis.}

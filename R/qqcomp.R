@@ -58,7 +58,7 @@ qqcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
     if (missing(ylab)) 
         ylab <- "Empirical quantiles"
     if (missing(main)) 
-        main <- "QQ-plot"
+        main <- "Q-Q plot"
     
     mydata <- ft[[1]]$data
 

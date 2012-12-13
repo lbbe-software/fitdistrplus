@@ -44,10 +44,6 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
     if (length(dots)==0) 
         dots <- NULL
     
-#   if (!is.null(start) & method=="mme")
-#        warnings("Starting values for parameters will not be used with matching moments")  
-#    if (!is.null(fix.arg) & method=="mme")
-#       stop("Matching moments cannot be used when some distribution parameters are fixed")  
     if (!(is.vector(data) & is.numeric(data) & length(data)>1))
         stop("data must be a numeric vector of length greater than 1")
     
@@ -57,11 +53,11 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
     # Fit with mledist, qmedist, mgedist or mmedist
     if (method == "mme")
     {
-	    if (!is.element(distname, c("norm", "lnorm", "pois", "exp", "gamma", 
-	    		"nbinom", "geom", "beta", "unif", "logis")))
-	    	if (!"order" %in% names(my3dots))
-	    		stop("moment matching estimation needs an 'order' argument.")	
-    	
+        if (!is.element(distname, c("norm", "lnorm", "pois", "exp", "gamma", 
+                "nbinom", "geom", "beta", "unif", "logis")))
+            if (!"order" %in% names(my3dots))
+                stop("moment matching estimation needs an 'order' argument.")   
+        
         mme <- mmedist(data, distname, start=start, fix.arg=fix.arg, ...)
                 
         sd <- NULL
@@ -102,9 +98,9 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
         convergence <- mle$convergence      
     }else if (method == "qme")
     {
-    	if (!"probs" %in% names(my3dots))
-	    	stop("quantile matching estimation needs an 'probs' argument.")	
-	    		
+        if (!"probs" %in% names(my3dots))
+            stop("quantile matching estimation needs an 'probs' argument.") 
+                
         qme <- qmedist(data, distname, start, fix.arg, ...)
 
         estimate <- qme$estimate
@@ -118,8 +114,8 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
         convergence <- qme$convergence      
     }else if (method == "mge")
     {
-    	if (!"gof" %in% names(my3dots))
-	    	warning("maximum GOF estimation has a default 'gof' argument set to 'CvM'.")	
+        if (!"gof" %in% names(my3dots))
+            warning("maximum GOF estimation has a default 'gof' argument set to 'CvM'.")    
 
         mge <- mgedist(data, distname, start, fix.arg, ...)
 

@@ -9,7 +9,7 @@
 }
 
 \usage{
-plotdistcens(censdata,distr,para,leftNA=-Inf,rightNA=Inf,Turnbull=TRUE,Turnbull.confint = FALSE,...)
+plotdistcens(censdata,distr,para,leftNA=-Inf,rightNA=Inf,Turnbull=TRUE,Turnbull.confint = FALSE,\dots)
 }
 %- maybe also 'usage' for other objects documented here.
 
@@ -34,7 +34,7 @@ plotdistcens(censdata,distr,para,leftNA=-Inf,rightNA=Inf,Turnbull=TRUE,Turnbull.
 \item{Turnbull}{ if TRUE the Turnbull algorithm is used to estimate the cdf curve of the censored data
     and previous arguments \code{leftNA} and \code{rightNA} are not used (see details)}
 \item{Turnbull.confint}{ if TRUE confidence intervals will be added to the Turnbull plot.}
-\item{...}{ further graphical arguments passed to other methods }
+\item{\dots}{ further graphical arguments passed to other methods }
 }
 
 \details{
