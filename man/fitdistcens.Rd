@@ -10,7 +10,7 @@
 }
 
 \usage{
-fitdistcens(censdata, distr, start=NULL, fix.arg=NULL,\dots)
+fitdistcens(censdata, distr, start=NULL, fix.arg=NULL, \dots)
 
 \method{print}{fitdistcens}(x, \dots)
 
@@ -115,7 +115,7 @@ Venables WN and Ripley BD (2002) Modern applied statistics with S. Springer, New
 
 
 \author{ 
-Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr} 
+Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr}.
 }
 
 %\note{  }

@@ -10,8 +10,8 @@
 }
 
 \usage{
-descdist(data,discrete=FALSE,boot=NULL,method="unbiased",
-graph=TRUE,obs.col="darkblue",boot.col="orange")
+descdist(data, discrete = FALSE, boot = NULL, method = "unbiased",
+graph = TRUE, obs.col = "darkblue", boot.col = "orange")
 }
 %- maybe also 'usage' for other objects documented here.
 
@@ -77,7 +77,7 @@ Sokal RR and Rohlf FJ (1995) Biometry. W.H. Freeman and Company, USA, pp. 111-11
 }
 
 \author{ 
-Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr} 
+Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr}.
 }
 
 %\note{  }

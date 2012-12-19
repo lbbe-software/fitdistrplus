@@ -13,9 +13,9 @@
 
 \usage{
 bootdistcens(f, niter=1001)
-\method{print}{bootdistcens}(x,\dots)
-\method{plot}{bootdistcens}(x,\dots)
-\method{summary}{bootdistcens}(object,\dots)
+\method{print}{bootdistcens}(x, \dots)
+\method{plot}{bootdistcens}(x, \dots)
+\method{summary}{bootdistcens}(object, \dots)
 
 }
 
@@ -91,7 +91,7 @@ Cullen AC and Frey HC (1999) Probabilistic techniques in exposure assessment. Pl
 
 
 \author{ 
-Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr} 
+Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr}.
 }
 
 %\note{  }

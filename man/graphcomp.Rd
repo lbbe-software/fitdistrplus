@@ -105,7 +105,7 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
 
 \author{ 
 Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr} 
-Christophe Dutang
+and Christophe Dutang.
 }
 
 \examples{

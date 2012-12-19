@@ -22,8 +22,8 @@
 ###         R functions
 ### 
 
-descdist <- function(data,discrete=FALSE,boot=NULL,method="unbiased",graph=TRUE,
-obs.col="darkblue",boot.col="orange")
+descdist <- function(data, discrete = FALSE, boot = NULL, method = "unbiased", graph = TRUE,
+obs.col = "darkblue", boot.col = "orange")
 {
     #if(is.mcnode(data)) data <- as.vector(data)
     if (missing(data) || !is.vector(data,mode="numeric"))

@@ -9,9 +9,9 @@
 }
 
 \usage{
-plotdistcens(censdata,distr,para,leftNA=-Inf,rightNA=Inf,Turnbull=TRUE,Turnbull.confint = FALSE,\dots)
+plotdistcens(censdata, distr, para, leftNA = -Inf, rightNA = Inf,
+Turnbull = TRUE, Turnbull.confint = FALSE, \dots)
 }
-%- maybe also 'usage' for other objects documented here.
 
 \arguments{
 \item{censdata}{ A dataframe of two columns respectively named \code{left} 
@@ -75,7 +75,7 @@ censored data.\emph{Journal of American Statistical Association}, \bold{69}, 169
 
 
 \author{ 
-Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr} 
+Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr}.
 }
 
 %\note{  }

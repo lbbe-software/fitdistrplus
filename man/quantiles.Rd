@@ -84,6 +84,7 @@
 
 \author{ 
 Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr} 
+and Christophe Dutang.
 }
 
 

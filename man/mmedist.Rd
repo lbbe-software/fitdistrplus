@@ -8,8 +8,8 @@
 }
 
 \usage{
-mmedist(data, distr, order, memp, start=NULL, fix.arg=NULL,
-    optim.method="default", lower=-Inf, upper=Inf, custom.optim=NULL, \dots) 
+mmedist(data, distr, order, memp, start = NULL, fix.arg = NULL,
+    optim.method = "default", lower = -Inf, upper = Inf, custom.optim = NULL, \dots) 
 
 }
 \arguments{
@@ -99,7 +99,7 @@ to the number of parameters to estimate.}
 
 \author{ 
 Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr} and 
-Christophe Dutang
+Christophe Dutang.
 }
 
 \examples{

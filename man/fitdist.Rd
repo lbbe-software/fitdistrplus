@@ -187,8 +187,8 @@ Vose D (2000) Risk analysis, a quantitative guide. John Wiley & Sons Ltd, Chisch
 
 
 \author{ 
-Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr} and
-Christophe Dutang
+Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr} 
+and Christophe Dutang.
 }
 
 \examples{

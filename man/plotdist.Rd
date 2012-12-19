@@ -9,9 +9,8 @@
 }
 
 \usage{
-plotdist(data,distr,para,breaks="default",discrete=FALSE,...)
+plotdist(data, distr, para, breaks = "default", discrete = FALSE, \dots)
 }
-%- maybe also 'usage' for other objects documented here.
 
 \arguments{
 \item{data}{ A numeric vector.  }
@@ -58,7 +57,7 @@ Cullen AC and Frey HC (1999) Probabilistic techniques in exposure assessment. Pl
 }
 
 \author{ 
-Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr} 
+Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr}.
 }
 
 %\note{  }

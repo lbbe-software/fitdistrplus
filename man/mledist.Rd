@@ -8,8 +8,8 @@
 }
 
 \usage{
-mledist(data, distr, start=NULL, fix.arg=NULL, optim.method="default", 
-    lower=-Inf, upper=Inf, custom.optim=NULL, \dots)
+mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default", 
+    lower = -Inf, upper = Inf, custom.optim = NULL, \dots)
 }
 
 \arguments{
@@ -116,7 +116,7 @@ mledist(data, distr, start=NULL, fix.arg=NULL, optim.method="default",
 
 \author{ 
 Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr} and
-Christophe Dutang
+Christophe Dutang.
 }
 
 \examples{
