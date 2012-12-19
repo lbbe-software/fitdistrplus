@@ -8,7 +8,8 @@
 
 \description{
  Fit of univariate distributions to non-censored data by maximum likelihood, 
- quantile matching or moment matching. Generic methods are \code{print}, \code{plot}, 
+ moment matching, quantile matching or 
+ maximizing goodness-of-fit (minimizing distance). Generic methods are \code{print}, \code{plot}, 
  \code{summary} and \code{quantile}.
 }
 
@@ -87,7 +88,7 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
     of goodness-of-fit (or minimization of a goodness-of-fit distance). The use of this method 
     requires an additional argument 
     \code{gof} coding for the goodness-of-fit distance chosen. 
-    One may use the classical Cramer-von Mises distance (\code{"CvM"}), the classical
+    One can use the classical Cramer-von Mises distance (\code{"CvM"}), the classical
     Kolmogorov-Smirnov distance (\code{"KS"}), the classical Anderson-Darling distance (\code{"AD"})
     which gives more weight to the tails of the distribution, 
     or one of the variants of this last distance proposed by Luceno (2006)
@@ -422,7 +423,7 @@ x2 <- rnorm(100, 1e-4, 2e-4)
 for(i in 0:6)
         cat(i, try(fitdist(x2*10^i, "cauchy", method="mle")$estimate, silent=TRUE), "\n")
 
-# (15) Fit of a lognormal distribution on acute toxicity values of endosulfan for
+# (15) Fit of a normal distribution on acute toxicity values of endosulfan in log10 for
 # nonarthropod invertebrates, using maximum likelihood estimation
 # to estimate what is called a species sensitivity distribution 
 # (SSD) in ecotoxicology, followed by estimation of the 5 percent quantile value of 

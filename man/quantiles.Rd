@@ -1,4 +1,5 @@
 \name{quantiles}
+\alias{quantiles}
 \alias{quantile.fitdist}
 \alias{quantile.fitdistcens}
 \alias{quantile.bootdist}
@@ -53,8 +54,9 @@
 }
 
 \value{ 
-    \code{quantile} returns a list with 2 components (the first two) when called with an object
-    of class \code{"fitdist"} or \code{"fitdistcens"} and 8 components when called with an object  of class
+    \code{quantile} returns a list with 2 components (the first two described below) when called with an object
+    of class \code{"fitdist"} or \code{"fitdistcens"} and 8 components (described below)
+    when called with an object  of class
     \code{"bootdist"} or \code{"bootdistcens"} :
     \item{quantiles}{ a dataframe containing the estimated quantiles for each probability value specified in 
         the argument \code{probs} (one row, and as many columns as values in \code{probs}).}
@@ -73,7 +75,7 @@
     intervals (\code{"less"} or \code{"greater"}).}
     \item{CI.level}{ The confidence level.}
     \item{nbboot}{ The number of samples drawn by bootstrap.}
-    \item{nbconverg}{ The number of iterations fro which the optimization algorithm converges.}
+    \item{nbconverg}{ The number of iterations for which the optimization algorithm converges.}
         
 }
         

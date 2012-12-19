@@ -124,14 +124,12 @@ summary(b1b)
 quantile(b1b)
 
 
-# (3) Fit of a lognormal distribution on acute toxicity values of endosulfan for
+# (3) Fit of a normal distribution on acute toxicity values of endosulfan in log10 for
 # nonarthropod invertebrates, using maximum likelihood estimation
 # to estimate what is called a species sensitivity distribution 
 # (SSD) in ecotoxicology, followed by estimation of the 5 percent quantile value of 
 # the fitted distribution, what is called the 5 percent hazardous concentration (HC5)
 # in ecotoxicology, with its two-sided 95 percent confidence interval calculated by 
-# parametric bootstrap or non parametric bootstrap, and
-# its one-sided (greater) 95 percent confidence interval calculated by 
 # parametric bootstrap
 #
 data(endosulfan)
@@ -140,9 +138,6 @@ log10ATV <- log10(subset(endosulfan, group == "NonArthroInvert")$ATV)
 fln <- fitdist(log10ATV, "norm")
 bln <- bootdist(fln, bootmethod = "param")
 quantile(bln, probs = c(0.05, 0.1, 0.2))
-quantile(bln, probs = c(0.05, 0.1, 0.2), CI.type = "greater")
-quantile(bln, probs = c(0.05, 0.1, 0.2), CI.level = 0.9)
-
 
 }
 

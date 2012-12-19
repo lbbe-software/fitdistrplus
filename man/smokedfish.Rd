@@ -22,7 +22,7 @@ The left column contains either NA for
 left censored observations, the left bound of the interval for interval censored
 observations, or the observed value for non-censored observations. The right
 column contains either NA for right censored observations, the right bound of
-the interval for interval censored observations, or the observed value for noncensored
+the interval for interval censored observations, or the observed value for non-censored
 observations.
 }
 

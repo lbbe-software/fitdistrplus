@@ -18,17 +18,17 @@ cdfcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, yl
 
 \arguments{
 \item{ft}{One \code{"fitdistcens"} object or a list of objects of class \code{"fitdistcens"}.}
-\item{xlim}{The \eqn{x}-limits \code{(x1, x2)} of the plot.}
+\item{xlim}{The \eqn{x}-limits of the plot.}
 \item{ylim}{The \eqn{y}-limits of the plot.}
-\item{xlogscale}{If \code{TRUE}, use a logarithmic scale for the \eqn{x}-axis.}
-\item{ylogscale}{If \code{TRUE}, use a logarithmic scale for the \eqn{y}-axis.}
+\item{xlogscale}{If \code{TRUE}, uses a logarithmic scale for the \eqn{x}-axis.}
+\item{ylogscale}{If \code{TRUE}, uses a logarithmic scale for the \eqn{y}-axis.}
 \item{main}{A main title for the plot, see also \code{\link{title}}.}
 \item{xlab}{A label for the \eqn{x}-axis, defaults to a description of \code{x}.}
 \item{ylab}{A label for the \eqn{y}-axis, defaults to a description of \code{y}.}
 \item{datacol}{A specification of the color to be used in plotting data points.}
 \item{fitcol}{A (vector of) color(s) to plot fitted distributions. 
     If there are fewer colors than points they are recycled in the standard fashion.}
-\item{fitlty}{A (vector of) line type(s) to plot fitted distributions/densities. 
+\item{fitlty}{A (vector of) line type(s) to plot fitted distributions. 
     If there are fewer colors than points they are recycled in the standard fashion.
     See also \code{\link{par}}.}
 \item{addlegend}{If \code{TRUE}, a legend is added to the plot.}
@@ -38,13 +38,13 @@ cdfcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, yl
           They can be specified by keyword or in any way which is
           accepted by 'xy.coords': see \code{\link{legend}} for details.}
 \item{lines01}{A logical to plot two horizontal lines at \code{h=0} and \code{h=1}.}
-\item{Turnbull.confint}{ if TRUE confidence intervals will be added to the Turnbull plot
+\item{Turnbull.confint}{ if TRUE, confidence intervals will be added to the Turnbull plot
     of the empirical distribution.}
 \item{\dots}{Further graphical arguments passed to graphical functions used in \code{cdfcompcens}.}
 }
 
 \details{
-    Empirical and theoretical distributions are simply plotted in cdf. 
+    Empirical and theoretical distributions are plotted in cdf. 
     The EM approach of Turnbull (Turnbull, 1974) is used to compute the overall 
     empirical cdf curve, with confidence intervals if \code{Turnbull.confint} is \code{TRUE}, 
     by calls to functions \code{survfit} and \code{plot.survfit} from the 
@@ -54,7 +54,8 @@ cdfcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, yl
 }
 
 \seealso{ 
-    \code{\link{plotdistcens}}, \code{\link{survfit.formula}}, \code{\link{legend}}.
+    \code{\link{plotdistcens}}, \code{\link{survfit.formula}}, \code{\link{legend}} 
+    and \code{\link{par}}.
 }
 
 \references{ 

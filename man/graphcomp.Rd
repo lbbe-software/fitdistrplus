@@ -34,10 +34,10 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
 }
 \arguments{
 \item{ft}{One \code{"fitdist"} object or a list of objects of class \code{"fitdist"}.}
-\item{xlim}{The \eqn{x}-limits \code{(x1, x2)} of the plot.}
+\item{xlim}{The \eqn{x}-limits of the plot.}
 \item{ylim}{The \eqn{y}-limits of the plot.}
-\item{xlogscale}{If \code{TRUE}, use a logarithmic scale for the \eqn{x}-axis.}
-\item{ylogscale}{If \code{TRUE}, use a logarithmic scale for the \eqn{y}-axis.}
+\item{xlogscale}{If \code{TRUE}, uses a logarithmic scale for the \eqn{x}-axis.}
+\item{ylogscale}{If \code{TRUE}, uses a logarithmic scale for the \eqn{y}-axis.}
 \item{main}{A main title for the plot, see also \code{\link{title}}.}
 \item{xlab}{A label for the \eqn{x}-axis, defaults to a description of \code{x}.}
 \item{ylab}{A label for the \eqn{y}-axis, defaults to a description of \code{y}.}
@@ -65,7 +65,7 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
     are defined as 
     \code{(1:n - a.ppoints)/(n - 2a.ppoints + 1)}
      using function \code{\link{ppoints}}. If FALSE, 
-    probability points are simply defined as 1:n / n.}
+    probability points are simply defined as \code{1:n / n}.}
 \item{a.ppoints}{If \code{use.ppoints=TRUE}, this is passed to function \code{\link{ppoints}}.}
 \item{lines01}{A logical to plot two horizontal lines at \code{h=0} and \code{h=1} for \code{cdfcomp}.}
 \item{line01}{A logical to plot an horizontal line \eqn{y=x} for \code{qqcomp} and \code{ppcomp}.}

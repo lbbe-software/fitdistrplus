@@ -98,7 +98,8 @@ Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr}
 
 \examples{
 # (1) Fit of a normal distribution to fluazinam data in log10
-# followed by nonparametric bootstrap
+# followed by nonparametric bootstrap and calculation of quantiles
+# with 95 percent confidence intervals
 #
 data(fluazinam)
 (d1 <-log10(fluazinam))
@@ -113,14 +114,13 @@ quantile(b1)
 # by maximum likelihood with the standard deviation fixed at 1 
 # using the argument fix.arg
 # followed by nonparametric bootstrap with less iterations
+# and calculation of quantiles with 95 percent confidence intervals
 #
 f1b <- fitdistcens(d1, "norm", start = list(mean = 1),fix.arg = list(sd = 1))
 b1b <- bootdistcens(f1b,niter = 501)
 summary(b1b)
 plot(b1b)
 quantile(b1b)
-quantile(b1b, probs = c(0.05, 0.1, 0.2), CI.type = "greater")
-quantile(b1b, probs = c(0.05, 0.1, 0.2), CI.level = 0.90)
 
 }
 

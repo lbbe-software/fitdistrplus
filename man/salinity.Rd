@@ -47,7 +47,7 @@ data(salinity)
 log10LC50 <-log10(salinity)
 plotdistcens(log10LC50)
 
-# (3) fit of a lognormal and a logistic distribution to data
+# (3) fit of a normal and a logistic distribution to data in log10
 # (classical distributions used for species sensitivity 
 # distributions, SSD, in ecotoxicology))
 # and visual comparison of the fits using Turnbull cdf plot 

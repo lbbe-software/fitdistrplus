@@ -10,7 +10,7 @@
 
 \usage{
 plotdistcens(censdata, distr, para, leftNA = -Inf, rightNA = Inf,
-Turnbull = TRUE, Turnbull.confint = FALSE, \dots)
+    Turnbull = TRUE, Turnbull.confint = FALSE, \dots)
 }
 
 \arguments{
