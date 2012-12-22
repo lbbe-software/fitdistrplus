@@ -104,7 +104,7 @@ Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr}
 data(fluazinam)
 (d1 <-log10(fluazinam))
 f1 <- fitdistcens(d1, "norm")
-b1 <- bootdistcens(f1)
+b1 <- bootdistcens(f1, niter = 101)
 b1
 summary(b1)
 plot(b1)
@@ -117,7 +117,7 @@ quantile(b1)
 # and calculation of quantiles with 95 percent confidence intervals
 #
 f1b <- fitdistcens(d1, "norm", start = list(mean = 1),fix.arg = list(sd = 1))
-b1b <- bootdistcens(f1b,niter = 501)
+b1b <- bootdistcens(f1b, niter = 101)
 summary(b1b)
 plot(b1b)
 quantile(b1b)

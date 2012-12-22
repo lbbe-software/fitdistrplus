@@ -67,7 +67,7 @@ cdfcompcens(list(fln,fll),legendtext=c("normal","logistic"),
 # non parametric bootstrap
 #
 # in log10(LC50)
-bln <- bootdistcens(fln,niter=501)
+bln <- bootdistcens(fln, niter=101)
 HC5ln <- quantile(bln,probs = 0.05)
 # in LC50
 10^(HC5ln$quantiles)
@@ -77,7 +77,7 @@ HC5ln <- quantile(bln,probs = 0.05)
 # with its one-sided 95 percent confidence interval (type "greater")
 #
 # in log10(LC50)
-HC5lnb <- quantile(bln,probs = 0.05,CI.type="greater")
+HC5lnb <- quantile(bln, probs = 0.05,CI.type="greater")
 
 # in LC50
 10^(HC5lnb$quantiles)

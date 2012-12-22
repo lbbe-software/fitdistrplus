@@ -103,6 +103,10 @@ Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr}
 
 
 \examples{
+#We choose a low number of bootstrap replicates in order to satisfy CRAN running times constraint.
+#For practical application, we recommend to use niter=501 or niter=1001.
+
+
 # (1) Fit of a gamma distribution to serving size data
 # using default method (maximum likelihood estimation)
 # followed by parametric bootstrap
@@ -110,7 +114,7 @@ Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr}
 data(groundbeef)
 x1 <- groundbeef$serving
 f1 <- fitdist(x1, "gamma")
-b1 <- bootdist(f1)
+b1 <- bootdist(f1, niter=51)
 print(b1)
 plot(b1)
 summary(b1)
@@ -119,7 +123,7 @@ quantile(b1)
 # (2) non parametric bootstrap on the same fit
 # with less iterations
 #
-b1b <- bootdist(f1, bootmethod="nonparam", niter=501)
+b1b <- bootdist(f1, bootmethod="nonparam", niter=51) 
 summary(b1b)
 quantile(b1b)
 
@@ -136,10 +140,10 @@ data(endosulfan)
 ATV <- subset(endosulfan, group == "NonArthroInvert")$ATV
 log10ATV <- log10(subset(endosulfan, group == "NonArthroInvert")$ATV)
 fln <- fitdist(log10ATV, "norm")
-bln <- bootdist(fln, bootmethod = "param")
+bln <- bootdist(fln, bootmethod = "param", niter=51)
 quantile(bln, probs = c(0.05, 0.1, 0.2))
 
 }
 
 
-\keyword{ distribution }% at least one, from doc/KEYWORDS
+\keyword{ distribution }

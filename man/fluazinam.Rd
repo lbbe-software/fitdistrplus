@@ -66,8 +66,8 @@ xlab = "log10(EC50)")
 # non parametric bootstrap
 #
 # in log10(EC50)
-bln <- bootdistcens(fln,niter=501)
-HC5ln <- quantile(bln,probs = 0.05)
+bln <- bootdistcens(fln, niter=101)
+HC5ln <- quantile(bln, probs = 0.05)
 # in EC50
 10^(HC5ln$quantiles)
 10^(HC5ln$quantCI)
