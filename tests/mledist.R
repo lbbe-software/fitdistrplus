@@ -137,7 +137,7 @@ if(any(installed.packages()[,"Package"] == "actuar"))
 
 # (11) custom optim for exponential distribution
 #
-if(any(installed.packages()[,"Package"] == "rgenoud"))
+if(any(installed.packages()[,"Package"] == "rgenoud") && FALSE)
 {
 	
 
@@ -192,7 +192,7 @@ fgenoud=fgenoud$estimate)
 
 # (12) custom optim for gamma distribution
 #
-if(any(installed.packages()[,"Package"] == "rgenoud"))
+if(any(installed.packages()[,"Package"] == "rgenoud") && FALSE)
 {
 	
 

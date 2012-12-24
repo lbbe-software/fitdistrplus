@@ -1,5 +1,8 @@
 library(fitdistrplus)
-nbboot <- 101
+#We choose a low number of bootstrap replicates in order to satisfy CRAN running times constraint.
+#For practical application, we recommend to use nbboot=501 or nbboot=1001.
+
+nbboot <- 21
 
 # (1) Fit of a gamma distribution to serving size data
 # using default method (maximum likelihood estimation)
@@ -32,7 +35,7 @@ plot(b1c)
 # by quantile matching estimation (in this example matching 
 # first and third quartiles) followed by parametric bootstrap
 #
-f1d  <-  fitdist(serving, "gamma", method="qme", probs=c(0.25,0.75))
+f1d  <-  fitdist(serving, "gamma", method="qme", probs=c(0.25, 0.75))
 b1d  <-  bootdist(f1d, niter=nbboot)
 summary(b1d)
 
@@ -146,14 +149,14 @@ summary(fln)
 gofstat(fln)
 
 # use of plotdist to find good reasonable initial values for parameters
-plotdist(ATV, "pareto", para=list(shape=1,scale=500))
-fP <- fitdist(ATV, "pareto", start=list(shape=1,scale=500))
+plotdist(ATV, "pareto", para=list(shape=1, scale=500))
+fP <- fitdist(ATV, "pareto", start=list(shape=1, scale=500))
 summary(fP)
 gofstat(fP)
 
 # definition of the initial values from the fit of the Pareto
 # as the Burr distribution is the Pareto when shape2 == 1
-fB <- fitdist(ATV, "burr", start=list(shape1=0.3,shape2=1,rate=1))
+fB <- fitdist(ATV, "burr", start=list(shape1=0.3, shape2=1, rate=1))
 summary(fB)
 gofstat(fB)
 
