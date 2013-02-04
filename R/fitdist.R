@@ -188,7 +188,7 @@ summary.fitdist <- function(object, ...)
 print.summary.fitdist <- function(x, ...)
 {
     if (!inherits(x, "summary.fitdist"))
-        stop("Use only with 'fitdist' objects")
+        stop("Use only with 'summary.fitdist' objects")
 
     ddistname <- x$ddistname
     pdistname <- x$pdistname

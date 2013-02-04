@@ -11,6 +11,7 @@ S3method(plot, fitdist)
 S3method(print, fitdist)
 S3method(print, summary.fitdist)
 S3method(print, quantile.fitdist)
+S3method(print, gofstat.fitdist)
 S3method(quantile, fitdist)
 
 #fitditscens class
