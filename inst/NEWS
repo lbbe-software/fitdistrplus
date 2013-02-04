@@ -4,6 +4,13 @@ Version 1.0-0
 =============
 
 NEW FEATURES
+- gofstat can handle multiple 'fitdist' objects.
+- plotdist for discrete data is slightly enhanced.
+
+Version 1.0-0
+=============
+
+NEW FEATURES
 - update cdfcomp and add denscomp, ppcomp and qqcomp functions.
 - add of an argument Turnbull.confint to functions plotdistcens and cdfcompcens in order to 
     draw confidence intervals on the empirical distribution only if requested.

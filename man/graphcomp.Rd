@@ -16,7 +16,7 @@
 cdfcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
     datapch, datacol, fitlty, fitcol, addlegend = TRUE, legendtext, 
     xlegend = "bottomright", ylegend = NULL, horizontals = TRUE, verticals = FALSE, 
-    use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, \dots)
+    use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, discrete = FALSE, \dots)
     
 denscomp(ft, xlim, ylim, probability = TRUE, main, xlab, ylab, datapch, datacol, fitlty, fitcol, 
     addlegend = TRUE, legendtext, xlegend = "topright", ylegend = NULL, 
@@ -78,6 +78,7 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
     see also \code{\link{hist}}.}
 \item{\dots}{Further graphical arguments passed to graphical functions used in cdfcomp, denscomp,
     ppcomp and qqcomp.}
+\item{discrete}{ If \code{TRUE}, the distribution is considered as discrete.}	
 }
 
 \details{

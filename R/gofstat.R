@@ -1,5 +1,5 @@
 #############################################################################
-#   Copyright (c) 2009 Marie Laure Delignette-Muller                                                                                                  
+#   Copyright (c) 2009 Marie Laure Delignette-Muller, Christophe Dutang                                                                                                  
 #                                                                                                                                                                        
 #   This program is free software; you can redistribute it and/or modify                                               
 #   it under the terms of the GNU General Public License as published by                                         

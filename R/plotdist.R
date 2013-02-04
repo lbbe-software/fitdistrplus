@@ -54,11 +54,12 @@ plotdist <- function(data, distr, para, breaks="default", discrete=FALSE, ...){
             xvalfin <- seq(min(xval), max(xval))
             ydobs <- as.vector(t)/n
             ydmax <- max(ydobs)
-            plot(xval, ydobs, type='h', xlim=xlim, ylim=c(0, ydmax), 
+            plot(xval, ydobs, type="h", xlim=xlim, ylim=c(0, ydmax), 
             main="Empirical distribution", xlab="Data", ylab="Density", ...)
+			
             # plot of the cumulative probability distributions
             ycdfobs <- ecdf(data)(xvalfin)
-            plot(xvalfin, ycdfobs, type='h', xlim=xlim, ylim=c(0, 1), 
+            plot(xvalfin, ycdfobs, type="s", xlim=xlim, ylim=c(0, 1), 
             main="Empirical CDFs", xlab="Data", ylab="CDF", ...)
         }
     } #end of if (missing(distr))
@@ -155,11 +156,16 @@ plotdist <- function(data, distr, para, breaks="default", discrete=FALSE, ...){
             # plot of the cumulative probability distributions
             ycdfobs <- ecdf(data)(xvalfin)
             ycdf <- do.call(pdistname, c(list(q=xvalfin), as.list(para)))
-            plot(xvalfin+xlinesdec, ycdf, type='h', xlim=c(min(xval), max(xval)+xlinesdec), 
-                ylim=c(0, 1), lty=3, col="red", 
-                main="Emp. and theo. CDFs", xlab="Data", 
-                ylab="CDF", ...)
-            points(xvalfin, ycdfobs, type='h', lty=1, col="black",...)
+			plot(xvalfin, ycdf, type="s", xlim=c(min(xval), max(xval)+xlinesdec), 
+				 ylim=c(0, 1), lty=3, col="red", 
+				 main="Emp. and theo. CDFs", xlab="Data", 
+				 ylab="CDF", ...)
+			
+#			plot(xvalfin+xlinesdec, ycdf, type="h", xlim=c(min(xval), max(xval)+xlinesdec), 
+#               ylim=c(0, 1), lty=3, col="red", 
+#               main="Emp. and theo. CDFs", xlab="Data", 
+#               ylab="CDF", ...)
+            points(xvalfin, ycdfobs, type="s", lty=1, col="black",...)
             legend("bottomright", lty=c(1, 3), col=c("black","red"), legend=c("empirical", paste("theoretical")), 
              bty="o", bg ="white",cex=0.6,...)
         }

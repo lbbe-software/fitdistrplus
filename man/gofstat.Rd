@@ -1,7 +1,6 @@
 \name{gofstat}
 \alias{gofstat}
-%- Also NEED an '\alias' for EACH other topic documented here.
-
+\alias{print.gofstat}
 \title{ Goodness-of-fit statistics}
 
 \description{
@@ -10,12 +9,16 @@
 }
 
 \usage{
-gofstat(f, chisqbreaks, meancount, print.test = FALSE)
+gofstat(f, chisqbreaks, meancount, print.test = FALSE, discrete, 
+	fitnames=NULL) 
+	
+\method{print}{gofstat.fitdist}(x, \dots)
+	
 }
-%- maybe also 'usage' for other objects documented here.
 
 \arguments{
-\item{f}{ An object of class \code{"fitdist"} result of the function \code{fitdist}.}
+\item{f}{ An object of class \code{"fitdist"} result of the function \code{fitdist} or
+	a list of \code{"fitdist"} objects.}
 \item{chisqbreaks}{ A numeric vector defining the breaks of the cells used to compute the chi-squared
     statistic. If omitted, these breaks are automatically computed from the data 
     in order to reach roughly the same number of observations per cell, roughly equal to the argument
@@ -26,6 +29,8 @@ gofstat(f, chisqbreaks, meancount, print.test = FALSE)
     and \code{meancount} are both omitted, \code{meancount} is fixed in order to obtain roughly 
     \eqn{(4n)^{2/5}} cells with \eqn{n} the length of the dataset. }
 \item{print.test}{ If \code{FALSE}, the results of the tests are computed but not printed  }
+\item{discrete}{If \code{TRUE}, only the Chi-squared statistic is computed.}
+\item{fitnames}{A vector defining the names of the fits.}
 }
 
 \details{
@@ -78,7 +83,7 @@ gofstat(f, chisqbreaks, meancount, print.test = FALSE)
 }
 
 \value{ 
-    \code{gof} returns a list with following components,
+    \code{gof} returns an object of class \code{"gofstat.fitdist"} with following components,
     \item{ chisq }{ the Chi-squared statistic or \code{NULL} if not computed }
     \item{ chisqbreaks }{ breaks used to define cells in the Chi-squared statistic }
     \item{ chisqpvalue }{ p-value of the Chi-squared statistic or \code{NULL} if not computed}
@@ -109,10 +114,11 @@ Vose D (2000) Risk analysis, a quantitative guide. John Wiley & Sons Ltd, Chisch
 
 
 \author{ 
-Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr}.
+Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr}
+and
+Christophe Dutang.
 }
 
-%\note{  }
 
 \examples{
 
@@ -127,6 +133,9 @@ serving <- groundbeef$serving
 gofstat(fitg)
 (fitln <- fitdist(serving, "lnorm"))
 gofstat(fitln)
+
+gofstat(list(fitg, fitln))
+
 
 # (2) fit of two discrete distributions to toxocara data
 # and comparison of goodness-of-fit statistics
@@ -146,6 +155,8 @@ summary(fitnb)
 plot(fitnb)
 gnb <- gofstat(fitnb,print.test = TRUE)
 gnb$chisqtable
+
+gofstat(list(fitp, fitnb))
 
 # (3) Use of Chi-squared results in addition to
 #     recommended statistics for continuous distributions
