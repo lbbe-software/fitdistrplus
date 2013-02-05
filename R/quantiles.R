@@ -143,7 +143,11 @@ myquantiles.bootdist <- function(b, probs, CI.type, CI.level, cens)
         bootquant <- as.data.frame(t(bootquant))
     else
         bootquant <- as.data.frame(bootquant)
-    colnames(bootquant) <- paste("p=", probs, sep="")
+	colnames(bootquant) <- paste("p=", probs, sep="")
+	
+    medianboot <- rbind(apply(bootquant, MARGIN=2, median, na.rm=TRUE))
+	colnames(medianboot) <- paste("p=", probs, sep="")
+	rownames(medianboot) <- "estimate"
     
     if (CI.type == "two.sided")
     {
@@ -166,8 +170,8 @@ myquantiles.bootdist <- function(b, probs, CI.type, CI.level, cens)
     # message when lack of convergence
     nbconverg <- length(b$converg[b$converg == 0])
     
-    reslist <- list(quantiles = basequant$quantiles,probs=probs, bootquant = bootquant, 
-                    quantCI = as.data.frame(quantCI), 
+    reslist <- list(quantiles = basequant$quantiles, probs=probs, bootquant = bootquant, 
+                    quantCI = as.data.frame(quantCI), medianboot = medianboot, 
                     CI.type =  CI.type, CI.level = CI.level, 
                     nbboot = b$nbboot, nbconverg = nbconverg)
     if(!cens)
@@ -185,8 +189,10 @@ print.quantile.bootdist <- function(x, ...)
     typedata <- "(non-censored data)"
     
     #base quantiles
-    cat("Estimated quantiles for each specified probability ", typedata,"\n", sep="")
+    cat("(original) estimated quantiles for each specified probability ", typedata,"\n", sep="")
     print(x$quantiles)      
+    cat("Median of bootstrap estimates\n")
+	print(x$medianboot)
     
     #confidence intervals
     cat("\n")
@@ -223,6 +229,8 @@ print.quantile.bootdistcens <- function(x, ...)
     #base quantiles
     cat("Estimated quantiles for each specified probability ", typedata,"\n", sep="")
     print(x$quantiles)      
+    cat("Median of bootstrap estimates\n")
+	print(x$medianboot)
     
     #confidence intervals
     cat("\n")

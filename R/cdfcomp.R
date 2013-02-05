@@ -28,7 +28,7 @@
 cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
     datapch, datacol, fitlty, fitcol, addlegend = TRUE, legendtext, 
     xlegend = "bottomright", ylegend = NULL, horizontals = TRUE, verticals = FALSE, 
-    use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, ...)
+    use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, discrete = FALSE, ...)
 {
     if(inherits(ft, "fitdist"))
     {
@@ -127,7 +127,7 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
     logxy <- paste(ifelse(xlogscale,"x",""), ifelse(ylogscale,"y",""), sep="")
     #main plotting
     plot(s, obsp, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim,
-         log=logxy, pch=datapch, col=datacol, ...)
+         log=logxy, pch=datapch, col=datacol, type=ifelse(discrete, "s", "p"), ...)
 
     # optional add of horizontal and vbertical lines for step function
     if (horizontals)
@@ -151,10 +151,12 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
     #plot fitted cdfs
     if(!xlogscale)
         for(i in 1:nft)
-            lines(sfin, fittedprob[,i], lty=fitlty[i], col=fitcol[i], ...)
+            lines(sfin, fittedprob[,i], lty=fitlty[i], col=fitcol[i], 
+				  type=ifelse(discrete, "s", "l"), ...)
     if(xlogscale)
         for(i in 1:nft)
-            lines(10^sfin, fittedprob[,i], lty=fitlty[i], col=fitcol[i], ...)
+            lines(10^sfin, fittedprob[,i], lty=fitlty[i], col=fitcol[i], 
+				  type=ifelse(discrete, "s", "l"), ...)
 
     if(lines01)
         abline(h=c(0, 1), lty="dashed", col="grey")

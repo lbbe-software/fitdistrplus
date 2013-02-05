@@ -71,6 +71,7 @@
         one.sided confidence interval for each quantile (one row).
         If \code{CI.type} is \code{greater}, left bound of the \code{CI.level} percent
         one.sided confidence interval for each quantile (one row). }
+	\item{medianboot}{Median of bootstrap estimates (per probability).}
     \item{CI.type}{ Type of confidence interval: either \code{"two.sided"} or one-sided 
     intervals (\code{"less"} or \code{"greater"}).}
     \item{CI.level}{ The confidence level.}

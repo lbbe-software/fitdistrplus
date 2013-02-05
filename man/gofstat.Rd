@@ -1,6 +1,6 @@
 \name{gofstat}
 \alias{gofstat}
-\alias{print.gofstat}
+\alias{print.gofstat.fitdist}
 \title{ Goodness-of-fit statistics}
 
 \description{
@@ -31,6 +31,8 @@ gofstat(f, chisqbreaks, meancount, print.test = FALSE, discrete,
 \item{print.test}{ If \code{FALSE}, the results of the tests are computed but not printed  }
 \item{discrete}{If \code{TRUE}, only the Chi-squared statistic is computed.}
 \item{fitnames}{A vector defining the names of the fits.}
+\item{x}{An object of class 'fitdist'.  }
+\item{\dots}{Further arguments to be passed to generic functions.}
 }
 
 \details{
