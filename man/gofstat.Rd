@@ -9,8 +9,7 @@
 }
 
 \usage{
-gofstat(f, chisqbreaks, meancount, print.test = FALSE, discrete, 
-	fitnames=NULL) 
+gofstat(f, chisqbreaks, meancount, discrete, fitnames=NULL) 
 	
 \method{print}{gofstat.fitdist}(x, \dots)
 	
@@ -28,8 +27,10 @@ gofstat(f, chisqbreaks, meancount, print.test = FALSE, discrete,
     account if the breaks are directly defined in the argument \code{chisqbreaks}. If \code{chisqbreaks} 
     and \code{meancount} are both omitted, \code{meancount} is fixed in order to obtain roughly 
     \eqn{(4n)^{2/5}} cells with \eqn{n} the length of the dataset. }
-\item{print.test}{ If \code{FALSE}, the results of the tests are computed but not printed  }
-\item{discrete}{If \code{TRUE}, only the Chi-squared statistic is computed.}
+\item{discrete}{If \code{TRUE}, only the Chi-squared statistic is computed.
+	If missing, \code{discrete} is set to \code{TRUE} when the distribution name of
+	the first fit belongs to \code{"binom"}, \code{"nbinom"}, \code{"geom"}, 
+	\code{"hyper"}, \code{"pois"}, \code{"multinom"}.}
 \item{fitnames}{A vector defining the names of the fits.}
 \item{x}{An object of class 'fitdist'.  }
 \item{\dots}{Further arguments to be passed to generic functions.}
@@ -78,14 +79,15 @@ gofstat(f, chisqbreaks, meancount, print.test = FALSE, discrete,
     Only recommended statistics are automatically printed, i.e.
     Cramer-von Mises, Anderson-Darling and Kolmogorov statistics for continuous distributions and
     Chi-squared statistics for discrete ones ( \code{"binom"}, 
-    \code{"nbinom"}, \code{"geom"}, \code{"hyper"} and \code{"pois"} ). Results of the tests are printed
-    only if \code{print.test=TRUE}. Even not printed, all the available results may be found in the list 
-    returned by the function. 
-    
+    \code{"nbinom"}, \code{"geom"}, \code{"hyper"} and \code{"pois"} ). 
+	
+	Results of the tests are printed when the result of \code{gof.stat} is 
+	evaluated in the workspace. 
+	    
 }
 
 \value{ 
-    \code{gof} returns an object of class \code{"gofstat.fitdist"} with following components,
+    \code{gof.stat} returns an object of class \code{"gofstat.fitdist"} with following components,
     \item{ chisq }{ the Chi-squared statistic or \code{NULL} if not computed }
     \item{ chisqbreaks }{ breaks used to define cells in the Chi-squared statistic }
     \item{ chisqpvalue }{ p-value of the Chi-squared statistic or \code{NULL} if not computed}
@@ -97,6 +99,10 @@ gofstat(f, chisqbreaks, meancount, print.test = FALSE, discrete,
     \item{ adtest }{ the decision of the Anderson-Darling test or \code{NULL} if not computed }
     \item{ ks }{ the Kolmogorov-Smirnov statistic or \code{NULL} if not computed }
     \item{ kstest }{ the decision of the Kolmogorov-Smirnov test or \code{NULL} if not computed }
+	\item{aic}{Aikake's Information Criterion.}
+	\item{bic}{Bayesian Information Criterion.}
+	\item{discrete}{the input argument or the automatic choice by the function.}
+	\item{nbfit}{Number of fits in argument.}
 }
 
 \seealso{ 
@@ -149,14 +155,14 @@ number <- toxocara$number
 fitp <- fitdist(number,"pois")
 summary(fitp)
 plot(fitp)
-gp <- gofstat(fitp,print.test = TRUE)
-gp$chistable
+gp <- gofstat(fitp)
+gp
 
 fitnb <- fitdist(number,"nbinom")
 summary(fitnb)
 plot(fitnb)
-gnb <- gofstat(fitnb,print.test = TRUE)
-gnb$chisqtable
+gnb <- gofstat(fitnb)
+gnb
 
 gofstat(list(fitp, fitnb))
 
@@ -168,12 +174,12 @@ set.seed(1234)
 x4 <- rweibull(n=1000,shape=2,scale=1)
 # fit of the good distribution
 f4 <- fitdist(x4,"weibull")
-g4  <- gofstat(f4,meancount=10)
+g4  <- gofstat(f4, meancount=10)
 print(g4)
 
 # fit of a bad distribution
 f4b <- fitdist(x4,"cauchy")
-g4b  <- gofstat(f4b,meancount=10)
+g4b  <- gofstat(f4b, meancount=10)
 print(g4b)
 
 

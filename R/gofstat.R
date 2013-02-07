@@ -23,7 +23,7 @@
 ###         R functions
 ### 
 
-gofstat <- function (f, chisqbreaks, meancount, print.test = FALSE, discrete, 
+gofstat <- function (f, chisqbreaks, meancount, discrete, 
 	fitnames=NULL) 
 {
 	if(inherits(f, "fitdist"))
@@ -41,8 +41,7 @@ gofstat <- function (f, chisqbreaks, meancount, print.test = FALSE, discrete,
         if(any(sapply(f, function(x) !inherits(x, "fitdist"))))        
 		stop("argument f must be a list of 'fitdist' objects")
     }
-	
-        
+	        
 	odata <- f[[1]]$data
 	sdata <- sort(odata)
 	n <- f[[1]]$n
@@ -50,6 +49,15 @@ gofstat <- function (f, chisqbreaks, meancount, print.test = FALSE, discrete,
 	pdistname <- paste("p", distname, sep="")
 	estimate <- f[[1]]$estimate
 	fix.arg <- f[[1]]$fix.arg
+	
+    verif.ftidata <- function(fti)
+    {
+        if (any(fti$data != odata))
+			stop("All compared fits must have been obtained with the same dataset")
+        invisible()
+    }
+    lapply(f, verif.ftidata)	
+	
 
     # initiate discrete if not given 
 	if(missing(discrete))
@@ -87,8 +95,15 @@ gofstat <- function (f, chisqbreaks, meancount, print.test = FALSE, discrete,
 		} 
 		sdata <- sort(odata)
 	}
+	
+	nbfit <- length(f)
+
+	
 	if(is.null(fitnames))
-		fitnames <- paste(sapply(f, function(x) x$method), sapply(f, function(x) x$distname), sep="-")
+		fitnames <- paste(1:nbfit, sapply(f, function(x) x$method), 
+						  sapply(f, function(x) x$distname), sep="-")
+	
+	print(fitnames)
 	
 	Chi2 <- compute.gofstat.Chi2(sdata, n, distname, pdistname, estimate, fix.arg, 
 								 chisqbreaks)
@@ -99,7 +114,7 @@ gofstat <- function (f, chisqbreaks, meancount, print.test = FALSE, discrete,
 		colnames(Chi2$chisqtable)[2] <- paste("theo", fitnames[1], sep=" ")
 		
 		#computation and storing
-		for(i in 2:length(f))
+		for(i in 2:nbfit)
 		{
 			Chi2temp <- compute.gofstat.Chi2(sdata, n, f[[i]]$distname, paste("p", f[[i]]$distname, sep=""), 
 											 f[[i]]$estimate, f[[i]]$fix.arg, chisqbreaks)
@@ -126,13 +141,14 @@ gofstat <- function (f, chisqbreaks, meancount, print.test = FALSE, discrete,
 		if(length(f) > 1)
 		{
 			#renaming
-			names(KSCvMAD$cvm) <- names(KSCvMAD$cvmtest) <- fitnames[1]
-			names(KSCvMAD$ad) <- names(KSCvMAD$adtest) <- fitnames[1]
-			names(KSCvMAD$ks) <- names(KSCvMAD$kstest) <- fitnames[1]
+			names(KSCvMAD$cvm) <- names(KSCvMAD$ad) <- names(KSCvMAD$ks) <- fitnames[1]
 			
+			if(!is.null(KSCvMAD$cvmtest))
+				names(KSCvMAD$cvmtest) <- names(KSCvMAD$adtest) <- names(KSCvMAD$kstest) <- fitnames[1]
+
 			
 			#computation and storing
-			for(i in 2:length(f))
+			for(i in 2:nbfit)
 			{
 				KSCvMADtemp <- compute.gofstat.KSCvMAD(sdata, n, f[[i]]$distname, paste("p", f[[i]]$distname, sep=""), 
 													   f[[i]]$estimate, f[[i]]$fix.arg, f[[i]]$method)
@@ -160,8 +176,7 @@ gofstat <- function (f, chisqbreaks, meancount, print.test = FALSE, discrete,
 	bics <- sapply(f, function(x) x$bic)
 	names(bics) <- fitnames
 
-    res <- c(addres, aic=list(aics), bic=list(bics), discrete=discrete, 
-			 print.test=print.test, nbfit=length(f))
+    res <- c(addres, aic=list(aics), bic=list(bics), discrete=discrete, nbfit=nbfit)
 	class(res) <- c("gofstat.fitdist", "fitdist")
 	res
 }
@@ -348,21 +363,19 @@ print.gofstat.fitdist <- function(x, ...)
         if(!is.null(x$chisq)) 
         {
             cat("Chi-squared statistic: ",x$chisq,"\n")
-            if (x$print.test) 
-            {
-                cat("Degree of freedom of the Chi-squared distribution: ",x$chisqdf,"\n")
-                if (x$chisqdf<=0) 
-                {
-                    cat("  The degree of freedom of the chi-squared distribution is less than 1  \n") 
-                    cat("  The number of cells is insufficient to calculate the p-value.  \n") 
-                }
-                else
-                { 
-                    cat("Chi-squared p-value: ",x$chisqpvalue,"\n")
-                    if (any(x$chisqtable[,2]<5)) 
-						cat("   the p-value may be wrong with some theoretical counts < 5  \n")
-                }
-            }
+			cat("Degree of freedom of the Chi-squared distribution: ",x$chisqdf,"\n")
+			if (x$chisqdf<=0) 
+			{
+				cat("  The degree of freedom of the chi-squared distribution is less than 1  \n") 
+				cat("  The number of cells is insufficient to calculate the p-value.  \n") 
+			}
+			else
+			{ 
+				cat("Chi-squared p-value: ",x$chisqpvalue,"\n")
+				if (any(x$chisqtable[,2]<5)) 
+					cat("   the p-value may be wrong with some theoretical counts < 5  \n")
+			}
+
 			cat("Chi-squared table:\n")
 			print(x$chisqtable)	
         }
@@ -373,33 +386,27 @@ print.gofstat.fitdist <- function(x, ...)
 		if(x$nbfit == 1)
 		{
 			cat("Kolmogorov-Smirnov statistic: ", x$ks,"\n")
-			if (x$print.test) 
+			if (!is.null(x$kstest)) 
 			{
-				if (!is.null(x$kstest)) 
-				{
-					cat("Kolmogorov-Smirnov test: ",x$kstest,"\n")
-					cat("   The result of this test may be too conservative as it  \n")
-					cat("   assumes that the distribution parameters are known\n")
-				}
-				else
-					cat("Kolmogorov-Smirnov test: not calculated \n")
+				cat("Kolmogorov-Smirnov test: ",x$kstest,"\n")
+				cat("   The result of this test may be too conservative as it  \n")
+				cat("   assumes that the distribution parameters are known\n")
 			}
+			else
+				cat("Kolmogorov-Smirnov test: not calculated \n")
+			
 			cat("Cramer-von Mises statistic: ",x$cvm,"\n")
-			if (x$print.test) 
-			{
-				if (!is.null(x$cvmtest)) 
-					cat("Cramer-von Mises test: ",x$cvmtest,"\n")
-				else
-					cat("Crame-von Mises test: not calculated \n")
-			}
+			if (!is.null(x$cvmtest)) 
+				cat("Cramer-von Mises test: ",x$cvmtest,"\n")
+			else
+				cat("Crame-von Mises test: not calculated \n")
+			
 			cat("Anderson-Darling statistic: ",x$ad,"\n")
-			if (x$print.test) 
-			{
-				if (!is.null(x$adtest)) 
-					cat("Anderson-Darling test: ",x$adtest,"\n")
-				else
-					cat("Anderson-Darling test: not calculated \n")
-			}
+			if (!is.null(x$adtest)) 
+				cat("Anderson-Darling test: ",x$adtest,"\n")
+			else
+				cat("Anderson-Darling test: not calculated \n")
+			
 			cat("Aikake's Information Criterion: ", x$aic, "\n")
 			cat("Bayesian Information Criterion: ", x$bic, "\n")
 		}else
