@@ -202,9 +202,7 @@ compute.gofstat.KSCvMAD <- function(sdata, n, distname, pdistname, estimate,
 		kstest <- NULL
         
 	# Anderson-Darling statistic
-	ad <- - n - mean( (2 * seq(1:n) - 1) * (log(theop) + log(1 - rev(theop))) ) 
-	
-#pourquoi utiliser seq(1:n)?
+	ad <- - n - mean( (2 * 1:n - 1) * (log(theop) + log(1 - rev(theop))) ) 
 	
 		# ad <-  -n-sum((2*(1:n)-1)*log(theop) + (2*n+1-2*(1:n))*log(1-theop))/n 
 
@@ -254,7 +252,7 @@ compute.gofstat.KSCvMAD <- function(sdata, n, distname, pdistname, estimate,
 		adtest <- NULL
 	
 	# Cramer-von Mises statistic
-	cvm <- 1/(12*n) + sum( ( theop - (2 * seq(1:n) - 1)/(2 * n) )^2 )
+	cvm <- 1/(12*n) + sum( ( theop - (2 * 1:n - 1)/(2 * n) )^2 )
 
 	# Cramer-von Mises test
 	if (is.null(fix.arg) & method == "mle")

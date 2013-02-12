@@ -175,7 +175,7 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
                 n <- length(obs)
                 s <- sort(obs)
                 theop <- do.call(pdistnam,c(list(q=s),as.list(par),as.list(fix.arg)))
-                1/(12*n) + sum( ( theop - (2 * seq(1:n) - 1)/(2 * n) )^2 )
+                1/(12*n) + sum( ( theop - (2 * 1:n - 1)/(2 * n) )^2 )
             }
         else     
         if (gof == "KS")
@@ -195,7 +195,7 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
                 n <- length(obs)
                 s <- sort(obs)
                 theop <- do.call(pdistnam,c(list(q=s),as.list(par),as.list(fix.arg)))
-                - n - mean( (2 * seq(1:n) - 1) * (log(theop) + log(1 - rev(theop))) ) 
+                - n - mean( (2 * 1:n - 1) * (log(theop) + log(1 - rev(theop))) ) 
             }
         else
         if (gof == "ADR")
@@ -204,7 +204,7 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
                 n <- length(obs)
                 s <- sort(obs)
                 theop <- do.call(pdistnam,c(list(q=s),as.list(par),as.list(fix.arg)))
-                n/2 - 2 * sum(theop) - mean ( (2 * seq(1:n) - 1) * log(1 - rev(theop)) )
+                n/2 - 2 * sum(theop) - mean ( (2 * 1:n - 1) * log(1 - rev(theop)) )
             }
         else
         if (gof == "ADL")
@@ -213,7 +213,7 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
                 n <- length(obs)
                 s <- sort(obs)
                 theop <- do.call(pdistnam,c(list(q=s),as.list(par),as.list(fix.arg)))
-                -3*n/2 + 2 * sum(theop) - mean ( (2 * seq(1:n) - 1) * log(theop) )
+                -3*n/2 + 2 * sum(theop) - mean ( (2 * 1:n - 1) * log(theop) )
             }
         else  
         if (gof == "AD2R")
@@ -222,7 +222,7 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
                 n <- length(obs)
                 s <- sort(obs)
                 theop <- do.call(pdistnam,c(list(q=s),as.list(par),as.list(fix.arg)))
-                2 * sum(log(1 - theop)) + mean ( (2 * seq(1:n) - 1) / (1 - rev(theop)) )
+                2 * sum(log(1 - theop)) + mean ( (2 * 1:n - 1) / (1 - rev(theop)) )
             }
         else  
         if (gof == "AD2L")
@@ -231,7 +231,7 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
                 n <- length(obs)
                 s <- sort(obs)
                 theop <- do.call(pdistnam,c(list(q=s),as.list(par),as.list(fix.arg)))
-                2 * sum(log(theop)) + mean ( (2 * seq(1:n) - 1) / theop )
+                2 * sum(log(theop)) + mean ( (2 * 1:n - 1) / theop )
             }
          else  
         if (gof == "AD2")
@@ -241,7 +241,7 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
                 s <- sort(obs)
                 theop <- do.call(pdistnam,c(list(q=s),as.list(par),as.list(fix.arg)))
                 2 * sum(log(theop) + log(1 - theop) ) + 
-                mean ( ((2 * seq(1:n) - 1) / theop) + ((2 * seq(1:n) - 1) / (1 - rev(theop))) )
+                mean ( ((2 * 1:n - 1) / theop) + ((2 * 1:n - 1) / (1 - rev(theop))) )
             }
     }
     else # if (!cens) 
