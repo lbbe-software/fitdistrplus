@@ -81,26 +81,32 @@ gofstat(f, chisqbreaks, meancount, discrete, fitnames=NULL)
     Chi-squared statistics for discrete ones ( \code{"binom"}, 
     \code{"nbinom"}, \code{"geom"}, \code{"hyper"} and \code{"pois"} ). 
 	
-	Results of the tests are printed when the result of \code{gof.stat} is 
-	evaluated in the workspace. 
+	Results of the tests are not printed but stored in the output of the function. 
 	    
 }
 
 \value{ 
     \code{gof.stat} returns an object of class \code{"gofstat.fitdist"} with following components,
-    \item{ chisq }{ the Chi-squared statistic or \code{NULL} if not computed }
-    \item{ chisqbreaks }{ breaks used to define cells in the Chi-squared statistic }
-    \item{ chisqpvalue }{ p-value of the Chi-squared statistic or \code{NULL} if not computed}
-    \item{ chisqdf }{ degree of freedom of the Chi-squared distribution or \code{NULL} if not computed }
+    \item{ chisq }{ a named vector with the Chi-squared statistics or \code{NULL} if not computed}
+    \item{ chisqbreaks }{ common breaks used to define cells in the Chi-squared statistic }
+    \item{ chisqpvalue }{ a named vector with the p-values of the Chi-squared statistic 
+    or \code{NULL} if not computed}
+    \item{ chisqdf }{ a named vector with the degrees of freedom of the Chi-squared distribution
+    or \code{NULL} if not computed }
     \item{ chisqtable }{ a table with observed and theoretical counts used for the Chi-squared calculations }
-    \item{ cvm }{ the Cramer-von Mises statistic or \code{NULL} if not computed }
-    \item{ cvmtest }{ the decision of the Cramer-von Mises test or \code{NULL} if not computed }
-    \item{ ad }{ the Anderson-Darling statistic or \code{NULL} if not computed }
-    \item{ adtest }{ the decision of the Anderson-Darling test or \code{NULL} if not computed }
-    \item{ ks }{ the Kolmogorov-Smirnov statistic or \code{NULL} if not computed }
-    \item{ kstest }{ the decision of the Kolmogorov-Smirnov test or \code{NULL} if not computed }
-	\item{aic}{Aikake's Information Criterion.}
-	\item{bic}{Bayesian Information Criterion.}
+    \item{ cvm }{ a named vector of the Cramer-von Mises statistics or \code{"not computed"} if not computed }
+    \item{ cvmtest }{ a named vector of the decisions of the Cramer-von Mises test 
+    or \code{"not computed"} if not computed }
+    \item{ ad }{ a named vector with the Anderson-Darling statistics or 
+    \code{"not computed"} if not computed }
+    \item{ adtest }{ a named vector with the decisions of the Anderson-Darling test 
+    or \code{"not computed"} if not computed }
+    \item{ ks }{ a named vector with the Kolmogorov-Smirnov statistic or 
+    \code{"not computed"} if not computed }
+    \item{ kstest }{ a named vector with the decisions of the Kolmogorov-Smirnov test 
+    or \code{"not computed"} if not computed }
+	\item{aic}{a named vector with the values of the Aikake's Information Criterion.}
+	\item{bic}{a named vector with the values of the Bayesian Information Criterion.}
 	\item{discrete}{the input argument or the automatic choice by the function.}
 	\item{nbfit}{Number of fits in argument.}
 }
