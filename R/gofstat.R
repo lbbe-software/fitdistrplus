@@ -103,7 +103,7 @@ gofstat <- function (f, chisqbreaks, meancount, discrete,
 		fitnames <- paste(1:nbfit, sapply(f, function(x) x$method), 
 						  sapply(f, function(x) x$distname), sep="-")
 	
-	print(fitnames)
+
 	
 	Chi2 <- compute.gofstat.Chi2(sdata, n, distname, pdistname, estimate, fix.arg, 
 								 chisqbreaks)
@@ -137,16 +137,14 @@ gofstat <- function (f, chisqbreaks, meancount, discrete,
 	{
 		KSCvMAD <- compute.gofstat.KSCvMAD(sdata, n, distname, pdistname, estimate, 
 										   fix.arg, f[[1]]$method)
-	
+		#renaming
+		names(KSCvMAD$cvm) <- names(KSCvMAD$ad) <- names(KSCvMAD$ks) <- fitnames[1]
+		
+		if(!is.null(KSCvMAD$cvmtest))
+		names(KSCvMAD$cvmtest) <- names(KSCvMAD$adtest) <- names(KSCvMAD$kstest) <- fitnames[1]
+		
 		if(length(f) > 1)
-		{
-			#renaming
-			names(KSCvMAD$cvm) <- names(KSCvMAD$ad) <- names(KSCvMAD$ks) <- fitnames[1]
-			
-			if(!is.null(KSCvMAD$cvmtest))
-				names(KSCvMAD$cvmtest) <- names(KSCvMAD$adtest) <- names(KSCvMAD$kstest) <- fitnames[1]
-
-			
+		{			
 			#computation and storing
 			for(i in 2:nbfit)
 			{
@@ -199,7 +197,7 @@ compute.gofstat.KSCvMAD <- function(sdata, n, distname, pdistname, estimate,
 	if (n>=30)
 		kstest <- ifelse(Dmod>1.358,"rejected","not rejected")
 	else
-		kstest <- NULL
+		kstest <- "not computed"
         
 	# Anderson-Darling statistic
 	ad <- - n - mean( (2 * 1:n - 1) * (log(theop) + log(1 - rev(theop))) ) 
@@ -246,10 +244,10 @@ compute.gofstat.KSCvMAD <- function(sdata, n, distname, pdistname, estimate,
 								yright=1.225)
 			adtest <- ifelse(ad>interp(n), "rejected", "not rejected")
 		}
-		else adtest <- NULL
+		else adtest <- "not computed"
 	}  # if (is.null(fix.arg)...)
 	else 
-		adtest <- NULL
+		adtest <- "not computed"
 	
 	# Cramer-von Mises statistic
 	cvm <- 1/(12*n) + sum( ( theop - (2 * 1:n - 1)/(2 * n) )^2 )
@@ -294,10 +292,10 @@ compute.gofstat.KSCvMAD <- function(sdata, n, distname, pdistname, estimate,
 								yright=0.170)
 			cvmtest <- ifelse(cvm>interp(n),"rejected","not rejected")
 		}
-		else cvmtest <- NULL
+		else cvmtest <- "not computed"
 	}  # if (is.null(fix.arg))
 	else 
-		cvmtest <- NULL
+		cvmtest <- "not computed"
 	
 	if (length(table(sdata)) != length(sdata))
 		warnings("Kolmogorov-Smirnov, Cramer-von Mises and Anderson-Darling statistics may not be correct with ties")
@@ -362,7 +360,7 @@ print.gofstat.fitdist <- function(x, ...)
         {
             cat("Chi-squared statistic: ",x$chisq,"\n")
 			cat("Degree of freedom of the Chi-squared distribution: ",x$chisqdf,"\n")
-			if (x$chisqdf<=0) 
+			if (any(x$chisqdf <= 0))
 			{
 				cat("  The degree of freedom of the chi-squared distribution is less than 1  \n") 
 				cat("  The number of cells is insufficient to calculate the p-value.  \n") 
@@ -370,7 +368,7 @@ print.gofstat.fitdist <- function(x, ...)
 			else
 			{ 
 				cat("Chi-squared p-value: ",x$chisqpvalue,"\n")
-				if (any(x$chisqtable[,2]<5)) 
+				if (any(x$chisqtable[,-1] < 5)) 
 					cat("   the p-value may be wrong with some theoretical counts < 5  \n")
 			}
 
@@ -381,34 +379,34 @@ print.gofstat.fitdist <- function(x, ...)
 			cat("The sample is too small to automatically define cells for Chi-squared test \n")
     }else # continuous distribution
     { 
-		if(x$nbfit == 1)
-		{
-			cat("Kolmogorov-Smirnov statistic: ", x$ks,"\n")
-			if (!is.null(x$kstest)) 
-			{
-				cat("Kolmogorov-Smirnov test: ",x$kstest,"\n")
-				cat("   The result of this test may be too conservative as it  \n")
-				cat("   assumes that the distribution parameters are known\n")
-			}
-			else
-				cat("Kolmogorov-Smirnov test: not calculated \n")
-			
-			cat("Cramer-von Mises statistic: ",x$cvm,"\n")
-			if (!is.null(x$cvmtest)) 
-				cat("Cramer-von Mises test: ",x$cvmtest,"\n")
-			else
-				cat("Crame-von Mises test: not calculated \n")
-			
-			cat("Anderson-Darling statistic: ",x$ad,"\n")
-			if (!is.null(x$adtest)) 
-				cat("Anderson-Darling test: ",x$adtest,"\n")
-			else
-				cat("Anderson-Darling test: not calculated \n")
-			
-			cat("Aikake's Information Criterion: ", x$aic, "\n")
-			cat("Bayesian Information Criterion: ", x$bic, "\n")
-		}else
-		{
+#		if(x$nbfit == 1)
+#		{
+#			cat("Kolmogorov-Smirnov statistic: ", x$ks,"\n")
+#			if (!is.null(x$kstest)) 
+#			{
+#				cat("Kolmogorov-Smirnov test: ",x$kstest,"\n")
+#				cat("   The result of this test may be too conservative as it  \n")
+#				cat("   assumes that the distribution parameters are known\n")
+#			}
+#			else
+#				cat("Kolmogorov-Smirnov test: not calculated \n")
+#			
+#			cat("Cramer-von Mises statistic: ",x$cvm,"\n")
+#			if (!is.null(x$cvmtest)) 
+#				cat("Cramer-von Mises test: ",x$cvmtest,"\n")
+#			else
+#				cat("Crame-von Mises test: not calculated \n")
+#			
+#			cat("Anderson-Darling statistic: ",x$ad,"\n")
+#			if (!is.null(x$adtest)) 
+#				cat("Anderson-Darling test: ",x$adtest,"\n")
+#			else
+#				cat("Anderson-Darling test: not calculated \n")
+#			
+#			cat("Aikake's Information Criterion: ", x$aic, "\n")
+#			cat("Bayesian Information Criterion: ", x$bic, "\n")
+#		}else
+#		{
 			cat("Goodness-of-fit statistics\n")
 			mm <- rbind(KS=x$ks, CvM=x$cvm, AD=x$ad)
 			rownames(mm) <- c("Kolmogorov-Smirnov statistic", "Cramer-von Mises statistic",
@@ -420,7 +418,7 @@ print.gofstat.fitdist <- function(x, ...)
 			rownames(mm) <- c("Aikake's Information Criterion",
 							  "Bayesian Information Criterion")
 			print(mm)
-		}
+#		}
 
     }
 	

@@ -16,7 +16,7 @@
 cdfcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
     datapch, datacol, fitlty, fitcol, addlegend = TRUE, legendtext, 
     xlegend = "bottomright", ylegend = NULL, horizontals = TRUE, verticals = FALSE, 
-    use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, discrete = FALSE, \dots)
+    use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, discrete, \dots)
     
 denscomp(ft, xlim, ylim, probability = TRUE, main, xlab, ylab, datapch, datacol, fitlty, fitcol, 
     addlegend = TRUE, legendtext, xlegend = "topright", ylegend = NULL, 
