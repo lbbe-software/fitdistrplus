@@ -88,7 +88,7 @@ plotdist <- function(data, distr, para, breaks="default", discrete=FALSE, ...){
             stop(paste("'para' specifies names which are not arguments to ", ddistname))
 
         n <- length(data) 
-        if (is.element(distname, c("binom", "nbinom", "geom", "hyper", "pois"))) 
+        if (is.element(distname, c("binom", "nbinom", "geom", "hyper", "pois", "multinom"))) 
             discrete <- TRUE
         else
             discrete <- FALSE

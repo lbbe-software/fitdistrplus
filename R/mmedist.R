@@ -51,54 +51,47 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
     
     if(meth == "closed formula")
     {
+		n <- length(data)
+		m <- mean(data)
+		v <- (n - 1)/n*var(data)
+		
         if (!is.null(fix.arg))
             warnings("argument fix.arg cannot be used when a closed formula is used")
         # Fitting by matching moments
         if (!(is.vector(data) & is.numeric(data) & length(data)>1))
             stop("data must be a numeric vector of length greater than 1")
         if (distname == "norm") {
-            n <- length(data)
-            sd0 <- sqrt((n - 1)/n) * sd(data)
-            mx <- mean(data)
-            estimate <- c(mean=mx, sd=sd0)
+            estimate <- c(mean=m, sd=sqrt(v))
             order <- 1:2
         }
         if (distname == "lnorm") {
             if (any(data <= 0)) 
                 stop("values must be positive to fit a lognormal distribution")
-            n <- length(data)
-            sd2 <- log(1+var(data)/mean(data)^2)
-            estimate <- c(meanlog=log(mean(data)) - sd2/2, sdlog=sqrt(sd2))
+            sd2 <- log(1+v/m^2)
+            estimate <- c(meanlog=log(m) - sd2/2, sdlog=sqrt(sd2))
             order <- 1:2            
         }
         if (distname == "pois") {
-            estimate <- c(lambda=mean(data))
+            estimate <- c(lambda=m)
             order <- 1          
         }
         if (distname == "exp") {
-            estimate <- c(rate=1/mean(data))
+            estimate <- c(rate=1/m)
             order <- 1          
         }
         if (distname == "gamma" ) {
-            n <- length(data)
-            m <- mean(data)
-            v <- (n - 1)/n*var(data)
             shape <- m^2/v
             rate <- m/v
             estimate<-c(shape=shape, rate=rate)
             order <- 1:2            
        }
        if (distname == "nbinom" ) {
-            n <- length(data)
-            m <- mean(data)
-            v <- (n - 1)/n*var(data)
             size <- if (v > m) m^2/(v - m)
                     else NaN
             estimate<-c(size=size, mu=m)
             order <- 1:2           
        }
        if (distname == "geom" ) {
-            m <- mean(data)
             prob<-if (m>0) 1/(1+m)
                     else NaN
             estimate<-c(prob=prob)
@@ -107,9 +100,6 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
         if (distname == "beta" ) {
             if (any(data < 0) | any(data > 1)) 
                 stop("values must be in [0-1] to fit a beta distribution")
-            n <- length(data)
-            m <- mean(data)
-            v <- (n - 1)/n*var(data)
             aux<-m*(1-m)/v - 1
             shape1 <- m*aux
             shape2 <- (1-m)*aux
@@ -117,18 +107,12 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             order <- 1:2            
        }
         if (distname == "unif" ) {
-            n <- length(data)
-            m <- mean(data)
-            v <- (n - 1)/n*var(data)
             min1 <- m-sqrt(3*v)
             max1 <- m+sqrt(3*v)
             estimate<-c(min1,max1)
             order <- 1:2            
        }
         if (distname == "logis" ) {
-            n <- length(data)
-            m <- mean(data)
-            v <- (n - 1)/n*var(data)
             scale <- sqrt(3*v)/pi
             estimate<-c(location=m, scale=scale)
             order <- 1:2            

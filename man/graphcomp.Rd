@@ -78,7 +78,12 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
     see also \code{\link{hist}}.}
 \item{\dots}{Further graphical arguments passed to graphical functions used in cdfcomp, denscomp,
     ppcomp and qqcomp.}
-\item{discrete}{ If \code{TRUE}, the distribution is considered as discrete.}	
+\item{discrete}{ If \code{TRUE}, the distribution is considered as discrete.
+	If missing, \code{discrete} is set to \code{TRUE} when the distribution
+	name of the first fit belongs to 
+	\code{"binom"}, \code{"nbinom"}, \code{"geom"}, \code{"hyper"}, 
+	\code{"pois"}, \code{"multinom"}; otherwise \code{discrete} is set to \code{FALSE}. 
+	}	
 }
 
 \details{

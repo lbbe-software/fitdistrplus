@@ -58,7 +58,8 @@ emp = memp(danishuni$Loss, 2))
 
 f1 <- mledist(x3, "lnorm") #previously mmedist was the same as mledist
 f2 <- mmedist(x3, "lnorm")
-s2 <- log(1+var(x3)/mean(x3)^2)
+n <- length(x3)
+s2 <- log(1+var(x3)/mean(x3)^2*(n-1)/n)
 mu <- log(mean(x3)) - s2/2
 cbind(c(mu, s2), f2$estimate)
 
@@ -69,6 +70,6 @@ c(truestim=exp(mu+s2/2),
 
 c(truestim=exp(2*mu+s2)*(exp(s2)-1), 
 	jensen=as.numeric(exp(f1$estimate["meanlog"]+f1$estimate["sdlog"]^2/2)*(exp(f1$estimate["sdlog"]^2)-1)), 
-	emp=var(x3))
+	emp=var(x3)*(n-1)/n)
 
 

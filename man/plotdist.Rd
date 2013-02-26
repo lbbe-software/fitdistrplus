@@ -26,8 +26,8 @@ plotdist(data, distr, para, breaks = "default", discrete = FALSE, \dots)
 \item{discrete}{ If TRUE, the distribution is considered as discrete. This argument is not taken into 
     account if \code{distr} is defined. In this last case, the distribution is automatically assumed
     discrete if and only if \code{distr} is \code{"binom"}, \code{"nbinom"},\code{"geom"},
-    \code{"hyper"} or \code{"pois"}.  }
-\item{\dots}{ further graphical arguments passed to graphical functions used in plotdist }
+    \code{"hyper"}, \code{"pois"} or \code{"multinom"}.  }
+\item{\dots}{ further graphical arguments passed to graphical functions used in plotdist.}
 }
 
 \details{
