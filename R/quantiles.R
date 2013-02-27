@@ -227,7 +227,7 @@ print.quantile.bootdistcens <- function(x, ...)
     typedata <- "(censored data)"
     
     #base quantiles
-    cat("Estimated quantiles for each specified probability ", typedata,"\n", sep="")
+    cat("(original) estimated quantiles for each specified probability ", typedata,"\n", sep="")
     print(x$quantiles)      
     cat("Median of bootstrap estimates\n")
 	print(x$quantmedian)

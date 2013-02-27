@@ -22,7 +22,7 @@
 ###         R functions
 ### 
 
-plotdist <- function(data, distr, para, breaks="default", discrete=FALSE, ...){
+plotdist <- function(data, distr, para, breaks="default", discrete, ...){
     def.par <- par(no.readonly = TRUE)
     if (missing(data) || !is.vector(data, mode="numeric"))
         stop("data must be a numeric vector")
@@ -34,6 +34,8 @@ plotdist <- function(data, distr, para, breaks="default", discrete=FALSE, ...){
         par(mfrow=c(1, 2))
         s <- sort(data)
         n <- length(data)
+		if(missing(discrete))
+			discrete <- FALSE
         if (!discrete) {
             # plot for continuous data
             obsp <- ppoints(s)
@@ -42,12 +44,12 @@ plotdist <- function(data, distr, para, breaks="default", discrete=FALSE, ...){
             else 
                 h <- hist(data, freq=FALSE, xlab="Data", main=paste("Histogram"), breaks=breaks, ...)
             plot(s, obsp, main=paste("Cumulative distribution"), xlab="Data", 
-            xlim=c(h$breaks[1], h$breaks[length(h$breaks)]), ylab="CDF", ...)
+				 xlim=c(h$breaks[1], h$breaks[length(h$breaks)]), ylab="CDF", ...)
         }
         else {
             # plot for discrete data
             if (breaks!="default") 
-            warning("Breaks are not taken into account for discrete data")
+				warning("Breaks are	not taken into account for discrete data")
             # plot of empirical distribution
             t <- table(data)
             xval <- as.numeric(names(t))
@@ -55,21 +57,23 @@ plotdist <- function(data, distr, para, breaks="default", discrete=FALSE, ...){
             ydobs <- as.vector(t)/n
             ydmax <- max(ydobs)
             plot(xval, ydobs, type="h", xlim=xlim, ylim=c(0, ydmax), 
-            main="Empirical distribution", xlab="Data", ylab="Density", ...)
+				 main="Empirical distribution", xlab="Data", ylab="Density", ...)
 			
             # plot of the cumulative probability distributions
             ycdfobs <- ecdf(data)(xvalfin)
             plot(xvalfin, ycdfobs, type="s", xlim=xlim, ylim=c(0, 1), 
-            main="Empirical CDFs", xlab="Data", ylab="CDF", ...)
+				 main="Empirical CDFs", xlab="Data", ylab="CDF", ...)
         }
     } #end of if (missing(distr))
     else {
-        if (!is.character(distr)) distname <- substring(as.character(match.call()$distr), 2)
-            else distname <- distr
-        if (!missing(discrete))
-        warning("the argument discrete is not taken into account when distr is defined")
+        if (!is.character(distr)) 
+			distname <- substring(as.character(match.call()$distr), 2)
+		else 
+			distname <- distr
+#        if (!missing(discrete))
+#			warning("the argument discrete is not taken into account when distr is defined")
         if (!is.list(para)) 
-        stop("'para' must be a named list")
+			stop("'para' must be a named list")
         ddistname <- paste("d", distname, sep="")
         if (!exists(ddistname, mode="function"))
             stop(paste("The ", ddistname, " function must be defined"))
@@ -88,10 +92,14 @@ plotdist <- function(data, distr, para, breaks="default", discrete=FALSE, ...){
             stop(paste("'para' specifies names which are not arguments to ", ddistname))
 
         n <- length(data) 
-        if (is.element(distname, c("binom", "nbinom", "geom", "hyper", "pois", "multinom"))) 
-            discrete <- TRUE
-        else
-            discrete <- FALSE
+        if(missing(discrete))
+		{
+			if (is.element(distname, c("binom", "nbinom", "geom", "hyper", "pois", "multinom"))) 
+				discrete <- TRUE
+			else
+				discrete <- FALSE
+		}
+		
         if (!discrete) {
         # plot of continuous data with theoretical distribution
             par(mfrow=c(2, 2))
@@ -115,20 +123,20 @@ plotdist <- function(data, distr, para, breaks="default", discrete=FALSE, ...){
             # plot of the qqplot
             theoq <- do.call(qdistname, c(list(p=obsp), as.list(para)))
             plot(theoq, s, main=" Q-Q plot", xlab="Theoretical quantiles", 
-            ylab="Empirical quantiles", ...)
+				 ylab="Empirical quantiles", ...)
             abline(0, 1)
             # plot of the cumulative probability distributions
             xmin <- h$breaks[1]
             xmax <- h$breaks[length(h$breaks)]
             plot(s, obsp, main=paste("Empirical and theoretical CDFs"), xlab="Data", 
-            ylab="CDF", xlim=c(xmin, xmax), ...)
+				 ylab="CDF", xlim=c(xmin, xmax), ...)
             sfin <- seq(xmin, xmax, by=(xmax-xmin)/100)
             theopfin <- do.call(pdistname, c(list(q=sfin), as.list(para)))
             lines(sfin, theopfin, lty=1,col="red")
             
             # plot of the ppplot
             plot(theop, obsp, main="P-P plot", xlab="Theoretical probabilities", 
-            ylab="Empirical probabilities", ...)
+				 ylab="Empirical probabilities", ...)
             abline(0, 1)
         }
         else {
@@ -165,7 +173,7 @@ plotdist <- function(data, distr, para, breaks="default", discrete=FALSE, ...){
 #               ylim=c(0, 1), lty=3, col="red", 
 #               main="Emp. and theo. CDFs", xlab="Data", 
 #               ylab="CDF", ...)
-            points(xvalfin, ycdfobs, type="s", lty=1, col="black",...)
+            points(xvalfin, ycdfobs, type="p", lty=1, col="black",...)
             legend("bottomright", lty=c(1, 3), col=c("black","red"), legend=c("empirical", paste("theoretical")), 
              bty="o", bg ="white",cex=0.6,...)
         }

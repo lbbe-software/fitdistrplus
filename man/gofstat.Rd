@@ -54,10 +54,8 @@ gofstat(f, chisqbreaks, meancount, discrete, fitnames=NULL)
     and if the degree of freedom (nb of cells - nb of parameters - 1)  of the corresponding distribution 
     is strictly positive, the p-value of the Chi-squared test is returned.
     
-    For the distributions assumed continuous (all but \code{"binom"}, 
-    \code{"nbinom"}, \code{"geom"}, \code{"hyper"} and \code{"pois"} for R base distributions), 
-    Kolmogorov-Smirnov, Cramer-von Mises and Anderson-Darling  and statistics are also computed, 
-    as defined by Stephens (1986). 
+    For continuous distributions, Kolmogorov-Smirnov, Cramer-von Mises and 
+	Anderson-Darling  and statistics are also computed, as defined by Stephens (1986). 
     
     An approximate Kolmogorov-Smirnov test is 
     performed by assuming the distribution parameters known. The critical value defined by Stephens (1986) 
