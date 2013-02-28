@@ -30,7 +30,7 @@ gofstat(f, chisqbreaks, meancount, discrete, fitnames=NULL)
 \item{discrete}{If \code{TRUE}, only the Chi-squared statistic is computed.
 	If missing, \code{discrete} is set to \code{TRUE} when the distribution name of
 	the first fit belongs to \code{"binom"}, \code{"nbinom"}, \code{"geom"}, 
-	\code{"hyper"}, \code{"pois"}, \code{"multinom"}.}
+	\code{"hyper"}, \code{"pois"}.}
 \item{fitnames}{A vector defining the names of the fits.}
 \item{x}{An object of class 'fitdist'.  }
 \item{\dots}{Further arguments to be passed to generic functions.}

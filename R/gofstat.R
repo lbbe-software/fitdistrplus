@@ -62,7 +62,7 @@ gofstat <- function (f, chisqbreaks, meancount, discrete,
     # initiate discrete if not given 
 	if(missing(discrete))
 	{
-		if (is.element(distname, c("binom", "nbinom", "geom", "hyper", "pois", "multinom"))) 
+		if (is.element(distname, c("binom", "nbinom", "geom", "hyper", "pois"))) 
 			discrete <- TRUE
 		else 
 			discrete <- FALSE

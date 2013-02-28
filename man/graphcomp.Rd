@@ -65,7 +65,8 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
     are defined as 
     \code{(1:n - a.ppoints)/(n - 2a.ppoints + 1)}
      using function \code{\link{ppoints}}. If FALSE, 
-    probability points are simply defined as \code{1:n / n}.}
+    probability points are simply defined as \code{1:n / n}. This argument is ignored 
+    for discrete data (if \code{discrete} is \code{TRUE}).}
 \item{a.ppoints}{If \code{use.ppoints=TRUE}, this is passed to function \code{\link{ppoints}}.}
 \item{lines01}{A logical to plot two horizontal lines at \code{h=0} and \code{h=1} for \code{cdfcomp}.}
 \item{line01}{A logical to plot an horizontal line \eqn{y=x} for \code{qqcomp} and \code{ppcomp}.}
@@ -82,7 +83,7 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
 	If missing, \code{discrete} is set to \code{TRUE} when the distribution
 	name of the first fit belongs to 
 	\code{"binom"}, \code{"nbinom"}, \code{"geom"}, \code{"hyper"}, 
-	\code{"pois"}, \code{"multinom"}; otherwise \code{discrete} is set to \code{FALSE}. 
+	\code{"pois"}; otherwise \code{discrete} is set to \code{FALSE}. 
 	}	
 }
 
@@ -90,7 +91,8 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
     \code{cdfcomp} provides a plot of the empirical distribution and each fitted distribution 
     in cdf, by default using the Hazen's rule
     for the empirical distribution, 
-    with probability points defined as (1:n - 0.5)/n. 
+    with probability points defined as (1:n - 0.5)/n. If \code{discrete} is  \code{TRUE}    
+    probability points are always defined as (1:n)/n.
     \code{denscomp} provides a density plot of each fitted distribution
     with the histogram of the data. 
     \code{ppcomp} provides a plot of the probabilities of each fitted distribution

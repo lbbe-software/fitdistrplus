@@ -92,7 +92,7 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
 	# initiate discrete if not given 
 	if(missing(discrete))
 	{
-		if (is.element(distname, c("binom", "nbinom", "geom", "hyper", "pois", "multinom"))) 
+		if (is.element(distname, c("binom", "nbinom", "geom", "hyper", "pois"))) 
 			discrete <- TRUE
 		else 
 			discrete <- FALSE
@@ -111,7 +111,7 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
 		sfin <- seq(xmin, xmax, by=1)
 	}
 
-    if (use.ppoints)
+    if (use.ppoints && !discrete)
         obsp <- ppoints(n,a = a.ppoints)
     else
         # previous version with no vizualisation of ex-aequos

@@ -24,11 +24,11 @@ plotdist(data, distr, para, breaks = "default", discrete, \dots)
     with its default breaks definition. Else \code{breaks} is passed to the function \code{hist}.
     This argument is not taken into account if \code{discrete} is \code{TRUE}. }
 \item{discrete}{ If TRUE, the distribution is considered as discrete.
-	If both \code{distr} and \code{discrete} are missing, \code{discrete} is
-	set to \code{TRUE}. If \code{discrete} is missing but not  \code{distr}, 
+	If both \code{distr} and \code{discrete} are missing, \code{discrete} is set
+	to \code{FALSE}. If \code{discrete} is missing but not  \code{distr}, 
 	\code{discrete} is set to \code{TRUE} when \code{distr} belongs to 
 	\code{"binom"}, \code{"nbinom"},\code{"geom"},
-    \code{"hyper"}, \code{"pois"} or \code{"multinom"}.  }
+    \code{"hyper"} or \code{"pois"}.  }
 \item{\dots}{ further graphical arguments passed to graphical functions used in plotdist.}
 }
 
