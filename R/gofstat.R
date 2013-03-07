@@ -374,6 +374,12 @@ print.gofstat.fitdist <- function(x, ...)
 
 			cat("Chi-squared table:\n")
 			print(x$chisqtable)	
+
+			cat("\nGoodness-of-fit criteria\n")
+			mm <- rbind(AIC=x$aic, BIC=x$bic)
+			rownames(mm) <- c("Aikake's Information Criterion",
+							  "Bayesian Information Criterion")
+			print(mm)
         }
         else 
 			cat("The sample is too small to automatically define cells for Chi-squared test \n")
