@@ -29,22 +29,18 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab, datap
     addlegend = TRUE, legendtext, xlegend = "topright", ylegend = NULL, 
     demp = FALSE, dempcol = "grey", ...)
 {
-    if(inherits(ft, "fitdist"))
-    {
-        ft <- list(ft)
-    }else if(length(ft) == 1)
-    {
-        if(!inherits(ft, "fitdist"))
-        stop("argument ft must a 'fitdist' object or a list of 'fitdist' objects.")
-    }else if(!is.list(ft))
-    {
-        stop("argument ft must be a list of 'fitdist' objects")
-    }else
-    {
-        if(any(sapply(ft, function(x) !inherits(x, "fitdist"))))        
-        stop("argument ft must be a list of 'fitdist' objects")
-    }
-    
+  if(inherits(ft, "fitdist"))
+  {
+    ft <- list(ft)
+  }else if(!is.list(ft))
+  {
+    stop("argument ft must be a list of 'fitdist' objects")
+  }else
+  {
+    if(any(sapply(ft, function(x) !inherits(x, "fitdist"))))        
+      stop("argument ft must be a list of 'fitdist' objects")
+  }
+  
     
     nft <- length(ft)
     if (missing(datapch)) datapch <- 16

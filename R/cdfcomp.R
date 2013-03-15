@@ -33,10 +33,6 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
     if(inherits(ft, "fitdist"))
     {
         ft <- list(ft)
-    }else if(length(ft) == 1)
-    {
-        if(!inherits(ft, "fitdist"))
-            stop("argument ft must a 'fitdist' object or a list of 'fitdist' objects.")
     }else if(!is.list(ft))
     {
         stop("argument ft must be a list of 'fitdist' objects")

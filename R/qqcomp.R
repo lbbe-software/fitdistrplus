@@ -30,22 +30,18 @@ qqcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
     use.ppoints = TRUE, a.ppoints = 0.5, line01 = TRUE, line01col = "black", line01lty = 1,
     ynoise = TRUE, ...)
 {
-    if(inherits(ft, "fitdist"))
-    {
-        ft <- list(ft)
-    }else if(length(ft) == 1)
-    {
-        if(!inherits(ft, "fitdist"))
-        stop("argument ft must a 'fitdist' object or a list of 'fitdist' objects.")
-    }else if(!is.list(ft))
-    {
-        stop("argument ft must be a list of 'fitdist' objects")
-    }else
-    {
-        if(any(sapply(ft, function(x) !inherits(x, "fitdist"))))        
-        stop("argument ft must be a list of 'fitdist' objects")
-    }
-    
+  if(inherits(ft, "fitdist"))
+  {
+    ft <- list(ft)
+  }else if(!is.list(ft))
+  {
+    stop("argument ft must be a list of 'fitdist' objects")
+  }else
+  {
+    if(any(sapply(ft, function(x) !inherits(x, "fitdist"))))        
+      stop("argument ft must be a list of 'fitdist' objects")
+  }
+  
     
     nft <- length(ft)
     if (missing(fitcol)) fitcol <- 2:(nft+1)

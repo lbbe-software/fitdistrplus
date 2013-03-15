@@ -29,9 +29,18 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
     ylegend = NULL, lines01 = FALSE,Turnbull.confint = FALSE,...)
 {
 
-
-    if(inherits(ft, "fitdistcens"))
-            ft <- list(ft)
+  if(inherits(ft, "fitdistcens"))
+  {
+    ft <- list(ft)
+  }else if(!is.list(ft))
+  {
+    stop("argument ft must be a list of 'fitdistcens' objects")
+  }else
+  {
+    if(any(sapply(ft, function(x) !inherits(x, "fitdistcens"))))        
+      stop("argument ft must be a list of 'fitdistcens' objects")
+  }
+  
     nft <- length(ft)
     if (missing(datacol)) datacol <- "black"
     if (missing(fitcol)) fitcol <- 2:(nft+1)
@@ -44,22 +53,6 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
     if (missing(ylab)) ylab <- "CDF"
     if (missing(main)) main <- paste("Empirical and theoretical CDFs")
 
-    # verification of the content of the list ft
-    verif.fti <- function(fti)
-    {
-        if (!inherits(fti, "fitdistcens"))
-        stop("argument ft must be a list of 'fitdistcens' objects")
-    }
-
-
-    if (is.list(ft))
-    {
-        l <- lapply(ft, verif.fti)
-        rm(l)
-    }else
-    {
-        stop("argument ft must be a list of 'fitdistcens' objects")
-    }
 
     censdata <- ft[[1]]$censdata
     if(missing(xlim))
