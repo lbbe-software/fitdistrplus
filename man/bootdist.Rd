@@ -20,7 +20,7 @@ bootdist(f, bootmethod="param", niter=1001)
 }
 
 \arguments{
-\item{f}{ An object of class 'fitdist' result of the function \code{fitdist}.}
+\item{f}{ An object of class \code{"fitdist"}, output of the \code{\link{fitdist}} function.}
 \item{bootmethod}{ A character string coding for the type of resampling : \code{"param"} for a parametric
     resampling and \code{"nonparam"} for a nonparametric resampling of data.}
 \item{niter}{ The number of samples drawn by bootstrap.  }
@@ -30,9 +30,9 @@ bootdist(f, bootmethod="param", niter=1001)
 }
 
 \details{
-    Samples are drawn by parametric bootstrap (resampling from the distribution fitted by \code{fitdist}) or
-    non parametric bootstrap (resampling with replacement from the data set). On each bootstrap sample the function 
-    \code{mledist}  (or \code{mmedist}, \code{qmedist} or \code{mgedist} 
+    Samples are drawn by parametric bootstrap (resampling from the distribution fitted by \code{\link{fitdist}}) or
+    nonparametric bootstrap (resampling with replacement from the data set). On each bootstrap sample the function 
+    \code{\link{mledist}}  (or \code{\link{mmedist}}, \code{\link{qmedist}}, \code{\link{mgedist}} 
     according to the component \code{f$method} of the 
     object of class \code{"fitdist"}) is used to estimate bootstrapped values of parameters. When that function fails
     to converge, \code{NA} values are returned. Medians and 2.5 and 97.5 percentiles are computed by removing
@@ -42,7 +42,7 @@ bootdist(f, bootmethod="param", niter=1001)
     If inferior to the whole number of iterations, the number of iterations for which the function converges 
     is also printed in the summary.
     
-    The plot of an object of class \code{bootdist} consists in a scatterplot or a matrix of scatterplots
+    The plot of an object of class \code{"bootdist"} consists in a scatterplot or a matrix of scatterplots
     of the bootstrapped values of parameters.
     It uses the function \code{\link{stripchart}} when the fitted distribution
     is characterized by only one parameter, and the function \code{\link{plot}} in other cases.
@@ -51,13 +51,13 @@ bootdist(f, bootmethod="param", niter=1001)
 }
 
 \value{ 
-    \code{bootdist} returns an object of class \code{"bootdist"}, a list with 4 components,
+    \code{bootdist} returns an object of class \code{"bootdist"}, a list with 6 components,
     \item{estim}{ a data frame containing the bootstrapped values of parameters.}
     \item{converg}{ a vector containing the codes for convergence obtained if an iterative method is
         used to estimate parameters on 
         each bootstraped data set (and 0 if a closed formula is used).}
     \item{method}{ A character string coding for the type of resampling : \code{"param"} for a parametric
-        resampling and \code{"nonparam"} for a nonparametric resampling of data. }
+        resampling and \code{"nonparam"} for a nonparametric resampling. }
     \item{nbboot}{ The number of samples drawn by bootstrap.}   
     \item{CI}{ bootstrap medians and 95 percent confidence percentile intervals of parameters. }
     \item{fitpart}{ The object of class \code{"fitdist"} on which the bootstrap procedure
@@ -76,8 +76,8 @@ Generic functions:
     for which the estimation converges is also printed in the summary.
     }
     \item{\code{plot}}{
-    The plot shows the bootstrap estimates with \code{stripchart} function
-    for univariate parameters and \code{plot} function for multivariate parameters.
+    The plot shows the bootstrap estimates with \code{\link{stripchart}} function
+    for univariate parameters and \code{\link{plot}} function for multivariate parameters.
     }           
     
 }
@@ -86,7 +86,8 @@ Generic functions:
         
 
 \seealso{ 
-    \code{\link{fitdist}}, \code{\link{mledist}}, \code{\link{qmedist}}, \code{\link{mmedist}}, \code{\link{mgedist}}
+    \code{\link{fitdist}}, \code{\link{mledist}}, \code{\link{qmedist}}, \code{\link{mmedist}},
+    \code{\link{mgedist}}
     and  \code{\link{quantile.bootdist}} for another generic function to calculate 
     quantiles from the fitted distribution and its bootstrap results.
 
@@ -103,8 +104,8 @@ Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr}
 
 
 \examples{
-#We choose a low number of bootstrap replicates in order to satisfy CRAN running times constraint.
-#For practical application, we recommend to use niter=501 or niter=1001.
+# We choose a low number of bootstrap replicates in order to satisfy CRAN running times constraint.
+# For practical applications, we recommend to use at least niter=501 or niter=1001.
 
 
 # (1) Fit of a gamma distribution to serving size data

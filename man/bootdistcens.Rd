@@ -20,7 +20,7 @@ bootdistcens(f, niter=1001)
 }
 
 \arguments{
-\item{f}{ An object of class \code{"fitdistcens"} result of the function \code{fitdistcens}.}
+\item{f}{ An object of class \code{"fitdistcens"}, output of the \code{\link{fitdistcens}} function.}
 \item{niter}{ The number of samples drawn by bootstrap.  }
 \item{x}{ An object of class \code{"bootdistcens"}.  }
 \item{object}{ An object of class \code{"bootdistcens"}.  }
@@ -29,12 +29,12 @@ bootdistcens(f, niter=1001)
 
 \details{
     Samples are drawn by 
-    non parametric bootstrap (resampling with replacement from the data set). On each bootstrap sample the function 
-    \code{mledist} is used to estimate bootstrapped values of parameters. When \code{mledist} fails
+    nonparametric bootstrap (resampling with replacement from the data set). On each bootstrap sample the function 
+    \code{\link{mledist}} is used to estimate bootstrapped values of parameters. When \code{\link{mledist}} fails
     to converge, \code{NA} values are returned. Medians and 2.5 and 97.5 percentiles are computed by removing
     \code{NA} values. The medians and the 95 percent confidence intervals of parameters (2.5 and 97.5 percentiles) 
     are printed in the summary.
-    If inferior to the whole number of iterations, the number of iterations for which \code{mledist} converges 
+    If inferior to the whole number of iterations, the number of iterations for which \code{\link{mledist}} converges 
     is also printed in the summary.
     
     The plot of an object of class \code{"bootdistcens"} consists in a scatterplot or a matrix of scatterplots
@@ -46,11 +46,11 @@ bootdistcens(f, niter=1001)
 }
 
 \value{ 
-    \code{bootdistcens} returns an object of class \code{"bootdistcens"}, a list with 4 components,
+    \code{bootdistcens} returns an object of class \code{"bootdistcens"}, a list with 6 components,
     \item{estim}{ a data frame containing the bootstrapped values of parameters.}
-    \item{converg}{ a vector containing the codes for convergence obtained if an iterative method is
+    \item{converg}{ a vector containing the codes for convergence of the iterative method
         used to estimate parameters on 
-        each bootstraped data set (and 0 if a closed formula is used).}
+        each bootstraped data set.}
     \item{method}{ A character string coding for the type of resampling : 
      in this case \code{"nonparam"} as it is the only available method for censored data. }
     \item{nbboot}{ The number of samples drawn by bootstrap.}   
@@ -71,8 +71,8 @@ Generic functions:
     for which the estimation converges is also printed in the summary.
     }
     \item{\code{plot}}{
-    The plot shows the bootstrap estimates with \code{stripchart} function
-    for univariate parameters and \code{plot} function for multivariate parameters.
+    The plot shows the bootstrap estimates with the \code{\link{stripchart}} function
+    for univariate parameters and \code{\link{plot}} function for multivariate parameters.
     }          
     
 }   
@@ -97,6 +97,9 @@ Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr}
 %\note{  }
 
 \examples{
+# We choose a low number of bootstrap replicates in order to satisfy CRAN running times constraint.
+# For practical applications, we recommend to use at least niter=501 or niter=1001.
+
 # (1) Fit of a normal distribution to fluazinam data in log10
 # followed by nonparametric bootstrap and calculation of quantiles
 # with 95 percent confidence intervals
@@ -113,7 +116,7 @@ quantile(b1)
 # (2) Estimation of the mean of the normal distribution 
 # by maximum likelihood with the standard deviation fixed at 1 
 # using the argument fix.arg
-# followed by nonparametric bootstrap with less iterations
+# followed by nonparametric bootstrap 
 # and calculation of quantiles with 95 percent confidence intervals
 #
 f1b <- fitdistcens(d1, "norm", start = list(mean = 1),fix.arg = list(sd = 1))

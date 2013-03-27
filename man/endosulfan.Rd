@@ -19,7 +19,7 @@ data(endosulfan)
 \code{endosulfan} is a data frame with 3 columns, named ATV for Acute Toxicity Value
 (geometric mean of LC50 ou EC50 values in micrograms per liter),
 Australian (coding for Australian or another origin) and group 
-(arthropods, fish or nonarthropod invertebrates).
+(arthropods, fish or non-arthropod invertebrates).
 
 }
 
@@ -59,14 +59,20 @@ xlab="log10ATV")
 denscomp(list(fln,fll),legendtext=c("normal","logistic"),
 xlab="log10ATV")
 
+qqcomp(list(fln,fll),legendtext=c("normal","logistic"))
+ppcomp(list(fln,fll),legendtext=c("normal","logistic"))
+
+gofstat(list(fln,fll))
 
 # (4) estimation of the 5 percent quantile value of 
 # logistic fitted distribution (5 percent hazardous concentration  : HC5)
 # with its two-sided 95 percent confidence interval calculated by 
-# parametric bootstrap with 501 iterations
+# parametric bootstrap 
+# with a small number of iterations to satisfy CRAN running times constraint.
+# For practical applications, we recommend to use at least niter=501 or niter=1001.
 #
 # in log10(ATV)
-bll <- bootdist(fll,niter=501)
+bll <- bootdist(fll,niter=101)
 HC5ll <- quantile(bll,probs = 0.05)
 # in ATV
 10^(HC5ll$quantiles)
@@ -76,10 +82,12 @@ HC5ll <- quantile(bll,probs = 0.05)
 # the fitted logistic distribution (5 percent hazardous concentration  : HC5)
 # with its one-sided 95 percent confidence interval (type "greater")
 # calculated by 
-# nonparametric bootstrap with 501 iterations
+# nonparametric bootstrap 
+# with a small number of iterations to satisfy CRAN running times constraint.
+# For practical applications, we recommend to use at least niter=501 or niter=1001.
 # 
 # in log10(ATV)
-bllnonpar <- bootdist(fll,niter=501,bootmethod = "nonparam")
+bllnonpar <- bootdist(fll,niter=101,bootmethod = "nonparam")
 HC5llgreater <- quantile(bllnonpar,probs = 0.05, CI.type="greater")
 # in ATV
 10^(HC5llgreater$quantiles)

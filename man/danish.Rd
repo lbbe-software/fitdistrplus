@@ -12,7 +12,7 @@ comprise 2167 fire losses over the period 1980 to 1990.
 They have been adjusted for inflation to reflect 1985 
 values and are expressed in millions of Danish Krone.
 
-The multivariate dataset is the same data as above but the 
+The multivariate data set is the same data as above but the 
 total claim has been divided 
 into a building loss, a loss of contents 
 and a loss of profits.
@@ -68,7 +68,7 @@ data(danishmulti)
 #
 idx <- sample(1:NROW(danishmulti), 10)
 barplot(danishmulti$Building[idx], col="grey25", 
-    ylim=c(0, max(danishmulti$Total[idx])), main="Some claims of danish dataset")
+    ylim=c(0, max(danishmulti$Total[idx])), main="Some claims of danish data set")
 barplot(danishmulti$Content[idx], add=TRUE, col="grey50", axes=FALSE)
 barplot(danishmulti$Profits[idx], add=TRUE, col="grey75", axes=FALSE)
 legend("topleft", legend=c("Building", "Content", "Profits"), fill=c("grey25", 

@@ -27,9 +27,9 @@ cdfcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, yl
 \item{ylab}{A label for the \eqn{y}-axis, defaults to a description of \code{y}.}
 \item{datacol}{A specification of the color to be used in plotting data points.}
 \item{fitcol}{A (vector of) color(s) to plot fitted distributions. 
-    If there are fewer colors than points they are recycled in the standard fashion.}
+    If there are fewer colors than fits they are recycled in the standard fashion.}
 \item{fitlty}{A (vector of) line type(s) to plot fitted distributions. 
-    If there are fewer colors than points they are recycled in the standard fashion.
+    If there are fewer colors than fits they are recycled in the standard fashion.
     See also \code{\link{par}}.}
 \item{addlegend}{If \code{TRUE}, a legend is added to the plot.}
 \item{legendtext}{A character or expression vector of length \eqn{\geq 1} to appear
@@ -40,14 +40,14 @@ cdfcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, yl
 \item{lines01}{A logical to plot two horizontal lines at \code{h=0} and \code{h=1}.}
 \item{Turnbull.confint}{ if TRUE, confidence intervals will be added to the Turnbull plot
     of the empirical distribution.}
-\item{\dots}{Further graphical arguments passed to graphical functions used in \code{cdfcompcens}.}
+\item{\dots}{Further graphical arguments passed to graphical functions used in \code{\link{cdfcompcens}}.}
 }
 
 \details{
     Empirical and theoretical distributions are plotted in cdf. 
     The EM approach of Turnbull (Turnbull, 1974) is used to compute the overall 
     empirical cdf curve, with confidence intervals if \code{Turnbull.confint} is \code{TRUE}, 
-    by calls to functions \code{survfit} and \code{plot.survfit} from the 
+    by calls to functions \code{\link{survfit}} and \code{\link{plot.survfit}} from the 
     \code{survival} package.
     By default a legend is added to the plot. Many graphical arguments are optional, 
     dedicated to personalize the plot, and fixed to default values if omitted.

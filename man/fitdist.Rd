@@ -40,8 +40,8 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
 \item{fix.arg}{An optional named list giving the values of parameters of the named distribution
     that must kept fixed rather than estimated. 
     The use of this argument is not possible if \code{method="mme"} and a closed formula is used. }
-\item{x}{An object of class 'fitdist'.  }
-\item{object}{An object of class 'fitdist'.  }
+\item{x}{An object of class \code{"fitdist"}.  }
+\item{object}{An object of class \code{"fitdist"}.  }
 \item{breaks}{If \code{"default"} the histogram is plotted with the function \code{hist} 
     with its default breaks definition. Else \code{breaks} is passed to the function \code{hist}.
     This argument is not taken into account with discrete distributions: \code{"binom"}, 
@@ -100,8 +100,8 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
     of the chosen method) is performed using \code{\link{optim}}, 
     with the "Nelder-Mead" method for distributions characterized by more than one parameter
     and the "BFGS" method for distributions characterized by only one parameter. 
-    The method used in \code{\link{optim}} may be chosen or another optimization method
-    may be chosen using \dots argument (see \code{\link{mledist}} for details).
+    The optimization algorithm used in \code{\link{optim}} can be chosen or another optimization function
+    can be specified using \dots argument (see \code{\link{mledist}} for details).
     For the following named distributions, reasonable starting values will 
     be computed if \code{start} is omitted : \code{"norm"}, \code{"lnorm"}, 
     \code{"exp"} and \code{"pois"}, \code{"cauchy"}, \code{"gamma"}, \code{"logis"}, 
@@ -120,7 +120,7 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
 }
 
 \value{ 
-    \code{fitdist} returns an object of class 'fitdist', a list with the following components:
+    \code{fitdist} returns an object of class \code{"fitdist"}, a list with the following components:
     \item{estimate }{ the parameter estimates }
     \item{method }{ the character string coding for the fitting method : 
         \code{"mle"} for 'maximum likelihood estimation', \code{"mme"} for 'matching moment estimation',
@@ -132,20 +132,22 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
     \item{aic}{ the Akaike information criterion}
     \item{bic}{ the the so-called BIC or SBC (Schwarz Bayesian criterion)}
     \item{n}{ the length of the data set }
-    \item{data}{ the dataset }
+    \item{data}{ the data set }
     \item{distname}{ the name of the distribution }
     \item{fix.arg}{ the named list giving the values of parameters of the named distribution
-        that must kept fixed rather than estimated by maximum likelihood or \code{NULL} 
+        that must be kept fixed rather than estimated by maximum likelihood or \code{NULL} 
         if there are no such parameters. }
-    \item{dots}{ the list of  further arguments passed in \dots to be used in \code{bootdist} 
-        in iterative calls to \code{mledist}, \code{mmedist}, \code{qmedist}, \code{mgedist} or 
+    \item{dots}{ the list of  further arguments passed in \dots to be used in \code{\link{bootdist}} 
+        in iterative calls to \code{\link{mledist}}, \code{\link{mmedist}},
+        \code{\link{qmedist}}, \code{\link{mgedist}} or 
         \code{NULL} if no such arguments.}
         
 
     Generic functions:
 \describe{       
     \item{\code{print}}{
-    The print of a 'fitdist' object shows few traces about the fitting method and the fitted distribution.
+    The print of a \code{"fitdist"} object shows few traces about the fitting method and 
+    the fitted distribution.
     }
     \item{\code{summary}}{
     The summary provides the parameter estimates of the fitted distribution, the log-likelihood, 
@@ -174,7 +176,7 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
     See \code{\link{bootdist}} for bootstrap procedures 
     and \code{\link{fitdistcens}} for censored-data fitting methods.
     See \code{\link{optim}} for base R optimization procedures.
-    See \code{\link{quantile.fitdist}} for another generic function to calculate 
+    See \code{\link{quantile.fitdist}}, another generic function,  which calculates 
     quantiles from the fitted distribution.
 }
 
@@ -227,6 +229,7 @@ cdfcomp(list(fitW, fitg, fitln), legendtext=c("Weibull", "gamma", "lognormal"))
 denscomp(list(fitW, fitg, fitln), legendtext=c("Weibull", "gamma", "lognormal"))
 qqcomp(list(fitW, fitg, fitln), legendtext=c("Weibull", "gamma", "lognormal"))
 ppcomp(list(fitW, fitg, fitln), legendtext=c("Weibull", "gamma", "lognormal"))
+gofstat(list(fitW, fitg, fitln), fitnames=c("Weibull", "gamma", "lognormal"))
 
 # (4) defining your own distribution functions, here for the Gumbel distribution
 # for other distributions, see the CRAN task view 
@@ -252,6 +255,9 @@ plot(fitp)
 fitnb <- fitdist(number,"nbinom")
 summary(fitnb)
 plot(fitnb)
+
+cdfcomp(list(fitp,fitnb))
+gofstat(list(fitp,fitnb))
 
 # (6) how to change the optimisation method?
 #
@@ -427,11 +433,8 @@ for(i in 0:6)
 # nonarthropod invertebrates, using maximum likelihood estimation
 # to estimate what is called a species sensitivity distribution 
 # (SSD) in ecotoxicology, followed by estimation of the 5 percent quantile value of 
-# the fitted distribution, what is called the 5 percent hazardous concentration (HC5)
-# in ecotoxicology, with its two-sided 95 percent confidence interval calculated by 
-# parametric bootstrap or non parametric bootstrap, and
-# its one-sided (greater) 95 percent confidence interval calculated by 
-# parametric bootstrap
+# the fitted distribution (which is called the 5 percent hazardous concentration, HC5,
+# in ecotoxicology) and estimation of other quantiles.
 #
 data(endosulfan)
 ATV <- subset(endosulfan, group == "NonArthroInvert")$ATV

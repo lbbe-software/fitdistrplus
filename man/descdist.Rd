@@ -48,8 +48,10 @@ graph = TRUE, obs.col = "darkblue", boot.col = "orange")
     skewness-kurtosis plot.
     
     If \code{discrete} is \code{TRUE}, 
-    the represented distributions are the Poisson, negative binomial and normal distributions. 
-    If \code{discrete} is \code{FALSE}, these are uniform, normal, logistic, lognormal, beta and gamma distributions.
+    the represented distributions are the Poisson, negative binomial distributions, 
+    and the normal distribution to which previous discrete distributions may converge. 
+    If \code{discrete} is \code{FALSE}, these are uniform, normal, logistic, lognormal, beta 
+    and gamma distributions.
 }
 
 \value{ 
