@@ -45,12 +45,12 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
     see also \code{\link{points}}.}
 \item{datacol}{A specification of the color to be used in plotting data points.}
 \item{fitcol}{A (vector of) color(s) to plot fitted distributions. 
-    If there are fewer colors than points they are recycled in the standard fashion.}
+    If there are fewer colors than fits they are recycled in the standard fashion.}
 \item{fitlty}{A (vector of) line type(s) to plot fitted distributions/densities. 
-    If there are fewer colors than points they are recycled in the standard fashion.
+    If there are fewer colors than fits they are recycled in the standard fashion.
     See also \code{\link{par}}.}
 \item{fitpch}{A (vector of) line type(s) to plot fitted quantiles/probabilities. 
-    If there are fewer colors than points they are recycled in the standard fashion.}
+    If there are fewer colors than fits they are recycled in the standard fashion.}
 \item{addlegend}{If \code{TRUE}, a legend is added to the plot.}
 \item{legendtext}{A character or expression vector of length \eqn{\geq 1} to appear
     in the legend, see also \code{\link{legend}}.}
@@ -66,13 +66,14 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
     \code{(1:n - a.ppoints)/(n - 2a.ppoints + 1)}
      using function \code{\link{ppoints}}. If FALSE, 
     probability points are simply defined as \code{1:n / n}. This argument is ignored 
-    for discrete data (if \code{discrete} is \code{TRUE}).}
+    for discrete data.}
 \item{a.ppoints}{If \code{use.ppoints=TRUE}, this is passed to function \code{\link{ppoints}}.}
 \item{lines01}{A logical to plot two horizontal lines at \code{h=0} and \code{h=1} for \code{cdfcomp}.}
 \item{line01}{A logical to plot an horizontal line \eqn{y=x} for \code{qqcomp} and \code{ppcomp}.}
 \item{line01col, line01lty}{Color and line type for \code{line01}.}
-\item{demp}{A logical to plot empirical density.}
-\item{dempcol}{A color for the empirical density.}
+\item{demp}{A logical to add the empirical density on the plot using the 
+   \code{\link{density}} function.}
+\item{dempcol}{A color for the empirical density in case it is added on the plot.}
 \item{ynoise}{A logical to add a small Gaussian noise when plotting empirical 
     quantiles/probabilities for \code{qqcomp} and \code{ppcomp}.}
 \item{probability}{A logical to use the probability scale for \code{denscomp}, 
@@ -93,13 +94,19 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
     for the empirical distribution, 
     with probability points defined as (1:n - 0.5)/n. If \code{discrete} is  \code{TRUE}    
     probability points are always defined as (1:n)/n.
+    
     \code{denscomp} provides a density plot of each fitted distribution
-    with the histogram of the data. 
+    with the histogram of the data (data are assumed continuous). 
+    
     \code{ppcomp} provides a plot of the probabilities of each fitted distribution
-    (x-axis) against the empirical probabilities (y-axis) by default defined as (1:n - 0.5)/n. 
+    (x-axis) against the empirical probabilities (y-axis) by default defined as (1:n - 0.5)/n
+    (data are assumed continuous). 
+    
     \code{qqcomp} provides a plot of the quantiles of each theoretical distribution (x-axis)
      against the empirical quantiles of the data (y-axis), by default defining
-     probability points as (1:n - 0.5)/n for theoretical quantile calculation. 
+     probability points as (1:n - 0.5)/n for theoretical quantile calculation 
+     (data are assumed continuous). 
+     
     By default a legend is added to these plots. Many graphical arguments are optional, 
     dedicated to personalize the plots, and fixed to default values if omitted.
 }
@@ -177,6 +184,15 @@ cdfcomp(list(fln,fll),legendtext=c("normal","logistic"),xlab="log10ATV",
 # plot using basic plotting position: (1:n)/n
 cdfcomp(list(fln,fll),legendtext=c("normal","logistic"),xlab="log10ATV",
     use.ppoints = FALSE)
+
+# (4) Comparison of fits of two distributions fitted to discrete data
+#
+data(toxocara)
+number <- toxocara$number
+fitp <- fitdist(number,"pois")
+fitnb <- fitdist(number,"nbinom")
+cdfcomp(list(fitp,fitnb),legendtext=c("Poisson","negative binomial"))
+
 
 }
 

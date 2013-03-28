@@ -41,14 +41,16 @@
 
 \details{
     Quantiles of the parametric distribution are calculated for 
-    each probability specified in \code{probs}, using the estimated parameters of \code{fitpart}.
-    When used with an object of class \code{"bootdist"} or \code{"bootdistcens"}, confidence intervals 
+    each probability specified in \code{probs}, using the estimated parameters.
+    When used with an object of class \code{"bootdist"} or \code{"bootdistcens"}, percentile 
+    confidence intervals and medians etimates 
     are also calculated from the bootstrap result.
     If \code{CI.type} is \code{two.sided}, 
     the \code{CI.level} two-sided confidence intervals of quantiles are calculated.
     If \code{CI.type} is \code{less} or \code{greater}, 
     the \code{CI.level} one-sided confidence intervals of quantiles are calculated.
-    The print functions show the estimated quantiles with confidence intervals if calculated,
+    The print functions show the estimated quantiles with percentile confidence intervals
+    and median estimates when a bootstrap resampling has been done previously,
     and the number of bootstrap iterations 
     for which the estimation converges if it is inferior to the whole number of bootstrap iterations.
 }
@@ -97,7 +99,9 @@ and Christophe Dutang.
 # to estimate what is called a species sensitivity distribution 
 # (SSD) in ecotoxicology, followed by estimation of the 5, 10 and 20 percent quantile values of 
 # the fitted distribution, which are called the 5, 10, 20 percent hazardous concentrations (HC5, HC10, HC20)
-# in ecotoxicology, followed with calculations of their confidence intervals with various definitions.
+# in ecotoxicology, followed with calculations of their confidence intervals with various definitions,
+# from a small number of bootstrap iterations to satisfy CRAN running times constraint.
+# For practical applications, we recommend to use at least niter=501 or niter=1001.
 #
 data(endosulfan)
 ATV <- subset(endosulfan, group == "NonArthroInvert")$ATV
@@ -109,12 +113,23 @@ quantile(bln, probs = c(0.05, 0.1, 0.2))
 quantile(bln, probs = c(0.05, 0.1, 0.2), CI.type = "greater")
 quantile(bln, probs = c(0.05, 0.1, 0.2), CI.level = 0.9)
 
-# (2) Fit of a distribution on acute salinity log-transformed tolerance 
+# (2) Draw of 95 percent confidence intervals on quantiles of the 
+# previously fitted distribution
+#
+cdfcomp(fln)
+q1 <- quantile(bln, probs = seq(0,1,length=101))
+points(q1$quantCI[1,],q1$probs,type="l")
+points(q1$quantCI[2,],q1$probs,type="l")
+ 
+
+# (3) Fit of a distribution on acute salinity log-transformed tolerance 
 # for riverine macro-invertebrates, using maximum likelihood estimation
 # to estimate what is called a species sensitivity distribution 
 # (SSD) in ecotoxicology, followed by estimation of the 5, 10 and 20 percent quantile values of 
 # the fitted distribution, which are called the 5, 10, 20 percent hazardous concentrations (HC5, HC10, HC20)
 # in ecotoxicology, followed with calculations of their confidence intervals with various definitions.
+# from a small number of bootstrap iterations to satisfy CRAN running times constraint.
+# For practical applications, we recommend to use at least niter=501 or niter=1001.
 #
 data(salinity)
 log10LC50 <-log10(salinity)

@@ -65,6 +65,8 @@ cdfcompcens(list(fln,fll),legendtext=c("normal","logistic"),
 # the normal fitted distribution (5 percent hazardous concentration  : HC5)
 # with its two-sided 95 percent confidence interval calculated by 
 # non parametric bootstrap
+# from a small number of bootstrap iterations to satisfy CRAN running times constraint.
+# For practical applications, we recommend to use at least niter=501 or niter=1001.
 #
 # in log10(LC50)
 bln <- bootdistcens(fln, niter=101)

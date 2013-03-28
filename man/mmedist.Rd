@@ -48,7 +48,7 @@ to the number of parameters to estimate.}
     In that case arguments arguments \code{order} and \code{memp} 
     have to be supplied in order to carry out the matching numerically, by minimization of the
     sum of squared differences between observed and theoretical moments. 
-    Optionnally other aguments may be supplied to control optimization (see the 'details' section of 
+    Optionnally other arguments can be supplied to control optimization (see the 'details' section of 
     \code{\link{mledist}} for details about arguments for the control of optimization). 
 
 
@@ -73,8 +73,7 @@ to the number of parameters to estimate.}
         }
     \item{loglik}{ the log-likelihood.}
     \item{hessian}{ (if appropriate) a symmetric matrix computed by \code{optim} as an estimate of the Hessian
-        at the solution found or computed in the user-supplied optimization function.
-        It is used in \code{fitdist} to estimate standard errors. }
+        at the solution found or computed in the user-supplied optimization function. }
     \item{optim.function}{ (if appropriate) the name of the optimization function. }
     \item{memp}{ (if appropriate) the empirical moment function. }
     \item{order}{ the order of the moment(s) matched.}        

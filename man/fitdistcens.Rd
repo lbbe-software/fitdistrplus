@@ -38,7 +38,7 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL, \dots)
     This argument may be omitted for some distributions for which reasonable 
     starting values are computed (see details).  }
 \item{fix.arg}{ An optional named list giving the values of parameters of the named distribution
-    that must kept fixed rather than estimated by maximum likelihood. }
+    that must be kept fixed rather than estimated by maximum likelihood. }
 \item{x}{ an object of class \code{"fitdistcens"}.  }
 \item{object}{ an object of class \code{"fitdistcens"}.  }
 \item{\dots}{ further arguments to be passed to generic functions,
@@ -53,8 +53,8 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL, \dots)
     By default direct optimization of the log-likelihood is performed using \code{\link{optim}},
     with the "Nelder-Mead" method for distributions characterized by more than one parameter
     and the "BFGS" method for distributions characterized by only one parameter. 
-    The method used in \code{\link{optim}} may be chosen or another optimization method
-    may be chosen using ... argument (see \code{\link{mledist}} for details).
+    The algorithm used in \code{\link{optim}} can be chosen or another optimization function
+    can be specified using \dots argument (see \code{\link{mledist}} for details).
     For the following named distributions, reasonable starting values will 
     be computed if \code{start} is omitted : \code{"norm"}, \code{"lnorm"},
     \code{"exp"} and \code{"pois"}, \code{"cauchy"}, \code{"gamma"}, \code{"logis"},
@@ -66,8 +66,6 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL, \dots)
     Hessian at the solution found by \code{optim} or by the user-supplied function passed to mledist.
      
 
-    Generic functions:
-
 }
 
 \value{ 
@@ -78,14 +76,15 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL, \dots)
     \item{loglik}{ the log-likelihood }
     \item{aic}{ the Akaike information criterion }
     \item{bic}{ the the so-called BIC or SBC (Schwarz Bayesian criterion)}
-    \item{censdata}{ the censored dataset }
+    \item{censdata}{ the censored data set }
     \item{distname}{ the name of the distribution }
     \item{fix.arg}{ the named list giving the values of parameters of the named distribution
-    that must kept fixed rather than estimated by maximum likelihood or NULL if there are no such parameters. }
+    that must be kept fixed rather than estimated by maximum likelihood or NULL if there are no such parameters. }
     \item{dots}{ the list of  further arguments passed in \dots to be used in \code{bootdistcens} to
     control the optimization method used in iterative calls to \code{mledist} or NULL if no such arguments.}
     
     
+    Generic functions:
 \describe{       
     \item{\code{print}}{
     The print of a \code{"fitdist"} object shows few traces about the fitting method and the fitted distribution.
@@ -216,10 +215,8 @@ flnb <- fitdistcens(log10EC50, "norm", start = list(mean = 1),fix.arg = list(sd 
 # macroinvertebrates and zooplancton, using maximum likelihood estimation
 # to estimate what is called a species sensitivity distribution 
 # (SSD) in ecotoxicology, followed by estimation of the 5 percent quantile value of 
-# the fitted distribution, what is called the 5 percent hazardous concentration (HC5)
-# in ecotoxicology, with its two-sided 95 percent confidence interval and
-# its one-sided (greater) 95 percent confidence interval calculated by 
-# non parametric bootstrap
+# the fitted distribution (which is called the 5 percent hazardous concentration, HC5,
+# in ecotoxicology) and estimation of other quantiles.
 
 data(fluazinam)
 log10EC50 <-log10(fluazinam)

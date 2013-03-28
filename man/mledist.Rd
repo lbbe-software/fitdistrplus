@@ -134,7 +134,7 @@ mledist(x1,"norm")
 dgumbel <- function(x,a,b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
 mledist(x1,"gumbel",start=list(a=10,b=5))
 
-# (3) fit a discrete distribution (Poisson)
+# (3) fit of a discrete distribution (Poisson)
 #
 
 set.seed(1234)

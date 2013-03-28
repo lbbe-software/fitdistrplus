@@ -4,8 +4,8 @@
 \title{ Goodness-of-fit statistics}
 
 \description{
- Computes goodness-of-fit statistics for a fit of a parametric distribution on 
- non-censored data.  
+ Computes goodness-of-fit statistics for parametric distributions fitted to a same  
+ non-censored data set.  
 }
 
 \usage{
@@ -16,7 +16,7 @@ gofstat(f, chisqbreaks, meancount, discrete, fitnames=NULL)
 }
 
 \arguments{
-\item{f}{ An object of class \code{"fitdist"} result of the function \code{fitdist} or
+\item{f}{ An object of class \code{"fitdist"}, output of the function \code{fitdist}, or
 	a list of \code{"fitdist"} objects.}
 \item{chisqbreaks}{ A numeric vector defining the breaks of the cells used to compute the chi-squared
     statistic. If omitted, these breaks are automatically computed from the data 
@@ -32,7 +32,7 @@ gofstat(f, chisqbreaks, meancount, discrete, fitnames=NULL)
 	the first fit belongs to \code{"binom"}, \code{"nbinom"}, \code{"geom"}, 
 	\code{"hyper"}, \code{"pois"}.}
 \item{fitnames}{A vector defining the names of the fits.}
-\item{x}{An object of class 'fitdist'.  }
+\item{x}{An object of class \code{"fitdist"}.  }
 \item{\dots}{Further arguments to be passed to generic functions.}
 }
 
@@ -40,15 +40,15 @@ gofstat(f, chisqbreaks, meancount, discrete, fitnames=NULL)
      
     Goodness-of-fit statistics are computed. The Chi-squared statistic is computed using cells defined 
     by the argument 
-    \code{chisqbreaks} or cells automatically defined from the data in order 
+    \code{chisqbreaks} or cells automatically defined from data, in order 
     to reach roughly the same number of observations per cell, roughly equal to the argument
     \code{meancount}, or sligthly more if there are some ties. 
-    The choice to define cells from the empirical distribution (data) and not from the
-    theoretical distribution was done to enable the comparison of Chi-squared values obtained
-    with different distributions fitted on a same dataset.
+    The choice to define cells from the empirical distribution (data), and not from the
+    theoretical distribution, was done to enable the comparison of Chi-squared values obtained
+    with different distributions fitted on a same data set.
     If \code{chisqbreaks} and \code{meancount} 
     are both omitted, \code{meancount} is fixed in order to obtain roughly \eqn{(4n)^{2/5}} cells, 
-    with \eqn{n} the length of the dataset (Vose, 2000).
+    with \eqn{n} the length of the data set (Vose, 2000).
     The Chi-squared statistic is not computed if the program fails
     to define enough cells due to a too small dataset. When the Chi-squared statistic is computed, 
     and if the degree of freedom (nb of cells - nb of parameters - 1)  of the corresponding distribution 
@@ -61,10 +61,10 @@ gofstat(f, chisqbreaks, meancount, discrete, fitnames=NULL)
     performed by assuming the distribution parameters known. The critical value defined by Stephens (1986) 
     for a completely specified distribution is used to reject or not the 
     distribution at the significance level 0.05. Because of this approximation, the result of the test
-    (decision of rejection of the distribution or not) is returned only for datasets with more 
+    (decision of rejection of the distribution or not) is returned only for data sets with more 
     than 30 observations. Note that this approximate test may be too conservative. 
     
-    For datasets with more than 5 observations and for distributions for 
+    For data sets with more than 5 observations and for distributions for 
     which the test is described by Stephens (1986) for maximum likelihood estimations 
     (\code{"exp"}, \code{"cauchy"}, \code{"gamma"} and \code{"weibull"}),
     the Cramer-von Mises and Anderson-darling tests are performed as described by Stephens (1986). 
@@ -134,8 +134,8 @@ Christophe Dutang.
 
 \examples{
 
-# (1) fit of two distributions by maximum likelihood estimation
-# to the serving size data
+# (1) fit of two distributions to the serving size data
+# by maximum likelihood estimation
 # and comparison of goodness-of-fit statistics
 #
 
@@ -159,16 +159,12 @@ number <- toxocara$number
 fitp <- fitdist(number,"pois")
 summary(fitp)
 plot(fitp)
-gp <- gofstat(fitp)
-gp
 
 fitnb <- fitdist(number,"nbinom")
 summary(fitnb)
 plot(fitnb)
-gnb <- gofstat(fitnb)
-gnb
 
-gofstat(list(fitp, fitnb))
+gofstat(list(fitp, fitnb),fitnames = c("Poisson","negbin"))
 
 # (3) Use of Chi-squared results in addition to
 #     recommended statistics for continuous distributions
@@ -178,14 +174,11 @@ set.seed(1234)
 x4 <- rweibull(n=1000,shape=2,scale=1)
 # fit of the good distribution
 f4 <- fitdist(x4,"weibull")
-g4  <- gofstat(f4, meancount=10)
-print(g4)
 
 # fit of a bad distribution
 f4b <- fitdist(x4,"cauchy")
-g4b  <- gofstat(f4b, meancount=10)
-print(g4b)
 
+gofstat(list(f4,f4b),fitnames=c("Weibull", "Cauchy"))
 
 }
 \keyword{ distribution }

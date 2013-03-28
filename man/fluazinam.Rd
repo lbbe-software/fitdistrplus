@@ -48,7 +48,7 @@ plotdistcens(log10EC50)
 
 # (3) fit of a lognormal and a logistic distribution to data
 # (classical distributions used for species sensitivity 
-# distributions, SSD, in ecotoxicology))
+# distributions, SSD, in ecotoxicology)
 # and visual comparison of the fits using Turnbull cdf plot 
 #
 fln <- fitdistcens(log10EC50,"norm")
@@ -64,6 +64,8 @@ xlab = "log10(EC50)")
 # the normal fitted distribution (5 percent hazardous concentration  : HC5)
 # with its two-sided 95 percent confidence interval calculated by 
 # non parametric bootstrap
+# with a small number of iterations to satisfy CRAN running times constraint.
+# For practical applications, we recommend to use at least niter=501 or niter=1001.
 #
 # in log10(EC50)
 bln <- bootdistcens(fln, niter=101)
