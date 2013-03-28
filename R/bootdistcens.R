@@ -78,8 +78,8 @@ print.bootdistcens <- function(x, ...){
     if (nconverg < length(x$converg))
     {
         cat("\n")
-        cat("The estimation method converged only for ", nconverg, " among ", 
-                length(x$converg), " iterations \n")
+        cat("The estimation method converged only for", nconverg, "among", 
+                length(x$converg), "iterations \n")
     }
 
 }
@@ -121,7 +121,7 @@ print.summary.bootdistcens <- function(x, ...){
     if (nconverg < length(x$converg))
     {
         cat("\n")
-        cat("The estimation method converged only for ", nconverg, " among ", 
-                length(x$converg), " iterations \n")
+        cat("The estimation method converged only for", nconverg, "among", 
+                length(x$converg), "iterations \n")
     }
 }

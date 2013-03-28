@@ -214,8 +214,8 @@ print.quantile.bootdist <- function(x, ...)
     if (x$nbconverg < x$nbboot)
     {
         cat("\n")
-        cat("The estimation method converged only for ", x$nbconverg, " among ", 
-            x$nbboot, " bootstrap iterations.\n")
+        cat("The estimation method converged only for", x$nbconverg, "among", 
+            x$nbboot, "bootstrap iterations.\n")
     }
     invisible(x)
 }
@@ -252,8 +252,8 @@ print.quantile.bootdistcens <- function(x, ...)
     if (x$nbconverg < x$nbboot)
     {
         cat("\n")
-        cat("The estimation method converged only for ", x$nbconverg, " among ", 
-            x$nbboot, " bootstrap iterations.\n")
+        cat("The estimation method converged only for", x$nbconverg, "among", 
+            x$nbboot, "bootstrap iterations.\n")
     }
     invisible(x)
 }
