@@ -1,6 +1,15 @@
 === fitdistrplus : Help to fit of a parametric distribution ===
 
-Version 1.0-0
+Version 1.0-2
+=============
+
+NEW FEATURES
+- plotdist can plot empirical density as an histogram, a density plot 
+or both superimposed.
+- a strong warning was added to the documentation of function descdist
+about the problematic high variance of skewness and kurtosis.
+
+Version 1.0-1
 =============
 
 NEW FEATURES

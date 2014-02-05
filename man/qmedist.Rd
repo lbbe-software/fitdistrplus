@@ -84,7 +84,7 @@ qmedist(data, distr, probs, start = NULL, fix.arg = NULL, qtype = 7,
 
 
 \author{ 
-Christophe Dutang \email{christophe.dutang@math.unistra.fr} and Marie Laure Delignette-Muller.
+Christophe Dutang and Marie Laure Delignette-Muller.
 }
 
 \examples{

@@ -9,7 +9,7 @@
 }
 
 \usage{
-plotdist(data, distr, para, breaks = "default", discrete, \dots)
+plotdist(data, distr, para, histo = TRUE, breaks = "default", demp = FALSE, discrete, \dots)
 }
 
 \arguments{
@@ -20,9 +20,14 @@ plotdist(data, distr, para, breaks = "default", discrete, \dots)
     This argument may be omitted only if \code{para} is omitted. }
 \item{para}{ A named list giving the parameters of the named distribution. This argument may be 
     omitted only if \code{distr} is omitted.  }
+\item{histo}{A logical to plot the histogram using the 
+   \code{\link{hist}} function.}
 \item{breaks}{ If \code{"default"} the histogram is plotted with the function \code{hist} 
     with its default breaks definition. Else \code{breaks} is passed to the function \code{hist}.
     This argument is not taken into account if \code{discrete} is \code{TRUE}. }
+\item{demp}{A logical to plot the empirical density on the first plot 
+  (alone or superimposed on the histogram depending of the value of the argument \code{histo}) 
+  using the \code{\link{density}} function.}
 \item{discrete}{ If TRUE, the distribution is considered as discrete.
 	If both \code{distr} and \code{discrete} are missing, \code{discrete} is set
 	to \code{FALSE}. If \code{discrete} is missing but not  \code{distr}, 
@@ -34,7 +39,11 @@ plotdist(data, distr, para, breaks = "default", discrete, \dots)
 
 \details{
     Empirical and, if specified, theoretical distributions are plotted
-    in density and in cdf. For continuous distributions, the function \code{\link{hist}} is used with its default
+    in density and in cdf. For the plot in density, the user can use the arguments
+    \code{histo} and \code{demp} to specify if he wants the histogram using the function 
+    \code{\link{hist}}, the density plot using the function \code{\link{density}}, or both
+    (at least one of the two arguments must be put to \code{"TRUE"}).
+    For continuous distributions, the function \code{\link{hist}} is used with its default
     breaks definition if \code{breaks} is \code{"default"} or passing \code{breaks} as an argument if it differs
     from \code{"default"}. For continuous distribution and when a theoretical distribution is specified
     by both arguments \code{distname} and \code{para}, Q-Q plot
@@ -67,10 +76,13 @@ Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr}
 \examples{
 # (1) Plot of an empirical distribution with changing 
 # of default line types for CDF and colors
+# and optionally adding a density line
 #
 set.seed(1234)
 x1 <- rnorm(n=30)
 plotdist(x1)
+plotdist(x1,demp = TRUE)
+plotdist(x1,histo = FALSE, demp = TRUE)
 plotdist(x1, col="blue", type="b", pch=16)
 plotdist(x1, type="s")
 
@@ -87,6 +99,9 @@ plotdist(x2, "pois", para=list(lambda = mean(x2)), lwd="2")
 xn <- rnorm(n=100, mean=10, sd=5)
 plotdist(xn, "norm", para=list(mean=mean(xn), sd=sd(xn)))
 plotdist(xn, "norm", para=list(mean=mean(xn), sd=sd(xn)), pch=16)
+plotdist(xn, "norm", para=list(mean=mean(xn), sd=sd(xn)), demp = TRUE)
+plotdist(xn, "norm", para=list(mean=mean(xn), sd=sd(xn)), 
+histo = FALSE, demp = TRUE)
 
 # (4) Plot of serving size data
 #

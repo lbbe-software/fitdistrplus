@@ -204,6 +204,8 @@ serving <- groundbeef$serving
 fitg <- fitdist(serving, "gamma")
 summary(fitg)
 plot(fitg)
+plot(fitg, demp = TRUE)
+plot(fitg, histo = FALSE, demp = TRUE)
 cdfcomp(fitg, addlegend=FALSE)
 denscomp(fitg, addlegend=FALSE)
 ppcomp(fitg, addlegend=FALSE)
