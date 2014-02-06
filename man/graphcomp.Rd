@@ -15,22 +15,23 @@
 \usage{
 cdfcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
     datapch, datacol, fitlty, fitcol, addlegend = TRUE, legendtext, 
-    xlegend = "bottomright", ylegend = NULL, horizontals = TRUE, verticals = FALSE, 
-    use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, discrete, \dots)
+    xlegend = "bottomright", ylegend = NULL, horizontals = TRUE, 
+    verticals = FALSE, use.ppoints = TRUE, a.ppoints = 0.5, 
+    lines01 = FALSE, discrete, \dots)
     
-denscomp(ft, xlim, ylim, probability = TRUE, main, xlab, ylab, datapch, datacol, fitlty, fitcol, 
-    addlegend = TRUE, legendtext, xlegend = "topright", ylegend = NULL, 
-    demp = FALSE, dempcol = "grey", \dots)
+denscomp(ft, xlim, ylim, probability = TRUE, main, xlab, ylab, datapch, 
+    datacol, fitlty, fitcol, addlegend = TRUE, legendtext, xlegend = "topright", 
+    ylegend = NULL, demp = FALSE, dempcol = "grey", \dots)
 
 qqcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
-    fitpch, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", ylegend = NULL, 
-    use.ppoints = TRUE, a.ppoints = 0.5, line01 = TRUE, line01col = "black", line01lty = 1,
-    ynoise = TRUE, \dots)   
+    fitpch, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", 
+    ylegend = NULL, use.ppoints = TRUE, a.ppoints = 0.5, line01 = TRUE, 
+    line01col = "black", line01lty = 1, ynoise = TRUE, \dots)   
     
 ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
-    fitpch, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", ylegend = NULL, 
-    use.ppoints = TRUE, a.ppoints = 0.5, line01 = TRUE, line01col = "black", line01lty = 1,
-    ynoise = TRUE, \dots)
+    fitpch, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", 
+    ylegend = NULL, use.ppoints = TRUE, a.ppoints = 0.5, line01 = TRUE, 
+    line01col = "black", line01lty = 1, ynoise = TRUE, \dots)
 }
 \arguments{
 \item{ft}{One \code{"fitdist"} object or a list of objects of class \code{"fitdist"}.}
@@ -138,7 +139,8 @@ cdfcomp(list(fitW,fitln,fitg),legendtext=c("Weibull","lognormal","gamma"),
     main="ground beef fits",xlab="serving sizes (g)",
     ylab="F",xlim = c(0,250),xlegend = "center",lines01 = TRUE)
 denscomp(list(fitW,fitln,fitg),legendtext=c("Weibull","lognormal","gamma"),
-    main="ground beef fits",xlab="serving sizes (g)",xlim = c(0,250),xlegend = "topright")
+    main="ground beef fits",xlab="serving sizes (g)",xlim = c(0,250),
+    xlegend = "topright")
 ppcomp(list(fitW,fitln,fitg),legendtext=c("Weibull","lognormal","gamma"),
     main="ground beef fits",xlegend = "bottomright",line01 = TRUE)
 qqcomp(list(fitW,fitln,fitg),legendtext=c("Weibull","lognormal","gamma"),

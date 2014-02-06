@@ -94,13 +94,14 @@ and Christophe Dutang.
 
 
 \examples{
-# (1) Fit of a normal distribution on acute toxicity log-transformed values of endosulfan for
-# nonarthropod invertebrates, using maximum likelihood estimation
+# (1) Fit of a normal distribution on acute toxicity log-transformed values of 
+# endosulfan for nonarthropod invertebrates, using maximum likelihood estimation
 # to estimate what is called a species sensitivity distribution 
-# (SSD) in ecotoxicology, followed by estimation of the 5, 10 and 20 percent quantile values of 
-# the fitted distribution, which are called the 5, 10, 20 percent hazardous concentrations (HC5, HC10, HC20)
-# in ecotoxicology, followed with calculations of their confidence intervals with various definitions,
-# from a small number of bootstrap iterations to satisfy CRAN running times constraint.
+# (SSD) in ecotoxicology, followed by estimation of the 5, 10 and 20 percent quantile  
+# values of the fitted distribution, which are called the 5, 10, 20 percent hazardous 
+# concentrations (HC5, HC10, HC20) in ecotoxicology, followed with calculations of their
+# confidence intervals with various definitions, from a small number of bootstrap 
+# iterations to satisfy CRAN running times constraint.
 # For practical applications, we recommend to use at least niter=501 or niter=1001.
 #
 data(endosulfan)
@@ -125,9 +126,10 @@ points(q1$quantCI[2,],q1$probs,type="l")
 # (3) Fit of a distribution on acute salinity log-transformed tolerance 
 # for riverine macro-invertebrates, using maximum likelihood estimation
 # to estimate what is called a species sensitivity distribution 
-# (SSD) in ecotoxicology, followed by estimation of the 5, 10 and 20 percent quantile values of 
-# the fitted distribution, which are called the 5, 10, 20 percent hazardous concentrations (HC5, HC10, HC20)
-# in ecotoxicology, followed with calculations of their confidence intervals with various definitions.
+# (SSD) in ecotoxicology, followed by estimation of the 5, 10 and 20 percent quantile
+# values of the fitted distribution, which are called the 5, 10, 20 percent hazardous 
+# concentrations (HC5, HC10, HC20) in ecotoxicology, followed with calculations of 
+# their confidence intervals with various definitions.
 # from a small number of bootstrap iterations to satisfy CRAN running times constraint.
 # For practical applications, we recommend to use at least niter=501 or niter=1001.
 #
