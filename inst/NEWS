@@ -9,6 +9,10 @@ or both superimposed.
 - a strong warning was added to the documentation of function descdist
 about the problematic high variance of skewness and kurtosis.
 
+BUG FIXES
+- bug fixed in bootdistcens : argument fix.arg is now correctly passed to mle
+
+
 Version 1.0-1
 =============
 
