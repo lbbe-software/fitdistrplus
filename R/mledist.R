@@ -41,18 +41,19 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
     if (!is.null(fix.arg) & is.null(start))
         stop("Starting values must be defined when some distribution parameters are fixed")
     
+    txt1 <- "data must be a numeric vector of length greater than 1 for non censored data"
+    txt2 <- "or a dataframe with two columns named left and right and more than one line for censored data"
+    
     if (is.vector(data)) {
         cens <- FALSE
         if (!(is.numeric(data) & length(data)>1)) 
-            stop("data must be a numeric vector of length greater than 1 for non censored data
-            or a dataframe with two columns named left and right and more than one line for censored data")
+            stop(paste(txt1, txt2))
     }
     else {
         cens <- TRUE
         censdata <- data
         if (!(is.vector(censdata$left) & is.vector(censdata$right) & length(censdata[, 1])>1))
-        stop("data must be a numeric vector of length greater than 1 for non censored data
-        or a dataframe with two columns named left and right and more than one line for censored data")
+            stop(paste(txt1, txt2))
         pdistname<-paste("p", distname, sep="")
         if (!exists(pdistname, mode="function"))
             stop(paste("The ", pdistname, " function must be defined to apply maximum likelihood to censored data"))
