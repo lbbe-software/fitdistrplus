@@ -77,7 +77,8 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
                 with the error code ", mle$convergence, "\n") 
         estimate <- mle$estimate
         if(!is.null(mle$hessian)){
-            if(all(!is.na(mle$hessian))){
+            #check for NA values and invertible Hessian
+            if(all(!is.na(mle$hessian)) && qr(mle$hessian)$rank == NCOL(mle$hessian)){
                 varcovar <- solve(mle$hessian)
                 sd <- sqrt(diag(varcovar))
                 correl <- cov2cor(varcovar)

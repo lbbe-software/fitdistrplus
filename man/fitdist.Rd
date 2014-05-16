@@ -115,7 +115,8 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
     Hessian at the solution found by \code{optim} or by the user-supplied function passed to mledist.
 
     NB: if your data values are particularly small or large, a scaling may be needed 
-    before the optimization process. See example (14).
+    before the optimization process. See example (14) in this page and examples (14,15) in the test file.
+    Please also take a look at Rmpfr package available on CRAN.
     
 }
 
@@ -126,8 +127,10 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
         \code{"mle"} for 'maximum likelihood estimation', \code{"mme"} for 'matching moment estimation',
          \code{"qme"} for 'matching quantile estimation'
          and \code{"mge"} for 'maximum goodness-of-fit estimation' }
-    \item{sd}{ the estimated standard errors or \code{NULL} if not available }
-    \item{cor}{ the estimated correlation matrix or \code{NULL} if not available}
+    \item{sd}{ the estimated standard errors, \code{NA} if numerically not computable
+        or \code{NULL} if not available}
+    \item{cor}{ the estimated correlation matrix, \code{NA} if numerically not computable
+        or \code{NULL} if not available}
     \item{loglik}{ the log-likelihood}
     \item{aic}{ the Akaike information criterion}
     \item{bic}{ the the so-called BIC or SBC (Schwarz Bayesian criterion)}
