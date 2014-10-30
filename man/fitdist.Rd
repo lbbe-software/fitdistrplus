@@ -132,21 +132,22 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
 
 \value{ 
     \code{fitdist} returns an object of class \code{"fitdist"}, a list with the following components:
-    \item{estimate }{ the parameter estimates }
+    \item{estimate }{ the parameter estimates.}
     \item{method }{ the character string coding for the fitting method : 
         \code{"mle"} for 'maximum likelihood estimation', \code{"mme"} for 'matching moment estimation',
          \code{"qme"} for 'matching quantile estimation'
-         and \code{"mge"} for 'maximum goodness-of-fit estimation' }
+    and \code{"mge"} for 'maximum goodness-of-fit estimation'.}
     \item{sd}{ the estimated standard errors, \code{NA} if numerically not computable
-        or \code{NULL} if not available}
+        or \code{NULL} if not available.}
     \item{cor}{ the estimated correlation matrix, \code{NA} if numerically not computable
-        or \code{NULL} if not available}
-    \item{loglik}{ the log-likelihood}
-    \item{aic}{ the Akaike information criterion}
-    \item{bic}{ the the so-called BIC or SBC (Schwarz Bayesian criterion)}
-    \item{n}{ the length of the data set }
-    \item{data}{ the data set }
-    \item{distname}{ the name of the distribution }
+        or \code{NULL} if not available.}
+    \item{vcov}{ the estimated variance-covariance matrix, \code{NULL} if not available.}
+    \item{loglik}{ the log-likelihood.}
+    \item{aic}{ the Akaike information criterion.}
+    \item{bic}{ the the so-called BIC or SBC (Schwarz Bayesian criterion).}
+    \item{n}{ the length of the data set.}
+    \item{data}{ the data set.}
+    \item{distname}{ the name of the distribution.}
     \item{fix.arg}{ the named list giving the values of parameters of the named distribution
         that must be kept fixed rather than estimated by maximum likelihood or \code{NULL} 
         if there are no such parameters. }
@@ -199,11 +200,11 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
 }
 
 \references{ 
-Cullen AC and Frey HC (1999) Probabilistic techniques in exposure assessment. Plenum Press, USA, pp. 81-155.
+Cullen A.C. and Frey H.C. (1999) Probabilistic techniques in exposure assessment. Plenum Press, USA, pp. 81-155.
 
-Venables WN and Ripley BD (2002) Modern applied statistics with S. Springer, New York, pp. 435-446.
+Venables W.N. and Ripley B.D. (2002) Modern applied statistics with S. Springer, New York, pp. 435-446.
 
-Vose D (2000) Risk analysis, a quantitative guide. John Wiley & Sons Ltd, Chischester, England, pp. 99-143.
+Vose D. (2000) Risk analysis, a quantitative guide. John Wiley & Sons Ltd, Chischester, England, pp. 99-143.
 }
 
 

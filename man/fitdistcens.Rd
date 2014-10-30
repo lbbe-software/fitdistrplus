@@ -70,14 +70,16 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL, \dots)
 
 \value{ 
     \code{fitdistcens} returns an object of class \code{"fitdistcens"}, a list with the following components:
-    \item{estimate}{ the parameter estimates }
-    \item{sd}{ the estimated standard errors }
-    \item{cor}{ the estimated correlation matrix }
-    \item{loglik}{ the log-likelihood }
-    \item{aic}{ the Akaike information criterion }
-    \item{bic}{ the the so-called BIC or SBC (Schwarz Bayesian criterion)}
-    \item{censdata}{ the censored data set }
-    \item{distname}{ the name of the distribution }
+    \item{estimate}{ the parameter estimates.}
+    \item{sd}{ the estimated standard errors.}
+    \item{cor}{ the estimated correlation matrix, \code{NA} if numerically not computable
+    or \code{NULL} if not available.}
+    \item{vcov}{ the estimated variance-covariance matrix, \code{NULL} if not available.}
+    \item{loglik}{ the log-likelihood.}
+    \item{aic}{ the Akaike information criterion.}
+    \item{bic}{ the the so-called BIC or SBC (Schwarz Bayesian criterion).}
+    \item{censdata}{ the censored data set.}
+    \item{distname}{ the name of the distribution.}
     \item{fix.arg}{ the named list giving the values of parameters of the named distribution
     that must be kept fixed rather than estimated by maximum likelihood or NULL if there are no such parameters. }
     \item{dots}{ the list of  further arguments passed in \dots to be used in \code{bootdistcens} to
@@ -109,7 +111,7 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL, \dots)
 }
 
 \references{ 
-Venables WN and Ripley BD (2002) Modern applied statistics with S. Springer, New York, pp. 435-446.
+Venables W.N. and Ripley B.D. (2002) Modern applied statistics with S. Springer, New York, pp. 435-446.
 }
 
 
