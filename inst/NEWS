@@ -3,6 +3,9 @@
 Version 1.0-3
 =============
 
+NEW FEATURES
+- new generic functions for fitdist(cens): loglik, vcov and coef.
+
 BUG FIXES
 - fitdist can handle non invertible Hessian matrices.
 

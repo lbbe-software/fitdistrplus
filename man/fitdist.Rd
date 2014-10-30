@@ -3,6 +3,9 @@
 \alias{plot.fitdist}
 \alias{print.fitdist}
 \alias{summary.fitdist}
+\alias{logLik.fitdist}
+\alias{vcov.fitdist}
+\alias{coef.fitdist}
 \alias{fitdistrplus}
 \title{ Fit of univariate distributions to non-censored data}
 
@@ -10,7 +13,7 @@
  Fit of univariate distributions to non-censored data by maximum likelihood, 
  moment matching, quantile matching or 
  maximizing goodness-of-fit (minimizing distance). Generic methods are \code{print}, \code{plot}, 
- \code{summary} and \code{quantile}.
+\code{summary}, \code{quantile}, \code{logLik}, \code{vcov} and \code{coef}.
 }
 
 \usage{
@@ -22,6 +25,13 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
 \method{plot}{fitdist}(x, breaks="default", \dots)
 
 \method{summary}{fitdist}(object, \dots)
+
+\method{logLik}{fitdist}(object, \dots)
+
+\method{vcov}{fitdist}(object, \dots)
+
+\method{coef}{fitdist}(object, \dots)
+
 
 }
 
@@ -166,12 +176,17 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
     a density Q-Q plot (function \code{\link{qqcomp}}),
     or a P-P plot (function \code{\link{ppcomp}}).
     }
-    
+    \item{\code{logLik}}{ Extracts the estimated log-likelihood from the \code{"fitdist"} object.
+    }
+    \item{\code{vcov}}{ Extracts the estimated var-covariance matrix from the \code{"fitdist"} object.
+    }
+    \item{\code{coef}}{ Extracts the fitted coefficients from the \code{"fitdist"} object.
+    }
 }
 
 }
 
-\seealso{ 
+\seealso{
     See \code{\link{mledist}}, \code{\link{mmedist}}, \code{\link{qmedist}}, 
     \code{\link{mgedist}} for details on parameter estimation.
     See \code{\link{gofstat}} for goodness-of-fit statistics.

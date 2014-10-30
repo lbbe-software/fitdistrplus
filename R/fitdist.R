@@ -61,7 +61,7 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
         mme <- mmedist(data, distname, start=start, fix.arg=fix.arg, ...)
                 
         sd <- NULL
-        correl <- NULL
+        correl <- varcovar <- NULL
         
         estimate <- mme$estimate
         loglik <- mme$loglik
@@ -110,7 +110,7 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
         npar <- length(estimate)
         aic <- -2*loglik+2*npar
         bic <- -2*loglik+log(n)*npar
-        correl <- NULL
+        correl <- varcovar <- NULL
         
         convergence <- qme$convergence      
     }else if (method == "mge")
@@ -126,7 +126,7 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
         npar <- length(estimate)
         aic <- -2*loglik+2*npar
         bic <- -2*loglik+log(n)*npar
-        correl <- NULL
+        correl <- varcovar <- NULL
         
         convergence <- mge$convergence      
     }else
@@ -137,7 +137,7 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
     if (!is.null(fix.arg)) fix.arg <- as.list(fix.arg)
     
     reslist <- list(estimate = estimate, method = method, sd = sd, cor = correl, 
-                    loglik = loglik, aic=aic, bic=bic, n = n, data=data, 
+                    vcov = varcovar, loglik = loglik, aic=aic, bic=bic, n = n, data=data,
                     distname = distname, fix.arg = fix.arg, dots = dots, 
                     convergence = convergence)
     
@@ -225,3 +225,7 @@ print.summary.fitdist <- function(x, ...)
 }
 
 #see quantiles.R for quantile.fitdist
+#see logLik.R for loglik.fitdist
+#see vcov.R for vcov.fitdist
+#see coef.R for coef.fitdist
+

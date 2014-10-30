@@ -13,6 +13,9 @@ S3method(print, summary.fitdist)
 S3method(print, quantile.fitdist)
 S3method(print, gofstat.fitdist)
 S3method(quantile, fitdist)
+S3method(logLik, fitdist)
+S3method(vcov, fitdist)
+S3method(coef, fitdist)
 
 #fitditscens class
 export(fitdistcens)
@@ -22,6 +25,9 @@ S3method(print, fitdistcens)
 S3method(print, summary.fitdistcens)
 S3method(print, quantile.fitdistcens)
 S3method(quantile, fitdistcens)
+S3method(logLik, fitdistcens)
+S3method(vcov, fitdistcens)
+S3method(coef, fitdistcens)
 
 #bootdist class
 export(bootdist)
@@ -41,6 +47,11 @@ S3method(print, summary.bootdistcens)
 S3method(print, quantile.bootdistcens)
 S3method(quantile, bootdistcens)
 
+#new generic functions [to be removed]
+#export(loglik)
+#S3method(loglik, default)
+
+
 #dedicated fit functions
 export(mledist, mmedist, qmedist, mgedist)
 
@@ -51,7 +62,7 @@ export(plotdist, plotdistcens)
 export(cdfcomp, denscomp, qqcomp, ppcomp)
 export(cdfcompcens)
 
-#quantile functions
+#quantile functions [to be removed]
 #export(quantiledist)
 #export(quantiledistcens)
 

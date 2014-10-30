@@ -51,17 +51,33 @@ fitdistcens <- function (censdata, distr, start=NULL, fix.arg=NULL, ...)
         stop("the function mle failed to estimate the parameters, 
         with the error code ", mle$convergence) 
     estimate <- mle$estimate
-    varcovar <- solve(mle$hessian)
-    sd <- sqrt(diag(varcovar))
-    correl <- cov2cor(varcovar)
+    
+    if(!is.null(mle$hessian)){
+        #check for NA values and invertible Hessian
+        if(all(!is.na(mle$hessian)) && qr(mle$hessian)$rank == NCOL(mle$hessian)){
+            varcovar <- solve(mle$hessian)
+            sd <- sqrt(diag(varcovar))
+            correl <- cov2cor(varcovar)
+        }else{
+            varcovar <- NA
+            sd <- NA
+            correl <- NA
+        }
+    }else{
+        varcovar <- NA
+        sd <- NA
+        correl <- NA
+    }
+    
     loglik <- mle$loglik
     n <- nrow(censdata)
     npar <- length(estimate)
     aic <- -2*loglik+2*npar
     bic <- -2*loglik+log(n)*npar
          
-    return(structure(list(estimate = estimate, sd = sd, cor = correl, loglik = loglik, aic=aic, bic=bic, 
-        censdata=censdata, distname=distname, fix.arg=as.list(fix.arg), dots=dots), class = "fitdistcens"))
+    return(structure(list(estimate = estimate, sd = sd, cor = correl, vcov = varcovar,
+        loglik = loglik, aic=aic, bic=bic, censdata=censdata, distname=distname,
+        fix.arg=as.list(fix.arg), dots=dots), class = "fitdistcens"))
         
 }
 
@@ -116,3 +132,7 @@ print.summary.fitdistcens <- function(x, ...){
 }
 
 #see quantiles.R for quantile.fitdistcens
+#see logLik.R for loglik.fitdistcens
+#see vcov.R for vcov.fitdistcens
+#see coef.R for coef.fitdistcens
+
