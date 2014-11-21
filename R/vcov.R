@@ -33,19 +33,14 @@
 vcov.fitdist <- function(object, ...)
 {
     stopifnot(class(object) == "fitdist")
-    
-    if(is.null(object$vcov))
-        return(NA)
-    else
-        return(object$vcov)
+    if (object$method != "mle")
+      warning("The variance-covariance matrix can only be calculated for fits using the mle method")
+    return(object$vcov)
 }
 
 vcov.fitdistcens <- function(object, ...)
 {
     stopifnot(class(object) == "fitdistcens")
     
-    if(is.null(object$vcov))
-        return(NA)
-    else
-        return(object$vcov)
+    return(object$vcov)
 }

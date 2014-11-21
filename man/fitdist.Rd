@@ -179,7 +179,8 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
     }
     \item{\code{logLik}}{ Extracts the estimated log-likelihood from the \code{"fitdist"} object.
     }
-    \item{\code{vcov}}{ Extracts the estimated var-covariance matrix from the \code{"fitdist"} object.
+    \item{\code{vcov}}{ Extracts the estimated var-covariance matrix from the \code{"fitdist"} object
+    (only available When \code{method = "mle"}).
     }
     \item{\code{coef}}{ Extracts the fitted coefficients from the \code{"fitdist"} object.
     }

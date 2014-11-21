@@ -13,7 +13,7 @@ coef(fitg)
 fitg <- fitdist(serving, "gamma", method="mme")
 
 logLik(fitg)
-vcov(fitg)
+vcov(fitg) 
 coef(fitg)
 
 # (2) Fit of a lognormal distribution to bacterial contamination data
@@ -21,6 +21,6 @@ coef(fitg)
 data(smokedfish)
 fitsf  <-  fitdistcens(smokedfish,"lnorm")
 logLik(fitsf)
-vcov(fitsf)
+vcov(fitsf) 
 coef(fitsf)
 

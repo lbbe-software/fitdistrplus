@@ -3,6 +3,9 @@
 \alias{plot.fitdistcens}
 \alias{print.fitdistcens}
 \alias{summary.fitdistcens}
+\alias{logLik.fitdistcens}
+\alias{vcov.fitdistcens}
+\alias{coef.fitdistcens}
 \title{Fitting of univariate distributions to censored data}
 
 \description{
@@ -17,6 +20,12 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL, \dots)
 \method{plot}{fitdistcens}(x, \dots)
 
 \method{summary}{fitdistcens}(object, \dots)
+
+\method{logLik}{fitdistcens}(object, \dots)
+
+\method{vcov}{fitdistcens}(object, \dots)
+
+\method{coef}{fitdistcens}(object, \dots)
 
     
 }
@@ -99,6 +108,13 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL, \dots)
     \item{\code{plot}}{
     The plot of an object of class \code{"fitdistcens"} returned by \code{fitdistcens} uses the 
     function \code{\link{plotdistcens}}.
+    }
+    \item{\code{logLik}}{ Extracts the estimated log-likelihood from the \code{"fitdistcens"} object.
+    }
+    \item{\code{vcov}}{ Extracts the estimated var-covariance matrix from the \code{"fitdistcens"} object
+    (only available When \code{method = "mle"}).
+    }
+    \item{\code{coef}}{ Extracts the fitted coefficients from the \code{"fitdistcens"} object.
     }
 }
 }

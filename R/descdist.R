@@ -23,7 +23,7 @@
 ### 
 
 descdist <- function(data, discrete = FALSE, boot = NULL, method = "unbiased", graph = TRUE,
-obs.col = "darkblue", boot.col = "orange")
+obs.col = "darkblue", obs.pch = 16, boot.col = "orange")
 {
     #if(is.mcnode(data)) data <- as.vector(data)
     if (missing(data) || !is.vector(data,mode="numeric"))
@@ -126,7 +126,7 @@ obs.col = "darkblue", boot.col = "orange")
         }
 
         ymax<-kurtmax-1
-        plot(skewdata^2,kurtmax-kurtdata,pch=16,xlim=c(0,xmax),ylim=c(0,ymax),
+        plot(skewdata^2,kurtmax-kurtdata,pch=obs.pch,xlim=c(0,xmax),ylim=c(0,ymax),
         yaxt="n",xlab="square of skewness",ylab="kurtosis",main="Cullen and Frey graph")
         yax<-as.character(kurtmax-0:ymax)
         axis(side=2,at=0:ymax,labels=yax)
@@ -159,7 +159,7 @@ obs.col = "darkblue", boot.col = "orange")
             y<-kurtmax-(es2^4+2*es2^3+3*es2^2-3)
             lines(s2,y,lty=3)
                 
-            legend(xmax*0.2,ymax*1.03,pch=16,legend="Observation",bty="n",cex=0.8,pt.cex=1.2,col=obs.col)
+            legend(xmax*0.2,ymax*1.03,pch=obs.pch,legend="Observation",bty="n",cex=0.8,pt.cex=1.2,col=obs.col)
             if (!is.null(boot)) {
             legend(xmax*0.2,ymax*0.98,pch=1,legend="bootstrapped values",
                 bty="n",cex=0.8,col=boot.col)        
@@ -190,7 +190,7 @@ obs.col = "darkblue", boot.col = "orange")
             s2<-c(s2a,s2b)
             y<-c(ya,yb)
             polygon(s2,y,col="grey80",border="grey80")
-            legend(xmax*0.2,ymax*1.03,pch=16,legend="Observation",bty="n",cex=0.8,pt.cex=1.2)
+            legend(xmax*0.2,ymax*1.03,pch=obs.pch,legend="Observation",bty="n",cex=0.8,pt.cex=1.2, col = obs.col)
             if (!is.null(boot)) {
             legend(xmax*0.2,ymax*0.98,pch=1,legend="bootstrapped values",
                 bty="n",cex=0.8,col=boot.col)        
@@ -212,7 +212,7 @@ obs.col = "darkblue", boot.col = "orange")
             points(s2boot,kurtmax-kurtboot,pch=1,col=boot.col,cex=0.5)
         } 
         # observed distribution
-        points(skewness(data)^2,kurtmax-kurtosis(data),pch=16,cex=2,col=obs.col)
+        points(skewness(data)^2,kurtmax-kurtosis(data),pch=obs.pch,cex=2,col=obs.col)
         # norm dist
         points(0,kurtmax-3,pch=8,cex=1.5,lwd=2)
         if (!discrete) {
