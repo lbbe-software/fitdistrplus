@@ -1,5 +1,5 @@
 Package: fitdistrplus
-Title: Help to fit of a parametric distribution to non-censored or censored data
+Title: Help to Fit of a Parametric Distribution to Non-Censored or Censored Data
 Version: 1.0-3
 Date: 2014-12-03
 Authors@R: c(person("Marie Laure", "Delignette-Muller", role = c("aut", "cre"), email= "marielaure.delignettemuller@vetagro-sup.fr"),person("Christophe", "Dutang", role = "aut", email = "christophe.dutang@univ-lemans.fr"),person("Regis", "Pouillot", role = "ctb", email = "rpouillot@yahoo.fr"),person("Jean-Baptiste", "Denis", role = "ctb", email = "jbdenis@jouy.inra.fr"))
