@@ -62,7 +62,7 @@ xlab="log10ATV")
 qqcomp(list(fln,fll),legendtext=c("normal","logistic"))
 ppcomp(list(fln,fll),legendtext=c("normal","logistic"))
 
-gofstat(list(fln,fll))
+gofstat(list(fln,fll), fitnames = c("lognormal", "loglogistic"))
 
 # (4) estimation of the 5 percent quantile value of 
 # logistic fitted distribution (5 percent hazardous concentration  : HC5)

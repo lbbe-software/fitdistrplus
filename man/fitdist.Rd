@@ -18,7 +18,7 @@
 
 \usage{
 fitdist(data, distr, method = c("mle", "mme", "qme", "mge"), 
-    start=NULL, fix.arg=NULL, \dots)
+    start=NULL, fix.arg=NULL, discrete, \dots)
     
 \method{print}{fitdist}(x, \dots)
 
@@ -56,6 +56,14 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
     with its default breaks definition. Else \code{breaks} is passed to the function \code{hist}.
     This argument is not taken into account with discrete distributions: \code{"binom"}, 
     \code{"nbinom"}, \code{"geom"}, \code{"hyper"} and \code{"pois"}. }
+\item{discrete}{ If TRUE, the distribution is considered as discrete.
+  If \code{discrete} is missing, 
+	\code{discrete} is automaticaly set to \code{TRUE} when \code{distr} belongs to 
+	\code{"binom"}, \code{"nbinom"}, \code{"geom"},
+    \code{"hyper"} or \code{"pois"} and to \code{FALSE} in the other cases. It is thus recommended
+    to enter this argument when using another discrete distribution. This argument will not directly affect
+    the results of the fit but will be passed to functions \code{\link{gofstat}}, \code{\link{plotdist}} 
+    and \code{\link{cdfcomp}}.  }
 \item{\dots}{Further arguments to be passed to generic functions, or to one of the functions
     \code{"mledist"},  \code{"mmedist"}, \code{"qmedist"} or \code{"mgedist"}
     depending of the chosen method
@@ -151,6 +159,9 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
     \item{fix.arg}{ the named list giving the values of parameters of the named distribution
         that must be kept fixed rather than estimated by maximum likelihood or \code{NULL} 
         if there are no such parameters. }
+    \item{discrete}{ the input argument or the automatic definition by the function to be passed
+        to functions \code{\link{gofstat}}, \code{\link{plotdist}} 
+        and \code{\link{cdfcomp}}. }
     \item{dots}{ the list of  further arguments passed in \dots to be used in \code{\link{bootdist}} 
         in iterative calls to \code{\link{mledist}}, \code{\link{mmedist}},
         \code{\link{qmedist}}, \code{\link{mgedist}} or 
@@ -479,6 +490,22 @@ fCvM <- fitdist(t, "triang", method="mge", start = list(min=4, mode=6,max=9), go
 fKS <- fitdist(t, "triang", method="mge", start = list(min=4, mode=6,max=9), gof="KS")
 cdfcomp(list(fCvM,fKS))
 }
+
+# (17) fit a non classical discrete distribution (the zero inflated Poisson distribution)
+#
+
+require(gamlss.dist)
+set.seed(1234)
+x <- rZIP(n = 30, mu = 5, sigma = 0.2)
+plotdist(x, discrete = TRUE)
+fitzip <- fitdist(x, "ZIP", start =  list(mu = 4, sigma = 0.15), discrete = TRUE, 
+  optim.method = "L-BFGS-B", lower = c(0, 0), upper = c(Inf, 1))
+summary(fitzip)
+plot(fitzip)
+fitp <- fitdist(x, "pois")
+cdfcomp(list(fitzip, fitp))
+gofstat(list(fitzip, fitp))
+
 
 }
 \keyword{ distribution }

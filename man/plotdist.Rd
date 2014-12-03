@@ -9,7 +9,8 @@
 }
 
 \usage{
-plotdist(data, distr, para, histo = TRUE, breaks = "default", demp = FALSE, discrete, \dots)
+plotdist(data, distr, para, histo = TRUE, breaks = "default", 
+  demp = FALSE, discrete, \dots)
 }
 
 \arguments{

@@ -88,13 +88,10 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
 	# initiate discrete if not given 
 	if(missing(discrete))
 	{
-		if (is.element(distname, c("binom", "nbinom", "geom", "hyper", "pois"))) 
-			discrete <- TRUE
-		else 
-			discrete <- FALSE
+	  discrete <- ft[[1]]$discrete
 	}
 	if(!is.logical(discrete))
-		stop("wrong argument 'discrete'.")
+	  stop("wrong argument 'discrete'.")
 	
     
     # plot of data (ecdf)

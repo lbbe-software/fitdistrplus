@@ -27,10 +27,8 @@ gofstat(f, chisqbreaks, meancount, discrete, fitnames=NULL)
     account if the breaks are directly defined in the argument \code{chisqbreaks}. If \code{chisqbreaks} 
     and \code{meancount} are both omitted, \code{meancount} is fixed in order to obtain roughly 
     \eqn{(4n)^{2/5}} cells with \eqn{n} the length of the dataset. }
-\item{discrete}{If \code{TRUE}, only the Chi-squared statistic is computed.
-	If missing, \code{discrete} is set to \code{TRUE} when the distribution name of
-	the first fit belongs to \code{"binom"}, \code{"nbinom"}, \code{"geom"}, 
-	\code{"hyper"}, \code{"pois"}.}
+\item{discrete}{If \code{TRUE}, only the Chi-squared statistic and information criteria are computed.
+	If missing, \code{discrete} is passed from the first object of class \code{"fitdist"} of the list \code{f}.}
 \item{fitnames}{A vector defining the names of the fits.}
 \item{x}{An object of class \code{"fitdist"}.  }
 \item{\dots}{Further arguments to be passed to generic functions.}
@@ -105,7 +103,8 @@ gofstat(f, chisqbreaks, meancount, discrete, fitnames=NULL)
     or \code{"not computed"} if not computed }
 	\item{aic}{a named vector with the values of the Aikake's Information Criterion.}
 	\item{bic}{a named vector with the values of the Bayesian Information Criterion.}
-	\item{discrete}{the input argument or the automatic choice by the function.}
+	\item{discrete}{the input argument or the automatic definition by the function from  the first
+    object of class \code{"fitdist"} of the list in input.}
 	\item{nbfit}{Number of fits in argument.}
 }
 

@@ -22,7 +22,7 @@
 ###         R functions
 ### 
 
-fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=NULL, fix.arg=NULL, ...) 
+fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=NULL, fix.arg=NULL, discrete, ...) 
 {
     if (!is.character(distr)) 
         distname <- substring(as.character(match.call()$distr), 2)
@@ -35,7 +35,17 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
     pdistname <- paste("p", distname, sep="")
     if (!exists(pdistname, mode="function"))
         stop(paste("The ", pdistname, " function must be defined"))
-        
+    
+    if(missing(discrete))
+    {
+      if (is.element(distname, c("binom", "nbinom", "geom", "hyper", "pois"))) 
+        discrete <- TRUE
+      else
+        discrete <- FALSE
+    }
+    if(!is.logical(discrete))
+      stop("wrong argument 'discrete'.")
+    
     if(any(method == "mom"))
         warning("the name \"mom\" for matching moments is NO MORE used and is replaced by \"mme\".")
     
@@ -139,7 +149,7 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
     reslist <- list(estimate = estimate, method = method, sd = sd, cor = correl, 
                     vcov = varcovar, loglik = loglik, aic=aic, bic=bic, n = n, data=data,
                     distname = distname, fix.arg = fix.arg, dots = dots, 
-                    convergence = convergence)
+                    convergence = convergence, discrete = discrete)
     
     return(structure(reslist, class = "fitdist"))
 
@@ -171,7 +181,7 @@ plot.fitdist <- function(x, breaks="default", ...)
     if (!inherits(x, "fitdist"))
         stop("Use only with 'fitdist' objects")
     plotdist(data=x$data, distr=x$distname, 
-    para=c(as.list(x$estimate), as.list(x$fix.arg)), breaks=breaks, ...)
+    para=c(as.list(x$estimate), as.list(x$fix.arg)), breaks=breaks, discrete = x$discrete, ...)
 }
 
 summary.fitdist <- function(object, ...)
