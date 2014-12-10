@@ -19,8 +19,10 @@
 \usage{
 \method{quantile}{fitdist}(x, probs = seq(0.1, 0.9, by=0.1), \dots)
 \method{quantile}{fitdistcens}(x, probs = seq(0.1, 0.9, by=0.1), \dots)
-\method{quantile}{bootdist}(x, probs = seq(0.1, 0.9, by=0.1),CI.type = "two.sided", CI.level = 0.95, \dots)
-\method{quantile}{bootdistcens}(x, probs = seq(0.1, 0.9, by=0.1),CI.type = "two.sided", CI.level = 0.95, \dots)
+\method{quantile}{bootdist}(x, probs = seq(0.1, 0.9, by=0.1),CI.type = "two.sided", 
+  CI.level = 0.95, \dots)
+\method{quantile}{bootdistcens}(x, probs = seq(0.1, 0.9, by=0.1),CI.type = "two.sided", 
+  CI.level = 0.95, \dots)
 \method{print}{quantile.fitdist}(x, \dots)
 \method{print}{quantile.fitdistcens}(x, \dots)
 \method{print}{quantile.bootdist}(x, \dots)

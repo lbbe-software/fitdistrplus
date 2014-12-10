@@ -1,5 +1,6 @@
 \name{descdist}
 \alias{descdist}
+\alias{print.descdist}
 %- Also NEED an '\alias' for EACH other topic documented here.
 
 \title{ Description of an empirical distribution for non-censored data}
@@ -12,6 +13,9 @@
 \usage{
 descdist(data, discrete = FALSE, boot = NULL, method = "unbiased",
 graph = TRUE, obs.col = "darkblue", obs.pch = 16, boot.col = "orange")
+
+\method{print}{descdist}(x, \dots)
+
 }
 %- maybe also 'usage' for other objects documented here.
 
@@ -25,6 +29,8 @@ graph = TRUE, obs.col = "darkblue", obs.pch = 16, boot.col = "orange")
 \item{obs.col}{ Color used for the observed point on the skewness-kurtosis graph. }
 \item{obs.pch}{ plotting character used for the observed point on the skewness-kurtosis graph. }
 \item{boot.col}{ Color used for bootstrap sample of points on the skewness-kurtosis graph. }
+\item{x}{An object of class \code{"descdist"}.  }
+\item{\dots}{Further arguments to be passed to generic functions}
 }
 
 \details{
@@ -64,6 +70,8 @@ graph = TRUE, obs.col = "darkblue", obs.pch = 16, boot.col = "orange")
     \item{ sd }{ the standard deviation sample or estimated value  }
     \item{ skewness }{ the skewness sample or estimated value  }
     \item{ kurtosis }{ the kurtosis sample or estimated value  }    
+    \item{method}{ the method specified in input ("unbiased" for unbiased 
+    estimated values of statistics or "sample" for sample values. }
 }
 
 \seealso{ 

@@ -47,6 +47,10 @@ S3method(print, summary.bootdistcens)
 S3method(print, quantile.bootdistcens)
 S3method(quantile, bootdistcens)
 
+#descdist class
+export(descdist)
+S3method(print, descdist)
+
 #new generic functions [to be removed]
 #export(loglik)
 #S3method(loglik, default)
@@ -67,7 +71,6 @@ export(cdfcompcens)
 #export(quantiledistcens)
 
 #other functions
-export(descdist)
 export(gofstat)
 
 ### use dynamic library for C code

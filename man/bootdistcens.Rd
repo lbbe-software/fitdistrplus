@@ -97,7 +97,8 @@ Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr}
 %\note{  }
 
 \examples{
-# We choose a low number of bootstrap replicates in order to satisfy CRAN running times constraint.
+# We choose a low number of bootstrap replicates in order to satisfy CRAN running times
+# constraint.
 # For practical applications, we recommend to use at least niter=501 or niter=1001.
 
 # (1) Fit of a normal distribution to fluazinam data in log10

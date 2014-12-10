@@ -46,7 +46,8 @@ cdfcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, yl
 \details{
     Empirical and theoretical distributions are plotted in cdf. 
     The EM approach of Turnbull (Turnbull, 1974) is used to compute the overall 
-    empirical cdf curve, with confidence intervals if \code{Turnbull.confint} is \code{TRUE}, 
+    empirical cdf curve, with confidence intervals if
+    \code{Turnbull.confint} is \code{TRUE}, 
     by calls to functions \code{\link{survfit}} and \code{\link{plot.survfit}} from the 
     \code{survival} package.
     By default a legend is added to the plot. Many graphical arguments are optional, 

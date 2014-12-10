@@ -104,7 +104,8 @@ Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr}
 
 
 \examples{
-# We choose a low number of bootstrap replicates in order to satisfy CRAN running times constraint.
+# We choose a low number of bootstrap replicates in order to satisfy CRAN running times
+# constraint.
 # For practical applications, we recommend to use at least niter=501 or niter=1001.
 
 

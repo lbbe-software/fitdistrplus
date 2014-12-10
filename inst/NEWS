@@ -5,9 +5,17 @@ Version 1.0-3
 
 NEW FEATURES
 - new generic functions for fitdist(cens): loglik, vcov and coef.
+- vignette updated to the version of a paper accepted by the 
+Journal of Statistical Software.
+- add of an argument discrete in fitdist in order to be able to take into
+account non classical discrete distributions while plotting the fit with plot.fitdist or cdfcomp 
+and while calculating goodness-of-fit statistics with gofstat (add of an example : fit of a zero
+inflate Poisson distribution).
+- add of an S3 class for descdist and a print method.
 
 BUG FIXES
 - fitdist can handle non invertible Hessian matrices.
+- 
 
 
 Version 1.0-2

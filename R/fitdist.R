@@ -172,7 +172,7 @@ print.fitdist <- function(x, ...)
     if (x$method=="mle") 
         print(cbind.data.frame("estimate" = x$estimate, "Std. Error" = x$sd), ...)
      else 
-        print(cbind.data.frame("estimate" = x$estimate))
+        print(cbind.data.frame("estimate" = x$estimate), ...)
 
 }
 

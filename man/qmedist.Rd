@@ -9,7 +9,8 @@
 
 \usage{
 qmedist(data, distr, probs, start = NULL, fix.arg = NULL, qtype = 7, 
-    optim.method = "default", lower = -Inf, upper = Inf, custom.optim = NULL, \dots)
+    optim.method = "default", lower = -Inf, upper = Inf, 
+    custom.optim = NULL, \dots)
 
 }
 

@@ -169,7 +169,8 @@ qgumbel  <-  function(p,a,b) a-b*log(-log(p))
 mledist(log10EC50,"gumbel",start=list(a=0,b=2),optim.method="Nelder-Mead")
 
 # (7) scaling problem
-# the simulated dataset (below) has particularly small values, hence without scaling (10^0),
+# the simulated dataset (below) has particularly small values, 
+# hence without scaling (10^0),
 # the optimization raises an error. The for loop shows how scaling by 10^i
 # for i=1,...,6 makes the fitting procedure work correctly.
 

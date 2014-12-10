@@ -76,29 +76,10 @@ obs.col = "darkblue", obs.pch = 16, boot.col = "orange")
     else
         stop("The only possible value for the argument method are 'unbiased' or 'sample'")
     
-    res<-list(min=min(data),max=max(data),median=median(data),
+    res <- list(min=min(data),max=max(data),median=median(data),
     mean=mean(data),sd=standdev(data),
-    skewness=skewness(data),kurtosis=kurtosis(data))
+    skewness=skewness(data),kurtosis=kurtosis(data), method = method)
     
-    cat("summary statistics\n")
-    cat("------\n")
-    cat("min: ",res$min,"  max: ",res$max,"\n")
-    cat("median: ",res$median,"\n")
-    cat("mean: ",res$mean,"\n")
-    if (method=="sample")
-    {
-        cat("sample sd: ",res$sd,"\n")
-        cat("sample skewness: ",res$skewness,"\n")
-        cat("sample kurtosis: ",res$kurtosis,"\n")
-    }
-    else
-    if (method=="unbiased")
-    {
-        cat("estimated sd: ",res$sd,"\n")
-        cat("estimated skewness: ",res$skewness,"\n")
-        cat("estimated kurtosis: ",res$kurtosis,"\n")
-    }
-
     
     skewdata<-res$skewness
     kurtdata<-res$kurtosis
@@ -225,5 +206,33 @@ obs.col = "darkblue", obs.pch = 16, boot.col = "orange")
         }
     } # end of is (graph)
     
-    invisible(res)
+    
+    return(structure(res, class = "descdist"))
+    
 }
+
+print.descdist <- function(x, ...)
+{
+  if (!inherits(x, "descdist"))
+    stop("Use only with 'descdist' objects")
+  cat("summary statistics\n")
+  cat("------\n")
+  cat("min: ",x$min,"  max: ",x$max,"\n")
+  cat("median: ",x$median,"\n")
+  cat("mean: ",x$mean,"\n")
+  if (x$method=="sample")
+  {
+    cat("sample sd: ",x$sd,"\n")
+    cat("sample skewness: ",x$skewness,"\n")
+    cat("sample kurtosis: ",x$kurtosis,"\n")
+  }
+  else
+    if (x$method=="unbiased")
+    {
+      cat("estimated sd: ",x$sd,"\n")
+      cat("estimated skewness: ",x$skewness,"\n")
+      cat("estimated kurtosis: ",x$kurtosis,"\n")
+    }
+  
+}
+
