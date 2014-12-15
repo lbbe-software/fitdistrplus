@@ -26,7 +26,7 @@
 %% need no 
 \usepackage{Sweave}
 
-\usepackage{color,graphics, wrapfig, subfig}
+\usepackage{color, graphics}
 \usepackage[a4paper, textwidth=18cm, textheight=27cm]{geometry}
 
 \newcommand{\sigle}{\textsc}
