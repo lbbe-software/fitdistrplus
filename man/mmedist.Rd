@@ -91,9 +91,15 @@ to the number of parameters to estimate.}
 }
 
 \references{ 
-    Vose D (2000) Risk analysis, a quantitative guide. John Wiley & Sons Ltd, Chischester, England, pp. 99-143.
     
-    Evans M, Hastings N and Peacock B (2000) Statistical distributions. John Wiley and Sons Inc.
+Evans M, Hastings N and Peacock B (2000), \emph{Statistical distributions}. John Wiley and Sons Inc.
+
+Vose D (2000), \emph{Risk analysis, a quantitative guide}.
+John Wiley & Sons Ltd, Chischester, England, pp. 99-143.
+
+Delignette-Muller ML and Dutang C (2015), \emph{fitdistrplus: An R Package for Fitting Distributions}.
+Journal of Statistical Software, 64(4), 1-34.
+
 }
 
 

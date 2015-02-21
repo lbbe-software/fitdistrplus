@@ -212,11 +212,18 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
 }
 
 \references{ 
-Cullen A.C. and Frey H.C. (1999) Probabilistic techniques in exposure assessment. Plenum Press, USA, pp. 81-155.
+Cullen AC and Frey HC (1999), \emph{Probabilistic techniques in exposure assessment}.
+Plenum Press, USA, pp. 81-155.
 
-Venables W.N. and Ripley B.D. (2002) Modern applied statistics with S. Springer, New York, pp. 435-446.
+Venables WN and Ripley BD (2002), \emph{Modern applied statistics with S}.
+Springer, New York, pp. 435-446.
 
-Vose D. (2000) Risk analysis, a quantitative guide. John Wiley & Sons Ltd, Chischester, England, pp. 99-143.
+Vose D (2000), \emph{Risk analysis, a quantitative guide}.
+John Wiley & Sons Ltd, Chischester, England, pp. 99-143.
+
+Delignette-Muller ML and Dutang C (2015), \emph{fitdistrplus: An R Package for Fitting Distributions}.
+Journal of Statistical Software, 64(4), 1-34.
+
 }
 
 

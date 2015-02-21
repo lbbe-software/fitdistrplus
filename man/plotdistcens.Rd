@@ -69,8 +69,12 @@ plotdistcens(censdata, distr, para, leftNA = -Inf, rightNA = Inf,
 }
 
 \references{ 
-Turnbull BW (1974) Nonparametric estimation of a survivorship function with doubly
-censored data.\emph{Journal of American Statistical Association}, \bold{69}, 169-173.
+Turnbull BW (1974), \emph{Nonparametric estimation of a survivorship function with doubly
+censored data}. Journal of American Statistical Association, 69, 169-173.
+
+Delignette-Muller ML and Dutang C (2015), \emph{fitdistrplus: An R Package for Fitting Distributions}.
+Journal of Statistical Software, 64(4), 1-34.
+
 }
 
 

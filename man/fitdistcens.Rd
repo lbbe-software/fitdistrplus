@@ -127,7 +127,12 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL, \dots)
 }
 
 \references{ 
-Venables W.N. and Ripley B.D. (2002) Modern applied statistics with S. Springer, New York, pp. 435-446.
+Venables WN and Ripley BD (2002), \emph{Modern applied statistics with S}.
+Springer, New York, pp. 435-446.
+
+Delignette-Muller ML and Dutang C (2015), \emph{fitdistrplus: An R Package for Fitting Distributions}.
+Journal of Statistical Software, 64(4), 1-34.
+
 }
 
 

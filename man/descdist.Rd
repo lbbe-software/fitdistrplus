@@ -79,11 +79,17 @@ graph = TRUE, obs.col = "darkblue", obs.pch = 16, boot.col = "orange")
 }
 
 \references{ 
-Cullen AC and Frey HC (1999) Probabilistic techniques in exposure assessment. Plenum Press, USA, pp. 81-159.
+Cullen AC and Frey HC (1999), \emph{Probabilistic techniques in exposure assessment}.
+Plenum Press, USA, pp. 81-159.
 
-Evans M, Hastings N and Peacock B (2000) Statistical distributions. John Wiley and Sons Inc.
+Evans M, Hastings N and Peacock B (2000), \emph{Statistical distributions}.
+John Wiley and Sons Inc.
 
-Sokal RR and Rohlf FJ (1995) Biometry. W.H. Freeman and Company, USA, pp. 111-115.
+Sokal RR and Rohlf FJ (1995), \emph{Biometry}.
+W.H. Freeman and Company, USA, pp. 111-115.
+
+Delignette-Muller ML and Dutang C (2015), \emph{fitdistrplus: An R Package for Fitting Distributions}.
+Journal of Statistical Software, 64(4), 1-34.
 
 }
 

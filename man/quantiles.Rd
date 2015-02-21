@@ -89,6 +89,14 @@
     \code{\link{fitdist}}, \code{\link{bootdist}}, \code{\link{fitdistcens}} and \code{\link{bootdistcens}}.
 }
 
+
+\references{
+
+Delignette-Muller ML and Dutang C (2015), \emph{fitdistrplus: An R Package for Fitting Distributions}.
+Journal of Statistical Software, 64(4), 1-34.
+
+}
+
 \author{ 
 Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr} 
 and Christophe Dutang.

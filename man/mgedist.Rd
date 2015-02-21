@@ -89,12 +89,17 @@ mgedist(data, distr, gof = "CvM", start = NULL, fix.arg = NULL,
     \code{\link{fitdist}} for other estimation methods.
 }
 
-\references{ 
-    Luceno, A. 2006. Fitting the generalized Pareto distribution to data using
-    maximum goodness-of-fit estimators. \emph{Computational Statistics and Data Analysis}, \bold{51}, 904-917.
+\references{
 
-    Stephens MA (1986) Tests based on edf statistics. In Goodness-of-fit techniques (D'Agostino RB and
-    Stephens MA, eds), Marcel dekker, New York, pp. 97-194.
+Luceno A (2006), \emph{Fitting the generalized Pareto distribution to data using
+maximum goodness-of-fit estimators}. Computational Statistics and Data Analysis, 51, 904-917.
+
+Stephens MA (1986), \emph{Tests based on edf statistics}. In Goodness-of-fit techniques (D'Agostino RB and
+Stephens MA, eds), Marcel Dekker, New York, pp. 97-194.
+
+Delignette-Muller ML and Dutang C (2015), \emph{fitdistrplus: An R Package for Fitting Distributions}.
+Journal of Statistical Software, 64(4), 1-34.
+
 }
 
 

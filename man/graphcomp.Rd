@@ -116,6 +116,11 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
 }
 
 
+\references{
+Delignette-Muller ML and Dutang C (2015), \emph{fitdistrplus: An R Package for Fitting Distributions}.
+Journal of Statistical Software, 64(4), 1-34.
+
+}
 
 \author{ 
 Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr} 

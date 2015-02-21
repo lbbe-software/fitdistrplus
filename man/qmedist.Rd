@@ -78,14 +78,22 @@ qmedist(data, distr, probs, start = NULL, fix.arg = NULL, qtype = 7,
     \code{\link{quantile}} for empirical quantile estimation in R.
 }
 
-\references{ 
-    Klugman et al. (2004) Loss Models: From Data to Decisions, 2nd edition. 
-    Wiley Series in Probability and Statistics, p. 331.
+\references{
+Klugman SA, Panjer HH and Willmot GE (2012),
+\emph{Loss Models: From Data to Decissions}, 4th edition.
+Wiley Series in Statistics for Finance, Business and Economics, p. 253.
+
+
+Delignette-Muller ML and Dutang C (2015), \emph{fitdistrplus: An R Package for Fitting Distributions}.
+Journal of Statistical Software, 64(4), 1-34.
+
+
 }
 
 
 \author{ 
 Christophe Dutang and Marie Laure Delignette-Muller.
+
 }
 
 \examples{

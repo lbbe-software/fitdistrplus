@@ -65,7 +65,12 @@ plotdist(data, distr, para, histo = TRUE, breaks = "default",
 
 
 \references{ 
-Cullen AC and Frey HC (1999) Probabilistic techniques in exposure assessment. Plenum Press, USA, pp. 81-159.
+Cullen AC and Frey HC (1999), \emph{Probabilistic techniques in exposure assessment}.
+Plenum Press, USA, pp. 81-155.
+
+Delignette-Muller ML and Dutang C (2015), \emph{fitdistrplus: An R Package for Fitting Distributions}.
+Journal of Statistical Software, 64(4), 1-34.
+
 }
 
 \author{ 
