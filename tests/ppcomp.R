@@ -80,12 +80,14 @@ x1 <- c(6.4,13.3,4.1,1.3,14.1,10.6,9.9,9.6,15.3,22.1,13.4,
 13.2,8.4,6.3,8.9,5.2,10.9,14.4)
 n1 <- length(x1)
 
-f1 <- mledist(x1,"norm")
+pgumbel<-function(q,a,b) exp(-exp((a-q)/b))
 dgumbel<-function(x,a,b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
+
+
+f1 <- mledist(x1,"norm")
 f2 <- mledist(x1,"gumbel",start=list(a=10,b=5))
 f3 <- mledist(x1, "exp")
 
-pgumbel<-function(q,a,b) exp(-exp((a-q)/b))
 
 
 plot(pnorm(sort(x1), f1$estimate[1], f1$estimate[2]), 1:n1/n1)
@@ -138,5 +140,19 @@ fit3 <- fitdist(x2, "norm2", "mge", gof="AD",
 
 ppcomp(list(fit1, fit2, fit3), fitpch=rep(".", 3), 
 	fitcol=c("green", "red", "blue"))
+
+
+
+# (5) large data
+#
+
+n <- 2e4
+n <- 1e2
+x <- rlnorm(n)
+f1 <- fitdist(x, "lnorm")
+f2 <- fitdist(x, "exp")
+
+ppcomp(list(f1, f2), lty=2)
+
 
 

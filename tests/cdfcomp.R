@@ -181,3 +181,13 @@ fit2 <- fitdist(x3, "nbinom", "qme", probs=c(1/3, 2/3))
 cdfcomp(list(fit1, fit2), datapch=21, horizontals=FALSE)
 
 
+# (7) large dataset
+#
+
+n <- 2e4
+n <- 1e2
+f1 <- fitdist(rlnorm(n), "lnorm")
+
+cdfcomp(f1, do.points=TRUE)
+cdfcomp(f1, do.points=FALSE)
+

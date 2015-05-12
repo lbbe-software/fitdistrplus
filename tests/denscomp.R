@@ -127,3 +127,18 @@ fit3 <- fitdist(x2, "norm2", "mge", gof="AD",
 	lower=c(0, 0, 0, 0, 0), upper=c(1/2, Inf, Inf, Inf, Inf))
 
 denscomp(list(fit1, fit2, fit3), datapch=".")
+
+
+# (5) large data
+#
+
+n <- 2e4
+n <- 1e2
+x <- rnorm(n)
+f <- fitdist(x, "norm")
+
+denscomp(f)
+denscomp(f, demp=TRUE)
+
+
+

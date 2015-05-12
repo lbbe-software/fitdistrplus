@@ -145,4 +145,16 @@ qqcomp(list(fit1, fit2, fit3), fitpch=rep(".", 3),
 
 
 
+# (5) large data
+#
+
+n <- 2e4
+n <- 1e2
+x <- rlnorm(n)
+f1 <- fitdist(x, "lnorm")
+f2 <- fitdist(x, "exp")
+
+qqcomp(list(f1, f2), lty=2)
+
+
 

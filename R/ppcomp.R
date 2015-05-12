@@ -31,17 +31,17 @@ ppcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
     use.ppoints = TRUE, a.ppoints = 0.5, line01 = TRUE, line01col = "black", line01lty = 1,
     ynoise = TRUE, ...)
 {
-  if(inherits(ft, "fitdist"))
-  {
-    ft <- list(ft)
-  }else if(!is.list(ft))
-  {
-    stop("argument ft must be a list of 'fitdist' objects")
-  }else
-  {
-    if(any(sapply(ft, function(x) !inherits(x, "fitdist"))))        
+    if(inherits(ft, "fitdist"))
+    {
+      ft <- list(ft)
+    }else if(!is.list(ft))
+    {
       stop("argument ft must be a list of 'fitdist' objects")
-  }
+    }else
+    {
+      if(any(sapply(ft, function(x) !inherits(x, "fitdist"))))        
+        stop("argument ft must be a list of 'fitdist' objects")
+    }
   
     
     nft <- length(ft)
@@ -58,7 +58,6 @@ ppcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
         main <- "P-P plot"
     
     mydata <- ft[[1]]$data
-
     verif.ftidata <- function(fti)
     {
         if (any(fti$data != mydata))
@@ -73,6 +72,7 @@ ppcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
         obsp <- ppoints(n, a = a.ppoints)
     else
         obsp <- (1:n) / n
+    largedata <- (n > 1e4)
     
     # computation of each fitted distribution
     comput.fti <- function(i, ...)
@@ -92,16 +92,23 @@ ppcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
 
     logxy <- paste(ifelse(xlogscale,"x",""), ifelse(ylogscale,"y",""), sep="")
     #main plotting
-    resquant <- plot(fittedprob[,1], obsp, main=main, xlab=xlab, ylab=ylab, log=logxy,
-            pch=fitpch[1], xlim=xlim, ylim=ylim, col=fitcol[1], ...)
+    if(!largedata)
+      resquant <- plot(fittedprob[,1], obsp, main=main, xlab=xlab, ylab=ylab, log=logxy,
+            pch=fitpch[1], xlim=xlim, ylim=ylim, col=fitcol[1], type="p", ...)
+    else
+      resquant <- plot(fittedprob[,1], obsp, main=main, xlab=xlab, ylab=ylab, log=logxy,
+                       xlim=xlim, ylim=ylim, col=fitcol[1], type="l", ...)
     
-    #plot fitted quantiles
-    if(nft > 1 && !ynoise)
+    #plot other fitted probabilities
+    if(nft > 1 && !ynoise && !largedata)
         for(i in 2:nft)
             points(fittedprob[,i], obsp, pch=fitpch[i], col=fitcol[i], ...)
-    if(nft > 1 && ynoise)
+    if(nft > 1 && ynoise && !largedata)
         for(i in 2:nft)
             points(fittedprob[,i], obsp*(1 + rnorm(n, 0, 0.01)), pch=fitpch[i], col=fitcol[i], ...)
+    if(largedata)
+        for(i in 2:nft)
+          lines(fittedprob[,i], obsp, col=fitcol[i], ...)
     
     if(line01)
         abline(0, 1, lty=line01lty, col=line01col)
@@ -110,6 +117,9 @@ ppcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
     {
         if (missing(legendtext)) 
             legendtext <- paste("fit",1:nft)
-        legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, pch=fitpch, col=fitcol, ...)
+        if(!largedata)
+          legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, pch=fitpch, col=fitcol, ...)
+        else
+          legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, col=fitcol, ...)
     }
 }

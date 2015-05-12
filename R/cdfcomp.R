@@ -28,7 +28,7 @@
 cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
     datapch, datacol, fitlty, fitcol, addlegend = TRUE, legendtext, 
     xlegend = "bottomright", ylegend = NULL, horizontals = TRUE, verticals = FALSE, 
-    use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, discrete, ...)
+    use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, discrete, do.points = TRUE, ...)
 {
     if(inherits(ft, "fitdist"))
     {
@@ -57,10 +57,11 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
     if (missing(main)) main <- paste("Empirical and theoretical CDFs")
 
     mydata <- ft[[1]]$data
-	distname <- ft[[1]]$distname
+	  distname <- ft[[1]]$distname
     n <- length(mydata)
     s <- sort(mydata)
-	
+    largedata <- (n > 1e4)
+    
     if ((xlogscale == TRUE) & min(mydata) <= 0)
         stop("log transformation of data requires only positive
     values")
@@ -83,32 +84,28 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
             stop("All compared fits must have been obtained with the same dataset")
         invisible()
     }
-    lapply( ft,verif.ftidata)
+    lapply(ft, verif.ftidata)
 	
-	# initiate discrete if not given 
-	if(missing(discrete))
-	{
-	  discrete <- ft[[1]]$discrete
-	}
-	if(!is.logical(discrete))
-	  stop("wrong argument 'discrete'.")
+	  # initiate discrete if not given 
+	  if(missing(discrete))
+	  {
+	    discrete <- ft[[1]]$discrete
+	  }
+	  if(!is.logical(discrete))
+	    stop("wrong argument 'discrete'.")
 	
     
     # plot of data (ecdf)
     if(xlogscale && !discrete)
         sfin <- seq(log10(xmin), log10(xmax), by=(log10(xmax)-log10(xmin))/100)
-    else if(!xlogscale && !discrete)
-        sfin <- seq(xmin, xmax, by=(xmax-xmin)/100)
-	else
-	{
-		sfin <- seq(xmin, xmax, by=1)
-	}
-
+    else # (!xlogscale && !discrete) and discrete
+        sfin <- seq(xmin, xmax, length.out=101)
+	  
+    # previous version with no vizualisation of ex-aequos
+    # obsp <- ecdf(s)(s) 
     if (use.ppoints && !discrete)
         obsp <- ppoints(n,a = a.ppoints)
     else
-        # previous version with no vizualisation of ex-aequos
-        # obsp <- ecdf(s)(s) 
         obsp <- (1:n) / n
     
     
@@ -128,18 +125,31 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
         }
     }
     fittedprob <- sapply(1:nft, comput.fti)  	
-	if(missing(ylim))
+    if(NCOL(fittedprob) != nft || NROW(fittedprob) != length(sfin))
+      stop("problem when computing fitted CDFs.")
+    
+	  if(missing(ylim))
         ylim <- range(obsp, fittedprob) 
-	else
-		ylim <- range(ylim) #in case of users enter a bad ylim
+	  else
+		  ylim <- range(ylim) #in case of users enter a bad ylim
     
     logxy <- paste(ifelse(xlogscale,"x",""), ifelse(ylogscale,"y",""), sep="")
+    
     #main plotting
-    plot(s, obsp, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim,
+    if(!largedata && do.points)
+    	plot(s, obsp, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim,
          log=logxy, pch=datapch, col=datacol, type="p", ...)
+    else if(largedata)
+    	plot(s, obsp, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim,
+         log=logxy, col=datacol, type="s", ...)
+	  else if(!do.points)
+	    plot(s, obsp, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim,
+	       log=logxy, col=datacol, type="n", ...)     
+    else
+      stop("internal error in cdfcomp().")
 
     # optional add of horizontal and vbertical lines for step function
-    if (horizontals)
+    if (!largedata && horizontals)
     {
         xhleft <- s[-length(s)]
         xhright <- s[-1L]
