@@ -84,7 +84,9 @@ ppcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
         do.call(pdistname, c(list(q=sdata), as.list(para)))
     }
     fittedprob <- sapply(1:nft, comput.fti, ...)
-    
+    if(NCOL(fittedprob) != nft || NROW(fittedprob) != length(sdata))
+        stop("problem when computing fitted probabilities.")
+      
     if (missing(xlim))
         xlim <- range(fittedprob)
     if (missing(ylim))

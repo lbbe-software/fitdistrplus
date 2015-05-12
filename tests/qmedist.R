@@ -66,4 +66,15 @@ fit2 <- qmedist(x, "norm2", probs=c(1/6, 1/4, 1/3, 1/2, 2/3),
 
 
 
+# (7) test error messages
+#
+
+dnorm3 <- qnorm3 <- function(x, a)
+  "NA"
+x <- rexp(10)
+
+#should get a one-line error 
+res <- qmedist(x, "norm3", start=list(a=1), probs=1/2)
+#as in 
+attr(try(log("a"), silent=TRUE), "condition")
 

@@ -176,14 +176,14 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
         {
             if (!cens)
                 opttryerror <- try(opt <- optim(par=vstart, fn=fnobj, fix.arg=fix.arg, obs=data, mdistnam=mdistname, memp=memp,
-                                            hessian=TRUE, method=meth, lower=lower, upper=upper, ...), silent=FALSE)        
+                                            hessian=TRUE, method=meth, lower=lower, upper=upper, ...), silent=TRUE)        
             else 
                 stop("Moment matching estimation for censored data is not yet available.")
             
             if (inherits(opttryerror,"try-error"))
             {
-                warnings("The function optim encountered an error and stopped")
-                print(opttryerror)              
+                warnings("The function optim encountered an error and stopped.")
+                print(attr(opttryerror, "condition"))              
                 return(list(estimate = rep(NA,length(vstart)), convergence = 100, value = NA, 
                             hessian = NA))
             }
@@ -208,8 +208,8 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             
             if (inherits(opttryerror,"try-error"))
             {
-                warnings("The customized optimization function encountered an error and stopped")
-                print(opttryerror)              
+                warnings("The customized optimization function encountered an error and stopped.")
+                print(attr(opttryerror, "condition"))              
                 return(list(estimate = rep(NA,length(vstart)), convergence = 100, value = NA, 
                             hessian = NA))
             }

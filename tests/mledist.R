@@ -245,3 +245,15 @@ fgenoud=fgenoud$estimate)
 }
 
 
+
+# (13) test error messages
+#
+
+dnorm2 <- function(x, a)
+  "NA"
+x <- rexp(10)
+
+#should get a one-line error 
+res <- mledist(x, "norm2", start=list(a=1))
+#as in 
+attr(try(log("a"), silent=TRUE), "condition")

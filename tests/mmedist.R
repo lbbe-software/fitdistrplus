@@ -73,3 +73,14 @@ c(truestim=exp(2*mu+s2)*(exp(s2)-1),
 	emp=var(x3)*(n-1)/n)
 
 
+# (6) test error messages
+#
+
+mnorm2 <- function(x, a)
+  "NA"
+x <- rexp(10)
+
+#should get a one-line error 
+res <- mmedist(x, "norm2", start=list(a=1), order=1, memp=mean)
+#as in 
+attr(try(log("a"), silent=TRUE), "condition")

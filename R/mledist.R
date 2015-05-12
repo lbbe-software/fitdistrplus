@@ -244,8 +244,8 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
         
         if (inherits(opttryerror, "try-error"))
         {
-            warnings("The function optim encountered an error and stopped")
-            print(opttryerror)          
+            warnings("The function optim encountered an error and stopped.")
+            print(attr(opttryerror, "condition"))          
             return(list(estimate = rep(NA, length(vstart)), convergence = 100, loglik = NA, 
                         hessian = NA))
         }
@@ -271,8 +271,8 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
         
         if (inherits(opttryerror, "try-error"))
         {
-            warnings("The customized optimization function encountered an error and stopped")
-            print(opttryerror)          
+            warnings("The customized optimization function encountered an error and stopped.")
+            print(attr(opttryerror, "condition"))          
             return(list(estimate = rep(NA, length(vstart)), convergence = 100, loglik = NA, 
                         hessian = NA))
         }
@@ -294,5 +294,5 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
 ## old function with previous name for censored data
 mledistcens <- function(censdata, distr, start=NULL, optim.method="default", lower=-Inf, upper=Inf)
 {
-    stop("The function \"mledistcens\" is no more used. Now the same function \"mledist\" must be used for censored and non censored data.")
+    stop("The function \"mledistcens\" is no more used. Now the same function \"mledist\" must be used both for censored and non censored data.")
 }

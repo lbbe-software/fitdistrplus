@@ -84,7 +84,9 @@ qqcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
         do.call(qdistname, c(list(p=obsp), as.list(para)))
     }
     fittedquant <- sapply(1:nft, comput.fti, ...)
-    
+    if(NCOL(fittedquant) != nft || NROW(fittedquant) != length(obsp))
+        stop("problem when computing fitted CDFs.")
+
     if(missing(xlim))
         xlim <- range(fittedquant)
     if(missing(ylim))

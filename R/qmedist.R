@@ -235,8 +235,8 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
                 
         if (inherits(opttryerror,"try-error"))
         {
-            warnings("The function optim encountered an error and stopped")
-            print(opttryerror)			
+            warnings("The function optim encountered an error and stopped.")
+            print(attr(opttryerror, "condition"))			
             return(list(estimate = rep(NA,length(vstart)), convergence = 100, value = NA, 
                         hessian = NA))
         }
@@ -262,8 +262,8 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
         
         if (inherits(opttryerror,"try-error"))
         {
-            warnings("The customized optimization function encountered an error and stopped")
-            print(opttryerror)			
+            warnings("The customized optimization function encountered an error and stopped.")
+            print(attr(opttryerror, "condition"))			
             return(list(estimate = rep(NA,length(vstart)), convergence = 100, value = NA, 
                         hessian = NA))
         }

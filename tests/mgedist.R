@@ -73,3 +73,16 @@ x <- c(-0.00707717, -0.000947418, -0.00189753,
 for(i in 6:0)
 	cat(i, try(mgedist(x*10^i,"cauchy")$estimate, silent=TRUE), "\n")
 
+
+
+# (6) test error messages
+#
+
+pnorm2 <- function(x, a)
+  "NA"
+x <- rexp(10)
+
+#should get a one-line error 
+res <- mgedist(x, "norm2", start=list(a=1))
+#as in 
+attr(try(log("a"), silent=TRUE), "condition")

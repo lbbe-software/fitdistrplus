@@ -94,6 +94,9 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab, datap
         do.call(ddistname, c(list(x=sfin), as.list(para))) * scalefactor
     }
     fitteddens <- sapply(1:nft, comput.fti, ...)
+    if(NCOL(fitteddens) != nft || NROW(fitteddens) != length(sfin))
+      stop("problem when computing fitted densities.")
+  
     if (missing(ylim))
     {
         if(!probability)
