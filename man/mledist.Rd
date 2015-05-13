@@ -9,7 +9,7 @@
 
 \usage{
 mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default", 
-    lower = -Inf, upper = Inf, custom.optim = NULL, \dots)
+    lower = -Inf, upper = Inf, custom.optim = NULL, weights=NULL, \dots)
 }
 
 \arguments{
@@ -35,6 +35,9 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
 \item{lower}{ Left bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
 \item{upper}{ Right bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
 \item{custom.optim}{a function carrying the MLE optimisation (see details).}
+\item{weights}{an optional vector of weights to be used in the fitting process. 
+Should be \code{NULL} or a numeric vector. If non-\code{NULL}, 
+weighted MLE is used, otherwise ordinary MLE.}
 \item{\dots}{further arguments passed to the \code{optim} or \code{custom.optim} function.}
 }
 

@@ -78,7 +78,7 @@ for(i in 6:0)
 # (6) test error messages
 #
 
-pnorm2 <- function(x, a)
+dnorm2 <- pnorm2 <- function(x, a)
   "NA"
 x <- rexp(10)
 

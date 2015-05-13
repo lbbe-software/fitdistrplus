@@ -25,7 +25,7 @@
 ### the mle function of the stat package.
 
 mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="default", 
-    lower=-Inf, upper=Inf, custom.optim=NULL, ...)
+    lower=-Inf, upper=Inf, custom.optim=NULL, weights=NULL, ...)
     # data may correspond to a vector for non censored data or to
     # a dataframe of two columns named left and right for censored data 
 {
@@ -43,6 +43,11 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
     
     txt1 <- "data must be a numeric vector of length greater than 1 for non censored data"
     txt2 <- "or a dataframe with two columns named left and right and more than one line for censored data"
+    if(!is.null(weights))
+    {
+      if(any(weights < 0))
+        stop("weights should be a vector of numeric greater than 1.")
+    }
     
     if (is.vector(data)) {
         cens <- FALSE
@@ -181,7 +186,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
 
     # definition of the function to minimize : - log likelihood
     # for non censored data
-    if (!cens) {
+    if (!cens && is.null(weights)) {
         # the argument names are:
         # - par for parameters (like in optim function)
         # - fix.arg for optional fixed parameters
@@ -198,8 +203,9 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
             }
         }
     }
-    else {# if !cens
-        argpdistname<-names(formals(pdistname))
+    else if(cens && is.null(weights)) #censored data
+    {    
+      argpdistname<-names(formals(pdistname))
         if (("log" %in% argddistname) & ("log.p" %in% argpdistname))
             fnobjcens <- function(par, fix.arg, rcens, lcens, icens, ncens, ddistnam, pdistnam)
                 -sum(do.call(ddistnam, c(list(x=ncens), as.list(par), as.list(fix.arg), list(log=TRUE)))) -
@@ -214,7 +220,14 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
                 sum(log(1-do.call(pdistnam, c(list(q=rcens), as.list(par), as.list(fix.arg))))) -
                 sum(log(do.call(pdistnam, c(list(q=icens$right), as.list(par), as.list(fix.arg))) - 
                 do.call(pdistnam, c(list(q=icens$left), as.list(par), as.list(fix.arg))) ))
-    }
+    }else if(!cens && !is.null(weights))
+    {
+        fnobj <- function(par, fix.arg, obs, ddistnam) {
+          -sum(weights * log(do.call(ddistnam, c(list(obs), as.list(par), as.list(fix.arg)) ) ) )
+        }
+    }else
+        stop("not yet implemented.")
+   
     # Choice of the optimization method    
     if (optim.method == "default")
     {
