@@ -16,9 +16,9 @@
 \usage{
 cdfcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
     datapch, datacol, fitlty, fitcol, addlegend = TRUE, legendtext, 
-    xlegend = "bottomright", ylegend = NULL, horizontals = TRUE, 
-    verticals = FALSE, use.ppoints = TRUE, a.ppoints = 0.5, 
-    lines01 = FALSE, discrete, do.points = TRUE, \dots)
+    xlegend = "bottomright", ylegend = NULL, 
+    horizontals = TRUE, verticals = FALSE, do.points = TRUE, 
+    use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, discrete, \dots)
     
 denscomp(ft, xlim, ylim, probability = TRUE, main, xlab, ylab, datapch, 
     datacol, fitlty, fitcol, addlegend = TRUE, legendtext, xlegend = "topright", 
@@ -56,11 +56,14 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
 \item{addlegend}{If \code{TRUE}, a legend is added to the plot.}
 \item{legendtext}{A character or expression vector of length \eqn{\geq 1} to appear
     in the legend, see also \code{\link{legend}}.}
-\item{xlegend, ylegend}{The \eqn{x} and \eqn{y} co-ordinates to be used to position the legend.
-          They can be specified by keyword or in any way which is
+\item{xlegend, ylegend}{The \eqn{x} and \eqn{y} co-ordinates to be used to position 
+  the legend. They can be specified by keyword or in any way which is
           accepted by 'xy.coords': see \code{\link{legend}} for details.}
-\item{horizontals}{If \code{TRUE}, draws horizontal lines for the step empirical cdf function.
-    See also \code{\link{plot.stepfun}}.}
+\item{horizontals}{If \code{TRUE}, draws horizontal lines for the step empirical 
+  cdf function. See also \code{\link{plot.stepfun}}.}
+\item{do.points}{logical; if \code{TRUE}, also draw points at the x-locations. 
+  Default is true. For large dataset (n > 1e4), \code{do.points} is ignored and no
+  point is drawn.}
 \item{verticals}{If \code{TRUE}, draws also vertical lines for the empirical cdf function. 
     Only taken into account if \code{horizontals=TRUE}. }
 \item{use.ppoints}{If \code{TRUE}, probability points of the empirical distribution
@@ -73,9 +76,6 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
 \item{lines01}{A logical to plot two horizontal lines at \code{h=0} and \code{h=1} for \code{cdfcomp}.}
 \item{line01}{A logical to plot an horizontal line \eqn{y=x} for \code{qqcomp} and \code{ppcomp}.}
 \item{line01col, line01lty}{Color and line type for \code{line01}.}
-\item{do.points}{logical; if \code{TRUE}, also draw points at the x-locations. 
-  Default is true. For large dataset (n > 1e4), \code{do.points} is ignored and no
-  point is drawn.}
 \item{demp}{A logical to add the empirical density on the plot using the 
    \code{\link{density}} function.}
 \item{dempcol}{A color for the empirical density in case it is added on the plot.}
@@ -91,13 +91,14 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
 }
 
 \details{
-    \code{cdfcomp} provides a plot of the empirical distribution and each fitted distribution 
-    in cdf, by default using the Hazen's rule
-    for the empirical distribution, 
-    with probability points defined as \code{(1:n - 0.5)/n}. 
-    If \code{discrete} is \code{TRUE}    
-    probability points are always defined as \code{(1:n)/n}.
-    For large dataset (\code{n > 1e4}), no point is drawn.
+    \code{cdfcomp} provides a plot of the empirical distribution and each fitted 
+    distribution in cdf, by default using the Hazen's rule
+    for the empirical distribution, with probability points defined as 
+    \code{(1:n - 0.5)/n}. If \code{discrete} is \code{TRUE} probability points 
+    are always defined as \code{(1:n)/n}. For large dataset (\code{n > 1e4}), no 
+    point is drawn but the line for \code{ecdf} is drawn instead.
+    Note that when \code{horizontals = FALSE, verticals = FALSE, do.points = FALSE},
+    no empirical point is drawn, only the fitted cdf is shown.
     
     \code{denscomp} provides a density plot of each fitted distribution
     with the histogram of the data (data are assumed continuous). 

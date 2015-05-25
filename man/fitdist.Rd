@@ -18,7 +18,7 @@
 
 \usage{
 fitdist(data, distr, method = c("mle", "mme", "qme", "mge"), 
-    start=NULL, fix.arg=NULL, discrete, \dots)
+    start=NULL, fix.arg=NULL, discrete, keepdata = TRUE, keepdata.nb=100, \dots)
     
 \method{print}{fitdist}(x, \dots)
 
@@ -56,6 +56,10 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
     with its default breaks definition. Else \code{breaks} is passed to the function \code{hist}.
     This argument is not taken into account with discrete distributions: \code{"binom"}, 
     \code{"nbinom"}, \code{"geom"}, \code{"hyper"} and \code{"pois"}. }
+    
+\item{keepdata}{a logical. If \code{TRUE}, dataset is returned, 
+otherwise only a sample subset is returned.}
+\item{keepdata.nb}{When \code{keepdata=FALSE}, the length of the subset returned.}
 \item{discrete}{ If TRUE, the distribution is considered as discrete.
   If \code{discrete} is missing, 
 	\code{discrete} is automaticaly set to \code{TRUE} when \code{distr} belongs to 

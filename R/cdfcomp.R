@@ -26,9 +26,9 @@
 
 
 cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
-    datapch, datacol, fitlty, fitcol, addlegend = TRUE, legendtext, 
-    xlegend = "bottomright", ylegend = NULL, horizontals = TRUE, verticals = FALSE, 
-    use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, discrete, do.points = TRUE, ...)
+    datapch, datacol, fitlty, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", 
+    ylegend = NULL, horizontals = TRUE, verticals = FALSE, do.points = TRUE, 
+    use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, discrete, ...)
 {
     if(inherits(ft, "fitdist"))
     {

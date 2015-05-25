@@ -190,4 +190,5 @@ f1 <- fitdist(rlnorm(n), "lnorm")
 
 cdfcomp(f1, do.points=TRUE)
 cdfcomp(f1, do.points=FALSE)
+cdfcomp(f1, horizontals = FALSE, verticals = FALSE, do.points = FALSE)
 

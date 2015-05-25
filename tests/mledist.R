@@ -270,5 +270,9 @@ f1 <- mledist(x, "pois", start=list(lambda=mean(x)), optim.method="Brent", lower
 f2 <- mledist(unique(sort(x)), "pois", weights=xtab, start=list(lambda=mean(x)))
 
 f1$estimate
-f2$estimate
+f2$estimate #should be identical
+
+f2 <- try(mledist(unique(sort(x)), "pois", weights=1:3, start=list(lambda=mean(x))))
+
+
 

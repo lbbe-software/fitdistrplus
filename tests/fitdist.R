@@ -58,9 +58,12 @@ plot(fitnb)
 # (6) how to change the optimisation method?
 #
 
+oldw <- getOption("warn")
+options(warn=-1) #to avoid a high number of warnings when nwarnings > 50
 fitdist(serving, "gamma", optim.method="Nelder-Mead")
 fitdist(serving, "gamma", optim.method="BFGS") 
 fitdist(serving, "gamma", optim.method="SANN")
+options(warn=oldw)
 
 # (7) custom optimization function
 #
@@ -353,3 +356,19 @@ try( fitdist(mysample, dexp, start= mystart3, method="mge", gof="AD") )
 #    a=rexGAUS(100,mu=500,sigma=50,nu=75)
 #    fitdist(a,dexGAUS,start=list(mu=median(a),sigma=sqrt(var(a)/2),nu=sqrt(var(a)/2)))
 #}
+
+
+# (21) check the 'keepdata' argument
+#
+
+#create the sample
+x <- rexp(1e6, 5)
+summary(x)
+f1 <- fitdist(x, "exp", keepdata=FALSE)
+f2 <- fitdist(x, "exp", keepdata=TRUE)
+
+par(mfrow=c(1,2))
+cdfcomp(f1)
+cdfcomp(f2)
+
+

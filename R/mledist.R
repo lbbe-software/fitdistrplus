@@ -47,6 +47,8 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
     {
       if(any(weights < 0))
         stop("weights should be a vector of numeric greater than 1.")
+      if(length(weights) != NROW(data))
+        stop("weights should be a vector with a length equal to the observation number.")
     }
     
     if (is.vector(data)) {

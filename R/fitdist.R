@@ -22,7 +22,8 @@
 ###         R functions
 ### 
 
-fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=NULL, fix.arg=NULL, discrete, ...) 
+fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=NULL, 
+                     fix.arg=NULL, discrete, keepdata = TRUE, keepdata.nb=100, ...) 
 {
     if (!is.character(distr)) 
         distname <- substring(as.character(match.call()$distr), 2)
@@ -45,6 +46,8 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
     }
     if(!is.logical(discrete))
       stop("wrong argument 'discrete'.")
+    if(!is.logical(keepdata) || !is.numeric(keepdata.nb) || keepdata.nb < 1)
+      stop("wrong arguments 'keepdata' and 'keepdata.nb'.")
     
     if(any(method == "mom"))
         warning("the name \"mom\" for matching moments is NO MORE used and is replaced by \"mme\".")
@@ -146,10 +149,26 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
     
     if (!is.null(fix.arg)) fix.arg <- as.list(fix.arg)
     
-    reslist <- list(estimate = estimate, method = method, sd = sd, cor = correl, 
-                    vcov = varcovar, loglik = loglik, aic=aic, bic=bic, n = n, data=data,
-                    distname = distname, fix.arg = fix.arg, dots = dots, 
-                    convergence = convergence, discrete = discrete)
+    if(keepdata)
+    {
+      reslist <- list(estimate = estimate, method = method, sd = sd, cor = correl, 
+                  vcov = varcovar, loglik = loglik, aic=aic, bic=bic, n = n, data=data,
+                  distname = distname, fix.arg = fix.arg, dots = dots, 
+                  convergence = convergence, discrete = discrete)
+    }else #just keep a sample set of all observations
+    {
+      n2keep <- min(keepdata.nb, n)-2
+      imin <- which.min(data)
+      imax <- which.max(data)
+      subdata <- data[sample((1:n)[-c(imin, imax)], size=n2keep, replace=FALSE)]
+      subdata <- c(subdata, data[c(imin, imax)])
+      
+      reslist <- list(estimate = estimate, method = method, sd = sd, cor = correl, 
+                  vcov = varcovar, loglik = loglik, aic=aic, bic=bic, n = n, data=subdata,
+                  distname = distname, fix.arg = fix.arg, dots = dots, 
+                  convergence = convergence, discrete = discrete)  
+    }
+    
     
     return(structure(reslist, class = "fitdist"))
 
@@ -180,8 +199,10 @@ plot.fitdist <- function(x, breaks="default", ...)
 {
     if (!inherits(x, "fitdist"))
         stop("Use only with 'fitdist' objects")
-    plotdist(data=x$data, distr=x$distname, 
-    para=c(as.list(x$estimate), as.list(x$fix.arg)), breaks=breaks, discrete = x$discrete, ...)
+    if(!is.null(x$data))
+      plotdist(data=x$data, distr=x$distname, 
+        para=c(as.list(x$estimate), as.list(x$fix.arg)), breaks=breaks, 
+        discrete = x$discrete, ...)
 }
 
 summary.fitdist <- function(object, ...)

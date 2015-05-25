@@ -13,7 +13,8 @@
 }
 
 \usage{
-fitdistcens(censdata, distr, start=NULL, fix.arg=NULL, \dots)
+fitdistcens(censdata, distr, start=NULL, fix.arg=NULL, 
+  keepdata = TRUE, keepdata.nb=100, \dots)
 
 \method{print}{fitdistcens}(x, \dots)
 
@@ -50,6 +51,11 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL, \dots)
     that must be kept fixed rather than estimated by maximum likelihood. }
 \item{x}{ an object of class \code{"fitdistcens"}.  }
 \item{object}{ an object of class \code{"fitdistcens"}.  }
+
+\item{keepdata}{a logical. If \code{TRUE}, dataset is returned, 
+otherwise only a sample subset is returned.}
+\item{keepdata.nb}{When \code{keepdata=FALSE}, the length of the subset returned.}
+
 \item{\dots}{ further arguments to be passed to generic functions,
     to the function \code{plotdistcens} in order to control the type of ecdf-plot used for censored data, 
     or to the function \code{mledist} 

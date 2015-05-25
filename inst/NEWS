@@ -1,5 +1,15 @@
 === fitdistrplus : Help to fit of a parametric distribution ===
 
+Version 1.0-5
+=============
+NEW FEATURES
+- add argument do.points in cdfcomp.
+- add arguments weights in mledist.
+- add argument keepdata in fitdist.
+BUG FIXES
+- defensive programming in plotdist, cdfcomp,...
+- simplify plotting curves in cdfcomp where seq(xmin, xmax, by=1) was used.
+
 Version 1.0-4
 =============
 - release for the JSS publication.

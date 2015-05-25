@@ -22,7 +22,8 @@
 ###         R functions
 ### 
 
-fitdistcens <- function (censdata, distr, start=NULL, fix.arg=NULL, ...) 
+fitdistcens <- function (censdata, distr, start=NULL, fix.arg=NULL, 
+                         keepdata = TRUE, keepdata.nb=100, ...) 
 {
     if (missing(censdata) ||
         !(is.vector(censdata$left) & is.vector(censdata$right) & length(censdata[, 1])>1))
@@ -40,7 +41,9 @@ fitdistcens <- function (censdata, distr, start=NULL, fix.arg=NULL, ...)
     pdistname <- paste("p", distname, sep="")
     if (!exists(pdistname, mode="function"))
         stop(paste("The ", pdistname, " function must be defined"))
-        
+    if(!is.logical(keepdata) || !is.numeric(keepdata.nb) || keepdata.nb < 3)
+      stop("wrong arguments 'keepdata' and 'keepdata.nb'.")
+    
     dots <- list(...)
     if (length(dots)==0) dots=NULL
     
@@ -75,9 +78,25 @@ fitdistcens <- function (censdata, distr, start=NULL, fix.arg=NULL, ...)
     aic <- -2*loglik+2*npar
     bic <- -2*loglik+log(n)*npar
          
-    return(structure(list(estimate = estimate, sd = sd, cor = correl, vcov = varcovar,
-        loglik = loglik, aic=aic, bic=bic, censdata=censdata, distname=distname,
-        fix.arg=as.list(fix.arg), dots=dots), class = "fitdistcens"))
+    if(keepdata)
+    {
+      reslist <- list(estimate = estimate, sd = sd, cor = correl, vcov = varcovar,
+                    loglik = loglik, aic=aic, bic=bic, censdata=censdata, distname=distname,
+                    fix.arg=as.list(fix.arg), dots=dots)
+    }else
+    {
+      n2keep <- min(keepdata.nb, n)-4
+      imin <- unique(apply(censdata, 2, which.min))
+      imax <- unique(apply(censdata, 2, which.max))
+      subdata <- censdata[sample((1:n)[-c(imin, imax)], size=n2keep, replace=FALSE), ]
+      subdata <- rbind.data.frame(subdata, censdata[c(imin, imax), ])
+      
+      reslist <- list(estimate = estimate, sd = sd, cor = correl, vcov = varcovar,
+                      loglik = loglik, aic=aic, bic=bic, censdata=subdata, distname=distname,
+                      fix.arg=as.list(fix.arg), dots=dots)
+    }
+      
+    return(structure(reslist, class = "fitdistcens"))
         
 }
 
