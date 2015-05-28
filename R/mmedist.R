@@ -160,14 +160,14 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             if(is.infinite(lower) && is.infinite(upper))
             { 
                if (length(vstart) > 1) 
-                    meth <- "Nelder-Mead"
+                  opt.meth <- "Nelder-Mead"
                else 
-                    meth <- "BFGS"
+                 opt.meth <- "BFGS"
             }else
-               meth <- "L-BFGS-B"
+              opt.meth <- "L-BFGS-B"
                
         }else
-            meth <- optim.method
+          opt.meth <- optim.method
         
         cens <- FALSE
         
@@ -176,7 +176,7 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
         {
             if (!cens)
                 opttryerror <- try(opt <- optim(par=vstart, fn=fnobj, fix.arg=fix.arg, obs=data, mdistnam=mdistname, memp=memp,
-                                            hessian=TRUE, method=meth, lower=lower, upper=upper, ...), silent=TRUE)        
+                                            hessian=TRUE, method=opt.meth, lower=lower, upper=upper, ...), silent=TRUE)        
             else 
                 stop("Moment matching estimation for censored data is not yet available.")
             
@@ -191,12 +191,11 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             if (opt$convergence>0) {
                 warnings("The function optim failed to converge, with the error code ",
                          opt$convergence)
-                return(list(estimate = rep(NA,length(vstart)), convergence = opt$convergence, 
-                            value = NA, hessian = NA))
             }
             
-            res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, hessian = opt$hessian, 
-                        order=order, optim.function="optim", memp=memp)  
+            res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
+                        hessian = opt$hessian, optim.function="optim", order=order, memp=memp,
+                        optim.method=opt.meth)  
             
         }else # Try to minimize the stat distance using a user-supplied optim function 
         {
@@ -217,12 +216,10 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             if (opt$convergence>0) {
                 warnings("The customized optimization function failed to converge, with the error code ",
                          opt$convergence)
-                return(list(estimate = rep(NA,length(vstart)), convergence = opt$convergence, 
-                            value = NA, hessian = NA))
             }
             
-            res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, hessian = opt$hessian, 
-                        order=order, optim.function=custom.optim, memp=memp)  
+            res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
+                        hessian = opt$hessian, optim.function=custom.optim, order=order, memp=memp)  
             
         }   
         
@@ -235,11 +232,9 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
         loglik <- loglik(res$estimate, fix.arg, data, ddistname)
     else
         loglik <- NULL
-    res <- c(res, fix.arg=fix.arg)
+    res <- c(res, fix.arg=fix.arg, loglik=loglik, method=meth)
     
-    return( c(res, list(loglik=loglik, method=meth)) )
-    
- 
+    return(res)
 }
 
 ## old function with previous name 

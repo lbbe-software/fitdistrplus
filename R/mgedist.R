@@ -287,13 +287,12 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
         if (opt$convergence>0) {
             warnings("The function optim failed to converge, with the error code ",
                      opt$convergence)
-            return(list(estimate = rep(NA,length(vstart)), convergence = opt$convergence, 
-                        value = NA, hessian = NA))
         }
         
         res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
                     hessian = opt$hessian, gof=gof, optim.function="optim",
-                    loglik=loglik(opt$par, fix.arg, data, ddistname) )
+                    loglik=loglik(opt$par, fix.arg, data, ddistname), fix.arg = fix.arg, 
+                    optim.method=meth )
     }
     else # Try to minimize the gof distance using a user-supplied optim function 
     {
@@ -314,14 +313,12 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
         if (opt$convergence>0) {
             warnings("The customized optimization function failed to converge, with the error code ",
                      opt$convergence)
-            return(list(estimate = rep(NA,length(vstart)), convergence = opt$convergence, 
-                        value = NA, hessian = NA))
         }
         
         res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
                     gof=gof, hessian = opt$hessian, optim.function=custom.optim,
-                    loglik=loglik(opt$par, fix.arg, data, ddistname) )
+                    loglik=loglik(opt$par, fix.arg, data, ddistname), fix.arg = fix.arg)
     }   
-    res <- c(res, fix.arg=fix.arg)
+   
     return(res)                
 }

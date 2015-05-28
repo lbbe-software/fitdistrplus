@@ -81,7 +81,7 @@ weighted MLE is used, otherwise ordinary MLE.}
 
 \value{ 
     \code{mledist} returns a list with following components,
-    \item{estimate}{ the parameter estimates }
+    \item{estimate}{ the parameter estimates.}
     \item{convergence}{ an integer code for the convergence of \code{optim} defined as below
     or defined by the user in the user-supplied optimization function. 
     
@@ -94,14 +94,15 @@ weighted MLE is used, otherwise ordinary MLE.}
         \code{100} indicates that \code{optim} encountered an internal error.
         }
         
-    \item{loglik}{ the log-likelihood }
+    \item{loglik}{ the log-likelihood value.}
     \item{hessian}{ a symmetric matrix computed by \code{optim} as an estimate of the Hessian
         at the solution found or computed in the user-supplied optimization function.
         It is used in \code{fitdist} to estimate standard errors. }
-    \item{optim.function}{ the name of the optimization function used for maximum likelihood}
+    \item{optim.function}{ the name of the optimization function used for maximum likelihood.}
     \item{fix.arg}{ the named list giving the values of parameters of the named distribution
         that must kept fixed rather than estimated by maximum likelihood or \code{NULL} 
         if there are no such parameters. }
+    \item{optim.method}{when \code{optim} is used, the name of the algorithm used.}
 
 }
 

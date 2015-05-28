@@ -262,17 +262,17 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
             warnings("The function optim encountered an error and stopped.")
             print(attr(opttryerror, "condition"))          
             return(list(estimate = rep(NA, length(vstart)), convergence = 100, loglik = NA, 
-                        hessian = NA))
+                        hessian = NA, optim.function="optim", fix.arg = fix.arg, 
+                        optim.method=meth))
         }
         
         if (opt$convergence>0) {
             warnings("The function optim failed to converge, with the error code ", 
                      opt$convergence)
-            return(list(estimate = rep(NA, length(vstart)), convergence = opt$convergence, 
-                        loglik = NA, hessian = NA, message = opt$message))
         }
         res <- list(estimate = opt$par, convergence = opt$convergence, loglik = -opt$value, 
-                    hessian = opt$hessian, optim.function="optim", fix.arg = fix.arg)
+                    hessian = opt$hessian, optim.function="optim", fix.arg = fix.arg, 
+                    optim.method=meth)
     }
     else # Try to minimize the minus (log-)likelihood using a user-supplied optim function 
     {
@@ -289,14 +289,12 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
             warnings("The customized optimization function encountered an error and stopped.")
             print(attr(opttryerror, "condition"))          
             return(list(estimate = rep(NA, length(vstart)), convergence = 100, loglik = NA, 
-                        hessian = NA))
+                        hessian = NA, optim.function=custom.optim, fix.arg = fix.arg))
         }
         
         if (opt$convergence>0) {
             warnings("The customized optimization function failed to converge, with the error code ", 
                      opt$convergence)
-            return(list(estimate = rep(NA, length(vstart)), convergence = opt$convergence, 
-                        loglik = NA, hessian = NA, optim.function=custom.optim))
         }
         res <- list(estimate = opt$par, convergence = opt$convergence, loglik = -opt$value, 
                     hessian = opt$hessian, optim.function=custom.optim, fix.arg = fix.arg)

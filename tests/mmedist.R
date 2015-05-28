@@ -29,14 +29,14 @@ mmedist(x3,"beta")
 if(any(installed.packages()[, "Package"] == "actuar"))
 {
     require(actuar)
-#simulate a sample
+    #simulate a sample
     x4 <- rpareto(1000, 6, 2)
 	
-#empirical raw moment
+    #empirical raw moment
     memp <- function(x, order)
-		ifelse(order == 1, mean(x), sum(x^order)/length(x))
+      mean(x^order)
 		
-#fit
+    #fit
     mmedist(x4, "pareto", order=c(1, 2), memp="memp", start=c(shape=10, scale=10), 
 			lower=1, upper=Inf)
 			

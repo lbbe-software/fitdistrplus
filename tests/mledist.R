@@ -276,3 +276,11 @@ f2 <- try(mledist(unique(sort(x)), "pois", weights=1:3, start=list(lambda=mean(x
 
 
 
+# (15) no convergence
+#
+n <- 1e2
+x <- c(rep(0, n), rpois(n, 10), rpois(n, 50))
+
+mledist(x, "pois", optim.method="Nelder-Mead", control=list(maxit=10))
+
+

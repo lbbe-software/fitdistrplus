@@ -76,11 +76,11 @@ mgedist(data, distr, gof = "CvM", start = NULL, fix.arg = NULL,
         at the solution found or computed in the user-supplied optimization function. }
     \item{gof}{ the code of the goodness-of-fit distance maximized. }   
     \item{optim.function}{ the name of the optimization function used.  }
-    \item{loglik}{ the log-likelihood. }
+    \item{loglik}{ the log-likelihood value. }
     \item{fix.arg}{ the named list giving the values of parameters of the named distribution
         that must kept fixed rather than estimated by maximum likelihood or \code{NULL} 
         if there are no such parameters. }
-    
+    \item{optim.method}{when \code{optim} is used, the name of the algorithm used.}
 }
 
 

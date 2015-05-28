@@ -244,13 +244,12 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
         if (opt$convergence>0) {
             warnings("The function optim failed to converge, with the error code ",
                      opt$convergence)
-            return(list(estimate = rep(NA,length(vstart)), convergence = opt$convergence, 
-                        value = NA, hessian = NA))
         }
         
         res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
 					hessian = opt$hessian, probs=probs, optim.function="optim", 
-					loglik=loglik(opt$par, fix.arg, data, ddistname), fix.arg=fix.arg)		
+					loglik=loglik(opt$par, fix.arg, data, ddistname), fix.arg=fix.arg,
+          optim.method=meth)		
     }
     else # Try to minimize the stat distance using a user-supplied optim function 
     {
@@ -271,8 +270,6 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
         if (opt$convergence>0) {
             warnings("The customized optimization function failed to converge, with the error code ",
                      opt$convergence)
-            return(list(estimate = rep(NA,length(vstart)), convergence = opt$convergence, 
-                        value = NA, hessian = NA))
         }
         
         res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
