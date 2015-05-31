@@ -183,7 +183,7 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             if (inherits(opttryerror,"try-error"))
             {
                 warnings("The function optim encountered an error and stopped.")
-                print(attr(opttryerror, "condition"))              
+                if(getOption("show.error.messages")) print(attr(opttryerror, "condition"))              
                 return(list(estimate = rep(NA,length(vstart)), convergence = 100, value = NA, 
                             hessian = NA))
             }
@@ -208,7 +208,7 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             if (inherits(opttryerror,"try-error"))
             {
                 warnings("The customized optimization function encountered an error and stopped.")
-                print(attr(opttryerror, "condition"))              
+                if(getOption("show.error.messages")) print(attr(opttryerror, "condition"))              
                 return(list(estimate = rep(NA,length(vstart)), convergence = 100, value = NA, 
                             hessian = NA))
             }

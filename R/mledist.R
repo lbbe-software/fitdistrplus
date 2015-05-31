@@ -260,7 +260,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
         if (inherits(opttryerror, "try-error"))
         {
             warnings("The function optim encountered an error and stopped.")
-            print(attr(opttryerror, "condition"))          
+            if(getOption("show.error.messages")) print(attr(opttryerror, "condition"))          
             return(list(estimate = rep(NA, length(vstart)), convergence = 100, loglik = NA, 
                         hessian = NA, optim.function="optim", fix.arg = fix.arg, 
                         optim.method=meth))
@@ -287,7 +287,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
         if (inherits(opttryerror, "try-error"))
         {
             warnings("The customized optimization function encountered an error and stopped.")
-            print(attr(opttryerror, "condition"))          
+            if(getOption("show.error.messages")) print(attr(opttryerror, "condition"))          
             return(list(estimate = rep(NA, length(vstart)), convergence = 100, loglik = NA, 
                         hessian = NA, optim.function=custom.optim, fix.arg = fix.arg))
         }

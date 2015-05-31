@@ -58,7 +58,12 @@ bootdist <- function (f, bootmethod="param", niter=1001)
             res <- do.call(foncestim, c(list(data=rdata[, iter], distr=f$distname, start=start, fix.arg=f$fix.arg), f$dots))
             return(c(res$estimate, res$convergence))
         }
+    owarn <- getOption("warn")
+    oerr <- getOption("show.error.messages")
+    options(warn=0, show.error.messages=FALSE)
     resboot <- sapply(1:niter, func)
+    options(warn=owarn, show.error.messages=oerr)
+    
     rownames(resboot) <- c(names(start), "convergence")
     if (length(resboot[, 1])>2) {
         estim <- data.frame(t(resboot)[, -length(resboot[, 1])])
@@ -92,7 +97,7 @@ print.bootdist <- function(x, ...){
         cat("Parameter values obtained with parametric bootstrap \n")
     else
        cat("Parameter values obtained with nonparametric bootstrap \n")
-    print(x$estim, ...)    
+    print(head(x$estim), ...)    
     nconverg <- length(x$converg[x$converg==0])
     if (nconverg < length(x$converg))
     {

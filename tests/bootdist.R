@@ -173,3 +173,7 @@ quantile(fB,probs=0.05)
 # bootstrap for the Burr distribution
 bfB <- bootdist(fB,niter=nbboot)
 plot(bfB)
+
+
+
+
