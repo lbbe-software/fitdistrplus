@@ -108,20 +108,26 @@ print.bootdist <- function(x, ...){
 
 }
 
-plot.bootdist <- function(x, ...){
+plot.bootdist <- function(x, main="Bootstrapped values of parameters", enhance=FALSE, 
+    trueval=NULL, rampcol=NULL, nbgrid = 100, nbcol = 100, ...){
     if (!inherits(x, "bootdist"))
         stop("Use only with 'bootdist' objects")
     if (dim(x$estim)[2]==1) {
-        stripchart(x$estim, method="jitter", 
+        stripchart(x$estim, method="jitter", main=main, 
             xlab="Bootstrapped values of the parameter", ...)
     }
     else {
-        if (dim(x$estim)[2]==2)
-            plot(x$estim, 
-            main="Bootstrapped values of parameters", ...)
-        else 
-            plot(x$estim, 
-            main="Bootstrapped values of parameters", ...)
+      if(!is.logical(enhance))
+        stop("wrong argument enhance for plot.bootdist.")
+      if (!enhance)
+        pairs(data.matrix(x$estim), main=main, ...)
+      else 
+      {
+        if(is.null(rampcol))
+          rampcol <- c("green", "yellow", "orange", "red")
+        pairs4boot(x$estim, main=main, trueval=trueval, col4ramp = rampcol, 
+                   nbgrid = nbgrid, nbcol = nbcol, ...)
+      }
     }
 }
 

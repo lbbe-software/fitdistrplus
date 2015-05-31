@@ -14,19 +14,27 @@
 \usage{
 bootdist(f, bootmethod="param", niter=1001)
 \method{print}{bootdist}(x, \dots)
-\method{plot}{bootdist}(x, \dots)
+\method{plot}{bootdist}(x, main="Bootstrapped values of parameters", enhance=FALSE, 
+    trueval=NULL, rampcol=NULL, nbgrid = 100, nbcol = 100, \dots)
 \method{summary}{bootdist}(object, \dots)
 
 }
 
 \arguments{
 \item{f}{ An object of class \code{"fitdist"}, output of the \code{\link{fitdist}} function.}
-\item{bootmethod}{ A character string coding for the type of resampling : \code{"param"} for a parametric
-    resampling and \code{"nonparam"} for a nonparametric resampling of data.}
+\item{bootmethod}{ A character string coding for the type of resampling : \code{"param"} 
+  for a parametric resampling and \code{"nonparam"} for a nonparametric resampling of data.}
 \item{niter}{ The number of samples drawn by bootstrap.  }
 \item{x}{ An object of class \code{"bootdist"}.  }
 \item{object}{ An object of class \code{"bootdist"}.  }
+\item{main}{an overall title for the plot: see \code{\link{title}}.}
+\item{enhance}{a logical to get an enhance plot.}
+\item{trueval}{when relevant, a numeric vector with the true value of parameters.}
+\item{rampcol}{colors to interpolate; must be a valid argument to \code{col2rgb()}.}
+\item{nbgrid}{Number of grid points in each direction. Can be scalar or a length-2 integer vector.}
+\item{nbcol}{an integer argument, the required number of colors}
 \item{\dots}{ Further arguments to be passed to generic methods }
+
 }
 
 \details{

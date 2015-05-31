@@ -16,6 +16,12 @@ print(lapply(b1, head))
 plot(b1)
 summary(b1)
 
+
+#for new graph functions
+plot(b1, enhance=TRUE)
+plot(b1, enhance=TRUE, rampcol=c("blue", "green"), nbgrid=15, nbcol=15)
+
+
 # (2) non parametric bootstrap on the same fit
 # with less iterations
 #

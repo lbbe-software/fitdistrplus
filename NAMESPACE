@@ -1,6 +1,7 @@
 ### Imports
 import(stats)
 import(survival)
+importFrom(MASS, kde2d)
 
 ### Exports
 
