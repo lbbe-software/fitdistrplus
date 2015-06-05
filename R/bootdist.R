@@ -120,7 +120,12 @@ plot.bootdist <- function(x, main="Bootstrapped values of parameters", enhance=F
       if(!is.logical(enhance))
         stop("wrong argument enhance for plot.bootdist.")
       if (!enhance)
-        pairs(data.matrix(x$estim), main=main, ...)
+      {
+        if (dim(x$estim)[2]==2)
+          plot(data.matrix(x$estim), main=main, ...)
+        else
+          pairs(data.matrix(x$estim), main=main, ...)
+      }
       else 
       {
         if(is.null(rampcol))

@@ -59,7 +59,7 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
     
 \item{keepdata}{a logical. If \code{TRUE}, dataset is returned, 
 otherwise only a sample subset is returned.}
-\item{keepdata.nb}{When \code{keepdata=FALSE}, the length of the subset returned.}
+\item{keepdata.nb}{When \code{keepdata=FALSE}, the length (>1) of the subset returned.}
 \item{discrete}{ If TRUE, the distribution is considered as discrete.
   If \code{discrete} is missing, 
 	\code{discrete} is automaticaly set to \code{TRUE} when \code{distr} belongs to 
@@ -118,7 +118,7 @@ otherwise only a sample subset is returned.}
     }
 }
         
-    By default direct optimization of the log-likelihood (or other criteria depending
+    By default, direct optimization of the log-likelihood (or other criteria depending
     of the chosen method) is performed using \code{\link{optim}}, 
     with the "Nelder-Mead" method for distributions characterized by more than one parameter
     and the "BFGS" method for distributions characterized by only one parameter. 
@@ -136,9 +136,18 @@ otherwise only a sample subset is returned.}
     the estimates calculated from the 
     Hessian at the solution found by \code{optim} or by the user-supplied function passed to mledist.
 
+    By default (\code{keepdata = TRUE}), the returned object contains the data vector itself.
+    For large dataset purposes, we can remove the original dataset from the output by
+    setting \code{keepdata = FALSE}. In such a case, only \code{keepdata.nb} points (at most) 
+    are kept by random subsampling \code{keepdata.nb}-2 points from the dataset and 
+    adding the minimum and the maximum.
+
     NB: if your data values are particularly small or large, a scaling may be needed 
-    before the optimization process. See example (14) in this page and examples (14,15) in the test file.
-    Please also take a look at Rmpfr package available on CRAN.
+    before the optimization process. See example (14) in this man page and 
+    examples (14,15) in the test file of the package.
+    Please also take a look at the \code{Rmpfr} package available on CRAN for numerical
+    accuracy issues.
+    
     
 }
 

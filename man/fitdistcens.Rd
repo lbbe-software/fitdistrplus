@@ -100,6 +100,11 @@ otherwise only a sample subset is returned.}
     \item{dots}{ the list of  further arguments passed in \dots to be used in \code{bootdistcens} to
     control the optimization method used in iterative calls to \code{mledist} or NULL if no such arguments.}
     
+    By default (\code{keepdata = TRUE}), the returned object contains the data vector itself.
+    For large dataset purposes, we can remove the original dataset from the output by
+    setting \code{keepdata = FALSE}. In such a case, only \code{keepdata.nb} points (at most) 
+    are kept by random subsampling \code{keepdata.nb}-4 points from the dataset and 
+    adding the component-wise minimum and maximum.
     
     Generic functions:
 \describe{       

@@ -46,7 +46,7 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
     }
     if(!is.logical(discrete))
       stop("wrong argument 'discrete'.")
-    if(!is.logical(keepdata) || !is.numeric(keepdata.nb) || keepdata.nb < 1)
+    if(!is.logical(keepdata) || !is.numeric(keepdata.nb) || keepdata.nb < 2)
       stop("wrong arguments 'keepdata' and 'keepdata.nb'.")
     
     if(any(method == "mom"))

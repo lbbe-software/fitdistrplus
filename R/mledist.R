@@ -296,8 +296,28 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
             warnings("The customized optimization function failed to converge, with the error code ", 
                      opt$convergence)
         }
-        res <- list(estimate = opt$par, convergence = opt$convergence, loglik = -opt$value, 
+        argdot <- list(...)
+        method.cust <- argdot[argdot == "method"]
+        if(length(method.cust) == 0)
+        {
+          method.cust <- argdot[argdot == "optim.method"]
+        }
+        if(length(method.cust) == 0)
+        {
+          method.cust <- opt$method
+        }
+        else
+          method.cust <- NULL
+        if(is.null(method.cust))
+        {  
+          res <- list(estimate = opt$par, convergence = opt$convergence, loglik = -opt$value, 
                     hessian = opt$hessian, optim.function=custom.optim, fix.arg = fix.arg)
+        }else
+        {
+          res <- list(estimate = opt$par, convergence = opt$convergence, loglik = -opt$value, 
+                      hessian = opt$hessian, optim.function=custom.optim, fix.arg = fix.arg,
+                      method=method.cust)
+        }
         
     }   
         

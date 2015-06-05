@@ -18,6 +18,7 @@ summary(b1)
 
 
 #for new graph functions
+plot(b1)
 plot(b1, enhance=TRUE)
 plot(b1, enhance=TRUE, rampcol=c("blue", "green"), nbgrid=15, nbcol=15)
 
