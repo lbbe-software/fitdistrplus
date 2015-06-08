@@ -274,7 +274,7 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
         
         res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
 					hessian = opt$hessian, probs=probs, optim.function=custom.optim, 
-					loglik=loglik(opt$par, fix.arg, data, ddistname), fix.arg=fix.arg)		
+					loglik=loglik(opt$par, fix.arg, data, ddistname), fix.arg=fix.arg, optim.method=NULL)		
     }   
     return(res)    
      

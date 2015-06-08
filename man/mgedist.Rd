@@ -80,7 +80,8 @@ mgedist(data, distr, gof = "CvM", start = NULL, fix.arg = NULL,
     \item{fix.arg}{ the named list giving the values of parameters of the named distribution
         that must kept fixed rather than estimated by maximum likelihood or \code{NULL} 
         if there are no such parameters. }
-    \item{optim.method}{when \code{optim} is used, the name of the algorithm used.}
+    \item{optim.method}{when \code{optim} is used, the name of the algorithm used, 
+    \code{NULL} otherwise.}
 }
 
 

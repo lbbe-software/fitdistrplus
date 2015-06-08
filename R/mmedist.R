@@ -118,6 +118,7 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             order <- 1:2            
        }
         res <- list(estimate=estimate, convergence=0, order=order, memp=NULL)
+		    opt.meth <- NULL
     }else #an optimimisation has to be done
     {
         
@@ -199,6 +200,7 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             
         }else # Try to minimize the stat distance using a user-supplied optim function 
         {
+            opt.meth <- NULL
             if (!cens)
                 opttryerror <- try(opt <- custom.optim(fn=fnobj, fix.arg=fix.arg, obs=data, mdistnam=mdistname, memp=memp,
                                                    par=vstart, ...), silent=TRUE)
@@ -232,7 +234,7 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
         loglik <- loglik(res$estimate, fix.arg, data, ddistname)
     else
         loglik <- NULL
-    res <- c(res, fix.arg=fix.arg, loglik=loglik, method=meth)
+    res <- c(res, fix.arg=fix.arg, loglik=loglik, method=meth, optim.method=opt.meth)
     
     return(res)
 }
