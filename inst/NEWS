@@ -3,6 +3,8 @@
 Version 1.0-5
 =============
 NEW FEATURES
+- update starting/fixing values in mledist.
+- update graphic for bootstrap procedure.
 - add argument do.points in cdfcomp.
 - add arguments weights in mledist.
 - add argument keepdata in fitdist.

@@ -26,11 +26,15 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
      for which the corresponding 
     density function \code{dname} and the corresponding distribution \code{pname}
     must be classically defined. }
-\item{start}{ A named list giving the initial values of parameters of the named distribution. 
+\item{start}{ \code{NULL} by default. Otherwise
+    a named list giving the initial values of parameters of the named distribution
+    or a function computing initial values and returning a named list.
     This argument may be omitted for some distributions for which reasonable 
-    starting values are computed (see details).  }
-\item{fix.arg}{ An optional named list giving the values of parameters of the named distribution
-    that must kept fixed rather than estimated by maximum likelihood. }
+    starting values are computed (see details). A named vector is no longer accepted. }
+\item{fix.arg}{ \code{NULL} by default. Otherwise
+    an optional named list giving the values of fixed parameters of the named distribution
+    or a function computing (fixed) parameter values and returning a named list. 
+    Parameters with fixed value are thus NOT estimated by this maximum likelihood procedure.}
 \item{optim.method}{ \code{"default"} (see details) or optimization method to pass to \code{\link{optim}}.  }
 \item{lower}{ Left bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
 \item{upper}{ Right bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
@@ -42,6 +46,34 @@ weighted MLE is used, otherwise ordinary MLE.}
 }
 
 \details{
+    This function is not intended to be called directly but is internally called in
+    \code{\link{fitdist}} and \code{\link{bootdist}} when used with the maximum likelihood method
+    and \code{\link{fitdistcens}} and \code{\link{bootdistcens}}. 
+
+    It is assumed that the \code{distr} argument specifies the distribution by the
+    probability density function and the cumulative distribution function (d, p).
+    The quantile function and the random generator function (q, r) may be
+    needed by other function such as \code{\link{mmedist}}, \code{\link{qmedist}}, \code{\link{mgedist}}, 
+    \code{\link{fitdist}},\code{\link{fitdistcens}}, \code{\link{bootdistcens}} and \code{\link{bootdist}}.
+  
+    For the following named distributions, reasonable starting values will 
+    be computed if \code{start} is omitted (i.e. \code{NULL}) : \code{"norm"}, \code{"lnorm"},
+    \code{"exp"} and \code{"pois"}, \code{"cauchy"}, \code{"gamma"}, \code{"logis"},
+    \code{"nbinom"} (parametrized by mu and size), \code{"geom"}, \code{"beta"}, \code{"weibull"},
+    \code{"invgamma"}, \code{"llogis"}, \code{"invweibull"}, \code{"pareto1"}, \code{"pareto2"}. 
+    Note that these starting values may not be good enough if the fit is poor. 
+    The function uses a closed-form to fit a uniform distribution.
+    If \code{start} is a list, then it should be a named list with the same names as in
+    the d,p,q,r functions of the chosen distribution.
+    If \code{start} is a function, then the function should return a named list with the same names as in
+    the d,p,q,r functions of the chosen distribution.
+    
+    The \code{mledist} function allows user to set a fixed values for some parameters.
+    As for \code{start}, if \code{fix.arg} is a list, then it should be a named list with the same names as in
+    the d,p,q,r functions of the chosen distribution.
+    If \code{fix.arg} is a function, then the function should return a named list with the same names as in
+    the d,p,q,r functions of the chosen distribution.
+
     When \code{custom.optim=NULL} (the default), maximum likelihood estimations 
     of the distribution parameters are computed with the R base \code{\link{optim}}.
     Direct optimization of the log-likelihood is performed (using \code{\link{optim}}) by default with 
@@ -52,18 +84,11 @@ weighted MLE is used, otherwise ordinary MLE.}
     on parameters specified in arguments \code{lower} and \code{upper}. If non-trivial bounds are supplied,
     this method will be automatically selected, with a warning.
     
-    For the following named distributions, reasonable starting values will 
-    be computed if \code{start} is omitted : \code{"norm"}, \code{"lnorm"},
-    \code{"exp"} and \code{"pois"}, \code{"cauchy"}, \code{"gamma"}, \code{"logis"},
-    \code{"nbinom"} (parametrized by mu and size), \code{"geom"}, \code{"beta"} and \code{"weibull"}. 
-    Note that these starting 
-    values may not be good enough if the fit is poor. The function is not able to 
-    fit a uniform distribution.
-    
     If \code{custom.optim} is not \code{NULL}, then the user-supplied function is used instead
     of the R base \code{optim}. The \code{custom.optim} must have (at least) the following arguments
     \code{fn} for the function to be optimized, \code{par} for the initialized parameters. Internally the
-    function to be optimized will also have other arguments, such as \code{obs} with observations and \code{ddistname}
+    function to be optimized will also have other arguments, such as \code{obs} 
+    with observations and \code{ddistname}
     with distribution name for non censored data (Beware of potential conflicts with optional arguments 
     of \code{custom.optim}). It is
     assumed that \code{custom.optim} should carry out a MINIMIZATION. Finally, it should return
@@ -71,9 +96,9 @@ weighted MLE is used, otherwise ordinary MLE.}
     code, \code{value} for \code{fn(par)} and \code{hessian}. See examples in \code{\link{fitdist}}
     and \code{\link{fitdistcens}}.
     
-    This function is not intended to be called directly but is internally called in
-    \code{\link{fitdist}} and \code{\link{bootdist}} when used with the maximum likelihood method
-    and \code{\link{fitdistcens}} and \code{\link{bootdistcens}}. 
+    Optionally, a vector of \code{weights} can be used in the fitting process. 
+    By default (when \code{NULL}), ordinary MLE is carried out, otherwise 
+    the specified weights are used to balance the log-likelihood contributions.
     
     NB: if your data values are particularly small or large, a scaling may be needed 
     before the optimization process. See example (7).

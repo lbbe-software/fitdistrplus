@@ -76,7 +76,8 @@ fitdistcens(log10EC50,"logis",optim.method="SANN")
   }
   
   # call fitdistcens with a 'custom' optimization function
-  fit.with.genoud <- fitdistcens(log10EC50, "logis", custom.optim=mygenoud, nvars=2,    
+  fit.with.genoud <- fitdistcens(log10EC50, "logis", custom.optim=mygenoud, nvars=2, 
+                                 start=list(location=0, scale=1),    
                                  Domains=cbind(c(0,0), c(5, 5)), boundary.enforcement=1, 
                                  print.level=1, hessian=TRUE)
   
@@ -86,7 +87,7 @@ fitdistcens(log10EC50,"logis",optim.method="SANN")
 # (7) estimation of the mean of a normal distribution 
 # by maximum likelihood with the standard deviation fixed at 1 using the argument fix.arg
 #
-flnb <- fitdistcens(log10EC50, "norm", start = list(mean = 1),fix.arg = list(sd = 1))
+flnb <- fitdistcens(log10EC50, "norm", start = list(mean = 1), fix.arg = list(sd = 1))
 
 # (8) Fit of a lognormal distribution on acute toxicity values of fluazinam for
 # macroinvertebrates and zooplancton, using maximum likelihood estimation
@@ -111,5 +112,6 @@ x <- data.frame(left=x, right=x)
 f1 <- fitdistcens(x, "exp", keepdata=FALSE)
 f2 <- fitdistcens(x, "exp", keepdata=TRUE)
  
+
 plot(f1)
 plot(f2)  

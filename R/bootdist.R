@@ -47,7 +47,7 @@ bootdist <- function (f, bootmethod="param", niter=1001)
     
     #compute bootstrap estimates
     foncestim <- switch(f$method, "mle"=mledist, "qme"=qmedist, "mme"=mmedist, "mge"=mgedist)
-    start <- f$estimate
+    start <- as.list(f$estimate) #a named vector is no longer is accepted as starting values.
     if (is.null(f$dots))
         func <- function(iter) {
             res <- do.call(foncestim, list(data=rdata[, iter], distr=f$distname, start=start, fix.arg=f$fix.arg))

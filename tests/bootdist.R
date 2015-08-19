@@ -100,7 +100,7 @@ if(any(installed.packages()[, "Package"] == "actuar"))
     ifelse(order == 1,  mean(x),  sum(x^order)/length(x))
     
     f4 <- fitdist(x4,  "pareto",  "mme",  order=1:2,  
-                  start=c(shape=10,  scale=10),  
+                  start=list(shape=10,  scale=10),  
                   lower=1,  memp="memp",  upper=50)
     
     b4 <- bootdist(f4,  niter=nbboot)
@@ -119,7 +119,7 @@ if(any(installed.packages()[, "Package"] == "actuar"))
     data(danishuni)
 
 fdan <- fitdist(danishuni$Loss, "burr", method="mle", 
-    start=c(shape1=5, shape2=5, rate=10), lower=0+1e-1, control=list(trace=0))
+    start=list(shape1=5, shape2=5, rate=10), lower=0+1e-1, control=list(trace=0))
 bdan <- bootdist(fdan,  bootmethod="param", niter=nbboot)
 summary(bdan)
 plot(bdan)

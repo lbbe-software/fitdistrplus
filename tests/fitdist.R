@@ -120,7 +120,7 @@ if(any(installed.packages()[,"Package"] == "rgenoud"))
     }
     
 #call fitdist with a 'custom' optimization function
-    fit2 <- fitdist(serving, "gamma", custom.optim=mygenoud, nvars=2,    
+    fit2 <- fitdist(serving, "gamma", custom.optim=mygenoud, nvars=2, start=as.list(fit1$estimate),
                     Domains=cbind(c(0, 0), c(10, 10)), boundary.enforcement=1, 
                     print.level=0, hessian=TRUE)
     
@@ -167,7 +167,7 @@ if(any(installed.packages()[,"Package"] == "actuar"))
     
     #fit
     fP <- fitdist(x4, "pareto", method="mme", order=c(1, 2), memp="memp", 
-                  start=c(shape=10, scale=10), lower=1, upper=Inf)
+                  start=list(shape=10, scale=10), lower=1, upper=Inf)
     summary(fP)
     plot(fP)
     

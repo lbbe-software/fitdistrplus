@@ -1,6 +1,5 @@
 \name{mledist2}
 \alias{mledist2}
-\alias{mle}
 \title{ Maximum likelihood fit of univariate distributions}
 
 \description{

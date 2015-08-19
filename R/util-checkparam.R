@@ -13,8 +13,9 @@ checkparam <- function(start.arg, fix.arg, argdistname, errtxt=NULL, data10, dis
           t3="'start' must specify names which are arguments to 'distr'.",
           t4="'fix.arg' must specify names which are arguments to 'distr'.",
           t5="A distribution parameter cannot be specified both in 'start' and 'fix.arg'.",
-          t6="Starting values must be defined when some distribution parameters are fixed.",
-          t7="Missing starting values.")
+          t6="Starting values must be defined when some distribution parameters are fixed.", #not used
+          t7="Missing starting values.") #not used
+          #t8 = "Unknown starting values..."
   
   start.arg.class <- class(start.arg)
   
@@ -30,7 +31,7 @@ checkparam <- function(start.arg, fix.arg, argdistname, errtxt=NULL, data10, dis
       namarg <- names(fix.arg(data10))
     else 
       namarg <- names(fix.arg)
-    start.arg <- start.arg.default(data10, distr=distname)
+    start.arg <- start.arg.default(data10, distr=distname) #could return "Unknown starting values..."
     start.arg <- start.arg[!names(start.arg) %in% namarg]
     
   }else if(!is.null(start.arg) && is.null(fix.arg))
@@ -82,14 +83,21 @@ checkparam <- function(start.arg, fix.arg, argdistname, errtxt=NULL, data10, dis
   if (any(!is.na(minter)))
     return(list(ok=FALSE, txt=errtxt$t5))
   
+  
+  
   if(start.arg.class == "NULL" && is.null(fix.arg))
-    start.arg <- function(x) start.arg.default(x, distr=distname)
+    start.arg <- function(x) start.arg.default(x, distr=distname) #could return "Unknown starting values..."
   else if(start.arg.class == "NULL" && !is.null(fix.arg))
-    start.arg <- function(x){
+  {
+    if(is.function(fix.arg))
+      namarg <- names(fix.arg(data10))
+    else 
       namarg <- names(fix.arg)
-      start.arg <- start.arg.default(x, distr=distname)
+    start.arg <- function(x){
+      start.arg <- start.arg.default(x, distr=distname) #could return "Unknown starting values..."
       start.arg[!names(start.arg) %in% namarg]
-    } 
+    }
+  }
   #otherwise start.arg is a named list or a function
   
   return(list(ok=TRUE, txt=NULL, start.arg=start.arg))

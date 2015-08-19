@@ -94,24 +94,24 @@ cat(i, try(mledist(x*10^i, "cauchy")$estimate, silent=TRUE), "\n")
 
 #mixture of two normal distributions
 #density
-dnorm2 <- function(x, poid, m1, s1, m2, s2)
-	poid*dnorm(x, m1, s1) + (1-poid)*dnorm(x, m2, s2)
+dnorm2 <- function(x, w, m1, s1, m2, s2)
+	w*dnorm(x, m1, s1) + (1-w)*dnorm(x, m2, s2)
 #numerically-approximated quantile function
-qnorm2 <- function(p, poid, m1, s1, m2, s2)
+qnorm2 <- function(p, w, m1, s1, m2, s2)
 {
 	L2 <- function(x, prob)
-		(prob - pnorm2(x, poid, m1, s1, m2, s2))^2	
+		(prob - pnorm2(x, w, m1, s1, m2, s2))^2	
 	sapply(p, function(pr) optimize(L2, c(-20, 30), prob=pr)$minimum)
 }	
 #distribution function		
-pnorm2 <- function(q, poid, m1, s1, m2, s2)
-	poid*pnorm(q, m1, s1) + (1-poid)*pnorm(q, m2, s2)		
+pnorm2 <- function(q, w, m1, s1, m2, s2)
+	w*pnorm(q, m1, s1) + (1-w)*pnorm(q, m2, s2)		
 
 
 #basic normal distribution
 x <- c(rnorm(1000, 5),  rnorm(1000, 10))
 #MLE fit
-fit1 <- mledist(x, "norm2", start=list(poid=1/3, m1=4, s1=2, m2=8, s2=2), 
+fit1 <- mledist(x, "norm2", start=list(w=1/3, m1=4, s1=2, m2=8, s2=2), 
 	lower=c(0, 0, 0, 0, 0))
 
 
@@ -119,7 +119,7 @@ fit1 <- mledist(x, "norm2", start=list(poid=1/3, m1=4, s1=2, m2=8, s2=2),
 
 
 
-# (10) fit a Pareto distribution
+# (10) fit a Pareto and log-logistic distributions
 #
 
 if(any(installed.packages()[,"Package"] == "actuar"))
@@ -129,8 +129,15 @@ if(any(installed.packages()[,"Package"] == "actuar"))
     x4 <- rpareto(1000, 6, 2)
 	
 #fit
-    mledist(x4, "pareto", start=c(shape=10, scale=10), lower=1, upper=Inf)
+    mledist(x4, "pareto", start=list(shape=10, scale=10), lower=1, upper=Inf)
 	
+
+#simulate a sample
+x4 <- rllogis(1000, 6, 2)
+
+#fit
+mledist(x4, "llogis", start=list(shape=10, rate=1), lower=1, upper=Inf)
+
 }
 
 
@@ -229,7 +236,7 @@ fCG <- try( mledist(groundbeef$serving, "gamma", optim.method="CG", control=list
 if(class(fCG) == "try-error")
 	fCG <- list(estimate=NA)
 
-fgenoud <- mledist(groundbeef$serving, "gamma", 
+fgenoud <- mledist(groundbeef$serving, "gamma", start=list(shape=4, rate=1),
 		custom.optim= mygenoud, nvars=2, max.generations=10,
 		Domains=cbind(c(0,0), c(10,10)), boundary.enforcement=1, 
         hessian=TRUE, print.level=0, P9=10)
@@ -282,5 +289,64 @@ n <- 1e2
 x <- c(rep(0, n), rpois(n, 10), rpois(n, 50))
 
 mledist(x, "pois", optim.method="Nelder-Mead", control=list(maxit=10))
+
+
+
+
+# (16) basic fit of a normal distribution with new fix.arg/start.arg
+#
+
+set.seed(1234)
+x1 <- rnorm(n=100)
+
+#correct usage
+mledist(x1,"norm")
+mledist(x1,"norm", start=function(x) list(mean=0, sd=1))
+mledist(x1,"norm", fix.arg=function(x) list(mean=mean(x)))
+mledist(x1,"norm", fix.arg=list(mean=1/2))
+mledist(x1,"norm", fix.arg=list(mean=1/2), start=list(sd=1))
+mledist(x1,"norm", fix.arg=function(x) list(mean=0), start=list(sd=1))
+mledist(x1,"norm", fix.arg=function(x) list(mean=mean(x)), start=list(sd=1))
+
+#wrong usage (see text message in util-checkparam.R)
+try( mledist(x1,"norm", start=list(a=1/2)) ) #t3
+try( mledist(x1,"norm", start=function(x) list(a=0, b=1)) ) #t3
+try( mledist(x1,"norm", fix.arg=list(a=1/2)) ) #t4
+try( mledist(x1,"norm", fix.arg=function(x) list(a=0), start=list(sd=1)) ) #t4
+try( mledist(x1,"norm", start=matrix(1/2)) ) #t1
+try( mledist(x1,"norm", fix.arg=matrix(1/2)) ) #t0
+try( mledist(x1,"norm", fix.arg=matrix(1/2), start=matrix(1/2)) ) #t2
+try( mledist(x1,"norm", fix.arg=function(x) list(mean=mean(x), sd=2), start=list(sd=1)) ) #t5
+dabcnorm <- function(x, mean, sd) 1
+try( mledist(x1,"abcnorm", fix.arg=function(x) list(mean=mean(x))) ) #t8
+
+
+
+# (17) relevant example for zero modified geometric distribution
+#
+dzmgeom <- function(x, p1, p2)
+{
+  p1 * (x == 0) + (1-p1)*dgeom(x-1, p2)
+}
+rzmgeom <- function(n, p1, p2)
+{
+  u <- rbinom(n, 1, 1-p1) #prob to get zero is p1
+  u[u != 0] <- rgeom(sum(u != 0), p2)+1
+  u
+}
+# check
+# dzmgeom(0:5, 1/2, 1/10)
+
+x2 <- rzmgeom(1000, 1/2, 1/10)
+x3 <- rzmgeom(1000, 1/3, 1/10)
+x4 <- rzmgeom(1000, 1/4, 1/10)
+table(x2)
+#this is the MLE which converges almost surely and in distribution to the true value.
+initp1 <- function(x) list(p1=mean(x == 0))
+
+mledist(x2, "zmgeom", fix.arg=initp1, start=list(p2=1/2))[c("estimate", "fix.arg")]
+mledist(x3, "zmgeom", fix.arg=initp1, start=list(p2=1/2))[c("estimate", "fix.arg")]
+mledist(x4, "zmgeom", fix.arg=initp1, start=list(p2=1/2))[c("estimate", "fix.arg")]
+
 
 
