@@ -90,14 +90,18 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
                            errtxt=NULL, data10=head(data, 10), distname=distname)
     if(!chfixstt$ok)
       stop(chfixstt$txt)
-    #comment
+    #unlist starting values as needed in optim()
     if(is.function(chfixstt$start.arg))
       vstart <- chfixstt$start.arg(data)
     else
       vstart <- unlist(chfixstt$start.arg)
     if(is.function(fix.arg)) #function
+    { 
+      fix.arg.fun <- fix.arg
       fix.arg <- fix.arg(data)
-    #otherwise fix.arg is a named list
+    }else
+      fix.arg.fun <- NULL
+    #otherwise fix.arg is a named list or NULL
     
     # end of the definition of starting/fixed values   
     
@@ -230,8 +234,8 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
           method.cust <- NULL
         }
         res <- list(estimate = opt$par, convergence = opt$convergence, loglik = -opt$value, 
-                      hessian = opt$hessian, optim.function=custom.optim, fix.arg = fix.arg,
-                      method=method.cust)        
+                      hessian = opt$hessian, optim.function = custom.optim, fix.arg = fix.arg,
+                      method = method.cust, fix.arg.fun = fix.arg.fun)        
     }   
         
     return(res) 
