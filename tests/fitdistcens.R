@@ -106,6 +106,7 @@ quantile(fln, probs = c(0.05, 0.1, 0.2))
 
 # (9) check keepdata
 #
+set.seed(1234)
  x <- rexp(1e3, 5)
 # x <- data.frame(left=x, right=x+rexp(x, 1/2))
 x <- data.frame(left=x, right=x)
@@ -114,4 +115,18 @@ f2 <- fitdistcens(x, "exp", keepdata=TRUE)
  
 
 plot(f1)
-plot(f2)  
+plot(f2)
+
+
+# (9) fixing parameters
+#
+x <- rexp(500, 5)
+x <- data.frame(left=x, right=x+.1)
+
+f1 <- fitdistcens(x, "gamma", fix.arg=list(shape=1.5))
+f1
+f1$fix.arg
+
+f1 <- fitdistcens(x, "gamma", fix.arg=function(x) list(shape=1.5))
+f1
+f1$fix.arg.fun

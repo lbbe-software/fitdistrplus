@@ -33,19 +33,23 @@ bootdistcens <- function (f, niter=1001)
     numrow <- seq(1, n)
     rnumrow <- sample(numrow, size=niter*n, replace=TRUE)
     dim(rnumrow) <- c(n, niter)
-    start <- f$estimate
+    start <- as.list(f$estimate) #a named vector is no longer is accepted as starting values.
+    if(is.function(f$fix.arg.fun))
+      fix.arg <- f$fix.arg.fun
+    else 
+      fix.arg <- f$fix.arg
     if (is.null(f$dots))
         funcmle <- function(iter) {
         mle <- do.call(mledist, list(data=data.frame(left=f$censdata[rnumrow[, iter], ]$left, 
             right=f$censdata[rnumrow[, iter], ]$right), distr=f$distname, start=start, 
-            fix.arg=f$fix.arg))
+            fix.arg=fix.arg))
         return(c(mle$estimate, mle$convergence))
         }
     else
         funcmle <- function(iter) {
         mle <- do.call(mledist, c(list(data=data.frame(left=f$censdata[rnumrow[, iter], ]$left, 
             right=f$censdata[rnumrow[, iter], ]$right), distr=f$distname, start=start), 
-            fix.arg=f$fix.arg, f$dots))
+            fix.arg=fix.arg, f$dots))
         return(c(mle$estimate, mle$convergence))
         }
     resboot <- sapply(1:niter, funcmle)

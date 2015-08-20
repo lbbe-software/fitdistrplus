@@ -78,11 +78,13 @@ fitdistcens <- function (censdata, distr, start=NULL, fix.arg=NULL,
     aic <- -2*loglik+2*npar
     bic <- -2*loglik+log(n)*npar
          
+    fix.arg <- mle$fix.arg
+    fix.arg.fun <- mle$fix.arg.fun
     if(keepdata)
     {
       reslist <- list(estimate = estimate, sd = sd, cor = correl, vcov = varcovar,
                     loglik = loglik, aic=aic, bic=bic, censdata=censdata, distname=distname,
-                    fix.arg=as.list(fix.arg), dots=dots)
+                    fix.arg=as.list(fix.arg), fix.arg.fun = fix.arg.fun, dots=dots)
     }else
     {
       n2keep <- min(keepdata.nb, n)-4
@@ -93,7 +95,7 @@ fitdistcens <- function (censdata, distr, start=NULL, fix.arg=NULL,
       
       reslist <- list(estimate = estimate, sd = sd, cor = correl, vcov = varcovar,
                       loglik = loglik, aic=aic, bic=bic, censdata=subdata, distname=distname,
-                      fix.arg=as.list(fix.arg), dots=dots)
+                      fix.arg=as.list(fix.arg), fix.arg.fun = fix.arg.fun, dots=dots)
     }
       
     return(structure(reslist, class = "fitdistcens"))
@@ -105,10 +107,19 @@ print.fitdistcens <- function(x, ...){
         stop("Use only with 'fitdistcens' objects")
     cat("Fitting of the distribution '", x$distname, "' on censored data by maximum likelihood \n")
     cat("Parameters:\n")
-#    op <- options()
-#   options(digits=3)
-    print(data.frame("estimate" = x$estimate), ...)
-#   options(op)
+    print(cbind.data.frame("estimate" = x$estimate), ...)
+
+    if(!is.null(x$fix.arg))
+    {
+      if(is.null(x$fix.arg.fun))
+      {
+        cat("Fixed parameters:\n")
+      }else
+      {
+        cat("Fixed parameters (computed by a user-supplied function):\n")
+      }
+      print(cbind.data.frame("value" = unlist(x$fix.arg)), ...)
+    }
 
 }
 
@@ -135,10 +146,23 @@ print.summary.fitdistcens <- function(x, ...){
     ddistname <- x$ddistname
     pdistname <- x$pdistname
     
-    cat("FITTING OF THE DISTRIBUTION '", x$distname, 
-    "' BY MAXIMUM LIKELIHOOD ON CENSORED DATA \n")
-    cat("PARAMETERS\n")
-    print(cbind.data.frame("estimate" = x$estimate, "Std. Error" = x$sd))
+    cat("Fitting of the distribution '", x$distname, 
+    "' By maximum likelihood on censored data \n")
+    cat("Parameters\n")
+    print(cbind.data.frame("estimate" = x$estimate, "Std. Error" = x$sd), ...)
+    
+    if(!is.null(x$fix.arg))
+    {
+      if(is.null(x$fix.arg.fun))
+      {
+        cat("Fixed parameters:\n")
+      }else
+      {
+        cat("Fixed parameters (computed by a user-supplied function):\n")
+      }
+      print(cbind.data.frame("value" = unlist(x$fix.arg)), ...)
+    }
+    
     cat("Loglikelihood: ", x$loglik, "  ")
     cat("AIC: ", x$aic, "  ")
     cat("BIC: ", x$bic, "\n")

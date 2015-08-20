@@ -1,5 +1,6 @@
 library(fitdistrplus)
 nbboot <- 101
+nbboot <- 11
 
 # (1) Fit of a normal distribution to fluazinam data in log10
 # followed by nonparametric bootstrap
@@ -46,3 +47,20 @@ cdfcompcens(fxx1)
 cxx1<-bootdistcens(fxx1, niter=nbboot)
 summary(cx1)
 summary(cxx1)
+
+
+
+# (5) fixing parameters
+#
+set.seed(1234)
+x <- rexp(500, 5)
+x <- data.frame(left=x, right=x+.1)
+
+f1 <- fitdistcens(x, "gamma", fix.arg=list(shape=1.5))
+b1 <- bootdistcens(f1, niter=nbboot)
+plot(b1)
+
+f1 <- fitdistcens(x, "gamma", fix.arg=function(x) list(shape=1.5))
+b1 <- bootdistcens(f1, niter=nbboot)
+plot(b1)
+
