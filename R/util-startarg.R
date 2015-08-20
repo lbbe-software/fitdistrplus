@@ -1,5 +1,8 @@
+# checkparam function checks start.arg and fix.arg that parameters are named correctly
+# INPUTS 
 #x : data vector or matrix
 #distr : the distribution name
+# OUTPUTS
 start.arg.default <- function(x, distr)
 {
   if (distr == "norm") {

@@ -39,8 +39,8 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
         stop(paste("The ", ddistname, " function must be defined"))
 
     start.arg <- start #to avoid confusion with the start() function of stats pkg (check is done lines 87-100)
-    #if (!is.null(fix.arg) & is.null(start))
-    #    stop("Starting values must be defined when some distribution parameters are fixed")
+    if(is.vector(start.arg)) #backward compatibility
+      start.arg <- as.list(start.arg)
     
     txt1 <- "data must be a numeric vector of length greater than 1 for non censored data"
     txt2 <- "or a dataframe with two columns named left and right and more than one line for censored data"
@@ -90,6 +90,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
                            errtxt=NULL, data10=head(data, 10), distname=distname)
     if(!chfixstt$ok)
       stop(chfixstt$txt)
+    #comment
     if(is.function(chfixstt$start.arg))
       vstart <- chfixstt$start.arg(data)
     else

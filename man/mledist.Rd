@@ -30,7 +30,7 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
     a named list giving the initial values of parameters of the named distribution
     or a function computing initial values and returning a named list.
     This argument may be omitted for some distributions for which reasonable 
-    starting values are computed (see details). A named vector is no longer accepted. }
+    starting values are computed (see details). }
 \item{fix.arg}{ \code{NULL} by default. Otherwise
     an optional named list giving the values of fixed parameters of the named distribution
     or a function computing (fixed) parameter values and returning a named list. 
