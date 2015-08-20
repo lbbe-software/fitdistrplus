@@ -3,11 +3,12 @@
 Version 1.0-5
 =============
 NEW FEATURES
-- update starting/fixing values in mledist.
-- update graphic for bootstrap procedure.
+- update starting/fixing values in ***dist(cens) functions.
+- update graphics for bootstrap procedure.
 - add argument do.points in cdfcomp.
 - add arguments weights in mledist.
 - add argument keepdata in fitdist.
+
 BUG FIXES
 - defensive programming in plotdist, cdfcomp,...
 - simplify plotting curves in cdfcomp where seq(xmin, xmax, by=1) was used.
