@@ -26,22 +26,23 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
      for which the corresponding 
     density function \code{dname} and the corresponding distribution \code{pname}
     must be classically defined. }
-\item{start}{ \code{NULL} by default. Otherwise
-    a named list giving the initial values of parameters of the named distribution
-    or a function computing initial values and returning a named list.
-    This argument may be omitted for some distributions for which reasonable 
+\item{start}{A named list giving the initial values of parameters of the named distribution
+    or a function of data computing initial values and returning a named list.
+    This argument may be omitted (default) for some distributions for which reasonable 
     starting values are computed (see details). }
-\item{fix.arg}{ \code{NULL} by default. Otherwise
-    an optional named list giving the values of fixed parameters of the named distribution
-    or a function computing (fixed) parameter values and returning a named list. 
+\item{fix.arg}{An optional named list giving the values of fixed parameters of the named distribution
+    or a function of data computing (fixed) parameter values and returning a named list. 
     Parameters with fixed value are thus NOT estimated by this maximum likelihood procedure.}
-\item{optim.method}{ \code{"default"} (see details) or optimization method to pass to \code{\link{optim}}.  }
-\item{lower}{ Left bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
-\item{upper}{ Right bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
+\item{optim.method}{ \code{"default"} (see details) or an optimization method 
+    to pass to \code{\link{optim}}.  }
+\item{lower}{Left bounds on the parameters for the \code{"L-BFGS-B"} method 
+    (see \code{\link{optim}}).  }
+\item{upper}{ Right bounds on the parameters for the \code{"L-BFGS-B"} method 
+    (see \code{\link{optim}}).  }
 \item{custom.optim}{a function carrying the MLE optimisation (see details).}
 \item{weights}{an optional vector of weights to be used in the fitting process. 
-Should be \code{NULL} or a numeric vector. If non-\code{NULL}, 
-weighted MLE is used, otherwise ordinary MLE.}
+    Should be \code{NULL} or a numeric vector. If non-\code{NULL}, 
+    weighted MLE is used, otherwise ordinary MLE.}
 \item{\dots}{further arguments passed to the \code{optim} or \code{custom.optim} function.}
 }
 
@@ -59,20 +60,22 @@ weighted MLE is used, otherwise ordinary MLE.}
     For the following named distributions, reasonable starting values will 
     be computed if \code{start} is omitted (i.e. \code{NULL}) : \code{"norm"}, \code{"lnorm"},
     \code{"exp"} and \code{"pois"}, \code{"cauchy"}, \code{"gamma"}, \code{"logis"},
-    \code{"nbinom"} (parametrized by mu and size), \code{"geom"}, \code{"beta"}, \code{"weibull"},
-    \code{"invgamma"}, \code{"llogis"}, \code{"invweibull"}, \code{"pareto1"}, \code{"pareto2"}. 
+    \code{"nbinom"} (parametrized by mu and size), \code{"geom"}, \code{"beta"}, \code{"weibull"}
+    from the \code{stats} package; 
+    \code{"invgamma"}, \code{"llogis"}, \code{"invweibull"}, \code{"pareto1"}, \code{"pareto2"}
+    from the \code{actuar} package. 
     Note that these starting values may not be good enough if the fit is poor. 
-    The function uses a closed-form to fit a uniform distribution.
+    The function uses a closed-form formula to fit the uniform distribution.
     If \code{start} is a list, then it should be a named list with the same names as in
     the d,p,q,r functions of the chosen distribution.
-    If \code{start} is a function, then the function should return a named list with the same names as in
+    If \code{start} is a function of data, then the function should return a named list with the same names as in
     the d,p,q,r functions of the chosen distribution.
     
     The \code{mledist} function allows user to set a fixed values for some parameters.
     As for \code{start}, if \code{fix.arg} is a list, then it should be a named list with the same names as in
     the d,p,q,r functions of the chosen distribution.
-    If \code{fix.arg} is a function, then the function should return a named list with the same names as in
-    the d,p,q,r functions of the chosen distribution.
+    If \code{fix.arg} is a function of data, then the function should return a named list with the 
+    same names as in the d,p,q,r functions of the chosen distribution.
 
     When \code{custom.optim=NULL} (the default), maximum likelihood estimations 
     of the distribution parameters are computed with the R base \code{\link{optim}}.
@@ -214,7 +217,15 @@ x2 <- rnorm(100, 1e-4, 2e-4)
 for(i in 6:0)
     cat(i, try(mledist(x*10^i, "cauchy")$estimate, silent=TRUE), "\n")
         
-    
+ 
+# (17) small example for the zero-modified geometric distribution
+#
+
+dzmgeom <- function(x, p1, p2) p1 * (x == 0) + (1-p1)*dgeom(x-1, p2) #pdf
+x2 <- c(2,  4,  0, 40,  4, 21,  0,  0,  0,  2,  5,  0,  0, 13,  2) #simulated dataset
+initp1 <- function(x) list(p1=mean(x == 0)) #init as MLE
+mledist(x2, "zmgeom", fix.arg=initp1, start=list(p2=1/2))
+
 }
 
 \keyword{ distribution }% at least one, from doc/KEYWORDS
