@@ -2,6 +2,7 @@ library(fitdistrplus)
 #We choose a low number of bootstrap replicates in order to satisfy CRAN running times constraint.
 #For practical application, we recommend to use nbboot=501 or nbboot=1001.
 
+nbboot <- 1001
 nbboot <- 21
 
 # (1) Fit of a gamma distribution to serving size data
@@ -182,5 +183,38 @@ bfB <- bootdist(fB,niter=nbboot)
 plot(bfB)
 
 
+# (14) relevant example for zero modified geometric distribution
+#
+dzmgeom <- function(x, p1, p2)
+{
+  p1 * (x == 0) + (1-p1)*dgeom(x-1, p2)
+}
+pzmgeom <- function(q, p1, p2)
+{
+  p1 * (q >= 0) + (1-p1)*pgeom(q-1, p2)
+}
+rzmgeom <- function(n, p1, p2)
+{
+  u <- rbinom(n, 1, 1-p1) #prob to get zero is p1
+  u[u != 0] <- rgeom(sum(u != 0), p2)+1
+  u
+}
 
+x2 <- rzmgeom(1000, 1/2, 1/10)
+
+f2 <- fitdist(x2, "zmgeom", method="mle", fix.arg=function(x) list(p1=mean(x == 0)), start=list(p2=1/2))
+b2 <- bootdist(f2, niter=nbboot)
+plot(b2)
+
+f3 <- fitdist(x2, "zmgeom", method="mle", start=list(p1=1/2, p2=1/2))
+b3 <- bootdist(f3, niter=nbboot)
+plot(b3, enhance=TRUE)
+
+#does fixing p1 reduce bias of estimating p2?
+summary(b2$estim[, "p2"] - 1/10)
+summary(b3$estim[, "p2"] - 1/10)
+
+par(mfrow=c(1, 2))
+hist(b2$estim[, "p2"] - 1/10, breaks=100, xlim=c(-.015, .015))
+hist(b3$estim[, "p2"] - 1/10, breaks=100, xlim=c(-.015, .015))
 

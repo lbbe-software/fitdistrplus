@@ -371,4 +371,33 @@ par(mfrow=c(1,2))
 cdfcomp(f1)
 cdfcomp(f2)
 
+# (22) relevant example for zero modified geometric distribution
+#
+dzmgeom <- function(x, p1, p2)
+{
+  p1 * (x == 0) + (1-p1)*dgeom(x-1, p2)
+}
+pzmgeom <- function(q, p1, p2)
+{
+  p1 * (q >= 0) + (1-p1)*pgeom(q-1, p2)
+}
+rzmgeom <- function(n, p1, p2)
+{
+  u <- rbinom(n, 1, 1-p1) #prob to get zero is p1
+  u[u != 0] <- rgeom(sum(u != 0), p2)+1
+  u
+}
+
+x2 <- rzmgeom(1000, 1/2, 1/10)
+table(x2)
+#this is the MLE which converges almost surely and in distribution to the true value.
+initp1 <- function(x) list(p1=mean(x == 0))
+
+f2 <- fitdist(x2, "zmgeom", fix.arg=initp1, start=list(p2=1/2))
+print(f2)
+summary(f2)
+
+f2 <- fitdist(x2, "zmgeom", fix.arg=list(p1=1/2), start=list(p2=1/2))
+print(f2)
+summary(f2)
 

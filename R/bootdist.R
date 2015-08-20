@@ -48,14 +48,18 @@ bootdist <- function (f, bootmethod="param", niter=1001)
     #compute bootstrap estimates
     foncestim <- switch(f$method, "mle"=mledist, "qme"=qmedist, "mme"=mmedist, "mge"=mgedist)
     start <- as.list(f$estimate) #a named vector is no longer is accepted as starting values.
+    if(is.function(f$fix.arg.fun))
+      fix.arg <- f$fix.arg.fun
+    else 
+      fix.arg <- f$fix.arg
     if (is.null(f$dots))
         func <- function(iter) {
-            res <- do.call(foncestim, list(data=rdata[, iter], distr=f$distname, start=start, fix.arg=f$fix.arg))
+            res <- do.call(foncestim, list(data=rdata[, iter], distr=f$distname, start=start, fix.arg=fix.arg))
             return(c(res$estimate, res$convergence))
         }
     else
         func <- function(iter) {
-            res <- do.call(foncestim, c(list(data=rdata[, iter], distr=f$distname, start=start, fix.arg=f$fix.arg), f$dots))
+            res <- do.call(foncestim, c(list(data=rdata[, iter], distr=f$distname, start=start, fix.arg=fix.arg), f$dots))
             return(c(res$estimate, res$convergence))
         }
     owarn <- getOption("warn")

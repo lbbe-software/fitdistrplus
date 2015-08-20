@@ -82,6 +82,8 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
         aic <- -2*loglik+2*npar
         bic <- -2*loglik+log(n)*npar
         convergence <- mme$convergence
+        fix.arg <- mme$fix.arg
+        fix.arg.fun <- NULL
     }else if (method == "mle")
     {
         mle <- mledist(data, distname, start, fix.arg, ...)
@@ -109,7 +111,9 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
         npar <- length(estimate)
         aic <- -2*loglik+2*npar
         bic <- -2*loglik+log(n)*npar
-        convergence <- mle$convergence      
+        convergence <- mle$convergence
+        fix.arg <- mle$fix.arg
+        fix.arg.fun <- mle$fix.arg.fun
     }else if (method == "qme")
     {
         if (!"probs" %in% names(my3dots))
@@ -125,7 +129,9 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
         bic <- -2*loglik+log(n)*npar
         correl <- varcovar <- NULL
         
-        convergence <- qme$convergence      
+        convergence <- qme$convergence   
+        fix.arg <- qme$fix.arg
+        fix.arg.fun <- qme$fix.arg.fun
     }else if (method == "mge")
     {
         if (!"gof" %in% names(my3dots))
@@ -141,20 +147,23 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
         bic <- -2*loglik+log(n)*npar
         correl <- varcovar <- NULL
         
-        convergence <- mge$convergence      
+        convergence <- mge$convergence
+        fix.arg <- mge$fix.arg
+        fix.arg.fun <- mge$fix.arg.fun
     }else
     {
         stop("match.arg does not work correctly.")
     }
     
+    #needed for bootstrap
     if (!is.null(fix.arg)) fix.arg <- as.list(fix.arg)
     
     if(keepdata)
     {
       reslist <- list(estimate = estimate, method = method, sd = sd, cor = correl, 
                   vcov = varcovar, loglik = loglik, aic=aic, bic=bic, n = n, data=data,
-                  distname = distname, fix.arg = fix.arg, dots = dots, 
-                  convergence = convergence, discrete = discrete)
+                  distname = distname, fix.arg = fix.arg, fix.arg.fun = fix.arg.fun, 
+                  dots = dots, convergence = convergence, discrete = discrete)
     }else #just keep a sample set of all observations
     {
       n2keep <- min(keepdata.nb, n)-2
@@ -165,7 +174,7 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
       
       reslist <- list(estimate = estimate, method = method, sd = sd, cor = correl, 
                   vcov = varcovar, loglik = loglik, aic=aic, bic=bic, n = n, data=subdata,
-                  distname = distname, fix.arg = fix.arg, dots = dots, 
+                  distname = distname, fix.arg = fix.arg, fix.arg.fun = fix.arg.fun, dots = dots, 
                   convergence = convergence, discrete = discrete)  
     }
     
@@ -192,7 +201,18 @@ print.fitdist <- function(x, ...)
         print(cbind.data.frame("estimate" = x$estimate, "Std. Error" = x$sd), ...)
      else 
         print(cbind.data.frame("estimate" = x$estimate), ...)
-
+    if(!is.null(x$fix.arg))
+    {
+      if(is.null(x$fix.arg.fun))
+      {
+        cat("Fixed parameters:\n")
+      }else
+      {
+        cat("Fixed parameters (computed by a user-supplied function):\n")
+      }
+      print(cbind.data.frame("value" = unlist(x$fix.arg)), ...)
+    }
+      
 }
 
 plot.fitdist <- function(x, breaks="default", ...)
@@ -239,6 +259,18 @@ print.summary.fitdist <- function(x, ...)
         print(cbind.data.frame("estimate" = x$estimate, "Std. Error" = x$sd), ...)
     else
         print(cbind.data.frame("estimate" = x$estimate), ...)
+    
+    if(!is.null(x$fix.arg))
+    {
+      if(is.null(x$fix.arg.fun))
+      {
+        cat("Fixed parameters:\n")
+      }else
+      {
+        cat("Fixed parameters (computed by a user-supplied function):\n")
+      }
+      print(cbind.data.frame("value" = unlist(x$fix.arg)), ...)
+    }
 
     cat("Loglikelihood: ", x$loglik, "  ")
     cat("AIC: ", x$aic, "  ")
