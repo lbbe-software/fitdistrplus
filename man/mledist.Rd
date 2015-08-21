@@ -23,9 +23,8 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
      the right bound of the interval for interval censored observations,
      or the observed value for non-censored observations. }
 \item{distr}{ A character string \code{"name"} naming a distribution 
-     for which the corresponding 
-    density function \code{dname} and the corresponding distribution \code{pname}
-    must be classically defined. }
+     for which the corresponding density function \code{dname} 
+     and the corresponding distribution function \code{pname} must be classically defined. }
 \item{start}{A named list giving the initial values of parameters of the named distribution
     or a function of data computing initial values and returning a named list.
     This argument may be omitted (default) for some distributions for which reasonable 

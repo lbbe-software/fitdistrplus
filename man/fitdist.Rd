@@ -10,9 +10,11 @@
 \title{ Fit of univariate distributions to non-censored data}
 
 \description{
- Fit of univariate distributions to non-censored data by maximum likelihood, 
- moment matching, quantile matching or 
- maximizing goodness-of-fit (minimizing distance). Generic methods are \code{print}, \code{plot}, 
+ Fit of univariate distributions to non-censored data by maximum likelihood (mle), 
+ moment matching (mme), quantile matching (qme) or 
+ maximizing goodness-of-fit estimation (mge).
+ The latter is also known as minimizing distance estimation.
+ Generic methods are \code{print}, \code{plot}, 
 \code{summary}, \code{quantile}, \code{logLik}, \code{vcov} and \code{coef}.
 }
 
@@ -43,13 +45,15 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
 \item{method}{A character string coding for the fitting method: 
     \code{"mle"} for 'maximum likelihood estimation', \code{"mme"} for 'moment matching estimation', 
     \code{"qme"} for 'quantile matching estimation' and \code{"mge"} for 'maximum goodness-of-fit estimation'.}
-\item{start}{A named list giving the initial values of parameters of the named distribution. 
-    This argument may be omitted for some distributions for which reasonable 
-    starting values are computed (see details), 
-    and will not be taken into account if a closed formula is used to estimate parameters.  }
-\item{fix.arg}{An optional named list giving the values of parameters of the named distribution
-    that must kept fixed rather than estimated. 
-    The use of this argument is not possible if \code{method="mme"} and a closed formula is used. }
+\item{start}{A named list giving the initial values of parameters of the named distribution
+    or a function of data computing initial values and returning a named list.
+    This argument may be omitted (default) for some distributions for which reasonable 
+    starting values are computed (see details). 
+    It may not be into account for closed-form formulas.}
+\item{fix.arg}{An optional named list giving the values of fixed parameters of the named distribution
+    or a function of data computing (fixed) parameter values and returning a named list. 
+    Parameters with fixed value are thus NOT estimated by this maximum likelihood procedure.
+    The use of this argument is not possible if \code{method="mme"} and a closed-form formula is used.}
 \item{x}{An object of class \code{"fitdist"}.  }
 \item{object}{An object of class \code{"fitdist"}.  }
 \item{breaks}{If \code{"default"} the histogram is plotted with the function \code{hist} 
@@ -58,58 +62,59 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
     \code{"nbinom"}, \code{"geom"}, \code{"hyper"} and \code{"pois"}. }
     
 \item{keepdata}{a logical. If \code{TRUE}, dataset is returned, 
-otherwise only a sample subset is returned.}
+    otherwise only a sample subset is returned.}
 \item{keepdata.nb}{When \code{keepdata=FALSE}, the length (>1) of the subset returned.}
 \item{discrete}{ If TRUE, the distribution is considered as discrete.
-  If \code{discrete} is missing, 
-	\code{discrete} is automaticaly set to \code{TRUE} when \code{distr} belongs to 
-	\code{"binom"}, \code{"nbinom"}, \code{"geom"},
+    If \code{discrete} is missing, 
+	  \code{discrete} is automaticaly set to \code{TRUE} when \code{distr} belongs to 
+	  \code{"binom"}, \code{"nbinom"}, \code{"geom"},
     \code{"hyper"} or \code{"pois"} and to \code{FALSE} in the other cases. It is thus recommended
     to enter this argument when using another discrete distribution. This argument will not directly affect
     the results of the fit but will be passed to functions \code{\link{gofstat}}, \code{\link{plotdist}} 
     and \code{\link{cdfcomp}}.  }
 \item{\dots}{Further arguments to be passed to generic functions, or to one of the functions
     \code{"mledist"},  \code{"mmedist"}, \code{"qmedist"} or \code{"mgedist"}
-    depending of the chosen method
-    (see the help pages of these functions for details).}
+    depending of the chosen method. See \code{\link{mledist}}, \code{\link{mmedist}}, \code{\link{qmedist}}, 
+    \code{\link{mgedist}} for details on parameter estimation.}
 }
 
 \details{
-    Fittting methods:
+
+    It is assumed that the \code{distr} argument specifies the distribution by the
+    probability density function, the cumulative distribution function and
+    the quantile function (d, p, q).
+
+    The four possible fitting methods are described below:
 \describe{
     \item{When \code{method="mle"}}{
-    maximum likelihood estimations of the distribution parameters are computed using 
-    the function \code{\link{mledist}}. 
+    Maximum likelihood estimation consists in maximizing the log-likelihood.
+    A numerical optimization is carried out in \code{\link{mledist}} via \code{optim}
+    to find the best values (see \code{\link{mledist}} for details).
     }
     \item{When \code{method="mme"}}{
-    the estimated values of the distribution parameters are computed by a closed 
+    Moment matching estimation consists in equalizing theoretical and empirical moments.
+    Estimated values of the distribution parameters are computed by a closed-form 
     formula for the following distributions : \code{"norm"}, \code{"lnorm"}, 
     \code{"pois"}, \code{"exp"}, \code{"gamma"}, 
     \code{"nbinom"}, \code{"geom"}, \code{"beta"}, \code{"unif"} and \code{"logis"}.
-    For distributions characterized by one parameter (\code{"geom"}, \code{"pois"} and \code{"exp"}), 
-    this parameter is simply estimated by matching theoretical and 
-    observed means, and for distributions characterized by 
-    two parameters, these parameters are estimated by matching theoretical and observed means
-    and variances (Vose, 2000). 
-    For other distributions, the theoretical and the empirical moments are matched numerically, 
-    by minimization of the
-    sum of squared differences between observed and theoretical moments. In this last case, 
-    further arguments are needed in the call to \code{fitdist}: \code{order} and \code{memp}
+    Otherwise the theoretical and the empirical moments are matched numerically, 
+    by minimization of the sum of squared differences between observed and theoretical moments. 
+    In this last case, further arguments are needed in the call to \code{fitdist}: \code{order} and \code{memp}
     (see \code{\link{mmedist}} for details).
     }
     \item{When \code{method = "qme"}}{
-    the function carries out the quantile matching numerically, by minimization of the
-    sum of squared differences between observed and theoretical quantiles.
+    Quantile matching estimation consists in equalizing theoretical and empirical quantile.
+    A numerical optimization is carried out in \code{\link{qmedist}} via \code{optim}
+    to minimize of the sum of squared differences between observed and theoretical quantiles.
     The use of this method requires an additional argument \code{probs}, 
-    defined as the numeric vector of the probabilities 
-    for which the quantile matching is done, of length equal to the number of parameters to estimate
+    defined as the numeric vector of the probabilities for which the quantile(s) is(are) to be matched
     (see \code{\link{qmedist}} for details).
     }
     \item{When \code{method = "mge"}}{
-    the distribution parameters are estimated by maximization  
-    of goodness-of-fit (or minimization of a goodness-of-fit distance). The use of this method 
-    requires an additional argument 
-    \code{gof} coding for the goodness-of-fit distance chosen. 
+    Maximum goodness-of-fit estimation consists in maximizing a goodness-of-fit statistics.
+    A numerical optimization is carried out in \code{\link{mgedist}} via \code{optim}
+    to minimize the goodness-of-fit distance. The use of this method 
+    requires an additional argument \code{gof} coding for the goodness-of-fit distance chosen. 
     One can use the classical Cramer-von Mises distance (\code{"CvM"}), the classical
     Kolmogorov-Smirnov distance (\code{"KS"}), the classical Anderson-Darling distance (\code{"AD"})
     which gives more weight to the tails of the distribution, 
@@ -125,16 +130,17 @@ otherwise only a sample subset is returned.}
     The optimization algorithm used in \code{\link{optim}} can be chosen or another optimization function
     can be specified using \dots argument (see \code{\link{mledist}} for details).
     For the following named distributions, reasonable starting values will 
-    be computed if \code{start} is omitted : \code{"norm"}, \code{"lnorm"}, 
-    \code{"exp"} and \code{"pois"}, \code{"cauchy"}, \code{"gamma"}, \code{"logis"}, 
-    \code{"nbinom"} (parametrized by mu and size), \code{"geom"}, \code{"beta"}, 
-    \code{"unif"}, and \code{"weibull"}. 
-    Note that these starting 
-    values may not be good enough if the fit is poor.      
+    be computed if \code{start} is omitted (i.e. \code{NULL}) : \code{"norm"}, \code{"lnorm"},
+    \code{"exp"} and \code{"pois"}, \code{"cauchy"}, \code{"gamma"}, \code{"logis"},
+    \code{"nbinom"} (parametrized by mu and size), \code{"geom"}, \code{"beta"}, \code{"weibull"}
+    from the \code{stats} package; 
+    \code{"invgamma"}, \code{"llogis"}, \code{"invweibull"}, \code{"pareto1"}, \code{"pareto2"}
+    from the \code{actuar} package.  
+    Note that these starting values may not be good enough if the fit is poor.      
     With the parameter estimates, the function returns the log-likelihood whatever the estimation method
     and for maximum likelihood estimation the standard errors of 
-    the estimates calculated from the 
-    Hessian at the solution found by \code{optim} or by the user-supplied function passed to mledist.
+    the estimates calculated from the Hessian at the solution found by \code{optim} 
+    or by the user-supplied function passed to mledist.
 
     By default (\code{keepdata = TRUE}), the returned object contains the data vector itself.
     For large dataset purposes, we can remove the original dataset from the output by
@@ -172,6 +178,7 @@ otherwise only a sample subset is returned.}
     \item{fix.arg}{ the named list giving the values of parameters of the named distribution
         that must be kept fixed rather than estimated by maximum likelihood or \code{NULL} 
         if there are no such parameters. }
+    \item{fix.arg.fun}{the function used to set the value of \code{fix.arg} or \code{NULL}.}    
     \item{discrete}{ the input argument or the automatic definition by the function to be passed
         to functions \code{\link{gofstat}}, \code{\link{plotdist}} 
         and \code{\link{cdfcomp}}. }
@@ -220,8 +227,9 @@ otherwise only a sample subset is returned.}
     See \code{\link{bootdist}} for bootstrap procedures 
     and \code{\link{fitdistcens}} for censored-data fitting methods.
     See \code{\link{optim}} for base R optimization procedures.
-    See \code{\link{quantile.fitdist}}, another generic function,  which calculates 
+    See \code{\link{quantile.fitdist}}, another generic function, which calculates 
     quantiles from the fitted distribution.
+    See \code{\link{quantile}} for base R quantile computation.
 }
 
 \references{ 
@@ -416,15 +424,14 @@ gofstat(fWqme)
 \dontrun{
     require(actuar)
     #simulate a sample
-    x4 <- rpareto(1000, 6, 2)
+    x4 <- rpareto2(1000, 6, 2)
 
     #empirical raw moment
-    memp <- function(x, order)
-        ifelse(order == 1, mean(x), sum(x^order)/length(x))
+    memp <- function(x, order) mean(x^order)
 
     #fit
-    fP <- fitdist(x4, "pareto", method="mme", order=c(1, 2), memp="memp", 
-    start=c(shape=10, scale=10), lower=1, upper=Inf)
+    fP <- fitdist(x4, "pareto2", method="mme", order=c(1, 2), memp="memp", 
+      start=list(shape=10, scale=10), lower=1, upper=Inf)
     summary(fP)
     plot(fP)
 
