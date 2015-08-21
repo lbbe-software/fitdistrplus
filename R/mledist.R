@@ -201,6 +201,8 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
             warnings("The function optim failed to converge, with the error code ", 
                      opt$convergence)
         }
+        if(is.null(names(opt$par)))
+          names(opt$par) <- names(vstart)
         res <- list(estimate = opt$par, convergence = opt$convergence, loglik = -opt$value, 
                     hessian = opt$hessian, optim.function="optim", fix.arg = fix.arg, 
                     optim.method=meth, fix.arg.fun = fix.arg.fun)
@@ -233,6 +235,8 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
         {
           method.cust <- NULL
         }
+        if(is.null(names(opt$par)))
+          names(opt$par) <- names(vstart)
         res <- list(estimate = opt$par, convergence = opt$convergence, loglik = -opt$value, 
                       hessian = opt$hessian, optim.function = custom.optim, fix.arg = fix.arg,
                       method = method.cust, fix.arg.fun = fix.arg.fun)        

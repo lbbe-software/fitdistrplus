@@ -193,7 +193,8 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
                 warnings("The function optim failed to converge, with the error code ",
                          opt$convergence)
             }
-            
+            if(is.null(names(opt$par)))
+              names(opt$par) <- names(vstart)
             res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
                         hessian = opt$hessian, optim.function="optim", order=order, memp=memp,
                         optim.method=opt.meth)  

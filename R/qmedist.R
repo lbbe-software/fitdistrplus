@@ -245,7 +245,8 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
             warnings("The function optim failed to converge, with the error code ",
                      opt$convergence)
         }
-        
+        if(is.null(names(opt$par)))
+          names(opt$par) <- names(vstart)
         res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
 					hessian = opt$hessian, probs=probs, optim.function="optim", 
 					loglik=loglik(opt$par, fix.arg, data, ddistname), fix.arg=fix.arg,
@@ -271,7 +272,8 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
             warnings("The customized optimization function failed to converge, with the error code ",
                      opt$convergence)
         }
-        
+        if(is.null(names(opt$par)))
+          names(opt$par) <- names(vstart)
         res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
 					hessian = opt$hessian, probs=probs, optim.function=custom.optim, 
 					loglik=loglik(opt$par, fix.arg, data, ddistname), fix.arg=fix.arg, optim.method=NULL)		
