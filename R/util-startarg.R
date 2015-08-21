@@ -97,7 +97,7 @@ start.arg.default <- function(x, distr)
     shape <- (n*m1-x1)/(n*(m1-x1))
     min <- x1*(n*shape - 1)/(n*shape)
     start <- list(shape=shape, min=min)
-  }else if (distr == "pareto2")
+  }else if (distr == "pareto")
   {
     m1 <- mean(x)
     m2 <- mean(x^2)

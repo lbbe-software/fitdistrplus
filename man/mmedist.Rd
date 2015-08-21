@@ -140,13 +140,13 @@ mmedist(x3, "beta")
 \dontrun{
   require(actuar)
   #simulate a sample
-  x4  <-  rpareto2(1000, 6, 2)
+  x4  <-  rpareto(1000, 6, 2)
 
   #empirical raw moment
   memp  <-  function(x, order) mean(x^order)
 
   #fit
-  mmedist(x4, "pareto2", order=c(1, 2), memp="memp", 
+  mmedist(x4, "pareto", order=c(1, 2), memp="memp", 
     start=list(shape=10, scale=10), lower=1, upper=Inf)
 }
 

@@ -129,16 +129,11 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
     and the "BFGS" method for distributions characterized by only one parameter. 
     The optimization algorithm used in \code{\link{optim}} can be chosen or another optimization function
     can be specified using \dots argument (see \code{\link{mledist}} for details).
-    For the following named distributions, reasonable starting values will 
-    be computed if \code{start} is omitted (i.e. \code{NULL}) : \code{"norm"}, \code{"lnorm"},
-    \code{"exp"} and \code{"pois"}, \code{"cauchy"}, \code{"gamma"}, \code{"logis"},
-    \code{"nbinom"} (parametrized by mu and size), \code{"geom"}, \code{"beta"}, \code{"weibull"}
-    from the \code{stats} package; 
-    \code{"invgamma"}, \code{"llogis"}, \code{"invweibull"}, \code{"pareto1"}, \code{"pareto2"}
-    from the \code{actuar} package.  
-    Note that these starting values may not be good enough if the fit is poor.      
-    With the parameter estimates, the function returns the log-likelihood whatever the estimation method
-    and for maximum likelihood estimation the standard errors of 
+    \code{start} may be omitted (i.e. \code{NULL}) for some classic distributions
+    (see \code{\link{mledist}} for details).
+    
+    Once the parameter(s) is(are) estimated, \code{fitdist} computes the log-likelihood 
+    for every estimation method and for maximum likelihood estimation the standard errors of 
     the estimates calculated from the Hessian at the solution found by \code{optim} 
     or by the user-supplied function passed to mledist.
 
@@ -424,13 +419,13 @@ gofstat(fWqme)
 \dontrun{
     require(actuar)
     #simulate a sample
-    x4 <- rpareto2(1000, 6, 2)
+    x4 <- rpareto(1000, 6, 2)
 
     #empirical raw moment
     memp <- function(x, order) mean(x^order)
 
     #fit
-    fP <- fitdist(x4, "pareto2", method="mme", order=c(1, 2), memp="memp", 
+    fP <- fitdist(x4, "pareto", method="mme", order=c(1, 2), memp="memp", 
       start=list(shape=10, scale=10), lower=1, upper=Inf)
     summary(fP)
     plot(fP)
