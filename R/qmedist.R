@@ -43,8 +43,9 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
     if (missing(probs))
         stop("missing probs argument for quantile matching estimation")
 
-    if (!is.null(fix.arg) & is.null(start))
-        stop("Starting values must be defined when some distribution parameters are fixed.")    
+    start.arg <- start #to avoid confusion with the start() function of stats pkg (check is done lines 87-100)
+    if(is.vector(start.arg)) #backward compatibility
+      start.arg <- as.list(start.arg)
     
     if(qtype < 1 || qtype > 9)
         stop("wrong type for the R quantile function.")
@@ -85,99 +86,31 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
     }
     
     # QME fit 
-    # definition of starting values if not previously defined
-    if (is.null(start)) {
-        if (distname == "norm") {
-            n <- length(data)
-            sd0 <- sqrt((n - 1)/n) * sd(data)
-            mx <- mean(data)
-            start <- list(mean=mx, sd=sd0)
-        }
-        if (distname == "lnorm") {
-            if (any(data <= 0)) 
-                stop("values must be positive to fit a lognormal distribution")
-            n <- length(data)
-            ldata <- log(data)
-            sd0 <- sqrt((n - 1)/n) * sd(ldata)
-            ml <- mean(ldata)
-            start <- list(meanlog=ml, sdlog=sd0)
-        }
-        if (distname == "pois") {
-            start <- list(lambda=mean(data))
-        }
-        if (distname == "exp") {
-            start <- list(rate=1/mean(data))
-        }
-        if (distname == "gamma") {
-            n <- length(data)
-            m <- mean(data)
-            v <- (n - 1)/n*var(data)
-            start <- list(shape=m^2/v,rate=m/v)
-        }
-        if (distname == "nbinom") {
-            n <- length(data)
-            m <- mean(data)
-            v <- (n - 1)/n*var(data)
-            size <- if (v > m) m^2/(v - m)
-                else 100
-            start <- list(size = size, mu = m) 
-        }
-        if (distname == "geom" ) {
-            m <- mean(data)
-            prob <- if (m>0) 1/(1+m)
-                    else 1
-            start <- list(prob=prob)        
-        }
-        if (distname == "beta") {
-            if (any(data < 0) | any(data > 1)) 
-                stop("values must be in [0-1] to fit a beta distribution")
-            n <- length(data)
-            m <- mean(data)
-            v <- (n - 1)/n*var(data)
-            aux <- m*(1-m)/v - 1
-            start <- list(shape1=m*aux,shape2=(1-m)*aux)
-        }
-        if (distname == "weibull") {
-            m <- mean(log(data))
-            v <- var(log(data))
-            shape <- 1.2/sqrt(v)
-            scale <- exp(m + 0.572/shape)
-            start <- list(shape = shape, scale = scale)
-        }
-        if (distname == "logis") {
-            n <- length(data)
-            m <- mean(data)
-            v <- (n - 1)/n*var(data)
-            start <- list(location=m,scale=sqrt(3*v)/pi)
-        }
-        if (distname == "cauchy") {
-            start <- list(location=median(data),scale=IQR(data)/2)
-        }
-        if (distname == "unif") {
-            start <- list(min=min(data),max=max(data))
-        }
-        if (!is.list(start)) 
-            stop("'start' must be defined as a named list for this distribution") 
-   } # end of the definition of starting values 
+    # definition of starting/fixed values values
+    argddistname <- names(formals(ddistname))
+    chfixstt <- checkparam(start.arg=start.arg, fix.arg=fix.arg, argdistname=argddistname, 
+                           errtxt=NULL, data10=head(data, 10), distname=distname)
+    if(!chfixstt$ok)
+      stop(chfixstt$txt)
+    #unlist starting values as needed in optim()
+    if(is.function(chfixstt$start.arg))
+      vstart <- chfixstt$start.arg(data)
+    else
+      vstart <- unlist(chfixstt$start.arg)
+    if(is.function(fix.arg)) #function
+    { 
+      fix.arg.fun <- fix.arg
+      fix.arg <- fix.arg(data)
+    }else
+      fix.arg.fun <- NULL
+    #otherwise fix.arg is a named list or NULL
+    
+    # end of the definition of starting/fixed values 
 
-    if(length(start) != length(probs))
+    if(length(vstart) != length(probs))
         stop("wrong dimension for the quantiles to match.")
     
    ############# QME fit using optim or custom.optim ##########
-    vstart <- unlist(start)
-    vfix.arg <- unlist(fix.arg)
-    # check of the names of the arguments of the density function
-    argqdistname <- names(formals(qdistname))   
-    m <- match(names(start), argqdistname)
-    mfix <- match(names(vfix.arg), argqdistname)
-    if (any(is.na(m)) || length(m) == 0)
-        stop("'start' must specify names which are arguments to 'distr'")
-    if (any(is.na(mfix)))
-        stop("'fix.arg' must specify names which are arguments to 'distr'")
-    # check that some parameters are not both in fix.arg and start
-    minter <- match(names(start), names(fix.arg))
-    if (any(!is.na(minter)))
-        stop("a distribution parameter cannot be specified both in 'start' and 'fix.arg'")
 
     # definition of the function to minimize : 
     # for non censored data
