@@ -22,11 +22,13 @@ mgedist(data, distr, gof = "CvM", start = NULL, fix.arg = NULL,
     "CvM" for Cramer-von Mises distance,"KS" for Kolmogorov-Smirnov distance,
     "AD" for Anderson-Darling distance, "ADR", "ADL", "AD2R", "AD2L" and "AD2" for variants of
     Anderson-Darling distance described by Luceno (2006).}  
-\item{start}{ A named list giving the initial values of parameters of the named distribution. 
-    This argument may be omitted for some distributions for which reasonable 
-    starting values are computed (see details).  }
-\item{fix.arg}{ An optional named list giving the values of parameters of the named distribution
-    that must kept fixed rather than estimated. }
+\item{start}{A named list giving the initial values of parameters of the named distribution
+    or a function of data computing initial values and returning a named list.
+    This argument may be omitted (default) for some distributions for which reasonable 
+    starting values are computed (see the 'details' section of  \code{\link{mledist}}). }
+\item{fix.arg}{An optional named list giving the values of fixed parameters of the named distribution
+    or a function of data computing (fixed) parameter values and returning a named list. 
+    Parameters with fixed value are thus NOT estimated by this maximum likelihood procedure.}
 \item{optim.method}{ \code{"default"} or optimization method to pass to \code{\link{optim}}.  }
 \item{lower}{ Left bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
 \item{upper}{ Right bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
@@ -82,6 +84,7 @@ mgedist(data, distr, gof = "CvM", start = NULL, fix.arg = NULL,
         if there are no such parameters. }
     \item{optim.method}{when \code{optim} is used, the name of the algorithm used, 
     \code{NULL} otherwise.}
+    \item{fix.arg.fun}{the function used to set the value of \code{fix.arg} or \code{NULL}.}
 }
 
 

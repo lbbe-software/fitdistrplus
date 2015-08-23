@@ -26,7 +26,7 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
     optim.method="default", lower=-Inf, upper=Inf, custom.optim=NULL, ...) 
 {
     if (!is.character(distr)) 
-    stop("distr must be a character string naming a distribution")
+      stop("distr must be a character string naming a distribution")
     else 
         distname <- distr
     
