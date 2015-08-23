@@ -48,9 +48,11 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
 
     gof <- match.arg(gof, c("CvM", "KS", "AD", "ADR", "ADL", "AD2R", "AD2L", "AD2"))
    
-    if (!is.null(fix.arg) & is.null(start))
-        stop("Starting values must be defined when some distribution parameters are fixed")
+    start.arg <- start #to avoid confusion with the start() function of stats pkg (check is done lines 87-100)
+    if(is.vector(start.arg)) #backward compatibility
+      start.arg <- as.list(start.arg)
     
+
     if (is.vector(data)) {
         cens <- FALSE
         if (!(is.numeric(data) & length(data)>1)) 
@@ -86,79 +88,29 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
     }
     
     # MGE fit 
-    # definition of starting values if not previously defined
-    if (is.null(start)) {
-        if (distname == "norm") {
-            n <- length(data)
-            sd0 <- sqrt((n - 1)/n) * sd(data)
-            mx <- mean(data)
-            start <- list(mean=mx, sd=sd0)
-        }
-        if (distname == "lnorm") {
-            if (any(data <= 0)) 
-                stop("values must be positive to fit a lognormal distribution")
-            n <- length(data)
-            ldata <- log(data)
-            sd0 <- sqrt((n - 1)/n) * sd(ldata)
-            ml <- mean(ldata)
-            start <- list(meanlog=ml, sdlog=sd0)
-        }
-        if (distname == "exp") {
-            start <- list(rate=1/mean(data))
-        }
-        if (distname == "gamma") {
-            n <- length(data)
-            m <- mean(data)
-            v <- (n - 1)/n*var(data)
-            start <- list(shape=m^2/v,rate=m/v)
-        }
-        if (distname == "beta") {
-            if (any(data < 0) | any(data > 1)) 
-                stop("values must be in [0-1] to fit a beta distribution")
-            n <- length(data)
-            m <- mean(data)
-            v <- (n - 1)/n*var(data)
-            aux <- m*(1-m)/v - 1
-            start <- list(shape1=m*aux,shape2=(1-m)*aux)
-        }
-        if (distname == "weibull") {
-            m <- mean(log(data))
-            v <- var(log(data))
-            shape <- 1.2/sqrt(v)
-            scale <- exp(m + 0.572/shape)
-            start <- list(shape = shape, scale = scale)
-        }
-        if (distname == "logis") {
-            n <- length(data)
-            m <- mean(data)
-            v <- (n - 1)/n*var(data)
-            start <- list(location=m,scale=sqrt(3*v)/pi)
-        }
-        if (distname == "cauchy") {
-            start <- list(location=median(data),scale=IQR(data)/2)
-        }
-        if (distname == "unif") {
-            start <- list(min=min(data),max=max(data))
-        }
-        if (!is.list(start)) 
-            stop("'start' must be defined as a named list for this distribution") 
-   } # end of the definition of starting values 
+    # definition of starting/fixed values values
+    argddistname <- names(formals(ddistname))
+    chfixstt <- checkparam(start.arg=start.arg, fix.arg=fix.arg, argdistname=argddistname, 
+                           errtxt=NULL, data10=head(data, 10), distname=distname)
+    
+    if(!chfixstt$ok)
+      stop(chfixstt$txt)
+    #unlist starting values as needed in optim()
+    if(is.function(chfixstt$start.arg))
+      vstart <- chfixstt$start.arg(data)
+    else
+      vstart <- unlist(chfixstt$start.arg)
+    if(is.function(fix.arg)) #function
+    { 
+      fix.arg.fun <- fix.arg
+      fix.arg <- fix.arg(data)
+    }else
+      fix.arg.fun <- NULL
+    #otherwise fix.arg is a named list or NULL
+    
+    # end of the definition of starting/fixed values 
    
    ############# MGE fit using optim or custom.optim ##########
-    vstart <- unlist(start)
-    vfix.arg <- unlist(fix.arg)
-    # check of the names of the arguments of the density function
-    argddistname <- names(formals(ddistname))   
-    m <- match(names(start), argddistname)
-    mfix <- match(names(vfix.arg), argddistname)
-    if (any(is.na(m)) || length(m) == 0)
-        stop("'start' must specify names which are arguments to 'distr'")
-    if (any(is.na(mfix)))
-        stop("'fix.arg' must specify names which are arguments to 'distr'")
-    # check that some parameters are not both in fix.arg and start
-    minter <- match(names(start), names(fix.arg))
-    if (any(!is.na(minter)))
-        stop("a distribution parameter cannot be specified both in 'start' and 'fix.arg'")
 
     # definition of the function to minimize depending on the argument gof
     # for non censored data
@@ -293,7 +245,7 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
         res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
                     hessian = opt$hessian, gof=gof, optim.function="optim",
                     loglik=loglik(opt$par, fix.arg, data, ddistname), fix.arg = fix.arg, 
-                    optim.method=meth )
+                    optim.method=meth, fix.arg.fun = fix.arg.fun)
     }
     else # Try to minimize the gof distance using a user-supplied optim function 
     {
@@ -320,7 +272,7 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
         res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
                     gof=gof, hessian = opt$hessian, optim.function=custom.optim,
                     loglik=loglik(opt$par, fix.arg, data, ddistname), fix.arg = fix.arg,
-                    optim.method=NULL)
+                    optim.method=NULL, fix.arg.fun = fix.arg.fun)
     }   
    
     return(res)                

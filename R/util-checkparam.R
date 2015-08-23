@@ -61,13 +61,12 @@ checkparam <- function(start.arg, fix.arg, argdistname, errtxt=NULL, data10, dis
   
   #check start 
   #start.arg : function() | list()
-  #start.arg cannot be null because set to start.arg.default when NULL 
-  #(thus start.arg.default is regularly checked)
+  #start.arg cannot be null because set to a named list (by start.arg.default) when NULL 
   if(is.function(start.arg)) #a function
   {
     start2 <- start.arg(data10)
     if(!is.list(start2) && is.null(names(start2))) #check a named list
-      stop(errtxt$t3)
+      return(list(ok=FALSE, txt=errtxt$t3))
     vstart <- unlist(start2)
   }else #a list
     vstart <- unlist(start.arg)
@@ -81,7 +80,7 @@ checkparam <- function(start.arg, fix.arg, argdistname, errtxt=NULL, data10, dis
   {
     fix.arg2 <- fix.arg(data10)
     if(!is.list(fix.arg2) && is.null(names(fix.arg2))) #check a named list
-      stop(errtxt$t4)
+      return(list(ok=FALSE, txt=errtxt$t4))
     vfix.arg <- unlist(fix.arg2)
   }else if(is.list(fix.arg)) #a list
     vfix.arg <- unlist(fix.arg)
