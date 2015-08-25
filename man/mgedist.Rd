@@ -28,7 +28,7 @@ mgedist(data, distr, gof = "CvM", start = NULL, fix.arg = NULL,
     starting values are computed (see the 'details' section of  \code{\link{mledist}}). }
 \item{fix.arg}{An optional named list giving the values of fixed parameters of the named distribution
     or a function of data computing (fixed) parameter values and returning a named list. 
-    Parameters with fixed value are thus NOT estimated by this maximum likelihood procedure.}
+    Parameters with fixed value are thus NOT estimated.}
 \item{optim.method}{ \code{"default"} or optimization method to pass to \code{\link{optim}}.  }
 \item{lower}{ Left bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
 \item{upper}{ Right bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }

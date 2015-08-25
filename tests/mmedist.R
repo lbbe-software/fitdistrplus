@@ -6,6 +6,7 @@ library(fitdistrplus)
 set.seed(1234)
 x1 <- rnorm(n=100)
 mmedist(x1,"norm")
+try(mmedist(x1,"norm", fix.arg=list(mean=0)))
 
 # (2) fit a discrete distribution (Poisson)
 #
@@ -39,6 +40,12 @@ if(any(installed.packages()[, "Package"] == "actuar"))
     #fit
     mmedist(x4, "pareto", order=c(1, 2), memp="memp", start=c(shape=10, scale=10), 
 			lower=1, upper=Inf)
+    mmedist(x4, "pareto", order=1, memp="memp", start=list(shape=10), fix.arg=list(scale=1.5), 
+            lower=2, upper=Inf)
+    mmedist(x4, "pareto", order=1, memp="memp", start=function(x) list(shape=10), fix.arg=list(scale=1.5), 
+            lower=2, upper=Inf)
+    mmedist(x4, "pareto", order=1, memp="memp", start=list(shape=10), fix.arg=function(x) list(scale=1.5), 
+            lower=2, upper=Inf)
 			
 #fit
 data(danishuni)

@@ -20,11 +20,13 @@ to the number of parameters to estimate.}
 \item{memp}{A function implementing empirical moments, raw or centered but has to be consistent with 
     \code{distr} argument. This function must have two arguments : as a first one the numeric vector of the data
     and as a second the order of the moment returned by the function.}
-\item{start}{A named list giving the initial values of parameters of the named distribution. 
-    This argument may be omitted for some distributions for which reasonable 
+\item{start}{A named list giving the initial values of parameters of the named distribution
+    or a function of data computing initial values and returning a named list.
+    This argument may be omitted (default) for some distributions for which reasonable 
     starting values are computed (see details). }
-\item{fix.arg}{ An optional named list giving the values of parameters of the named distribution
-    that must kept fixed rather than estimated. }
+\item{fix.arg}{An optional named list giving the values of fixed parameters of the named distribution
+    or a function of data computing (fixed) parameter values and returning a named list. 
+    Parameters with fixed value are thus NOT estimated.}
 \item{optim.method}{ \code{"default"} or optimization method to pass to \code{\link{optim}}.  }
 \item{lower}{ Left bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
 \item{upper}{ Right bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
@@ -37,11 +39,12 @@ to the number of parameters to estimate.}
     \code{"exp"} and \code{"pois"}, \code{"gamma"}, \code{"logis"},
     \code{"nbinom"} , \code{"geom"}, \code{"beta"} and \code{"unif"}.
     In that case, no other arguments than \code{data} and \code{distr} are
-    required, because the estimate is computed by a closed formula.
+    required, because the estimate is computed by a closed-form formula.
     For distributions characterized by one parameter (\code{"geom"}, \code{"pois"} and \code{"exp"}),
     this parameter is simply estimated by matching theoretical and observed means, and for distributions 
     characterized by two parameters, these parameters are estimated by matching theoretical and observed 
     means and variances (Vose, 2000).
+    Note that for these closed-form formula, \code{fix.arg} cannot be used and \code{start} is ignored.
     
     The argument \code{distr} can also be the distribution name
     as long as a corresponding \code{mdistr} function exists, e.g. \code{"pareto"} if \code{"mpareto"} exists.
@@ -50,7 +53,7 @@ to the number of parameters to estimate.}
     sum of squared differences between observed and theoretical moments. 
     Optionnally other arguments can be supplied to control optimization (see the 'details' section of 
     \code{\link{mledist}} for details about arguments for the control of optimization). 
-
+    In that case, \code{fix.arg} can be used and \code{start} is taken into account.
 
     This function is not intended to be called directly but is internally called in
     \code{\link{fitdist}} and \code{\link{bootdist}} when used with the matching moments method. 

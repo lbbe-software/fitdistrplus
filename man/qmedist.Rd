@@ -28,7 +28,7 @@ qmedist(data, distr, probs, start = NULL, fix.arg = NULL, qtype = 7,
     starting values are computed (see the 'details' section of  \code{\link{mledist}}). }
 \item{fix.arg}{An optional named list giving the values of fixed parameters of the named distribution
     or a function of data computing (fixed) parameter values and returning a named list. 
-    Parameters with fixed value are thus NOT estimated by this maximum likelihood procedure.}
+    Parameters with fixed value are thus NOT estimated.}
 \item{qtype}{The quantile type used by the R \code{\link{quantile}} function to 
     compute the empirical quantiles, (default 7 corresponds to the default quantile method in R).}
 \item{optim.method}{ \code{"default"} or optimization method to pass to \code{\link{optim}}.  }

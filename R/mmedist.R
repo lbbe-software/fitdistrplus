@@ -56,7 +56,7 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
 		v <- (n - 1)/n*var(data)
 		
         if (!is.null(fix.arg))
-            warnings("argument fix.arg cannot be used when a closed formula is used")
+            stop("argument fix.arg cannot be used when a closed formula is used.")
         # Fitting by matching moments
         if (!(is.vector(data) & is.numeric(data) & length(data)>1))
             stop("data must be a numeric vector of length greater than 1")
@@ -118,31 +118,41 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             order <- 1:2            
        }
         res <- list(estimate=estimate, convergence=0, order=order, memp=NULL)
-		    opt.meth <- NULL
-    }else #an optimimisation has to be done
+		    opt.meth <- fix.arg.fun <- NULL
+    }else #an optimimisation has to be done, where fix.arg and start can be a function
     {
+        start.arg <- start #to avoid confusion with the start() function of stats pkg (check is done lines 87-100)
+        if(is.vector(start.arg)) #backward compatibility
+          start.arg <- as.list(start.arg)
         
-        if(length(start) != length(order))
+        # definition of starting/fixed values values
+        argmdistname <- names(formals(mdistname))
+        chfixstt <- checkparam(start.arg=start.arg, fix.arg=fix.arg, argdistname=argmdistname, 
+                               errtxt=NULL, data10=head(data, 10), distname=distname)
+        if(!chfixstt$ok)
+          stop(chfixstt$txt)
+        #unlist starting values as needed in optim()
+        if(is.function(chfixstt$start.arg))
+          vstart <- chfixstt$start.arg(data)
+        else
+          vstart <- unlist(chfixstt$start.arg)
+        if(is.function(fix.arg)) #function
+        { 
+          fix.arg.fun <- fix.arg
+          fix.arg <- fix.arg(data)
+        }else
+          fix.arg.fun <- NULL
+        #otherwise fix.arg is a named list or NULL
+        
+        # end of the definition of starting/fixed values
+        
+        if(length(vstart) != length(order))
             stop("wrong dimension for the moment order to match.")
         if(!exists("memp", mode="function")) 
             stop("the empirical moment function must be defined.")
 
         
         ############# MME fit using optim or custom.optim ##########
-        vstart <- unlist(start)
-        vfix.arg <- unlist(fix.arg)
-        # check of the names of the arguments of the density function
-        argmdistname <- names(formals(mdistname))   
-        m <- match(names(start), argmdistname)
-        mfix <- match(names(vfix.arg), argmdistname)
-        if (any(is.na(m)) || length(m) == 0)
-            stop("'start' must specify names which are arguments to 'distr'")
-        if (any(is.na(mfix)))
-            stop("'fix.arg' must specify names which are arguments to 'distr'")
-        # check that some parameters are not both in fix.arg and start
-        minter <- match(names(start), names(fix.arg))
-        if (any(!is.na(minter)))
-            stop("a distribution parameter cannot be specified both in 'start' and 'fix.arg'")
         
         # definition of the function to minimize : least square
         #Cramer - von Mises
@@ -235,7 +245,7 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
         loglik <- loglik(res$estimate, fix.arg, data, ddistname)
     else
         loglik <- NULL
-    res <- c(res, fix.arg=fix.arg, loglik=loglik, method=meth, optim.method=opt.meth)
+    res <- c(res, fix.arg=fix.arg, loglik=loglik, method=meth, optim.method=opt.meth, fix.arg.fun=fix.arg.fun)
     
     return(res)
 }
