@@ -48,7 +48,7 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
 \item{start}{A named list giving the initial values of parameters of the named distribution
     or a function of data computing initial values and returning a named list.
     This argument may be omitted (default) for some distributions for which reasonable 
-    starting values are computed (see details). 
+    starting values are computed (see the 'details' section of  \code{\link{mledist}}). 
     It may not be into account for closed-form formulas.}
 \item{fix.arg}{An optional named list giving the values of fixed parameters of the named distribution
     or a function of data computing (fixed) parameter values and returning a named list. 
@@ -130,7 +130,7 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
     The optimization algorithm used in \code{\link{optim}} can be chosen or another optimization function
     can be specified using \dots argument (see \code{\link{mledist}} for details).
     \code{start} may be omitted (i.e. \code{NULL}) for some classic distributions
-    (see \code{\link{mledist}} for details).
+    (see the 'details' section of  \code{\link{mledist}}).
     
     Once the parameter(s) is(are) estimated, \code{fitdist} computes the log-likelihood 
     for every estimation method and for maximum likelihood estimation the standard errors of 

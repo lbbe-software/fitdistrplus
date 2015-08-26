@@ -23,7 +23,7 @@ to the number of parameters to estimate.}
 \item{start}{A named list giving the initial values of parameters of the named distribution
     or a function of data computing initial values and returning a named list.
     This argument may be omitted (default) for some distributions for which reasonable 
-    starting values are computed (see details). }
+    starting values are computed (see the 'details' section of  \code{\link{mledist}}). }
 \item{fix.arg}{An optional named list giving the values of fixed parameters of the named distribution
     or a function of data computing (fixed) parameter values and returning a named list. 
     Parameters with fixed value are thus NOT estimated.}

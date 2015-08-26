@@ -1,16 +1,16 @@
 # checkparam function checks start.arg and fix.arg that parameters are named correctly
 
 # INPUTS 
-#start : starting values for optimization
-#fix.arg : fixed values of paramaters
-#argdistname : parameter names of the distribution
-#errtxt : error text messages
-#data10 : the first ten values of data
-#distname : name of the distribution
+# start.arg : starting values for optimization or the function to compute them from data
+# fix.arg : fixed values of paramaters or the function to compute them from data
+# argdistname : parameter names of the distribution
+# errtxt : error text messages
+# data10 : the first ten values of data
+# distname : name of the distribution
 
 # OUTPUTS 
-#a named list with components: ok (TRUE or FALSE), txt (NULL or the error message), 
-#start.arg (NULL or computed value on the first 10 data)
+# a named list with components: ok (TRUE or FALSE), txt (NULL or the error message), 
+# start.arg : a named list of starting values for optimization or a function to compute them from data
 checkparam <- function(start.arg, fix.arg, argdistname, errtxt=NULL, data10, distname)
 {
   if(is.null(errtxt))
