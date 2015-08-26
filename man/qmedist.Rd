@@ -10,7 +10,7 @@
 \usage{
 qmedist(data, distr, probs, start = NULL, fix.arg = NULL, qtype = 7, 
     optim.method = "default", lower = -Inf, upper = Inf, 
-    custom.optim = NULL, \dots)
+    custom.optim = NULL, weights = NULL, \dots)
 
 }
 
@@ -35,6 +35,9 @@ qmedist(data, distr, probs, start = NULL, fix.arg = NULL, qtype = 7,
 \item{lower}{ Left bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
 \item{upper}{ Right bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
 \item{custom.optim}{a function carrying the optimization.}
+\item{weights}{an optional vector of weights to be used in the fitting process. 
+    Should be \code{NULL} or a numeric vector. If non-\code{NULL}, 
+    weighted QME is used, otherwise ordinary QME.}
 \item{\dots}{further arguments passed to the \code{optim} or \code{custom.optim} function.}
 }
 

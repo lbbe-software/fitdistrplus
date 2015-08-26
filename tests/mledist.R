@@ -273,8 +273,10 @@ n <- 1e6
 n <- 1e2
 x <- rpois(n, 10)
 xtab <- table(x)
-f1 <- mledist(x, "pois", start=list(lambda=mean(x)), optim.method="Brent", lower=0, upper=100, control=list(trace=1))
-f2 <- mledist(unique(sort(x)), "pois", weights=xtab, start=list(lambda=mean(x)))
+xval <- sort(unique(x))
+f1 <- mledist(x, "pois", start=list(lambda=mean(x)), optim.method="Brent", lower=0, 
+              upper=100, control=list(trace=1))
+f2 <- mledist(xval, "pois", weights=xtab, start=list(lambda=mean(x)))
 
 f1$estimate
 f2$estimate #should be identical

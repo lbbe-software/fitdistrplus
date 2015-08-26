@@ -91,3 +91,8 @@ x <- rexp(10)
 res <- mmedist(x, "norm2", start=list(a=1), order=1, memp=mean)
 #as in 
 attr(try(log("a"), silent=TRUE), "condition")
+
+
+
+
+
