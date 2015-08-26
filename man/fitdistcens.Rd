@@ -46,7 +46,7 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL,
     must be defined, or directly the density function.}
 \item{start}{ A named list giving the initial values of parameters of the named distribution. 
     This argument may be omitted for some distributions for which reasonable 
-    starting values are computed (see details).  }
+    starting values are computed (see the 'details' section of  \code{\link{mledist}}).  }
 \item{fix.arg}{ An optional named list giving the values of parameters of the named distribution
     that must be kept fixed rather than estimated by maximum likelihood. }
 \item{x}{ an object of class \code{"fitdistcens"}.  }
@@ -70,12 +70,9 @@ otherwise only a sample subset is returned.}
     and the "BFGS" method for distributions characterized by only one parameter. 
     The algorithm used in \code{\link{optim}} can be chosen or another optimization function
     can be specified using \dots argument (see \code{\link{mledist}} for details).
-    For the following named distributions, reasonable starting values will 
-    be computed if \code{start} is omitted : \code{"norm"}, \code{"lnorm"},
-    \code{"exp"} and \code{"pois"}, \code{"cauchy"}, \code{"gamma"}, \code{"logis"},
-    \code{"nbinom"} (parametrized by mu and size), \code{"geom"}, \code{"beta"} and \code{"weibull"}. 
-    Note that these starting 
-    values may not be good enough if the fit is poor. The function is not able to fit a uniform distribution.     
+    \code{start} may be omitted (i.e. \code{NULL}) for some classic distributions
+    (see the 'details' section of  \code{\link{mledist}}).
+    The function is not able to fit a uniform distribution.     
     With the parameter estimates, the function returns the log-likelihood and the standard errors of 
     the estimates calculated from the 
     Hessian at the solution found by \code{optim} or by the user-supplied function passed to mledist.
