@@ -10,7 +10,8 @@
 
 # OUTPUTS 
 # a named list with components: ok (TRUE or FALSE), txt (NULL or the error message), 
-# start.arg : a named list of starting values for optimization or a function to compute them from data
+# start.arg : a named list of starting values for optimization (only computed on the first ten data) 
+# or a function to compute them from data
 checkparam <- function(start.arg, fix.arg, argdistname, errtxt=NULL, data10, distname)
 {
   if(is.null(errtxt))
