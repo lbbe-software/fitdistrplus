@@ -130,3 +130,12 @@ f1$fix.arg
 f1 <- fitdistcens(x, "gamma", fix.arg=function(x) list(shape=1.5))
 f1
 f1$fix.arg.fun
+
+
+# (10) weights
+#
+x <- rexp(500, 5)
+x <- data.frame(left=x, right=x+.1)
+
+fitdistcens(x, "gamma", fix.arg=list(shape=1.5), weights=rep(1, 500))
+fitdistcens(x, "gamma", fix.arg=list(shape=1.5), weights=sqrt(1:500))

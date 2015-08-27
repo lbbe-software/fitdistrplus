@@ -77,7 +77,8 @@ otherwise only a sample subset is returned.}
     the estimates calculated from the 
     Hessian at the solution found by \code{optim} or by the user-supplied function passed to mledist.
      
-
+    Weighted version of the estimation process is available for \code{method = "mle"}
+    by using \code{weights=\dots}. See the corresponding man page for details.
 }
 
 \value{ 
@@ -93,9 +94,12 @@ otherwise only a sample subset is returned.}
     \item{censdata}{ the censored data set.}
     \item{distname}{ the name of the distribution.}
     \item{fix.arg}{ the named list giving the values of parameters of the named distribution
-    that must be kept fixed rather than estimated by maximum likelihood or NULL if there are no such parameters. }
+      that must be kept fixed rather than estimated by maximum likelihood or 
+      \code{NULL} if there are no such parameters. }
     \item{dots}{ the list of  further arguments passed in \dots to be used in \code{bootdistcens} to
-    control the optimization method used in iterative calls to \code{mledist} or NULL if no such arguments.}
+    control the optimization method used in iterative calls to \code{mledist} or 
+      \code{NULL} if no such arguments.}
+    \item{weights}{the vector of weigths used in the estimation process or \code{NULL}.}
     
     By default (\code{keepdata = TRUE}), the returned object contains the data vector itself.
     For large dataset purposes, we can remove the original dataset from the output by

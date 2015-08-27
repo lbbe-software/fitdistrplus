@@ -44,9 +44,9 @@ fitdistcens <- function (censdata, distr, start=NULL, fix.arg=NULL,
     if(!is.logical(keepdata) || !is.numeric(keepdata.nb) || keepdata.nb < 3)
       stop("wrong arguments 'keepdata' and 'keepdata.nb'.")
     
-    dots <- list(...)
-    if (length(dots)==0) dots=NULL
-    
+    my3dots <- list(...)    
+    if (length(my3dots) == 0) 
+      my3dots <- NULL
         
     # MLE fit with mledist 
     mle <- mledist(censdata, distname, start, fix.arg, ...)
@@ -80,11 +80,13 @@ fitdistcens <- function (censdata, distr, start=NULL, fix.arg=NULL,
          
     fix.arg <- mle$fix.arg
     fix.arg.fun <- mle$fix.arg.fun
+    weights <- mle$weights
     if(keepdata)
     {
       reslist <- list(estimate = estimate, sd = sd, cor = correl, vcov = varcovar,
                     loglik = loglik, aic=aic, bic=bic, censdata=censdata, distname=distname,
-                    fix.arg=as.list(fix.arg), fix.arg.fun = fix.arg.fun, dots=dots)
+                    fix.arg=as.list(fix.arg), fix.arg.fun = fix.arg.fun, dots=my3dots, 
+                    weights = weights)
     }else
     {
       n2keep <- min(keepdata.nb, n)-4
@@ -95,7 +97,8 @@ fitdistcens <- function (censdata, distr, start=NULL, fix.arg=NULL,
       
       reslist <- list(estimate = estimate, sd = sd, cor = correl, vcov = varcovar,
                       loglik = loglik, aic=aic, bic=bic, censdata=subdata, distname=distname,
-                      fix.arg=as.list(fix.arg), fix.arg.fun = fix.arg.fun, dots=dots)
+                      fix.arg=as.list(fix.arg), fix.arg.fun = fix.arg.fun, dots=my3dots,
+                      weights = weights)
     }
       
     return(structure(reslist, class = "fitdistcens"))

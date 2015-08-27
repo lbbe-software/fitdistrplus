@@ -158,6 +158,17 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
         fnobj <- function(par, fix.arg, obs, ddistnam) {
           -sum(weights * log(do.call(ddistnam, c(list(obs), as.list(par), as.list(fix.arg)) ) ) )
         }
+    }else if(cens && !is.null(weights))
+    {
+      fnobjcens <- function(par, fix.arg, rcens, lcens, icens, ncens, ddistnam, pdistnam)
+      {
+        p1 <- log(do.call(ddistnam, c(list(x=ncens), as.list(par), as.list(fix.arg))))
+        p2 <- log(do.call(pdistnam, c(list(q=lcens), as.list(par), as.list(fix.arg)))) 
+        p3 <- log(1-do.call(pdistnam, c(list(q=rcens), as.list(par), as.list(fix.arg))))
+        p4 <- log(do.call(pdistnam, c(list(q=icens$right), as.list(par), as.list(fix.arg))) - 
+                    do.call(pdistnam, c(list(q=icens$left), as.list(par), as.list(fix.arg))) )
+        -sum(weights * p1) - sum(weights * p2) - sum(weights * p3) - sum(weights * p4) 
+      }
     }else
         stop("not yet implemented.")
    
