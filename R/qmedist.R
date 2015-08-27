@@ -24,7 +24,7 @@
 
 qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL, 
     qtype=7, optim.method="default", lower=-Inf, upper=Inf, custom.optim=NULL, 
-    weights=NULL, ...)
+    weights=NULL, silent=TRUE, ...)
     # data may correspond to a vector for non censored data or to
     # a dataframe of two columns named left and right for censored data 
 {
@@ -174,13 +174,16 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
     }else
         meth <- optim.method
         
+    owarn <- getOption("warn")
     # Try to minimize the stat distance using the base R optim function
     if(is.null(custom.optim))
     {
         if (!cens)
+        {
+            options(warn=ifelse(silent, -1, 0))
             opttryerror <- try(opt <- optim(par=vstart, fn=fnobj, fix.arg=fix.arg, obs=data, qdistnam=qdistname,
                 qtype=qtype, hessian=TRUE, method=meth, lower=lower, upper=upper, ...), silent=TRUE)        
-        else 
+        }else 
             stop("Quantile matching estimation is not yet available for censored data.")
                 
         if (inherits(opttryerror,"try-error"))

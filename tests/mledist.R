@@ -14,7 +14,8 @@ mledist(x1,"norm")
 # for other distributions, see the CRAN task view dedicated to probability distributions
 
 dgumbel <- function(x,a,b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
-mledist(x1,"gumbel",start=list(a=10,b=5))
+mledist(x1,"gumbel",start=list(a=10,b=5), silent=TRUE)
+mledist(x1,"gumbel",start=list(a=10,b=5), silent=FALSE)
 
 # (3) fit a discrete distribution (Poisson)
 #
@@ -35,7 +36,8 @@ mledist(x3,"beta")
 #
 
 x4 <- USArrests$Assault
-mledist(x4, "pois")
+mledist(x4, "pois", silent=TRUE)
+mledist(x4, "pois", silent=FALSE)
 mledist(x4, "nbinom")
 
 # (6) fit a continuous distribution (Gumbel) to censored data.

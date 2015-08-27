@@ -131,6 +131,8 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
     can be specified using \dots argument (see \code{\link{mledist}} for details).
     \code{start} may be omitted (i.e. \code{NULL}) for some classic distributions
     (see the 'details' section of  \code{\link{mledist}}).
+    Note that when errors are raised by \code{optim}, it's a good idea to start by adding traces during
+    the optimization process by adding \code{control=list(trace=1, REPORT=1)}.
     
     Once the parameter(s) is(are) estimated, \code{fitdist} computes the log-likelihood 
     for every estimation method and for maximum likelihood estimation the standard errors of 

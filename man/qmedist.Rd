@@ -10,7 +10,7 @@
 \usage{
 qmedist(data, distr, probs, start = NULL, fix.arg = NULL, qtype = 7, 
     optim.method = "default", lower = -Inf, upper = Inf, 
-    custom.optim = NULL, weights = NULL, \dots)
+    custom.optim = NULL, weights = NULL, silent = TRUE, \dots)
 
 }
 
@@ -38,6 +38,7 @@ qmedist(data, distr, probs, start = NULL, fix.arg = NULL, qtype = 7,
 \item{weights}{an optional vector of weights to be used in the fitting process. 
     Should be \code{NULL} or a numeric vector. If non-\code{NULL}, 
     weighted QME is used, otherwise ordinary QME.}
+\item{silent}{A logical to remove or show warnings when bootstraping.}        
 \item{\dots}{further arguments passed to the \code{optim} or \code{custom.optim} function.}
 }
 

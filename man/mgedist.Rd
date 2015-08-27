@@ -8,8 +8,8 @@
 }
 
 \usage{
-mgedist(data, distr, gof = "CvM", start = NULL, fix.arg = NULL, 
-    optim.method = "default", lower = -Inf, upper = Inf, custom.optim = NULL, \dots)
+mgedist(data, distr, gof = "CvM", start = NULL, fix.arg = NULL, optim.method = "default", 
+  lower = -Inf, upper = Inf, custom.optim = NULL, silent = TRUE, \dots)
 
 }
 
@@ -33,6 +33,7 @@ mgedist(data, distr, gof = "CvM", start = NULL, fix.arg = NULL,
 \item{lower}{ Left bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
 \item{upper}{ Right bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
 \item{custom.optim}{a function carrying the optimization.}
+\item{silent}{A logical to remove or show warnings when bootstraping.}    
 \item{\dots}{further arguments passed to the \code{optim} or \code{custom.optim} function.}
 }
 

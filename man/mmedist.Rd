@@ -9,7 +9,7 @@
 
 \usage{
 mmedist(data, distr, order, memp, start = NULL, fix.arg = NULL, optim.method = "default", 
-  lower = -Inf, upper = Inf, custom.optim = NULL, weights = NULL, \dots) 
+  lower = -Inf, upper = Inf, custom.optim = NULL, weights = NULL, silent = TRUE, \dots) 
 
 }
 \arguments{
@@ -35,6 +35,7 @@ to the number of parameters to estimate.}
 \item{weights}{an optional vector of weights to be used in the fitting process. 
     Should be \code{NULL} or a numeric vector. If non-\code{NULL}, 
     weighted MME is used, otherwise ordinary MME.}
+\item{silent}{A logical to remove or show warnings when bootstraping.}        
 \item{\dots}{further arguments passed to the \code{optim} or \code{custom.optim} function.} 
 }
 

@@ -24,7 +24,7 @@
 
 mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
     optim.method="default", lower=-Inf, upper=Inf, custom.optim=NULL, 
-    weights=NULL, ...) 
+    weights=NULL, silent=TRUE, ...) 
 {
     if (!is.character(distr)) 
       stop("distr must be a character string naming a distribution")
@@ -167,13 +167,8 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             stop("the empirical moment function must be defined")
         #backward compatibility when memp is the name of the function and not the function itself
         if(is.character(memp))
-        {
-          print("zog")
-          print(memp)
-          print(ls(pos.to.env(1)))
             memp <- get0(memp, envir=pos.to.env(1))
-          print(memp)
-        }
+        
         
         #check the memp function
         if(!is.function(memp)) 
@@ -237,14 +232,18 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
         
         cens <- FALSE
         
+        owarn <- getOption("warn")
         # Try to minimize the stat distance using the base R optim function
         if(is.null(custom.optim))
         {
             if (!cens)
+            {    
+                options(warn=ifelse(silent, -1, 0))
                 opttryerror <- try(opt <- optim(par=vstart, fn=fnobj, fix.arg=fix.arg, obs=data, mdistnam=mdistname, 
                                             memp=memp, hessian=TRUE, method=opt.meth, lower=lower, 
                                             upper=upper, weights=weights, ...), silent=TRUE)        
-            else 
+                options(warn=owarn)
+            }else 
                 stop("Moment matching estimation for censored data is not yet available.")
             
             if (inherits(opttryerror,"try-error"))
@@ -268,9 +267,12 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
         {
             opt.meth <- NULL
             if (!cens)
+            {
+                options(warn=ifelse(silent, -1, 0))
                 opttryerror <- try(opt <- custom.optim(fn=fnobj, fix.arg=fix.arg, obs=data, mdistnam=mdistname, 
                                                   memp=memp, par=vstart, weights=weights, ...), silent=TRUE)
-            else
+                options(warn=owarn)
+            }else
                 stop("Moment matching estimation for censored data is not yet available.")
             
             if (inherits(opttryerror,"try-error"))

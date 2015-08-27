@@ -25,7 +25,7 @@
 ### 
 
 mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.method="default",
-    lower=-Inf, upper=Inf, custom.optim=NULL, ...)
+    lower=-Inf, upper=Inf, custom.optim=NULL, silent=TRUE, ...)
     # data may correspond to a vector for non censored data or to
     # a dataframe of two columns named left and right for censored data 
 {
@@ -221,15 +221,18 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
     }else
         meth <- optim.method
 
-        
+    owarn <- getOption("warn")        
+   
     # Try to minimize the gof distance using the base R optim function
     if(is.null(custom.optim))
     {
+        options(warn=ifelse(silent, -1, 0))
         if (!cens)
             opttryerror <- try(opt <- optim(par=vstart, fn=fnobj, fix.arg=fix.arg, obs=data, pdistnam=pdistname,
             hessian=TRUE, method=meth, lower=lower, upper=upper, ...), silent=TRUE)        
         else 
             stop("Maximum goodness-of-fit estimation is not yet available for censored data.")
+        options(warn=owarn)
                 
         if (inherits(opttryerror,"try-error"))
         {
@@ -252,11 +255,13 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
     }
     else # Try to minimize the gof distance using a user-supplied optim function 
     {
+        options(warn=ifelse(silent, -1, 0))
         if (!cens)
             opttryerror <- try(opt <- custom.optim(fn=fnobj, fix.arg=fix.arg, obs=data, pdistnam=pdistname, par=vstart, ...),
             silent=TRUE)
         else
             stop("Maximum goodness-of-fit estimation is not yet available for censored data.")
+        options(warn=owarn)
         
         if (inherits(opttryerror,"try-error"))
         {

@@ -8,6 +8,7 @@ library(fitdistrplus)
 data(groundbeef)
 serving <- groundbeef$serving
 mgedist(serving, "weibull", gof="CvM")
+mgedist(serving, "weibull", gof="CvM", silent = FALSE)
 mgedist(serving, "weibull", gof="KS")
 mgedist(serving, "weibull", gof="AD")
 mgedist(serving, "weibull", gof="ADR")

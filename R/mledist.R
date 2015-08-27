@@ -25,7 +25,7 @@
 ### the mle function of the stat package.
 
 mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="default", 
-    lower=-Inf, upper=Inf, custom.optim=NULL, weights=NULL, ...)
+    lower=-Inf, upper=Inf, custom.optim=NULL, weights=NULL, silent=TRUE, ...)
     # data may correspond to a vector for non censored data or to
     # a dataframe of two columns named left and right for censored data 
 {
@@ -186,9 +186,12 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
     }else
         meth <- optim.method
         
+    owarn <- getOption("warn")
+    
     # Try to minimize the minus (log-)likelihood using the base R optim function
     if(is.null(custom.optim))
     {
+        options(warn=ifelse(silent, -1, 0))
         if (!cens)
             opttryerror <- try(opt <- optim(par=vstart, fn=fnobj, fix.arg=fix.arg, obs=data, 
                 ddistnam=ddistname, hessian=TRUE, method=meth, lower=lower, upper=upper, 
@@ -198,6 +201,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
                 rcens=rcens, lcens=lcens, icens=icens, ncens=ncens, ddistnam=ddistname, 
                 pdistnam=pdistname, hessian=TRUE, method=meth, lower=lower, upper=upper, 
                 ...), silent=TRUE)   
+        options(warn=owarn)
         
         if (inherits(opttryerror, "try-error"))
         {
@@ -220,6 +224,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
     }
     else # Try to minimize the minus (log-)likelihood using a user-supplied optim function 
     {
+        options(warn=ifelse(silent, -1, 0))
         if (!cens)
             opttryerror <- try(opt <- custom.optim(fn=fnobj, fix.arg=fix.arg, obs=data, 
                 ddistnam=ddistname, par=vstart, ...), silent=TRUE)
@@ -227,6 +232,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
             opttryerror <-try(opt<-custom.optim(fn=fnobjcens, fix.arg=fix.arg, rcens=rcens, 
                 lcens=lcens, icens=icens, ncens=ncens, ddistnam=ddistname, pdistnam=pdistname, 
                 par=vstart, ...), silent=TRUE)              
+        options(warn=owarn)
         
         if (inherits(opttryerror, "try-error"))
         {

@@ -9,7 +9,7 @@
 
 \usage{
 mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default", 
-    lower = -Inf, upper = Inf, custom.optim = NULL, weights=NULL, \dots)
+    lower = -Inf, upper = Inf, custom.optim = NULL, weights = NULL, silent = TRUE, \dots)
 }
 
 \arguments{
@@ -42,6 +42,7 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
 \item{weights}{an optional vector of weights to be used in the fitting process. 
     Should be \code{NULL} or a numeric vector. If non-\code{NULL}, 
     weighted MLE is used, otherwise ordinary MLE.}
+\item{silent}{A logical to remove or show warnings when bootstraping.}    
 \item{\dots}{further arguments passed to the \code{optim} or \code{custom.optim} function.}
 }
 
@@ -85,6 +86,8 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
     Box-constrainted optimization may be used with the method \code{"L-BFGS-B"}, using the constraints
     on parameters specified in arguments \code{lower} and \code{upper}. If non-trivial bounds are supplied,
     this method will be automatically selected, with a warning.
+    When errors are raised by \code{optim}, it's a good idea to start by adding traces during
+    the optimization process by adding \code{control=list(trace=1, REPORT=1)}.
     
     If \code{custom.optim} is not \code{NULL}, then the user-supplied function is used instead
     of the R base \code{optim}. The \code{custom.optim} must have (at least) the following arguments

@@ -50,9 +50,8 @@ if(any(installed.packages()[, "Package"] == "actuar"))
 			
 #fit
 data(danishuni)
-fparedanishMME <- fitdist(danishuni$Loss, "pareto", method="mme", order=1:2, 
-      memp=memp, start=c(shape=10, scale=10), lower=2+1e-6, upper=Inf, 
-      control=list(trace=1))
+fparedanishMME <- mmedist(danishuni$Loss, "pareto", order=1:2, 
+      memp=memp, start=c(shape=10, scale=10), lower=2+1e-6, upper=Inf)
 c(theo = mpareto(1, fparedanishMME$estimate[1], fparedanishMME$estimate[2]),
 emp = memp(danishuni$Loss, 1))	
 c(theo = mpareto(2, fparedanishMME$estimate[1], fparedanishMME$estimate[2]),
