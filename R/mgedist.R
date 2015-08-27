@@ -25,7 +25,7 @@
 ### 
 
 mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.method="default",
-    lower=-Inf, upper=Inf, custom.optim=NULL, weights=NULL, ...)
+    lower=-Inf, upper=Inf, custom.optim=NULL, ...)
     # data may correspond to a vector for non censored data or to
     # a dataframe of two columns named left and right for censored data 
 {
@@ -51,14 +51,7 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
     start.arg <- start #to avoid confusion with the start() function of stats pkg (check is done lines 87-100)
     if(is.vector(start.arg)) #backward compatibility
       start.arg <- as.list(start.arg)
-    if(!is.null(weights))
-    {
-      if(any(weights < 0))
-        stop("weights should be a vector of numerics greater than 1.")
-      if(length(weights) != NROW(data))
-        stop("weights should be a vector with a length equal to the observation number.")
-    }
-
+    
     if (is.vector(data)) {
         cens <- FALSE
         if (!(is.numeric(data) & length(data)>1)) 

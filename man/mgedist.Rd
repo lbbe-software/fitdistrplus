@@ -53,7 +53,8 @@ mgedist(data, distr, gof = "CvM", start = NULL, fix.arg = NULL,
     This function is not intended to be called directly but is internally called in
     \code{\link{fitdist}} and \code{\link{bootdist}}.
     
-    This function is intended to be used only with continuous distributions.
+    This function is intended to be used only with continuous distributions
+    and weighted maximum goodness-of-fit estimation is not allowed.
     
     NB: if your data values are particularly small or large, a scaling may be needed 
     before the optimization process. See example (4).

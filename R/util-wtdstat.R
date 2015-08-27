@@ -1,5 +1,65 @@
+#############################################################################
+#   Copyright (c) 2015 Frank E Harrell Jr                                                                                                  
+#                                                                                                                                                                        
+#   This program is free software; you can redistribute it and/or modify                                               
+#   it under the terms of the GNU General Public License as published by                                         
+#   the Free Software Foundation; either version 2 of the License, or                                                   
+#   (at your option) any later version.                                                                                                            
+#                                                                                                                                                                         
+#   This program is distributed in the hope that it will be useful,                                                             
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of                                          
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                                 
+#   GNU General Public License for more details.                                                                                    
+#                                                                                                                                                                         
+#   You should have received a copy of the GNU General Public License                                           
+#   along with this program; if not, write to the                                                                                           
+#   Free Software Foundation, Inc.,                                                                                                              
+#   59 Temple Place, Suite 330, Boston, MA 02111-1307, USA                                                             
+#                                                                                                                                                                         
+#############################################################################
+#some functions from Hmisc also under GPL
 
-#three functions from Hmisc also under GPL
+#From wtd.stats.s (line 1) of the Hmisc package
+wtd.mean <- function(x, weights=NULL, normwt='ignored', na.rm=TRUE)
+{
+  if(!length(weights)) return(mean(x, na.rm=na.rm))
+  if(na.rm) {
+    s <- !is.na(x + weights)
+    x <- x[s]
+    weights <- weights[s]
+  }
+  
+  sum(weights*x)/sum(weights)
+}
+
+
+#From wtd.stats.s (line 15) of the Hmisc package
+wtd.var <- function(x, weights=NULL, normwt=FALSE, na.rm=TRUE,
+                    method = c('unbiased', 'ML'))
+{
+  method <- match.arg(method)
+  if(!length(weights)) {
+    if(na.rm) x <- x[!is.na(x)]
+    return(var(x))
+  }
+  
+  if(na.rm) {
+    s       <- !is.na(x + weights)
+    x       <- x[s]
+    weights <- weights[s]
+  }
+  
+  if(normwt)
+    weights <- weights * length(x) / sum(weights)
+  
+  if(method == 'ML')
+    return(as.numeric(stats::cov.wt(cbind(x), weights, method = "ML")$cov))
+  
+  sw   <- sum(weights)
+  xbar <- sum(weights * x) / sw
+  sum(weights*((x - xbar)^2)) /
+    (sw - (if(normwt) sum(weights ^ 2) / sw else 1))
+}
 
 #From wtd.stats.s (line 43) of the Hmisc package
 wtd.quantile <- function(x, weights=NULL, probs=c(0, .25, .5, .75, 1), 

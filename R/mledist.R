@@ -47,9 +47,9 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
     if(!is.null(weights))
     {
       if(any(weights < 0))
-        stop("weights should be a vector of numerics greater than 1.")
+        stop("weights should be a vector of numerics greater than 0")
       if(length(weights) != NROW(data))
-        stop("weights should be a vector with a length equal to the observation number.")
+        stop("weights should be a vector with a length equal to the observation number")
     }
     
     if (is.vector(data)) {
@@ -205,7 +205,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
           names(opt$par) <- names(vstart)
         res <- list(estimate = opt$par, convergence = opt$convergence, loglik = -opt$value, 
                     hessian = opt$hessian, optim.function="optim", fix.arg = fix.arg, 
-                    optim.method=meth, fix.arg.fun = fix.arg.fun)
+                    optim.method=meth, fix.arg.fun = fix.arg.fun, weights = weights)
     }
     else # Try to minimize the minus (log-)likelihood using a user-supplied optim function 
     {
@@ -239,7 +239,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
           names(opt$par) <- names(vstart)
         res <- list(estimate = opt$par, convergence = opt$convergence, loglik = -opt$value, 
                       hessian = opt$hessian, optim.function = custom.optim, fix.arg = fix.arg,
-                      method = method.cust, fix.arg.fun = fix.arg.fun)        
+                      method = method.cust, fix.arg.fun = fix.arg.fun, weights = weights)        
     }   
         
     return(res) 

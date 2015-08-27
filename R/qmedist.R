@@ -37,9 +37,9 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
     ddistname <- paste("d",distname,sep="")
     
     if (!exists(qdistname, mode="function"))
-        stop(paste("The ", qdistname, " function must be defined."))
+        stop(paste("The ", qdistname, " function must be defined"))
     if (!exists(ddistname, mode="function"))
-        stop(paste("The ", ddistname, " function must be defined."))
+        stop(paste("The ", ddistname, " function must be defined"))
 
     if (missing(probs))
         stop("missing probs argument for quantile matching estimation")
@@ -49,27 +49,27 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
       start.arg <- as.list(start.arg)
     
     if(qtype < 1 || qtype > 9)
-        stop("wrong type for the R quantile function.")
+        stop("wrong type for the R quantile function")
     if(!is.null(weights))
     {
       if(any(weights < 0))
-        stop("weights should be a vector of numerics greater than 1.")
+        stop("weights should be a vector of numerics greater than 0")
       if(length(weights) != NROW(data))
-        stop("weights should be a vector with a length equal to the observation number.")
+        stop("weights should be a vector with a length equal to the observation number")
     }
     
     if (is.vector(data)) {
         cens <- FALSE
         if (!(is.numeric(data) & length(data)>1)) 
             stop("data must be a numeric vector of length greater than 1 for non censored data
-            or a dataframe with two columns named left and right and more than one line for censored data.")
+            or a dataframe with two columns named left and right and more than one line for censored data")
     }
     else {
         cens <- TRUE
         censdata <- data
         if (!(is.vector(censdata$left) & is.vector(censdata$right) & length(censdata[,1])>1))
         stop("data must be a numeric vector of length greater than 1 for non censored data
-        or a dataframe with two columns named left and right and more than one line for censored data.")
+        or a dataframe with two columns named left and right and more than one line for censored data")
         pdistname<-paste("p",distname,sep="")
         if (!exists(pdistname,mode="function"))
             stop(paste("The ",pdistname," function must be defined to apply maximum likelihood to censored data"))
@@ -200,7 +200,7 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
         res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
 					hessian = opt$hessian, probs=probs, optim.function="optim", 
 					loglik=loglik(opt$par, fix.arg, data, ddistname), fix.arg=fix.arg,
-          optim.method=meth)		
+          optim.method=meth, weights = weights)		
     }
     else # Try to minimize the stat distance using a user-supplied optim function 
     {
@@ -226,7 +226,8 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
           names(opt$par) <- names(vstart)
         res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
 					hessian = opt$hessian, probs=probs, optim.function=custom.optim, 
-					loglik=loglik(opt$par, fix.arg, data, ddistname), fix.arg=fix.arg, optim.method=NULL)		
+					loglik=loglik(opt$par, fix.arg, data, ddistname), fix.arg=fix.arg, 
+          optim.method=NULL, weights = weights)		
     }   
     return(res)    
      

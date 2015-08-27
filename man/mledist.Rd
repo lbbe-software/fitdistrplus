@@ -99,7 +99,7 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
     and \code{\link{fitdistcens}}.
     
     Optionally, a vector of \code{weights} can be used in the fitting process. 
-    By default (when \code{NULL}), ordinary MLE is carried out, otherwise 
+    By default (when \code{weigths=NULL}), ordinary MLE is carried out, otherwise 
     the specified weights are used to balance the log-likelihood contributions.
     
     NB: if your data values are particularly small or large, a scaling may be needed 
@@ -132,6 +132,7 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
     \item{optim.method}{when \code{optim} is used, the name of the algorithm used, 
     \code{NULL} otherwise.}
     \item{fix.arg.fun}{the function used to set the value of \code{fix.arg} or \code{NULL}.}
+    \item{weights}{the vector of weigths used in the estimation process or \code{NULL}.}
 
 }
 

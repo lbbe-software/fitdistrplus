@@ -23,7 +23,8 @@
 ### 
 
 mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
-    optim.method="default", lower=-Inf, upper=Inf, custom.optim=NULL, ...) 
+    optim.method="default", lower=-Inf, upper=Inf, custom.optim=NULL, 
+    weights=NULL, ...) 
 {
     if (!is.character(distr)) 
       stop("distr must be a character string naming a distribution")
@@ -38,23 +39,37 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
     
     mdistname <- paste("m", distname, sep="")
     ddistname <- paste("d", distname, sep="")
+    
+    if(!is.null(weights))
+    {
+      if(any(weights < 0))
+        stop("weights should be a vector of numerics greater than 0")
+      if(length(weights) != NROW(data))
+        stop("weights should be a vector with a length equal to the observation number")
+    }
 
     if(meth != "closed formula")
     {
         if (!exists(mdistname, mode="function"))
-            stop(paste("The moment function must be defined."))     
+            stop(paste0("The moment ", mdistname, " function must be defined."))     
     # mdistname contains the good name of the theoretical moment function    
     }
     if (!(is.numeric(data) & length(data)>1)) 
-        stop("data must be a numeric vector of length greater than 1.")
-    
+        stop("data must be a numeric vector of length greater than 1")
     
     if(meth == "closed formula")
     {
-		n <- length(data)
-		m <- mean(data)
-		v <- (n - 1)/n*var(data)
-		
+		  n <- length(data)
+      if(is.null(weights))
+      {
+        m <- mean(data)
+        v <- (n - 1)/n*var(data)
+      }else #weighted version from util-wtdstat.R
+      {
+        m <- wtd.mean(data, weights=weights)
+        v <- wtd.var(data, weights=weights)
+      }
+		  
         if (!is.null(fix.arg))
             stop("argument fix.arg cannot be used when a closed formula is used.")
         # Fitting by matching moments
@@ -147,23 +162,63 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
         # end of the definition of starting/fixed values
         
         if(length(vstart) != length(order))
-            stop("wrong dimension for the moment order to match.")
-        if(!exists("memp", mode="function")) 
-            stop("the empirical moment function must be defined.")
+            stop("wrong dimension for the moment order to match")
+        if(missing(memp)) 
+            stop("the empirical moment function must be defined")
+        #backward compatibility when memp is the name of the function and not the function itself
+        if(is.character(memp))
+        {
+          print("zog")
+          print(memp)
+          print(ls(pos.to.env(1)))
+            memp <- get0(memp, envir=pos.to.env(1))
+          print(memp)
+        }
+        
+        #check the memp function
+        if(!is.function(memp)) 
+          stop("the empirical moment must be defined as a function")
+        if(is.null(weights))
+        {
+          txt <- "the empirical moment function must be a two-argument function of 'x', 'order'"
+          if(length(formals(memp)) != 2)
+            stop(txt)
+          if(any(names(formals(memp)) != c("x", "order")))
+            stop(txt)
+        }else
+        {
+          txt <- "the empirical moment function must be a three-argument function of 'x', 'order', 'weights'"
+          if(length(formals(memp)) != 3)
+            stop(txt)
+          if(any(names(formals(memp)) != c("x", "order", "weights")))
+            stop(txt)
+        }
 
         
         ############# MME fit using optim or custom.optim ##########
         
-        # definition of the function to minimize : least square
-        #Cramer - von Mises
-        DIFF2 <- function(par, fix.arg, order, obs, mdistnam, memp)
+        # definition of the function to minimize : least square (Cramer - von Mises type)
+        if(is.null(weights))
         {
+          DIFF2 <- function(par, fix.arg, order, obs, mdistnam, memp, weights)
+          {
             momtheo <- do.call(mdistnam, c(as.list(order), as.list(par), as.list(fix.arg)) )
             momemp <- as.numeric(memp(obs, order))
             (momemp - momtheo)^2
-        }
-        fnobj <- function(par, fix.arg, obs, mdistnam, memp)
+          }
+          fnobj <- function(par, fix.arg, obs, mdistnam, memp, weights)
             sum( sapply(order, function(o) DIFF2(par, fix.arg, o, obs, mdistnam, memp)) )
+        }else
+        {
+          DIFF2 <- function(par, fix.arg, order, obs, mdistnam, memp, weights)
+          {
+            momtheo <- do.call(mdistnam, c(as.list(order), as.list(par), as.list(fix.arg)) )
+            momemp <- as.numeric(memp(obs, order, weights))
+            (momemp - momtheo)^2
+          }
+          fnobj <- function(par, fix.arg, obs, mdistnam, memp, weights)
+            sum( sapply(order, function(o) DIFF2(par, fix.arg, o, obs, mdistnam, memp, weights)) )
+        }
         
         # Choice of the optimization method    
         if (optim.method == "default")
@@ -186,8 +241,9 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
         if(is.null(custom.optim))
         {
             if (!cens)
-                opttryerror <- try(opt <- optim(par=vstart, fn=fnobj, fix.arg=fix.arg, obs=data, mdistnam=mdistname, memp=memp,
-                                            hessian=TRUE, method=opt.meth, lower=lower, upper=upper, ...), silent=TRUE)        
+                opttryerror <- try(opt <- optim(par=vstart, fn=fnobj, fix.arg=fix.arg, obs=data, mdistnam=mdistname, 
+                                            memp=memp, hessian=TRUE, method=opt.meth, lower=lower, 
+                                            upper=upper, weights=weights, ...), silent=TRUE)        
             else 
                 stop("Moment matching estimation for censored data is not yet available.")
             
@@ -206,15 +262,14 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             if(is.null(names(opt$par)))
               names(opt$par) <- names(vstart)
             res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
-                        hessian = opt$hessian, optim.function="optim", order=order, memp=memp,
-                        optim.method=opt.meth)  
+                        hessian = opt$hessian, optim.function="optim", order=order, memp=memp)  
             
         }else # Try to minimize the stat distance using a user-supplied optim function 
         {
             opt.meth <- NULL
             if (!cens)
-                opttryerror <- try(opt <- custom.optim(fn=fnobj, fix.arg=fix.arg, obs=data, mdistnam=mdistname, memp=memp,
-                                                   par=vstart, ...), silent=TRUE)
+                opttryerror <- try(opt <- custom.optim(fn=fnobj, fix.arg=fix.arg, obs=data, mdistnam=mdistname, 
+                                                  memp=memp, par=vstart, weights=weights, ...), silent=TRUE)
             else
                 stop("Moment matching estimation for censored data is not yet available.")
             
@@ -245,7 +300,9 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
         loglik <- loglik(res$estimate, fix.arg, data, ddistname)
     else
         loglik <- NULL
-    res <- c(res, fix.arg=fix.arg, loglik=loglik, method=meth, optim.method=opt.meth, fix.arg.fun=fix.arg.fun)
+    
+    res <- c(res, fix.arg=fix.arg, loglik=loglik, method=meth, optim.method=opt.meth, 
+             fix.arg.fun=fix.arg.fun, list(weights = weights))
     
     return(res)
 }

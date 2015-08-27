@@ -8,8 +8,8 @@
 }
 
 \usage{
-mmedist(data, distr, order, memp, start = NULL, fix.arg = NULL,
-    optim.method = "default", lower = -Inf, upper = Inf, custom.optim = NULL, \dots) 
+mmedist(data, distr, order, memp, start = NULL, fix.arg = NULL, optim.method = "default", 
+  lower = -Inf, upper = Inf, custom.optim = NULL, weights = NULL, \dots) 
 
 }
 \arguments{
@@ -18,8 +18,9 @@ mmedist(data, distr, order, memp, start = NULL, fix.arg = NULL,
 \item{order}{A numeric vector for the moment order(s). The length of this vector must be equal
 to the number of parameters to estimate.}
 \item{memp}{A function implementing empirical moments, raw or centered but has to be consistent with 
-    \code{distr} argument. This function must have two arguments : as a first one the numeric vector of the data
-    and as a second the order of the moment returned by the function.}
+    \code{distr} argument (and \code{weights} argument). 
+    See details below.
+    }
 \item{start}{A named list giving the initial values of parameters of the named distribution
     or a function of data computing initial values and returning a named list.
     This argument may be omitted (default) for some distributions for which reasonable 
@@ -31,6 +32,9 @@ to the number of parameters to estimate.}
 \item{lower}{ Left bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
 \item{upper}{ Right bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
 \item{custom.optim}{a function carrying the optimization .}
+\item{weights}{an optional vector of weights to be used in the fitting process. 
+    Should be \code{NULL} or a numeric vector. If non-\code{NULL}, 
+    weighted MME is used, otherwise ordinary MME.}
 \item{\dots}{further arguments passed to the \code{optim} or \code{custom.optim} function.} 
 }
 
@@ -54,7 +58,22 @@ to the number of parameters to estimate.}
     Optionnally other arguments can be supplied to control optimization (see the 'details' section of 
     \code{\link{mledist}} for details about arguments for the control of optimization). 
     In that case, \code{fix.arg} can be used and \code{start} is taken into account.
+    
+    For non closed-form estimators, \code{memp} must be provided to compute empirical moments.
+    When \code{weights=NULL}, this function must have two arguments \code{x, order}: 
+    \code{x} the numeric vector of the data and \code{order} the order of the moment.
+    When \code{weights!=NULL}, this function must have three arguments \code{x, order, weights}: 
+    \code{x} the numeric vector of the data, \code{order} the order of the moment,
+    \code{weights} the numeric vector of weights. See examples below.
 
+    Optionally, a vector of \code{weights} can be used in the fitting process. 
+    By default (when \code{weigths=NULL}), ordinary MME is carried out, otherwise 
+    the specified weights are used to compute (raw or centered) weighted moments.
+    For closed-form estimators, weighted mean and variance are computed by 
+    \code{\link[Hmisc:wtd.stats]{wtd.mean}} and \code{\link[Hmisc:wtd.stats]{wtd.var}}
+    from the \code{Hmisc} package. When a numerical minimization
+    is used, weighted are expected to be computed by the \code{memp} function.
+    
     This function is not intended to be called directly but is internally called in
     \code{\link{fitdist}} and \code{\link{bootdist}} when used with the matching moments method. 
      
@@ -86,13 +105,13 @@ to the number of parameters to estimate.}
         if there are no such parameters. }
     \item{optim.method}{when \code{optim} is used, the name of the algorithm used, 
     \code{NULL} otherwise.}        
-    
+    \item{weights}{the vector of weigths used in the estimation process or \code{NULL}.}
 }
 
 
 \seealso{ 
-    \code{\link{mmedist}}, \code{\link{qmedist}}, \code{\link{fitdist}},\code{\link{fitdistcens}}, \code{\link{optim}},
-    \code{\link{bootdistcens}} and \code{\link{bootdist}}.
+    \code{\link{mmedist}}, \code{\link{qmedist}}, \code{\link{fitdist}},\code{\link{fitdistcens}}, 
+    \code{\link{optim}}, \code{\link{bootdistcens}} and \code{\link{bootdist}}.
 }
 
 \references{ 
@@ -119,8 +138,14 @@ Christophe Dutang.
 #
 
 set.seed(1234)
-x1 <- rnorm(n=100)
+n <- 100
+x1 <- rnorm(n=n)
 mmedist(x1, "norm")
+
+#weighted
+w <- c(rep(1, n/2), rep(10, n/2))
+mmedist(x1, "norm", weights=w)$estimate
+
 
 # (2) fit a discrete distribution (Poisson)
 #
@@ -147,9 +172,15 @@ mmedist(x3, "beta")
 
   #empirical raw moment
   memp  <-  function(x, order) mean(x^order)
+  memp2 <- function(x, order, weights) sum(x^order * weights)/sum(weights)
 
-  #fit
-  mmedist(x4, "pareto", order=c(1, 2), memp="memp", 
+  #fit by MME
+  mmedist(x4, "pareto", order=c(1, 2), memp=memp, 
+    start=list(shape=10, scale=10), lower=1, upper=Inf)
+  #fit by weighted MME
+  w <- rep(1, length(x4))
+  w[x4 < 1] <- 2
+  mmedist(x4, "pareto", order=c(1, 2), memp=memp2, weights=w,
     start=list(shape=10, scale=10), lower=1, upper=Inf)
 }
 
