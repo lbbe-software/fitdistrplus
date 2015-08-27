@@ -105,7 +105,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
     
     # end of the definition of starting/fixed values   
     
-    ############# closed formula for uniform distribution ##########
+    ############# closed-form formula for uniform distribution ##########
     if(distname == "unif")
     {
         par <- c(min=min(data), max=max(data))
