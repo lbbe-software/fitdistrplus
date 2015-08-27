@@ -142,6 +142,10 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
     setting \code{keepdata = FALSE}. In such a case, only \code{keepdata.nb} points (at most) 
     are kept by random subsampling \code{keepdata.nb}-2 points from the dataset and 
     adding the minimum and the maximum.
+    
+    Weighted version of the estimation process is available for \code{method = "mle", "mme", "qme"}
+    by using \code{weights=\dots}. See the corresponding man page for details.
+    Weighted maximum GOF estimation (when \code{method = "mge"}) is not allowed. 
 
     NB: if your data values are particularly small or large, a scaling may be needed 
     before the optimization process. See example (14) in this man page and 
@@ -181,7 +185,7 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
         in iterative calls to \code{\link{mledist}}, \code{\link{mmedist}},
         \code{\link{qmedist}}, \code{\link{mgedist}} or 
         \code{NULL} if no such arguments.}
-        
+    \item{weights}{the vector of weigths used in the estimation process or \code{NULL}.}    
 
     Generic functions:
 \describe{       

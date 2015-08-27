@@ -408,3 +408,16 @@ f2 <- fitdist(x2, "zmgeom", fix.arg=list(p1=1/2), start=list(p2=1/2))
 print(f2)
 summary(f2)
 
+
+# (23) check the use of weights
+#
+
+x3 <- rnorm(100)
+fitdist(x3, "norm", method="mle", weights=rep(1, 100))
+fitdist(x3, "norm", method="mme", weights=rep(1, 100))
+fitdist(x3, "norm", method="qme", probs=c(1/3, 2/3), weights=rep(1, 100))
+try(fitdist(x3, "norm", method="mge", gof = "CvM", weights=rep(1, 100)))
+
+
+
+

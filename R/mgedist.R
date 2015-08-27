@@ -52,6 +52,10 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
     if(is.vector(start.arg)) #backward compatibility
       start.arg <- as.list(start.arg)
     
+    my3dots <- list(...)
+    if ("weights" %in% names(my3dots))
+      stop("Weights is not allowed for maximum GOF estimation")
+    
     if (is.vector(data)) {
         cens <- FALSE
         if (!(is.numeric(data) & length(data)>1)) 
