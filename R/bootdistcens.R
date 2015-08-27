@@ -22,7 +22,7 @@
 ###         R functions
 ### 
 
-bootdistcens <- function (f, niter=1001)
+bootdistcens <- function (f, niter=1001, silent=TRUE)
 { 
     if (niter<10) 
         stop("niter must be an integer above 10")
@@ -39,20 +39,35 @@ bootdistcens <- function (f, niter=1001)
     else 
       fix.arg <- f$fix.arg
     if (is.null(f$dots))
-        funcmle <- function(iter) {
-        mle <- do.call(mledist, list(data=data.frame(left=f$censdata[rnumrow[, iter], ]$left, 
+    {
+      funcmle <- function(iter) {
+        mle <- try(do.call(mledist, list(data=data.frame(left=f$censdata[rnumrow[, iter], ]$left, 
             right=f$censdata[rnumrow[, iter], ]$right), distr=f$distname, start=start, 
-            fix.arg=fix.arg))
-        return(c(mle$estimate, mle$convergence))
+            fix.arg=fix.arg)), silent=silent)
+        if(inherits(mle, "try-error"))
+          return(c(rep(NA, length(start)), 100))
+        else
+          return(c(mle$estimate, mle$convergence))
+        
         }
-    else
-        funcmle <- function(iter) {
-        mle <- do.call(mledist, c(list(data=data.frame(left=f$censdata[rnumrow[, iter], ]$left, 
+    }else
+    {
+      funcmle <- function(iter) {
+        mle <- try(do.call(mledist, c(list(data=data.frame(left=f$censdata[rnumrow[, iter], ]$left, 
             right=f$censdata[rnumrow[, iter], ]$right), distr=f$distname, start=start), 
-            fix.arg=fix.arg, f$dots))
-        return(c(mle$estimate, mle$convergence))
+            fix.arg=fix.arg, f$dots)), silent=silent)
+        if(inherits(mle, "try-error"))
+          return(c(rep(NA, length(start)), 100))
+        else
+          return(c(mle$estimate, mle$convergence))
         }
+    }
+    owarn <- getOption("warn")
+    oerr <- getOption("show.error.messages")
+    options(warn=ifelse(silent, -1, 0), show.error.messages=!silent)
     resboot <- sapply(1:niter, funcmle)
+    options(warn=owarn, show.error.messages=oerr)
+    
     rownames(resboot) <- c(names(start), "convergence")
     if (length(resboot[, 1])>2) {
         estim <- data.frame(t(resboot)[, -length(resboot[, 1])])

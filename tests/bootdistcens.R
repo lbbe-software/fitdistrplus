@@ -8,7 +8,10 @@ nbboot <- 11
 data(fluazinam)
 (d1 <-log10(fluazinam))
 f1 <- fitdistcens(d1, "norm")
-b1 <- bootdistcens(f1, niter = nbboot)
+b1 <- bootdistcens(f1, niter = nbboot, silent=TRUE)
+b1 <- bootdistcens(f1, niter = nbboot, silent=FALSE)
+
+
 b1
 summary(b1)
 plot(b1)
@@ -20,6 +23,8 @@ plot(b1)
 #
 f1b <- fitdistcens(d1, "norm", start = list(mean = 1), fix.arg = list(sd = 1))
 b1b <- bootdistcens(f1b, niter = nbboot)
+
+
 summary(b1b)
 plot(b1b)
 
@@ -29,6 +34,7 @@ plot(b1b)
 #
 f1b <- fitdistcens(d1, "norm", start=list(sd=1.5), fix.arg=list(mean=0.1))
 b1b <- bootdistcens(f1b, niter=nbboot)
+
 summary(b1b)
 plot(b1b)
 

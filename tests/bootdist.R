@@ -12,7 +12,9 @@ nbboot <- 21
 data(groundbeef)
 serving <- groundbeef$serving
 f1 <- fitdist(serving, "gamma")
-b1 <- bootdist(f1, niter=nbboot)
+b1 <- bootdist(f1, niter=nbboot, silent=TRUE)
+b1 <- bootdist(f1, niter=nbboot, silent=FALSE)
+
 print(lapply(b1, head))
 plot(b1)
 summary(b1)

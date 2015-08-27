@@ -12,7 +12,7 @@
 }
 
 \usage{
-bootdistcens(f, niter=1001)
+bootdistcens(f, niter = 1001, silent=TRUE)
 \method{print}{bootdistcens}(x, \dots)
 \method{plot}{bootdistcens}(x, \dots)
 \method{summary}{bootdistcens}(object, \dots)
@@ -21,10 +21,12 @@ bootdistcens(f, niter=1001)
 
 \arguments{
 \item{f}{ An object of class \code{"fitdistcens"}, output of the \code{\link{fitdistcens}} function.}
-\item{niter}{ The number of samples drawn by bootstrap.  }
-\item{x}{ An object of class \code{"bootdistcens"}.  }
-\item{object}{ An object of class \code{"bootdistcens"}.  }
-\item{\dots}{ Further arguments to be passed to generic methods }
+\item{niter}{ The number of samples drawn by bootstrap.}
+\item{silent}{A logical to remove or show warnings and errors when bootstraping.}
+
+\item{x}{ An object of class \code{"bootdistcens"}.}
+\item{object}{ An object of class \code{"bootdistcens"}.}
+\item{\dots}{ Further arguments to be passed to generic methods.}
 }
 
 \details{

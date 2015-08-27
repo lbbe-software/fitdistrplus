@@ -6,8 +6,9 @@ NEW FEATURES
 - update starting/fixing values in ***dist(cens) functions.
 - update graphics for bootstrap procedure.
 - add argument do.points in cdfcomp.
-- add arguments weights in mledist.
-- add argument keepdata in fitdist.
+- add argument weights in mledist, qmedist, mmedist, fitdist, fitdistcens.
+- add argument keepdata in fitdist, fitdistcens.
+- suppress warnings/errors in fitdist(cens), bootdist(cens).
 
 BUG FIXES
 - defensive programming in plotdist, cdfcomp,...

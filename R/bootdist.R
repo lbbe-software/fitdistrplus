@@ -23,7 +23,7 @@
 ### 
 
 
-bootdist <- function (f, bootmethod="param", niter=1001)
+bootdist <- function (f, bootmethod="param", niter=1001, silent=TRUE)
 { 
     if (niter<10) 
         stop("niter must be an integer above 10")
@@ -53,18 +53,28 @@ bootdist <- function (f, bootmethod="param", niter=1001)
     else 
       fix.arg <- f$fix.arg
     if (is.null(f$dots))
-        func <- function(iter) {
-            res <- do.call(foncestim, list(data=rdata[, iter], distr=f$distname, start=start, fix.arg=fix.arg))
-            return(c(res$estimate, res$convergence))
-        }
-    else
-        func <- function(iter) {
-            res <- do.call(foncestim, c(list(data=rdata[, iter], distr=f$distname, start=start, fix.arg=fix.arg), f$dots))
-            return(c(res$estimate, res$convergence))
-        }
+    {    
+      func <- function(iter) {
+        res <- try(do.call(foncestim, list(data=rdata[, iter], distr=f$distname, start=start, fix.arg=fix.arg)), silent=silent)
+        if(inherits(res, "try-error"))
+          return(c(rep(NA, length(start)), 100))
+        else
+          return(c(res$estimate, res$convergence))
+      }
+    }else
+    {    
+      func <- function(iter) {
+        res <- try(do.call(foncestim, c(list(data=rdata[, iter], distr=f$distname, start=start, fix.arg=fix.arg), f$dots)), silent=silent)
+        if(inherits(res, "try-error"))
+          return(c(rep(NA, length(start)), 100))
+        else
+          return(c(res$estimate, res$convergence))
+        
+      }
+    }
     owarn <- getOption("warn")
     oerr <- getOption("show.error.messages")
-    options(warn=0, show.error.messages=FALSE)
+    options(warn=ifelse(silent, -1, 0), show.error.messages=!silent)
     resboot <- sapply(1:niter, func)
     options(warn=owarn, show.error.messages=oerr)
     
