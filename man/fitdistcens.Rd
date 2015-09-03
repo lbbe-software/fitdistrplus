@@ -72,6 +72,9 @@ otherwise only a sample subset is returned.}
     can be specified using \dots argument (see \code{\link{mledist}} for details).
     \code{start} may be omitted (i.e. \code{NULL}) for some classic distributions
     (see the 'details' section of  \code{\link{mledist}}).
+        Note that when errors are raised by \code{optim}, it's a good idea to start by adding traces during
+    the optimization process by adding \code{control=list(trace=1, REPORT=1)} in \dots argument.
+
     The function is not able to fit a uniform distribution.     
     With the parameter estimates, the function returns the log-likelihood and the standard errors of 
     the estimates calculated from the 
