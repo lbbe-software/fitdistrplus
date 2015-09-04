@@ -74,6 +74,10 @@ to the number of parameters to estimate.}
     \code{\link[Hmisc:wtd.stats]{wtd.mean}} and \code{\link[Hmisc:wtd.stats]{wtd.var}}
     from the \code{Hmisc} package. When a numerical minimization
     is used, weighted are expected to be computed by the \code{memp} function.
+    It is not yet possible to take into account weighths in functions plotdist, plot.fitdist, 
+    cdfcomp, denscomp, ppcomp, qqcomp, gofstat and descdist 
+    (developments planned in the future).
+
     
     This function is not intended to be called directly but is internally called in
     \code{\link{fitdist}} and \code{\link{bootdist}} when used with the matching moments method. 

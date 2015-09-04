@@ -82,6 +82,10 @@ otherwise only a sample subset is returned.}
      
     Weighted version of the estimation process is available for \code{method = "mle"}
     by using \code{weights=\dots}. See the corresponding man page for details.
+    It is not yet possible to take into account weighths in functions plotdistcens, 
+    plot.fitdistcens and cdfcompcens 
+    (developments planned in the future).
+
 }
 
 \value{ 

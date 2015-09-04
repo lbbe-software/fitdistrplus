@@ -419,5 +419,25 @@ fitdist(x3, "norm", method="qme", probs=c(1/3, 2/3), weights=rep(1, 100))
 try(fitdist(x3, "norm", method="mge", gof = "CvM", weights=rep(1, 100)))
 
 
+# (24) check the warning messages when using weights in the fit followed by functions
+# that do not yet take weights into account
+# with an example to be used later to see if weights are well taken into account
+#
+
+x3 <- rnorm(100)
+x3 <- sort(x3)
+(f <- fitdist(x3, "norm", method="mle", weights= c(rep(1, 50), rep(0.1, 50))))
+try(plot(f))
+try(cdfcomp(f))
+(f2 <- fitdist(x3, "logis", method="mle", weights= c(rep(1, 50), rep(0.1, 50))))
+try(cdfcomp(list(f,f2)))
+try(denscomp(f))
+try(denscomp(list(f,f2)))
+try(ppcomp(f))
+try(ppcomp(list(f,f2)))
+try(qqcomp(f))
+try(qqcomp(list(f,f2)))
+try(gofstat(f))
+try(gofstat(list(f,f2)))
 
 

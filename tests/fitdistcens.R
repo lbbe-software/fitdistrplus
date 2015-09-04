@@ -134,8 +134,22 @@ f1$fix.arg.fun
 
 # (10) weights
 #
-x <- rexp(500, 5)
+x <- rexp(100, 5)
+x <- sort(x)
 x <- data.frame(left=x, right=x+.1)
 
-fitdistcens(x, "gamma", fix.arg=list(shape=1.5), weights=rep(1, 500))
-fitdistcens(x, "gamma", fix.arg=list(shape=1.5), weights=sqrt(1:500))
+fitdistcens(x, "gamma", fix.arg=list(shape=1.5), weights=rep(1, 100))
+fitdistcens(x, "gamma", fix.arg=list(shape=1.5), weights=c(rep(10, 50), rep(1, 50)))
+
+# (11) check the warning messages when using weights in the fit followed by functions
+# that do not yet take weights into account
+# with an example to be used later to see if weights are well taken into account
+#
+x <- rexp(100, 5)
+x <- sort(x)
+x <- data.frame(left=x, right=x+.1)
+(f <- fitdistcens(x, "gamma", weights=c(rep(10, 50), rep(1, 50))))
+try(plot(f))
+try(cdfcompcens(f))
+(f2 <- fitdistcens(x, "weibull", weights=c(rep(10, 50), rep(1, 50))))
+try(cdfcompcens(list(f, f2)))

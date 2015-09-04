@@ -42,7 +42,10 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
             stop("argument ft must be a list of 'fitdist' objects")
     }
 
-
+  # In the future developments, it will be necessary to check that all the fits share the same weights
+  if(!is.null(ft[[1]]$weights))
+    stop("cdfcomp is not yet available when using weights")
+  
     nft <- length(ft)
     if (missing(datapch)) datapch <- 16
     if (missing(datacol)) datacol <- "black"

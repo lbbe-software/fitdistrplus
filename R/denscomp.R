@@ -40,6 +40,9 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab, datap
     if(any(sapply(ft, function(x) !inherits(x, "fitdist"))))        
       stop("argument ft must be a list of 'fitdist' objects")
   }
+  # In the future developments, it will be necessary to check that all the fits share the same weights
+  if(!is.null(ft[[1]]$weights))
+    stop("denscomp is not yet available when using weights")
   
     
     nft <- length(ft)

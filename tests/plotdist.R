@@ -38,3 +38,4 @@ data(toxocara)
 number <- toxocara$number
 plotdist(number, discrete = TRUE)
 plotdist(number,"pois",para=list(lambda=mean(number)))
+

@@ -41,6 +41,9 @@ qqcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
     if(any(sapply(ft, function(x) !inherits(x, "fitdist"))))        
       stop("argument ft must be a list of 'fitdist' objects")
   }
+  # In the future developments, it will be necessary to check that all the fits share the same weights
+  if(!is.null(ft[[1]]$weights))
+    stop("qqcomp is not yet available when using weights")
   
     
     nft <- length(ft)

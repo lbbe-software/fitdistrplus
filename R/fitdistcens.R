@@ -129,8 +129,11 @@ print.fitdistcens <- function(x, ...){
 plot.fitdistcens <- function(x, ...){
     if (!inherits(x, "fitdistcens"))
         stop("Use only with 'fitdistcens' objects")
-    plotdistcens(censdata=x$censdata, distr=x$distname, 
+    if(!is.null(x$weights))
+      stop("The plot of the fit is not yet available when using weights")
+  plotdistcens(censdata=x$censdata, distr=x$distname, 
     para=c(as.list(x$estimate), as.list(x$fix.arg)), ...)
+    
 }
 
 summary.fitdistcens <- function(object, ...){

@@ -41,7 +41,11 @@ gofstat <- function (f, chisqbreaks, meancount, discrete,
         if(any(sapply(f, function(x) !inherits(x, "fitdist"))))        
 		stop("argument f must be a list of 'fitdist' objects")
     }
-	        
+  
+  # In the future developments, it will be necessary to check that all the fits share the same weights
+  if(!is.null(f[[1]]$weights))
+    stop("gofstat is not yet available when using weights")
+  
 	odata <- f[[1]]$data
 	sdata <- sort(odata)
 	n <- f[[1]]$n

@@ -41,6 +41,10 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
       stop("argument ft must be a list of 'fitdistcens' objects")
   }
   
+  # In the future developments, it will be necessary to check that all the fits share the same weights
+  if(!is.null(ft[[1]]$weights))
+    stop("cdfcompcens is not yet available when using weights")
+  
     nft <- length(ft)
     if (missing(datacol)) datacol <- "black"
     if (missing(fitcol)) fitcol <- 2:(nft+1)

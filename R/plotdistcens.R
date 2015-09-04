@@ -32,6 +32,7 @@ Turnbull.confint = FALSE, ...){
     if ((missing(distr) & !missing(para)) || 
     (missing(distr) & !missing(para)))
         stop("distr and para must defined")
+    
         
     if (Turnbull)
     {

@@ -36,6 +36,7 @@ plotdist <- function(data, distr, para, histo = TRUE, breaks="default", demp = F
     s <- sort(data)
     n <- length(data)
     
+    
     if (missing(distr)) 
   { ## Plot of data only
         par(mfrow=c(1, 2))

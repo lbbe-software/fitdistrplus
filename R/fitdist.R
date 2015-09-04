@@ -221,10 +221,14 @@ plot.fitdist <- function(x, breaks="default", ...)
 {
     if (!inherits(x, "fitdist"))
         stop("Use only with 'fitdist' objects")
-    if(!is.null(x$data))
+    if(!is.null(x$weights))
+      stop("The plot of the fit is not yet available when using weights")
+  if(!is.null(x$data))
       plotdist(data=x$data, distr=x$distname, 
         para=c(as.list(x$estimate), as.list(x$fix.arg)), breaks=breaks, 
         discrete = x$discrete, ...)
+    if(!is.null(x$weights))
+      stop("The plot of the fit is not yet available when using weights")
 }
 
 summary.fitdist <- function(object, ...)

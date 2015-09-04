@@ -104,6 +104,11 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
     Optionally, a vector of \code{weights} can be used in the fitting process. 
     By default (when \code{weigths=NULL}), ordinary MLE is carried out, otherwise 
     the specified weights are used to balance the log-likelihood contributions.
+    It is not yet possible to take into account weighths in functions plotdist, plotdistcens,
+    plot.fitdist, 
+    plot.fitdistcens, cdfcomp, cdfcompcens, denscomp, ppcomp, qqcomp, gofstat and descdist 
+    (developments planned in the future).
+
     
     NB: if your data values are particularly small or large, a scaling may be needed 
     before the optimization process. See example (7).

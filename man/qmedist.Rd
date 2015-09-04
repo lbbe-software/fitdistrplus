@@ -52,6 +52,10 @@ qmedist(data, distr, probs, start = NULL, fix.arg = NULL, qtype = 7,
     By default (when \code{weigths=NULL}), ordinary QME is carried out, otherwise 
     the specified weights are used to compute weighted quantiles used in the squared differences.
     Weigthed quantiles are computed by \code{\link[Hmisc:wtd.stats]{wtd.quantile}} from the \code{Hmisc} package.
+    It is not yet possible to take into account weighths in functions plotdist, plot.fitdist, 
+    cdfcomp, denscomp, ppcomp, qqcomp, gofstat and descdist 
+    (developments planned in the future).
+
 
     This function is not intended to be called directly but is internally called in
     \code{\link{fitdist}} and \code{\link{bootdist}}.
