@@ -148,9 +148,9 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
     Weighted version of the estimation process is available for \code{method = "mle", "mme", "qme"}
     by using \code{weights=\dots}. See the corresponding man page for details.
     Weighted maximum GOF estimation (when \code{method = "mge"}) is not allowed. 
-    It is not yet possible to take into account weighths in functions plotdist, plot.fitdist, 
-    cdfcomp, denscomp, ppcomp, qqcomp, gofstat and descdist 
-    (developments planned in the future).
+    It is not yet possible to take into account weighths in functions \code{plotdist}, 
+    \code{plot.fitdist}, \code{cdfcomp}, \code{denscomp}, \code{ppcomp}, 
+    \code{qqcomp}, \code{gofstat} and \code{descdist} (developments planned in the future).
 
     NB: if your data values are particularly small or large, a scaling may be needed 
     before the optimization process. See example (14) in this man page and 
