@@ -155,10 +155,15 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
     }
     
     # Function to calculate the loglikelihood to return
-    loglik <- function(par, fix.arg, obs, ddistnam) {
+    if(is.null(weights))
+    {  
+      loglik <- function(par, fix.arg, obs, ddistnam) 
         sum(log(do.call(ddistnam, c(list(obs), as.list(par), as.list(fix.arg)) ) ) )
+    }else
+    {
+      loglik <- function(par, fix.arg, obs, ddistnam) 
+        sum(weights * log(do.call(ddistnam, c(list(obs), as.list(par), as.list(fix.arg)) ) ) )
     }
-    
     
     # Choice of the optimization method    
     if (optim.method == "default")

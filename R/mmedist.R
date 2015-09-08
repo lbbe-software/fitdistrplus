@@ -295,8 +295,14 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
         
     }
     
-    loglik <- function(par, fix.arg, obs, ddistnam) {
+    if(is.null(weights))
+    {  
+      loglik <- function(par, fix.arg, obs, ddistnam) 
         sum(log(do.call(ddistnam, c(list(obs), as.list(par), as.list(fix.arg)) ) ) )
+    }else
+    {
+      loglik <- function(par, fix.arg, obs, ddistnam) 
+        sum(weights * log(do.call(ddistnam, c(list(obs), as.list(par), as.list(fix.arg)) ) ) )
     }
     if(exists(ddistname))
         loglik <- loglik(res$estimate, fix.arg, data, ddistname)

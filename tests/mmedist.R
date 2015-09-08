@@ -128,6 +128,10 @@ rzmgeom <- function(n, p1, p2)
   u[u != 0] <- rgeom(sum(u != 0), p2)+1
   u
 }
+dzmgeom <- function(x, p1, p2)
+{
+  p1 * (x == 0) + (1-p1)*dgeom(x-1, p2)
+}
 mgeom <- function(order, prob)
 {
   if(order == 1)
@@ -162,9 +166,14 @@ w <- rep(1, length(x5))
 w[x5 > 20] <- 2
 
 mmedist(x5, "zmgeom", order=1:2, memp=memp1, start=list(p1=mean(x5 == 0), p2=1/mean(x5[x5 > 0])), 
-        lower=0, upper=1)$estimate
+        lower=0.01, upper=0.99)$estimate
 mmedist(x5, "zmgeom", order=1:2, memp=memp2, start=list(p1=mean(x5 == 0), p2=1/mean(x5[x5 > 0])),  
         weights=w)$estimate
 
+
+mmedist(x5, "zmgeom", order=1:2, memp=memp1, start=list(p1=mean(x5 == 0), p2=1/mean(x5[x5 > 0])), 
+        lower=0.01, upper=0.99)$loglik
+mmedist(x5, "zmgeom", order=1:2, memp=memp2, start=list(p1=mean(x5 == 0), p2=1/mean(x5[x5 > 0])),  
+        weights=w)$loglik
 
 

@@ -98,6 +98,9 @@ f4 <- qmedist(x, "exp", weights=c(rep(1, n/2), sqrt(1:(n/2))), probs=1/2)
 f3$estimate
 f4$estimate
 
+f3$loglik
+f4$loglik
+
 median(x)
 median(tail(x, 50))
 
