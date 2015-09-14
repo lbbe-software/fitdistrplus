@@ -16,7 +16,7 @@ cdfcomp(fitg, addlegend=FALSE)
 names(fitdist(serving, "gamma", optim.method="Brent", lower=0, upper=10, fix.arg=list(shape=2))$estimate)
 names(fitdist(serving, "gamma", optim.method="Nelder-Mead")$estimate)
 names(fitdist(serving, "gamma", optim.method="BFGS")$estimate)
-names(fitdist(serving, "gamma", optim.method="CG", start=list(shape=4, rate=1/2))$estimate)
+names(fitdist(serving, "gamma", optim.method="CG", start=list(shape=4, rate=1/20))$estimate)
 names(fitdist(serving, "gamma", optim.method="L-BFGS-B", lower=0)$estimate)
 
 
