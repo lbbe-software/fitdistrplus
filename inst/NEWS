@@ -3,7 +3,7 @@
 Version 1.0-5
 =============
 NEW FEATURES
-- update starting/fixing values in mledist(cens), mmedist, mgedist, qmedist functions.
+- update starting/fixing values in mledist, mmedist, mgedist, qmedist functions.
 - update graphics for bootstrap procedure.
 - add argument do.points in cdfcomp.
 - add argument weights in mledist, qmedist, mmedist, fitdist, fitdistcens.
