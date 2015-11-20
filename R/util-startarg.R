@@ -86,8 +86,8 @@ start.arg.default <- function(x, distr)
     p25 <- as.numeric(quantile(x, 0.25))
     p75 <- as.numeric(quantile(x, 0.75))
     shape <- exp((g*log(p75)-log(p25))/(g-1))
-    scale <-log(log(4))/(log(shape)-log(p75))
-    start <- list(shape=shape, scale=scale)
+    scale <-log(log(4))/(log(shape)-log(p25))
+    start <- list(shape=shape, scale=max(scale, 1e-9))
   }else if (distr == "pareto1")
   {
     #http://www.math.umt.edu/gideon/pareto.pdf
