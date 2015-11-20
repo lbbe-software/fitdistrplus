@@ -1,5 +1,12 @@
 === fitdistrplus : Help to fit of a parametric distribution ===
 
+Version 1.0-6
+=============
+
+BUG FIXES
+- automatic definition of starting values for distributions "llogis" and "invweibull"
+is now working.
+
 Version 1.0-5
 =============
 NEW FEATURES
