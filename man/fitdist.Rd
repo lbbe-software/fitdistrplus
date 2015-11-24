@@ -525,7 +525,7 @@ cdfcomp(list(fCvM,fKS))
 
 # (17) fit a non classical discrete distribution (the zero inflated Poisson distribution)
 #
-
+\dontrun{
 require(gamlss.dist)
 set.seed(1234)
 x <- rZIP(n = 30, mu = 5, sigma = 0.2)
@@ -537,14 +537,14 @@ plot(fitzip)
 fitp <- fitdist(x, "pois")
 cdfcomp(list(fitzip, fitp))
 gofstat(list(fitzip, fitp))
-
+}
 
 
 
 # (18) examples with distributions in actuar (predefined starting values)
 #
+\dontrun{
 require(actuar)
-
 x <- c(2.3,0.1,2.7,2.2,0.4,2.6,0.2,1.,7.3,3.2,0.8,1.2,33.7,14.,
        21.4,7.7,1.,1.9,0.7,12.6,3.2,7.3,4.9,4000.,2.5,6.7,3.,63.,
        6.,1.6,10.1,1.2,1.5,1.2,30.,3.2,3.5,1.2,0.2,1.9,0.7,17.,
@@ -557,6 +557,7 @@ x <- c(0.3837053, 0.8576858, 0.3552237, 0.6226119, 0.4783756, 0.3139799, 0.40514
        0.3509200, 0.3783077, 0.5226465, 1.0241043, 0.4384580, 1.3341520)
 #inverse weibull
 ft_iw <- fitdist(x,'invweibull')
+}
 
 }
 \keyword{ distribution }
