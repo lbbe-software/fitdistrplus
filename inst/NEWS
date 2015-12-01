@@ -1,5 +1,16 @@
 === fitdistrplus : Help to fit of a parametric distribution ===
 
+Version 1.0-7
+=============
+
+NEW FEATURES
+- start the JSS splitting vignette into how-to guides.
+- start likelihood surface/curve.
+
+BUG FIXES
+- add invisible() for all graphical functions.
+
+
 Version 1.0-6
 =============
 

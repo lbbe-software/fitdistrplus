@@ -66,6 +66,7 @@ export(mledist, mmedist, qmedist, mgedist)
 
 #plot functions
 export(plotdist, plotdistcens)
+export(llsurface, llcurve)
 
 #graphical comparison
 export(cdfcomp, denscomp, qqcomp, ppcomp)
