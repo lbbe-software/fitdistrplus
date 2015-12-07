@@ -16,16 +16,19 @@ parallel::stopCluster(cl)
 #exemple en faisant varier le nombre de coeurs et le nombre de simulations
 nbsimu <- 10^(1:2)
 cores <- 1:4
+cores <- 1:getOption("cl.cores", 2)
 
 partime <- matrix(NA, length(nbsimu), length(cores)+1)
-colnames(partime) <- c("R", paste("core",1:4))
+colnames(partime) <- c("R", paste("core",cores))
 rownames(partime) <- paste("n", nbsimu, sep="=")
 
-partime[, 1] <- sapply(1:length(nbsimu), function(i) system.time(lapply(1:nbsimu[i], f))[3])
-for(j in 1:length(cores)+1)
+partime[, 1] <- sapply(1:length(nbsimu), function(i) 
+  system.time(lapply(1:nbsimu[i], f))[3])
+for(j in 1:length(cores))
 {
-	cl <- parallel::makeCluster(j-1)
-	partime[, j] <- sapply(1:length(nbsimu), function(i) 
+  print(cores[j])
+	cl <- parallel::makeCluster(cores[j])
+	partime[, j+1] <- sapply(1:length(nbsimu), function(i) 
 		system.time(parallel::parLapply(cl, 1:nbsimu[i], f))[3])
 	parallel::stopCluster(cl)
 }		
