@@ -141,4 +141,5 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
             legendtext <- paste("fit", 1:nft)
         legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, lty=fitlty, col=fitcol, ...)
     }
+    invisible()
 }

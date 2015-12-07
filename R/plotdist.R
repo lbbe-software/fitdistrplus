@@ -250,4 +250,5 @@ plotdist <- function(data, distr, para, histo = TRUE, breaks="default", demp = F
         }
     }
     par(def.par)    
+    invisible()
 }

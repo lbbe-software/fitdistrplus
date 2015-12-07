@@ -128,4 +128,5 @@ qqcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
         else
           legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, col=fitcol, ...)  
     }
+    invisible()
 }

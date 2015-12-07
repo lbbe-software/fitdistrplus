@@ -190,4 +190,5 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
         legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, 
                lty=fitlty, col=fitcol,...)
     }
+    invisible()
 }

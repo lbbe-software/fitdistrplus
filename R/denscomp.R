@@ -141,4 +141,5 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab, datap
         legend(x=xlegend, y=ylegend, bty="n", legend=legendtext,
                lty=fitlty, col=fitcol, ...)
     }
+    invisible()
 }

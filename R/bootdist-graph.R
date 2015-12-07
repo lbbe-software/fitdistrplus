@@ -26,5 +26,5 @@ pairs4boot <- function(x, trueval, col4ramp = c("green", "yellow", "orange", "re
   }
   pairs(x, upper.panel=panel.upper,
         lower.panel=panel.lower, ...)
-  
+  invisible()
 }  

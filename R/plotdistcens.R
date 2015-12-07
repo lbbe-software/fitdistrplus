@@ -130,5 +130,5 @@ Turnbull.confint = FALSE, ...){
         lines(s,theop,col="red")
      }
     par(def.par)    
-    
+    invisible()
 }
