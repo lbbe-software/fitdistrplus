@@ -87,6 +87,12 @@ mgedist(data, distr, gof = "CvM", start = NULL, fix.arg = NULL, optim.method = "
     \item{optim.method}{when \code{optim} is used, the name of the algorithm used, 
     \code{NULL} otherwise.}
     \item{fix.arg.fun}{the function used to set the value of \code{fix.arg} or \code{NULL}.}
+    \item{counts}{A two-element integer vector giving the number of calls 
+    to the log-likelihood function and its gradient respectively. 
+    This excludes those calls needed to compute the Hessian, if requested, 
+    and any calls to log-likelihood function to compute a finite-difference
+    approximation to the gradient. \code{counts} is returned by \code{optim}
+    or the user-supplied function or set to \code{NULL}.}
 }
 
 

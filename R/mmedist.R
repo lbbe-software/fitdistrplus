@@ -261,7 +261,8 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             if(is.null(names(opt$par)))
               names(opt$par) <- names(vstart)
             res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
-                        hessian = opt$hessian, optim.function="optim", order=order, memp=memp)  
+                        hessian = opt$hessian, optim.function="optim", order=order, 
+                        memp=memp, counts=opt$counts)  
             
         }else # Try to minimize the stat distance using a user-supplied optim function 
         {
@@ -289,7 +290,8 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             }
             
             res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
-                        hessian = opt$hessian, optim.function=custom.optim, order=order, memp=memp)  
+                        hessian = opt$hessian, optim.function=custom.optim, order=order, 
+                        memp=memp, counts=opt$counts)  
             
         }   
         

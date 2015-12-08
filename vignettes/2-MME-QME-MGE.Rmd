@@ -1,6 +1,6 @@
 ---
 title: "Fitting distributions by MME, MGE, QME to non-censored data"
-author: " Marie Laure Delignette Muller, Christophe Dutang"
+author: "Marie Laure Delignette Muller, Christophe Dutang"
 date: "November 2015"
 output:
   pdf_document:

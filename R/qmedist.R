@@ -208,7 +208,7 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
         res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
 					hessian = opt$hessian, probs=probs, optim.function="optim", 
 					loglik=loglik(opt$par, fix.arg, data, ddistname), fix.arg=fix.arg,
-          optim.method=meth, weights = weights)		
+          optim.method=meth, weights = weights, counts=opt$counts)		
     }
     else # Try to minimize the stat distance using a user-supplied optim function 
     {
@@ -235,7 +235,7 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
         res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
 					hessian = opt$hessian, probs=probs, optim.function=custom.optim, 
 					loglik=loglik(opt$par, fix.arg, data, ddistname), fix.arg=fix.arg, 
-          optim.method=NULL, weights = weights)		
+          optim.method=NULL, weights = weights, counts=opt$counts)		
     }   
     return(res)    
      

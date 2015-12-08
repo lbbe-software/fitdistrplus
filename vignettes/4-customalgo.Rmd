@@ -1,6 +1,6 @@
 ---
 title: "Customization of the optimization algorithm"
-author: " Marie Laure Delignette Muller, Christophe Dutang"
+author: "Marie Laure Delignette Muller, Christophe Dutang"
 date: "November 2015"
 output:
   pdf_document:
