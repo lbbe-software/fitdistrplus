@@ -212,7 +212,7 @@ f3 <- fitdist(x2, "zmgeom", method="mle", start=list(p1=1/2, p2=1/2))
 b3 <- bootdist(f3, niter=nbboot)
 plot(b3, enhance=TRUE)
 
-#does fixing p1 reduce bias of estimating p2?
+# (15) does fixing p1 reduce bias of estimating p2?
 summary(b2$estim[, "p2"] - 1/10)
 summary(b3$estim[, "p2"] - 1/10)
 
@@ -220,3 +220,26 @@ par(mfrow=c(1, 2))
 hist(b2$estim[, "p2"] - 1/10, breaks=100, xlim=c(-.015, .015))
 hist(b3$estim[, "p2"] - 1/10, breaks=100, xlim=c(-.015, .015))
 
+# (16) efficiency of parallel operation
+#   niter <- 5001 
+#   data(groundbeef)
+#   serving <- groundbeef$serving
+#   f1 <- fitdist(serving, "gamma")
+#   for (cli in 1:4)
+#   {
+#     print(cli)
+#     ptm <- proc.time()
+#     print(summary(bootdist(f1, niter = niter, parallel = "snow", ncpus = cli)))
+#     print(proc.time() - ptm)
+#     
+#   }
+#   # not available on Windows
+#   for (cli in 1:4)
+#   {
+#     print(cli)
+#     ptm <- proc.time()
+#     print(summary(bootdist(f1, niter = niter, parallel = "multicore", ncpus = cli)))
+#     print(proc.time() - ptm)
+#     
+#   }
+  

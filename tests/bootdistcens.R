@@ -70,3 +70,28 @@ f1 <- fitdistcens(x, "gamma", fix.arg=function(x) list(shape=1.5))
 b1 <- bootdistcens(f1, niter=nbboot)
 plot(b1)
 
+# (6) efficiency of parallel operation
+# niter <- 5001 
+# data(fluazinam)
+#   d1 <-log10(fluazinam)
+#   f1 <- fitdistcens(d1, "norm")
+#   
+#   for (cli in 1:4)
+#   {
+#     print(cli)
+#     ptm <- proc.time()
+#     print(summary(bootdistcens(f1, niter = niter, parallel = "snow", ncpus = cli)))
+#     print(proc.time() - ptm)
+#     
+#   }
+#   # not available on Windows
+#   for (cli in 1:4)
+#   {
+#     print(cli)
+#     ptm <- proc.time()
+#     print(summary(bootdistcens(f1, niter = niter, parallel = "multicore", ncpus = cli)))
+#     print(proc.time() - ptm)
+#     
+#   }
+
+

@@ -12,10 +12,11 @@
 }
 
 \usage{
-bootdist(f, bootmethod="param", niter=1001, silent=TRUE)
+bootdist(f, bootmethod = "param", niter = 1001, silent = TRUE, 
+      parallel = c("no", "snow", "multicore"), ncpus)
 \method{print}{bootdist}(x, \dots)
-\method{plot}{bootdist}(x, main="Bootstrapped values of parameters", enhance=FALSE, 
-    trueval=NULL, rampcol=NULL, nbgrid = 100, nbcol = 100, \dots)
+\method{plot}{bootdist}(x, main = "Bootstrapped values of parameters", enhance = FALSE, 
+    trueval = NULL, rampcol = NULL, nbgrid = 100, nbcol = 100, \dots)
 \method{summary}{bootdist}(object, \dots)
 
 }
@@ -26,6 +27,11 @@ bootdist(f, bootmethod="param", niter=1001, silent=TRUE)
   for a parametric resampling and \code{"nonparam"} for a nonparametric resampling of data.}
 \item{niter}{ The number of samples drawn by bootstrap.  }
 \item{silent}{A logical to remove or show warnings and errors when bootstraping.}
+\item{parallel}{The type of parallel operation to be used, \code{"snow"} or \code{"multicore"}
+  (the second one not being available on Windows),
+  or \code{"no"} if no parallel operation.}
+\item{ncpus}{Number of processes to be used in parallel operation : 
+  typically one would fix it to the number of available CPUs.}
 
 \item{x}{ An object of class \code{"bootdist"}.  }
 \item{object}{ An object of class \code{"bootdist"}.  }
@@ -74,6 +80,10 @@ parameters (for backfitting purposes).}
     (see \code{\link[grDevices]{colorRampPalette}()}), \code{nbgrid=100} (see \code{kde2d}).
     In addition, when fitting parameters on simulated datasets for backtesting purposes, an
     additional argument \code{trueval} can be used to plot a cross at the true value.
+    
+    It is possible to accelerate the bootstrap using parallelization. We recommend you to
+    use \code{parallel = "multicore"}, or \code{parallel = "snow"} if you work on Windows,
+    and to fix \code{ncpus} to the number of available processors.
 }
 
 \value{ 
@@ -154,7 +164,6 @@ summary(b1)
 quantile(b1)
 
 # (2) non parametric bootstrap on the same fit
-# with less iterations
 #
 b1b <- bootdist(f1, bootmethod="nonparam", niter=51) 
 summary(b1b)
@@ -175,6 +184,32 @@ log10ATV <- log10(subset(endosulfan, group == "NonArthroInvert")$ATV)
 fln <- fitdist(log10ATV, "norm")
 bln <- bootdist(fln, bootmethod = "param", niter=51)
 quantile(bln, probs = c(0.05, 0.1, 0.2))
+
+# (4) comparison of sequential and parallel versions of bootstrap
+# to be tried with a greater number of iterations (1001 or more)
+#
+\dontrun{
+niter <- 1001
+data(groundbeef)
+x1 <- groundbeef$serving
+f1 <- fitdist(x1, "gamma")
+
+# sequential version
+ptm <- proc.time()
+summary(bootdist(f1, niter = niter))
+proc.time() - ptm
+
+# parallel version using snow
+require(parallel)
+ptm <- proc.time()
+summary(bootdist(f1, niter = niter, parallel = "snow", ncpus = 4))
+proc.time() - ptm
+
+# parallel version using multicore (not available on Windows)
+ptm <- proc.time()
+summary(bootdist(f1, niter = niter, parallel = "multicore", ncpus = 4))
+proc.time() - ptm
+}
 
 }
 
