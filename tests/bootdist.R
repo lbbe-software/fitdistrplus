@@ -221,25 +221,39 @@ hist(b2$estim[, "p2"] - 1/10, breaks=100, xlim=c(-.015, .015))
 hist(b3$estim[, "p2"] - 1/10, breaks=100, xlim=c(-.015, .015))
 
 # (16) efficiency of parallel operation
-#   niter <- 5001 
-#   data(groundbeef)
-#   serving <- groundbeef$serving
-#   f1 <- fitdist(serving, "gamma")
-#   for (cli in 1:4)
-#   {
-#     print(cli)
-#     ptm <- proc.time()
-#     print(summary(bootdist(f1, niter = niter, parallel = "snow", ncpus = cli)))
-#     print(proc.time() - ptm)
-#     
-#   }
-#   # not available on Windows
-#   for (cli in 1:4)
-#   {
-#     print(cli)
-#     ptm <- proc.time()
-#     print(summary(bootdist(f1, niter = niter, parallel = "multicore", ncpus = cli)))
-#     print(proc.time() - ptm)
-#     
-#   }
+if(FALSE)
+{
+  niter <- 1001 
+  data(groundbeef)
+  serving <- groundbeef$serving
+  f1 <- fitdist(serving, "gamma")
   
+  alltime <- matrix(NA, 9, 5)
+  colnames(alltime) <- c("user.self",  "sys.self",   "elapsed",    "user.child", "sys.child" )
+  rownames(alltime) <- c("base R", paste("snow", 1:4), paste("multicore", 1:4))
+  
+  alltime[1,] <- system.time(res <- bootdist(f1, niter = niter))
+  
+  for (cli in 1:4)
+  {
+    cat("\nnb cluster", cli, "\n")
+    #ptm <- proc.time()
+    alltime[cli+1,] <- system.time(res <- bootdist(f1, niter = niter, parallel = "snow", ncpus = cli))
+    print(summary(res))
+    #print(proc.time() - ptm)
+    
+  }
+  # not available on Windows
+  if(.Platform$OS.type == "unix") 
+  for (cli in 1:4)
+  {
+    cat("\nnb cluster", cli, "\n")
+    #ptm <- proc.time()
+    alltime[cli+5,] <- system.time(res <- bootdist(f1, niter = niter, parallel = "multicore", ncpus = cli))
+    print(summary(res))
+    #print(proc.time() - ptm)
+    
+  }
+  
+  alltime
+}
