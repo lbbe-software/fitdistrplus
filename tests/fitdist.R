@@ -121,7 +121,7 @@ if(any(installed.packages()[,"Package"] == "rgenoud"))
     {
         require(rgenoud)
         res <- genoud(fn, starting.values=par, ...)        
-        standardres <- c(res, convergence=0)
+        standardres <- c(res, convergence=0, counts=NULL)
         
         return(standardres)
     }

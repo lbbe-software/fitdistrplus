@@ -361,7 +361,7 @@ myoptimize <- function(fn, par, ...)
 }
 
 #call fitdist with a 'custom' optimization function
-res2 <- fitdist(mysample, dexp, start=mystart, custom.optim=myoptimize, 
+res2 <- fitdist(mysample, "exp", start=mystart, custom.optim=myoptimize, 
     interval=c(0, 100))
 
 #show the result

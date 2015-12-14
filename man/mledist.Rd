@@ -91,15 +91,15 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
     
     If \code{custom.optim} is not \code{NULL}, then the user-supplied function is used instead
     of the R base \code{optim}. The \code{custom.optim} must have (at least) the following arguments
-    \code{fn} for the function to be optimized, \code{par} for the initialized parameters. Internally the
-    function to be optimized will also have other arguments, such as \code{obs} 
-    with observations and \code{ddistname}
+    \code{fn} for the function to be optimized, \code{par} for the initialized parameters,
+    \code{counts} for the number of calls (function and gradient), see the returned value
+    of \code{\link{optim}}. Internally the function to be optimized will also have other arguments, 
+    such as \code{obs} with observations and \code{ddistname}
     with distribution name for non censored data (Beware of potential conflicts with optional arguments 
-    of \code{custom.optim}). It is
-    assumed that \code{custom.optim} should carry out a MINIMIZATION. Finally, it should return
-    at least the following components \code{par} for the estimate, \code{convergence} for the convergence
-    code, \code{value} for \code{fn(par)} and \code{hessian}. See examples in \code{\link{fitdist}}
-    and \code{\link{fitdistcens}}.
+    of \code{custom.optim}). It is assumed that \code{custom.optim} should carry out a MINIMIZATION. 
+    Finally, it should return at least the following components \code{par} for the estimate, 
+    \code{convergence} for the convergence code, \code{value} for \code{fn(par)} and \code{hessian}. 
+    See examples in \code{\link{fitdist}} and \code{\link{fitdistcens}}.
     
     Optionally, a vector of \code{weights} can be used in the fitting process. 
     By default (when \code{weigths=NULL}), ordinary MLE is carried out, otherwise 

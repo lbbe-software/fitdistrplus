@@ -179,7 +179,7 @@ library(rgenoud)
 mygenoud <- function(fn, par, ...) 
 {
 	res <- genoud(fn, starting.values=par, ...)        
-	c(res, convergence=0)       
+	c(res, convergence=0, counts=NULL)       
 }
 
 
