@@ -6,6 +6,7 @@ Version 1.0-7
 NEW FEATURES
 - start the JSS splitting vignette into how-to guides.
 - start likelihood surface/curve.
+- provide parallization of bootstrap in bootdist and bootdistcens
 
 BUG FIXES
 - add invisible() for all graphical functions.
