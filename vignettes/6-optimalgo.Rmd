@@ -1,0 +1,527 @@
+---
+title: "Which optimization algorithm to choose?"
+author: "Marie Laure Delignette Muller, Christophe Dutang"
+date: "December 2015"
+output: 
+  pdf_document:
+    number_sections: true
+    toc: true
+vignette: |
+  %\VignetteIndexEntry{Optimization algorithm} 
+  %\VignetteEngine{knitr::rmarkdown} 
+  \usepackage[utf8]{inputenc}
+bibliography: jssfitdistrplus.bib    
+header-includes:
+- \usepackage{url}
+- \newcommand{\ind}{1\!\!1}
+- \newcommand{\R}{\mathbb R}
+- \newcommand{\N}{\mathbb N}
+- \newcommand{\calD}{\mathcal D}
+- \newcommand{\calL}{\mathcal L}
+- \newcommand{\systL}{\left\{\begin{array}{ll}}
+- \newcommand{\systR}{\end{array}\right.}
+- \newcommand{\matL}{\left(\begin{matrix}}
+- \newcommand{\matR}{\end{matrix}\right)}
+- \newcommand{\detL}{\left|\begin{matrix}}
+- \newcommand{\detR}{\end{matrix}\right|}
+- \newcommand{\pkg}{\textbf}
+- \newcommand{\proglang}{\textsf}    
+---
+
+
+
+# Quick overview of main optimization methods
+
+For a good introduction to books such as Nocedal \& Wright (2006) or Bonnans, Gilbert, Lemarechal \& Sagastiz\'abal (2006). We consider
+the problem $\min_x f(x)$ for $x\in\mathbb{R}^n$.
+
+## Derivative-free optimization methods
+The Nelder-Mead method is one of the most well known derivative-free methods
+that use only values of $f$ to search for the minimum.
+It consists in building a simplex of $n+1$ points and moving/shrinking
+this simplex into the good direction.
+\begin{enumerate}
+\item set initial points $x_1, \dots, x_{n+1}$.
+\item order points such that $f(x_1)\leq f(x_2)\leq\dots\leq f(x_n)$.
+\item compute $x_o$ as the centroid of $x_1, \dots, x_{n}$. 
+\item Reflection: 
+  \begin{itemize}
+  \item compute the reflected point $x_r = x_o + \alpha(x_o-x_{n+1})$
+  \item \textbf{if} $f(x_1)\leq f(x_r)<f(x_n)$, 
+  then replace $x_{n+1}$ by $x_r$,
+  go to step 2.
+  \item \textbf{else} go step 5.
+  \end{itemize}
+\item Expansion:   
+  \begin{itemize}
+  \item \textbf{if} $f(x_r)<f(x_1)$, then compute the expansion point
+    $x_e= x_o+\gamma(x_o-x_{n+1})$.
+    \begin{itemize}
+    \item[] \textbf{if} $f(x_e) <f(x_r)$, then replace $x_{n+1}$ by $x_e$,
+  go to step 2.
+    \item[] \textbf{else} $x_{n+1}$ by $x_r$, go to step 2.
+    \end{itemize}  
+  \item \textbf{else} go to step 6.
+  \end{itemize}
+\item Contraction:  
+  \begin{itemize}
+  \item compute the contracted point $x_c = x_o + \beta(x_o-x_{n+1})$
+  \item \textbf{if} $f(x_c)<f(x_{n+1})$, 
+  then replace $x_{n+1}$ by $x_c$,
+  go to step 2.
+  \item \textbf{else} go step 7.
+  \end{itemize}
+\item Reduction:  
+  \begin{itemize}
+  \item for $i=2,\dots, n+1$, compute $x_i = x_1+\sigma(x_i-x_{1})$
+  \end{itemize}
+\end{enumerate}
+The Nelder-Mead method is available in `optim`.
+By default, in `optim`, $\alpha=1$, $\beta=1/2$, $\gamma=2$ and $\sigma=1/2$.
+
+## Hessian-free optimization methods
+
+For smooth non-linear function, the following method is generally used:
+a local method combined with line search work on the scheme $x_{k+1} =x_k + t_k d_{k}$, where the local method will specify the direction $d_k$ and the line search will specify the step size $t_k \in \mathbb{R}$.	
+
+### Computing the direction $d_k$
+A desirable property for $d_k$ is that $d_k$ ensures a descent $f(x_{k+1}) < f(x_{k})$. 
+Newton methods are such that $d_k$ minimizes a local quadratic approximation of $f$ based on a Taylor expansion, that is  $q_f(d) = f(x_k) + g(x_k)^Td +\frac{1}{2} d^T H(x_k) d$ where $g$ denotes the gradient and $H$ denotes the Hessian.
+
+The \emph{exact Newton} consists in using the exact solution of local minimization problem $d_k = - H(x_k)^{-1} g(x_k)$.	
+In practice, other methods are preferred (at least to ensure positive definiteness).
+The \emph{quasi-Newton} method approximates the Hessian by a matrix $H_k$ as a function of $H_{k-1}$, $x_k$, $f(x_k)$ and then $d_k$ solves the system $H_k d = -  g(x_k)$. 
+Some implementation may also directly approximate the inverse of the Hessian $W_k$ in order to compute $d_k = -W_k g(x_k)$. Using the Sherman-Morrison-Woodbury formula, we can switch between $W_k$ and $H_k$.
+
+To determine $W_k$, first it must verify the secant equation $H_k y_k =s_k$ or $y_k=W_k s_k$ where $y_k = g_{k+1}-g_k$ and $s_k=x_{k+1}-x_k$. To define the $n(n-1)$ terms, we generally impose a symmetry and a minimum distance conditions. We say we have a rank 2 update if  $H_k = H_{k-1} + a u u^T + b v v^T$ and a rank 1 update if  $H_k = H_{k-1} + a u u^T $. Rank $n$ update is justified by the spectral decomposition theorem.
+
+
+There are two rank-2 updates which are symmetric and preserve positive definiteness 
+\begin{itemize}
+\item DFP \emph{Davidon-Fletcher-Powell} minimizes $\min || H - H_k ||_F$ such that $H=H^T$:
+$$ 
+H_{k+1} = \left (I-\frac {y_k s_k^T} {y_k^T s_k} \right ) H_k \left (I-\frac {s_k y_k^T} {y_k^T s_k} \right )+\frac{y_k y_k^T} {y_k^T s_k}  
+\Leftrightarrow
+W_{k+1} = W_k +  \frac{s_k s_k^T}{y_k^{T} s_k} - \frac {W_k y_k y_k^T W_k^T} {y_k^T W_k y_k} .
+$$
+\item BFGS \emph{Broyden-Fletcher-Goldfarb-Shanno} minimizes $\min || W - W_k ||_F$ such that $W=W^T$:
+$$
+H_{k+1} = H_k - \frac{ H_k y_k y_k^T H_k }{ y_k^T H_k y_k }  + \frac{ s_k s_k^T }{ y_k^T s_k }
+\Leftrightarrow
+W_{k+1} = \left (I-\frac {y_k s_k^T} {y_k^T s_k} \right )^T W_k \left (I-\frac { y_k s_k^T} {y_k^T s_k} \right )+\frac{s_k s_k^T} {y_k^T s_k} .
+$$
+\end{itemize}
+In `R`, the so-called BFGS scheme is implemented in `optim`.
+The DFP method is not available?
+
+Another possible method (which is initially arised from quadratic problems)
+is the nonlinear conjugate gradients.
+This consists in computing directions $(d_0, \dots, d_k)$ that are conjugate
+with respect to a matrix close to the true Hessian $H(x_k)$.
+Directions are computed iteratively by $d_k = -g(x_k) + \beta_k d_{k-1}$ for $k>1$, once initiated by $d_1 = -g(x_1)$. 
+$\beta_k$ are updated according a scheme: 
+\begin{itemize}
+\item $\beta_k = \frac{ g_k^T g_k}{g_{k-1}^T g_{k-1} }$: Fletcher-Reeves update,
+\item $\beta_k = \frac{ g_k^T (g_k-g_{k-1} )}{g_{k-1}^T g_{k-1}}$: Polak-Ribière update.
+\end{itemize}
+There exists also three-term formula for computing direction 
+$d_k = -g(x_k) + \beta_k d_{k-1}+\gamma_{k} d_t$ for $t<k$.
+A possible scheme is the Beale-Sorenson update defined as
+ $\beta_k = \frac{ g_k^T (g_k-g_{k-1} )}{d^T_{k-1}(g_{k}- g_{k-1})}$ 
+ and $\gamma_k = \frac{ g_k^T (g_{t+1}-g_{t} )}{d^T_{t}(g_{t+1}- g_{t})}$ if $k>t+1$ otherwise $\gamma_k=0$ if $k=t$.
+See Yuan (2006) for other well-known schemes such as Hestenses-Stiefel, Dixon or Conjugate-Descent.
+This three updates of the (non-linear) conjugate gradient are available in `optim`.
+
+
+### Computing the stepsize $t_k$
+
+Let $\phi_k(t) = f(x_k + t d_k)$ for a given direction/iterate $(d_k, x_k)$. 
+We need to find conditions to find a satisfactory stepsize $t_k$. In literature, we consider the  descent condition: $\phi_k'(0) < 0$
+and the Armijo condition: $\phi_k(t) \leq \phi_k(0) + t c_1 \phi_k'(0)$ ensures a decrease of $f$.
+Nocedal \& Wright (2006) presents a backtracking (or geometric) approach satisfying the Armijo condition and minimal condition, i.e. Goldstein and Price.
+\begin{itemize}
+\item set $t_{k,0}$ e.g. 1, $0 < \alpha < 1$,
+\item \textbf{Repeat} until Armijo satisfied,
+	\begin{itemize}
+	\item[] $t_{k,i+1} =  \alpha \times t_{k,i}$.
+	\end{itemize} 
+\item \textbf{end Repeat}
+\end{itemize}
+This backtracking linesearch is available in `optim`.
+
+
+## Benchmark
+
+To simplify the benchmark of optimization methods, we create a `fitbench` function that computes
+the desired estimation method for all optimization methods.
+```{r, echo=TRUE, eval=FALSE}
+fitbench <- function(data, distr, method, grlnL, ...) 
+```
+```{r, echo=FALSE}
+fitbench <- function(data, distr, method, grlnL, ...) 
+{
+  ctr <- list(trace=0, REPORT=1, maxit=1000)
+  if(method != "mle")
+    stop("not supported")
+  if(missing(grlnL))
+    stop("provide the gradient of log-likelihood")
+  reslist <- NULL
+  for(meth in c("BFGS", "Nelder", "CG")) #CG with FR update
+  {
+    nograd$time <- system.time(nograd <- mledist(x, dist=distr, optim.method=meth, control=ctr, ...))[3]
+    grad$time <- system.time(grad <- mledist(x, dist=distr, gr=grlnL, optim.method=meth, control=ctr, ...))[3]
+    reslist <- c(reslist, list(nograd), list(grad))
+  }
+  for(type in 2:3) #CG with PR or BS updates
+  {
+    nograd$time <- system.time(nograd <- mledist(x, dist=distr, optim.method="CG", control=c(ctr, type=type), ...))[3] 
+    grad$time <- system.time(grad <- mledist(x, dist=distr, gr=grlnL, optim.method="CG", control=c(ctr, type=type), ...))[3] 
+    reslist <- c(reslist, list(nograd), list(grad)) 
+  }
+  fullname <- c("BFGS", "NM", paste("CG", c("FR", "PR", "BS")))
+  fullname <- as.vector(sapply(fullname, function(x) paste0(x, c("", " grad."))))
+  names(reslist) <- fullname
+  
+  getval <- function(x)
+    c(x$estimate, loglik=x$loglik, x$counts, x$time)
+
+  resNM <- sapply(reslist[grep("NM", names(reslist))], getval)
+  resCGFR <- sapply(reslist[grep("CG FR", names(reslist))], getval)
+  resCGPR <- sapply(reslist[grep("CG PR", names(reslist))], getval)
+  resCGBS <- sapply(reslist[grep("CG BS", names(reslist))], getval)  
+  resBFGS <- sapply(reslist[grep("BFGS", names(reslist))], getval)  
+  rownames(resNM) <- rownames(resCGFR) <- rownames(resCGPR) <- rownames(resCGBS) <- rownames(resBFGS) <- c("fitted shape1", "fitted shape2", "fitted loglik", "func. eval. nb.", "grad. eval. nb.", "time (sec)")
+
+  list(NM=resNM, CGFR=resCGFR, CGPR=resCGPR, CGBS=resCGBS, BFGS=resBFGS)
+}
+```
+
+
+
+# Log-likelihood function and its gradient for beta distribution
+
+## Theoretical value
+The density of the beta distribution is given by 
+$$
+f(x; \delta_1,\delta_2) = \frac{x^{\delta_1-1}(1-x)^{\delta_2-1}}{\beta(\delta_1,\delta_2)},
+$$
+where $\beta$ denotes the beta function, see the NIST Handbook of mathematical functions.
+We recall that $\beta(a,b)=\Gamma(a)\Gamma(b)/\Gamma(a+b)$.
+There the log-likelihood for a set of observations $(x_1,\dots,x_n)$ is
+$$
+\log L(\delta_1,\delta_2) = (\delta_1-1)\sum_{i=1}^n\log(x_i)+ (\delta_2-1)\sum_{i=1}^n\log(1-x_i)+ n \log(\beta(\delta_1,\delta_2))
+$$
+The gradient with respect to $a$ and $b$ is 
+$$
+\nabla \log L(\delta_1,\delta_2) = 
+\left(\begin{matrix}
+\sum\limits_{i=1}^n\ln(x_i) - n\psi(\delta_1)+n\psi( \delta_1+\delta_2)  \\
+\sum\limits_{i=1}^n\ln(1-x_i)- n\psi(\delta_2)+n\psi( \delta_1+\delta_2)
+\end{matrix}\right),
+$$
+where $\psi(x)=\Gamma'(x)/\Gamma(x)$ is the digamma function, 
+see the NIST Handbook of mathematical functions.
+
+## `R` implementation
+As in the `fitdistrplus` package, we minimize the opposite of the log-likelihood: we implement the opposite of the gradient in `grlnL`.
+```{r}
+lnL <- function(par, fix.arg, obs, ddistnam) 
+  fitdistrplus:::loglikelihood(par, fix.arg, obs, ddistnam) 
+psi <- function(x) digamma(x)
+grbetalnl <- function(x, d1, d2)
+  c(log(x)-psi(d1)+psi(d1+d2), log(1-x)-psi(d2)+psi(d1+d2))
+grlnL <- function(par, obs, ...) 
+  -rowSums(sapply(obs, function(x) grbetalnl(x, d1=par[1], d2=par[2])))
+```
+
+
+
+
+# Numerical application to beta distribution
+
+
+## Random generation of a sample
+
+```{r, fig.height=5, fig.width=5}
+library(knitr)
+library(fitdistrplus)
+library(actuar)
+#(1) beta distribution
+n <- 100
+set.seed(12345)
+x <- rbeta(n, 3, 3/4)
+grlnL(c(3, 4), x) #test
+hist(x, prob=TRUE)
+lines(density(x), col="red")
+curve(dbeta(x, 3, 3/4), col="green", add=TRUE)
+legend("topleft", lty=1, col=c("red","green"), leg=c("empirical", "theoretical"))
+```
+
+## Fit Beta distribution
+
+Define control parameters.
+```{r}
+ctr <- list(trace=0, REPORT=1, maxit=1000)
+```
+Call `mledist` with the default optimization function 
+(`optim` implemented in `stats` package) 
+with and without the gradient `grlnL` for the different optimization methods.
+```{r}
+fitbench(x, "beta", "mle", grlnL) 
+
+reslist <- NULL
+for(meth in c("BFGS", "Nelder", "CG")) #CG with FR update
+{
+  nograd$time <- system.time(nograd <- mledist(x, dist="beta", optim.method=meth, control=ctr))[3]
+  grad$time <- system.time(grad <- mledist(x, dist="beta", gr=grlnL, optim.method=meth, control=ctr))[3]
+  reslist <- c(reslist, list(nograd), list(grad))
+}
+for(type in 2:3) #CG with PR or BS updates
+{
+  nograd$time <- system.time(nograd <- mledist(x, dist="beta", optim.method="CG", control=c(ctr, type=type)))[3] 
+  grad$time <- system.time(grad <- mledist(x, dist="beta", gr=grlnL, optim.method="CG", control=c(ctr, type=type)))[3] 
+  reslist <- c(reslist, list(nograd), list(grad)) 
+}
+fullname <- c("BFGS", "NM", paste("CG", c("FR", "PR", "BS")))
+fullname <- as.vector(sapply(fullname, function(x) paste0(x, c("", " grad."))))
+names(reslist) <- fullname
+#lapply(reslist, names)
+```
+Use the `constrOptim` function (still implemented in `stats` package)
+that allow linear inequality constraints by using a logarithmic barrier.
+We first wrap this optimization function to fit the expected names of `mledist`.
+```{r}
+constrOptim2 <- function(par, fn, gr=NULL, ui, ci, ...)
+  constrOptim(theta=unlist(par), f=fn, grad=gr, ui=ui, ci=ci, ...)
+
+for(meth in c("BFGS", "Nelder", "CG")) #CG with FR update
+{
+  nograd$time <- system.time(nograd <- mledist(x, dist="beta", custom.optim=constrOptim2,
+      ui = diag(2), ci = c(0, 0), optim.method=meth, control=ctr))[3]
+  grad$time <- system.time(grad <- mledist(x, dist="beta", gr=grlnL, custom.optim=constrOptim2,
+      ui = diag(2), ci = c(0, 0),  optim.method=meth, control=ctr))[3]
+  reslist <- c(reslist, list(nograd), list(grad))
+}
+for(type in 2:3) #CG with PR or BS updates
+{
+  nograd$time <- system.time(nograd <- mledist(x, dist="beta", custom.optim=constrOptim2,
+      ui = diag(2), ci = c(0, 0), optim.method="CG", control=c(ctr, type=type)))[3] 
+  grad$time <- system.time(grad <- mledist(x, dist="beta", gr=grlnL, custom.optim=constrOptim2,
+      ui = diag(2), ci = c(0, 0), optim.method="CG", control=c(ctr, type=type)))[3] 
+  reslist <- c(reslist, list(nograd), list(grad)) 
+}
+names(reslist)[(length(fullname)+1):length(reslist)] <- paste("constr.", fullname)
+```
+Use a exp/log transformation of the shape parameters $\delta_1$ and $\delta_2$ 
+to ensure that the shape parameters are strictly positive.
+```{r}
+dbeta2 <- function(x, shape1, shape2, log)
+  dbeta(x, exp(shape1), exp(shape2), log=log)
+pbeta2 <- function(q, shape1, shape2, log.p)
+  pbeta(q, exp(shape1), exp(shape2), log.p=log.p)
+#take the log of the starting values
+startarg <- lapply(fitdistrplus:::start.arg.default(x, "beta"), log)
+
+for(meth in c("BFGS", "Nelder", "CG")) #CG with FR update
+{
+  nograd$time <- system.time(nograd <- mledist(x, dist="beta2", optim.method="BFGS", control=ctr, start=startarg))[3]
+  grad$time <- system.time(grad <- mledist(x, dist="beta2", gr=grlnL, optim.method=meth, control=ctr, start=startarg))[3]
+  nograd$estimate <- exp(nograd$estimate)
+  grad$estimate <- exp(grad$estimate)
+  reslist <- c(reslist, list(nograd), list(grad))
+}
+for(type in 2:3) #CG with PR or BS updates
+{
+  nograd$time <- system.time(nograd <- mledist(x, dist="beta2", optim.method="CG", control=c(ctr, type=type), start=startarg))[3] 
+  grad$time <- system.time(grad <- mledist(x, dist="beta2", gr=grlnL, optim.method="CG", control=c(ctr, type=type), start=startarg))[3] 
+  nograd$estimate <- exp(nograd$estimate)
+  grad$estimate <- exp(grad$estimate)
+  reslist <- c(reslist, list(nograd), list(grad)) 
+}
+names(reslist)[(2*length(fullname)+1):length(reslist)] <- paste("exp.", fullname)
+```
+Then we extract the values of the fitted parameters, the value of the 
+corresponding log-likelihood and the number of counts to the function
+to minimize and its gradient (whether it is the theoretical gradient or the
+numerically approximated one).
+```{r}
+getval <- function(x)
+  c(x$estimate, loglik=x$loglik, x$counts, x$time)
+(trueval <- c(3, 3/4, lnL(c(3, 3/4), NULL, x, "dbeta")))
+```
+```{r, echo=FALSE}
+resNM <- sapply(reslist[grep("NM", names(reslist))], getval)
+resCGFR <- sapply(reslist[grep("CG FR", names(reslist))], getval)
+resCGPR <- sapply(reslist[grep("CG PR", names(reslist))], getval)
+resCGBS <- sapply(reslist[grep("CG BS", names(reslist))], getval)  
+resBFGS <- sapply(reslist[grep("BFGS", names(reslist))], getval)  
+rownames(resNM) <- rownames(resCGFR) <- rownames(resCGPR) <- rownames(resCGBS) <- rownames(resBFGS) <- c("fitted shape1", "fitted shape2", "fitted loglik", "func. eval. nb.", "grad. eval. nb.", "time (sec)")
+```
+Genetic algorithm
+```{r}
+library(rgenoud)
+mygenoud <- function(fn, par, ...) 
+{
+	res <- genoud(fn, starting.values=par, ...)        
+	c(res, convergence=0)       
+}
+resgenoud$time <- system.time(resgenoud <- mledist(x, "beta", start=startarg, custom.optim= mygenoud, 
+        nvars=2, Domains=cbind(c(0,0), c(100, 100)), boundary.enforcement=1, 
+        hessian=TRUE, print.level=0))[3]
+
+```
+
+
+
+## Results of numerical investigation
+Results are displayed in the following tables.
+
+
+```{r, results='asis', echo=FALSE}
+kable(resNM)
+```
+
+```{r, results='asis', echo=FALSE}
+kable(resCGFR)
+```
+
+```{r, results='asis', echo=FALSE}
+kable(resCGPR)
+```
+
+```{r, results='asis', echo=FALSE}
+kable(resCGBS)
+```
+
+```{r, results='asis', echo=FALSE}
+kable(resBFGS)
+```
+
+Using `llsurface`, we plot the log-likehood surface around the true value (green) and the fitted parameters (red).
+```{r, fig.width=5, fig.height=5}
+llsurface(plot.min=c(0.1, 0.1), plot.max=c(7, 3), 
+          plot.arg=c("shape1", "shape2"), nlevels=25,
+          plot.np=50, obs=x, distr="beta", plot.type="contour")
+points(resBFGS[1,"BFGS"], resBFGS[2,"BFGS"], pch="+", col="red")
+points(3, 3/4, pch="x", col="green")
+```
+
+## Conclusion
+
+Based on the beta example, we observe that all methods converge to the same
+point. This is rassuring.  
+```{r}
+resBFGS[1:2,"BFGS"]
+```
+However, the number of function evaluation (and gradient evaluation) is
+very different from a method to another.
+Futhermore, specifying the true gradient of the log-likelihood does not
+help at all the fitting procedure and generally slows down the convergence.
+The best methods only evaluates 17 times the log-likelihood.
+```{r}
+cmin <- min(sapply(reslist, function(x) x$counts[1]))
+names(reslist)[sapply(reslist, function(x) x$counts[1]) == cmin]
+```
+That is BFGS, Nelder-Mead and CG with Fletcher-Reeves update methods, all with
+the exponential transformation of the parameters.
+Since the exponential function is differentiable, the asymptotic properties are
+still preserved (Delta method) but for finite-sample this may produce a small bias.
+The second-best method is the BFGS with neither gradient, neither constaint, nor transform
+```{r}
+cmin <- sort(unique(sapply(reslist, function(x) x$counts[1])))[2]
+names(reslist)[sapply(reslist, function(x) x$counts[1]) == cmin]
+```
+The difference in terms of fitted values are neglible.
+```{r}
+resBFGS[, c("BFGS", "exp. BFGS")]
+```
+
+
+
+
+# Log-likelihood function and its gradient for Burr distribution
+
+## Theoretical value
+The density of the Burr distribution is given by 
+$$
+f(x; s_1,s_2,\delta) = \frac{s_1s_2 (x/\delta)^{s_2}}{x(1+(x/\delta)^{s_2})^{s_1+1}},
+$$
+where $s_1,s_2$ are shape parameters and $\delta$ a scale parameter.
+There the log-likelihood for a set of observations $(x_1,\dots,x_n)$ is
+$$
+\log L(s_1,s_2,\delta) = n\log(s_1)+n\log(s_2) + s_2 \sum_{i=1}^n\log(x_i/\delta) 
+- \sum_{i=1}^n\log(x_i) - (s_1+1)\sum_{i=1}^n\log(1+(x_i/\delta)^{s_2})
+$$
+The gradient with respect to $s_1,s_2,\delta$ is 
+$$
+\nabla \log L(s_1,s_2,\delta) = 
+\left(\begin{matrix}
+\frac{n}{s_1}-\sum\limits_{i=1}^n\log(1+(x_i/\delta)^{s_2}) \\
+\frac{n}{s_2} +  \sum\limits_{i=1}^n\log(x_i/\delta) - (s_1+1)
+\sum\limits_{i=1}^n \frac{\log(x_i/\delta)(x_i/\delta)^{s_2} }{1+(x_i/\delta)^{s_2}} \\
+-\frac{ns_2}{\delta} + \frac{(s_1+1)s_2}{\delta}\sum\limits_{i=1}^n
+\frac{ (x_i/\delta)^{s_2}}{1+(x_i/\delta)^{s_2}}
+\end{matrix}\right),
+$$
+since $\partial\delta^{s_2}/\partial \delta= s_2\delta^{s_2-1}$,
+$\partial(x/\delta)^{s_2}/\partial s_2= \log(x/\delta)(x/\delta)^{s_2}$.
+
+
+## `R` implementation
+As in the `fitdistrplus` package, we minimize the opposite of the log-likelihood: we implement the opposite of the gradient in `grlnL`.
+```{r}
+grburrlnl <- function(x, s1, s2, d)
+{
+  T <- (x/d)^s2
+  c(1/s1 - log(1+T), 1/s2+log(x/d)-(s1+1)*log(x/d)*T/(1+T),
+    -s2/d + s2*(s1+1)/d*T/(1+T)
+  )
+}
+grburr <- function(par, obs, ...) 
+  -rowSums(sapply(obs, function(x) grburrlnl(x, s1=par[1], s2=par[2], d=par[3])))
+```
+
+
+# Numerical application to a Burr distribution
+
+## Random generation of a Burr sample
+
+```{r, fig.height=5, fig.width=5}
+library(actuar)
+#(2) Burr distribution
+y <- rburr(n, 2, 3, scale=10)
+hist(y, prob=TRUE)
+lines(density(y), col="red")
+curve(dburr(x, 2, 3, scale=10), col="green", add=TRUE)
+legend("topright", lty=1, col=c("red","green"), leg=c("empirical", "theoretical"))
+```
+
+
+
+## Fit Burr distribution
+
+```{r}
+initpar <- list(shape1=10, shape2=10, scale=1)
+reslist <- NULL
+for(meth in c("BFGS", "Nelder", "CG")) #CG with FR update
+{
+  nograd$time <- system.time(nograd <- mledist(y, dist="burr", optim.method=meth, start =initpar, control=ctr))[3]
+  grad$time <- system.time(grad <- mledist(y, dist="burr", optim.method=meth, start =initpar, control=ctr, gr=grburr))[3]
+  reslist <- c(reslist, list(nograd), list(grad))
+}
+for(type in 2:3) #CG with PR or BS updates
+{
+  nograd$time <- system.time(nograd <- mledist(y, dist="burr", optim.method="CG", start =initpar, control=c(ctr, type=type)))[3]
+  grad$time <- system.time(grad <- mledist(y, dist="burr", optim.method="CG", start =initpar, control=c(ctr, type=type), gr=grburr))[3] 
+  reslist <- c(reslist, list(nograd), list(grad)) 
+}
+fullname <- c("BFGS", "NM", paste("CG", c("FR", "PR", "BS")))
+fullname <- as.vector(sapply(fullname, function(x) paste0(x, c("", " grad."))))
+names(reslist) <- fullname
+```
+```{r}
+sapply(reslist[grep("NM", names(reslist))], getval)
+sapply(reslist[grep("CG", names(reslist))], getval)
+sapply(reslist[grep("BFGS", names(reslist))], getval)
+```
+
