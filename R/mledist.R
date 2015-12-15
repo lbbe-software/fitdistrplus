@@ -209,7 +209,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
             if(getOption("show.error.messages")) print(attr(opttryerror, "condition"))          
             return(list(estimate = rep(NA, length(vstart)), convergence = 100, loglik = NA, 
                         hessian = NA, optim.function="optim", fix.arg = fix.arg, 
-                        optim.method=meth, fix.arg.fun = fix.arg.fun))
+                        optim.method=meth, fix.arg.fun = fix.arg.fun, counts=c(NA, NA)))
         }
         
         if (opt$convergence>0) {
@@ -239,7 +239,8 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
             warnings("The customized optimization function encountered an error and stopped.")
             if(getOption("show.error.messages")) print(attr(opttryerror, "condition"))          
             return(list(estimate = rep(NA, length(vstart)), convergence = 100, loglik = NA, 
-                        hessian = NA, optim.function=custom.optim, fix.arg = fix.arg, fix.arg.fun = fix.arg.fun))
+                        hessian = NA, optim.function=custom.optim, fix.arg = fix.arg, 
+                        fix.arg.fun = fix.arg.fun, counts=c(NA, NA)))
         }
         
         if (opt$convergence>0) {
@@ -256,7 +257,8 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
           names(opt$par) <- names(vstart)
         res <- list(estimate = opt$par, convergence = opt$convergence, loglik = -opt$value, 
                       hessian = opt$hessian, optim.function = custom.optim, fix.arg = fix.arg,
-                      method = method.cust, fix.arg.fun = fix.arg.fun, weights = weights, counts=opt$counts)        
+                      method = method.cust, fix.arg.fun = fix.arg.fun, weights = weights, 
+                    counts=opt$counts)        
     }   
         
     return(res) 

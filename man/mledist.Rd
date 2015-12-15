@@ -83,22 +83,26 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
     the \code{"Nelder-Mead"} method for distributions characterized by more than one parameter and
     the \code{"BFGS"} method for distributions characterized by only one parameter, or 
     with the method specified in the argument \code{"optim.method"} if not \code{"default"}.
-    Box-constrainted optimization may be used with the method \code{"L-BFGS-B"}, using the constraints
-    on parameters specified in arguments \code{lower} and \code{upper}. If non-trivial bounds are supplied,
-    this method will be automatically selected, with a warning.
+    Box-constrainted optimization may be used with the method \code{"L-BFGS-B"}, using 
+    the constraints on parameters specified in arguments \code{lower} and \code{upper}. 
+    If non-trivial bounds are supplied, this method will be automatically selected, with a 
+    warning.
     When errors are raised by \code{optim}, it's a good idea to start by adding traces during
     the optimization process by adding \code{control=list(trace=1, REPORT=1)}.
     
-    If \code{custom.optim} is not \code{NULL}, then the user-supplied function is used instead
-    of the R base \code{optim}. The \code{custom.optim} must have (at least) the following arguments
-    \code{fn} for the function to be optimized, \code{par} for the initialized parameters,
-    \code{counts} for the number of calls (function and gradient), see the returned value
-    of \code{\link{optim}}. Internally the function to be optimized will also have other arguments, 
+    If \code{custom.optim} is not \code{NULL}, then the user-supplied function is used 
+    instead of the R base \code{optim}. The \code{custom.optim} must have (at least) 
+    the following arguments
+    \code{fn} for the function to be optimized, \code{par} for the initialized parameters.
+    Internally the function to be optimized will also have other arguments, 
     such as \code{obs} with observations and \code{ddistname}
-    with distribution name for non censored data (Beware of potential conflicts with optional arguments 
-    of \code{custom.optim}). It is assumed that \code{custom.optim} should carry out a MINIMIZATION. 
+    with distribution name for non censored data (Beware of potential conflicts with optional
+    arguments of \code{custom.optim}). It is assumed that \code{custom.optim} should carry 
+    out a MINIMIZATION. 
     Finally, it should return at least the following components \code{par} for the estimate, 
-    \code{convergence} for the convergence code, \code{value} for \code{fn(par)} and \code{hessian}. 
+    \code{convergence} for the convergence code, \code{value} for \code{fn(par)}, 
+    \code{hessian} and \code{counts} for the number of calls (function and gradient), 
+    see the returned value of \code{\link{optim}}. 
     See examples in \code{\link{fitdist}} and \code{\link{fitdistcens}}.
     
     Optionally, a vector of \code{weights} can be used in the fitting process. 

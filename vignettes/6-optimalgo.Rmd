@@ -158,13 +158,14 @@ the desired estimation method for all optimization methods.
 fitbench <- function(data, distr, method, grlnL, ...) 
 ```
 ```{r, echo=FALSE}
-fitbench <- function(data, distr, method, grlnL, ...) 
+fitbench <- function(data, distr, method, grlnL, ..., npar=2) 
 {
   ctr <- list(trace=0, REPORT=1, maxit=1000)
   if(method != "mle")
     stop("not supported")
   if(missing(grlnL))
     stop("provide the gradient of log-likelihood")
+  
   reslist <- NULL
   for(meth in c("BFGS", "Nelder", "CG")) #CG with FR update
   {
@@ -178,19 +179,22 @@ fitbench <- function(data, distr, method, grlnL, ...)
     grad$time <- system.time(grad <- mledist(x, dist=distr, gr=grlnL, optim.method="CG", control=c(ctr, type=type), ...))[3] 
     reslist <- c(reslist, list(nograd), list(grad)) 
   }
-  fullname <- c("BFGS", "NM", paste("CG", c("FR", "PR", "BS")))
-  fullname <- as.vector(sapply(fullname, function(x) paste0(x, c("", " grad."))))
+  fullname <- c("BFGS", "NM", paste0("CG", c("FR", "PR", "BS")))
+  fullname <- as.vector(sapply(fullname, function(x) paste0(x, c("", " gr."))))
   names(reslist) <- fullname
   
   getval <- function(x)
     c(x$estimate, loglik=x$loglik, x$counts, x$time)
 
   resNM <- sapply(reslist[grep("NM", names(reslist))], getval)
-  resCGFR <- sapply(reslist[grep("CG FR", names(reslist))], getval)
-  resCGPR <- sapply(reslist[grep("CG PR", names(reslist))], getval)
-  resCGBS <- sapply(reslist[grep("CG BS", names(reslist))], getval)  
+  resCGFR <- sapply(reslist[grep("CGFR", names(reslist))], getval)
+  resCGPR <- sapply(reslist[grep("CGPR", names(reslist))], getval)
+  resCGBS <- sapply(reslist[grep("CGBS", names(reslist))], getval)  
   resBFGS <- sapply(reslist[grep("BFGS", names(reslist))], getval)  
-  rownames(resNM) <- rownames(resCGFR) <- rownames(resCGPR) <- rownames(resCGBS) <- rownames(resBFGS) <- c("fitted shape1", "fitted shape2", "fitted loglik", "func. eval. nb.", "grad. eval. nb.", "time (sec)")
+  
+  allname <- c(paste("fitted", names(reslist[[1]]$estimate)), "fitted loglik", "func. eval. nb.", "grad. eval. nb.", "time (sec)")
+
+  rownames(resNM) <- rownames(resCGFR) <- rownames(resCGPR) <- rownames(resCGBS) <- rownames(resBFGS) <- allname
 
   list(NM=resNM, CGFR=resCGFR, CGPR=resCGPR, CGBS=resCGBS, BFGS=resBFGS)
 }
@@ -228,9 +232,9 @@ As in the `fitdistrplus` package, we minimize the opposite of the log-likelihood
 lnL <- function(par, fix.arg, obs, ddistnam) 
   fitdistrplus:::loglikelihood(par, fix.arg, obs, ddistnam) 
 psi <- function(x) digamma(x)
-grbetalnl <- function(x, d1, d2)
+grbetalnl <- function(x, d1, d2) #individual contribution
   c(log(x)-psi(d1)+psi(d1+d2), log(1-x)-psi(d2)+psi(d1+d2))
-grlnL <- function(par, obs, ...) 
+grbeta <- function(par, obs, ...) 
   -rowSums(sapply(obs, function(x) grbetalnl(x, d1=par[1], d2=par[2])))
 ```
 
@@ -247,10 +251,10 @@ library(knitr)
 library(fitdistrplus)
 library(actuar)
 #(1) beta distribution
-n <- 100
+n <- 200
 set.seed(12345)
 x <- rbeta(n, 3, 3/4)
-grlnL(c(3, 4), x) #test
+grbeta(c(3, 4), x) #test
 hist(x, prob=TRUE)
 lines(density(x), col="red")
 curve(dbeta(x, 3, 3/4), col="green", add=TRUE)
@@ -267,7 +271,7 @@ Call `mledist` with the default optimization function
 (`optim` implemented in `stats` package) 
 with and without the gradient `grlnL` for the different optimization methods.
 ```{r}
-unconstropt <- fitbench(x, "beta", "mle", grlnL) 
+unconstropt <- fitbench(x, "beta", "mle", grbeta) 
 ```
 Use the `constrOptim` function (still implemented in `stats` package)
 that allow linear inequality constraints by using a logarithmic barrier.
@@ -276,46 +280,26 @@ We first wrap this optimization function to fit the expected names of `mledist`.
 constrOptim2 <- function(par, fn, gr=NULL, ui, ci, ...)
   constrOptim(theta=unlist(par), f=fn, grad=gr, ui=ui, ci=ci, ...)
 
-constropt <- fitbench(x, "beta", "mle", grlnL, custom.optim=constrOptim2, ui = diag(2), ci = c(0, 0)) 
+constropt <- fitbench(x, "beta", "mle", grbeta, custom.optim=constrOptim2, 
+                      ui = diag(2), ci = c(0, 0)) 
 ```
 Use a exp/log transformation of the shape parameters $\delta_1$ and $\delta_2$ 
 to ensure that the shape parameters are strictly positive.
 ```{r}
 dbeta2 <- function(x, shape1, shape2, log)
   dbeta(x, exp(shape1), exp(shape2), log=log)
-#pbeta2 <- function(q, shape1, shape2, log.p)
-#  pbeta(q, exp(shape1), exp(shape2), log.p=log.p)
 #take the log of the starting values
 startarg <- lapply(fitdistrplus:::start.arg.default(x, "beta"), log)
 #redefine the gradient for the new parametrization
-grlnLexp <- function(par, obs, ...) 
+grbetaexp <- function(par, obs, ...) 
   -rowSums(sapply(obs, function(x) 
     grbetalnl(x, d1=exp(par[1]), d2=exp(par[2])) * c(exp(par[1]), exp(par[2]))
     ))
 
-expopt <- fitbench(x, "beta2", "mle", grlnLexp, start=startarg) 
-expopt
-
-fullname <- c("BFGS", "NM", paste("CG", c("FR", "PR", "BS")))
-fullname <- as.vector(sapply(fullname, function(x) paste0(x, c("", " grad."))))
-reslist <- NULL
-for(meth in c("BFGS", "Nelder", "CG")) #CG with FR update
-{
-  nograd$time <- system.time(nograd <- mledist(x, dist="beta2", optim.method="BFGS", control=ctr, start=startarg))[3]
-  grad$time <- system.time(grad <- mledist(x, dist="beta2", gr=grlnL, optim.method=meth, control=ctr, start=startarg))[3]
-  nograd$estimate <- exp(nograd$estimate)
-  grad$estimate <- exp(grad$estimate)
-  reslist <- c(reslist, list(nograd), list(grad))
-}
-for(type in 2:3) #CG with PR or BS updates
-{
-  nograd$time <- system.time(nograd <- mledist(x, dist="beta2", optim.method="CG", control=c(ctr, type=type), start=startarg))[3] 
-  grad$time <- system.time(grad <- mledist(x, dist="beta2", gr=grlnL, optim.method="CG", control=c(ctr, type=type), start=startarg))[3] 
-  nograd$estimate <- exp(nograd$estimate)
-  grad$estimate <- exp(grad$estimate)
-  reslist <- c(reslist, list(nograd), list(grad)) 
-}
-names(reslist) <- paste("exp.", fullname)
+expopt <- fitbench(x, distr="beta2", method="mle", grlnL=grbetaexp, start=startarg) 
+#get back to original parametrization
+for(ll in names(expopt))
+  expopt[[ll]][1:2, 1:2] <- exp(expopt[[ll]][1:2, 1:2])
 ```
 Then we extract the values of the fitted parameters, the value of the 
 corresponding log-likelihood and the number of counts to the function
@@ -325,34 +309,41 @@ numerically approximated one).
 getval <- function(x)
   c(x$estimate, loglik=x$loglik, x$counts, x$time)
 (trueval <- c(3, 3/4, lnL(c(3, 3/4), NULL, x, "dbeta")))
-```
-```{r, echo=FALSE}
-resNM <- sapply(reslist[grep("NM", names(reslist))], getval)
-resCGFR <- sapply(reslist[grep("CG FR", names(reslist))], getval)
-resCGPR <- sapply(reslist[grep("CG PR", names(reslist))], getval)
-resCGBS <- sapply(reslist[grep("CG BS", names(reslist))], getval)  
-resBFGS <- sapply(reslist[grep("BFGS", names(reslist))], getval)  
-rownames(resNM) <- rownames(resCGFR) <- rownames(resCGPR) <- rownames(resCGBS) <- rownames(resBFGS) <- c("fitted shape1", "fitted shape2", "fitted loglik", "func. eval. nb.", "grad. eval. nb.", "time (sec)")
+resNM <- cbind(unconstropt$NM, constropt$NM, expopt$NM)
+resCGFR <- cbind(unconstropt$CGFR, constropt$CGFR, expopt$CGFR)
+resCGPR <- cbind(unconstropt$CGPR, constropt$CGPR, expopt$CGPR)
+resCGBS <- cbind(unconstropt$CGBS, constropt$CGBS, expopt$CGBS)
+resBFGS <- cbind(unconstropt$BFGS, constropt$BFGS, expopt$BFGS)
+colnames(resNM) <- paste0(colnames(resNM), c("", "", " constr.", " constr.", " exp.", " exp."))
+colnames(resCGFR) <- paste0(colnames(resCGFR), c("", "", " constr.", " constr.", " exp.", " exp."))
+colnames(resCGPR) <- paste0(colnames(resCGPR), c("", "", " constr.", " constr.", " exp.", " exp."))
+colnames(resCGBS) <- paste0(colnames(resCGBS), c("", "", " constr.", " constr.", " exp.", " exp."))
+colnames(resBFGS) <- paste0(colnames(resBFGS), c("", "", " constr.", " constr.", " exp.", " exp."))
 ```
 Genetic algorithm
 ```{r}
-library(rgenoud)
+library(rgenoud, verbose=FALSE, quietly=TRUE)
 mygenoud <- function(fn, par, ...) 
 {
-	res <- genoud(fn, starting.values=par, ...)        
-	c(res, convergence=0)       
+  cnt <- 0
+  fn2 <- function(...) #wrap function to count eval nb
+  {
+    cnt <<- cnt+1
+    fn(...)
+  }
+	res <- genoud(fn2, starting.values=par, ...)        
+	c(res, convergence=0, counts=cnt)       
 }
-resgenoud$time <- system.time(resgenoud <- mledist(x, "beta", start=startarg, custom.optim= mygenoud, 
-        nvars=2, Domains=cbind(c(0,0), c(100, 100)), boundary.enforcement=1, 
-        hessian=TRUE, print.level=0))[3]
-
+resgenoud$time <- system.time(resgenoud <- mledist(x, "beta", start=startarg, 
+        custom.optim= mygenoud, nvars=2, Domains=cbind(c(0,0), c(100, 100)),
+        boundary.enforcement=1, hessian=TRUE, print.level=0))[3]
+getval(resgenoud)
 ```
 
 
 
 ## Results of numerical investigation
 Results are displayed in the following tables.
-
 
 ```{r, results='asis', echo=FALSE}
 kable(resNM)
@@ -379,16 +370,25 @@ Using `llsurface`, we plot the log-likehood surface around the true value (green
 llsurface(plot.min=c(0.1, 0.1), plot.max=c(7, 3), 
           plot.arg=c("shape1", "shape2"), nlevels=25,
           plot.np=50, obs=x, distr="beta", plot.type="contour")
-#points(resBFGS[1,"BFGS"], resBFGS[2,"BFGS"], pch="+", col="red")
+points(resBFGS[1,"BFGS"], resBFGS[2,"BFGS"], pch="+", col="red")
 points(3, 3/4, pch="x", col="green")
 ```
+
+We can simulate bootstrap replicates using the `bootdist` function.
+```{r, fig.width=5, fig.height=5}
+b1 <- bootdist(fitdist(x, "beta", method="mle", optim.method="BFGS"), niter=200, parallel="snow", ncpus=2)
+summary(b1)
+plot(b1, enhance=TRUE, trueval=c(3, 3/4))
+```
+
+
 
 ## Conclusion
 
 Based on the beta example, we observe that all methods converge to the same
 point. This is rassuring.  
 ```{r}
-#resBFGS[1:2,"BFGS"]
+resBFGS[1:2,"BFGS"]
 ```
 However, the number of function evaluation (and gradient evaluation) is
 very different from a method to another.
@@ -396,21 +396,24 @@ Futhermore, specifying the true gradient of the log-likelihood does not
 help at all the fitting procedure and generally slows down the convergence.
 The best methods only evaluates 17 times the log-likelihood.
 ```{r}
-cmin <- min(sapply(reslist, function(x) x$counts[1]))
-names(reslist)[sapply(reslist, function(x) x$counts[1]) == cmin]
+resall <- cbind(resNM, resCGFR, resCGPR, resCGBS, resBFGS)
+cmin <- min(resall["func. eval. nb.", ])
+colnames(resall)[resall["func. eval. nb.", ] == cmin]
 ```
-That is BFGS, Nelder-Mead and CG with Fletcher-Reeves update methods, all with
-the exponential transformation of the parameters.
+That is BFGS with the exponential transformation of the parameters.
 Since the exponential function is differentiable, the asymptotic properties are
-still preserved (Delta method) but for finite-sample this may produce a small bias.
-The second-best method is the BFGS with neither gradient, neither constaint, nor transform
+still preserved (by the Delta method) but for finite-sample this may produce a small bias.
+The second-best method is the BFGS with neither with gradient, neither with constaint, 
+nor with exponential transform
 ```{r}
-cmin <- sort(unique(sapply(reslist, function(x) x$counts[1])))[2]
-names(reslist)[sapply(reslist, function(x) x$counts[1]) == cmin]
+resall <- cbind(resNM, resCGFR, resCGPR, resCGBS, resBFGS)
+cmin <- sort(unique(resall["func. eval. nb.", ]))[2]
+colnames(resall)[resall["func. eval. nb.", ] == cmin]
 ```
-The difference in terms of fitted values are neglible.
+The difference between BFGS with and without exponential transformation 
+in terms of fitted values are neglible.
 ```{r}
-#resBFGS[, c("BFGS", "exp. BFGS")]
+resBFGS[, c("BFGS", "BFGS exp.")]
 ```
 
 
@@ -445,7 +448,7 @@ $\partial(x/\delta)^{s_2}/\partial s_2= \log(x/\delta)(x/\delta)^{s_2}$.
 
 
 ## `R` implementation
-As in the `fitdistrplus` package, we minimize the opposite of the log-likelihood: we implement the opposite of the gradient in `grlnL`.
+As in the `fitdistrplus` package, we minimize the opposite of the log-likelihood: we implement the opposite of the gradient in `grburrlnl`.
 ```{r}
 grburrlnl <- function(x, s1, s2, d)
 {
@@ -466,10 +469,11 @@ grburr <- function(par, obs, ...)
 ```{r, fig.height=5, fig.width=5}
 library(actuar)
 #(2) Burr distribution
-y <- rburr(n, 2, 3, scale=10)
+y <- rburr(n, 3, 4, scale=10)
+lnL(list(shape1=3, shape2=4, scale=10), NULL, y, dburr) 
 hist(y, prob=TRUE)
 lines(density(y), col="red")
-curve(dburr(x, 2, 3, scale=10), col="green", add=TRUE)
+curve(dburr(x, 3, 4, scale=10), col="green", add=TRUE)
 legend("topright", lty=1, col=c("red","green"), leg=c("empirical", "theoretical"))
 ```
 
@@ -477,28 +481,92 @@ legend("topright", lty=1, col=c("red","green"), leg=c("empirical", "theoretical"
 
 ## Fit Burr distribution
 
+We apply the same procedure as for the beta distribution: unconstrained optimization,
+constrained optimization by exponential penalty and exponential transformation of
+parameter followed by unconstrained optimization.
+
 ```{r}
-initpar <- list(shape1=10, shape2=10, scale=1)
-reslist <- NULL
-for(meth in c("BFGS", "Nelder", "CG")) #CG with FR update
-{
-  nograd$time <- system.time(nograd <- mledist(y, dist="burr", optim.method=meth, start =initpar, control=ctr))[3]
-  grad$time <- system.time(grad <- mledist(y, dist="burr", optim.method=meth, start =initpar, control=ctr, gr=grburr))[3]
-  reslist <- c(reslist, list(nograd), list(grad))
-}
-for(type in 2:3) #CG with PR or BS updates
-{
-  nograd$time <- system.time(nograd <- mledist(y, dist="burr", optim.method="CG", start =initpar, control=c(ctr, type=type)))[3]
-  grad$time <- system.time(grad <- mledist(y, dist="burr", optim.method="CG", start =initpar, control=c(ctr, type=type), gr=grburr))[3] 
-  reslist <- c(reslist, list(nograd), list(grad)) 
-}
-fullname <- c("BFGS", "NM", paste("CG", c("FR", "PR", "BS")))
-fullname <- as.vector(sapply(fullname, function(x) paste0(x, c("", " grad."))))
-names(reslist) <- fullname
+initpar <- list(shape1=5, shape2=5, scale=1)
+
+unconstropt <- fitbench(y, "burr", "mle", grburr, start=initpar, npar=3)
+constropt <- fitbench(x, "burr", "mle", grburr, custom.optim=constrOptim2, 
+                     start=initpar, ui = diag(3), ci = rep(0, 3), npar=3) 
+
+dburr2 <- function(x, shape1, shape2, scale, log)
+  dburr(x, exp(shape1), exp(shape2), scale=exp(scale), log=log)
+#take the log of the starting values
+startarg <- lapply(initpar, log)
+#redefine the gradient for the new parametrization
+grburrexp <- function(par, obs, ...) 
+  -rowSums(sapply(obs, function(x) 
+    grburrlnl(x, s1=exp(par[1]), s2=exp(par[2]), d=exp(par[3])) * c(exp(par[1]), exp(par[2]), exp(par[3]))
+    ))
+
+expopt <- fitbench(x, distr="burr2", method="mle", grlnL=grburrexp, start=startarg, npar=3) 
+#get back to original parametrization
+for(ll in names(expopt))
+  expopt[[ll]][1:3, 1:2] <- exp(expopt[[ll]][1:3, 1:2])
 ```
+Summarize the fitted values.
 ```{r}
-sapply(reslist[grep("NM", names(reslist))], getval)
-sapply(reslist[grep("CG", names(reslist))], getval)
-sapply(reslist[grep("BFGS", names(reslist))], getval)
+resNM <- cbind(unconstropt$NM, constropt$NM, expopt$NM)
+resCGFR <- cbind(unconstropt$CGFR, constropt$CGFR, expopt$CGFR)
+resCGPR <- cbind(unconstropt$CGPR, constropt$CGPR, expopt$CGPR)
+resCGBS <- cbind(unconstropt$CGBS, constropt$CGBS, expopt$CGBS)
+resBFGS <- cbind(unconstropt$BFGS, constropt$BFGS, expopt$BFGS)
+colnames(resNM) <- paste0(colnames(resNM), c("", "", " constr.", " constr.", " exp.", " exp."))
+colnames(resCGFR) <- paste0(colnames(resCGFR), c("", "", " constr.", " constr.", " exp.", " exp."))
+colnames(resCGPR) <- paste0(colnames(resCGPR), c("", "", " constr.", " constr.", " exp.", " exp."))
+colnames(resCGBS) <- paste0(colnames(resCGBS), c("", "", " constr.", " constr.", " exp.", " exp."))
+colnames(resBFGS) <- paste0(colnames(resBFGS), c("", "", " constr.", " constr.", " exp.", " exp."))
 ```
 
+```{r}
+resgenoud$time <- system.time(resgenoud <- mledist(x, "burr", start=initpar, 
+        custom.optim= mygenoud, nvars=3, Domains=cbind(c(0,0, 0), c(100, 100, 100)),
+        boundary.enforcement=1, hessian=TRUE, print.level=0))[3]
+getval(resgenoud)
+```
+
+
+
+## Results of numerical investigation
+Results are displayed in the following tables.
+
+```{r, results='asis', echo=FALSE}
+kable(resNM, digits=6)
+```
+
+```{r, results='asis', echo=FALSE}
+kable(resCGFR, digits=6)
+```
+
+```{r, results='asis', echo=FALSE}
+kable(resCGPR, digits=6)
+```
+
+```{r, results='asis', echo=FALSE}
+kable(resCGBS, digits=6)
+```
+
+```{r, results='asis', echo=FALSE}
+kable(resBFGS, digits=6)
+```
+
+
+Using `llsurface`, we plot the log-likehood surface around the true value (green) and the fitted parameters (red).
+```{r, fig.width=5, fig.height=5}
+llsurface(plot.min=c(0.1, 0.1), plot.max=c(10, 10), 
+          plot.arg=c("shape1", "shape2"), fix.arg=list(scale=10), nlevels=25,
+          plot.np=50, obs=x, distr="burr", plot.type="contour")
+points(resBFGS[1,"BFGS"], resBFGS[2,"BFGS"], pch="+", col="red")
+points(3, 4, pch="x", col="green")
+```
+
+```{r, fig.width=5, fig.height=5}
+llsurface(plot.min=c(0.1, 0.1), plot.max=c(20, 20), 
+          plot.arg=c("shape1", "scale"), fix.arg=list(shape2=3), nlevels=25,
+          plot.np=50, obs=x, distr="burr", plot.type="contour")
+points(resBFGS[1,"BFGS"], resBFGS[3,"BFGS"], pch="+", col="red")
+points(3, 10, pch="x", col="green")
+```
