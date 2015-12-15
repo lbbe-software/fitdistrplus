@@ -267,25 +267,7 @@ Call `mledist` with the default optimization function
 (`optim` implemented in `stats` package) 
 with and without the gradient `grlnL` for the different optimization methods.
 ```{r}
-fitbench(x, "beta", "mle", grlnL) 
-
-reslist <- NULL
-for(meth in c("BFGS", "Nelder", "CG")) #CG with FR update
-{
-  nograd$time <- system.time(nograd <- mledist(x, dist="beta", optim.method=meth, control=ctr))[3]
-  grad$time <- system.time(grad <- mledist(x, dist="beta", gr=grlnL, optim.method=meth, control=ctr))[3]
-  reslist <- c(reslist, list(nograd), list(grad))
-}
-for(type in 2:3) #CG with PR or BS updates
-{
-  nograd$time <- system.time(nograd <- mledist(x, dist="beta", optim.method="CG", control=c(ctr, type=type)))[3] 
-  grad$time <- system.time(grad <- mledist(x, dist="beta", gr=grlnL, optim.method="CG", control=c(ctr, type=type)))[3] 
-  reslist <- c(reslist, list(nograd), list(grad)) 
-}
-fullname <- c("BFGS", "NM", paste("CG", c("FR", "PR", "BS")))
-fullname <- as.vector(sapply(fullname, function(x) paste0(x, c("", " grad."))))
-names(reslist) <- fullname
-#lapply(reslist, names)
+unconstropt <- fitbench(x, "beta", "mle", grlnL) 
 ```
 Use the `constrOptim` function (still implemented in `stats` package)
 that allow linear inequality constraints by using a logarithmic barrier.
@@ -294,34 +276,29 @@ We first wrap this optimization function to fit the expected names of `mledist`.
 constrOptim2 <- function(par, fn, gr=NULL, ui, ci, ...)
   constrOptim(theta=unlist(par), f=fn, grad=gr, ui=ui, ci=ci, ...)
 
-for(meth in c("BFGS", "Nelder", "CG")) #CG with FR update
-{
-  nograd$time <- system.time(nograd <- mledist(x, dist="beta", custom.optim=constrOptim2,
-      ui = diag(2), ci = c(0, 0), optim.method=meth, control=ctr))[3]
-  grad$time <- system.time(grad <- mledist(x, dist="beta", gr=grlnL, custom.optim=constrOptim2,
-      ui = diag(2), ci = c(0, 0),  optim.method=meth, control=ctr))[3]
-  reslist <- c(reslist, list(nograd), list(grad))
-}
-for(type in 2:3) #CG with PR or BS updates
-{
-  nograd$time <- system.time(nograd <- mledist(x, dist="beta", custom.optim=constrOptim2,
-      ui = diag(2), ci = c(0, 0), optim.method="CG", control=c(ctr, type=type)))[3] 
-  grad$time <- system.time(grad <- mledist(x, dist="beta", gr=grlnL, custom.optim=constrOptim2,
-      ui = diag(2), ci = c(0, 0), optim.method="CG", control=c(ctr, type=type)))[3] 
-  reslist <- c(reslist, list(nograd), list(grad)) 
-}
-names(reslist)[(length(fullname)+1):length(reslist)] <- paste("constr.", fullname)
+constropt <- fitbench(x, "beta", "mle", grlnL, custom.optim=constrOptim2, ui = diag(2), ci = c(0, 0)) 
 ```
 Use a exp/log transformation of the shape parameters $\delta_1$ and $\delta_2$ 
 to ensure that the shape parameters are strictly positive.
 ```{r}
 dbeta2 <- function(x, shape1, shape2, log)
   dbeta(x, exp(shape1), exp(shape2), log=log)
-pbeta2 <- function(q, shape1, shape2, log.p)
-  pbeta(q, exp(shape1), exp(shape2), log.p=log.p)
+#pbeta2 <- function(q, shape1, shape2, log.p)
+#  pbeta(q, exp(shape1), exp(shape2), log.p=log.p)
 #take the log of the starting values
 startarg <- lapply(fitdistrplus:::start.arg.default(x, "beta"), log)
+#redefine the gradient for the new parametrization
+grlnLexp <- function(par, obs, ...) 
+  -rowSums(sapply(obs, function(x) 
+    grbetalnl(x, d1=exp(par[1]), d2=exp(par[2])) * c(exp(par[1]), exp(par[2]))
+    ))
 
+expopt <- fitbench(x, "beta2", "mle", grlnLexp, start=startarg) 
+expopt
+
+fullname <- c("BFGS", "NM", paste("CG", c("FR", "PR", "BS")))
+fullname <- as.vector(sapply(fullname, function(x) paste0(x, c("", " grad."))))
+reslist <- NULL
 for(meth in c("BFGS", "Nelder", "CG")) #CG with FR update
 {
   nograd$time <- system.time(nograd <- mledist(x, dist="beta2", optim.method="BFGS", control=ctr, start=startarg))[3]
@@ -338,7 +315,7 @@ for(type in 2:3) #CG with PR or BS updates
   grad$estimate <- exp(grad$estimate)
   reslist <- c(reslist, list(nograd), list(grad)) 
 }
-names(reslist)[(2*length(fullname)+1):length(reslist)] <- paste("exp.", fullname)
+names(reslist) <- paste("exp.", fullname)
 ```
 Then we extract the values of the fitted parameters, the value of the 
 corresponding log-likelihood and the number of counts to the function
@@ -402,7 +379,7 @@ Using `llsurface`, we plot the log-likehood surface around the true value (green
 llsurface(plot.min=c(0.1, 0.1), plot.max=c(7, 3), 
           plot.arg=c("shape1", "shape2"), nlevels=25,
           plot.np=50, obs=x, distr="beta", plot.type="contour")
-points(resBFGS[1,"BFGS"], resBFGS[2,"BFGS"], pch="+", col="red")
+#points(resBFGS[1,"BFGS"], resBFGS[2,"BFGS"], pch="+", col="red")
 points(3, 3/4, pch="x", col="green")
 ```
 
@@ -411,7 +388,7 @@ points(3, 3/4, pch="x", col="green")
 Based on the beta example, we observe that all methods converge to the same
 point. This is rassuring.  
 ```{r}
-resBFGS[1:2,"BFGS"]
+#resBFGS[1:2,"BFGS"]
 ```
 However, the number of function evaluation (and gradient evaluation) is
 very different from a method to another.
@@ -433,7 +410,7 @@ names(reslist)[sapply(reslist, function(x) x$counts[1]) == cmin]
 ```
 The difference in terms of fitted values are neglible.
 ```{r}
-resBFGS[, c("BFGS", "exp. BFGS")]
+#resBFGS[, c("BFGS", "exp. BFGS")]
 ```
 
 
