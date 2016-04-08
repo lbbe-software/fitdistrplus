@@ -220,7 +220,8 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
           names(opt$par) <- names(vstart)
         res <- list(estimate = opt$par, convergence = opt$convergence, loglik = -opt$value, 
                     hessian = opt$hessian, optim.function="optim", fix.arg = fix.arg, 
-                    optim.method=meth, fix.arg.fun = fix.arg.fun, weights = weights, counts=opt$counts)
+                    optim.method=meth, fix.arg.fun = fix.arg.fun, weights = weights, 
+                    counts=opt$counts, optim.message=opt$message)
     }
     else # Try to minimize the minus (log-)likelihood using a user-supplied optim function 
     {
@@ -258,7 +259,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
         res <- list(estimate = opt$par, convergence = opt$convergence, loglik = -opt$value, 
                       hessian = opt$hessian, optim.function = custom.optim, fix.arg = fix.arg,
                       method = method.cust, fix.arg.fun = fix.arg.fun, weights = weights, 
-                    counts=opt$counts)        
+                      counts=opt$counts, optim.message=opt$message)        
     }   
         
     return(res) 
