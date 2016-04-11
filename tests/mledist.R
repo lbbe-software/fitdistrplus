@@ -353,4 +353,7 @@ mledist(x3, "zmgeom", fix.arg=initp1, start=list(p2=1/2))[c("estimate", "fix.arg
 mledist(x4, "zmgeom", fix.arg=initp1, start=list(p2=1/2))[c("estimate", "fix.arg")]
 
 
-
+# (18) test the component optim.message
+x <- rnorm(1000)
+#change parameter to obtain unsuccessful convergence
+mledist(x, "norm", control=list(maxit=2), start=list(mean=1e5, sd=1), optim.method="L-BFGS-B", lower=0)

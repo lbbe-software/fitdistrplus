@@ -87,3 +87,10 @@ x <- rexp(10)
 res <- mgedist(x, "norm2", start=list(a=1))
 #as in 
 attr(try(log("a"), silent=TRUE), "condition")
+
+
+# (7) test the component optim.message
+x <- rnorm(1000)
+#change parameter to obtain unsuccessful convergence
+mgedist(x, "norm", control=list(maxit=2), start=list(mean=1e5, sd=1), optim.method="L-BFGS-B", lower=0)
+

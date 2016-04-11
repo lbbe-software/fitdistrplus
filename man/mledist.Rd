@@ -43,7 +43,7 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
     Should be \code{NULL} or a numeric vector. If non-\code{NULL}, 
     weighted MLE is used, otherwise ordinary MLE.}
 \item{silent}{A logical to remove or show warnings when bootstraping.}    
-\item{\dots}{further arguments passed to the \code{optim} or \code{custom.optim} function.}
+\item{\dots}{further arguments passed to the \code{\link{optim}} or \code{custom.optim} function.}
 }
 
 \details{
@@ -87,11 +87,11 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
     the constraints on parameters specified in arguments \code{lower} and \code{upper}. 
     If non-trivial bounds are supplied, this method will be automatically selected, with a 
     warning.
-    When errors are raised by \code{optim}, it's a good idea to start by adding traces during
+    When errors are raised by \code{\link{optim}}, it's a good idea to start by adding traces during
     the optimization process by adding \code{control=list(trace=1, REPORT=1)}.
     
     If \code{custom.optim} is not \code{NULL}, then the user-supplied function is used 
-    instead of the R base \code{optim}. The \code{custom.optim} must have (at least) 
+    instead of the R base \code{\link{optim}}. The \code{custom.optim} must have (at least) 
     the following arguments
     \code{fn} for the function to be optimized, \code{par} for the initialized parameters.
     Internally the function to be optimized will also have other arguments, 
@@ -101,16 +101,19 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
     out a MINIMIZATION. 
     Finally, it should return at least the following components \code{par} for the estimate, 
     \code{convergence} for the convergence code, \code{value} for \code{fn(par)}, 
-    \code{hessian} and \code{counts} for the number of calls (function and gradient), 
+    \code{hessian}, \code{counts} for the number of calls (function and gradient)
+    and \code{message} (default to \code{NULL}) for the error message 
+    when \code{custom.optim} raises an error, 
     see the returned value of \code{\link{optim}}. 
     See examples in \code{\link{fitdist}} and \code{\link{fitdistcens}}.
     
     Optionally, a vector of \code{weights} can be used in the fitting process. 
     By default (when \code{weigths=NULL}), ordinary MLE is carried out, otherwise 
     the specified weights are used to balance the log-likelihood contributions.
-    It is not yet possible to take into account weighths in functions plotdist, plotdistcens,
-    plot.fitdist, 
-    plot.fitdistcens, cdfcomp, cdfcompcens, denscomp, ppcomp, qqcomp, gofstat and descdist 
+    It is not yet possible to take into account weighths in functions \code{plotdist}, 
+    \code{plotdistcens}, \code{plot.fitdist}, \code{plot.fitdistcens}, \code{cdfcomp}, 
+    \code{cdfcompcens}, \code{denscomp}, \code{ppcomp}, \code{qqcomp}, \code{gofstat} 
+    and \code{descdist}
     (developments planned in the future).
 
     
@@ -121,27 +124,27 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
 \value{ 
     \code{mledist} returns a list with following components,
     \item{estimate}{ the parameter estimates.}
-    \item{convergence}{ an integer code for the convergence of \code{optim} defined as below
+    \item{convergence}{ an integer code for the convergence of \code{\link{optim}} defined as below
     or defined by the user in the user-supplied optimization function. 
     
         \code{0} indicates successful convergence.
         
-        \code{1} indicates that the iteration limit of \code{optim} has been reached.
+        \code{1} indicates that the iteration limit of \code{\link{optim}} has been reached.
 
         \code{10} indicates degeneracy of the Nealder-Mead simplex.
 
-        \code{100} indicates that \code{optim} encountered an internal error.
+        \code{100} indicates that \code{\link{optim}} encountered an internal error.
         }
         
     \item{loglik}{ the log-likelihood value.}
-    \item{hessian}{ a symmetric matrix computed by \code{optim} as an estimate of the Hessian
+    \item{hessian}{ a symmetric matrix computed by \code{\link{optim}} as an estimate of the Hessian
         at the solution found or computed in the user-supplied optimization function.
         It is used in \code{fitdist} to estimate standard errors. }
     \item{optim.function}{ the name of the optimization function used for maximum likelihood.}
     \item{fix.arg}{ the named list giving the values of parameters of the named distribution
         that must kept fixed rather than estimated by maximum likelihood or \code{NULL} 
         if there are no such parameters. }
-    \item{optim.method}{when \code{optim} is used, the name of the algorithm used, 
+    \item{optim.method}{when \code{\link{optim}} is used, the name of the algorithm used, 
     \code{NULL} otherwise.}
     \item{fix.arg.fun}{the function used to set the value of \code{fix.arg} or \code{NULL}.}
     \item{weights}{the vector of weigths used in the estimation process or \code{NULL}.}
@@ -149,7 +152,7 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
     to the log-likelihood function and its gradient respectively. 
     This excludes those calls needed to compute the Hessian, if requested, 
     and any calls to log-likelihood function to compute a finite-difference
-    approximation to the gradient. \code{counts} is returned by \code{optim}
+    approximation to the gradient. \code{counts} is returned by \code{\link{optim}}
     or the user-supplied function or set to \code{NULL}.}
     \item{optim.message}{A character string giving any additional information 
     returned by the optimizer, or \code{NULL}.}

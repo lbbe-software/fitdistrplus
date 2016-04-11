@@ -34,7 +34,7 @@ mgedist(data, distr, gof = "CvM", start = NULL, fix.arg = NULL, optim.method = "
 \item{upper}{ Right bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
 \item{custom.optim}{a function carrying the optimization.}
 \item{silent}{A logical to remove or show warnings when bootstraping.}    
-\item{\dots}{further arguments passed to the \code{optim} or \code{custom.optim} function.}
+\item{\dots}{further arguments passed to the \code{\link{optim}} or \code{custom.optim} function.}
 }
 
 \details{
@@ -64,19 +64,19 @@ mgedist(data, distr, gof = "CvM", start = NULL, fix.arg = NULL, optim.method = "
 \value{ 
     \code{mgedist} returns a list with following components,
     \item{estimate}{ the parameter estimates.}
-    \item{convergence}{ an integer code for the convergence of \code{optim} defined as below
+    \item{convergence}{ an integer code for the convergence of \code{\link{optim}} defined as below
     or defined by the user in the user-supplied optimization function. 
     
         \code{0} indicates successful convergence.
         
-        \code{1} indicates that the iteration limit of \code{optim} has been reached.
+        \code{1} indicates that the iteration limit of \code{\link{optim}} has been reached.
 
         \code{10} indicates degeneracy of the Nealder-Mead simplex.
 
-        \code{100} indicates that \code{optim} encountered an internal error.
+        \code{100} indicates that \code{\link{optim}} encountered an internal error.
         }
     \item{value}{the value of the statistic distance corresponding to estimate.}    
-    \item{hessian}{ a symmetric matrix computed by \code{optim} as an estimate of the Hessian
+    \item{hessian}{ a symmetric matrix computed by \code{\link{optim}} as an estimate of the Hessian
         at the solution found or computed in the user-supplied optimization function. }
     \item{gof}{ the code of the goodness-of-fit distance maximized. }   
     \item{optim.function}{ the name of the optimization function used.  }
@@ -84,15 +84,17 @@ mgedist(data, distr, gof = "CvM", start = NULL, fix.arg = NULL, optim.method = "
     \item{fix.arg}{ the named list giving the values of parameters of the named distribution
         that must kept fixed rather than estimated by maximum likelihood or \code{NULL} 
         if there are no such parameters. }
-    \item{optim.method}{when \code{optim} is used, the name of the algorithm used, 
+    \item{optim.method}{when \code{\link{optim}} is used, the name of the algorithm used, 
     \code{NULL} otherwise.}
     \item{fix.arg.fun}{the function used to set the value of \code{fix.arg} or \code{NULL}.}
     \item{counts}{A two-element integer vector giving the number of calls 
     to the log-likelihood function and its gradient respectively. 
     This excludes those calls needed to compute the Hessian, if requested, 
     and any calls to log-likelihood function to compute a finite-difference
-    approximation to the gradient. \code{counts} is returned by \code{optim}
+    approximation to the gradient. \code{counts} is returned by \code{\link{optim}}
     or the user-supplied function or set to \code{NULL}.}
+    \item{optim.message}{A character string giving any additional information 
+    returned by the optimizer, or \code{NULL}.}
 }
 
 

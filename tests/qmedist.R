@@ -104,4 +104,8 @@ f4$loglik
 median(x)
 median(tail(x, 50))
 
+# (9) test the component optim.message
+x <- rnorm(1000)
+#change parameter to obtain unsuccessful convergence
+qmedist(x, "norm", probs=1:2/3, control=list(maxit=2), start=list(mean=1e5, sd=1), optim.method="L-BFGS-B", lower=0)
 

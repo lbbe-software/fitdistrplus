@@ -132,8 +132,11 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             estimate<-c(location=m, scale=scale)
             order <- 1:2            
        }
-        res <- list(estimate=estimate, convergence=0, order=order, memp=NULL)
+        res <- list(estimate=estimate, convergence=0, value=NULL, hessian=NULL,
+                    optim.function=NULL, order=order, memp=NULL, counts=NULL,
+                    optim.message=NULL)
 		    opt.meth <- fix.arg.fun <- NULL
+		    
     }else #an optimimisation has to be done, where fix.arg and start can be a function
     {
         start.arg <- start #to avoid confusion with the start() function of stats pkg (check is done lines 87-100)
@@ -262,7 +265,7 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
               names(opt$par) <- names(vstart)
             res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
                         hessian = opt$hessian, optim.function="optim", order=order, 
-                        memp=memp, counts=opt$counts)  
+                        memp=memp, counts=opt$counts, optim.message=opt$message)  
             
         }else # Try to minimize the stat distance using a user-supplied optim function 
         {
@@ -291,7 +294,7 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             
             res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
                         hessian = opt$hessian, optim.function=custom.optim, order=order, 
-                        memp=memp, counts=opt$counts)  
+                        memp=memp, counts=opt$counts, optim.message=opt$message)  
             
         }   
         
