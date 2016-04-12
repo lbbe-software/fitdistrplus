@@ -357,3 +357,16 @@ mledist(x4, "zmgeom", fix.arg=initp1, start=list(p2=1/2))[c("estimate", "fix.arg
 x <- rnorm(1000)
 #change parameter to obtain unsuccessful convergence
 mledist(x, "norm", control=list(maxit=2), start=list(mean=1e5, sd=1), optim.method="L-BFGS-B", lower=0)
+
+
+# (19) management of bounds in optim/constrOptim
+x <- rexp(100)
+mledist(x, "exp")
+mledist(x, "exp", lower=0, optim.method="Nelder-Mead")
+mledist(x, "exp", lower=0, optim.method="BFGS")
+
+x <- rbeta(100, 3/2, 7/3)
+mledist(x, "beta", optim.method="Nelder")
+#as the result of optim(c(-1.2,1), fr, method = "Nelder-Mead", hessian=TRUE, gr=NULL, lower=-Inf, upper=Inf) from optim() example
+mledist(x, "beta", lower=0, optim.method="Nelder-Mead")
+mledist(x, "beta", lower=0, optim.method="BFGS")

@@ -9,7 +9,8 @@
 
 \usage{
 mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default", 
-    lower = -Inf, upper = Inf, custom.optim = NULL, weights = NULL, silent = TRUE, \dots)
+    lower = -Inf, upper = Inf, custom.optim = NULL, weights = NULL, silent = TRUE, 
+    gradient = NULL, \dots)
 }
 
 \arguments{
@@ -43,6 +44,9 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
     Should be \code{NULL} or a numeric vector. If non-\code{NULL}, 
     weighted MLE is used, otherwise ordinary MLE.}
 \item{silent}{A logical to remove or show warnings when bootstraping.}    
+\item{gradient}{A function to return the gradient for the \code{"BFGS"}, \code{"CG"} 
+and \code{"L-BFGS-B"} methods. If it is \code{NULL}, a finite-difference approximation will be used,
+see details.}
 \item{\dots}{further arguments passed to the \code{\link{optim}} or \code{custom.optim} function.}
 }
 
@@ -78,15 +82,17 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
     same names as in the d,p,q,r functions of the chosen distribution.
 
     When \code{custom.optim=NULL} (the default), maximum likelihood estimations 
-    of the distribution parameters are computed with the R base \code{\link{optim}}.
-    Direct optimization of the log-likelihood is performed (using \code{\link{optim}}) by default with 
-    the \code{"Nelder-Mead"} method for distributions characterized by more than one parameter and
-    the \code{"BFGS"} method for distributions characterized by only one parameter, or 
-    with the method specified in the argument \code{"optim.method"} if not \code{"default"}.
-    Box-constrainted optimization may be used with the method \code{"L-BFGS-B"}, using 
-    the constraints on parameters specified in arguments \code{lower} and \code{upper}. 
-    If non-trivial bounds are supplied, this method will be automatically selected, with a 
-    warning.
+    of the distribution parameters are computed with the R base \code{\link{optim}} or \code{\link{constrOptim}}.
+    If no finite bounds (\code{lower=-Inf} and \code{upper=Inf}) are supplied,  
+    \code{\link{optim}} is used with the method specified by \code{optim.method}.
+    Note that \code{optim.method="default"} means \code{optim.method="Nelder-Mead"} for distributions 
+    with at least two parameters and \code{optim.method="BFGS"} for distributions with only one parameter.
+    If finite bounds are supplied (among \code{lower} and \code{upper}), \code{\link{constrOptim}}
+    is used when \code{optim.method="Nelder-Mead"} or \code{gradient != NULL}. 
+    Otherwise \code{\link{optim}} is used when \code{optim.method="L-BFGS-B"} or \code{optim.method="BFGS"}
+    and the gradient is not supplied. Currently, \code{"SANN"}, \code{"CG"} cannot be used with bounds
+    except when gradient is supplied (same behavior as \code{\link{constrOptim}}).
+    
     When errors are raised by \code{\link{optim}}, it's a good idea to start by adding traces during
     the optimization process by adding \code{control=list(trace=1, REPORT=1)}.
     
@@ -124,7 +130,8 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
 \value{ 
     \code{mledist} returns a list with following components,
     \item{estimate}{ the parameter estimates.}
-    \item{convergence}{ an integer code for the convergence of \code{\link{optim}} defined as below
+    \item{convergence}{ an integer code for the convergence of 
+    \code{\link{optim}}/\code{\link{constrOptim}} defined as below
     or defined by the user in the user-supplied optimization function. 
     
         \code{0} indicates successful convergence.
@@ -136,12 +143,12 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
         \code{100} indicates that \code{\link{optim}} encountered an internal error.
         }
         
-    \item{loglik}{ the log-likelihood value.}
-    \item{hessian}{ a symmetric matrix computed by \code{\link{optim}} as an estimate of the Hessian
+    \item{loglik}{the log-likelihood value.}
+    \item{hessian}{a symmetric matrix computed by \code{\link{optim}} as an estimate of the Hessian
         at the solution found or computed in the user-supplied optimization function.
         It is used in \code{fitdist} to estimate standard errors. }
-    \item{optim.function}{ the name of the optimization function used for maximum likelihood.}
-    \item{fix.arg}{ the named list giving the values of parameters of the named distribution
+    \item{optim.function}{the name of the optimization function used for maximum likelihood.}
+    \item{fix.arg}{the named list giving the values of parameters of the named distribution
         that must kept fixed rather than estimated by maximum likelihood or \code{NULL} 
         if there are no such parameters. }
     \item{optim.method}{when \code{\link{optim}} is used, the name of the algorithm used, 
@@ -161,8 +168,9 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
 
 \seealso{ 
     \code{\link{mmedist}}, \code{\link{qmedist}}, \code{\link{mgedist}}, 
-    \code{\link{fitdist}},\code{\link{fitdistcens}}, \code{\link{optim}},
-    \code{\link{bootdistcens}} and \code{\link{bootdist}}.
+    \code{\link{fitdist}},\code{\link{fitdistcens}} for other estimation methods.
+    \code{\link{optim}}, \code{\link{constrOptim}} for optimization routines.
+    \code{\link{bootdistcens}} and \code{\link{bootdist}} for bootstrap.
 }
 
 \references{ 

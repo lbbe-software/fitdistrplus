@@ -25,7 +25,7 @@
 ### the mle function of the stat package.
 
 mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="default", 
-    lower=-Inf, upper=Inf, custom.optim=NULL, weights=NULL, silent=TRUE, ...)
+    lower=-Inf, upper=Inf, custom.optim=NULL, weights=NULL, silent=TRUE, gradient=NULL, ...)
     # data may correspond to a vector for non censored data or to
     # a dataframe of two columns named left and right for censored data 
 {
@@ -37,6 +37,8 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
     
     if (!exists(ddistname, mode="function"))
         stop(paste("The ", ddistname, " function must be defined"))
+    if(is.null(custom.optim))
+      optim.method <- match.arg(optim.method, c("default", "Nelder-Mead", "BFGS", "CG", "L-BFGS-B", "SANN", "Brent"))
 
     start.arg <- start #to avoid confusion with the start() function of stats pkg (check is done lines 87-100)
     if(is.vector(start.arg)) #backward compatibility
@@ -92,7 +94,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
       stop(chfixstt$txt)
     #unlist starting values as needed in optim()
     if(is.function(chfixstt$start.arg))
-      vstart <- chfixstt$start.arg(data)
+      vstart <- unlist(chfixstt$start.arg(data))
     else
       vstart <- unlist(chfixstt$start.arg)
     if(is.function(fix.arg)) #function
@@ -172,35 +174,78 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
     }else
         stop("not yet implemented.")
    
-    # Choice of the optimization method    
-    if (optim.method == "default")
-    {
-        if(is.infinite(lower) && is.infinite(upper))
-        { 
-            if (length(vstart) > 1) 
-                meth <- "Nelder-Mead"
-            else 
-                meth <- "BFGS"
-        }else
-            meth <- "L-BFGS-B"
-    }else
-        meth <- optim.method
-        
+    #get warning value    
     owarn <- getOption("warn")
     
     # Try to minimize the minus (log-)likelihood using the base R optim function
     if(is.null(custom.optim))
     {
+        hasbound <- any(is.finite(lower) | is.finite(upper))
+        
+        # Choice of the optimization method  
+        if (optim.method == "default")
+        {
+          meth <- ifelse(length(vstart) > 1, "Nelder-Mead", "BFGS") 
+        }else
+          meth <- optim.method
+        
+        if(meth == "BFGS" && hasbound && is.null(gradient))
+          meth <- "L-BFGS-B"
+        if(!meth %in% c("L-BFGS-B", "Nelder-Mead", "Brent") && hasbound && is.null(gradient))
+          stop("The gradient must be provided when bounds are supplied and optim.method is neither (L-)BFGS(-B) nor Nelder-Mead.")
+        
         options(warn=ifelse(silent, -1, 0))
-        if (!cens)
-            opttryerror <- try(opt <- optim(par=vstart, fn=fnobj, fix.arg=fix.arg, obs=data, 
+        if(!hasbound || (meth %in% c("L-BFGS-B", "Nelder-Mead", "Brent") && is.null(gradient)) )
+        {  
+          if(!cens)
+          {
+            opttryerror <- try(opt <- optim(par=vstart, fn=fnobj, fix.arg=fix.arg, obs=data, gr=gradient,
                 ddistnam=ddistname, hessian=TRUE, method=meth, lower=lower, upper=upper, 
-                ...), silent=TRUE)        
-        else 
-            opttryerror <- try(opt <- optim(par=vstart, fn=fnobjcens, fix.arg=fix.arg, 
+                ...), silent=TRUE)       
+          }else if(cens)
+          {
+            opttryerror <- try(opt <- optim(par=vstart, fn=fnobjcens, fix.arg=fix.arg, gr=gradient,
                 rcens=rcens, lcens=lcens, icens=icens, ncens=ncens, ddistnam=ddistname, 
                 pdistnam=pdistname, hessian=TRUE, method=meth, lower=lower, upper=upper, 
                 ...), silent=TRUE)   
+          }else
+            stop("internal error in mledist.")
+          opt.fun <- "optim"
+        }else
+        { 
+          #recycle parameters
+          npar <- length(vstart) #as in optim() line 34
+          lower <- as.double(rep_len(lower, npar)) #as in optim() line 64
+          upper <- as.double(rep_len(upper, npar))
+          
+          # constraints are : Mat %*% theta >= Bnd, i.e. 
+          # +1 * theta[i] >= lower[i]; 
+          # -1 * theta[i] >= -upper[i]
+          
+          #select rows from the identity matrix
+          haslow <- is.finite(lower)
+          Mat <- diag(npar)[haslow, ]
+          #select rows from the opposite of the identity matrix
+          hasupp <- is.finite(upper)
+          Mat <- rbind(Mat, -diag(npar)[hasupp, ])
+          colnames(Mat) <- names(vstart)
+          rownames(Mat) <- paste0("constr", 1:NROW(Mat))
+          
+          #select the bounds
+          Bnd <- c(lower[is.finite(lower)], -upper[is.finite(upper)])
+          names(Bnd) <- paste0("constr", 1:length(Bnd))
+          
+          if(!cens)
+            opttryerror <- try(opt <- constrOptim(theta=vstart, f=fnobj, ui=Mat, ci=Bnd, grad=gradient,
+                fix.arg=fix.arg, obs=data, ddistnam=ddistname, hessian=!is.null(gradient), method=meth, 
+                ...), silent=TRUE)
+          else
+            opttryerror <- try(opt <- constrOptim(theta=vstart, f=fnobjcens, ui=Mat, ci=Bnd, grad=gradient,
+                ddistnam=ddistname, rcens=rcens, lcens=lcens, icens=icens, ncens=ncens, pdistnam=pdistname,
+                fix.arg=fix.arg, obs=data, hessian=!is.null(gradient), method=meth, 
+                ...), silent=TRUE)
+          opt.fun <- "constrOptim"
+        }
         options(warn=owarn)
         
         if (inherits(opttryerror, "try-error"))
@@ -208,7 +253,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
             warnings("The function optim encountered an error and stopped.")
             if(getOption("show.error.messages")) print(attr(opttryerror, "condition"))          
             return(list(estimate = rep(NA, length(vstart)), convergence = 100, loglik = NA, 
-                        hessian = NA, optim.function="optim", fix.arg = fix.arg, 
+                        hessian = NA, optim.function=opt.fun, fix.arg = fix.arg, 
                         optim.method=meth, fix.arg.fun = fix.arg.fun, counts=c(NA, NA)))
         }
         
@@ -219,7 +264,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
         if(is.null(names(opt$par)))
           names(opt$par) <- names(vstart)
         res <- list(estimate = opt$par, convergence = opt$convergence, loglik = -opt$value, 
-                    hessian = opt$hessian, optim.function="optim", fix.arg = fix.arg, 
+                    hessian = opt$hessian, optim.function=opt.fun, fix.arg = fix.arg, 
                     optim.method=meth, fix.arg.fun = fix.arg.fun, weights = weights, 
                     counts=opt$counts, optim.message=opt$message)
     }
