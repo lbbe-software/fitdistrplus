@@ -190,61 +190,102 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
           meth <- optim.method
         
         if(meth == "BFGS" && hasbound && is.null(gradient))
+        {
           meth <- "L-BFGS-B"
-        if(!meth %in% c("L-BFGS-B", "Nelder-Mead", "Brent") && hasbound && is.null(gradient))
-          stop("The gradient must be provided when bounds are supplied and optim.method is neither (L-)BFGS(-B) nor Nelder-Mead.")
+          txt1 <- "The BFGS method cannot be used with bounds without provided the gradient."
+          txt2 <- "The method is changed to L-BFGS-B."
+          warning(paste(txt1, txt2))
+        }
         
         options(warn=ifelse(silent, -1, 0))
-        if(!hasbound || (meth %in% c("L-BFGS-B", "Nelder-Mead", "Brent") && is.null(gradient)) )
-        {  
-          if(!cens)
+        #select optim or constrOptim
+        if(hasbound) #finite bounds are provided
+        {
+          if(!is.null(gradient))
           {
-            opttryerror <- try(opt <- optim(par=vstart, fn=fnobj, fix.arg=fix.arg, obs=data, gr=gradient,
-                ddistnam=ddistname, hessian=TRUE, method=meth, lower=lower, upper=upper, 
-                ...), silent=TRUE)       
-          }else if(cens)
+            opt.fun <- "constrOptim"
+          }else #gradient == NULL
           {
-            opttryerror <- try(opt <- optim(par=vstart, fn=fnobjcens, fix.arg=fix.arg, gr=gradient,
-                rcens=rcens, lcens=lcens, icens=icens, ncens=ncens, ddistnam=ddistname, 
-                pdistnam=pdistname, hessian=TRUE, method=meth, lower=lower, upper=upper, 
-                ...), silent=TRUE)   
-          }else
-            stop("internal error in mledist.")
+            if(meth == "Nelder-Mead")
+              opt.fun <- "constrOptim"
+            else if(meth %in% c("L-BFGS-B", "Brent"))
+              opt.fun <- "optim"
+            else
+            {
+              txt1 <- paste("The method", meth, "cannot be used by constrOptim() nor optim() without gradient and bounds.")
+              txt2 <- "Only optimization methods L-BFGS-B, Brent and Nelder-Mead can be used in such case."
+              stop(paste(txt1, txt2))
+            }
+          }
+          if(opt.fun == "constrOptim")
+          {
+            #recycle parameters
+            npar <- length(vstart) #as in optim() line 34
+            lower <- as.double(rep_len(lower, npar)) #as in optim() line 64
+            upper <- as.double(rep_len(upper, npar))
+            
+            # constraints are : Mat %*% theta >= Bnd, i.e. 
+            # +1 * theta[i] >= lower[i]; 
+            # -1 * theta[i] >= -upper[i]
+            
+            #select rows from the identity matrix
+            haslow <- is.finite(lower)
+            Mat <- diag(npar)[haslow, ]
+            #select rows from the opposite of the identity matrix
+            hasupp <- is.finite(upper)
+            Mat <- rbind(Mat, -diag(npar)[hasupp, ])
+            colnames(Mat) <- names(vstart)
+            rownames(Mat) <- paste0("constr", 1:NROW(Mat))
+            
+            #select the bounds
+            Bnd <- c(lower[is.finite(lower)], -upper[is.finite(upper)])
+            names(Bnd) <- paste0("constr", 1:length(Bnd))
+            
+            initconstr <- Mat %*% vstart - Bnd
+            if(any(initconstr < 0))
+              stop("Starting values must be in the feasible region.")
+            
+            if(!cens)
+            {
+              opttryerror <- try(opt <- constrOptim(theta=vstart, f=fnobj, ui=Mat, ci=Bnd, grad=gradient,
+                    fix.arg=fix.arg, obs=data, ddistnam=ddistname, hessian=!is.null(gradient), method=meth, 
+                    ...), silent=TRUE)
+            }
+            else #cens == TRUE
+              opttryerror <- try(opt <- constrOptim(theta=vstart, f=fnobjcens, ui=Mat, ci=Bnd, grad=gradient,
+                    ddistnam=ddistname, rcens=rcens, lcens=lcens, icens=icens, ncens=ncens, pdistnam=pdistname,
+                    fix.arg=fix.arg, obs=data, hessian=!is.null(gradient), method=meth, 
+                    ...), silent=TRUE)
+            if(!inherits(opttryerror, "try-error"))
+              if(length(opt$counts) == 1) #appears when the initial point is a solution
+                opt$counts <- c(opt$counts, NA)
+            
+            
+          }else #opt.fun == "optim"
+          {
+            if(!cens)
+              opttryerror <- try(opt <- optim(par=vstart, fn=fnobj, fix.arg=fix.arg, obs=data, gr=gradient,
+                                              ddistnam=ddistname, hessian=TRUE, method=meth, lower=lower, upper=upper, 
+                                              ...), silent=TRUE)       
+            else #cens == TRUE
+              opttryerror <- try(opt <- optim(par=vstart, fn=fnobjcens, fix.arg=fix.arg, gr=gradient,
+                                              rcens=rcens, lcens=lcens, icens=icens, ncens=ncens, ddistnam=ddistname, 
+                                              pdistnam=pdistname, hessian=TRUE, method=meth, lower=lower, upper=upper, 
+                                              ...), silent=TRUE)   
+          }
+          
+        }else #hasbound == FALSE
+        {
           opt.fun <- "optim"
-        }else
-        { 
-          #recycle parameters
-          npar <- length(vstart) #as in optim() line 34
-          lower <- as.double(rep_len(lower, npar)) #as in optim() line 64
-          upper <- as.double(rep_len(upper, npar))
-          
-          # constraints are : Mat %*% theta >= Bnd, i.e. 
-          # +1 * theta[i] >= lower[i]; 
-          # -1 * theta[i] >= -upper[i]
-          
-          #select rows from the identity matrix
-          haslow <- is.finite(lower)
-          Mat <- diag(npar)[haslow, ]
-          #select rows from the opposite of the identity matrix
-          hasupp <- is.finite(upper)
-          Mat <- rbind(Mat, -diag(npar)[hasupp, ])
-          colnames(Mat) <- names(vstart)
-          rownames(Mat) <- paste0("constr", 1:NROW(Mat))
-          
-          #select the bounds
-          Bnd <- c(lower[is.finite(lower)], -upper[is.finite(upper)])
-          names(Bnd) <- paste0("constr", 1:length(Bnd))
-          
           if(!cens)
-            opttryerror <- try(opt <- constrOptim(theta=vstart, f=fnobj, ui=Mat, ci=Bnd, grad=gradient,
-                fix.arg=fix.arg, obs=data, ddistnam=ddistname, hessian=!is.null(gradient), method=meth, 
-                ...), silent=TRUE)
-          else
-            opttryerror <- try(opt <- constrOptim(theta=vstart, f=fnobjcens, ui=Mat, ci=Bnd, grad=gradient,
-                ddistnam=ddistname, rcens=rcens, lcens=lcens, icens=icens, ncens=ncens, pdistnam=pdistname,
-                fix.arg=fix.arg, obs=data, hessian=!is.null(gradient), method=meth, 
-                ...), silent=TRUE)
-          opt.fun <- "constrOptim"
+            opttryerror <- try(opt <- optim(par=vstart, fn=fnobj, fix.arg=fix.arg, obs=data, gr=gradient,
+                                            ddistnam=ddistname, hessian=TRUE, method=meth, lower=lower, upper=upper, 
+                                            ...), silent=TRUE)       
+          else #cens == TRUE
+            opttryerror <- try(opt <- optim(par=vstart, fn=fnobjcens, fix.arg=fix.arg, gr=gradient,
+                                            rcens=rcens, lcens=lcens, icens=icens, ncens=ncens, ddistnam=ddistname, 
+                                            pdistnam=pdistname, hessian=TRUE, method=meth, lower=lower, upper=upper, 
+                                            ...), silent=TRUE) 
         }
         options(warn=owarn)
         

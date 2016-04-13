@@ -361,12 +361,16 @@ mledist(x, "norm", control=list(maxit=2), start=list(mean=1e5, sd=1), optim.meth
 
 # (19) management of bounds in optim/constrOptim
 x <- rexp(100)
-mledist(x, "exp")
-mledist(x, "exp", lower=0, optim.method="Nelder-Mead")
-mledist(x, "exp", lower=0, optim.method="BFGS")
+mledist(x, "exp") #optim, BFGS
+mledist(x, "exp", optim.method="Brent", lower=0, upper=100) #optim, Brent
+mledist(x, "exp", optim.method="Nelder-Mead") #optim, Nelder-Mead
+mledist(x, "exp", lower=0, optim.method="Nelder-Mead") #constrOptim, Nelder-Mead
+mledist(x, "exp", lower=0, optim.method="BFGS") #optim, L-BFGS-B
+
 
 x <- rbeta(100, 3/2, 7/3)
-mledist(x, "beta", optim.method="Nelder")
+mledist(x, "beta", optim.method="Nelder") #optim, Nelder-Mead
+mledist(x, "beta", lower=0, optim.method="Nelder-Mead") #constrOptim, Nelder-Mead
 #as the result of optim(c(-1.2,1), fr, method = "Nelder-Mead", hessian=TRUE, gr=NULL, lower=-Inf, upper=Inf) from optim() example
-mledist(x, "beta", lower=0, optim.method="Nelder-Mead")
-mledist(x, "beta", lower=0, optim.method="BFGS")
+
+mledist(x, "beta", lower=0, optim.method="BFGS") #optim, L-BFGS-B
