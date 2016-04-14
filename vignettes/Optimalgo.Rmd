@@ -1,6 +1,6 @@
 ---
-title: "Which optimization algorithm to choose?"
-author: "Marie Laure Delignette Muller, Christophe Dutang"
+title: Which optimization algorithm to choose?
+author: Marie Laure Delignette Muller, Christophe Dutang
 date: '`r Sys.Date()`'
 output:
   html_document:
