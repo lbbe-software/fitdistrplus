@@ -22,7 +22,7 @@
 ###         R functions
 ### 
 
-fitbench <- function(data, distr, method, grad=NULL, control=list(trace=0, REPORT=1, maxit=1000), lower=-Inf, upper=+Inf, ..., npar=2) 
+fitbench <- function(data, distr, method, grad=NULL, control=list(trace=0, REPORT=1, maxit=1000), lower=-Inf, upper=+Inf, ...) 
 {
   if(method != "mle")
     stop("not supported")
