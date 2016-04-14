@@ -318,7 +318,7 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
         if(is.null(names(opt$par)))
           names(opt$par) <- names(vstart)
         res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
-                    hessian = opt$hessian, gof=gof, optim.function="optim",
+                    hessian = opt$hessian, gof=gof, optim.function=opt.fun,
                     loglik=loglik(opt$par, fix.arg, data, ddistname), fix.arg = fix.arg, 
                     optim.method=meth, fix.arg.fun = fix.arg.fun, counts=opt$counts, 
                     optim.message=opt$message)

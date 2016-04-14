@@ -9,7 +9,8 @@
 
 \usage{
 mmedist(data, distr, order, memp, start = NULL, fix.arg = NULL, optim.method = "default", 
-  lower = -Inf, upper = Inf, custom.optim = NULL, weights = NULL, silent = TRUE, \dots) 
+  lower = -Inf, upper = Inf, custom.optim = NULL, weights = NULL, silent = TRUE, 
+  gradient = NULL, \dots) 
 
 }
 \arguments{
@@ -36,7 +37,11 @@ to the number of parameters to estimate.}
     Should be \code{NULL} or a numeric vector. If non-\code{NULL}, 
     weighted MME is used, otherwise ordinary MME.}
 \item{silent}{A logical to remove or show warnings when bootstraping.}        
-\item{\dots}{further arguments passed to the \code{\link{optim}} or \code{custom.optim} function.} 
+\item{gradient}{A function to return the gradient of the squared difference for the \code{"BFGS"}, \code{"CG"} 
+    and \code{"L-BFGS-B"} methods. If it is \code{NULL}, a finite-difference approximation will be used,
+    see details.}
+\item{\dots}{further arguments passed to the \code{\link{optim}}, 
+    \code{\link{constrOptim}} or \code{custom.optim} function.}
 }
 
 \details{ 
@@ -119,8 +124,9 @@ to the number of parameters to estimate.}
     and any calls to log-likelihood function to compute a finite-difference
     approximation to the gradient. \code{counts} is returned by \code{\link{optim}}
     or the user-supplied function or set to \code{NULL}.}
-    \item{optim.message}{A character string giving any additional information 
-    returned by the optimizer, or \code{NULL}.}
+     \item{optim.message}{A character string giving any additional information 
+    returned by the optimizer, or \code{NULL}. To understand exactly the message,
+    see the source code.}
 }
 
 

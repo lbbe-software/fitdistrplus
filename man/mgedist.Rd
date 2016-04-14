@@ -96,8 +96,9 @@ mgedist(data, distr, gof = "CvM", start = NULL, fix.arg = NULL, optim.method = "
     and any calls to log-likelihood function to compute a finite-difference
     approximation to the gradient. \code{counts} is returned by \code{\link{optim}}
     or the user-supplied function or set to \code{NULL}.}
-    \item{optim.message}{A character string giving any additional information 
-    returned by the optimizer, or \code{NULL}.}
+     \item{optim.message}{A character string giving any additional information 
+    returned by the optimizer, or \code{NULL}. To understand exactly the message,
+    see the source code.}
 }
 
 

@@ -275,7 +275,7 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
         if(is.null(names(opt$par)))
           names(opt$par) <- names(vstart)
         res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
-					hessian = opt$hessian, probs=probs, optim.function="optim", 
+					hessian = opt$hessian, probs=probs, optim.function=opt.fun, 
 					loglik=loglik(opt$par, fix.arg, data, ddistname), fix.arg=fix.arg,
           optim.method=meth, weights = weights, counts=opt$counts, optim.message=opt$message)		
     }

@@ -176,4 +176,19 @@ mmedist(x5, "zmgeom", order=1:2, memp=memp1, start=list(p1=mean(x5 == 0), p2=1/m
 mmedist(x5, "zmgeom", order=1:2, memp=memp2, start=list(p1=mean(x5 == 0), p2=1/mean(x5[x5 > 0])),  
         weights=w)$loglik
 
-
+# (10) bounds
+#
+if(any(installed.packages()[, "Package"] == "actuar"))
+{
+  require(actuar)
+  #simulate a sample
+  x4 <- rpareto(1000, 6, 2)
+  
+  #empirical raw moment
+  memp <- function(x, order)
+    mean(x^order)
+  
+  #fit
+  mmedist(x4, "pareto", order=c(1, 2), memp=memp, start=c(shape=10, scale=10), lower=1, upper=Inf, optim.method = "L-BFGS-B") #L-BFGS-B via optim
+  mmedist(x4, "pareto", order=c(1, 2), memp=memp, start=c(shape=10, scale=10), lower=1, upper=Inf, optim.method = "Nelder") #Nelder Mead via constrOptim
+}
