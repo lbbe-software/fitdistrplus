@@ -101,8 +101,8 @@ cbind(trueval=c(3, 3/4, lnL(c(3, 3/4), NULL, x, "dbeta"), NA, NA),
 
 
 
-llsurface(plot.min=c(0.1, 0.1), plot.max=c(7, 3), plot.arg=c("shape1", "shape2"),
-          plot.np=50, obs=x, distr="beta", plot.type="contour")
+llsurface(min.arg=c(0.1, 0.1), max.arg=c(7, 3), plot.arg=c("shape1", "shape2"),
+          lseq=50, data=x, distr="beta")
 points(bfgs$estimate[1], bfgs$estimate[2], pch="+", col="red")
 points(3, 3/4, pch="x", col="green")
 

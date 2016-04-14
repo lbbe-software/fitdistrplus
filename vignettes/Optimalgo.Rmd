@@ -354,9 +354,9 @@ kable(resBFGS)
 
 Using `llsurface`, we plot the log-likehood surface around the true value (green) and the fitted parameters (red).
 ```{r, fig.width=5, fig.height=5}
-llsurface(plot.min=c(0.1, 0.1), plot.max=c(7, 3), 
-          plot.arg=c("shape1", "shape2"), nlevels=25,
-          plot.np=50, obs=x, distr="beta", plot.type="contour")
+llsurface(min.arg=c(0.1, 0.1), max.arg=c(7, 3), 
+          plot.arg=c("shape1", "shape2"), nlev=25,
+          plot.np=50, data=x, distr="beta")
 points(resBFGS[1,"BFGS"], resBFGS[2,"BFGS"], pch="+", col="red")
 points(3, 3/4, pch="x", col="green")
 ```
@@ -543,17 +543,17 @@ kable(resBFGS, digits=6)
 
 Using `llsurface`, we plot the log-likehood surface around the true value (green) and the fitted parameters (red).
 ```{r, fig.width=5, fig.height=5}
-llsurface(plot.min=c(0.1, 0.1), plot.max=c(10, 10), 
-          plot.arg=c("shape1", "shape2"), fix.arg=list(scale=10), nlevels=25,
-          plot.np=50, obs=x, distr="burr", plot.type="contour")
+llsurface(min.arg=c(0.1, 0.1), max.arg=c(10, 10), 
+          plot.arg=c("shape1", "shape2"), fix.arg=list(scale=10), nlev=25,
+          plot.np=50, data=x, distr="burr")
 points(resBFGS[1,"BFGS"], resBFGS[2,"BFGS"], pch="+", col="red")
 points(3, 4, pch="x", col="green")
 ```
 
 ```{r, fig.width=5, fig.height=5}
-llsurface(plot.min=c(0.1, 0.1), plot.max=c(20, 20), 
-          plot.arg=c("shape1", "scale"), fix.arg=list(shape2=3), nlevels=25,
-          plot.np=50, obs=x, distr="burr", plot.type="contour")
+llsurface(min.arg=c(0.1, 0.1), max.arg=c(20, 20), 
+          plot.arg=c("shape1", "scale"), fix.arg=list(shape2=3), nlev=25,
+          plot.np=50, data=x, distr="burr")
 points(resBFGS[1,"BFGS"], resBFGS[3,"BFGS"], pch="+", col="red")
 points(3, 10, pch="x", col="green")
 ```

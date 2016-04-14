@@ -2,31 +2,23 @@ library(fitdistrplus)
 
 
 
-
 #(1) beta distribution
 #
 
 n <- 100
 x <- rbeta(n, 3, 3/4)
 
-
-
-par(mfrow=c(1, 3))
-llsurface(plot.min=c(0.1, 0.1), plot.max=c(7, 3), plot.arg=c("shape1", "shape2"),
-                         plot.np=50, obs=x, distr="beta", plot.type="persp", theta=60, phi=30)
-llsurface(plot.min=c(0.1, 0.1), plot.max=c(7, 3), plot.arg=c("shape1", "shape2"),
-                         plot.np=50, obs=x, distr="beta", plot.type="contour")
+llsurface(data = x, distr = "beta", plot.arg=c("shape1", "shape2"),
+          min.arg=c(0.1, 0.1), max.arg=c(7, 3))
+llsurface(data = x, distr = "beta", plot.arg=c("shape1", "shape2"),
+          min.arg=c(0.1, 0.1), max.arg=c(7, 3), col = FALSE )
 points(3, 3/4, pch="+", col="red")
-llsurface(plot.min=c(0.1, 0.1), plot.max=c(7, 3), plot.arg=c("shape1", "shape2"),
-                         plot.np=50, obs=x, distr="beta", plot.type="image")
 
 
-
-par(mfrow=c(1,2))
-llcurve(plot.min=0.1, plot.max=7, plot.arg="shape1", fix.arg=list(shape2=3/4), plot.np=50, 
-                      obs=x, distr="beta")
-llcurve(plot.min=0.1, plot.max=2, plot.arg="shape2", fix.arg=list(shape1=3), plot.np=50, 
-                      obs=x, distr="beta")
+llcurve(data = x, distr = "beta", plot.arg = "shape1", min.arg = 0.1, max.arg = 7, 
+        fix.arg = list(shape2 = 3/4), lseq=100, col = "blue")
+llcurve(data = x, distr = "beta", plot.arg = "shape2", min.arg = 0.1, max.arg = 7, 
+        fix.arg = list(shape1 = 3), lseq=100, col = "red")
 
 
 
@@ -67,8 +59,8 @@ cbind(NM=getval(nm), NMgrad=getval(nm_gr), CG=getval(cg),
 
 
 
-llsurface(plot.min=c(0.1, 0.1), plot.max=c(7, 3), plot.arg=c("shape1", "shape2"),
-          plot.np=50, obs=x, distr="beta", plot.type="contour")
+llsurface(data = x, distr = "beta", plot.arg = c("shape1", "shape2"),
+          min.arg = c(0.1, 0.1), max.arg = c(7, 3), col.pal = heat.colors(50))
 points(bfgs$estimate[1], bfgs$estimate[2], pch="+", col="red")
 points(3, 3/4, pch="x", col="green")
 

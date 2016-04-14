@@ -10,31 +10,30 @@
 }
 
 \usage{
-llsurface(plot.min, plot.max, plot.arg, plot.np=50, fix.arg=NULL, obs, distr, 
-    loglik=TRUE, plot.type=c("contour", "filled.contour", "persp", "image"), 
-    enhance=TRUE, \dots)    
+llsurface(data, distr, plot.arg, min.arg, max.arg,   lseq = 50, fix.arg = NULL,  
+    loglik = TRUE, col = TRUE, nlev = 10, col.pal = terrain.colors(100), \dots)    
 
-llcurve(plot.min, plot.max, plot.arg, plot.np=50, fix.arg=NULL, obs, distr, 
-    loglik=TRUE, plot.type=c("line", "points"), enhance=TRUE, \dots)
+llcurve(data, distr, plot.arg, min.arg, max.arg,   lseq = 50, fix.arg = NULL,  
+    loglik = TRUE, \dots)
 
 }
 \arguments{
-\item{plot.min}{a two-element vector with lower plotting bounds for 
-  \code{llsurface}, only one element for \code{llcurve}.}
-\item{plot.max}{a two-element vector with upper plotting bounds for 
-  \code{llsurface}, only one element for \code{llcurve}.}
-\item{plot.arg}{a two-element vector with the two parameters that will 
+\item{data}{A numeric vector for non censored data or a dataframe of two columns respectively named   left and right, describing each observed value as an interval for censored data. In that case the   left column contains either NA for left censored observations, the left bound of the interval for   interval censored observations, or the observed value for non-censored observations. The right      column contains either NA for right censored observations, the right bound of the interval for       interval censored observations, or the observed value for non-censored observations.}
+\item{distr}{A character string "name" naming a distribution for which the corresponding density      function dname and the corresponding distribution function pname must be classically defined.}
+\item{plot.arg}{a two-element vector with the names of the two parameters that will 
   vary for \code{llsurface}, only one element for \code{llcurve}.}
-\item{plot.np}{the number of points.}
+\item{min.arg}{a two-element vector with lower plotting bounds for 
+  \code{llsurface}, only one element for \code{llcurve}.}
+\item{max.arg}{a two-element vector with upper plotting bounds for 
+  \code{llsurface}, only one element for \code{llcurve}.}
+\item{lseq}{length of sequences of paramaters.}
 \item{fix.arg}{a named list with fixed value of other parameters.}
-\item{obs}{the vector of observations.}
-\item{distr}{the name of distributions.}
 \item{loglik}{a logical to plot log-likelihood or likelihood function.}
-\item{plot.type}{a character string among \code{"contour"}, 
-  \code{"filled.contour"}, \code{"persp"}, \code{"image"} for \code{llsurface},
-  a character string among \code{"line"}, \code{"points"} for \code{llcurve}.
-}
-\item{enhance}{a logical to get an enhance plot.}
+\item{col}{logical (for llsurface only). Contours are plotted with a background
+          gradient of colors if TRUE.}
+\item{nlev}{number of contour levels to add to the likelihood contour at level 95 percent
+     (for llsurface only).}
+\item{col.pal}{Palette of colors. Colors to be used as back (for llsurface only).}
 \item{\dots}{Further graphical arguments passed to graphical functions.}
 
 }
@@ -76,40 +75,42 @@ and Christophe Dutang.
 }
 
 \examples{
-# (1) likelihood curves
+# (1) loglikelihood or likelihood curve
 #
 
 n <- 100
 set.seed(1234)
 x <- rexp(n)
 
-llcurve(0, 4, "rate", distr="exp", obs=x, 
-  main="log-likelihood for exponential distribution")
-abline(v=1, lty=2)
+llcurve(data = x, distr = "exp", plot.arg =  "rate", min.arg = 0, max.arg = 4)
 
-llcurve(0, 4, "shape", distr="gamma", fix.arg=list(rate=1), obs=x, 
-  main="log-likelihood for gamma distribution")
-abline(v=1, lty=2)
+llcurve(data = x, distr = "exp", plot.arg =  "rate", min.arg = 0, max.arg = 4, 
+loglik = FALSE)
+
+llcurve(data = x, distr = "exp", plot.arg =  "rate", min.arg = 0, max.arg = 4, 
+  main = "log-likelihood for exponential distribution", col = "red")
+abline(v = 1, lty = 2)
 
 
-# (2) likelihood surface
+# (2) loglikelihood surface
 # 
 
 x <- rnorm(n, 0, 1)
 
-par(mfrow=c(1, 3))
-llsurface(plot.min=c(-1, 0.5), plot.max=c(1, 3/2), plot.arg=c("mean", "sd"),
-                obs=x, distr="norm", plot.type="persp", theta=60, phi=30,
-                main="log-likelihood for normal distribution")
-llsurface(plot.min=c(-1, 0.5), plot.max=c(1, 3/2), plot.arg=c("mean", "sd"),
-                obs=x, distr="norm", plot.type="contour",
-                main="log-likelihood for normal distribution")
+llsurface(data =x, distr="norm", plot.arg=c("mean", "sd"), 
+          min.arg=c(-1, 0.5), max.arg=c(1, 3/2), col = FALSE,
+          main="log-likelihood for normal distribution")
+llsurface(data =x, distr="norm", plot.arg=c("mean", "sd"), 
+          min.arg=c(-1, 0.5), max.arg=c(1, 3/2), 
+          main="log-likelihood for normal distribution", 
+          nlev = 20, col.pal = heat.colors(100),)
 points(0, 1, pch="+", col="red")
-llsurface(plot.min=c(-1, 0.5), plot.max=c(1, 3/2), plot.arg=c("mean", "sd"),
-                obs=x, distr="norm", plot.type="image",
-                main="log-likelihood for normal distribution")
-points(0, 1, pch="+")
-                
+llsurface(data =x, distr="norm", plot.arg=c("mean", "sd"), 
+          min.arg=c(-1, 0.5), max.arg=c(1, 3/2), 
+          main="log-likelihood for normal distribution", 
+          nlev = 0, col = TRUE, col.pal = rainbow(100, s = 0.5, end = 0.8))
+points(0, 1, pch="+", col="black")
+
 
 
 

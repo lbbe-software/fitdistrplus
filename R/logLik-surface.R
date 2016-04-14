@@ -22,17 +22,21 @@
 ###         R functions
 ### 
 
-llsurface <- function(plot.min, plot.max, plot.arg, plot.np=50, fix.arg=NULL, obs, distr, 
-    loglik=TRUE, plot.type=c("contour", "filled.contour", "persp", "image"), 
-    enhance=TRUE, ...)
+llsurface <- function(data, distr, plot.arg, min.arg, max.arg,   lseq = 50, fix.arg = NULL,  
+                      loglik = TRUE, col = TRUE, nlev = 10, col.pal = terrain.colors(100), ...)
 {
   stopifnot(is.vector(plot.arg) || length(plot.arg) == 2)
   stopifnot(is.list(fix.arg) || is.null(fix.arg))
-  plot.type <- match.arg(plot.type, c("contour", "filled.contour", "persp", "image"))
-  
   
   #get distrib name
-  ddistname <- paste("d",distr,sep="") 
+  if (!is.character(distr)) 
+    stop("distr must be a character string naming a distribution")
+  else 
+    distname <- distr
+  ddistname <- paste("d", distname, sep="")
+  
+  if (!exists(ddistname, mode="function"))
+    stop(paste("The ", ddistname, " function must be defined"))
   
   #sanity check for argument names
   argdistname <- names(formals(ddistname))
@@ -45,72 +49,71 @@ llsurface <- function(plot.min, plot.max, plot.arg, plot.np=50, fix.arg=NULL, ob
     stop("'fix.arg' must specify names which are arguments to 'distr'.")
   
   #function to plot
-  if(loglik)
+  if (is.vector(data))
   {
-    f2plot <- function(x, y)
+    if(loglik)
     {
-      par <- list(x,y)
-      names(par) <- plot.arg
-      loglikelihood(par, fix.arg=fix.arg, obs=obs, ddistnam=ddistname)
-    }
-  }else
-  {
-    f2plot <- function(x, y)
+      f2plot <- function(x, y)
+      {
+        par <- list(x,y)
+        names(par) <- plot.arg
+        loglikelihood(par, fix.arg = fix.arg, obs = data, ddistnam = ddistname)
+        #sum(log(do.call(ddistname, c(list(data), par, as.list(fix.arg)) ) ) )
+      }
+    }else
     {
-      par <- list(x,y)
-      names(par) <- plot.arg
-      likelihood(par, fix.arg=fix.arg, obs=obs, ddistnam=ddistname)
+      f2plot <- function(x, y)
+      {
+        par <- list(x,y)
+        names(par) <- plot.arg
+        likelihood(par, fix.arg = fix.arg, obs= data, ddistnam=ddistname)
+        # prod(do.call(ddistname, c(list(data), as.list(par), as.list(fix.arg)) ) ) 
+      }
     }
-  }
+  } else stop("This function is not yet available for censored data")
+  # TO DO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   
   #create x, y and z matrix.
-  p1 <- seq(plot.min[1], plot.max[1], length=plot.np)
-  p2 <- seq(plot.min[2], plot.max[2], length=plot.np)
-  z <- t(sapply(p1, function(x) sapply(p2, function(y) f2plot(x, y))))
+  p1 <- seq(min.arg[1], max.arg[1], length=lseq)
+  p2 <- seq(min.arg[2], max.arg[2], length=lseq)
+  # z <- t(sapply(p1, function(x) sapply(p2, function(y) f2plot(x, y))))
+  z <- outer(p1, p2, Vectorize(f2plot, c("x","y")))
+  # vectorize is necessary to vectorize the function f2plot
   
-  if(enhance)
+  if (col)
   {
-    nrz <- nrow(z)
-    ncz <- ncol(z)
-    # Create a function interpolating colors in the range of specified colors
-    jet.colors <- colorRampPalette( c("blue", "green", "yellow", "orange", "red") )
-    # Generate the desired number of colors from this palette
-    nbcol <- 100
-    color <- jet.colors(nbcol)
-    # Compute the z-value at the facet centres
-    z[is.infinite(z)] <- sort(z, decreasing=TRUE)[2]
-    zfacet <- z[-1, -1] + z[-1, -ncz] + z[-nrz, -1] + z[-nrz, -ncz]
-    # Recode facet z-values into color indices
-    facetcol <- cut(zfacet, nbcol)
-    col <- color[facetcol]
-    
-    switch(plot.type,
-           contour = contour(p1, p2, z, col=color, ...),
-           filled.contour = filled.contour(p1, p2, z, col=col, ...),
-           image = image(p1, p2, z, col=color, ...),
-           persp = persp(p1, p2, z, zlab="Log-likelihood", col=col, ...))
-  }else
+    image(p1, p2, z, col = col.pal, xlab = plot.arg[1], ylab = plot.arg[2])
+    if (nlev > 0)
+      contour(p1, p2, z, nlevels = nlev, add = TRUE)
+  } else
   {
-    switch(plot.type,
-           contour = contour(p1, p2, z, ...),
-           filled.contour = filled.contour(p1, p2, z, ...),
-           image = image(p1, p2, z, ...),
-           persp = persp(p1, p2, z, zlab="Log-likelihood",...))
+    contour(p1, p2, z, nlevels = nlev, xlab = plot.arg[1], ylab = plot.arg[2])
   }
+  
+  #   switch(plot.type,
+  #            contour = contour(p1, p2, z, ...),
+  #            filled.contour = filled.contour(p1, p2, z, ...),
+  #            image = image(p1, p2, z, ...),
+  #            persp = persp(p1, p2, z, zlab="Log-likelihood",...))
   invisible()
 }
 
 
-llcurve <- function(plot.min, plot.max, plot.arg, plot.np=50, fix.arg=NULL, obs, distr, 
-                      loglik=TRUE, plot.type=c("line", "points"), enhance=TRUE, ...)
+llcurve <- function(data, distr, plot.arg, min.arg, max.arg,   lseq = 50, fix.arg = NULL,  
+                    loglik = TRUE, ...)
 {
   stopifnot(is.vector(plot.arg) || length(plot.arg) == 1)
   stopifnot(is.list(fix.arg) || is.null(fix.arg))
-  plot.type <- match.arg(plot.type, c("line", "points"))
+
   
+  if (!is.character(distr)) 
+    stop("distr must be a character string naming a distribution")
+  else 
+    distname <- distr
+  ddistname <- paste("d", distname, sep="")
   
-  #get distrib name
-  ddistname <- paste("d",distr,sep="") 
+  if (!exists(ddistname, mode="function"))
+    stop(paste("The ", ddistname, " function must be defined"))
   
   #sanity check for argument names
   argdistname <- names(formals(ddistname))
@@ -122,40 +125,33 @@ llcurve <- function(plot.min, plot.max, plot.arg, plot.np=50, fix.arg=NULL, obs,
   if (any(is.na(m))) #check unexpected names
     stop("'fix.arg' must specify names which are arguments to 'distr'.")
   
-  #function to plot
-  if(loglik)
+  if (is.vector(data))
   {
-    f2plot <- function(x)
+    #function to plot
+    if(loglik)
     {
-      par <- list(x)
-      names(par) <- plot.arg
-      loglikelihood(par, fix.arg=fix.arg, obs=obs, ddistnam=ddistname)
-    }
-  }else
-  {
-    f2plot <- function(x)
+      f2plot <- function(x)
+      {
+        par <- list(x)
+        names(par) <- plot.arg
+        loglikelihood(par, fix.arg=fix.arg, obs = data, ddistnam = ddistname)
+      }
+    }else
     {
-      par <- list(x)
-      names(par) <- plot.arg
-      likelihood(par, fix.arg=fix.arg, obs=obs, ddistnam=ddistname)
+      f2plot <- function(x)
+      {
+        par <- list(x)
+        names(par) <- plot.arg
+        likelihood(par, fix.arg=fix.arg, obs = data, ddistnam = ddistname)
+      }
     }
-  }
+  } else stop("This function is not yet available for censored data")
+  # TO DO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   
   #create x, y and z matrix.
-  p1 <- seq(plot.min[1], plot.max[1], length=plot.np)
+  p1 <- seq(min.arg[1], max.arg[1], length = lseq)
   y <- sapply(p1, function(x) f2plot(x))
-  
-  if(enhance)
-  {
-    switch(plot.type,
-           line = plot(p1, y, col="red", type="l", ...),
-           points = plot(p1, y, col="red", type="p", ...))
-  }else
-  {
-    switch(plot.type,
-           line = plot(p1, y, type="l", ...),
-           points = plot(p1, y, type="p", ...))
-  }
+  plot(p1, y, type="l", xlab = plot.arg, ylab = ifelse(loglik, "loglikelihood", "likelihood"), ...)
   invisible()
 }
 
