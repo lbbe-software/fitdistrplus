@@ -45,9 +45,10 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
     weighted MLE is used, otherwise ordinary MLE.}
 \item{silent}{A logical to remove or show warnings when bootstraping.}    
 \item{gradient}{A function to return the gradient for the \code{"BFGS"}, \code{"CG"} 
-and \code{"L-BFGS-B"} methods. If it is \code{NULL}, a finite-difference approximation will be used,
-see details.}
-\item{\dots}{further arguments passed to the \code{\link{optim}} or \code{custom.optim} function.}
+    and \code{"L-BFGS-B"} methods. If it is \code{NULL}, a finite-difference approximation will be used,
+    see details.}
+\item{\dots}{further arguments passed to the \code{\link{optim}}, 
+    \code{\link{constrOptim}} or \code{custom.optim} function.}
 }
 
 \details{
@@ -87,11 +88,13 @@ see details.}
     \code{\link{optim}} is used with the method specified by \code{optim.method}.
     Note that \code{optim.method="default"} means \code{optim.method="Nelder-Mead"} for distributions 
     with at least two parameters and \code{optim.method="BFGS"} for distributions with only one parameter.
-    If finite bounds are supplied (among \code{lower} and \code{upper}), \code{\link{constrOptim}}
-    is used when \code{optim.method="Nelder-Mead"} or \code{gradient != NULL}. 
-    Otherwise \code{\link{optim}} is used when \code{optim.method="L-BFGS-B"} or \code{optim.method="BFGS"}
-    and the gradient is not supplied. Currently, \code{"SANN"}, \code{"CG"} cannot be used with bounds
-    except when gradient is supplied (same behavior as \code{\link{constrOptim}}).
+    If finite bounds are supplied (among \code{lower} and \code{upper}) and \code{gradient != NULL}, 
+    \code{\link{constrOptim}} is used.
+    If finite bounds are supplied (among \code{lower} and \code{upper}) and \code{gradient == NULL}, 
+    \code{\link{constrOptim}} is used when \code{optim.method="Nelder-Mead"};
+    \code{\link{optim}} is used when \code{optim.method="L-BFGS-B"} or \code{"Brent"};
+    in other case, an error is raised (same behavior as \code{\link{constrOptim}}).
+    
     
     When errors are raised by \code{\link{optim}}, it's a good idea to start by adding traces during
     the optimization process by adding \code{control=list(trace=1, REPORT=1)}.
@@ -124,7 +127,7 @@ see details.}
 
     
     NB: if your data values are particularly small or large, a scaling may be needed 
-    before the optimization process. See example (7).
+    before the optimization process. See Example (7).
 }
 
 \value{ 
@@ -162,7 +165,8 @@ see details.}
     approximation to the gradient. \code{counts} is returned by \code{\link{optim}}
     or the user-supplied function or set to \code{NULL}.}
     \item{optim.message}{A character string giving any additional information 
-    returned by the optimizer, or \code{NULL}.}
+    returned by the optimizer, or \code{NULL}. To understand exactly the message,
+    see the source code.}
 }
 
 
