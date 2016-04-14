@@ -1,31 +1,22 @@
 ---
 title: "Which optimization algorithm to choose?"
 author: "Marie Laure Delignette Muller, Christophe Dutang"
-date: "December 2015"
+date: '`r Sys.Date()`'
 output:
   html_document:
     toc: yes
     number_sections: yes
-header-includes:
-- \usepackage{url}
-- \newcommand{\ind}{1\!\!1}
-- \newcommand{\R}{\mathbb R}
-- \newcommand{\N}{\mathbb N}
-- \newcommand{\calD}{\mathcal D}
-- \newcommand{\calL}{\mathcal L}
-- \newcommand{\systL}{\left\{\begin{array}{ll}}
-- \newcommand{\systR}{\end{array}\right.}
-- \newcommand{\matL}{\left(\begin{matrix}}
-- \newcommand{\matR}{\end{matrix}\right)}
-- \newcommand{\detL}{\left|\begin{matrix}}
-- \newcommand{\detR}{\end{matrix}\right|}
-- \newcommand{\pkg}{\textbf}
-- \newcommand{\proglang}{\textsf}
-bibliography: jssfitdistrplus.bib
 vignette: >
-  %\VignetteIndexEntry{Optimization algorithm} 
   %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Optimization algorithm} 
+  %!\VignetteEncoding{UTF-8}
+  \usepackage[utf8]{inputenc}
 ---
+```{r, message=FALSE}
+require(fitdistrplus)
+require(actuar)
+require(knitr)
+```
 
 
 
@@ -121,7 +112,7 @@ Directions are computed iteratively by $d_k = -g(x_k) + \beta_k d_{k-1}$ for $k>
 $\beta_k$ are updated according a scheme: 
 \begin{itemize}
 \item $\beta_k = \frac{ g_k^T g_k}{g_{k-1}^T g_{k-1} }$: Fletcher-Reeves update,
-\item $\beta_k = \frac{ g_k^T (g_k-g_{k-1} )}{g_{k-1}^T g_{k-1}}$: Polak-Ribière update.
+\item $\beta_k = \frac{ g_k^T (g_k-g_{k-1} )}{g_{k-1}^T g_{k-1}}$: Polak-Ribi\`ere update.
 \end{itemize}
 There exists also three-term formula for computing direction 
 $d_k = -g(x_k) + \beta_k d_{k-1}+\gamma_{k} d_t$ for $t<k$.
@@ -168,14 +159,14 @@ fitbench <- function(data, distr, method, grlnL, ..., npar=2)
   reslist <- NULL
   for(meth in c("BFGS", "Nelder", "CG")) #CG with FR update
   {
-    nograd$time <- system.time(nograd <- mledist(x, dist=distr, optim.method=meth, control=ctr, ...))[3]
-    grad$time <- system.time(grad <- mledist(x, dist=distr, gr=grlnL, optim.method=meth, control=ctr, ...))[3]
+    nograd$time <- system.time(nograd <- mledist(data, dist=distr, optim.method=meth, control=ctr, ...))[3]
+    grad$time <- system.time(grad <- mledist(data, dist=distr, gr=grlnL, optim.method=meth, control=ctr, ...))[3]
     reslist <- c(reslist, list(nograd), list(grad))
   }
   for(type in 2:3) #CG with PR or BS updates
   {
-    nograd$time <- system.time(nograd <- mledist(x, dist=distr, optim.method="CG", control=c(ctr, type=type), ...))[3] 
-    grad$time <- system.time(grad <- mledist(x, dist=distr, gr=grlnL, optim.method="CG", control=c(ctr, type=type), ...))[3] 
+    nograd$time <- system.time(nograd <- mledist(data, dist=distr, optim.method="CG", control=c(ctr, type=type), ...))[3] 
+    grad$time <- system.time(grad <- mledist(data, dist=distr, gr=grlnL, optim.method="CG", control=c(ctr, type=type), ...))[3] 
     reslist <- c(reslist, list(nograd), list(grad)) 
   }
   fullname <- c("BFGS", "NM", paste0("CG", c("FR", "PR", "BS")))
@@ -246,9 +237,6 @@ grbeta <- function(par, obs, ...)
 ## Random generation of a sample
 
 ```{r, fig.height=5, fig.width=5}
-library(knitr)
-library(fitdistrplus)
-library(actuar)
 #(1) beta distribution
 n <- 200
 set.seed(12345)

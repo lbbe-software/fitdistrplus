@@ -1,0 +1,179 @@
+---
+title: "Fitting distributions by MLE to censored data"
+author: "Marie Laure Delignette Muller, Christophe Dutang"
+date: "November 2015"
+output:
+  pdf_document:
+    number_sections: true
+    toc: true
+vignette: |
+  %\VignetteIndexEntry{Fitting distributions by MLE to censored data} 
+  %\VignetteEngine{knitr::rmarkdown} 
+  \usepackage[utf8]{inputenc}
+bibliography: jssfitdistrplus.bib    
+header-includes:
+- \usepackage{url}
+- \newcommand{\ind}{1\!\!1}
+- \newcommand{\R}{\mathbb R}
+- \newcommand{\N}{\mathbb N}
+- \newcommand{\calD}{\mathcal D}
+- \newcommand{\calL}{\mathcal L}
+- \newcommand{\systL}{\left\{\begin{array}{ll}}
+- \newcommand{\systR}{\end{array}\right.}
+- \newcommand{\matL}{\left(\begin{matrix}}
+- \newcommand{\matR}{\end{matrix}\right)}
+- \newcommand{\detL}{\left|\begin{matrix}}
+- \newcommand{\detR}{\end{matrix}\right|}
+- \newcommand{\pkg}{\textbf}
+- \newcommand{\proglang}{\textsf}
+---
+
+```{r setup, echo=FALSE, message=FALSE, warning=FALSE}
+library("knitcitations")
+library(actuar)
+cleanbib()
+options("citation_format" = "pandoc")
+bib <- read.bibtex("jssfitdistrplus.bib")
+```
+
+
+
+# Fitting distributions to other types of data
+
+
+Analytical methods often lead to semi-quantitative results which are referred to as
+censored data. Observations only known to be under a limit of detection are 
+left-censored data. Observations only known to be above a limit of quantification
+are  right-censored data. Results known to lie between two bounds are 
+interval-censored data. These two bounds may correspond to a limit of detection and 
+a limit of quantification, or more generally to uncertainty bounds around the observation.
+Right-censored data are also commonly encountered with survival data `r citep(bib['kleinmoeschberger03'])`.
+A data set may thus contain right-, left-, or interval-censored data, or may be a mixture
+of these categories, possibly with different upper and lower bounds.
+Censored data are sometimes excluded from the data analysis or replaced by a fixed value, which
+in both cases may lead to biased results. A more recommended approach to correctly model
+such data is based upon maximum likelihood `r citep(bib['kleinmoeschberger03,helsel05'])`. 
+
+
+Censored data may thus contain left-censored, right-censored and interval-censored values, 
+with several lower and upper bounds. 
+Before their use in package \pkg{fitdistrplus}, 
+such data must be coded into a dataframe with two columns, 
+respectively named `left` 
+and `right`, describing each observed value as an interval.
+The `left` column contains either `NA` for left censored observations,
+the left bound of the interval for interval censored observations,
+or the observed value for non-censored observations.
+The `right` column contains either `NA` for right censored observations,
+the right bound of the interval for interval censored observations,
+or the observed value for non-censored observations.
+To illustrate the use of package \pkg{fitdistrplus} to fit distributions
+to censored continous data, we  will use another
+data set from ecotoxicology, included in our package and named  `salinity`. 
+This data set contains acute salinity tolerance (LC50 values in electrical conductivity, $mS$.$cm^{-1}$)
+of riverine macro-invertebrates taxa from the southern Murray-Darling Basin in 
+Central Victoria, Australia `r citep(bib['kefford07'])`. 
+
+
+```{r datsalinity, echo=TRUE, warning=FALSE}
+library(fitdistrplus)
+data("salinity")
+str(salinity)
+```
+     
+# Graphical display of the observed distribution
+
+
+Using censored data such as those coded in the `salinity` data set,
+the empirical distribution can be plotted using the `plotdistcens` function.
+By default, this function uses the Expectation-Maximization approach of 
+`r citep(bib['Turnbull74'])` to compute the overall
+empirical cdf curve with optional confidence intervals, by calls to `survfit`
+and `plot.survfit` functions from the \pkg{survival} package 
+(Figure~\ref{cdfcompcens} shows the Turnbull plot of data together with two fitted distributions). 
+A less rigorous
+but sometimes more illustrative plot can be 
+obtained by fixing the argument `Turnbull` to `FALSE` in the call to `plotdistcens`
+(see Figure~\ref{plotdistcens} for an example and the help page of Function
+`plotdistcens` for details). This plot enables to see the real nature of censored data, as
+points and intervals. 
+
+```{r plotsalinity, fig.height=4, fig.width=4, echo=TRUE, warning=FALSE}
+plotdistcens(salinity,Turnbull = FALSE)
+```
+
+
+
+
+
+
+
+
+# Maximum likelihood estimation
+
+
+As for non censored data, one or more parametric distributions can
+be fitted to the censored data set, one at a time, but using in this case
+the `fitdistcens} function. This function estimates the vector of distribution parameters $\theta$
+by maximizing the likelihood for censored data defined as:
+  \begin{equation}
+    \label{likelihoodC}
+    \begin{array}{lll}
+    L(\theta)&=&\prod_{i=1}^{N_{nonC}} f(x_{i}|\theta)
+    \times \prod_{j=1}^{N_{leftC}} F(x^{upper}_{j}|\theta) \\
+    & & \times \prod_{k=1}^{N_{rightC}} (1- F(x^{lower}_{k}|\theta))
+    \times \prod_{m=1}^{N_{intC}} (F(x^{upper}_{m}|\theta)- F(x^{lower}_{j}|\theta))
+    \end{array}
+  \end{equation}
+with $x_{i}$ the $N_{nonC}$ non-censored observations,
+$x^{upper}_{j}$ upper values defining the $N_{leftC}$ left-censored observations,
+$x^{lower}_{k}$ lower values defining the $N_{rightC}$ right-censored observations,
+$[x^{lower}_{m} ; x^{upper}_{m}]$ the intervals defining the $N_{intC}$ interval-censored observations,
+and F the cumulative distribution function of the parametric distribution 
+`r citep(bib['kleinmoeschberger03,helsel05'])`.
+
+As `fitdist`, `fitdistcens` returns the results of the fit of any parametric distribution
+to a data set as an S3 class object that can be easily printed,
+summarized or plotted.
+For the `salinity` data set, a lognormal distribution or a loglogistic can be fitted 
+as commonly done in ecotoxicology for such data. 
+As with `fitdist`, for some distributions (see `r citep(bib['fitdistrplus'])` for details), 
+it is necessary to specify initial 
+values for the distribution parameters in the argument `start`.
+The `plotdistcens` function can help to find correct initial values for 
+the distribution parameters in non trivial cases, by a manual iterative use if necessary.
+```{r fitsalinity, echo=TRUE, warning=FALSE}
+fsal.ln <- fitdistcens(salinity, "lnorm")
+fsal.ll <- fitdistcens(salinity, "llogis",
+  start = list(shape = 5, scale = 40))
+summary(fsal.ln)
+summary(fsal.ll)
+```
+
+Computations of goodness-of-fit statistics have not yet been 
+developed for fits using censored data but the quality of fit 
+can be judged using Akaike and Schwarz's Bayesian 
+information criteria (AIC and BIC) and the goodness-of-fit CDF plot, 
+respectively provided when summarizing or plotting an object of class `"fitdistcens"`. 
+Function `cdfcompcens` can also be used to compare the fit of various
+distributions to the same censored data set. Its call is similar to the one of `cdfcomp`. Below is
+an example of comparison of the two fitted distributions to the `salinity` data set (see Figure~\ref{cdfcompcens}).
+
+```{r fitsalinitycdfcomp, fig.height=4, fig.width=4, echo=TRUE, warning=FALSE}
+cdfcompcens(list(fsal.ln, fsal.ll), legendtext = c("lognormal", "loglogistic "))
+```
+
+
+
+Function `bootdistcens` is the equivalent of `bootdist` for censored 
+data, except that it 
+only proposes nonparametric bootstrap. Indeed, it is not obvious 
+to simulate censoring within a parametric 
+bootstrap resampling procedure. The generic function `quantile` can also be applied
+to an object of class `"fitdistcens"` or `"bootdistcens"`, as for 
+continuous non-censored data.
+
+
+
+
+# References

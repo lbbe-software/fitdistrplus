@@ -1,0 +1,130 @@
+---
+title: "Customization of the optimization algorithm"
+author: "Marie Laure Delignette Muller, Christophe Dutang"
+date: "November 2015"
+output:
+  pdf_document:
+    number_sections: true
+    toc: true
+vignette: |
+  %\VignetteIndexEntry{Customization of the optimization algorithm} 
+  %\VignetteEngine{knitr::rmarkdown} 
+  \usepackage[utf8]{inputenc}
+bibliography: jssfitdistrplus.bib    
+header-includes:
+- \usepackage{url}
+- \newcommand{\ind}{1\!\!1}
+- \newcommand{\R}{\mathbb R}
+- \newcommand{\N}{\mathbb N}
+- \newcommand{\calD}{\mathcal D}
+- \newcommand{\calL}{\mathcal L}
+- \newcommand{\systL}{\left\{\begin{array}{ll}}
+- \newcommand{\systR}{\end{array}\right.}
+- \newcommand{\matL}{\left(\begin{matrix}}
+- \newcommand{\matR}{\end{matrix}\right)}
+- \newcommand{\detL}{\left|\begin{matrix}}
+- \newcommand{\detR}{\end{matrix}\right|}
+- \newcommand{\pkg}{\textbf}
+- \newcommand{\proglang}{\textsf}
+---
+
+```{r setup, echo=FALSE, message=FALSE, warning=FALSE}
+library("knitcitations")
+cleanbib()
+options("citation_format" = "pandoc")
+bib <- read.bibtex("jssfitdistrplus.bib")
+```
+
+
+# Customization of the optimization method used in `optim`
+
+Each time a numerical minimization is carried out in the `fitdistrplus` package, 
+the `optim` function of the \pkg{stats} package  is used by default with the 
+`"Nelder-Mead"` method for distributions characterized by more than one parameter and
+the `"BFGS"` method for distributions characterized by only one parameter.
+Sometimes the default algorithm fails to converge. It is then
+interesting to change some options of the `optim` function or to use another optimization
+function than `optim` to minimize the objective function.
+The argument `optim.method` can be used in the call to `fitdist` or
+`fitdistcens`. It will internally be passed to `mledist`,
+`mmedist`, `mgedist` or `qmedist`, and to `optim`
+(see `?optim` for details about the different algorithms available).
+
+Even if no error is raised when computing the optimization, changing the algorithm 
+is of particular interest to enforce bounds on some parameters. For instance, a 
+volatility parameter $\sigma$ is strictly positive $\sigma>0$ and a probability 
+ parameter $p$ lies in $p\in [0,1]$. This is possible by using arguments `lower` 
+ and/or `upper`, for which their use automatically forces 
+ `optim.method="L-BFGS-B"`. 
+
+
+Below are examples of fits of a gamma distribution $\mathcal{G}(\alpha, \lambda)$ to 
+the `groundbeef` data set with various algorithms. Note that the conjugate gradient algorithm
+(`"CG"`) needs far more 
+iterations to converge (around 2500 iterations)
+compared to other algorithms (converging in less than 100 iterations).
+```{r optimmethodgamma, echo=TRUE, warning=FALSE}
+library(fitdistrplus)
+data("groundbeef")
+fNM <- fitdist(groundbeef$serving, "gamma", optim.method = "Nelder-Mead")
+fBFGS <- fitdist(groundbeef$serving, "gamma", optim.method = "BFGS") 
+fSANN <- fitdist(groundbeef$serving, "gamma", optim.method = "SANN")
+fCG <- try(fitdist(groundbeef$serving, "gamma", optim.method = "CG", 
+  control = list(maxit = 10000)))
+if(class(fCG) == "try-error")
+  fCG <- list(estimate = NA)
+```
+
+# User-supplied optimization algorithm
+
+## Naming convention of optimization arguments
+It is also possible to use another function 
+than `optim` to minimize the objective function by
+specifying by the argument `custom.optim` in the call to `fitdist`. 
+It may be necessary to customize this optimization function to meet
+the following requirements. 
+(1) `custom.optim` function must have the following arguments:
+`fn} for the function to be optimized and `par` for the initialized parameters.
+(2) `custom.optim` should carry out a MINIMIZATION and must return
+ the following components: `par` for the estimate, `convergence` for the convergence
+code, `value=fn(par)` and `hessian`.
+Below is an example of code written to wrap the `genoud` function from the \pkg{rgenoud} package in
+order to respect our optimization "template".
+
+## Example with `genoud`
+The \pkg{rgenoud} package implements the genetic (stochastic) algorithm.
+```{r optimmethod.customgenoud, echo=TRUE, warning=FALSE}
+mygenoud <- function(fn, par, ...) 
+{
+   require(rgenoud)
+   res <- genoud(fn, starting.values = par, ...)        
+   standardres <- c(res, convergence = 0)
+   return(standardres)
+}
+```
+
+The customized optimization function can then be passed as the argument `custom.optim` 
+in the call to `fitdist`
+or `fitdistcens`. The following code can for example 
+be used to fit a gamma distribution to the
+`groundbeef` data set. Note that in this example various 
+arguments are also passed from `fitdist` 
+to `genoud` :
+`nvars`, `Domains`, `boundary.enforcement`, 
+`print.level` and `hessian`.
+The code below compares all the parameter estimates 
+($\hat\alpha$, $\hat\lambda$) by the different algorithms:
+shape $\alpha$ and rate $\lambda$ parameters are relatively similar on this 
+example, roughly 4.00 and 0.05, respectively.
+```{r optimmethod.customgenoud.fitdist, echo=TRUE, warning=FALSE}
+fgenoud <- mledist(groundbeef$serving, "gamma", custom.optim = mygenoud, 
+  nvars = 2, max.generations = 10, Domains = cbind(c(0,0), c(10,10)), 
+  boundary.enforcement = 1, hessian = TRUE, print.level = 0, P9 = 10)
+cbind(NM = fNM$estimate,
+  BFGS = fBFGS$estimate,
+  SANN = fSANN$estimate,
+  CG = fCG$estimate,
+  fgenoud = fgenoud$estimate)
+```
+
+# References

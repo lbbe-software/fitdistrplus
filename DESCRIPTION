@@ -7,5 +7,6 @@ Depends: R (>= 3.2.0), MASS, grDevices, survival
 Imports: stats
 Suggests: actuar, rgenoud, mc2d, gamlss.dist, knitr
 VignetteBuilder: knitr
+BuildVignettes: true
 License: GPL (>= 2)
 URL: http://riskassessment.r-forge.r-project.org
