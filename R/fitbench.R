@@ -76,12 +76,12 @@ fitbench <- function(data, distr, method, grad=NULL, control=list(trace=0, REPOR
   {
     for(meth in c("BFGS", "Nelder", "CG")) #CG with FR update
     {
-      res1fit$time <- system.time(res1fit <- mledist(x, distr=distr, optim.method=meth, control=control, lower=lower, upper=upper, gradient=grad, ...))[3]
+      res1fit$time <- system.time(res1fit <- mledist(data, distr=distr, optim.method=meth, control=control, lower=lower, upper=upper, gradient=grad, ...))[3]
       reslist <- c(reslist, list(res1fit))
     }
     for(type in 2:3) #CG with PR or BS updates
     {
-      res1fit$time <- system.time(res1fit <- mledist(x, distr=distr, optim.method="CG", control=c(control, type=type), lower=lower, upper=upper, gradient=grad, ...))[3] 
+      res1fit$time <- system.time(res1fit <- mledist(data, distr=distr, optim.method="CG", control=c(control, type=type), lower=lower, upper=upper, gradient=grad, ...))[3] 
       reslist <- c(reslist, list(res1fit)) 
     }
     fullname <- c(fullname, paste0("G-", c("BFGS", "NM", paste0("CG", c("FR", "PR", "BS"))), "-B") )
@@ -100,21 +100,12 @@ fitbench <- function(data, distr, method, grad=NULL, control=list(trace=0, REPOR
   resmat <- sapply(reslist, getval)
   if(is.null(dim(resmat)))
     stop("wrong extract")
-    
-  print(resmat)
-  
-#   resNM <- sapply(reslist[grep("NM", names(reslist))], getval)
-#   resCGFR <- sapply(reslist[grep("CGFR", names(reslist))], getval)
-#   resCGPR <- sapply(reslist[grep("CGPR", names(reslist))], getval)
-#   resCGBS <- sapply(reslist[grep("CGBS", names(reslist))], getval)  
-#   resBFGS <- sapply(reslist[grep("BFGS", names(reslist))], getval)  
   
   allname <- c(paste("fitted", names(reslist[[1]]$estimate)), "fitted loglik", "func. eval. nb.", "grad. eval. nb.", "time (sec)")
   if(NROW(resmat) != length(allname))
     stop("wrong extract")
-    
-#  rownames(resNM) <- rownames(resCGFR) <- rownames(resCGPR) <- rownames(resCGBS) <- rownames(resBFGS) <- allname
-  rownames(resmat) <- allname
+  else
+    rownames(resmat) <- allname
   
   resmat
 }

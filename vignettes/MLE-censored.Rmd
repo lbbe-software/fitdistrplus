@@ -1,14 +1,15 @@
 ---
-title: "Fitting distributions by MLE to censored data"
-author: "Marie Laure Delignette Muller, Christophe Dutang"
-date: "November 2015"
+title: Fitting distributions by MLE to censored data
+author: Marie Laure Delignette Muller, Christophe Dutang
+date: '`r Sys.Date()`'
 output:
   pdf_document:
     number_sections: true
     toc: true
-vignette: |
+vignette: >
   %\VignetteIndexEntry{Fitting distributions by MLE to censored data} 
   %\VignetteEngine{knitr::rmarkdown} 
+  %!\VignetteEncoding{UTF-8}
   \usepackage[utf8]{inputenc}
 bibliography: jssfitdistrplus.bib    
 header-includes:
@@ -29,8 +30,9 @@ header-includes:
 ---
 
 ```{r setup, echo=FALSE, message=FALSE, warning=FALSE}
-library("knitcitations")
-library(actuar)
+require(fitdistrplus)
+require("knitcitations")
+require(actuar)
 cleanbib()
 options("citation_format" = "pandoc")
 bib <- read.bibtex("jssfitdistrplus.bib")

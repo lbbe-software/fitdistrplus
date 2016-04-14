@@ -1,7 +1,7 @@
 ---
-title: "Fitting distributions by MLE to non-censored data"
-author: "Marie Laure Delignette Muller, Christophe Dutang"
-date: "November 2015"
+title: Fitting distributions by MLE to non-censored data
+author: Marie Laure Delignette Muller, Christophe Dutang
+date: '`r Sys.Date()`'
 output:
   pdf_document:
     number_sections: true
@@ -9,6 +9,7 @@ output:
 vignette: |
   %\VignetteIndexEntry{Fitting distributions by MLE to non-censored data} 
   %\VignetteEngine{knitr::rmarkdown} 
+  %!\VignetteEncoding{UTF-8}
   \usepackage[utf8]{inputenc}
 bibliography: jssfitdistrplus.bib    
 header-includes:
@@ -29,6 +30,7 @@ header-includes:
 ---
 
 ```{r setup, echo=FALSE, message=FALSE, warning=FALSE}
+require(fitdistrplus)
 library("knitcitations")
 cleanbib()
 options("citation_format" = "pandoc")
@@ -292,9 +294,6 @@ fendo.ll <- fitdist(ATV, "llogis", start = list(shape = 1, scale = 500))
 fendo.P <- fitdist(ATV, "pareto", start = list(shape = 1, scale = 500))
 fendo.B <- fitdist(ATV, "burr", start = list(shape1 = 0.3, shape2 = 1, 
   rate = 1))
-cdfcomp(list(fendo.ln, fendo.ll, fendo.P, fendo.B), 
-  xlogscale = TRUE, ylogscale = TRUE, 
-  legendtext = c("lognormal", "loglogistic", "Pareto", "Burr"))
 ```
 
 
@@ -414,11 +413,14 @@ of the bootstrapped values of parameters providing
 a representation of the joint uncertainty distribution of the fitted parameters.
 Below is an example of the use of the `bootdist` function with the previous fit of the Burr distribution to the
 `endosulfan` data set (Figure~\ref{fig:bootstrap}). 
-```{r fitBurrboot, fig.height=6, fig.width=6, echo=TRUE, warning=FALSE}
-bendo.B <- bootdist(fendo.B, niter = 1001)
+```{r fitllogisboot, fig.height=6, fig.width=6, echo=TRUE, warning=FALSE}
+bendo.B <- bootdist(fendo.ll, niter = 1001)
 summary(bendo.B)
+```
+```{r, eval=FALSE}
 plot(bendo.B, enhance=TRUE)
 ```
+
 
 
 

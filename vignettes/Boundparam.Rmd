@@ -3,9 +3,9 @@ title: Setting bounds when fitting distributions (to non-censored data)
 author: Marie Laure Delignette Muller, Christophe Dutang
 date: '`r Sys.Date()`'
 output:
-  html_document:
-    number_sections: true
-    toc: true
+  html_vignette:
+    toc: yes
+    number_sections: yes
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{Setting bounds when fitting distributions (to non-censored data)} 
@@ -16,10 +16,6 @@ vignette: >
 ```{r setup, echo=FALSE, message=FALSE, warning=FALSE}
 require(fitdistrplus)
 require(actuar)
-require("knitcitations")
-cleanbib()
-options("citation_format" = "pandoc")
-bib <- read.bibtex("jssfitdistrplus.bib")
 ```
 
 # Setting bounds for scale parameters
@@ -88,7 +84,7 @@ $\mu$ is a boundary (or shift) parameter such that $\mu\in\mathbb{R}$.
 When optimizing the log-likelihood, the boundary constraint is
 $$
 \forall i=1,\dots,n, x_i>\mu
-\mathbb{R}ightarrow
+\Rightarrow
 \min_{i=1,\dots,n} x_i > \mu
 \Leftrightarrow 
 \mu > -\min_{i=1,\dots,n} x_i.
