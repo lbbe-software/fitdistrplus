@@ -98,6 +98,10 @@ fitbench <- function(data, distr, method, grad=NULL, control=list(trace=0, REPOR
   }
   
   resmat <- sapply(reslist, getval)
+  if(is.null(dim(resmat)))
+    stop("wrong extract")
+    
+  print(resmat)
   
 #   resNM <- sapply(reslist[grep("NM", names(reslist))], getval)
 #   resCGFR <- sapply(reslist[grep("CGFR", names(reslist))], getval)
@@ -106,7 +110,9 @@ fitbench <- function(data, distr, method, grad=NULL, control=list(trace=0, REPOR
 #   resBFGS <- sapply(reslist[grep("BFGS", names(reslist))], getval)  
   
   allname <- c(paste("fitted", names(reslist[[1]]$estimate)), "fitted loglik", "func. eval. nb.", "grad. eval. nb.", "time (sec)")
-  
+  if(NROW(resmat) != length(allname))
+    stop("wrong extract")
+    
 #  rownames(resNM) <- rownames(resCGFR) <- rownames(resCGPR) <- rownames(resCGBS) <- rownames(resBFGS) <- allname
   rownames(resmat) <- allname
   

@@ -26,7 +26,7 @@
 grdbeta <- function(x, d1, d2) #individual contribution
   c(log(x)-digamma(d1)+digamma(d1+d2), log(1-x)-digamma(d2)+digamma(d1+d2))
 grlnlbeta <- function(par, obs, ...) #total grad loglik
-  -rowSums(sapply(obs, function(x) grbetalnl(obs, d1=par[1], d2=par[2])))
+  -rowSums(sapply(obs, function(x) grdbeta(x, d1=par[1], d2=par[2])))
 
 
 #Gamma distribution
