@@ -25,7 +25,7 @@
 ### 
 
 mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.method="default",
-    lower=-Inf, upper=Inf, custom.optim=NULL, silent=TRUE, ...)
+    lower=-Inf, upper=Inf, custom.optim=NULL, silent=TRUE, gradient=NULL, ...)
     # data may correspond to a vector for non censored data or to
     # a dataframe of two columns named left and right for censored data 
 {
@@ -37,7 +37,6 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
     if (is.element(distname,c("binom","nbinom","geom","hyper","pois"))) 
         stop("Maximum goodness-of-fit estimation method is not intended to fit discrete distributions")
 
-
     pdistname <- paste("p",distname,sep="")
     if (!exists(pdistname, mode="function"))
         stop(paste("The ", pdistname, " function must be defined"))
@@ -46,6 +45,9 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
     if (!exists(ddistname, mode="function"))
         stop(paste("The ", ddistname, " function must be defined"))
 
+    if(is.null(custom.optim))
+      optim.method <- match.arg(optim.method, c("default", "Nelder-Mead", "BFGS", "CG", "L-BFGS-B", "SANN", "Brent"))
+    
     gof <- match.arg(gof, c("CvM", "KS", "AD", "ADR", "ADL", "AD2R", "AD2L", "AD2"))
    
     start.arg <- start #to avoid confusion with the start() function of stats pkg (check is done lines 87-100)
@@ -100,7 +102,7 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
       stop(chfixstt$txt)
     #unlist starting values as needed in optim()
     if(is.function(chfixstt$start.arg))
-      vstart <- chfixstt$start.arg(data)
+      vstart <- unlist(chfixstt$start.arg(data))
     else
       vstart <- unlist(chfixstt$start.arg)
     if(is.function(fix.arg)) #function
@@ -207,31 +209,101 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
         sum(log(do.call(ddistnam, c(list(obs), as.list(par), as.list(fix.arg)) ) ) )
     }
     
-    # Choice of the optimization method    
-    if (optim.method == "default")
-    {
-        if(is.infinite(lower) && is.infinite(upper))
-        { 
-            if (length(vstart) > 1) 
-                meth <- "Nelder-Mead"
-            else 
-                meth <- "BFGS"
-        }else
-            meth <- "L-BFGS-B"
-    }else
-        meth <- optim.method
-
     owarn <- getOption("warn")        
    
     # Try to minimize the gof distance using the base R optim function
     if(is.null(custom.optim))
     {
+        hasbound <- any(is.finite(lower) | is.finite(upper))
+      
+        # Choice of the optimization method  
+        if (optim.method == "default")
+        {
+          meth <- ifelse(length(vstart) > 1, "Nelder-Mead", "BFGS") 
+        }else
+          meth <- optim.method
+      
+        if(meth == "BFGS" && hasbound && is.null(gradient))
+        {
+          meth <- "L-BFGS-B"
+          txt1 <- "The BFGS method cannot be used with bounds without provided the gradient."
+          txt2 <- "The method is changed to L-BFGS-B."
+          warning(paste(txt1, txt2))
+        }
+      
+        if(cens)
+          stop("Maximum goodness-of-fit estimation is not yet available for censored data.")
+        
         options(warn=ifelse(silent, -1, 0))
-        if (!cens)
-            opttryerror <- try(opt <- optim(par=vstart, fn=fnobj, fix.arg=fix.arg, obs=data, pdistnam=pdistname,
-            hessian=TRUE, method=meth, lower=lower, upper=upper, ...), silent=TRUE)        
-        else 
-            stop("Maximum goodness-of-fit estimation is not yet available for censored data.")
+        #select optim or constrOptim
+        if(hasbound) #finite bounds are provided
+        {
+          if(!is.null(gradient))
+          {
+            opt.fun <- "constrOptim"
+          }else #gradient == NULL
+          {
+            if(meth == "Nelder-Mead")
+              opt.fun <- "constrOptim"
+            else if(meth %in% c("L-BFGS-B", "Brent"))
+              opt.fun <- "optim"
+            else
+            {
+              txt1 <- paste("The method", meth, "cannot be used by constrOptim() nor optim() without gradient and bounds.")
+              txt2 <- "Only optimization methods L-BFGS-B, Brent and Nelder-Mead can be used in such case."
+              stop(paste(txt1, txt2))
+            }
+          }
+          if(opt.fun == "constrOptim")
+          {
+            #recycle parameters
+            npar <- length(vstart) #as in optim() line 34
+            lower <- as.double(rep_len(lower, npar)) #as in optim() line 64
+            upper <- as.double(rep_len(upper, npar))
+            
+            # constraints are : Mat %*% theta >= Bnd, i.e. 
+            # +1 * theta[i] >= lower[i]; 
+            # -1 * theta[i] >= -upper[i]
+            
+            #select rows from the identity matrix
+            haslow <- is.finite(lower)
+            Mat <- diag(npar)[haslow, ]
+            #select rows from the opposite of the identity matrix
+            hasupp <- is.finite(upper)
+            Mat <- rbind(Mat, -diag(npar)[hasupp, ])
+            colnames(Mat) <- names(vstart)
+            rownames(Mat) <- paste0("constr", 1:NROW(Mat))
+            
+            #select the bounds
+            Bnd <- c(lower[is.finite(lower)], -upper[is.finite(upper)])
+            names(Bnd) <- paste0("constr", 1:length(Bnd))
+            
+            initconstr <- Mat %*% vstart - Bnd
+            if(any(initconstr < 0))
+              stop("Starting values must be in the feasible region.")
+            
+            opttryerror <- try(opt <- constrOptim(theta=vstart, f=fnobj, ui=Mat, ci=Bnd, grad=gradient,
+                                                    fix.arg=fix.arg, obs=data, pdistnam=pdistname, hessian=!is.null(gradient), method=meth, 
+                                                    ...), silent=TRUE)
+            if(!inherits(opttryerror, "try-error"))
+              if(length(opt$counts) == 1) #appears when the initial point is a solution
+                opt$counts <- c(opt$counts, NA)
+            
+            
+          }else #opt.fun == "optim"
+          {
+            opttryerror <- try(opt <- optim(par=vstart, fn=fnobj, fix.arg=fix.arg, obs=data, gr=gradient,
+                                            pdistnam=pdistname, hessian=TRUE, method=meth, lower=lower, upper=upper, 
+                                              ...), silent=TRUE)       
+          }
+          
+        }else #hasbound == FALSE
+        {
+          opt.fun <- "optim"
+          opttryerror <- try(opt <- optim(par=vstart, fn=fnobj, fix.arg=fix.arg, obs=data, gr=gradient,
+                                          pdistnam=pdistname, hessian=TRUE, method=meth, lower=lower, upper=upper, 
+                                            ...), silent=TRUE)       
+        }
         options(warn=owarn)
                 
         if (inherits(opttryerror,"try-error"))

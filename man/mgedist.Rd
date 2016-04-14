@@ -9,7 +9,7 @@
 
 \usage{
 mgedist(data, distr, gof = "CvM", start = NULL, fix.arg = NULL, optim.method = "default", 
-  lower = -Inf, upper = Inf, custom.optim = NULL, silent = TRUE, \dots)
+  lower = -Inf, upper = Inf, custom.optim = NULL, silent = TRUE, gradient = NULL, \dots)
 
 }
 
@@ -34,7 +34,9 @@ mgedist(data, distr, gof = "CvM", start = NULL, fix.arg = NULL, optim.method = "
 \item{upper}{ Right bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
 \item{custom.optim}{a function carrying the optimization.}
 \item{silent}{A logical to remove or show warnings when bootstraping.}    
-\item{\dots}{further arguments passed to the \code{\link{optim}} or \code{custom.optim} function.}
+\item{gradient}{A function to return the gradient of the gof distance for the \code{"BFGS"}, \code{"CG"} 
+    and \code{"L-BFGS-B"} methods. If it is \code{NULL}, a finite-difference approximation will be used.}
+\item{\dots}{further arguments passed to the \code{\link{optim}}, \code{\link{constrOptim}} or \code{custom.optim} function.}
 }
 
 \details{
@@ -48,8 +50,9 @@ mgedist(data, distr, gof = "CvM", start = NULL, fix.arg = NULL, optim.method = "
     gives more weight only to the right tail, the left-tail AD (\code{"ADL"})
     gives more weight only to the left tail. Either of the tails, or both of them, can receive even larger
     weights by using second order Anderson-Darling Statistics (using \code{"AD2R"}, \code{"AD2L"} or \code{"AD2"}).
+    
     The optimization process is the same as \code{\link{mledist}}, see the 'details' section 
-    of  \code{\link{mledist}}.
+    of that function.
 
     This function is not intended to be called directly but is internally called in
     \code{\link{fitdist}} and \code{\link{bootdist}}.

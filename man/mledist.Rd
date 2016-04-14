@@ -44,7 +44,7 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
     Should be \code{NULL} or a numeric vector. If non-\code{NULL}, 
     weighted MLE is used, otherwise ordinary MLE.}
 \item{silent}{A logical to remove or show warnings when bootstraping.}    
-\item{gradient}{A function to return the gradient for the \code{"BFGS"}, \code{"CG"} 
+\item{gradient}{A function to return the gradient of the log-likelihood for the \code{"BFGS"}, \code{"CG"} 
     and \code{"L-BFGS-B"} methods. If it is \code{NULL}, a finite-difference approximation will be used,
     see details.}
 \item{\dots}{further arguments passed to the \code{\link{optim}}, 

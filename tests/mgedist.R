@@ -94,3 +94,9 @@ x <- rnorm(1000)
 #change parameter to obtain unsuccessful convergence
 mgedist(x, "norm", control=list(maxit=2), start=list(mean=1e5, sd=1), optim.method="L-BFGS-B", lower=0)
 
+# (8) test bounds
+x <- rnorm(1000)
+mgedist(x, "norm", optim.method="L-BFGS-B", lower=c(-Inf, 0)) #optim and L-BFGS-B
+mgedist(x, "norm", optim.method="Nelder", lower=c(-Inf, 0))
+
+
