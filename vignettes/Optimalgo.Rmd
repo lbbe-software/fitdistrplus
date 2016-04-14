@@ -2,15 +2,10 @@
 title: "Which optimization algorithm to choose?"
 author: "Marie Laure Delignette Muller, Christophe Dutang"
 date: "December 2015"
-output: 
-  pdf_document:
-    number_sections: true
-    toc: true
-vignette: |
-  %\VignetteIndexEntry{Optimization algorithm} 
-  %\VignetteEngine{knitr::rmarkdown} 
-  \usepackage[utf8]{inputenc}
-bibliography: jssfitdistrplus.bib    
+output:
+  html_document:
+    toc: yes
+    number_sections: yes
 header-includes:
 - \usepackage{url}
 - \newcommand{\ind}{1\!\!1}
@@ -25,7 +20,11 @@ header-includes:
 - \newcommand{\detL}{\left|\begin{matrix}}
 - \newcommand{\detR}{\end{matrix}\right|}
 - \newcommand{\pkg}{\textbf}
-- \newcommand{\proglang}{\textsf}    
+- \newcommand{\proglang}{\textsf}
+bibliography: jssfitdistrplus.bib
+vignette: >
+  %\VignetteIndexEntry{Optimization algorithm} 
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 
 

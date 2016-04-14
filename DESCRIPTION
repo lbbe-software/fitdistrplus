@@ -5,6 +5,7 @@ Authors@R: c(person("Marie Laure", "Delignette-Muller", role = c("aut", "cre"), 
 Description: Extends the fitdistr() function (of the MASS package) with several functions to help the fit of a parametric distribution to non-censored or censored data. Censored data may contain left censored, right censored and interval censored values, with several lower and upper bounds. In addition to maximum likelihood estimation (MLE), the package provides moment matching (MME), quantile matching (QME) and maximum goodness-of-fit estimation (MGE) methods (available only for non-censored data). Weighted versions of MLE, MME and QME are available.
 Depends: R (>= 3.2.0), MASS, grDevices, survival
 Imports: stats
-Suggests: actuar, rgenoud, mc2d, gamlss.dist
+Suggests: actuar, rgenoud, mc2d, gamlss.dist, knitr
+VignetteBuilder: knitr
 License: GPL (>= 2)
 URL: http://riskassessment.r-forge.r-project.org

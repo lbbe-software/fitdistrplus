@@ -1,6 +1,8 @@
 require(fitdistrplus)
 
-x <- rgamma(1e3, shape=1/2, rate= 1/2)
+x <- rgamma(1e3, shape=3/2, rate= 1/2)
+
+initval <- unlist(fitdistrplus:::start.arg.default(x, "gamma"))
 
 fitdistrplus:::fitbench(x, "gamma", "mle")
 
