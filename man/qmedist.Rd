@@ -10,7 +10,7 @@
 \usage{
 qmedist(data, distr, probs, start = NULL, fix.arg = NULL, qtype = 7, 
     optim.method = "default", lower = -Inf, upper = Inf, 
-    custom.optim = NULL, weights = NULL, silent = TRUE, \dots)
+    custom.optim = NULL, weights = NULL, silent = TRUE, gradient = NULL, \dots)
 
 }
 
@@ -39,14 +39,20 @@ qmedist(data, distr, probs, start = NULL, fix.arg = NULL, qtype = 7,
     Should be \code{NULL} or a numeric vector. If non-\code{NULL}, 
     weighted QME is used, otherwise ordinary QME.}
 \item{silent}{A logical to remove or show warnings when bootstraping.}        
-\item{\dots}{further arguments passed to the \code{\link{optim}} or \code{custom.optim} function.}
+\item{gradient}{A function to return the gradient of the squared difference for the \code{"BFGS"}, \code{"CG"} 
+    and \code{"L-BFGS-B"} methods. If it is \code{NULL}, a finite-difference approximation will be used,
+    see details.}
+\item{\dots}{further arguments passed to the \code{\link{optim}}, 
+    \code{\link{constrOptim}} or \code{custom.optim} function.}
+
 }
 
 \details{
     The \code{qmedist} function carries out the quantile matching numerically, by minimization of the
     sum of squared differences between observed and theoretical quantiles.
+    
     The optimization process is the same as \code{\link{mledist}}, see the 'details' section 
-    of  \code{\link{mledist}}.
+    of that function.
     
     Optionally, a vector of \code{weights} can be used in the fitting process. 
     By default (when \code{weigths=NULL}), ordinary QME is carried out, otherwise 
@@ -97,7 +103,8 @@ qmedist(data, distr, probs, start = NULL, fix.arg = NULL, qtype = 7,
     approximation to the gradient. \code{counts} is returned by \code{\link{optim}}
     or the user-supplied function or set to \code{NULL}.}
     \item{optim.message}{A character string giving any additional information 
-    returned by the optimizer, or \code{NULL}.}
+    returned by the optimizer, or \code{NULL}. To understand exactly the message,
+    see the source code.}
 }
 
 

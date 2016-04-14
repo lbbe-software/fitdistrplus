@@ -231,9 +231,6 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
           warning(paste(txt1, txt2))
         }
       
-        if(cens)
-          stop("Maximum goodness-of-fit estimation is not yet available for censored data.")
-        
         options(warn=ifelse(silent, -1, 0))
         #select optim or constrOptim
         if(hasbound) #finite bounds are provided

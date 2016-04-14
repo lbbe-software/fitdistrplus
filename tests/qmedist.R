@@ -109,3 +109,7 @@ x <- rnorm(1000)
 #change parameter to obtain unsuccessful convergence
 qmedist(x, "norm", probs=1:2/3, control=list(maxit=2), start=list(mean=1e5, sd=1), optim.method="L-BFGS-B", lower=0)
 
+# (10) test bounds
+x <- rnorm(1000)
+qmedist(x, "norm", probs=1:2/3, optim.method="L-BFGS-B", lower=c(-Inf, 0)) #via optim
+qmedist(x, "norm", probs=1:2/3, optim.method="Nelder", lower=c(-Inf, 0)) #via constrOptim
