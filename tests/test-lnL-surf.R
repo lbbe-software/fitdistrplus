@@ -11,7 +11,7 @@ x <- rbeta(n, 3, 3/4)
 llsurface(data = x, distr = "beta", plot.arg=c("shape1", "shape2"),
           min.arg=c(0.1, 0.1), max.arg=c(7, 3))
 llsurface(data = x, distr = "beta", plot.arg=c("shape1", "shape2"),
-          min.arg=c(0.1, 0.1), max.arg=c(7, 3), col = FALSE )
+          min.arg=c(0.1, 0.1), max.arg=c(7, 3), col.back = FALSE )
 points(3, 3/4, pch="+", col="red")
 
 

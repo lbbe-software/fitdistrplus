@@ -29,7 +29,7 @@ llcurve(data, distr, plot.arg, min.arg, max.arg,   lseq = 50, fix.arg = NULL,
 \item{lseq}{length of sequences of paramaters.}
 \item{fix.arg}{a named list with fixed value of other parameters.}
 \item{loglik}{a logical to plot log-likelihood or likelihood function.}
-\item{col}{logical (for llsurface only). Contours are plotted with a background
+\item{col.back}{logical (for llsurface only). Contours are plotted with a background
           gradient of colors if TRUE.}
 \item{nlev}{number of contour levels to add to the likelihood contour at level 95 percent
      (for llsurface only).}
@@ -98,7 +98,7 @@ abline(v = 1, lty = 2)
 x <- rnorm(n, 0, 1)
 
 llsurface(data =x, distr="norm", plot.arg=c("mean", "sd"), 
-          min.arg=c(-1, 0.5), max.arg=c(1, 3/2), col = FALSE,
+          min.arg=c(-1, 0.5), max.arg=c(1, 3/2), col.back = FALSE,
           main="log-likelihood for normal distribution")
 llsurface(data =x, distr="norm", plot.arg=c("mean", "sd"), 
           min.arg=c(-1, 0.5), max.arg=c(1, 3/2), 
@@ -108,7 +108,7 @@ points(0, 1, pch="+", col="red")
 llsurface(data =x, distr="norm", plot.arg=c("mean", "sd"), 
           min.arg=c(-1, 0.5), max.arg=c(1, 3/2), 
           main="log-likelihood for normal distribution", 
-          nlev = 0, col = TRUE, col.pal = rainbow(100, s = 0.5, end = 0.8))
+          nlev = 0, col.back = TRUE, col.pal = rainbow(100, s = 0.5, end = 0.8))
 points(0, 1, pch="+", col="black")
 
 

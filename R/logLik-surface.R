@@ -22,8 +22,70 @@
 ###         R functions
 ### 
 
+llplot <- function(mlefit, loglik = TRUE, expansion = 1, lseq = 50,
+                   back.col = TRUE, nlev = 10, pal.col = terrain.colors(100), ...)
+{
+  if (!inherits(mlefit, "fitdist"))
+    stop("Use only with 'fitdist' objects")
+  if(!is.null(mlefit$weights))
+    stop("The plot of the fit is not yet available when using weights")
+  if(mlefit$method !="mle")
+    stop("This plot is only available for distribution fits using maximum likelihood")
+  
+  data <- mlefit$data
+  distr <- mlefit$distname
+  np <- length(mlefit$estimate)
+  if (np == 1)
+  {
+    estim.value <- mlefit$estimate
+    estim.sd <- mlefit$sd
+    plot.arg <- names(mlefit$estimate)
+    fix.arg <- mlefit$fix.arg
+    llcurve(data, distr, plot.arg = plot.arg, 
+            min.arg = estim.value - estim.sd * 2 *expansion, 
+            max.arg = estim.value + estim.sd * 2 *expansion, 
+            lseq = lseq, fix.arg = fix.arg, loglik = loglik, ...)
+  } else # so if np > 1
+    if (np == 2)
+    {
+      estim.value <- mlefit$estimate
+      estim.sd <- mlefit$sd
+      plot.arg <- names(mlefit$estimate)
+      fix.arg <- mlefit$fix.arg
+      llsurface(data, distr, plot.arg = plot.arg, 
+              min.arg = estim.value - estim.sd * 2 *expansion, 
+              max.arg = estim.value + estim.sd * 2 *expansion, 
+              lseq = lseq, fix.arg = fix.arg, loglik = loglik,
+              col.back = back.col, nlev = nlev, col.pal = pal.col, ...)
+      
+    } else # so if np > 2
+    {
+      def.par <- par(no.readonly = TRUE)
+      ncombi <- choose(np, 2)
+      lay <- lower.tri(matrix(0, (np - 1), (np - 1)), TRUE)
+      lay[which(lay, TRUE)] <- 1:ncombi
+      layout(lay)
+      par(mar = c(5, 4, 0.2, 0.2))
+      for (i in 1:(np - 1))
+        for (j in (i+1):np)
+        {
+          plot.arg <- names(mlefit$estimate)[c(i, j)]
+          estim.value <- mlefit$estimate[c(i, j)]
+          estim.sd <- mlefit$sd[c(i, j)]
+          fix.arg <- c(mlefit$fix.arg, as.list(mlefit$estimate[-c(i,j)]))
+          llsurface(data, distr, plot.arg = plot.arg, 
+                    min.arg = estim.value - estim.sd * 2 *expansion, 
+                    max.arg = estim.value + estim.sd * 2 *expansion, 
+                    lseq = lseq, fix.arg = fix.arg, loglik = loglik,
+                    col.back = back.col, nlev = nlev, col.pal = pal.col, ...)
+        }
+      par(def.par)
+      
+    }
+}
+
 llsurface <- function(data, distr, plot.arg, min.arg, max.arg,   lseq = 50, fix.arg = NULL,  
-                      loglik = TRUE, col = TRUE, nlev = 10, col.pal = terrain.colors(100), ...)
+                      loglik = TRUE, col.back = TRUE, nlev = 10, col.pal = terrain.colors(100), ...)
 {
   stopifnot(is.vector(plot.arg) || length(plot.arg) == 2)
   stopifnot(is.list(fix.arg) || is.null(fix.arg))
@@ -76,11 +138,10 @@ llsurface <- function(data, distr, plot.arg, min.arg, max.arg,   lseq = 50, fix.
   #create x, y and z matrix.
   p1 <- seq(min.arg[1], max.arg[1], length=lseq)
   p2 <- seq(min.arg[2], max.arg[2], length=lseq)
-  # z <- t(sapply(p1, function(x) sapply(p2, function(y) f2plot(x, y))))
   z <- outer(p1, p2, Vectorize(f2plot, c("x","y")))
   # vectorize is necessary to vectorize the function f2plot
   
-  if (col)
+  if (col.back)
   {
     image(p1, p2, z, col = col.pal, xlab = plot.arg[1], ylab = plot.arg[2])
     if (nlev > 0)
@@ -90,11 +151,6 @@ llsurface <- function(data, distr, plot.arg, min.arg, max.arg,   lseq = 50, fix.
     contour(p1, p2, z, nlevels = nlev, xlab = plot.arg[1], ylab = plot.arg[2])
   }
   
-  #   switch(plot.type,
-  #            contour = contour(p1, p2, z, ...),
-  #            filled.contour = filled.contour(p1, p2, z, ...),
-  #            image = image(p1, p2, z, ...),
-  #            persp = persp(p1, p2, z, zlab="Log-likelihood",...))
   invisible()
 }
 
