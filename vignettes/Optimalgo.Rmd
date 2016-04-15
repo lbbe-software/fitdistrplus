@@ -301,5 +301,8 @@ in terms of fitted values are neglible.
 
 
 
+# Zero-inflated negative binomial
+TODO!
 
+actuarial dataset
 
