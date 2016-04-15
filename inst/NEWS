@@ -6,7 +6,9 @@ Version 1.0-7
 NEW FEATURES
 - start the JSS splitting vignette into how-to guides.
 - start likelihood surface/curve.
-- provide parallization of bootstrap in bootdist and bootdistcens
+- provide parallization of bootstrap in bootdist and bootdistcens.
+- allow the use of constrOptim in mledist, mmedist, mgedist, qmedist functions.
+- add a possible pre-fitting procedures.
 
 BUG FIXES
 - add invisible() for all graphical functions.

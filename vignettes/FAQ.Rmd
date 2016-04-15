@@ -24,7 +24,134 @@ require(fitdistrplus)
 ## How do I find non standard distributions?
 
 # Questions regarding optimization procedures
+
 ## The optimization algorithm stops with error code 100. What shall I do?
+
+## Why distribution with a `log` argument converge better?
+### The problem
+Say, we study the shifted lognormal distribution defined by the following density
+$$
+f(x) = \frac{1}{x \sigma \sqrt{2 \pi}} \exp\left(- \frac{(\ln (x+\delta)- \mu)^2}{2\sigma^2}\right) 
+$$
+for $x>-\delta$ where $\mu$ is a location parameter, $\sigma$ a scale parameter and 
+$\delta$ a boundary parameter.
+Let us fit this distribution on the dataset `y` by MLE.
+We define two functions for the densities with and without a `log` argument.
+```{r}
+dshiftlnorm <- function(x, mean, sigma, shift, log = FALSE) 
+  dlnorm(x+shift, mean, sigma, log=log)
+pshiftlnorm <- function(q, mean, sigma, shift, log.p = FALSE) 
+  plnorm(q+shift, mean, sigma, log.p=log.p)
+qshiftlnorm <- function(p, mean, sigma, shift, log.p = FALSE) 
+  qlnorm(p, mean, sigma, log.p=log.p)-shift
+dshiftlnorm_no <- function(x, mean, sigma, shift) 
+  dshiftlnorm(x, mean, sigma, shift)
+pshiftlnorm_no <- function(q, mean, sigma, shift) 
+  pshiftlnorm(q, mean, sigma, shift)
+```
+We now optimize the minus log-likelihood.
+```{r}
+y <- c(4.11592e-03,  1.56671e-02,  7.95032e-03, 3.49125e-03,  2.44291e-02,  1.06261e-02,  7.80613e-03,
+ -4.26416e-03, -2.46668e-02,  7.60648e-03,  1.56030e-02,  4.44385e-03,  1.44433e-02,  1.31314e-02,
+   5.15774e-03, -4.65771e-03,  9.31898e-03, -3.81392e-03, -1.81133e-02, -1.53264e-02, -7.10242e-03,
+   9.52508e-03, -5.04158e-04, -8.49093e-03, -7.88736e-03, -6.16296e-03,  8.44464e-03,  3.12538e-02,
+  -9.85788e-03,  6.59530e-03, -5.82576e-04,  9.99685e-03, -4.15953e-03, -4.33652e-03,  1.55462e-03,
+   2.67180e-03, -2.78922e-03, -4.25658e-03, -4.75687e-04, -2.20238e-02, -4.94825e-03, -1.50406e-04,
+  -5.26267e-03, -8.39674e-03, -3.40747e-02, -1.28040e-03,  4.49934e-03, -2.81938e-03,  1.07720e-02,
+   4.18430e-03,  6.71195e-04,  3.95836e-03, -3.43171e-03, -6.42323e-03, -7.62038e-03,  1.60927e-03,
+   6.08956e-03,  4.77632e-03, -8.32566e-03, -1.89625e-03,  2.32493e-03,  1.22333e-02, -2.34109e-03,
+  -2.10295e-02, -2.80792e-02,  1.40072e-02, -3.69864e-03,  5.59936e-03,  2.48201e-02,  2.27630e-03,
+  -3.52981e-05,  4.56444e-02,  9.95315e-03,  4.15989e-03,  3.80907e-03, -1.85304e-03, -1.22425e-02,
+  -5.73161e-04,  4.30571e-02, -1.58281e-04,  6.34013e-03, -5.33670e-03,  2.48910e-03,  2.95497e-03,
+   1.40058e-02,  3.41760e-03,  7.29761e-04, -3.80915e-03,  2.36959e-02, -5.18242e-03,  9.35968e-03,
+   8.86184e-03,  8.41462e-03, -1.54469e-02,  1.47688e-02,  2.99818e-02, -2.81632e-03, -2.65304e-02,
+   9.62757e-04,  5.62421e-03)
+D <- 1-min(y)
+f0 <- fitdist(y+D, "lnorm")
+start <- list(
+  mean=as.numeric(f0$estimate["meanlog"]), 
+  sigma=as.numeric(f0$estimate["sdlog"]), 
+  shift=D)
+# works with BFGS, but not Nelder-Mead
+f <- fitdist(y, "shiftlnorm", start=start, optim.method="BFGS")
+summary(f)
+```
+If we don't use the `log` argument, the algorithms stalls.
+```{r, error=FALSE}
+f2 <- try(fitdist(y, "shiftlnorm_no", start=start, optim.method="BFGS"))
+print(attr(f2, "condition"))
+```
+Indeed the algorithm stops because at the following value, the log-likelihood
+is infinite.
+```{r}
+sum(log(dshiftlnorm_no(y, 0.16383978, 0.01679231, 1.17586600 )))
+log(prod(dshiftlnorm_no(y, 0.16383978, 0.01679231, 1.17586600 )))
+sum(dshiftlnorm(y, 0.16383978, 0.01679231, 1.17586600, TRUE ))
+```
+There is something wrong in the computation.
+### The reason
+Only the R-base implementation using `log` argument is reliable.
+This happens the C-base implementation of `dlnorm` takes care of the log value.
+In the file `../src/nmath/dlnorm.c`  in the R sources, we find the C code for
+`dlnorm`
+```{r, eval=FALSE, echo=TRUE}
+double dlnorm(double x, double meanlog, double sdlog, int give_log)
+{
+    double y;
+
+#ifdef IEEE_754
+    if (ISNAN(x) || ISNAN(meanlog) || ISNAN(sdlog))
+	return x + meanlog + sdlog;
+#endif
+    if(sdlog <= 0) {
+	if(sdlog < 0) ML_ERR_return_NAN;
+	// sdlog == 0 :
+	return (log(x) == meanlog) ? ML_POSINF : R_D__0;
+    }
+    if(x <= 0) return R_D__0;
+
+    y = (log(x) - meanlog) / sdlog;
+    return (give_log ?
+	    -(M_LN_SQRT_2PI   + 0.5 * y * y + log(x * sdlog)) :
+	    M_1_SQRT_2PI * exp(-0.5 * y * y)  /	 (x * sdlog));
+    /* M_1_SQRT_2PI = 1 / sqrt(2 * pi) */
+
+}
+```
+In the last four lines, we see how the `log` argument is taken into account:
+
+* when log=TRUE, we use $-(\log(\sqrt{2\pi}) + y^2/2+\log(x\sigma))$
+```{r, eval=FALSE, echo=TRUE}
+-(M_LN_SQRT_2PI   + 0.5 * y * y + log(x * sdlog))
+```
+* when log=FALSE, we use $\sqrt{2\pi} *\exp( y^2/2)/(x\sigma))$ (and then the logarithm outside `dlnorm`)
+```{r, eval=FALSE, echo=TRUE}
+M_1_SQRT_2PI * exp(-0.5 * y * y)  /	 (x * sdlog))
+```
+Note that the constant $\log(\sqrt{2\pi})$ is pre-computed.
+
+### A solution
+We use the `constrOptim` wrapping `optim` to take into account linear constraints.
+This allows also to use other optimization methods than L-BFGS-B 
+(low memory bounded constraint BFGS) used in optim.
+```{r}
+#wrapper to meet standard
+constrOptim2 <- function(par, fn, gr=NULL, ui, ci, ...)
+	constrOptim(theta=par, f=fn, grad=gr, ui=ui, ci=ci, ...)
+
+# mean : no constraint
+# sd > 0
+# min(obs) > -shift <=> shift > -min(obs)
+
+#check initial condition
+cbind(c(0, 0), c(1, 0), c(0, 1)) %*% unlist(start)  - c(0, -min(y))
+
+f2 <- fitdist(y, "shiftlnorm", start=start, custom.optim=constrOptim2, 
+	ui = cbind(c(0, 0), c(1, 0), c(0, 1)), ci = c(0, -min(y)), optim.method="Nelder-Mead")
+summary(f2)
+print(cbind(BFGS=f$estimate, NelderMead=f2$estimate))
+```
+
 
 # References
 
