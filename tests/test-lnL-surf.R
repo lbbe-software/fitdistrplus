@@ -11,7 +11,7 @@ x <- rbeta(n, 3, 3/4)
 llsurface(data = x, distr = "beta", plot.arg=c("shape1", "shape2"),
           min.arg=c(0.1, 0.1), max.arg=c(7, 3))
 llsurface(data = x, distr = "beta", plot.arg=c("shape1", "shape2"),
-          min.arg=c(0.1, 0.1), max.arg=c(7, 3), col.back = FALSE )
+          min.arg=c(0.1, 0.1), max.arg=c(7, 3), back.col = FALSE )
 points(3, 3/4, pch="+", col="red")
 
 
@@ -60,7 +60,7 @@ cbind(NM=getval(nm), NMgrad=getval(nm_gr), CG=getval(cg),
 
 
 llsurface(data = x, distr = "beta", plot.arg = c("shape1", "shape2"),
-          min.arg = c(0.1, 0.1), max.arg = c(7, 3), col.pal = heat.colors(50))
+          min.arg = c(0.1, 0.1), max.arg = c(7, 3), pal.col = heat.colors(50))
 points(bfgs$estimate[1], bfgs$estimate[2], pch="+", col="red")
 points(3, 3/4, pch="x", col="green")
 

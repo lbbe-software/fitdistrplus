@@ -23,7 +23,8 @@
 ### 
 
 llplot <- function(mlefit, loglik = TRUE, expansion = 1, lseq = 50,
-                   back.col = TRUE, nlev = 10, pal.col = terrain.colors(100), ...)
+                   back.col = TRUE, nlev = 10, pal.col = terrain.colors(100),
+                   fit.show = FALSE, fit.pch = 4, ...)
 {
   if (!inherits(mlefit, "fitdist"))
     stop("Use only with 'fitdist' objects")
@@ -45,6 +46,8 @@ llplot <- function(mlefit, loglik = TRUE, expansion = 1, lseq = 50,
             min.arg = estim.value - estim.sd * 2 *expansion, 
             max.arg = estim.value + estim.sd * 2 *expansion, 
             lseq = lseq, fix.arg = fix.arg, loglik = loglik, ...)
+    if (fit.show) points(estim.value, ifelse(loglik, mlefit$loglik, exp(mlefit$loglik)), 
+                         pch = fit.pch)
   } else # so if np > 1
     if (np == 2)
     {
@@ -56,7 +59,8 @@ llplot <- function(mlefit, loglik = TRUE, expansion = 1, lseq = 50,
               min.arg = estim.value - estim.sd * 2 *expansion, 
               max.arg = estim.value + estim.sd * 2 *expansion, 
               lseq = lseq, fix.arg = fix.arg, loglik = loglik,
-              col.back = back.col, nlev = nlev, col.pal = pal.col, ...)
+              back.col = back.col, nlev = nlev, pal.col = pal.col, ...)
+    if (fit.show) points(estim.value[1], estim.value[2], pch = fit.pch)
       
     } else # so if np > 2
     {
@@ -77,15 +81,16 @@ llplot <- function(mlefit, loglik = TRUE, expansion = 1, lseq = 50,
                     min.arg = estim.value - estim.sd * 2 *expansion, 
                     max.arg = estim.value + estim.sd * 2 *expansion, 
                     lseq = lseq, fix.arg = fix.arg, loglik = loglik,
-                    col.back = back.col, nlev = nlev, col.pal = pal.col, ...)
+                    back.col = back.col, nlev = nlev, pal.col = pal.col, ...)
+          if (fit.show) points(estim.value[1], estim.value[2], pch = fit.pch)
         }
       par(def.par)
-      
     }
+  invisible()
 }
 
 llsurface <- function(data, distr, plot.arg, min.arg, max.arg,   lseq = 50, fix.arg = NULL,  
-                      loglik = TRUE, col.back = TRUE, nlev = 10, col.pal = terrain.colors(100), ...)
+                      loglik = TRUE, back.col = TRUE, nlev = 10, pal.col = terrain.colors(100), ...)
 {
   stopifnot(is.vector(plot.arg) || length(plot.arg) == 2)
   stopifnot(is.list(fix.arg) || is.null(fix.arg))
@@ -141,9 +146,9 @@ llsurface <- function(data, distr, plot.arg, min.arg, max.arg,   lseq = 50, fix.
   z <- outer(p1, p2, Vectorize(f2plot, c("x","y")))
   # vectorize is necessary to vectorize the function f2plot
   
-  if (col.back)
+  if (back.col)
   {
-    image(p1, p2, z, col = col.pal, xlab = plot.arg[1], ylab = plot.arg[2])
+    image(p1, p2, z, col = pal.col, xlab = plot.arg[1], ylab = plot.arg[2])
     if (nlev > 0)
       contour(p1, p2, z, nlevels = nlev, add = TRUE)
   } else
