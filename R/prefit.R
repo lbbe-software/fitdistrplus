@@ -23,27 +23,48 @@
 ### 
 
 #search good starting values
-prefitmle <- function(data, ddistnam, vstart, fix.arg=NULL, lower, upper, custom.optim=NULL, weights=NULL, silent=TRUE, ...)
+prefitmle <- function(data, distr, method = c("mle", "mme", "qme", "mge"), feasible.par, 
+                      fix.arg=NULL, lower, upper, weights=NULL, silent=TRUE, ...)
 {
-  if(missing(vstart))
-    stop("starting values must be provided")
+  if (!is.character(distr)) 
+    distname <- substring(as.character(match.call()$distr), 2)
+  else 
+    distname <- distr
+  ddistname <- paste("d", distname, sep="")
+  if (!exists(ddistname, mode="function"))
+    stop(paste("The ", ddistname, " function must be defined"))
+  
+  pdistname <- paste("p", distname, sep="")
+  if (!exists(pdistname, mode="function"))
+    stop(paste("The ", pdistname, " function must be defined"))
+  
+  method <- match.arg(method, c("mle", "mme", "qme", "mge"))
+  if(method != "mle")
+    stop("not yet implemented")
+  
+  if(missing(feasible.par))
+    stop("feasible values must be provided")
   if(missing(lower) || missing(upper))
     stop("bounds (yet infinite) must be provided")
   
   #recycle parameters
-  npar <- length(vstart) #as in optim() line 34
+  if(is.list(feasible.par))
+    feasible.par <- unlist(feasible.par)
+  npar <- length(feasible.par) #as in optim() line 34
   lower <- as.double(rep_len(lower, npar)) #as in optim() line 64
   upper <- as.double(rep_len(upper, npar))
   
   if(is.infinite(lower) && is.infinite(upper))
   {
-    bnd <- detectbound(substr(ddistnam, 2, nchar(ddistnam)), vstart, data, fix.arg=fix.arg)
+    bnd <- detectbound(distname, feasible.par, data, fix.arg=fix.arg)
   }else
   {
     bnd <- rbind(lower, upper)
-    colnames(bnd) <- names(vstart)
+    colnames(bnd) <- names(feasible.par)
     rownames(bnd) <- c("lowb", "uppb")
   }
+  if(!silent)
+    print(bnd)
   
   translist <- invlist <- NULL
   for(i in 1:NCOL(bnd))
@@ -51,7 +72,7 @@ prefitmle <- function(data, ddistnam, vstart, fix.arg=NULL, lower, upper, custom
     if(bnd["lowb", i] == -Inf && bnd["uppb", i] == Inf)
     {  
       translist <- c(translist, list(function(x) x))
-      invlist <- c(invlist, list(function(x) x))  
+      invlist <- c(invlist, list(function(x) x))
     }else if(bnd["lowb", i] == 0 && bnd["uppb", i] == Inf)
     {  
       translist <- c(translist, list(T0Inf))
@@ -69,40 +90,70 @@ prefitmle <- function(data, ddistnam, vstart, fix.arg=NULL, lower, upper, custom
       translist <- c(translist, list(Tm10))
       invlist <- c(invlist, list(iTm10))
     }else
+    {
+      print(bnd)
       stop("unknown parameter domain")
+    }
   }
+  if(!silent)
+    print(translist)
   
+  if(!is.null(weights))
+  {
+    if(any(weights < 0))
+      stop("weights should be a vector of numerics greater than 0")
+    if(length(weights) != NROW(data))
+      stop("weights should be a vector with a length equal to the observation number")
+  }else
+    weights <- rep(1, NROW(data))
+  
+  
+  #log likelihood (weighted)
   fnobj <- function(par, fix.arg, obs, ddistnam) 
   {
     if(!is.list(par))
       par <- as.list(par)
-    #print(par)
-    par <- lapply(1:length(par), function(i) translist[[i]](par[[i]]))
-    #print(par)
-    -sum(log(do.call(ddistnam, c(list(obs), as.list(par), as.list(fix.arg)) ) ) )
+    #print(unlist(par))
+    lpar <- lapply(1:length(par), function(i) translist[[i]](par[[i]]))
+    #print(lpar)
+    -sum( weights * log(do.call(ddistnam, c(list(obs), lpar, as.list(fix.arg)) ) ) )
   }
-  
-  test1 <- try(fnobj(par=vstart, fix.arg = fix.arg, obs=data, ddistnam = ddistnam), silent=silent)
-  if(class(test1) == "try-error")
+   
+  ltrans.par <- sapply(1:length(feasible.par), function(i) invlist[[i]](feasible.par[[i]]))
+  if(!silent)
+  {
+    cat("before transform\n")
+    print(unlist(feasible.par))
+    cat("after transform\n")
+    print(unlist(ltrans.par))
+  }
+  test1 <- try(fnobj(par=ltrans.par, fix.arg = fix.arg, obs=data, ddistnam = ddistname), silent=silent)
+  if(class(test1) == "try-error" || silent == FALSE)
     print(test1)
   
-  
-  
-  opttryerror <- try(opt <- optim(par=vstart, fn=fnobj, fix.arg=fix.arg, obs=data, ddistnam=ddistnam, 
+  #get old warning value and set it
+  owarn <- options(warn=ifelse(silent, -1, 0))
+  opttryerror <- try(opt <- optim(par=ltrans.par, fn=fnobj, fix.arg=fix.arg, obs=data, ddistnam=ddistname, 
                                   hessian=FALSE, method="BFGS", ...), silent=silent)       
+  #get back to old warning value
+  on.exit(options(owarn), add=TRUE)
+  
+  
+  if(class(opttryerror) == "try-error")
+    stop("unsuccessful pre-fitting process")
+  if(!silent)
+    print(opt)
   
   if(opt$convergence %in% 0:1) #either successful or reached the iteration limit (see ?optim)
   {
     prefitpar <- unlist(sapply(1:length(opt$par), function(i) translist[[i]](opt$par[i])))
   }else
   {
-    prefitpar <- rep(NA, length(par))
+    prefitpar <- rep(NA, length(opt$par))
   }
-  names(prefitpar) <- names(par)
+  names(prefitpar) <- names(feasible.par)
   
-  if(!silent)
-    print(opt)
-  prefitpar
+  as.list(prefitpar)
 }
 
 
