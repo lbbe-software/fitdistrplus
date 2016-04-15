@@ -23,24 +23,35 @@
 ### 
 
 #search good starting values
-prefitmle <- function(data, distr, method = c("mle", "mme", "qme", "mge"), feasible.par, 
-                      fix.arg=NULL, lower, upper, weights=NULL, silent=TRUE, ...)
+prefit <- function(data, distr, method = c("mle", "mme", "qme", "mge"), feasible.par, memp=NULL, order=NULL,
+                   probs=NULL, qtype=7, fix.arg=NULL, lower, upper, weights=NULL, silent=TRUE, ...)
 {
   if (!is.character(distr)) 
     distname <- substring(as.character(match.call()$distr), 2)
   else 
     distname <- distr
-  ddistname <- paste("d", distname, sep="")
-  if (!exists(ddistname, mode="function"))
-    stop(paste("The ", ddistname, " function must be defined"))
-  
-  pdistname <- paste("p", distname, sep="")
-  if (!exists(pdistname, mode="function"))
-    stop(paste("The ", pdistname, " function must be defined"))
   
   method <- match.arg(method, c("mle", "mme", "qme", "mge"))
-  if(method != "mle")
+  if(method == "mge")
     stop("not yet implemented")
+  
+  ddistname <- paste0("d", distname)
+  if (!exists(ddistname, mode="function"))
+    stop(paste("The ", ddistname, " function must be defined"))
+  pdistname <- paste0("p", distname)
+  if (!exists(pdistname, mode="function") && method == "mge")
+    stop(paste("The ", pdistname, " function must be defined"))
+  qdistname <- paste0("q",distname)
+  if (!exists(qdistname, mode="function") && method == "qme")
+    stop(paste("The ", qdistname, " function must be defined"))
+  mdistname <- paste0("m",distname)
+  if (!exists(mdistname, mode="function") && method == "mme")
+    stop(paste("The ", mdistname, " function must be defined"))
+  
+  if(is.null(probs) && method == "qme")
+    stop("probs must be provided")
+  if(is.null(order) && method == "mme")
+    stop("order must be provided")
   
   if(missing(feasible.par))
     stop("feasible values must be provided")
@@ -104,21 +115,83 @@ prefitmle <- function(data, distr, method = c("mle", "mme", "qme", "mge"), feasi
       stop("weights should be a vector of numerics greater than 0")
     if(length(weights) != NROW(data))
       stop("weights should be a vector with a length equal to the observation number")
-  }else
-    weights <- rep(1, NROW(data))
-  
-  
-  #log likelihood (weighted)
-  fnobj <- function(par, fix.arg, obs, ddistnam) 
-  {
-    if(!is.list(par))
-      par <- as.list(par)
-    #print(unlist(par))
-    lpar <- lapply(1:length(par), function(i) translist[[i]](par[[i]]))
-    #print(lpar)
-    -sum( weights * log(do.call(ddistnam, c(list(obs), lpar, as.list(fix.arg)) ) ) )
   }
-   
+  
+  
+  #maximum likelihood
+  if(method == "mle")
+  {
+    if(is.null(weights))
+      weights <- rep(1, NROW(data))
+    fnobj <- function(par, fix.arg, obs, ddistnam) 
+    {
+      if(!is.list(par))
+        par <- as.list(par)
+      lpar <- lapply(1:length(par), function(i) translist[[i]](par[[i]]))
+      -sum( weights * log(do.call(ddistnam, c(list(obs), lpar, as.list(fix.arg)) ) ) )
+    }
+  }
+  #quantile matching
+  if(method == "qme" && is.null(weights))
+  {
+    DIFF2Q <- function(par, fix.arg, prob, obs, qdistnam, qtype)
+    {
+      if(!is.list(par))
+        par <- as.list(par)
+      lpar <- lapply(1:length(par), function(i) translist[[i]](par[[i]]))
+      qtheo <- do.call(qdistnam, c(as.list(prob), lpar, as.list(fix.arg)) )
+      qemp <- as.numeric(quantile(obs, probs=prob, type=qtype))
+      (qemp - qtheo)^2
+    }
+    
+    fnobj <- function(par, fix.arg, obs, qdistnam, qtype)
+      sum( sapply(probs, function(p) DIFF2Q(par, fix.arg, p, obs, qdistnam, qtype)) )
+  }
+  if(method == "qme" && !is.null(weights))
+  {
+    DIFF2Q <- function(par, fix.arg, prob, obs, qdistnam, qtype)
+    {
+      if(!is.list(par))
+        par <- as.list(par)
+      lpar <- lapply(1:length(par), function(i) translist[[i]](par[[i]]))
+      qtheo <- do.call(qdistnam, c(as.list(prob), lpar, as.list(fix.arg)) )
+      qemp <- as.numeric(wtd.quantile(x=obs, weights=weights, probs=prob))
+      (qemp - qtheo)^2
+    }
+    fnobj <- function(par, fix.arg, obs, qdistnam, qtype)
+      sum( sapply(probs, function(p) DIFF2Q(par, fix.arg, p, obs, qdistnam, qtype)) )
+  }  
+  #moment matching
+  if(method == "mme" && is.null(weights))
+  {
+    DIFF2 <- function(par, fix.arg, order, obs, mdistnam, memp, weights)
+    {
+      if(!is.list(par))
+        par <- as.list(par)
+      lpar <- lapply(1:length(par), function(i) translist[[i]](par[[i]]))
+      momtheo <- do.call(mdistnam, c(as.list(order), lpar, as.list(fix.arg)) )
+      momemp <- as.numeric(memp(obs, order))
+      (momemp - momtheo)^2
+    }
+    fnobj <- function(par, fix.arg, obs, mdistnam, memp, weights)
+      sum( sapply(order, function(o) DIFF2(par, fix.arg, o, obs, mdistnam, memp)) )
+  }
+  if(method == "mme" && !is.null(weights))
+  {
+    DIFF2 <- function(par, fix.arg, order, obs, mdistnam, memp, weights)
+    {
+      if(!is.list(par))
+        par <- as.list(par)
+      lpar <- lapply(1:length(par), function(i) translist[[i]](par[[i]]))
+      momtheo <- do.call(mdistnam, c(as.list(order), lpar, as.list(fix.arg)) )
+      momemp <- as.numeric(memp(obs, order, weights))
+      (momemp - momtheo)^2
+    }
+    fnobj <- function(par, fix.arg, obs, mdistnam, memp, weights)
+      sum( sapply(order, function(o) DIFF2(par, fix.arg, o, obs, mdistnam, memp, weights)) )
+  } 
+  
+  
   ltrans.par <- sapply(1:length(feasible.par), function(i) invlist[[i]](feasible.par[[i]]))
   if(!silent)
   {
@@ -127,14 +200,30 @@ prefitmle <- function(data, distr, method = c("mle", "mme", "qme", "mge"), feasi
     cat("after transform\n")
     print(unlist(ltrans.par))
   }
-  test1 <- try(fnobj(par=ltrans.par, fix.arg = fix.arg, obs=data, ddistnam = ddistname), silent=silent)
+  
+  if(method == "mle")
+    test1 <- try(fnobj(par=ltrans.par, fix.arg = fix.arg, obs=data, ddistnam = ddistname), silent=silent)
+  if(method == "qme")
+    test1 <- try(fnobj(par=ltrans.par, fix.arg = fix.arg, obs=data, qdistnam=qdistname, qtype=qtype), silent=silent)
+  if(method == "mme")
+    test1 <- try(fnobj(par=ltrans.par, fix.arg = fix.arg, obs=data, mdistnam=mdistname, memp=memp), silent=silent)
+  
+  
   if(class(test1) == "try-error" || silent == FALSE)
     print(test1)
   
   #get old warning value and set it
   owarn <- options(warn=ifelse(silent, -1, 0))
-  opttryerror <- try(opt <- optim(par=ltrans.par, fn=fnobj, fix.arg=fix.arg, obs=data, ddistnam=ddistname, 
+  if(method == "mle")
+    opttryerror <- try(opt <- optim(par=ltrans.par, fn=fnobj, fix.arg=fix.arg, obs=data, ddistnam=ddistname, 
                                   hessian=FALSE, method="BFGS", ...), silent=silent)       
+  if(method == "qme")
+    opttryerror <- try(opt <- optim(par=ltrans.par, fn=fnobj, fix.arg=fix.arg, obs=data, qdistnam=qdistname, 
+                                    qtype=qtype, hessian=FALSE, method="BFGS", ...), silent=silent)
+  if(method == "mme")
+    opttryerror <- try(opt <- optim(par=ltrans.par, fn=fnobj, fix.arg=fix.arg, obs=data, mdistnam=mdistname, 
+                                    memp=memp, hessian=FALSE, method="BFGS", ...), silent=silent) 
+  
   #get back to old warning value
   on.exit(options(owarn), add=TRUE)
   
