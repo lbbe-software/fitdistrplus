@@ -19,16 +19,45 @@ require(fitdistrplus)
 
 # Questions regarding distributions
 
-## How do I set (or find) initial values for non standard distributions?
-
 ## How do I find non standard distributions?
+Non-standard distributions not implemented in R are listed in the Distributions task view
+https://cran.r-project.org/web/views/Distributions.html.
+
+## How do I set (or find) initial values for non standard distributions?
+Look first at statistics and probability books such as 
+
+* different volumes of N. L. Johnson, S. Kotz and N. Balakrishnan books, e.g. Continuous Univariate Distributions, Vol. 1,  
+* Thesaurus of univariate discrete probability distributions by G. Wimmer and G. Altmann.  
+* Statistical Distributions by M. Evans, N. Hastings, B. Peacock.  
+* Distributional Analysis with L-moment Statistics using the R Environment for Statistical Computing, Asquith (2011).  
+
+If not available, find initial values by equalling theoretical and empirical quartiles.  
+
+
+# Questions regarding goodness-of-fits tests and statistics
+
 
 # Questions regarding optimization procedures
 
-## The optimization algorithm stops with error code 100. What shall I do?
+## How to choose optimization method?
+If you want to perform optimization without bounds, `optim()` is used.
+You can try the derivative-free method Nelder-Mead and the Hessian-free
+method BFGS.
+If you want to perform optimization with bounds, only two methods are
+available without providing the gradient of the objective function:
+Nelder-Mead via `constrOptim()` and bounded BFGS via `optim()`.
+In both cases, see the help of `mledist()` and the vignette on optimization algorithms.
 
-## Why distribution with a `log` argument converge better?
-### The problem
+## The optimization algorithm stops with error code 100. What shall I do?
+First, add traces by adding `control=list(trace=1, REPORT=1)`.
+Second, try to set bounds for parameters.
+Third, find better starting values with `prefit()`.
+
+## Why distribution with a `log` argument may converge better?
+The problem
+
+Must define the full dataset in the package!
+
 Say, we study the shifted lognormal distribution defined by the following density
 $$
 f(x) = \frac{1}{x \sigma \sqrt{2 \pi}} \exp\left(- \frac{(\ln (x+\delta)- \mu)^2}{2\sigma^2}\right) 
@@ -130,7 +159,8 @@ M_1_SQRT_2PI * exp(-0.5 * y * y)  /	 (x * sdlog))
 ```
 Note that the constant $\log(\sqrt{2\pi})$ is pre-computed.
 
-### A solution
+A solution
+
 We use the `constrOptim` wrapping `optim` to take into account linear constraints.
 This allows also to use other optimization methods than L-BFGS-B 
 (low memory bounded constraint BFGS) used in optim.
@@ -152,8 +182,6 @@ summary(f2)
 print(cbind(BFGS=f$estimate, NelderMead=f2$estimate))
 ```
 
-
-# References
 
 
 
