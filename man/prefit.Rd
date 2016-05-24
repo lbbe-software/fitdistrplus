@@ -7,10 +7,11 @@
 }
 
 \usage{
-prefit(data, distr, method = c("mle", "mme", "qme", "mge"), feasible.par,
-  memp=NULL, order=NULL, probs=NULL, qtype=7, fix.arg=NULL, lower, 
-  upper, weights=NULL, silent=TRUE, \dots)
 
+prefit(data, distr, method = c("mle", "mme", "qme", "mge"), 
+  feasible.par, memp=NULL, order=NULL,
+  probs=NULL, qtype=7, gof=NULL, fix.arg=NULL, lower, 
+  upper, weights=NULL, silent=TRUE, \dots)
 
 }
 
@@ -35,6 +36,10 @@ to the number of parameters to estimate.}
     The length of this vector must be equal to the number of parameters to estimate.}  
 \item{qtype}{The quantile type used by the R \code{\link{quantile}} function to 
     compute the empirical quantiles, (default 7 corresponds to the default quantile method in R).}
+\item{gof}{A character string coding for the name of the goodness-of-fit distance used : 
+    "CvM" for Cramer-von Mises distance,"KS" for Kolmogorov-Smirnov distance,
+    "AD" for Anderson-Darling distance, "ADR", "ADL", "AD2R", "AD2L" and "AD2" for variants of
+    Anderson-Darling distance described by Luceno (2006).}  
     
 \item{fix.arg}{An optional named list giving the values of fixed parameters of the named distribution
     or a function of data computing (fixed) parameter values and returning a named list. 

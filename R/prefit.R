@@ -24,7 +24,7 @@
 
 #search good starting values
 prefit <- function(data, distr, method = c("mle", "mme", "qme", "mge"), feasible.par, memp=NULL, order=NULL,
-                   probs=NULL, qtype=7, fix.arg=NULL, lower, upper, weights=NULL, silent=TRUE, ...)
+                   probs=NULL, qtype=7, gof=NULL, fix.arg=NULL, lower, upper, weights=NULL, silent=TRUE, ...)
 {
   if (!is.character(distr)) 
     distname <- substring(as.character(match.call()$distr), 2)
@@ -32,8 +32,13 @@ prefit <- function(data, distr, method = c("mle", "mme", "qme", "mge"), feasible
     distname <- distr
   
   method <- match.arg(method, c("mle", "mme", "qme", "mge"))
-  if(method == "mge")
-    stop("not yet implemented")
+  if(method != "qme" && !is.null(probs))
+    stop("probs is not needed")
+  if(method != "mme" && (!is.null(memp) || !is.null(order)))
+    stop("memp, order are not needed")
+  if(method != "mge" && !is.null(gof))
+    stop("gof is not needed")
+  
   
   ddistname <- paste0("d", distname)
   if (!exists(ddistname, mode="function"))
@@ -115,6 +120,8 @@ prefit <- function(data, distr, method = c("mle", "mme", "qme", "mge"), feasible
       stop("weights should be a vector of numerics greater than 0")
     if(length(weights) != NROW(data))
       stop("weights should be a vector with a length equal to the observation number")
+    if(method == "mge")
+      stop("weights is not allowed for maximum GOF estimation")
   }
   
   
@@ -139,7 +146,7 @@ prefit <- function(data, distr, method = c("mle", "mme", "qme", "mge"), feasible
       if(!is.list(par))
         par <- as.list(par)
       lpar <- lapply(1:length(par), function(i) translist[[i]](par[[i]]))
-      qtheo <- do.call(qdistnam, c(as.list(prob), lpar, as.list(fix.arg)) )
+      qtheo <- do.call(qdistnam, c(list(prob), lpar, as.list(fix.arg)) )
       qemp <- as.numeric(quantile(obs, probs=prob, type=qtype))
       (qemp - qtheo)^2
     }
@@ -154,7 +161,7 @@ prefit <- function(data, distr, method = c("mle", "mme", "qme", "mge"), feasible
       if(!is.list(par))
         par <- as.list(par)
       lpar <- lapply(1:length(par), function(i) translist[[i]](par[[i]]))
-      qtheo <- do.call(qdistnam, c(as.list(prob), lpar, as.list(fix.arg)) )
+      qtheo <- do.call(qdistnam, c(list(prob), lpar, as.list(fix.arg)) )
       qemp <- as.numeric(wtd.quantile(x=obs, weights=weights, probs=prob))
       (qemp - qtheo)^2
     }
@@ -169,7 +176,7 @@ prefit <- function(data, distr, method = c("mle", "mme", "qme", "mge"), feasible
       if(!is.list(par))
         par <- as.list(par)
       lpar <- lapply(1:length(par), function(i) translist[[i]](par[[i]]))
-      momtheo <- do.call(mdistnam, c(as.list(order), lpar, as.list(fix.arg)) )
+      momtheo <- do.call(mdistnam, c(list(order), lpar, as.list(fix.arg)) )
       momemp <- as.numeric(memp(obs, order))
       (momemp - momtheo)^2
     }
@@ -183,14 +190,46 @@ prefit <- function(data, distr, method = c("mle", "mme", "qme", "mge"), feasible
       if(!is.list(par))
         par <- as.list(par)
       lpar <- lapply(1:length(par), function(i) translist[[i]](par[[i]]))
-      momtheo <- do.call(mdistnam, c(as.list(order), lpar, as.list(fix.arg)) )
+      momtheo <- do.call(mdistnam, c(list(order), lpar, as.list(fix.arg)) )
       momemp <- as.numeric(memp(obs, order, weights))
       (momemp - momtheo)^2
     }
     fnobj <- function(par, fix.arg, obs, mdistnam, memp, weights)
       sum( sapply(order, function(o) DIFF2(par, fix.arg, o, obs, mdistnam, memp, weights)) )
   } 
-  
+  #gof matching
+  if(method == "mge")
+  {
+    fnobj <- function(par, fix.arg, obs, pdistnam, gof)
+    {
+      if(!is.list(par))
+        par <- as.list(par)
+      lpar <- lapply(1:length(par), function(i) translist[[i]](par[[i]]))
+      n <- length(obs)
+      s <- sort(obs)
+      theop <- do.call(pdistnam, c(list(s), lpar, as.list(fix.arg)) )
+      obspu <- seq(1,n)/n
+      obspl <- seq(0,n-1)/n
+      
+      if (gof == "CvM")
+        1/(12*n) + sum( ( theop - (2 * 1:n - 1)/(2 * n) )^2 )
+      else if (gof == "KS")
+        max(pmax(abs(theop-obspu),abs(theop-obspl)))
+      else if (gof == "AD")
+        - n - mean( (2 * 1:n - 1) * (log(theop) + log(1 - rev(theop))) ) 
+      else if (gof == "ADR")
+        n/2 - 2 * sum(theop) - mean ( (2 * 1:n - 1) * log(1 - rev(theop)) )
+      else if (gof == "ADL")
+        -3*n/2 + 2 * sum(theop) - mean ( (2 * 1:n - 1) * log(theop) )
+      else if (gof == "AD2R")
+        2 * sum(log(1 - theop)) + mean ( (2 * 1:n - 1) / (1 - rev(theop)) )
+      else if (gof == "AD2L")
+        2 * sum(log(theop)) + mean ( (2 * 1:n - 1) / theop )
+      else if (gof == "AD2")
+        2*sum(log(theop) + log(1 - theop)) + mean(((2*1:n - 1) / theop) + ((2*1:n - 1) / (1 - rev(theop))))
+          
+    }
+  }
   
   ltrans.par <- sapply(1:length(feasible.par), function(i) invlist[[i]](feasible.par[[i]]))
   if(!silent)
@@ -207,7 +246,8 @@ prefit <- function(data, distr, method = c("mle", "mme", "qme", "mge"), feasible
     test1 <- try(fnobj(par=ltrans.par, fix.arg = fix.arg, obs=data, qdistnam=qdistname, qtype=qtype), silent=silent)
   if(method == "mme")
     test1 <- try(fnobj(par=ltrans.par, fix.arg = fix.arg, obs=data, mdistnam=mdistname, memp=memp), silent=silent)
-  
+  if(method == "mge")
+    test1 <- try(fnobj(par=ltrans.par, fix.arg = fix.arg, obs=data, pdistnam=pdistname, gof=gof), silent=silent)
   
   if(class(test1) == "try-error" || silent == FALSE)
     print(test1)
@@ -223,6 +263,9 @@ prefit <- function(data, distr, method = c("mle", "mme", "qme", "mge"), feasible
   if(method == "mme")
     opttryerror <- try(opt <- optim(par=ltrans.par, fn=fnobj, fix.arg=fix.arg, obs=data, mdistnam=mdistname, 
                                     memp=memp, hessian=FALSE, method="BFGS", ...), silent=silent) 
+  if(method == "mge")
+    opttryerror <- try(opt <- optim(par=ltrans.par, fn=fnobj, fix.arg=fix.arg, obs=data, pdistnam=pdistname, 
+                                    gof=gof, hessian=FALSE, method="BFGS", ...), silent=silent) 
   
   #get back to old warning value
   on.exit(options(owarn), add=TRUE)
