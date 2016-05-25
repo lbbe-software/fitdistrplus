@@ -22,7 +22,7 @@ set.seed(1234)
 
 ## How do I know the root name of a distribution?
 The root name of a probability distribution is the `name` which is used the `d`, `p`, `q`, `r` functions. For base R distributions, the root names are given in R-intro : https://cran.r-project.org/doc/manuals/R-intro.html#Probability-distributions.
-For example, you must use `pois` for the Poisson distribution.
+For example, you must use `"pois"` for the Poisson distribution and **not** `"poisson"`.
 
 ## How do I find "non standard" distributions?
 
@@ -57,12 +57,15 @@ fitdist(x2, "zmgeom", start=list(p1=1/2, p2=1/2))
 
 
 ## How do I set (or find) initial values for non standard distributions?
+As documented, we provide initial values for the following distributions:
+`"norm"`, `"lnorm"`, `"exp"`, `"pois"`, `"cauchy"`, `"gamma`", `"logis"`, `"nbinom"`, `"geom"`, `"beta"`, `"weibull"` from the `stats` package; `"invgamma"`, `"llogis"`, `"invweibull"`, `"pareto1"`, `"pareto"` from the `actuar` package.
+
 Look first at statistics and probability books such as 
 
-* different volumes of N. L. Johnson, S. Kotz and N. Balakrishnan books, e.g. *Continuous Univariate Distributions, Vol. 1*,  
-* *Thesaurus of univariate discrete probability distributions* by G. Wimmer and G. Altmann.  
-* *Statistical Distributions* by M. Evans, N. Hastings, B. Peacock.  
-* *Distributional Analysis with L-moment Statistics using the R Environment for Statistical Computing* by W. Asquith.  
+* different volumes of N. L. Johnson, S. Kotz and N. Balakrishnan books, e.g. **Continuous Univariate Distributions, Vol. 1**,  
+* **Thesaurus of univariate discrete probability distributions** by G. Wimmer and G. Altmann.  
+* **Statistical Distributions** by M. Evans, N. Hastings, B. Peacock.  
+* **Distributional Analysis with L-moment Statistics using the R Environment for Statistical Computing** by W. Asquith.  
 
 If not available, find initial values by equalling theoretical and empirical quartiles.
 You may also consider the `prefit()` function to find initial values.
@@ -81,7 +84,7 @@ We recall that the lognormal distribution function is given by
 $$
 F_X(x) =  \Phi\left(\frac{\log(x)-\mu}{\sigma} \right),
 $$
-where $\Phi$ is the distribution function of the standard normal distribution.
+where $\Phi$ denotes the distribution function of the standard normal distribution.
 We know that $E(X) = \exp\left( \mu+\frac{1}{2} \sigma^2 \right)$
 and $Var(X) = \exp\left( 2\mu+\sigma^2\right) (e^{\sigma^2} -1)$.
 The MME is obtained by inverting the previous formulas, whereas
