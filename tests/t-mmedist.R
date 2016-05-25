@@ -76,7 +76,7 @@ c(truestim=exp(mu+s2/2),
 	emp=mean(x3))
 
 c(truestim=exp(2*mu+s2)*(exp(s2)-1), 
-	jensen=as.numeric(exp(f1$estimate["meanlog"]+f1$estimate["sdlog"]^2/2)*(exp(f1$estimate["sdlog"]^2)-1)), 
+	jensen=as.numeric(exp(2*f1$estimate["meanlog"]+f1$estimate["sdlog"]^2)*(exp(f1$estimate["sdlog"]^2)-1)), 
 	emp=var(x3)*(n-1)/n)
 
 

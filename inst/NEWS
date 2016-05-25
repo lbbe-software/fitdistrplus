@@ -5,6 +5,7 @@ Version 1.0-7
 
 NEW FEATURES
 - start the JSS splitting vignette into how-to guides.
+- start the FAQ and add datasets for it.
 - provide likelihood plot (surface/curve).
 - provide parallization of bootstrap in bootdist and bootdistcens.
 - allow the use of constrOptim in mledist, mmedist, mgedist, qmedist functions.

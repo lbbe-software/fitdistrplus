@@ -15,23 +15,110 @@ vignette: >
 
 ```{r setup, echo=FALSE, message=FALSE, warning=FALSE}
 require(fitdistrplus)
+set.seed(1234)
 ```
 
 # Questions regarding distributions
 
-## How do I find non standard distributions?
-Non-standard distributions not implemented in R are listed in the Distributions task view
+## How do I know the root name of a distribution?
+The root name of a probability distribution is the `name` which is used the `d`, `p`, `q`, `r` functions. For base R distributions, the root names are given in R-intro : https://cran.r-project.org/doc/manuals/R-intro.html#Probability-distributions.
+For example, you must use `pois` for the Poisson distribution.
+
+## How do I find "non standard" distributions?
+
+For non-standard distributions, you can either find a package
+implementing them or define by yourself. 
+A comprehensive list of non-standard distributions is given in the Distributions task view
 https://cran.r-project.org/web/views/Distributions.html.
+Here are some two examples of user-defined distributions. A third example (shifted exponential) is given in FAQ 3.5.4.
+
+* The Gumbel distribution
+```{r, eval=FALSE}
+dgumbel <- function(x, a, b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
+pgumbel <- function(q, a, b) exp(-exp((a-q)/b))
+qgumbel <- function(p, a, b) a-b*log(-log(p))
+data(groundbeef)
+fitgumbel <- fitdist(groundbeef$serving, "gumbel", start=list(a=10, b=10))
+```
+
+* The zero-modified geometric distribution
+```{r, eval=FALSE}
+dzmgeom <- function(x, p1, p2) p1 * (x == 0) + (1-p1)*dgeom(x-1, p2)
+pzmgeom <- function(q, p1, p2) p1 * (q >= 0) + (1-p1)*pgeom(q-1, p2)
+rzmgeom <- function(n, p1, p2) 
+{
+  u <- rbinom(n, 1, 1-p1) #prob to get zero is p1
+  u[u != 0] <- rgeom(sum(u != 0), p2)+1
+  u
+}
+x2 <- rzmgeom(1000, 1/2, 1/10)
+fitdist(x2, "zmgeom", start=list(p1=1/2, p2=1/2))
+```
+
 
 ## How do I set (or find) initial values for non standard distributions?
 Look first at statistics and probability books such as 
 
-* different volumes of N. L. Johnson, S. Kotz and N. Balakrishnan books, e.g. Continuous Univariate Distributions, Vol. 1,  
-* Thesaurus of univariate discrete probability distributions by G. Wimmer and G. Altmann.  
-* Statistical Distributions by M. Evans, N. Hastings, B. Peacock.  
-* Distributional Analysis with L-moment Statistics using the R Environment for Statistical Computing, Asquith (2011).  
+* different volumes of N. L. Johnson, S. Kotz and N. Balakrishnan books, e.g. *Continuous Univariate Distributions, Vol. 1*,  
+* *Thesaurus of univariate discrete probability distributions* by G. Wimmer and G. Altmann.  
+* *Statistical Distributions* by M. Evans, N. Hastings, B. Peacock.  
+* *Distributional Analysis with L-moment Statistics using the R Environment for Statistical Computing* by W. Asquith.  
 
-If not available, find initial values by equalling theoretical and empirical quartiles.  
+If not available, find initial values by equalling theoretical and empirical quartiles.
+You may also consider the `prefit()` function to find initial values.
+
+## Is it possible to fit a distribution with at least 3 parameters?
+Yes, an example with the Burr distribution is detailed in the JSS paper. We reproduce it very quickly here.
+```{r, message=FALSE}
+data("endosulfan")
+library("actuar")
+fendo.B <- fitdist(endosulfan$ATV, "burr", start = list(shape1 = 0.3, shape2 = 1, rate = 1))
+summary(fendo.B)
+```
+
+## Why there are differences between MLE and MME for the lognormal distribution?
+We recall that the lognormal distribution function is given by
+$$
+F_X(x) =  \Phi\left(\frac{\log(x)-\mu}{\sigma} \right),
+$$
+where $\Phi$ is the distribution function of the standard normal distribution.
+We know that $E(X) = \exp\left( \mu+\frac{1}{2} \sigma^2 \right)$
+and $Var(X) = \exp\left( 2\mu+\sigma^2\right) (e^{\sigma^2} -1)$.
+The MME is obtained by inverting the previous formulas, whereas
+the MLE has the following explicit solution
+$$
+\hat\mu_{MLE} = \frac{1}{n}\sum_{i=1}^n \log(x_i),~~
+\hat\sigma^2_{MLE} = \frac{1}{n}\sum_{i=1}^n (\log(x_i) - \hat\mu_{MLE})^2.
+$$
+Let us fit a sample by MLE and MME. The fit looks particularly good in both cases.
+```{r, fig.height=4, fig.width=8}
+x3 <- rlnorm(1000)
+f1 <- fitdist(x3, "lnorm", method="mle") 
+f2 <- fitdist(x3, "lnorm", method="mme")
+par(mfrow=1:2)
+cdfcomp(list(f1, f2), do.points=FALSE, xlogscale = TRUE)
+denscomp(list(f1, f2), demp=TRUE)
+```
+Let us compare the theoretical moments (mean and variance) given the fitted values 
+($\hat\mu,\hat\sigma$), that is
+$$
+E(X) = \exp\left( \hat\mu+\frac{1}{2} \hat\sigma^2 \right),
+Var(X) = \exp\left( 2\hat\mu+\hat\sigma^2\right) (e^{\hat\sigma^2} -1).
+$$
+```{r}
+c("E(X) by MME"=as.numeric(exp(f2$estimate["meanlog"]+f2$estimate["sdlog"]^2/2)), 
+	"E(X) by MLE"=as.numeric(exp(f1$estimate["meanlog"]+f1$estimate["sdlog"]^2/2)), 
+	"empirical"=mean(x3))
+c("Var(X) by MME"=as.numeric(exp(2*f2$estimate["meanlog"]+f2$estimate["sdlog"]^2)*(exp(f2$estimate["sdlog"]^2)-1)), 
+	"Var(X) by MLE"=as.numeric(exp(2*f1$estimate["meanlog"]+f1$estimate["sdlog"]^2)*(exp(f1$estimate["sdlog"]^2)-1)), 
+	"empirical"=var(x3))
+```
+From a MLE point of view, a lognormal sample $x_1,\dots,x_n$ is equivalent to handle 
+a normal sample $\log(x_1),\dots,\log(x_n)$.
+However, it is well know by the Jensen inequality that 
+$E(X) = E(\exp(\log(X))) \geq \exp(E(\log(X)))$ implying the MME estimates provides
+better moment estimates than with MLE.
+
 
 
 # Questions regarding goodness-of-fits tests and statistics
@@ -54,10 +141,6 @@ Second, try to set bounds for parameters.
 Third, find better starting values with `prefit()`.
 
 ## Why distribution with a `log` argument may converge better?
-The problem
-
-Must define the full dataset in the package!
-
 Say, we study the shifted lognormal distribution defined by the following density
 $$
 f(x) = \frac{1}{x \sigma \sqrt{2 \pi}} \exp\left(- \frac{(\ln (x+\delta)- \mu)^2}{2\sigma^2}\right) 
@@ -67,40 +150,20 @@ $\delta$ a boundary parameter.
 Let us fit this distribution on the dataset `y` by MLE.
 We define two functions for the densities with and without a `log` argument.
 ```{r}
-dshiftlnorm <- function(x, mean, sigma, shift, log = FALSE) 
-  dlnorm(x+shift, mean, sigma, log=log)
-pshiftlnorm <- function(q, mean, sigma, shift, log.p = FALSE) 
-  plnorm(q+shift, mean, sigma, log.p=log.p)
-qshiftlnorm <- function(p, mean, sigma, shift, log.p = FALSE) 
-  qlnorm(p, mean, sigma, log.p=log.p)-shift
-dshiftlnorm_no <- function(x, mean, sigma, shift) 
-  dshiftlnorm(x, mean, sigma, shift)
-pshiftlnorm_no <- function(q, mean, sigma, shift) 
-  pshiftlnorm(q, mean, sigma, shift)
+dshiftlnorm <- function(x, mean, sigma, shift, log = FALSE) dlnorm(x+shift, mean, sigma, log=log)
+pshiftlnorm <- function(q, mean, sigma, shift, log.p = FALSE) plnorm(q+shift, mean, sigma, log.p=log.p)
+qshiftlnorm <- function(p, mean, sigma, shift, log.p = FALSE) qlnorm(p, mean, sigma, log.p=log.p)-shift
+dshiftlnorm_no <- function(x, mean, sigma, shift) dshiftlnorm(x, mean, sigma, shift)
+pshiftlnorm_no <- function(q, mean, sigma, shift) pshiftlnorm(q, mean, sigma, shift)
 ```
 We now optimize the minus log-likelihood.
 ```{r}
-y <- c(4.11592e-03,  1.56671e-02,  7.95032e-03, 3.49125e-03,  2.44291e-02,  1.06261e-02,  7.80613e-03,
- -4.26416e-03, -2.46668e-02,  7.60648e-03,  1.56030e-02,  4.44385e-03,  1.44433e-02,  1.31314e-02,
-   5.15774e-03, -4.65771e-03,  9.31898e-03, -3.81392e-03, -1.81133e-02, -1.53264e-02, -7.10242e-03,
-   9.52508e-03, -5.04158e-04, -8.49093e-03, -7.88736e-03, -6.16296e-03,  8.44464e-03,  3.12538e-02,
-  -9.85788e-03,  6.59530e-03, -5.82576e-04,  9.99685e-03, -4.15953e-03, -4.33652e-03,  1.55462e-03,
-   2.67180e-03, -2.78922e-03, -4.25658e-03, -4.75687e-04, -2.20238e-02, -4.94825e-03, -1.50406e-04,
-  -5.26267e-03, -8.39674e-03, -3.40747e-02, -1.28040e-03,  4.49934e-03, -2.81938e-03,  1.07720e-02,
-   4.18430e-03,  6.71195e-04,  3.95836e-03, -3.43171e-03, -6.42323e-03, -7.62038e-03,  1.60927e-03,
-   6.08956e-03,  4.77632e-03, -8.32566e-03, -1.89625e-03,  2.32493e-03,  1.22333e-02, -2.34109e-03,
-  -2.10295e-02, -2.80792e-02,  1.40072e-02, -3.69864e-03,  5.59936e-03,  2.48201e-02,  2.27630e-03,
-  -3.52981e-05,  4.56444e-02,  9.95315e-03,  4.15989e-03,  3.80907e-03, -1.85304e-03, -1.22425e-02,
-  -5.73161e-04,  4.30571e-02, -1.58281e-04,  6.34013e-03, -5.33670e-03,  2.48910e-03,  2.95497e-03,
-   1.40058e-02,  3.41760e-03,  7.29761e-04, -3.80915e-03,  2.36959e-02, -5.18242e-03,  9.35968e-03,
-   8.86184e-03,  8.41462e-03, -1.54469e-02,  1.47688e-02,  2.99818e-02, -2.81632e-03, -2.65304e-02,
-   9.62757e-04,  5.62421e-03)
+data(dataFAQlog1)
+y <- dataFAQlog1
 D <- 1-min(y)
 f0 <- fitdist(y+D, "lnorm")
-start <- list(
-  mean=as.numeric(f0$estimate["meanlog"]), 
-  sigma=as.numeric(f0$estimate["sdlog"]), 
-  shift=D)
+start <- list(mean=as.numeric(f0$estimate["meanlog"]),  
+              sigma=as.numeric(f0$estimate["sdlog"]), shift=D)
 # works with BFGS, but not Nelder-Mead
 f <- fitdist(y, "shiftlnorm", start=start, optim.method="BFGS")
 summary(f)
@@ -118,8 +181,8 @@ log(prod(dshiftlnorm_no(y, 0.16383978, 0.01679231, 1.17586600 )))
 sum(dshiftlnorm(y, 0.16383978, 0.01679231, 1.17586600, TRUE ))
 ```
 There is something wrong in the computation.
-### The reason
-Only the R-base implementation using `log` argument is reliable.
+
+Only the R-base implementation using `log` argument seems reliable.
 This happens the C-base implementation of `dlnorm` takes care of the log value.
 In the file `../src/nmath/dlnorm.c`  in the R sources, we find the C code for
 `dlnorm`
@@ -147,7 +210,7 @@ double dlnorm(double x, double meanlog, double sdlog, int give_log)
 
 }
 ```
-In the last four lines, we see how the `log` argument is taken into account:
+In the last four lines with the logical condtion `give_log?`, we see how the `log` argument is handled:
 
 * when log=TRUE, we use $-(\log(\sqrt{2\pi}) + y^2/2+\log(x\sigma))$
 ```{r, eval=FALSE, echo=TRUE}
@@ -157,33 +220,135 @@ In the last four lines, we see how the `log` argument is taken into account:
 ```{r, eval=FALSE, echo=TRUE}
 M_1_SQRT_2PI * exp(-0.5 * y * y)  /	 (x * sdlog))
 ```
-Note that the constant $\log(\sqrt{2\pi})$ is pre-computed.
+Note that the constant $\log(\sqrt{2\pi})$ is pre-computed in the C macro `M_LN_SQRT_2PI`.
 
-A solution
 
-We use the `constrOptim` wrapping `optim` to take into account linear constraints.
+In order to sort out this problem, 
+we use the `constrOptim` wrapping `optim` to take into account linear constraints.
 This allows also to use other optimization methods than L-BFGS-B 
-(low memory bounded constraint BFGS) used in optim.
+(low-memory BFGS bounded) used in optim.
 ```{r}
-#wrapper to meet standard
-constrOptim2 <- function(par, fn, gr=NULL, ui, ci, ...)
-	constrOptim(theta=par, f=fn, grad=gr, ui=ui, ci=ci, ...)
-
-# mean : no constraint
-# sd > 0
-# min(obs) > -shift <=> shift > -min(obs)
-
-#check initial condition
-cbind(c(0, 0), c(1, 0), c(0, 1)) %*% unlist(start)  - c(0, -min(y))
-
-f2 <- fitdist(y, "shiftlnorm", start=start, custom.optim=constrOptim2, 
-	ui = cbind(c(0, 0), c(1, 0), c(0, 1)), ci = c(0, -min(y)), optim.method="Nelder-Mead")
+f2 <- fitdist(y, "shiftlnorm", start=start, lower=c(-Inf, 0, -min(y)), optim.method="Nelder-Mead")
 summary(f2)
 print(cbind(BFGS=f$estimate, NelderMead=f2$estimate))
+
+```
+Another possible would be to perform all computations with higher precision arithmetics as 
+implemented in the package `Rmpfr` using the MPFR library.
+
+
+## What to do when there is a scaling issue?
+Let us consider a dataset which has particular small values.
+```{r}
+data(dataFAQscale1)
+head(dataFAQscale1)
+summary(dataFAQscale1)
+```
+The only way to sort out is to multiply the dataset by a large value.
+```{r}
+for(i in 6:0)
+cat(10^i, try(mledist(dataFAQscale1*10^i, "cauchy")$estimate), "\n")
+```
+
+Let us consider a dataset which has particular large values.
+```{r}
+data(dataFAQscale2)
+head(dataFAQscale2)
+summary(dataFAQscale2)
+```
+The only way to sort out is to multiply the dataset by a large value.
+```{r}
+for(i in 0:5)
+cat(10^(-2*i), try(mledist(dataFAQscale2*10^(-2*i), "cauchy")$estimate), "\n")
+```
+
+## How do I set bounds on parameters when optimizing?
+
+
+### Setting bounds for scale parameters
+
+Consider the normal distribution $\mathcal{N}(\mu, \sigma^2)$
+defined by the density
+$$
+f(x) = \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right),
+x\in\mathbb{R},
+$$
+where $\mu$ is a location parameter such that $\mu\in\mathbb{R}$,
+$\sigma^2$ is a scale parameter such that $\sigma^2>0$.
+Therefore when optimizing the log-likelihood or the squared differences or 
+the GoF statistics.
+Setting a lower bound for the scale parameter is easy with `fitdist`: just use
+the `lower` argument.
+```{r scalenormal, echo=TRUE, warning=FALSE}
+set.seed(1234)
+x <- rnorm(1000, 1, 2)
+fitdist(x, "norm", lower=c(-Inf, 0))
 ```
 
 
+### Setting bounds for shape parameters
 
+Consider the Burr distribution $\mathcal B(\mu, \sigma^2)$
+defined by the density
+$$
+f(x) = \frac{a b (x/s)^b}{x [1 + (x/s)^b]^{a + 1}},
+x\in\mathbb{R},
+$$
+where $a,b$ are shape parameters such that $a,b>0$,
+$s$ is a scale parameter such that $s>0$.
+```{r shapeburr, echo=TRUE, warning=FALSE}
+x <- rburr(1000, 1, 2, 3)
+fitdist(x, "burr", lower=c(0, 0, 0), start=list(shape1 = 1, shape2 = 1, 
+  rate = 1))
+```
+
+
+### Setting bounds for probability parameters
+
+Consider the geometric distribution $\mathcal G(p)$
+defined by the mass probability function
+$$
+f(x) = p(1-p)^x,
+x\in\mathbb{N},
+$$
+where $p$ is a probability parameter such that $p\in[0,1]$.
+```{r probgeom, echo=TRUE, warning=FALSE}
+x <- rgeom(1000, 1/4)
+fitdist(x, "geom", lower=0, upper=1)
+```
+
+
+### Setting bounds for boundary parameters
+
+Consider the shifted exponential distribution $\mathcal E(\mu,\lambda)$
+defined by the mass probability function
+$$
+f(x) = \lambda \exp(-\lambda(x-\mu)),
+x>\mu,
+$$
+where $\lambda$ is a scale parameter such that $\lambda>0$,
+$\mu$ is a boundary (or shift) parameter such that $\mu\in\mathbb{R}$.
+When optimizing the log-likelihood, the boundary constraint is
+$$
+\forall i=1,\dots,n, x_i>\mu
+\Rightarrow
+\min_{i=1,\dots,n} x_i > \mu
+\Leftrightarrow 
+\mu > -\min_{i=1,\dots,n} x_i.
+$$
+Note that when optimizing the squared differences or the GoF statistics,
+this constraint may not be necessary. 
+Let us do it in R.
+```{r shiftexp, echo=TRUE, warning=FALSE}
+dsexp <- function(x, rate, shift)
+  dexp(x-shift, rate=rate)
+psexp <- function(x, rate, shift)
+  pexp(x-shift, rate=rate)
+rsexp <- function(n, rate, shift)
+  rexp(n, rate=rate)+shift
+x <- rsexp(1000, 1/4, 1)
+fitdist(x, "sexp", start=list(rate=1, shift=0), lower= c(0, -min(x)))
+```
 
 
 

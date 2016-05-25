@@ -323,7 +323,7 @@ fKS <- fitdist(t,"triang",method="mge",start = list(min=4, mode=6,max=9),gof="KS
 cdfcomp(list(fCvM,fKS))
 }
 
-# (18) uniform distribution
+# (18) gumbel distribution
 #
 dgumbel <- function(x, a, b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
 pgumbel <- function(q, a, b) exp(-exp((a-q)/b))
@@ -399,6 +399,8 @@ x2 <- rzmgeom(1000, 1/2, 1/10)
 table(x2)
 #this is the MLE which converges almost surely and in distribution to the true value.
 initp1 <- function(x) list(p1=mean(x == 0))
+
+fitdist(x2, "zmgeom", start=list(p1=1/2, p2=1/2))
 
 f2 <- fitdist(x2, "zmgeom", fix.arg=initp1, start=list(p2=1/2))
 print(f2)
