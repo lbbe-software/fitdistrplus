@@ -130,7 +130,8 @@ prefit <- function(data, distr, method = c("mle", "mme", "qme", "mge"), feasible
   {
     if(is.null(weights))
       weights <- rep(1, NROW(data))
-    fnobj <- function(par, fix.arg, obs, ddistnam) 
+    fnobj <- function(par, fix.arg, obs, ddistnam, qdistnam, pdistnam, 
+                      mdistnam, qtype, memp, gof) 
     {
       if(!is.list(par))
         par <- as.list(par)
@@ -151,7 +152,8 @@ prefit <- function(data, distr, method = c("mle", "mme", "qme", "mge"), feasible
       (qemp - qtheo)^2
     }
     
-    fnobj <- function(par, fix.arg, obs, qdistnam, qtype)
+    fnobj <- function(par, fix.arg, obs, ddistnam, qdistnam, pdistnam, 
+                      mdistnam, qtype, memp, gof) 
       sum( sapply(probs, function(p) DIFF2Q(par, fix.arg, p, obs, qdistnam, qtype)) )
   }
   if(method == "qme" && !is.null(weights))
@@ -165,7 +167,8 @@ prefit <- function(data, distr, method = c("mle", "mme", "qme", "mge"), feasible
       qemp <- as.numeric(wtd.quantile(x=obs, weights=weights, probs=prob))
       (qemp - qtheo)^2
     }
-    fnobj <- function(par, fix.arg, obs, qdistnam, qtype)
+    fnobj <- function(par, fix.arg, obs, ddistnam, qdistnam, pdistnam, 
+                      mdistnam, qtype, memp, gof) 
       sum( sapply(probs, function(p) DIFF2Q(par, fix.arg, p, obs, qdistnam, qtype)) )
   }  
   #moment matching
@@ -180,7 +183,8 @@ prefit <- function(data, distr, method = c("mle", "mme", "qme", "mge"), feasible
       momemp <- as.numeric(memp(obs, order))
       (momemp - momtheo)^2
     }
-    fnobj <- function(par, fix.arg, obs, mdistnam, memp, weights)
+    fnobj <- function(par, fix.arg, obs, ddistnam, qdistnam, pdistnam, 
+                      mdistnam, qtype, memp, gof) 
       sum( sapply(order, function(o) DIFF2(par, fix.arg, o, obs, mdistnam, memp)) )
   }
   if(method == "mme" && !is.null(weights))
@@ -194,13 +198,15 @@ prefit <- function(data, distr, method = c("mle", "mme", "qme", "mge"), feasible
       momemp <- as.numeric(memp(obs, order, weights))
       (momemp - momtheo)^2
     }
-    fnobj <- function(par, fix.arg, obs, mdistnam, memp, weights)
+    fnobj <- function(par, fix.arg, obs, ddistnam, qdistnam, pdistnam, 
+                      mdistnam, qtype, memp, gof) 
       sum( sapply(order, function(o) DIFF2(par, fix.arg, o, obs, mdistnam, memp, weights)) )
   } 
   #gof matching
   if(method == "mge")
   {
-    fnobj <- function(par, fix.arg, obs, pdistnam, gof)
+    fnobj <- function(par, fix.arg, obs, ddistnam, qdistnam, pdistnam, 
+                      mdistnam, qtype, memp, gof) 
     {
       if(!is.list(par))
         par <- as.list(par)
