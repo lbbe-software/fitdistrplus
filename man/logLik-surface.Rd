@@ -10,10 +10,11 @@
 
 \usage{
 llsurface(data, distr, plot.arg, min.arg, max.arg,   lseq = 50, fix.arg = NULL,  
-    loglik = TRUE, back.col = TRUE, nlev = 10, pal.col = terrain.colors(100), \dots)    
+    loglik = TRUE, back.col = TRUE, nlev = 10, pal.col = terrain.colors(100), 
+    weights = NULL, \dots)    
 
 llcurve(data, distr, plot.arg, min.arg, max.arg,   lseq = 50, fix.arg = NULL,  
-    loglik = TRUE, \dots)
+    loglik = TRUE, weights = NULL, \dots)
 
 }
 \arguments{
@@ -32,6 +33,9 @@ llcurve(data, distr, plot.arg, min.arg, max.arg,   lseq = 50, fix.arg = NULL,
           gradient of colors if TRUE.}
 \item{nlev}{number of contour levels to plot (for llsurface only).}
 \item{pal.col}{Palette of colors. Colors to be used as back (for llsurface only).}
+\item{weights}{an optional vector of weights to be used in the fitting process. 
+    Should be \code{NULL} or a numeric vector with strictly positive values 
+    (classically the number of occurences of each observation).}
 \item{\dots}{Further graphical arguments passed to graphical functions.}
 
 }
@@ -109,8 +113,6 @@ llsurface(data =x, distr="norm", plot.arg=c("mean", "sd"),
           main="log-likelihood for normal distribution", 
           nlev = 0, back.col = TRUE, pal.col = rainbow(100, s = 0.5, end = 0.8))
 points(0, 1, pch="+", col="black")
-
-
 
 
 }

@@ -74,14 +74,18 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
         # Definition of datasets lcens (left censored)=vector, rcens (right censored)= vector, 
         #   icens (interval censored) = dataframe with left and right 
         # and ncens (not censored) = vector
-        lcens<-censdata[is.na(censdata$left), ]$right
+        irow.lcens <- is.na(censdata$left) # rows corresponding to lcens data
+        lcens <- censdata[irow.lcens, ]$right
         if (any(is.na(lcens)) )
             stop("An observation cannot be both right and left censored, coded with two NA values")
-        rcens<-censdata[is.na(censdata$right), ]$left
-        ncens<-censdata[censdata$left==censdata$right & !is.na(censdata$left) & 
-            !is.na(censdata$right), ]$left
-        icens<-censdata[censdata$left!=censdata$right & !is.na(censdata$left) & 
-            !is.na(censdata$right), ]
+        irow.rcens <- is.na(censdata$right)  # rows corresponding to rcens data
+        rcens <- censdata[irow.rcens, ]$left
+        irow.ncens <- censdata$left==censdata$right & !is.na(censdata$left) & 
+                      !is.na(censdata$right)  # rows corresponding to ncens data
+        ncens<-censdata[irow.ncens, ]$left
+        irow.icens <- censdata$left!=censdata$right & !is.na(censdata$left) & 
+          !is.na(censdata$right)  # rows corresponding to icens data
+        icens<-censdata[irow.icens, ]
         # Definition of a data set for calculation of starting values
         data<-c(rcens, lcens, ncens, (icens$left+icens$right)/2)
     }
@@ -169,7 +173,10 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
         p3 <- log(1-do.call(pdistnam, c(list(q=rcens), as.list(par), as.list(fix.arg))))
         p4 <- log(do.call(pdistnam, c(list(q=icens$right), as.list(par), as.list(fix.arg))) - 
                     do.call(pdistnam, c(list(q=icens$left), as.list(par), as.list(fix.arg))) )
-        -sum(weights * p1) - sum(weights * p2) - sum(weights * p3) - sum(weights * p4) 
+        -sum(weights[irow.ncens] * p1) - 
+          sum(weights[irow.lcens] * p2) - 
+          sum(weights[irow.rcens] * p3) - 
+          sum(weights[irow.icens] * p4) 
       }
     }else
         stop("not yet implemented.")

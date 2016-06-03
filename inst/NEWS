@@ -13,6 +13,7 @@ NEW FEATURES
 
 BUG FIXES
 - add invisible() for all graphical functions.
+- bug fixed concerning the use of weights on censored data
 
 
 Version 1.0-6

@@ -26,14 +26,19 @@ llplot <- function(mlefit, loglik = TRUE, expansion = 1, lseq = 50,
                    back.col = TRUE, nlev = 10, pal.col = terrain.colors(100),
                    fit.show = FALSE, fit.pch = 4, ...)
 {
-  if (!inherits(mlefit, "fitdist"))
-    stop("Use only with 'fitdist' objects")
-  if(!is.null(mlefit$weights))
-    stop("The plot of the fit is not yet available when using weights")
-  if(mlefit$method !="mle")
-    stop("This plot is only available for distribution fits using maximum likelihood")
+  if (!inherits(mlefit, c("fitdist", "fitdistcens")))
+    stop("Use only with 'fitdist' or 'fitdistcens' objects")
+  if(inherits(mlefit, "fitdist"))
+  {
+    if(mlefit$method !="mle")
+      stop("This plot is only available for distribution fits using maximum likelihood")
+    data <- mlefit$data
+    
+  } else # censored data
+  {
+    data <- mlefit$censdata
+  }
   
-  data <- mlefit$data
   distr <- mlefit$distname
   np <- length(mlefit$estimate)
   if (np == 1)
@@ -45,7 +50,7 @@ llplot <- function(mlefit, loglik = TRUE, expansion = 1, lseq = 50,
     llcurve(data, distr, plot.arg = plot.arg, 
             min.arg = estim.value - estim.sd * 2 *expansion, 
             max.arg = estim.value + estim.sd * 2 *expansion, 
-            lseq = lseq, fix.arg = fix.arg, loglik = loglik, ...)
+            lseq = lseq, fix.arg = fix.arg, loglik = loglik, weights = mlefit$weights, ...)
     if (fit.show) points(estim.value, ifelse(loglik, mlefit$loglik, exp(mlefit$loglik)), 
                          pch = fit.pch)
   } else # so if np > 1
@@ -59,7 +64,8 @@ llplot <- function(mlefit, loglik = TRUE, expansion = 1, lseq = 50,
               min.arg = estim.value - estim.sd * 2 *expansion, 
               max.arg = estim.value + estim.sd * 2 *expansion, 
               lseq = lseq, fix.arg = fix.arg, loglik = loglik,
-              back.col = back.col, nlev = nlev, pal.col = pal.col, ...)
+              back.col = back.col, nlev = nlev, pal.col = pal.col,
+              weights = mlefit$weights, ...)
     if (fit.show) points(estim.value[1], estim.value[2], pch = fit.pch)
       
     } else # so if np > 2
@@ -81,7 +87,8 @@ llplot <- function(mlefit, loglik = TRUE, expansion = 1, lseq = 50,
                     min.arg = estim.value - estim.sd * 2 *expansion, 
                     max.arg = estim.value + estim.sd * 2 *expansion, 
                     lseq = lseq, fix.arg = fix.arg, loglik = loglik,
-                    back.col = back.col, nlev = nlev, pal.col = pal.col, ...)
+                    back.col = back.col, nlev = nlev, pal.col = pal.col, 
+                    weights = mlefit$weights, ...)
           if (fit.show) points(estim.value[1], estim.value[2], pch = fit.pch)
         }
       par(def.par)
@@ -90,10 +97,46 @@ llplot <- function(mlefit, loglik = TRUE, expansion = 1, lseq = 50,
 }
 
 llsurface <- function(data, distr, plot.arg, min.arg, max.arg,   lseq = 50, fix.arg = NULL,  
-                      loglik = TRUE, back.col = TRUE, nlev = 10, pal.col = terrain.colors(100), ...)
+            loglik = TRUE, back.col = TRUE, nlev = 10, pal.col = terrain.colors(100), weights = NULL, ...)
 {
   stopifnot(is.vector(plot.arg) || length(plot.arg) == 2)
   stopifnot(is.list(fix.arg) || is.null(fix.arg))
+
+  if(!is.null(weights))
+  {
+    if(any(weights < 0))
+      stop("weights should be a vector of numerics greater than 0")
+    if(length(weights) != NROW(data))
+      stop("weights should be a vector with a length equal to the observation number")
+  } else
+  {
+    weights <- rep(1, NROW(data))
+  }
+  
+    
+  if (is.vector(data))
+  {
+    cens <- FALSE
+  } else
+  {
+    cens <- TRUE
+    # Definition of datasets lcens (left censored)=vector, rcens (right censored)= vector, 
+    #   icens (interval censored) = dataframe with left and right 
+    # and ncens (not censored) = vector
+    censdata <- data
+    irow.lcens <- is.na(censdata$left) # rows corresponding to lcens data
+    lcens <- censdata[irow.lcens, ]$right
+    if (any(is.na(lcens)) )
+      stop("An observation cannot be both right and left censored, coded with two NA values")
+    irow.rcens <- is.na(censdata$right)  # rows corresponding to rcens data
+    rcens <- censdata[irow.rcens, ]$left
+    irow.ncens <- censdata$left==censdata$right & !is.na(censdata$left) & 
+      !is.na(censdata$right)  # rows corresponding to ncens data
+    ncens<-censdata[irow.ncens, ]$left
+    irow.icens <- censdata$left!=censdata$right & !is.na(censdata$left) & 
+      !is.na(censdata$right)  # rows corresponding to icens data
+    icens<-censdata[irow.icens, ]
+  }
   
   #get distrib name
   if (!is.character(distr)) 
@@ -101,9 +144,16 @@ llsurface <- function(data, distr, plot.arg, min.arg, max.arg,   lseq = 50, fix.
   else 
     distname <- distr
   ddistname <- paste("d", distname, sep="")
-  
   if (!exists(ddistname, mode="function"))
-    stop(paste("The ", ddistname, " function must be defined"))
+  stop(paste("The ", ddistname, " function must be defined"))
+  if (cens)
+  {
+    pdistname <- paste("p", distname, sep="")
+    if (!exists(pdistname, mode="function"))
+      stop(paste("The ", pdistname, " function must be defined"))
+    
+  }
+  
   
   #sanity check for argument names
   argdistname <- names(formals(ddistname))
@@ -116,7 +166,7 @@ llsurface <- function(data, distr, plot.arg, min.arg, max.arg,   lseq = 50, fix.
     stop("'fix.arg' must specify names which are arguments to 'distr'.")
   
   #function to plot
-  if (is.vector(data))
+  if (!cens)
   {
     if(loglik)
     {
@@ -124,7 +174,7 @@ llsurface <- function(data, distr, plot.arg, min.arg, max.arg,   lseq = 50, fix.
       {
         par <- list(x,y)
         names(par) <- plot.arg
-        loglikelihood(par, fix.arg = fix.arg, obs = data, ddistnam = ddistname)
+        loglikelihood(par, fix.arg = fix.arg, obs = data, ddistnam = ddistname, weights = weights)
         #sum(log(do.call(ddistname, c(list(data), par, as.list(fix.arg)) ) ) )
       }
     }else
@@ -133,13 +183,36 @@ llsurface <- function(data, distr, plot.arg, min.arg, max.arg,   lseq = 50, fix.
       {
         par <- list(x,y)
         names(par) <- plot.arg
-        likelihood(par, fix.arg = fix.arg, obs= data, ddistnam=ddistname)
+        likelihood(par, fix.arg = fix.arg, obs= data, ddistnam = ddistname, weights = weights)
         # prod(do.call(ddistname, c(list(data), as.list(par), as.list(fix.arg)) ) ) 
       }
     }
-  } else stop("This function is not yet available for censored data")
-  # TO DO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  
+  } else # for censored data
+  {
+    if(loglik)
+    {
+      f2plot <- function(x, y)
+      {
+        par <- list(x,y)
+        names(par) <- plot.arg
+        loglikelihoodcens(par, fix.arg = fix.arg, rcens = rcens, lcens = lcens, icens = icens,
+                          ncens = ncens, ddistnam = ddistname, pdistnam = pdistname, weights = weights,
+                          irow.ncens = irow.ncens, irow.lcens = irow.lcens, 
+                          irow.rcens = irow.rcens, irow.icens = irow.icens)
+      }
+    }else
+    {
+      f2plot <- function(x, y)
+      {
+        par <- list(x,y)
+        names(par) <- plot.arg
+        likelihoodcens(par, fix.arg = fix.arg, rcens = rcens, lcens = lcens, icens = icens,
+                       ncens = ncens, ddistnam = ddistname, pdistnam = pdistname, weights = weights,
+                       irow.ncens = irow.ncens, irow.lcens = irow.lcens, 
+                       irow.rcens = irow.rcens, irow.icens = irow.icens)
+      }
+    }
+  }  
   #create x, y and z matrix.
   p1 <- seq(min.arg[1], max.arg[1], length=lseq)
   p2 <- seq(min.arg[2], max.arg[2], length=lseq)
@@ -161,20 +234,62 @@ llsurface <- function(data, distr, plot.arg, min.arg, max.arg,   lseq = 50, fix.
 
 
 llcurve <- function(data, distr, plot.arg, min.arg, max.arg,   lseq = 50, fix.arg = NULL,  
-                    loglik = TRUE, ...)
+                    loglik = TRUE, weights = NULL, ...)
 {
   stopifnot(is.vector(plot.arg) || length(plot.arg) == 1)
   stopifnot(is.list(fix.arg) || is.null(fix.arg))
 
+  if(!is.null(weights))
+  {
+    if(any(weights < 0))
+      stop("weights should be a vector of numerics greater than 0")
+    if(length(weights) != NROW(data))
+      stop("weights should be a vector with a length equal to the observation number")
+  } else
+  {
+    weights <- rep(1, NROW(data))
+  }
+  
+  
+  if (is.vector(data))
+  {
+    cens <- FALSE
+  } else
+  {
+    cens <- TRUE
+    # Definition of datasets lcens (left censored)=vector, rcens (right censored)= vector, 
+    #   icens (interval censored) = dataframe with left and right 
+    # and ncens (not censored) = vector
+    censdata <- data
+    irow.lcens <- is.na(censdata$left) # rows corresponding to lcens data
+    lcens <- censdata[irow.lcens, ]$right
+    if (any(is.na(lcens)) )
+      stop("An observation cannot be both right and left censored, coded with two NA values")
+    irow.rcens <- is.na(censdata$right)  # rows corresponding to rcens data
+    rcens <- censdata[irow.rcens, ]$left
+    irow.ncens <- censdata$left==censdata$right & !is.na(censdata$left) & 
+      !is.na(censdata$right)  # rows corresponding to ncens data
+    ncens<-censdata[irow.ncens, ]$left
+    irow.icens <- censdata$left!=censdata$right & !is.na(censdata$left) & 
+      !is.na(censdata$right)  # rows corresponding to icens data
+    icens<-censdata[irow.icens, ]
+  }
   
   if (!is.character(distr)) 
     stop("distr must be a character string naming a distribution")
   else 
     distname <- distr
   ddistname <- paste("d", distname, sep="")
-  
   if (!exists(ddistname, mode="function"))
     stop(paste("The ", ddistname, " function must be defined"))
+ 
+  if (cens)
+  {
+    pdistname <- paste("p", distname, sep="")
+    if (!exists(pdistname, mode="function"))
+      stop(paste("The ", pdistname, " function must be defined"))
+    
+  }
   
   #sanity check for argument names
   argdistname <- names(formals(ddistname))
@@ -186,7 +301,7 @@ llcurve <- function(data, distr, plot.arg, min.arg, max.arg,   lseq = 50, fix.ar
   if (any(is.na(m))) #check unexpected names
     stop("'fix.arg' must specify names which are arguments to 'distr'.")
   
-  if (is.vector(data))
+  if (!cens)
   {
     #function to plot
     if(loglik)
@@ -195,7 +310,7 @@ llcurve <- function(data, distr, plot.arg, min.arg, max.arg,   lseq = 50, fix.ar
       {
         par <- list(x)
         names(par) <- plot.arg
-        loglikelihood(par, fix.arg=fix.arg, obs = data, ddistnam = ddistname)
+        loglikelihood(par, fix.arg=fix.arg, obs = data, ddistnam = ddistname, weights = weights)
       }
     }else
     {
@@ -203,13 +318,37 @@ llcurve <- function(data, distr, plot.arg, min.arg, max.arg,   lseq = 50, fix.ar
       {
         par <- list(x)
         names(par) <- plot.arg
-        likelihood(par, fix.arg=fix.arg, obs = data, ddistnam = ddistname)
+        likelihood(par, fix.arg=fix.arg, obs = data, ddistnam = ddistname, weights = weights)
       }
     }
-  } else stop("This function is not yet available for censored data")
-  # TO DO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  } else # for censored data
+  {
+    if(loglik)
+    {
+      f2plot <- function(x)
+      {
+        par <- list(x)
+        names(par) <- plot.arg
+        loglikelihoodcens(par, fix.arg = fix.arg, rcens = rcens, lcens = lcens, icens = icens,
+                          ncens = ncens, ddistnam = ddistname, pdistnam = pdistname, weights = weights,
+                          irow.ncens = irow.ncens, irow.lcens = irow.lcens, 
+                          irow.rcens = irow.rcens, irow.icens = irow.icens)
+      }
+    }else
+    {
+      f2plot <- function(x)
+      {
+        par <- list(x)
+        names(par) <- plot.arg
+        likelihoodcens(par, fix.arg = fix.arg, rcens = rcens, lcens = lcens, icens = icens,
+                          ncens = ncens, ddistnam = ddistname, pdistnam = pdistname, weights = weights,
+                          irow.ncens = irow.ncens, irow.lcens = irow.lcens, 
+                          irow.rcens = irow.rcens, irow.icens = irow.icens)
+      }
+    }
+  }
   
-  #create x, y and z matrix.
+  #create x, y matrix.
   p1 <- seq(min.arg[1], max.arg[1], length = lseq)
   y <- sapply(p1, function(x) f2plot(x))
   plot(p1, y, type="l", xlab = plot.arg, ylab = ifelse(loglik, "loglikelihood", "likelihood"), ...)
@@ -218,11 +357,40 @@ llcurve <- function(data, distr, plot.arg, min.arg, max.arg,   lseq = 50, fix.ar
 
 
 #local definition of loglikelihood
-loglikelihood <- function(par, fix.arg, obs, ddistnam) 
-  sum(log(do.call(ddistnam, c(list(obs), as.list(par), as.list(fix.arg)) ) ) )
+loglikelihood <- function(par, fix.arg, obs, ddistnam, weights) 
+  sum(weights * log(do.call(ddistnam, c(list(obs), as.list(par), as.list(fix.arg)) ) ) )
 
 #local definition of likelihood
-likelihood <- function(par, fix.arg, obs, ddistnam) 
-  prod(do.call(ddistnam, c(list(obs), as.list(par), as.list(fix.arg)) ) ) 
+likelihood <- function(par, fix.arg, obs, ddistnam, weights) 
+  prod(do.call(ddistnam, c(list(obs), as.list(par), as.list(fix.arg)) )^weights ) 
 
+#local definition of loglikelihood for censored data
+loglikelihoodcens <- function(par, fix.arg, rcens, lcens, icens, ncens, ddistnam, pdistnam, 
+                              weights, irow.ncens, irow.lcens, irow.rcens, irow.icens)
+{
+  p1 <- log(do.call(ddistnam, c(list(x=ncens), as.list(par), as.list(fix.arg))))
+  p2 <- log(do.call(pdistnam, c(list(q=lcens), as.list(par), as.list(fix.arg)))) 
+  p3 <- log(1-do.call(pdistnam, c(list(q=rcens), as.list(par), as.list(fix.arg))))
+  p4 <- log(do.call(pdistnam, c(list(q=icens$right), as.list(par), as.list(fix.arg))) - 
+              do.call(pdistnam, c(list(q=icens$left), as.list(par), as.list(fix.arg))) )
+  sum(weights[irow.ncens] * p1) + 
+    sum(weights[irow.lcens] * p2) + 
+    sum(weights[irow.rcens] * p3) + 
+    sum(weights[irow.icens] * p4) 
+}
+
+#local definition of likelihood for censored data
+likelihoodcens <- function(par, fix.arg, rcens, lcens, icens, ncens, ddistnam, pdistnam, 
+                           weights, irow.ncens, irow.lcens, irow.rcens, irow.icens)
+{
+  p1 <- do.call(ddistnam, c(list(x=ncens), as.list(par), as.list(fix.arg)))
+  p2 <- do.call(pdistnam, c(list(q=lcens), as.list(par), as.list(fix.arg)))
+  p3 <- 1-do.call(pdistnam, c(list(q=rcens), as.list(par), as.list(fix.arg)))
+  p4 <- do.call(pdistnam, c(list(q=icens$right), as.list(par), as.list(fix.arg))) - 
+              do.call(pdistnam, c(list(q=icens$left), as.list(par), as.list(fix.arg))) 
+  prod(p1^weights[irow.ncens]) * 
+    prod(p2^weights[irow.lcens]) * 
+    prod(p3^weights[irow.rcens]) * 
+    prod(p4^weights[irow.icens]) 
+}
 

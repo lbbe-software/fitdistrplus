@@ -94,4 +94,21 @@ plot(b1)
 #     
 #   }
 
+# (5) with weights (not yet available, test of error message)
+#
+data(salinity)
+salinity.unique <- unique(salinity)
+string.unique <- paste(salinity.unique$left, salinity.unique$right)
+string.salinity <- paste(salinity$left, salinity$right)
+nobs <- nrow(salinity.unique)
+salinity.weights <- numeric(nobs)
+for (i in 1:nobs)
+{
+  salinity.weights[i] <- length(which(string.salinity == string.unique[i]))
+}
+cbind(salinity.unique, salinity.weights)
 
+(fa <- fitdistcens(salinity, "lnorm"))
+(fb <- fitdistcens(salinity.unique, "lnorm", weights = salinity.weights)) # should give the same results
+summary(bootdistcens(fa, niter = nbboot))
+try(summary(bootdistcens(fb, niter = nbboot)))

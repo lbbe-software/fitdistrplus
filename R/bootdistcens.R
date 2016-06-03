@@ -40,6 +40,10 @@ bootdistcens <- function (f, niter=1001, silent=TRUE,
     
     if (!inherits(f, "fitdistcens"))
         stop("Use only with 'fitdistcens' objects")
+    
+    if(!is.null(f$weights))
+      stop("Bootstrap is not yet available when using weights")
+    
     # non parametric bootstrap
     n <- length(f$censdata[, 1])
     numrow <- seq(1, n)

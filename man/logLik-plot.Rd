@@ -106,6 +106,14 @@ llplot(fitg2, fit.show = TRUE)
   llplot(fBurr, nlev = 0, pal.col = rainbow(100), lseq = 100)
 }
 
+# (5) a distribution with two parameters fitted on censored data
+# 
+data(salinity)
+fsal <- fitdistcens(salinity, "lnorm")
+llplot(fsal, fit.show = TRUE)
+llplot(fsal, fit.show = TRUE, loglik = FALSE)
+
+
 }
 
 \keyword{ distribution }

@@ -42,7 +42,10 @@ bootdist <- function (f, bootmethod="param", niter=1001, silent=TRUE,
             
     if (!inherits(f, "fitdist"))
         stop("Use only with 'fitdist' objects")
-        
+     
+    if(!is.null(f$weights))
+    stop("Bootstrap is not yet available when using weights")
+    
     #simulate bootstrap data
     if (bootmethod == "param") { # parametric bootstrap
         rdistname <- paste("r", f$distname, sep="")

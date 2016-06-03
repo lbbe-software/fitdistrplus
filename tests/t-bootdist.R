@@ -257,3 +257,16 @@ if(FALSE)
   
   alltime
 }
+
+# (17) bootdist with weights (not yet available, test of error message)
+#
+n <- 1e2
+x <- rpois(n, 10)
+xtab <- table(x)
+xval <- sort(unique(x))
+(f1 <- fitdist(x, "pois"))
+(f2 <- fitdist(xval, "pois", weights = xtab))
+summary(bootdist(f1, niter = nbboot))
+try(summary(bootdist(f2, niter = nbboot))) # not yet developed
+
+

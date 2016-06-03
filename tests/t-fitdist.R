@@ -410,18 +410,52 @@ f2 <- fitdist(x2, "zmgeom", fix.arg=list(p1=1/2), start=list(p2=1/2))
 print(f2)
 summary(f2)
 
-
-# (23) check the use of weights
+# (23) check the use of weights with MLE
 #
 
-x3 <- rnorm(100)
-fitdist(x3, "norm", method="mle", weights=rep(1, 100))
-fitdist(x3, "norm", method="mme", weights=rep(1, 100))
-fitdist(x3, "norm", method="qme", probs=c(1/3, 2/3), weights=rep(1, 100))
-try(fitdist(x3, "norm", method="mge", gof = "CvM", weights=rep(1, 100)))
+n <- 1e2
+x <- rpois(n, 10)
+xtab <- table(x)
+xval <- sort(unique(x))
+f1 <- fitdist(x, "pois")
+f2 <- fitdist(xval, "pois", weights = xtab)
+
+f1$estimate
+f2$estimate #should be identical
 
 
-# (24) check the warning messages when using weights in the fit followed by functions
+# (24) check the use of weights with other methods
+#
+
+n <- 1e2
+x <- rpois(n, 20)
+xtab <- table(x)
+xval <- sort(unique(x))
+(f1 <- fitdist(x, "norm", method = "mme"))
+(f2 <- fitdist(xval, "norm", weights = xtab, method = "mme"))
+
+(f1 <- fitdist(x, "norm", method = "qme", probs=c(1/4, 3/4)))
+(f2 <- fitdist(xval, "norm", method = "qme", weights = xtab, probs=c(1/4, 3/4) ))
+
+fitdist(x, "norm", method="mge", gof = "CvM")
+try(fitdist(xval, "norm", method="mge", gof = "CvM", weights = xtab)) # not yet developped
+
+
+# (24b) check the use of weights with qme with a discrete distribution
+#
+# TO  EXPLORE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# SHOULD GIVE THE SAME RESULTS  and do not !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+n <- 1e2
+x <- rpois(n, 10)
+xtab <- table(x)
+xval <- sort(unique(x))
+(f1 <- fitdist(x, "pois", method = "qme", probs=c(1/2)))
+(f2 <- fitdist(xval, "pois", method = "qme", weights = xtab, probs=c(1/2) )) # not identical
+(f3 <- fitdist(xval, "pois", method = "qme", weights = xtab, probs=c(1/2) ,
+              start = mean(x))) # identical to f1
+
+
+# (25) check the warning messages when using weights in the fit followed by functions
 # that do not yet take weights into account
 # with an example to be used later to see if weights are well taken into account
 #
@@ -441,5 +475,8 @@ try(qqcomp(f))
 try(qqcomp(list(f,f2)))
 try(gofstat(f))
 try(gofstat(list(f,f2)))
+try(bootdist(f))
+
+
 
 

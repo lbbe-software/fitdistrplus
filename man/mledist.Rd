@@ -41,7 +41,8 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
     (see \code{\link{optim}}).  }
 \item{custom.optim}{a function carrying the MLE optimisation (see details).}
 \item{weights}{an optional vector of weights to be used in the fitting process. 
-    Should be \code{NULL} or a numeric vector. If non-\code{NULL}, 
+    Should be \code{NULL} or a numeric vector with strictly positive values 
+    (classically the number of occurences of each observation). If non-\code{NULL}, 
     weighted MLE is used, otherwise ordinary MLE.}
 \item{silent}{A logical to remove or show warnings when bootstraping.}    
 \item{gradient}{A function to return the gradient of the log-likelihood for the \code{"BFGS"}, \code{"CG"} 
@@ -119,10 +120,10 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
     Optionally, a vector of \code{weights} can be used in the fitting process. 
     By default (when \code{weigths=NULL}), ordinary MLE is carried out, otherwise 
     the specified weights are used to balance the log-likelihood contributions.
-    It is not yet possible to take into account weighths in functions \code{plotdist}, 
+    It is not yet possible to take into account weights in functions \code{plotdist}, 
     \code{plotdistcens}, \code{plot.fitdist}, \code{plot.fitdistcens}, \code{cdfcomp}, 
-    \code{cdfcompcens}, \code{denscomp}, \code{ppcomp}, \code{qqcomp}, \code{gofstat} 
-    and \code{descdist}
+    \code{cdfcompcens}, \code{denscomp}, \code{ppcomp}, \code{qqcomp}, \code{gofstat}, 
+    \code{descdist}, \code{bootdist}, \code{bootdistcens} and \code{mgedist}.
     (developments planned in the future).
 
     
@@ -172,9 +173,10 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
 
 \seealso{ 
     \code{\link{mmedist}}, \code{\link{qmedist}}, \code{\link{mgedist}}, 
-    \code{\link{fitdist}},\code{\link{fitdistcens}} for other estimation methods.
-    \code{\link{optim}}, \code{\link{constrOptim}} for optimization routines.
-    \code{\link{bootdistcens}} and \code{\link{bootdist}} for bootstrap.
+    \code{\link{fitdist}},\code{\link{fitdistcens}} for other estimation methods,
+    \code{\link{optim}}, \code{\link{constrOptim}} for optimization routines,
+    \code{\link{bootdistcens}} and \code{\link{bootdist}} for bootstrap,
+    and \code{\link{llplot}} for plotting the (log)likelihood.
 }
 
 \references{ 

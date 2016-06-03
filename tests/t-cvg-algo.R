@@ -59,7 +59,7 @@ constr_cg <- mledist(x, dist="beta", custom.optim=constrOptim2,
 
 lnL <- function(par, fix.arg, obs, ddistnam) 
 {
-  fitdistrplus:::loglikelihood(par, fix.arg, obs, ddistnam) 
+  fitdistrplus:::loglikelihood(par, fix.arg, obs, ddistnam, weights = rep(1, NROW(obs))) 
 }
   
 

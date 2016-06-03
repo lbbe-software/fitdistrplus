@@ -134,12 +134,20 @@ f1$fix.arg.fun
 
 # (10) weights
 #
-x <- rexp(100, 5)
-x <- sort(x)
-x <- data.frame(left=x, right=x+.1)
+data(salinity)
+salinity.unique <- unique(salinity)
+string.unique <- paste(salinity.unique$left, salinity.unique$right)
+string.salinity <- paste(salinity$left, salinity$right)
+nobs <- nrow(salinity.unique)
+salinity.weights <- numeric(nobs)
+for (i in 1:nobs)
+{
+  salinity.weights[i] <- length(which(string.salinity == string.unique[i]))
+}
+cbind(salinity.unique, salinity.weights)
 
-fitdistcens(x, "gamma", fix.arg=list(shape=1.5), weights=rep(1, 100))
-fitdistcens(x, "gamma", fix.arg=list(shape=1.5), weights=c(rep(10, 50), rep(1, 50)))
+(fa <- fitdistcens(salinity, "lnorm"))
+(fb <- fitdistcens(salinity.unique, "lnorm", weights = salinity.weights)) # should give the same results
 
 # (11) check the warning messages when using weights in the fit followed by functions
 # that do not yet take weights into account
@@ -153,3 +161,4 @@ try(plot(f))
 try(cdfcompcens(f))
 (f2 <- fitdistcens(x, "weibull", weights=c(rep(10, 50), rep(1, 50))))
 try(cdfcompcens(list(f, f2)))
+try(bootdistcens(f))
