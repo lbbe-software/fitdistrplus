@@ -68,7 +68,11 @@ Look first at statistics and probability books such as
 * **Distributional Analysis with L-moment Statistics using the R Environment for Statistical Computing** by W. Asquith.  
 
 If not available, find initial values by equalling theoretical and empirical quartiles.
-You may also consider the `prefit()` function to find initial values.
+The graphical function `plotdist()` and `plotdistcens()` can also be used to assess the suitability of 
+starting values : by an iterative manual process you can move parameter values so as to
+obtain a distribution that roughly fits the data and take these parameter values
+as starting values for the real fit.
+You may also consider the `prefit()` function to find initial values. 
 
 ## Is it possible to fit a distribution with at least 3 parameters?
 Yes, an example with the Burr distribution is detailed in the JSS paper. We reproduce it very quickly here.
@@ -124,7 +128,157 @@ better moment estimates than with MLE.
 
 
 
-# Questions regarding goodness-of-fits tests and statistics
+# Questions regarding goodness-of-fit tests and statistics
+
+## Where can we find the results of goodness-of-fit tests ?
+Results of goodness-of-fit tests are not printed but are given in the object returned by `gofstat()` and you can 
+have access to them as described in the example below. Nevertheless, p-values are not given for every test. 
+For Anderson-Darling (ad), Cramer von Mises (cvm) and Kolomogorov (ks), 
+only the decision (rejection of H0 or not) is given, when available (see FAQ 2.3 for more details).
+
+```{r, fig.height=4, fig.width=8}
+set.seed(1234)
+x <- rgamma(n = 100, shape = 2, scale = 1)
+# fit of the good distribution
+fgamma <- fitdist(x, "gamma")
+# fit of a bad distribution
+fexp <- fitdist(x, "exp")
+g <- gofstat(list(fgamma, fexp), fitnames = c("gamma", "exp"))
+denscomp(list(fgamma, fexp), legendtext = c("gamma", "exp"))
+# results of the tests
+## chi square test (with corresponding table with theoretical and observed counts)
+g$chisqpvalue
+g$chisqtable
+## Anderson-Darling test
+g$adtest
+## Cramer von  Mises test
+g$cvmtest
+## Kolmogorov-Smirnov test
+g$kstest
+```
+
+## Is it reasonable to use goodness-of-fit tests to validate the fit of a distribution ?
+
+In the first versions of fitdistrplus, when they were available, the results of the GOF tests (AD, KS, CvM) were automatically printed. We decided to suppress this automatic printing when we realized that some users 
+had some difficulties to interpret the results of those tests and sometimes misused them.
+
+Goodness-of-fit tests often appear as objective tools to decide wether a fitted distribution well describes
+a data set. **But they are not !** It would not be reasonable at all to reject a distribution 
+just because a goodness-of-fit test rejects it (see FAQ 2.2.1). And it would not be reasonable at all any more
+to validate a distribution because goodness-of-fit 
+tests do not reject it (see FAQ 2.2.2).
+
+A fitted distribution should be evaluated using graphical methods (goodness-of-fit graphs
+automatically provided 
+in our package by plotting the result of the fit (output of `fitdist()` or `fitdistcens()`
+and the complementary graphs that help
+to compare different fits - see `?graphcomp`). We really think it is the most appropriate way to 
+evaluate the adequacy of a fit and we are not the only ones to recommend it. You can find the same
+type of recommendations in reference books :
+
+* **Probabilistic techniques in exposure assessment - a handbook dealing
+with variability and uncertainty in models and inputs**  by A.C. Cullen and H.C. Frey.  
+* **Application of uncertainty analysis to ecological risks of pesticides** by 
+W.J. Warren-Hicks and A. Hart.  
+
+Moreover, the selection of a distribution should also be driven by knowledge of underlying
+processes when available. For example when a variable cannot be negative, one would be very
+cautious while fitting a normal distribution, that potentially gives negative values, 
+even if the observed data of this variable seem well fitted by a normal distribution.
+
+
+### Should I reject a distribution because a goodness-of-fit test rejects it ?
+
+No it would not be reasonable at all to reject a distribution 
+just because a goodness-of-fit test rejects it, especially in the case of big samples. 
+In the real life, as soon as you have a sufficient amount of data, you will reject the fitted distribution. 
+We know that a model cannot perfectly describe real data, and generally the true question is to find the better distribution among a pool of simple parametric distributions to describe the data, so to compare different models (see FAQ 2.4 and 2.5 for corresponding questions).
+
+To illustre this point let us comment the example presented below. We drew two samples from the 
+same Poisson distribution with a mean parameter equal to 100. In many applications, 
+for this value of its parameter, the Poisson distribution would be considered to be well
+approximated by a normal distribution. Testing the fit (here using a Kolmogorov-Smirnov test ) of the normal distribution on a sample
+of 100 observations would not reject the normal fit, while testing it on a sample of 10000
+observations would reject it, while both samples come from the same distribution.
+
+```{r, fig.height=4, fig.width=8}
+set.seed(1234)
+x1 <- rpois(n = 100, lambda = 100)
+f1 <- fitdist(x1, "norm")
+g1 <- gofstat(f1)
+g1$kstest
+
+x2 <- rpois(n = 10000, lambda = 100)
+f2 <- fitdist(x2, "norm")
+g2 <- gofstat(f2)
+g2$kstest
+
+par(mfrow=1:2)
+denscomp(f1, demp = TRUE, addlegend = FALSE)
+denscomp(f2, demp = TRUE, addlegend = FALSE)
+
+```
+
+
+### Should I accept a distribution because goodness-of-fit tests do not reject it ?
+
+No, it would not be reasonable at all 
+to validate a distribution because goodness-of-fit 
+tests do not reject it. Like all the other hypothesis tests, goodness-of-fit tests lack of statistical power when the sample size is not so high. And the different goodness-of-fit 
+tests are not equally sensitive to different types of deviation between empirical and fitted 
+distributions. For example the Kolmogorov-Smirnov test is sensitive when distributions
+in a global fashion near the centre of the distribution but the Anderson-Darling test 
+will be more sensitive when distributions differ in their tails, and the Cramer von Mises
+will be more sensitive when there are small but repetitive differences between empirical 
+and theoretical distribution functions. 
+
+The sensitivity of a chi square test will depend on the definition of classes.
+And even if we propose a default definition of classes when the user does not provide
+classes, this choice is not obvious and could impact the results of the test. This test 
+is more appropriate when data are discrete, even if they are modelled by a continuous distribution, as in the following example. Two samples of respective sizes 500 and 50 are drawn from a Poisson
+distribution of mean parameter equal to 1 (to a sufficiently high value to consider that the
+Poisson distribution could be apprximated by a normal one). Using a Kolmogorov-Smirnov
+test, for the small sample the normal fit is  rejected only for the bigger sample. It is not rejected with the smaller sample even if the fit could be rejected after a simple
+visual confrontation of the distributions. In that particular case, the chi square test with
+classes defined by default would have rejected te normal fit for both samples.
+
+```{r, fig.height=4, fig.width=8}
+set.seed(1234)
+x3 <- rpois(n = 500, lambda = 1)
+f3 <- fitdist(x3, "norm")
+g3 <- gofstat(f3)
+g3$kstest
+
+x4 <- rpois(n = 50, lambda = 1)
+f4 <- fitdist(x4, "norm")
+g4 <- gofstat(f4)
+g4$kstest
+
+par(mfrow=1:2)
+denscomp(f3, addlegend = FALSE) 
+denscomp(f4, addlegend = FALSE)
+```
+
+```{r}
+g3$chisqtable
+g3$chisqpvalue
+g4$chisqtable
+g4$chisqpvalue
+```
+
+
+## Why all goodness-of-fit tests are not available for every distribution ?
+
+
+
+## How can we use goodness-of-fit statistics to compare the fit of different distributions on a same data set ?
+
+
+## Can we use a test to compare the fit of two distributions on a same data set ?
+
+
+## Can we get goodness-of-fit statistics for a fit on censored data ?
+
 
 
 # Questions regarding optimization procedures
@@ -141,7 +295,7 @@ In both cases, see the help of `mledist()` and the vignette on optimization algo
 ## The optimization algorithm stops with error code 100. What shall I do?
 First, add traces by adding `control=list(trace=1, REPORT=1)`.
 Second, try to set bounds for parameters.
-Third, find better starting values with `prefit()`.
+Third, find better starting values (see FAQ 1.3).
 
 ## Why distribution with a `log` argument may converge better?
 Say, we study the shifted lognormal distribution defined by the following density
@@ -259,7 +413,7 @@ data(dataFAQscale2)
 head(dataFAQscale2)
 summary(dataFAQscale2)
 ```
-The only way to sort out is to multiply the dataset by a large value.
+The only way to sort out is to multiply the dataset by a small value.
 ```{r}
 for(i in 0:5)
 cat(10^(-2*i), try(mledist(dataFAQscale2*10^(-2*i), "cauchy")$estimate), "\n")
@@ -460,4 +614,6 @@ fitdist(x, "geom", method="qme", probs=1/2, start=list(prob=1/20), control=list(
 ```
 
 
+# Questions regarding uncertainty on parameter estimates
 
+## Can we compute marginal confidence intervals on parameter estimates from their reporterd standard error ?
