@@ -227,17 +227,17 @@ to validate a distribution because goodness-of-fit
 tests do not reject it. Like all the other hypothesis tests, goodness-of-fit tests lack of statistical power when the sample size is not so high. And the different goodness-of-fit 
 tests are not equally sensitive to different types of deviation between empirical and fitted 
 distributions. For example the Kolmogorov-Smirnov test is sensitive when distributions
-in a global fashion near the centre of the distribution but the Anderson-Darling test 
+differ in a global fashion near the centre of the distribution. The Anderson-Darling test 
 will be more sensitive when distributions differ in their tails, and the Cramer von Mises
 will be more sensitive when there are small but repetitive differences between empirical 
 and theoretical distribution functions. 
 
-The sensitivity of a chi square test will depend on the definition of classes.
-And even if we propose a default definition of classes when the user does not provide
+The sensitivity of a chi square test will depend on the definition of classes, 
+and even if we propose a default definition of classes when the user does not provide
 classes, this choice is not obvious and could impact the results of the test. This test 
 is more appropriate when data are discrete, even if they are modelled by a continuous distribution, as in the following example. Two samples of respective sizes 500 and 50 are drawn from a Poisson
-distribution of mean parameter equal to 1 (to a sufficiently high value to consider that the
-Poisson distribution could be apprximated by a normal one). Using a Kolmogorov-Smirnov
+distribution of mean parameter equal to 1 (not a sufficiently high value to consider that the
+Poisson distribution could be approximated by a normal one). Using a Kolmogorov-Smirnov
 test, for the small sample the normal fit is  rejected only for the bigger sample. It is not rejected with the smaller sample even if the fit could be rejected after a simple
 visual confrontation of the distributions. In that particular case, the chi square test with
 classes defined by default would have rejected te normal fit for both samples.
