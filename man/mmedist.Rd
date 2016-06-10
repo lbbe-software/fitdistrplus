@@ -34,7 +34,8 @@ to the number of parameters to estimate.}
 \item{upper}{ Right bounds on the parameters for the \code{"L-BFGS-B"} method (see \code{\link{optim}}).  }
 \item{custom.optim}{a function carrying the optimization .}
 \item{weights}{an optional vector of weights to be used in the fitting process. 
-    Should be \code{NULL} or a numeric vector. If non-\code{NULL}, 
+    Should be \code{NULL} or a numeric vector with strictly positive integers 
+    (typically the number of occurences of each observation). If non-\code{NULL}, 
     weighted MME is used, otherwise ordinary MME.}
 \item{silent}{A logical to remove or show warnings when bootstraping.}        
 \item{gradient}{A function to return the gradient of the squared difference for the \code{"BFGS"}, \code{"CG"} 

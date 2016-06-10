@@ -109,6 +109,12 @@ fitdistrplus:::wtd.var(x1, w)
 
 mmedist(exp(x1), "lnorm", weights=w)$estimate
 
+#test non integer weights
+try(mmedist(x1, "norm", weights=rep(1/3, length(x1))))
+try(mmedist(1:10, "pois", weights=c(rep(1, 9), 1.001), start=list(lambda=mean(x))))
+try(mmedist(1:10, "pois", weights=c(rep(1, 9), 1.0000001), start=list(lambda=mean(x))))
+
+
 # (8) fit of a neg binom distribution with weighted moment matching estimation
 #
 

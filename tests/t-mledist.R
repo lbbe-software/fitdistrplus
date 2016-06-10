@@ -283,9 +283,12 @@ f2 <- mledist(xval, "pois", weights=xtab, start=list(lambda=mean(x)))
 f1$estimate
 f2$estimate #should be identical
 
-f2 <- try(mledist(unique(sort(x)), "pois", weights=1:3, start=list(lambda=mean(x))))
-
-
+#test discrete distrib
+f2 <- try(mledist(xval, "pois", weights=1:length(xval), start=list(lambda=mean(x))))
+#test non integer weights
+f2 <- try(mledist(xval, "pois", weights=rep(1/3, length(xval)), start=list(lambda=mean(x))))
+f2 <- try(mledist(1:10, "pois", weights=c(rep(1, 9), 1.001), start=list(lambda=mean(x))))
+f2 <- try(mledist(1:10, "pois", weights=c(rep(1, 9), 1.0000001), start=list(lambda=mean(x))))
 
 # (15) no convergence
 #

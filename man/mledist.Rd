@@ -41,8 +41,8 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
     (see \code{\link{optim}}).  }
 \item{custom.optim}{a function carrying the MLE optimisation (see details).}
 \item{weights}{an optional vector of weights to be used in the fitting process. 
-    Should be \code{NULL} or a numeric vector with strictly positive values 
-    (classically the number of occurences of each observation). If non-\code{NULL}, 
+    Should be \code{NULL} or a numeric vector with strictly positive integers 
+    (typically the number of occurences of each observation). If non-\code{NULL}, 
     weighted MLE is used, otherwise ordinary MLE.}
 \item{silent}{A logical to remove or show warnings when bootstraping.}    
 \item{gradient}{A function to return the gradient of the log-likelihood for the \code{"BFGS"}, \code{"CG"} 

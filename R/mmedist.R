@@ -45,7 +45,9 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
     if(!is.null(weights))
     {
       if(any(weights < 0))
-        stop("weights should be a vector of numerics greater than 0")
+        stop("weights should be a vector of integers greater than 0")
+      if(!is.allint.w(weights))
+        stop("weights should be a vector of (strictly) positive integers")
       if(length(weights) != NROW(data))
         stop("weights should be a vector with a length equal to the observation number")
     }
