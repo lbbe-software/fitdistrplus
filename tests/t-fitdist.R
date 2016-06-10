@@ -431,6 +431,9 @@ n <- 1e2
 x <- rpois(n, 20)
 xtab <- table(x)
 xval <- sort(unique(x))
+(f1 <- fitdist(x, "norm", method = "mle"))
+(f2 <- fitdist(xval, "norm", weights = xtab, method = "mle"))
+
 (f1 <- fitdist(x, "norm", method = "mme"))
 (f2 <- fitdist(xval, "norm", weights = xtab, method = "mme"))
 

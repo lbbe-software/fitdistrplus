@@ -54,6 +54,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
         stop("weights should be a vector of (strictly) positive integers")
       if(length(weights) != NROW(data))
         stop("weights should be a vector with a length equal to the observation number")
+      warning("weights are not taken into account in the default initial values")
     }
     
     if (is.vector(data)) {
