@@ -178,8 +178,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
           sum(weights[irow.rcens] * p3) - 
           sum(weights[irow.icens] * p4) 
       }
-    }else
-        stop("not yet implemented.")
+    }
    
     #get warning value    
     owarn <- getOption("warn")

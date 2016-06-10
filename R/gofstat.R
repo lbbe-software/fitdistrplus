@@ -386,34 +386,6 @@ print.gofstat.fitdist <- function(x, ...)
 			cat("The sample is too small to automatically define cells for Chi-squared test \n")
     }else # continuous distribution
     { 
-#		if(x$nbfit == 1)
-#		{
-#			cat("Kolmogorov-Smirnov statistic: ", x$ks,"\n")
-#			if (!is.null(x$kstest)) 
-#			{
-#				cat("Kolmogorov-Smirnov test: ",x$kstest,"\n")
-#				cat("   The result of this test may be too conservative as it  \n")
-#				cat("   assumes that the distribution parameters are known\n")
-#			}
-#			else
-#				cat("Kolmogorov-Smirnov test: not calculated \n")
-#			
-#			cat("Cramer-von Mises statistic: ",x$cvm,"\n")
-#			if (!is.null(x$cvmtest)) 
-#				cat("Cramer-von Mises test: ",x$cvmtest,"\n")
-#			else
-#				cat("Crame-von Mises test: not calculated \n")
-#			
-#			cat("Anderson-Darling statistic: ",x$ad,"\n")
-#			if (!is.null(x$adtest)) 
-#				cat("Anderson-Darling test: ",x$adtest,"\n")
-#			else
-#				cat("Anderson-Darling test: not calculated \n")
-#			
-#			cat("Aikake's Information Criterion: ", x$aic, "\n")
-#			cat("Bayesian Information Criterion: ", x$bic, "\n")
-#		}else
-#		{
 			cat("Goodness-of-fit statistics\n")
 			mm <- rbind(KS=x$ks, CvM=x$cvm, AD=x$ad)
 			rownames(mm) <- c("Kolmogorov-Smirnov statistic", "Cramer-von Mises statistic",

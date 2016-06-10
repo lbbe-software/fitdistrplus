@@ -65,35 +65,13 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
         if (!(is.numeric(data) & length(data)>1)) 
             stop("data must be a numeric vector of length greater than 1 for non censored data
             or a dataframe with two columns named left and right and more than one line for censored data")
-    }
-    else {
+    } else 
+    {
         cens <- TRUE
-        censdata <- data
-        if (!(is.vector(censdata$left) & is.vector(censdata$right) & length(censdata[,1])>1))
-        stop("data must be a numeric vector of length greater than 1 for non censored data
-        or a dataframe with two columns named left and right and more than one line for censored data")
-        pdistname<-paste("p",distname,sep="")
-        if (!exists(pdistname,mode="function"))
-            stop(paste("The ",pdistname," function must be defined to apply maximum likelihood to censored data"))
+        stop("Quantile matching estimation is not yet available for censored data.")
+    }
+    
 
-    }
-    
-    if (cens) {
-        # Definition of datasets lcens (left censored)=vector, rcens (right censored)= vector,
-        #   icens (interval censored) = dataframe with left and right 
-        # and ncens (not censored) = vector
-        lcens<-censdata[is.na(censdata$left),]$right
-        if (any(is.na(lcens)) )
-            stop("An observation cannot be both right and left censored, coded with two NA values")
-        rcens<-censdata[is.na(censdata$right),]$left
-        ncens<-censdata[censdata$left==censdata$right & !is.na(censdata$left) & 
-            !is.na(censdata$right),]$left
-        icens<-censdata[censdata$left!=censdata$right & !is.na(censdata$left) & 
-            !is.na(censdata$right),]
-        # Definition of a data set for calculation of starting values
-        data<-c(rcens,lcens,ncens,(icens$left+icens$right)/2)
-    }
-    
     # QME fit 
     # definition of starting/fixed values values
     argddistname <- names(formals(ddistname))
@@ -151,9 +129,6 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
       }
       fnobj <- function(par, fix.arg, obs, qdistnam, qtype)
         sum( sapply(probs, function(p) DIFF2Q(par, fix.arg, p, obs, qdistnam, qtype)) )
-    }else
-    {
-        stop("Quantile matching estimation is not yet available for censored data.")
     }
     
     # Function to calculate the loglikelihood to return
