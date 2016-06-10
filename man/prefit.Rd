@@ -60,9 +60,22 @@ to the number of parameters to estimate.}
 
 \details{
 
-Search good starting values   
-    
-    
+Searching good starting values is achieved by transforming the parameters 
+(from their constraint interval to the real line) of the probability distribution.
+Indeed, 
+\itemize{
+\item positive parameters in \eqn{(0,Inf)} are transformed using the logarithm
+(typically the scale parameter \code{sd} of a normal distribution, see \link{Normal}), 
+\item  parameters in \eqn{(1,Inf)} are transformed using the function \eqn{log(x-1)}, 
+\item probability parameters in \eqn{(0,1)} are transformed using the logit function \eqn{log(x/(1-x))}
+(typically the parameter \code{prob} of a geometric distribution, see \link{Geometric}), 
+\item negative probability parameters in \eqn{(-1,0)} are transformed using the function \eqn{log(-x/(1+x))},
+\item real parameters are of course not transformed at all, 
+typically the \code{mean} of a normal distribution, see \link{Normal}.
+}
+Once parameters are transformed, an optimization is carried out by a quasi-Newton algorithm (typically BFGS)
+and then we transform them back to original parameter value.
+  
 }
 
 \value{ 
