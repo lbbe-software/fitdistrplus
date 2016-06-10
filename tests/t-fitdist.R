@@ -453,7 +453,8 @@ xval <- sort(unique(x))
 (f2 <- fitdist(xval, "pois", method = "qme", weights = xtab, probs=c(1/2) )) # not identical
 (f3 <- fitdist(xval, "pois", method = "qme", weights = xtab, probs=c(1/2) ,
               start = mean(x))) # identical to f1
-
+llcurve(x, "pois", "lambda", 10, 11)
+abline(v=c(10.42, 10.5), col="red")
 
 # (25) check the warning messages when using weights in the fit followed by functions
 # that do not yet take weights into account

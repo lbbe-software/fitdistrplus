@@ -353,5 +353,111 @@ x <- rsexp(1000, 1/4, 1)
 fitdist(x, "sexp", start=list(rate=1, shift=0), lower= c(0, -min(x)))
 ```
 
+## How works quantile matching estimation for discrete distributions?
+Let us consider the Poisson distribution defined 
+by the following mass probability
+and the cumulative distribution functions
+$$
+P(X=k)=\frac{\lambda^k}{k!}\exp(-\lambda),~
+F_X(x) = \exp(-\lambda)\sum_{k=0}^{\lfloor x \rfloor}\frac{\lambda^k}{k!},~
+x\geq 0.
+$$
+The quantile function $F_X^{-1}(p)=\inf(x, F_X(x)\geq p)$ simplifies to
+$$
+F_X^{-1}(p) = i \text{ such that } \sum_{k=0}^{i-1} P(X=k) \leq p < \sum_{k=0}^{i} P(X=k).
+$$
+In other words, this is the following step function
+$$
+F_X^{-1}(p) =  
+\left\{ \begin{array}{ll}
+0 & \text{if } p < P(X=0) \\
+1 & \text{if } P(X=0) \leq p < P(X=0)+P(X=1) \\
+2 & \text{if } P(X=0)+P(X=1) \leq p < P(X=0)+P(X=1)+P(X=2) \\
+\dots \\
+i & \text{if } \sum_{k=0}^{i-1} P(X=k) \leq p < \sum_{k=0}^{i} P(X=k) \\
+\dots \\
+\end{array} \right.
+$$
+The following graphs illustrate this fact.
+```{r, fig.height=4, fig.width=8}
+ppois(0:3, lambda=1)
+qpois(c(0.3, 0.6, 0.9), lambda=1)
+par(mar=c(4,4,2,1), mfrow=1:2)
+curve(ppois(x, lambda=1), 0, 10, n=301)
+curve(qpois(x, lambda=1), 0, 1, n=301)
+```
+
+Now we study the QME for the Poisson distribution. Since we have only one parameter,
+we choose one probabiliy, $p=1/2$.
+The theoretical median is 
+$$
+F_X^{-1}(1/2) = i \text{ such that } \exp(-\lambda)\sum_{k=0}^{i-1}\frac{\lambda^k}{k!}  \leq 1/2 < \exp(-\lambda)\sum_{k=0}^{i}\frac{\lambda^k}{k!}.
+$$
+The latter inequality is rewritten as
+$$
+0 \leq \exp(\lambda)/2 - \sum_{k=0}^{i-1}\frac{\lambda^k}{k!} < \frac{\lambda^i}{i!}
+$$
+Note that the theoretical median for a discrete distribution is an integer.
+Empirically, the median may not be an integer. Indeed for an even length dataset, 
+the empirical median is
+$$
+q_{n,1/2} = \frac{x_{n/2}^\star + x_{n/2+1}^\star}{2},
+$$
+where $x_{1}^\star<\dots<x_{n}^\star$ is the sorted sample, which is not an integer value 
+if $x_{n/2}^\star + x_{n/2+1}^\star$ is not an even number.
+However for an odd length dataset, the empirical median is an integer
+$q_{n,1/2}=x_{(n+1)/2}^\star$.
+```{r}
+x <- c(0, 0, 0, 0, 1, 1, 3, 2, 1, 0, 0)
+median(x[-1]) #sample size 10
+median(x) #sample size 11
+```
+Therefore, if the median is not an integer, it is impossible to match exactly the 
+empirical median with the theoretical quantile.
+Furthermore, matching quantiles leads to find some $\lambda$ such that
+$$
+F_X^{-1}(1/2) = q_{n,1/2}
+\Leftrightarrow 
+0 \leq \exp(\lambda)/2 - \sum_{k=0}^{q_{n,1/2}-1}\frac{\lambda^k}{k!} < \frac{\lambda^{q_{n,1/2}}}{q_{n,1/2}!}.
+$$
+Of course, the $\lambda$ is not unique.
+Let us plot the squared differences $(F_X^{-1}(1/2) = q_{n,1/2})^2$.
+```{r, fig.height=4, fig.width=6}
+par(mar=c(4,4,2,1))
+x <- rpois(100, lambda=7.5)
+L2 <- function(lam)
+  (qpois(1/2, lambda = lam) - median(x))^2
+curve(L2(x), 6, 9, xlab=expression(lambda), ylab=expression(L2(lambda)), main="squared differences", n=201)
+```
+
+Any value between [6.6, 7.6] minimizes the squared differences.
+Therefore, using `fitdist()` may be sensitive to the chosen initial value.
+```{r}
+fitdist(x, "pois", method="qme", probs=1/2, start=list(lambda=2), control=list(trace=1, REPORT=1))
+fitdist(x, "pois", method="qme", probs=1/2, start=list(lambda=6.8), control=list(trace=1, REPORT=1))
+fitdist(x, "pois", method="qme", probs=1/2, start=list(lambda=15), control=list(trace=1, REPORT=1))
+```
+
+Let us consider the geometric distribution with values in $\{0,1,2\dots\}$.
+The distribution function and the quantile function are
+$$
+P(X=x)= p (1-p)^{\lfloor x\rfloor},
+F_X(x) = 1- (1-p)^{\lfloor x\rfloor},
+F_X^{-1}(q) = \left\lfloor\frac{\log(1-q)}{\log(1-p)}\right\rfloor.
+$$
+Again the squared difference is a step function.
+```{r, fig.height=4, fig.width=6}
+x <- rgeom(100, 1/3)
+L2 <- function(p)
+  (qgeom(1/2, p) - median(x))^2
+curve(L2(x), 0.10, 0.95, xlab=expression(p), ylab=expression(L2(p)), main="squared differences", n=301)
+```
+```{r}
+median(x)
+L2(1/3)
+fitdist(x, "geom", method="qme", probs=1/2, start=list(prob=1/2), control=list(trace=1, REPORT=1))
+fitdist(x, "geom", method="qme", probs=1/2, start=list(prob=1/20), control=list(trace=1, REPORT=1))
+```
+
 
 
