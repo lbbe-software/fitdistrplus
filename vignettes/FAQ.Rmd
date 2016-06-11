@@ -128,6 +128,36 @@ better moment estimates than with MLE.
 
 
 
+## Can I fit a distribution with positive support when data contains negative values?
+The answer is no: you cannot fit a distribution with positive support (say gamma distribution)
+when data contains negative values.
+```{r}
+x <- rnorm(100)
+try(fitdist(x, "exp"))
+```
+It is irrelevant to do such fit. If you really need to use that distribution, you have two
+options: either to remove negative values or to shift the data.
+```{r}
+fitdist(x[x>0], "exp")
+fitdist(x-min(x), "exp")
+```
+
+
+## Can I fit a finite-support distribution when data is outside that support?
+The answer is no: you cannot fit a distribution with finite-support (say beta distribution)
+when data is outside $[0,1]$.
+```{r}
+x <- rnorm(100)
+try(fitdist(x, "beta"))
+```
+It is irrelevant to do such fit. If you really need to use that distribution, you have two
+options: either to remove impossible values or to shift/scale the data.
+```{r}
+fitdist(x[x>0 & x < 1], "beta")
+fitdist((x - min(x)*1.01)/(max(x)*1.01 - min(x)*1.01), "beta")
+```
+
+
 # Questions regarding goodness-of-fit tests and statistics
 
 ## Where can we find the results of goodness-of-fit tests ?
@@ -506,6 +536,9 @@ rsexp <- function(n, rate, shift)
 x <- rsexp(1000, 1/4, 1)
 fitdist(x, "sexp", start=list(rate=1, shift=0), lower= c(0, -min(x)))
 ```
+
+
+
 
 ## How works quantile matching estimation for discrete distributions?
 Let us consider the geometric distribution with values in $\{0,1,2,3,\dots\}$.
