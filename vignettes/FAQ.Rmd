@@ -210,6 +210,8 @@ type of recommendations in reference books :
 with variability and uncertainty in models and inputs**  by A.C. Cullen and H.C. Frey.  
 * **Application of uncertainty analysis to ecological risks of pesticides** by 
 W.J. Warren-Hicks and A. Hart.  
+* **Statistical inference** by G. Casella and R.L. Berger
+* **Loss models: from data to decision** by S.A. Klugman and H.H. Panjer and G.E. Willmot 
 
 Moreover, the selection of a distribution should also be driven by knowledge of underlying
 processes when available. For example when a variable cannot be negative, one would be very
