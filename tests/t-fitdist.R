@@ -446,18 +446,16 @@ try(fitdist(xval, "norm", method="mge", gof = "CvM", weights = xtab)) # not yet 
 
 # (24b) check the use of weights with qme with a discrete distribution
 #
-# TO  EXPLORE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# SHOULD GIVE THE SAME RESULTS  and do not !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 n <- 1e2
 x <- rpois(n, 10)
 xtab <- table(x)
 xval <- sort(unique(x))
 (f1 <- fitdist(x, "pois", method = "qme", probs=c(1/2)))
-(f2 <- fitdist(xval, "pois", method = "qme", weights = xtab, probs=c(1/2) )) # not identical
-(f3 <- fitdist(xval, "pois", method = "qme", weights = xtab, probs=c(1/2) ,
-              start = mean(x))) # identical to f1
-llcurve(x, "pois", "lambda", 10, 11)
-abline(v=c(10.42, 10.5), col="red")
+(f2 <- fitdist(xval, "pois", method = "qme", weights = xtab, probs=c(1/2) )) # similar to f1
+
+fitdist(xval, "pois", method = "qme", weights = xtab, probs=c(1/2), optim.method="SANN", control=list(maxit=1000)) #
+fitdist(x, "pois", method = "qme", probs=c(1/2), optim.method="SANN", control=list(maxit=1000)) # should be similar
+
 
 # (25) check the warning messages when using weights in the fit followed by functions
 # that do not yet take weights into account

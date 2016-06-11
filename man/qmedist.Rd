@@ -51,6 +51,8 @@ qmedist(data, distr, probs, start = NULL, fix.arg = NULL, qtype = 7,
 \details{
     The \code{qmedist} function carries out the quantile matching numerically, by minimization of the
     sum of squared differences between observed and theoretical quantiles.
+    Note that for discrete distribution, the sum of squared differences is a step function and
+    consequently, the optimum is not unique, see the FAQ.
     
     The optimization process is the same as \code{\link{mledist}}, see the 'details' section 
     of that function.
