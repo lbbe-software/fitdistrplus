@@ -72,7 +72,8 @@ The graphical function `plotdist()` and `plotdistcens()` can also be used to ass
 starting values : by an iterative manual process you can move parameter values so as to
 obtain a distribution that roughly fits the data and take these parameter values
 as starting values for the real fit.
-You may also consider the `prefit()` function to find initial values. 
+You may also consider the `prefit()` function to find initial values especially in case where parameters are
+constrained. 
 
 ## Is it possible to fit a distribution with at least 3 parameters?
 Yes, an example with the Burr distribution is detailed in the JSS paper. We reproduce it very quickly here.
@@ -132,14 +133,15 @@ better moment estimates than with MLE.
 The answer is no: you cannot fit a distribution with positive support (say gamma distribution)
 when data contains negative values.
 ```{r}
-x <- rnorm(100)
+set.seed(1234)
+x <- rnorm(100, mean = 1, sd = 0.5)
 try(fitdist(x, "exp"))
 ```
 It is irrelevant to do such fit. If you really need to use that distribution, you have two
-options: either to remove negative values or to shift the data.
+options: either to remove negative values (not recommended) or to shift the data.
 ```{r}
-fitdist(x[x>0], "exp")
-fitdist(x-min(x), "exp")
+fitdist(x[x >= 0], "exp")
+fitdist(x - min(x), "exp")
 ```
 
 
@@ -147,14 +149,15 @@ fitdist(x-min(x), "exp")
 The answer is no: you cannot fit a distribution with finite-support (say beta distribution)
 when data is outside $[0,1]$.
 ```{r}
-x <- rnorm(100)
+set.seed(1234)
+x <- rnorm(100, mean = 0.5, sd = 0.25)
 try(fitdist(x, "beta"))
 ```
 It is irrelevant to do such fit. If you really need to use that distribution, you have two
-options: either to remove impossible values or to shift/scale the data.
+options: either to remove impossible values (not recommended) or to shift/scale the data.
 ```{r}
-fitdist(x[x>0 & x < 1], "beta")
-fitdist((x - min(x)*1.01)/(max(x)*1.01 - min(x)*1.01), "beta")
+fitdist(x[x > 0 & x < 1], "beta")
+fitdist((x - min(x)*1.01) / (max(x) * 1.01 - min(x) * 1.01), "beta")
 ```
 
 

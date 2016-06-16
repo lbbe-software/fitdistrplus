@@ -24,8 +24,12 @@ start.arg.default <- function(x, distr)
   }else if (distr == "pois") {
     start <- list(lambda=mean(x))
   }else if (distr == "exp") {
+    if (any(x < 0)) 
+      stop("values must be positive to fit an exponential  distribution")
     start <- list(rate=1/mean(x))
   }else if (distr == "gamma") {
+    if (any(x < 0)) 
+      stop("values must be positive to fit an gamma  distribution")
     n <- length(x)
     m <- mean(x)
     v <- (n - 1)/n*var(x)
@@ -51,6 +55,8 @@ start.arg.default <- function(x, distr)
     aux <- m*(1-m)/v - 1
     start <- list(shape1=m*aux, shape2=(1-m)*aux)
   }else if (distr == "weibull") {
+    if (any(x < 0)) 
+      stop("values must be positive to fit an exponential  distribution")
     m <- mean(log(x))
     v <- var(log(x))
     shape <- 1.2/sqrt(v)
@@ -67,6 +73,8 @@ start.arg.default <- function(x, distr)
     start <- list(min=0, max=1)
   }else if (distr == "invgamma")
   {
+    if (any(x < 0)) 
+      stop("values must be positive to fit an inverse gamma  distribution")
     #http://en.wikipedia.org/wiki/Inverse-gamma_distribution
     m1 <- mean(x)
     m2 <- mean(x^2)
@@ -75,6 +83,8 @@ start.arg.default <- function(x, distr)
     start <- list(shape=shape, scale=scale)
   }else if (distr == "llogis")
   {
+    if (any(x < 0)) 
+      stop("values must be positive to fit a log-logistic  distribution")
     p25 <- as.numeric(quantile(x, 0.25))
     p75 <- as.numeric(quantile(x, 0.75))
     shape <- 2*log(3)/(log(p75)-log(p25))
@@ -82,6 +92,8 @@ start.arg.default <- function(x, distr)
     start <- list(shape=shape, scale=scale)
   }else if (distr == "invweibull")
   {
+    if (any(x < 0)) 
+      stop("values must be positive to fit an inverse Weibull distribution")
     g <- log(log(4))/(log(log(4/3)))
     p25 <- as.numeric(quantile(x, 0.25))
     p75 <- as.numeric(quantile(x, 0.75))
@@ -90,6 +102,8 @@ start.arg.default <- function(x, distr)
     start <- list(shape=shape, scale=max(scale, 1e-9))
   }else if (distr == "pareto1")
   {
+    if (any(x < 0)) 
+      stop("values must be positive to fit a Pareto distribution")
     #http://www.math.umt.edu/gideon/pareto.pdf
     x1 <- min(x)
     m1 <- mean(x)
