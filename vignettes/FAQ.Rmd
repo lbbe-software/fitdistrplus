@@ -16,6 +16,7 @@ vignette: >
 ```{r setup, echo=FALSE, message=FALSE, warning=FALSE}
 require(fitdistrplus)
 set.seed(1234)
+options(digits = 3)
 ```
 
 # Questions regarding distributions
@@ -135,7 +136,7 @@ when data contains negative values.
 ```{r}
 set.seed(1234)
 x <- rnorm(100, mean = 1, sd = 0.5)
-try(fitdist(x, "exp"))
+(try(fitdist(x, "exp")))
 ```
 It is irrelevant to do such fit. If you really need to use that distribution, you have two
 options: either to remove negative values (not recommended) or to shift the data.
@@ -151,7 +152,7 @@ when data is outside $[0,1]$.
 ```{r}
 set.seed(1234)
 x <- rnorm(100, mean = 0.5, sd = 0.25)
-try(fitdist(x, "beta"))
+(try(fitdist(x, "beta")))
 ```
 It is irrelevant to do such fit. If you really need to use that distribution, you have two
 options: either to remove impossible values (not recommended) or to shift/scale the data.
@@ -304,17 +305,106 @@ g4$chisqpvalue
 
 ## Why all goodness-of-fit tests are not available for every distribution ?
 
+The Chi-squared test is available for any distribution but one must be conscious that its result depends on the definition of cells in which observed data are grouped, and a correct definition is not possible with
+a too small sample.
+
+Concerning the Kolmogorov-Smirnov test, it is proposed for any
+continuous distribution, but with a critical value corresponding to the comparison of the empirical distribution
+to a fully specified distribution. As the distribution is not fully known for a fitted distribution, the
+result of this test is subject to caution. 
+
+If there is no general asymptotic theory for the Kolmogorov-Smirnov
+statistics in case of a fitted distribution, such a one was proposed for some distributions for quadratic statistics
+(Anderson-Darling, Cramer von Mises). The reference book we used on this subject 
+(**Tests based on edf statistics** by 
+Stephens MA in **Goodness-of-fit techniques** by D'Agostino RB and Stephens MA) proposes critical values of those statistics
+for a some classical distributions (exponential, gamma, Weibull, logistic, Cauchy, normal and lognormal). But the
+asymptotic theory about these statistics also depends on the way the parameters are estimated. And as they were not 
+estimated by maximum likelihood for Cauchy, normal and lognormal distributions in the results reported by Stephens, 
+we only propose 
+the results of the Anderson-Darling and Cramer von Mises using those results for
+exponential, gamma, Weibull, logistic distributions. The user can refer to the cited book and use the proposed
+formula to estimate the parameters of Cauchy, normal and lognormal distributions and apply the tests using critical
+values given in the book.
+R packages `goftest` and `ADGofTest` could also be explored by users who would like to apply Anderson-Darling
+and Cramer von Mises tests on other distributions. But at this time we are not sure that the case where parameters are unknown
+(estimated by maximum likelihood) is tackled in those two packages.
+
+Concerning the development of our package,
+rather than develoing further more goodness-of-fit tests we made the choice to develop graphical tools to help
+to appreciate the quality of a fit and to compare the fits of different distributions on a same data set
+(see FAQ 2.2 for argumentation). 
 
 
 ## How can we use goodness-of-fit statistics to compare the fit of different distributions on a same data set ?
 
+Goodness-of-fit statistics based on the empirical distribution function  (Kolmogorov-Smirnov, Anderson-Darling
+and Cramer von Mises) may be used to measure a distance between the fitted distribution and the empirical
+distribution. So if one wants to compare the fit of various distributions on the same data set, the smaller are 
+those statistics the better. the Kolmogorov-Smirnov statistics will be sensitive when distributions differ in a global 
+fashion near the centre of the distribution while the Anderson-Darling statistics will be more sensitive when distributions 
+differ in their tails, and the Cramer von Mises statistics will be more sensitive when there are small but repetitive differences 
+between empirical and theoretical distribution functions. But as mentioned in the main vignette of our package,
+the use of the Anderson-Darling to compare the fit of different distributions is subject to caution due to the
+the weighting of the quadratic distance between fitted and empirical 
+distribution functions that depends on the parametric distribution.
+Moreover, statistics based on the empirical distribution function do not penalize
+distributions with a greater number of parameters and as those are generally
+more flexible, this could induce over-fitting.
+
+Goodness-fo-fit statistics based on information criteria (AIC, BIC) correspond to deviance 
+penalized by the complexity of the model (the number of parameters of the
+distribution), and so the smaller
+the better. As more generic statistics, they are not adapted to focus on 
+a part of the fitted distribution, but they take into account the complexity
+ of the distribution and thus could help to prevent overfitting.
+
 
 ## Can we use a test to compare the fit of two distributions on a same data set ?
 
+In our package we did not implement such a test but for **two nested
+distributions** (when one is a special case of the other one, e.g.
+exponential and gamma distributions) a likelihood ratio test can be easily
+implemented using the loglikelihood provided by `fitdist` or `fitdistcens`.
+Denoting $L$ the maximum likelihood obtained with the complete distribution
+and $L_0$ the one obtained with the simplified distribution, 
+when the sample size increases, 
+$- 2 ln(\frac{L_0}{L}) = 2 ln(L) - 2 ln(L_0)$ tends to a Chi squared 
+distribution degrees of freedom equal to the difference on the numbers of parameters
+characterizing the **two nested distributions**.  You will find below an example
+of such a test.
+
+```{r}
+set.seed(1234)
+g <- rgamma(100, shape = 2, rate = 1)
+(f <- fitdist(g, "gamma"))
+(f0 <- fitdist(g, "exp"))
+L <- logLik(f)
+k <- length(f$estimate) # number of parameters of the complete distribution
+L0 <- logLik(f0)
+k0 <- length(f0$estimate) # number of parameters of the simplified distribution
+(stat <- 2*L - 2*L0)
+(critical_value <- qchisq(0.95, df = k - k0))
+(rejected <- stat > critical_value)
+```
+
+Theoretically such a test can also be used for fits on censored data. In any case
+such a test should be used on small data sets.
 
 ## Can we get goodness-of-fit statistics for a fit on censored data ?
 
+Function `gofstat` is not yet proposed in our package for fits on censored
+data but to develop one is among one of our objectives in the future. Published works
+on goodness-of-fit statistics based on the empirical distribution function 
+for censored data generally focused on data containing only one type of censoring
+(e.g. right censored data in survival data).
+Build such statistics in the general case, with data containing in the same time
+(right, left and interval censoring), remains tricky. 
 
+Nevertheless, it is possible for any type of censored data, 
+to use information criteria (AIC and BIC given in the summary
+of an object of class `fitdistcens`) to compare the fits of
+various distributions to a same data set.
 
 # Questions regarding optimization procedures
 
@@ -602,6 +692,7 @@ L2 <- function(p)
 L2(1/3) #theoretical value
 curve(L2(x), 0.10, 0.95, xlab=expression(p), ylab=expression(L2(p)), main="squared differences", n=301)
 ```
+
 Any value between [1/3, 5/9] minimizes the squared differences.
 Therefore, `fitdist()` may be sensitive to the chosen initial value with deterministic optimization algorithm.
 ```{r}
@@ -637,6 +728,7 @@ i & \text{if } \sum_{k=0}^{i-1} P(X=k) \leq p < \sum_{k=0}^{i} P(X=k) \\
 \dots \\
 \end{array} \right.
 $$
+
 Again,  the squared differences is a step function $(F_X^{-1}(1/2) - q_{n,1/2})^2$.
 ```{r, fig.height=4, fig.width=6}
 par(mar=c(4,4,2,1))
@@ -645,6 +737,7 @@ L2 <- function(lam)
   (qpois(1/2, lambda = lam) - median(x))^2
 curve(L2(x), 6, 9, xlab=expression(lambda), ylab=expression(L2(lambda)), main="squared differences", n=201)
 ```
+
 Therefore, using `fitdist()` may be sensitive to the chosen initial value.
 ```{r}
 fitdist(x, "pois", method="qme", probs=1/2, start=list(lambda=2))
@@ -655,4 +748,4 @@ fitdist(x, "pois", method="qme", probs=1/2, optim.method="SANN", start=list(lamb
 
 # Questions regarding uncertainty on parameter estimates
 
-## Can we compute marginal confidence intervals on parameter estimates from their reporterd standard error ?
+## Can we compute marginal confidence intervals on parameter estimates from their reported standard error ?
