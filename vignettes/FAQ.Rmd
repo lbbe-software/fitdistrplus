@@ -749,3 +749,52 @@ fitdist(x, "pois", method="qme", probs=1/2, optim.method="SANN", start=list(lamb
 # Questions regarding uncertainty on parameter estimates
 
 ## Can we compute marginal confidence intervals on parameter estimates from their reported standard error ?
+
+In statistics, deriving marginal confidence intervals on MLE parameter estimates using the approximation 
+of their standard errors (calculated from the hessian) is a quite common procedure. It is based on the 
+wald approximation which stands that when the sample size $n$ is sufficiently high, the
+marginal $95\%$ confidence on the ith component $\theta_i$ of a model parameter $\theta$ estimated by 
+maximum likelihood (estimate denoted $\hat \theta$) can be approximated by :
+$\hat \theta_i \pm 1.96 \times SE(\hat \theta_i )$
+with $SE(\hat \theta_i )$ the ith term of the diagonal of the covariance matrix of the 
+estimates ($V_{ii}$). $V$ is generally approximated by the inverse of the Fisher information matrix 
+($I(\hat \theta)$). The Fisher information matrix corresponds to the opposite of the hessian matrix 
+evaluated on the MLE estimate. Let us recall that the hessian matrix is defined by 
+$H_{ij}(y, \theta) = \frac{\partial^2 L(y, \theta)}{\partial \theta_i \partial \theta_j}$ with
+$L(y, \theta)$ the loglikelihod function for data $y$ and parameter $\theta$.
+
+Before using this approximation, one must keep in mind that its validity does not only depend on the sample
+size. It also strongly depends on the data, of the distribution, and also on the parameterization 
+of the distribution. For this reason we recommend potential users of the Wald approximation
+to compare the results
+to the ones obtained using the bootstrap procedure (see below) before using this approximation. A look
+at the loglikelihood contours is also interesting as the Wald approximation assumes elliptical contours.
+
+Below you will find two examples, one for which Wald confidence intervals seem correct and one for which
+they give wrong results, with parameter values even outside their possible range 
+(negative rate bound for the gamma distribution).
+
+
+
+
+```{r, fig.height=4, fig.width=6, warning = FALSE}
+set.seed(1234)
+n <- rnorm(30, mean = 10, sd = 2)
+fn <- fitdist(n, "norm")
+bn <- bootdist(fn)
+bn$CI
+fn$estimate - 2*fn$sd
+fn$estimate + 2*fn$sd
+llplot(fn)
+```
+
+```{r, fig.height=4, fig.width=6, warning = FALSE}
+set.seed(1234)
+g <- rgamma(30, shape = 0.1, rate = 10)
+fg <- fitdist(g, "gamma")
+bg <- bootdist(fg)
+bg$CI
+fg$estimate - 2*fg$sd
+fg$estimate + 2*fg$sd
+llplot(fg)
+```
