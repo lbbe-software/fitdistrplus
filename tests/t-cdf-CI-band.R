@@ -1,13 +1,12 @@
 library(fitdistrplus)
 
-nbboot <- 1001
+nbboot <- 201
 nbboot <- 10
 
-# (1) Fit of a gamma distribution to serving size data
-# using default method (maximum likelihood estimation)
-# followed by parametric bootstrap
+# (1) Fit of a gamma distribution 
 #
 
+set.seed(123)
 s1 <- rgamma(50, 3, 2)
 f1 <- fitdist(s1, "gamma")
 b1 <- bootdist(f1, niter=nbboot, silent=TRUE)

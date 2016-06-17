@@ -42,6 +42,9 @@ cdfband <- function(b, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
   if (missing(fitcol)) fitcol <- 2
   if (missing(fitlty)) fitlty <- 1
   
+  distname <- b$fitpart$distname
+  pdistname <- paste("p",distname,sep="")
+  
   cdfval <- function(x)
   {  
     calcp <- function(i)
@@ -72,7 +75,7 @@ cdfband <- function(b, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
     colnames(CIband) <- format.perc(1-CI.level, 3)
   }
   
-  cdfcomp(b1$fitpart, xlim=xlim, ylim=ylim, xlogscale = xlogscale, ylogscale = ylogscale, 
+  cdfcomp(b$fitpart, xlim=xlim, ylim=ylim, xlogscale = xlogscale, ylogscale = ylogscale, 
           main=main, xlab=xlab, ylab=ylab, datapch=datapch, datacol=datacol, fitlty=fitlty, 
           fitcol=fitcol, addlegend = addlegend, legendtext=legendtext, xlegend = xlegend, 
           ylegend = ylegend, horizontals = horizontals, verticals = verticals, do.points = do.points, 
