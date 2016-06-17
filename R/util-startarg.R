@@ -38,13 +38,11 @@ start.arg.default <- function(x, distr)
     n <- length(x)
     m <- mean(x)
     v <- (n - 1)/n*var(x)
-    size <- if (v > m) m^2/(v - m)
-    else 100
+    size <- ifelse(v > m, m^2/(v - m), 100)
     start <- list(size = size, mu = m) 
   }else if (distr == "geom" ) {
     m <- mean(x)
-    prob <- if (m>0) 1/(1+m)
-    else 1
+    prob <- ifelse(m>0, 1/(1+m), 1)
     start <- list(prob=prob)        
   }else if (distr == "beta") {
     if (any(x < 0) | any(x > 1)) 
@@ -56,7 +54,7 @@ start.arg.default <- function(x, distr)
     start <- list(shape1=m*aux, shape2=(1-m)*aux)
   }else if (distr == "weibull") {
     if (any(x < 0)) 
-      stop("values must be positive to fit an exponential  distribution")
+      stop("values must be positive to fit an Weibull  distribution")
     m <- mean(log(x))
     v <- var(log(x))
     shape <- 1.2/sqrt(v)
@@ -113,6 +111,8 @@ start.arg.default <- function(x, distr)
     start <- list(shape=shape, min=min)
   }else if (distr == "pareto")
   {
+    if (any(x < 0)) 
+      stop("values must be positive to fit a Pareto distribution")
     m1 <- mean(x)
     m2 <- mean(x^2)
     scale <- (m1*m2)/(m2-2*m1^2)
