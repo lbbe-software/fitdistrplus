@@ -36,15 +36,23 @@ cdfband <- function(b, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
   
   CI.type <- match.arg(CI.type, c("two.sided", "less", "greater"))
   CI.level <- CI.level[1]
+  mydat <- b$fitpart$data
   
+  #default values (same as cdfcomp())
   if (missing(datapch)) datapch <- 16
   if (missing(datacol)) datacol <- "black"
   if (missing(fitcol)) fitcol <- 2
   if (missing(fitlty)) fitlty <- 1
-  
+  if (missing(xlab)) xlab <- ifelse(xlogscale, "data in log scale", "data")
+  if (missing(ylab)) ylab <- "CDF"
+  if (missing(main)) main <- paste("Empirical and theoretical CDFs")
+  if (missing(xlim)) xlim <- range(mydat)
+
+  #get name and cdf name
   distname <- b$fitpart$distname
   pdistname <- paste("p",distname,sep="")
   
+  #compute c.d.f. values on bootstraped parameters
   cdfval <- function(x)
   {  
     calcp <- function(i)
@@ -57,9 +65,12 @@ cdfband <- function(b, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
     colnames(res) <- paste0("x=", x)
     res
   }
-  lowx <- ifelse(min(b$fitpart$data) < 0, min(b$fitpart$data)*1.5, min(b$fitpart$data)*.5)
-  uppx <- ifelse(max(b$fitpart$data) < 0, max(b$fitpart$data)*.5, max(b$fitpart$data)*1.5)
+  #compute lower and upper value for the area
+  lowx <- ifelse(min(mydat) < 0, min(mydat)*1.5, min(mydat)*.5)
+  uppx <- ifelse(max(mydat) < 0, max(mydat)*.5, max(mydat)*1.5)
   x <- seq(lowx, uppx, length=101)
+  
+  #compute quantiles on c.d.f. 
   if (CI.type == "two.sided")
   {
     alpha <- (1-CI.level)/2
@@ -75,31 +86,51 @@ cdfband <- function(b, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
     colnames(CIband) <- format.perc(1-CI.level, 3)
   }
   
-  cdfcomp(b$fitpart, xlim=xlim, ylim=ylim, xlogscale = xlogscale, ylogscale = ylogscale, 
-          main=main, xlab=xlab, ylab=ylab, datapch=datapch, datacol=datacol, fitlty=fitlty, 
-          fitcol=fitcol, addlegend = addlegend, legendtext=legendtext, xlegend = xlegend, 
-          ylegend = ylegend, horizontals = horizontals, verticals = verticals, do.points = do.points, 
-          use.ppoints = use.ppoints, a.ppoints = a.ppoints, lines01 = lines01)
   
-  if(!CI.fill)
+  #plot
+  if(!CI.fill) #edged confidence area
   {
+    cdfcomp(b$fitpart, xlim=xlim, ylim=ylim, xlogscale = xlogscale, ylogscale = ylogscale, 
+            main=main, xlab=xlab, ylab=ylab, datapch=datapch, datacol=datacol, fitlty=fitlty, 
+            fitcol=fitcol, addlegend = addlegend, legendtext=legendtext, xlegend = xlegend, 
+            ylegend = ylegend, horizontals = horizontals, verticals = verticals, do.points = do.points, 
+            use.ppoints = use.ppoints, a.ppoints = a.ppoints, lines01 = lines01,
+            add=FALSE)
     matlines(x, CIband, col=CI.col, lty=CI.lty, ...) 
-  }
-  else
+  }else #filled confidence area
   {
+    #temp var to open a graphic
+    logxy <- paste0(ifelse(xlogscale,"x",""), ifelse(ylogscale,"y",""))
+    n <- length(mydat)
+    s <- sort(mydat)
+    if (use.ppoints)
+      obsp <- ppoints(n,a = a.ppoints)
+    else
+      obsp <- (1:n) / n
+    if(missing(ylim))
+      ylim <- range(obsp, CIband) 
+    #open graphic window
+    plot(s, obsp, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim,
+         log=logxy, type="n")
     if(CI.type == "two.sided")
     {
-      polygon(c(x, rev(x)), c(CIband[,2], rev(CIband[,1])), col=CI.col, border=CI.col)
+      polygon(c(x, rev(x)), c(CIband[,2], rev(CIband[,1])), col=CI.col, border=CI.col, ...)
     }
     if(CI.type == "less")
     {
-      polygon(c(x, uppx, uppx), c(CIband, 1, 0), col=CI.col, border=CI.col)
+      polygon(c(x, uppx, uppx), c(CIband, 1, 0), col=CI.col, border=CI.col, ...)
     }
     if(CI.type == "greater")
     {
-      polygon(c(x, lowx, lowx), c(CIband, 1, 0), col=CI.col, border=CI.col)
+      polygon(c(x, lowx, lowx), c(CIband, 1, 0), col=CI.col, border=CI.col, ...)
     }
+    cdfcomp(b$fitpart, xlim=xlim, ylim=ylim, xlogscale = xlogscale, ylogscale = ylogscale, 
+            main=main, xlab=xlab, ylab=ylab, datapch=datapch, datacol=datacol, fitlty=fitlty, 
+            fitcol=fitcol, addlegend = addlegend, legendtext=legendtext, xlegend = xlegend, 
+            ylegend = ylegend, horizontals = horizontals, verticals = verticals, do.points = do.points, 
+            use.ppoints = use.ppoints, a.ppoints = a.ppoints, lines01 = lines01,
+            add=TRUE)
     
-    plot(ecdf(b$fitpart$data), col=datacol, add=TRUE, do.points=do.points, verticals = verticals, pch=datapch)
+    #plot(ecdf(b$fitpart$data), col=datacol, add=TRUE, do.points=do.points, verticals = verticals, pch=datapch)
   }
 }

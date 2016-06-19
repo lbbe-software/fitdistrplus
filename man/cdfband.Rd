@@ -2,7 +2,7 @@
 \alias{cdfband}
 \title{Empirical cumulative distribution function with confidence interval}
 \description{   
- \code{cdfband} plots the empirical cumulative distribution with bootstraped confidence interval.
+ \code{cdfband} plots the empirical cumulative distribution function with the bootstraped confidence interval.
 }
 
 \usage{
@@ -12,8 +12,6 @@ cdfband(b, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
         verticals = FALSE, do.points = TRUE, use.ppoints = TRUE, a.ppoints = 0.5, 
         lines01 = FALSE, CI.type = "two.sided", CI.level = 0.95, 
         CI.col="red", CI.lty=2, CI.fill=FALSE, \dots)
-    
-    
 }
 \arguments{
 \item{b}{One \code{"bootdist"} object.}
@@ -52,25 +50,26 @@ cdfband(b, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
     for discrete data.}
 \item{a.ppoints}{If \code{use.ppoints=TRUE}, this is passed to function \code{\link{ppoints}}.}
 \item{lines01}{A logical to plot two horizontal lines at \code{h=0} and \code{h=1} for \code{cdfcomp}.}
-\item{\dots}{Further graphical arguments passed to \code{matlines} or \code{polygon},
-  respectively when \code{CI.fill=FALSE} and \code{CI.fill=TRUE}.}
 \item{CI.type}{ Type of confidence intervals : either \code{"two.sided"} or one-sided 
     intervals (\code{"less"} or \code{"greater"}).}
 \item{CI.level}{ The confidence level.}
 \item{CI.col}{the color of the confidence interval.}    
 \item{CI.lty}{the line type of the confidence interval.}    
 \item{CI.fill}{a logical to fill the confidence area. Default is \code{FALSE}.}    
-
+\item{\dots}{Further graphical arguments passed to \code{matlines} or \code{polygon},
+  respectively when \code{CI.fill=FALSE} and \code{CI.fill=TRUE}.}
 }
 
 \details{
     \code{cdfband} provides a plot of the empirical distribution with bootstraped confidence interval.
-    If \code{CI.fill=TRUE}, then the whole confidence area is filled by the color \code{CI.col},
-    otherwise only borders are drawn.
+    If \code{CI.fill=TRUE}, then the whole confidence area is filled by the color \code{CI.col}
+    thanks to the function \code{polygon}, otherwise only borders are drawn thanks to the function
+    \code{matline}. Further graphical arguments can be passed to these functions using 
+    the three dots arguments \code{\dots}.
 }
 
 \seealso{ 
-    See \code{\link{cdfcomp}}, \code{\link{bootdist}}.  
+    See also \code{\link{cdfcomp}}, \code{\link{bootdist}}.  
 }
 
 
@@ -95,10 +94,11 @@ and Christophe Dutang.
 set.seed(123)
 s1 <- rexp(50, 1)
 f1 <- fitdist(s1, "exp")
-b1 <- bootdist(f1, niter=11, silent=TRUE)
+b1 <- bootdist(f1, niter=11)
 
+# plot 90 percent confidence area
 cdfband(b1, CI.level=90/100)
-cdfband(b1, CI.level=90/100, CI.type = "less")
+cdfband(b1, CI.level=95/100, CI.type = "less", CI.fill=TRUE, CI.col="grey80")
 cdfband(b1, CI.level=90/100, CI.type = "greater")
 
 }

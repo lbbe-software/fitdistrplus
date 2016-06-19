@@ -28,7 +28,7 @@
 cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
     datapch, datacol, fitlty, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", 
     ylegend = NULL, horizontals = TRUE, verticals = FALSE, do.points = TRUE, 
-    use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, discrete, ...)
+    use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, discrete, add = FALSE, ...)
 {
     if(inherits(ft, "fitdist"))
     {
@@ -138,18 +138,30 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
     
     logxy <- paste(ifelse(xlogscale,"x",""), ifelse(ylogscale,"y",""), sep="")
     
-    #main plotting
-    if(!largedata && do.points)
-    	plot(s, obsp, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim,
-         log=logxy, pch=datapch, col=datacol, type="p", ...)
-    else if(largedata)
-    	plot(s, obsp, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim,
-         log=logxy, col=datacol, type="s", ...)
-	  else if(!do.points)
-	    plot(s, obsp, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim,
-	       log=logxy, col=datacol, type="n", ...)     
-    else
-      stop("internal error in cdfcomp().")
+    #main plot
+    if(!add) #create a new graphic
+    {
+      if(!largedata && do.points)
+        plot(s, obsp, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim,
+             log=logxy, pch=datapch, col=datacol, type="p", ...)
+      else if(largedata)
+        plot(s, obsp, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim,
+             log=logxy, col=datacol, type="s", ...)
+      else if(!do.points)
+        plot(s, obsp, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim,
+             log=logxy, col=datacol, type="n", ...)     
+      else
+        stop("internal error in cdfcomp().")
+    }else #add to the current graphic
+    {
+      #do not need parameters: main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim, log=logxy,  
+      if(!largedata && do.points)
+        points(s, obsp, pch=datapch, col=datacol, type="p", ...)
+      else if(largedata)
+        points(s, obsp, col=datacol, type="s", ...)
+      #else if(!do.points) nothing to plot
+        
+    }
 
     # optional add of horizontal and vbertical lines for step function
     if (!largedata && horizontals)

@@ -19,7 +19,7 @@ set.seed(1234)
 options(digits = 3)
 ```
 
-# Questions regarding distributions
+# Questions regarding distributions 
 
 ## How do I know the root name of a distribution?
 The root name of a probability distribution is the `name` which is used the `d`, `p`, `q`, `r` functions. For base R distributions, the root names are given in R-intro : https://cran.r-project.org/doc/manuals/R-intro.html#Probability-distributions.
@@ -313,6 +313,7 @@ continuous distribution, but with a critical value corresponding to the comparis
 to a fully specified distribution. As the distribution is not fully known for a fitted distribution, the
 result of this test is subject to caution. 
 
+**if en trop ou pb de verbe avec cette phrase**
 If there is no general asymptotic theory for the Kolmogorov-Smirnov
 statistics in case of a fitted distribution, such a one was proposed for some distributions for quadratic statistics
 (Anderson-Darling, Cramer von Mises). The reference book we used on this subject 
@@ -323,7 +324,9 @@ asymptotic theory about these statistics also depends on the way the parameters 
 estimated by maximum likelihood for Cauchy, normal and lognormal distributions in the results reported by Stephens, 
 we only propose 
 the results of the Anderson-Darling and Cramer von Mises using those results for
-exponential, gamma, Weibull, logistic distributions. The user can refer to the cited book and use the proposed
+exponential, gamma, Weibull, logistic distributions. 
+
+The user can refer to the cited book**s** and use the proposed
 formula to estimate the parameters of Cauchy, normal and lognormal distributions and apply the tests using critical
 values given in the book.
 R packages `goftest` and `ADGofTest` could also be explored by users who would like to apply Anderson-Darling
@@ -344,7 +347,9 @@ distribution. So if one wants to compare the fit of various distributions on the
 those statistics the better. the Kolmogorov-Smirnov statistics will be sensitive when distributions differ in a global 
 fashion near the centre of the distribution while the Anderson-Darling statistics will be more sensitive when distributions 
 differ in their tails, and the Cramer von Mises statistics will be more sensitive when there are small but repetitive differences 
-between empirical and theoretical distribution functions. But as mentioned in the main vignette of our package,
+between empirical and theoretical distribution functions. 
+
+But as mentioned in the main vignette of our package,
 the use of the Anderson-Darling to compare the fit of different distributions is subject to caution due to the
 the weighting of the quadratic distance between fitted and empirical 
 distribution functions that depends on the parametric distribution.
@@ -389,7 +394,7 @@ k0 <- length(f0$estimate) # number of parameters of the simplified distribution
 ```
 
 Theoretically such a test can also be used for fits on censored data. In any case
-such a test should be used on small data sets.
+such a test should be used on small data sets, see FAQ 2.2.
 
 ## Can we get goodness-of-fit statistics for a fit on censored data ?
 
@@ -783,8 +788,7 @@ n <- rnorm(30, mean = 10, sd = 2)
 fn <- fitdist(n, "norm")
 bn <- bootdist(fn)
 bn$CI
-fn$estimate - 2*fn$sd
-fn$estimate + 2*fn$sd
+fn$estimate + cbind("estimate"= 0, "2.5%"= -1.96*fn$sd, "97.5%"= 1.96*fn$sd)
 llplot(fn)
 ```
 
@@ -794,7 +798,7 @@ g <- rgamma(30, shape = 0.1, rate = 10)
 fg <- fitdist(g, "gamma")
 bg <- bootdist(fg)
 bg$CI
-fg$estimate - 2*fg$sd
-fg$estimate + 2*fg$sd
+fg$estimate + cbind("estimate"= 0, "2.5%"= -1.96*fg$sd, "97.5%"= 1.96*fg$sd)
+- 2*fg$sd
 llplot(fg)
 ```

@@ -16,9 +16,9 @@
 \usage{
 cdfcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
     datapch, datacol, fitlty, fitcol, addlegend = TRUE, legendtext, 
-    xlegend = "bottomright", ylegend = NULL, 
-    horizontals = TRUE, verticals = FALSE, do.points = TRUE, 
-    use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, discrete, \dots)
+    xlegend = "bottomright", ylegend = NULL, horizontals = TRUE, 
+    verticals = FALSE, do.points = TRUE, use.ppoints = TRUE, a.ppoints = 0.5, 
+    lines01 = FALSE, discrete, add = FALSE, \dots)
     
 denscomp(ft, xlim, ylim, probability = TRUE, main, xlab, ylab, datapch, 
     datacol, fitlty, fitcol, addlegend = TRUE, legendtext, xlegend = "topright", 
@@ -88,6 +88,8 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
 \item{discrete}{If \code{TRUE}, the distributions are considered discrete.
   If missing, \code{discrete} is passed from the first object of class \code{"fitdist"} of 
   the list \code{ft}.}
+\item{add}{logical; if \code{TRUE} add to an already existing plot; if \code{FALSE} start 
+  a new plot.}  
 }
 
 \details{
