@@ -311,11 +311,10 @@ a too small sample.
 Concerning the Kolmogorov-Smirnov test, it is proposed for any
 continuous distribution, but with a critical value corresponding to the comparison of the empirical distribution
 to a fully specified distribution. As the distribution is not fully known for a fitted distribution, the
-result of this test is subject to caution. 
+result of this test is subject to caution, but there is no general asymptotic theory for the Kolmogorov-Smirnov
+statistics in case of a fitted distribution.
 
-**if en trop ou pb de verbe avec cette phrase**
-If there is no general asymptotic theory for the Kolmogorov-Smirnov
-statistics in case of a fitted distribution, such a one was proposed for some distributions for quadratic statistics
+Such an asymptotic theory was proposed for quadratic statistics for some distributions 
 (Anderson-Darling, Cramer von Mises). The reference book we used on this subject 
 (**Tests based on edf statistics** by 
 Stephens MA in **Goodness-of-fit techniques** by D'Agostino RB and Stephens MA) proposes critical values of those statistics
@@ -326,7 +325,7 @@ we only propose
 the results of the Anderson-Darling and Cramer von Mises using those results for
 exponential, gamma, Weibull, logistic distributions. 
 
-The user can refer to the cited book**s** and use the proposed
+The user can refer to the cited books and use the proposed
 formula to estimate the parameters of Cauchy, normal and lognormal distributions and apply the tests using critical
 values given in the book.
 R packages `goftest` and `ADGofTest` could also be explored by users who would like to apply Anderson-Darling
@@ -393,8 +392,7 @@ k0 <- length(f0$estimate) # number of parameters of the simplified distribution
 (rejected <- stat > critical_value)
 ```
 
-Theoretically such a test can also be used for fits on censored data. In any case
-such a test should be used on small data sets, see FAQ 2.2.
+Such a test can also be used for fits on censored data. 
 
 ## Can we get goodness-of-fit statistics for a fit on censored data ?
 
@@ -799,6 +797,5 @@ fg <- fitdist(g, "gamma")
 bg <- bootdist(fg)
 bg$CI
 fg$estimate + cbind("estimate"= 0, "2.5%"= -1.96*fg$sd, "97.5%"= 1.96*fg$sd)
-- 2*fg$sd
 llplot(fg)
 ```

@@ -21,10 +21,12 @@ cdfband(b1, CI.level=90/100, CI.col="grey80", CI.fill=TRUE, datacol="blue")
 
 par(mfrow=c(1,2))
 cdfband(b1, CI.level=90/100, CI.type = "less")
-cdfband(b1, CI.level=90/100, CI.col="grey85", CI.type = "less", CI.fill=TRUE, verticals=TRUE, datacol="blue", do.points=FALSE)
+cdfband(b1, CI.level=90/100, CI.col="grey85", CI.type = "less", CI.fill=TRUE, 
+        verticals=TRUE, datacol="blue", do.points=FALSE)
 
 par(mfrow=c(1,2))
 cdfband(b1, CI.level=90/100, CI.type = "greater")
-cdfband(b1, CI.level=90/100, CI.col="grey90", CI.type = "greater", CI.fill=TRUE, datacol="blue", datapch=21)
+cdfband(b1, CI.level=90/100, CI.col="grey90", CI.type = "greater", CI.fill=TRUE, 
+        datacol="blue", datapch=21)
 
 #some ideas from http://edild.github.io/ssd/
