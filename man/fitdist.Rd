@@ -227,7 +227,10 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
     See \code{\link{mledist}}, \code{\link{mmedist}}, \code{\link{qmedist}}, 
     \code{\link{mgedist}} for details on parameter estimation.
     See \code{\link{gofstat}} for goodness-of-fit statistics.
-    See \code{\link{plotdist}}, \code{\link{graphcomp}} for graphs.
+    See \code{\link{plotdist}}, \code{\link{graphcomp}}, \code{\link{CIcdfplot}} for graphs
+    (with or without uncertainty and/or multiple fits).
+    See \code{\link{llplot}} for (log-)likelihood plots in the
+    neighborhood of the fitted value.
     See \code{\link{bootdist}} for bootstrap procedures 
     and \code{\link{fitdistcens}} for censored-data fitting methods.
     See \code{\link{optim}} for base R optimization procedures.

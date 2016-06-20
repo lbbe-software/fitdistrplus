@@ -13,7 +13,7 @@ llplot(mlefit, loglik = TRUE, expansion = 1, lseq = 50,
                    fit.show = FALSE, fit.pch = 4, \dots)
 }
 \arguments{
-\item{mlefit}{An object of class \code{"fitdist"} of \code{"fitdistcens"} obtained by maximum
+\item{mlefit}{An object of class \code{"\link{fitdist}"} of \code{"\link{fitdistcens}"} obtained by maximum
  likelihood (with \code{method = "mle"})}
 \item{loglik}{a logical to plot log-likelihood or likelihood function.}
 \item{expansion}{a expansion factor to enlarge the default range of values explored 
