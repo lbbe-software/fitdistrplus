@@ -36,7 +36,7 @@ S3method(coef, fitdistcens)
 
 #bootdist class
 export(bootdist)
-export(cdfband)
+export(CIcdfplot)
 S3method(summary, bootdist)
 S3method(plot, bootdist)
 S3method(print, bootdist)

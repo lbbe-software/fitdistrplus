@@ -23,7 +23,7 @@
 ###
 
 
-cdfband <- function(b, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
+CIcdfplot <- function(b, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
                     datapch, datacol, fitlty, fitcol, addlegend = FALSE, legendtext, xlegend = "bottomright", 
                     ylegend = NULL, horizontals = TRUE, verticals = FALSE, do.points = TRUE, 
                     use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, CI.type = "two.sided", 

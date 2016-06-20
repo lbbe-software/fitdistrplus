@@ -1,12 +1,12 @@
-\name{cdfband}
-\alias{cdfband}
+\name{CIcdfplot}
+\alias{CIcdfplot}
 \title{Empirical cumulative distribution function with confidence interval}
 \description{   
  \code{cdfband} plots the empirical cumulative distribution function with the bootstraped confidence interval.
 }
 
 \usage{
-cdfband(b, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
+CIcdfplot(b, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
         datapch, datacol, fitlty, fitcol, addlegend = FALSE, legendtext, 
         xlegend = "bottomright", ylegend = NULL, horizontals = TRUE, 
         verticals = FALSE, do.points = TRUE, use.ppoints = TRUE, a.ppoints = 0.5, 
@@ -97,9 +97,9 @@ f1 <- fitdist(s1, "exp")
 b1 <- bootdist(f1, niter=11)
 
 # plot 90 percent confidence area
-cdfband(b1, CI.level=90/100)
-cdfband(b1, CI.level=95/100, CI.type = "less", CI.fill=TRUE, CI.col="grey80")
-cdfband(b1, CI.level=90/100, CI.type = "greater")
+CIcdfplot(b1, CI.level=90/100)
+CIcdfplot(b1, CI.level=95/100, CI.type = "less", CI.fill=TRUE, CI.col="grey80")
+CIcdfplot(b1, CI.level=90/100, CI.type = "greater")
 
 }
 

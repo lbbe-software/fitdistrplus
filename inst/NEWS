@@ -8,6 +8,7 @@ NEW FEATURES
 - start the FAQ and add datasets for it.
 - provide likelihood plot (surface/curve).
 - provide parallization of bootstrap in bootdist and bootdistcens.
+- provide graphic of ecdf with bootstrap confidence interval/area.
 - allow the use of constrOptim in mledist, mmedist, mgedist, qmedist functions.
 - add a possible pre-fitting procedures.
 
