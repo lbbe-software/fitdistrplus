@@ -23,6 +23,9 @@ data(dataFAQscale2)
 \code{dataFAQscale2} are vectors of numeric data.
 }
 
+\author{ 
+Marie-Laure Delignette-Muller and Christophe Dutang.
+}
 
 
 

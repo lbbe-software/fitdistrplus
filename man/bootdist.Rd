@@ -139,7 +139,7 @@ Journal of Statistical Software, 64(4), 1-34.
 
 
 \author{ 
-Marie-Laure Delignette-Muller \email{marielaure.delignettemuller@vetagro-sup.fr}.
+Marie-Laure Delignette-Muller and Christophe Dutang.
 }
 
 
