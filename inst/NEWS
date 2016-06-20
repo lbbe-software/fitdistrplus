@@ -4,13 +4,13 @@ Version 1.0-7
 =============
 
 NEW FEATURES
-- start the JSS splitting vignette into how-to guides.
-- start the FAQ and add datasets for it.
-- provide likelihood plot (surface/curve).
+- keep the JSS vignette as a pdf.
+- start the FAQ and add datasets (?dataFAQ) for it.
+- provide likelihood plot/surface/curve: llplot, llcurve, llsurface.
 - provide parallization of bootstrap in bootdist and bootdistcens.
-- provide graphic of ecdf with bootstrap confidence interval/area.
-- allow the use of constrOptim in mledist, mmedist, mgedist, qmedist functions.
-- add a possible pre-fitting procedures.
+- provide graphic of (e)cdf with bootstraped confidence interval/area: CIcdfplot.
+- allow the use of constrOptim() in mledist, mmedist, mgedist, qmedist functions.
+- add a possible pre-fitting procedures: prefit.
 
 BUG FIXES
 - add invisible() for all graphical functions.

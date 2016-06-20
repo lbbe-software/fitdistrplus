@@ -15,18 +15,28 @@ plot(b1)
 quantile(b1)
 
 par(mfrow=c(1,2))
-CIcdfplot(b1, CI.level=90/100)
-CIcdfplot(b1, CI.level=90/100, CI.col="grey80", CI.fill=TRUE, datacol="blue")
+CIcdfplot(b1, CI.level=95/100, CI.output = "probability", CI.fill=TRUE, CI.col="grey80")
+CIcdfplot(b1, CI.level=95/100, CI.output = "quantile", datacol="blue")
 
 
 par(mfrow=c(1,2))
-CIcdfplot(b1, CI.level=90/100, CI.type = "less")
-CIcdfplot(b1, CI.level=90/100, CI.col="grey85", CI.type = "less", CI.fill=TRUE, 
+CIcdfplot(b1, CI.level=90/100, CI.output = "probability")
+CIcdfplot(b1, CI.level=90/100, CI.output = "quantile", CI.col="grey85", CI.type = "less", CI.fill=TRUE, 
         verticals=TRUE, datacol="blue", do.points=FALSE)
 
 par(mfrow=c(1,2))
-CIcdfplot(b1, CI.level=90/100, CI.type = "greater")
-CIcdfplot(b1, CI.level=90/100, CI.col="grey90", CI.type = "greater", CI.fill=TRUE, 
+CIcdfplot(b1, CI.level=90/100, CI.output = "probability", CI.type = "greater")
+CIcdfplot(b1, CI.level=90/100, CI.output = "quantile", CI.col="grey90", CI.type = "greater", CI.fill=TRUE, 
         datacol="blue", datapch=21)
+
+
+par(mfrow=c(1,1))
+CIcdfplot(b1, CI.level=90/100, CI.output = "probability", CI.col="grey85", CI.type = "less", CI.fill=TRUE)
+CIcdfplot(b1, CI.level=90/100, CI.output = "quantile", CI.col="grey85", CI.type = "less", CI.fill=TRUE, 
+          verticals=TRUE, datacol="blue", do.points=FALSE)
+CIcdfplot(b1, CI.level=90/100, CI.output = "quantile", CI.col="grey85", CI.type = "less", CI.fill=TRUE, 
+          verticals=TRUE, datacol="blue", do.points=FALSE, dataplot=FALSE)
+CIcdfplot(b1, CI.level=90/100, CI.output = "probability", CI.col="grey85", CI.type = "less", CI.fill=TRUE, dataplot=FALSE)
+
 
 #some ideas from http://edild.github.io/ssd/

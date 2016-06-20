@@ -23,20 +23,28 @@
 ###
 
 
-CIcdfplot <- function(b, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
-                    datapch, datacol, fitlty, fitcol, addlegend = FALSE, legendtext, xlegend = "bottomright", 
-                    ylegend = NULL, horizontals = TRUE, verticals = FALSE, do.points = TRUE, 
-                    use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, CI.type = "two.sided", 
-                    CI.level = 0.95, CI.col="red", CI.lty=2, CI.fill=FALSE, ...)
+CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.col="red", CI.lty=2, 
+                    CI.fill=FALSE, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
+                    dataplot=TRUE, datapch, datacol, fitlty, fitcol, addlegend = FALSE, legendtext, 
+                    xlegend = "bottomright", ylegend = NULL, horizontals = TRUE, verticals = FALSE, 
+                    do.points = TRUE, use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, ...)
 {
   if(!inherits(b, "bootdist"))
   {
     stop("argument b must be a 'bootdist' objects")
   }
-  
+  if(missing(CI.output))
+    stop("argument CI.output must be specified: either 'probability' or 'quantile'.")
+  CI.output <- match.arg(CI.output, c("probability", "quantile"))
   CI.type <- match.arg(CI.type, c("two.sided", "less", "greater"))
   CI.level <- CI.level[1]
   mydat <- b$fitpart$data
+  n <- length(mydat)
+  #compute lower and upper value for the area
+  lowx <- ifelse(min(mydat) < 0, min(mydat)*1.5, min(mydat)*.5)
+  uppx <- ifelse(max(mydat) < 0, max(mydat)*.5, max(mydat)*1.5)
+  if(!is.logical(dataplot))
+    stop("argument dataplot must be a logical")
   
   #default values (same as cdfcomp())
   if (missing(datapch)) datapch <- 16
@@ -51,86 +59,146 @@ CIcdfplot <- function(b, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main,
   #get name and cdf name
   distname <- b$fitpart$distname
   pdistname <- paste("p",distname,sep="")
+  qdistname <- paste("q",distname,sep="")
+  if (!exists(pdistname, mode="function") && CI.output == "probability")
+    stop(paste("The ", pdistname, " function must be defined"))
+  if (!exists(qdistname, mode="function") && CI.output == "quantile")
+    stop(paste("The ", qdistname, " function must be defined"))
   
   #compute c.d.f. values on bootstraped parameters
-  cdfval <- function(x)
-  {  
-    calcp <- function(i)
-    {
-      parai <- c(as.list(b$estim[i, ]), as.list(b$fitpart$fix.arg))
-      do.call(pdistname, c(list(q=x), as.list(parai)))
+  if(CI.output == "probability")
+  {
+    cdfval <- function(x)
+    {  
+      calcp <- function(i)
+      {
+        parai <- c(as.list(b$estim[i, ]), as.list(b$fitpart$fix.arg))
+        do.call(pdistname, c(list(q=x), as.list(parai)))
+      }
+      
+      res <- t(sapply(1:b$nbboot, calcp))
+      rownames(res) <- 1:b$nbboot
+      colnames(res) <- paste0("x=", x)
+      res
     }
-    res <- t(sapply(1:b$nbboot, calcp))
-    rownames(res) <- 1:b$nbboot
-    colnames(res) <- paste0("x=", x)
-    res
+    x <- seq(lowx, uppx, length=101)
+    
+    #compute quantiles on c.d.f. 
+    if (CI.type == "two.sided")
+    {
+      alpha <- (1-CI.level)/2
+      CIband <- t(apply(cdfval(x), MARGIN=2, quantile, probs=c(alpha, 1-alpha), na.rm=TRUE))
+      colnames(CIband) <- format.perc(c(alpha, 1-alpha), 3)
+    }else if (CI.type == "less")
+    {
+      CIband <- as.matrix(apply(cdfval(x), MARGIN=2, quantile, probs=CI.level, na.rm=TRUE))
+      colnames(CIband) <- format.perc(CI.level, 3)
+    }else
+    {
+      CIband <- as.matrix(apply(cdfval(x), MARGIN=2, quantile, probs=1-CI.level, na.rm=TRUE))
+      colnames(CIband) <- format.perc(1-CI.level, 3)
+    }
+  }else #CI.output == "quantile"
+  {
+    qval <- function(p)
+    {  
+      calcp <- function(i)
+      {
+        parai <- c(as.list(b$estim[i, ]), as.list(b$fitpart$fix.arg))
+        do.call(qdistname, c(list(p=p), as.list(parai)))
+      }
+      
+      res <- t(sapply(1:b$nbboot, calcp))
+      rownames(res) <- 1:b$nbboot
+      colnames(res) <- paste0("p=", p)
+      res
+    }
+    #compute lower and upper value for the area
+    p <- seq(sqrt(.Machine$double.eps), 1- sqrt(.Machine$double.eps), length=101)
+    
+    #compute quantiles on c.d.f. 
+    if (CI.type == "two.sided")
+    {
+      alpha <- (1-CI.level)/2
+      CIband <- t(apply(qval(p), MARGIN=2, quantile, probs=c(alpha, 1-alpha), na.rm=TRUE))
+      colnames(CIband) <- format.perc(c(alpha, 1-alpha), 3)
+    }else if (CI.type == "less")
+    {
+      CIband <- as.matrix(apply(qval(p), MARGIN=2, quantile, probs=1-CI.level, na.rm=TRUE))
+      colnames(CIband) <- format.perc(CI.level, 3)
+    }else
+    {
+      CIband <- as.matrix(apply(qval(p), MARGIN=2, quantile, probs=CI.level, na.rm=TRUE))
+      colnames(CIband) <- format.perc(1-CI.level, 3)
+    }
   }
-  #compute lower and upper value for the area
-  lowx <- ifelse(min(mydat) < 0, min(mydat)*1.5, min(mydat)*.5)
-  uppx <- ifelse(max(mydat) < 0, max(mydat)*.5, max(mydat)*1.5)
-  x <- seq(lowx, uppx, length=101)
   
-  #compute quantiles on c.d.f. 
-  if (CI.type == "two.sided")
-  {
-    alpha <- (1-CI.level)/2
-    CIband <- t(apply(cdfval(x), MARGIN=2, quantile, probs=c(alpha, 1-alpha), na.rm=TRUE))
-    colnames(CIband) <- format.perc(c(alpha, 1-alpha), 3)
-  }else if (CI.type == "less")
-  {
-    CIband <- as.matrix(apply(cdfval(x), MARGIN=2, quantile, probs=CI.level, na.rm=TRUE))
-    colnames(CIband) <- format.perc(CI.level, 3)
-  }else
-  {
-    CIband <- as.matrix(apply(cdfval(x), MARGIN=2, quantile, probs=1-CI.level, na.rm=TRUE))
-    colnames(CIband) <- format.perc(1-CI.level, 3)
-  }
-  
+  #temp var to open a graphic (if needed)
+  logxy <- paste0(ifelse(xlogscale,"x",""), ifelse(ylogscale,"y",""))
+  s <- sort(mydat)
+  if (use.ppoints)
+    obsp <- ppoints(n,a = a.ppoints)
+  else
+    obsp <- (1:n) / n
+  #compute y-limits if needed
+  if(missing(ylim) && CI.output == "probability")
+    ylim <- range(obsp, CIband) 
+  if(missing(ylim) && CI.output == "quantile")
+    ylim <- range(obsp) 
+  ylim <- pmax(pmin(ylim, 1), 0) #cropped to unit interval
   
   #plot
   if(!CI.fill) #edged confidence area
   {
-    cdfcomp(b$fitpart, xlim=xlim, ylim=ylim, xlogscale = xlogscale, ylogscale = ylogscale, 
+    if(dataplot)
+      cdfcomp(b$fitpart, xlim=xlim, ylim=ylim, xlogscale = xlogscale, ylogscale = ylogscale, 
             main=main, xlab=xlab, ylab=ylab, datapch=datapch, datacol=datacol, fitlty=fitlty, 
             fitcol=fitcol, addlegend = addlegend, legendtext=legendtext, xlegend = xlegend, 
             ylegend = ylegend, horizontals = horizontals, verticals = verticals, do.points = do.points, 
             use.ppoints = use.ppoints, a.ppoints = a.ppoints, lines01 = lines01,
             add=FALSE)
-    matlines(x, CIband, col=CI.col, lty=CI.lty, ...) 
+    else #open a graphic
+      plot(s, obsp, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim,
+           log=logxy, type="n")
+    
+    if(CI.output == "probability")
+    {
+      matlines(x, CIband, col=CI.col, lty=CI.lty, ...) 
+    }else #CI.output == "quantile"
+    {
+      matlines(CIband, p, col=CI.col, lty=CI.lty, ...) 
+    }
   }else #filled confidence area
   {
-    #temp var to open a graphic
-    logxy <- paste0(ifelse(xlogscale,"x",""), ifelse(ylogscale,"y",""))
-    n <- length(mydat)
-    s <- sort(mydat)
-    if (use.ppoints)
-      obsp <- ppoints(n,a = a.ppoints)
-    else
-      obsp <- (1:n) / n
-    if(missing(ylim))
-      ylim <- range(obsp, CIband) 
     #open graphic window
     plot(s, obsp, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim,
          log=logxy, type="n")
-    if(CI.type == "two.sided")
+    if(CI.output == "probability")
     {
-      polygon(c(x, rev(x)), c(CIband[,2], rev(CIband[,1])), col=CI.col, border=CI.col, ...)
-    }
-    if(CI.type == "less")
+      if(CI.type == "two.sided")
+        polygon(c(x, rev(x)), c(CIband[,2], rev(CIband[,1])), col=CI.col, border=CI.col, ...)
+      else if(CI.type == "less")
+        polygon(c(x, uppx, uppx), c(CIband, 1, 0), col=CI.col, border=CI.col, ...)
+      else #if(CI.type == "greater")
+        polygon(c(x, lowx, lowx), c(CIband, 1, 0), col=CI.col, border=CI.col, ...)
+      
+    }else #CI.output == "quantile"
     {
-      polygon(c(x, uppx, uppx), c(CIband, 1, 0), col=CI.col, border=CI.col, ...)
+      if(CI.type == "two.sided")
+        polygon(c(CIband[,2], rev(CIband[,1])), c(p, rev(p)), col=CI.col, border=CI.col, ...)
+      else if(CI.type == "less")
+        polygon(c(CIband, uppx, uppx), c(p, 1, 0), col=CI.col, border=CI.col, ...)
+      else #if(CI.type == "greater")
+        polygon(c(CIband, lowx, lowx), c(p, 1, 0), col=CI.col, border=CI.col, ...)
     }
-    if(CI.type == "greater")
-    {
-      polygon(c(x, lowx, lowx), c(CIband, 1, 0), col=CI.col, border=CI.col, ...)
-    }
-    cdfcomp(b$fitpart, xlim=xlim, ylim=ylim, xlogscale = xlogscale, ylogscale = ylogscale, 
+    
+    if(dataplot)
+      cdfcomp(b$fitpart, xlim=xlim, ylim=ylim, xlogscale = xlogscale, ylogscale = ylogscale, 
             main=main, xlab=xlab, ylab=ylab, datapch=datapch, datacol=datacol, fitlty=fitlty, 
             fitcol=fitcol, addlegend = addlegend, legendtext=legendtext, xlegend = xlegend, 
             ylegend = ylegend, horizontals = horizontals, verticals = verticals, do.points = do.points, 
             use.ppoints = use.ppoints, a.ppoints = a.ppoints, lines01 = lines01,
             add=TRUE)
-    
-    #plot(ecdf(b$fitpart$data), col=datacol, add=TRUE, do.points=do.points, verticals = verticals, pch=datapch)
+    #else nothing to plot
   }
 }

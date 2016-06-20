@@ -6,15 +6,23 @@
 }
 
 \usage{
-CIcdfplot(b, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
-        datapch, datacol, fitlty, fitcol, addlegend = FALSE, legendtext, 
-        xlegend = "bottomright", ylegend = NULL, horizontals = TRUE, 
-        verticals = FALSE, do.points = TRUE, use.ppoints = TRUE, a.ppoints = 0.5, 
-        lines01 = FALSE, CI.type = "two.sided", CI.level = 0.95, 
-        CI.col="red", CI.lty=2, CI.fill=FALSE, \dots)
+CIcdfplot(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.col="red", CI.lty=2, 
+  CI.fill=FALSE, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
+  dataplot=TRUE, datapch, datacol, fitlty, fitcol, addlegend = FALSE, legendtext, 
+  xlegend = "bottomright", ylegend = NULL, horizontals = TRUE, verticals = FALSE, 
+  do.points = TRUE, use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, \dots)
 }
 \arguments{
 \item{b}{One \code{"bootdist"} object.}
+\item{CI.output}{ The quantity on which (bootstraped) quantiles are computed: 
+    either \code{"probability"} or \code{"quantile"}).}
+\item{CI.type}{ Type of confidence intervals : either \code{"two.sided"} or one-sided 
+    intervals (\code{"less"} or \code{"greater"}).}
+\item{CI.level}{ The confidence level.}
+\item{CI.col}{the color of the confidence interval.}    
+\item{CI.lty}{the line type of the confidence interval.}    
+\item{CI.fill}{a logical to fill the confidence area. Default is \code{FALSE}.}    
+
 \item{xlim}{The \eqn{x}-limits of the plot.}
 \item{ylim}{The \eqn{y}-limits of the plot.}
 \item{xlogscale}{If \code{TRUE}, uses a logarithmic scale for the \eqn{x}-axis.}
@@ -22,6 +30,8 @@ CIcdfplot(b, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
 \item{main}{A main title for the plot, see also \code{\link{title}}.}
 \item{xlab}{A label for the \eqn{x}-axis, defaults to a description of \code{x}.}
 \item{ylab}{A label for the \eqn{y}-axis, defaults to a description of \code{y}.}
+
+\item{dataplot}{A logical whether to plot \code{ecdf} or not. Default to \code{TRUE}.}
 \item{datapch}{An integer specifying a symbol to be used in plotting data points, 
     see also \code{\link{points}}.}
 \item{datacol}{A specification of the color to be used in plotting data points.}
@@ -50,12 +60,6 @@ CIcdfplot(b, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
     for discrete data.}
 \item{a.ppoints}{If \code{use.ppoints=TRUE}, this is passed to function \code{\link{ppoints}}.}
 \item{lines01}{A logical to plot two horizontal lines at \code{h=0} and \code{h=1} for \code{cdfcomp}.}
-\item{CI.type}{ Type of confidence intervals : either \code{"two.sided"} or one-sided 
-    intervals (\code{"less"} or \code{"greater"}).}
-\item{CI.level}{ The confidence level.}
-\item{CI.col}{the color of the confidence interval.}    
-\item{CI.lty}{the line type of the confidence interval.}    
-\item{CI.fill}{a logical to fill the confidence area. Default is \code{FALSE}.}    
 \item{\dots}{Further graphical arguments passed to \code{matlines} or \code{polygon},
   respectively when \code{CI.fill=FALSE} and \code{CI.fill=TRUE}.}
 }
@@ -97,9 +101,10 @@ f1 <- fitdist(s1, "exp")
 b1 <- bootdist(f1, niter=11)
 
 # plot 90 percent confidence area
-CIcdfplot(b1, CI.level=90/100)
-CIcdfplot(b1, CI.level=95/100, CI.type = "less", CI.fill=TRUE, CI.col="grey80")
-CIcdfplot(b1, CI.level=90/100, CI.type = "greater")
+CIcdfplot(b1, CI.level=90/100, CI.output="probability")
+CIcdfplot(b1, CI.level=95/100, CI.output="prob", CI.type = "l", 
+  CI.fill=TRUE, CI.col="grey80")
+CIcdfplot(b1, CI.level=99/100, CI.output="quant", CI.type = "greater")
 
 }
 
