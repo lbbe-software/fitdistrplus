@@ -39,5 +39,27 @@ CIcdfplot(b1, CI.level=90/100, CI.output = "quantile", CI.col="grey90", CI.type 
 CIcdfplot(b1, CI.level=90/100, CI.output = "probability", CI.col="grey85", CI.type = "less", CI.fill="grey90", 
           CI.only = TRUE)
 
+# (2) an example from ecotoxicology
+# with censored data
+#
+data(salinity)
+log10LC50 <-log10(salinity)
+fln <- fitdistcens(log10LC50,"norm")
+bln <- bootdistcens(fln, niter=101)
+(HC5ln <- quantile(bln,probs = 0.05))
+CIcdfplot(bln, CI.output = "quantile", CI.fill = "lightblue", CI.col = "blue",
+          xlab = "log10(LC50)",xlim=c(0.5,2),lines01 = TRUE)
+
+# zoom around the HC5 with CI on quantiles 
+# visual problem near 0
+CIcdfplot(bln, CI.output = "quantile", CI.fill = "lightblue", CI.col = "blue",
+          xlab = "log10(LC50)", lines01 = TRUE, xlim = c(0.8, 1.5), ylim = c(0, 0.1))
+abline(h = 0.05, lty = 1)
+
+# zoom around the HC5 with CI on probabilities 
+CIcdfplot(bln, CI.output = "probability", CI.fill = "lightblue", CI.col = "blue",
+          xlab = "log10(LC50)", lines01 = TRUE, xlim = c(0.8, 1.5), ylim = c(0, 0.1))
+abline(h = 0.05, lty = 1)
+
 
 #some ideas from http://edild.github.io/ssd/

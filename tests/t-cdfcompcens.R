@@ -26,3 +26,8 @@ cdfcompcens(list(fitsfn,fitsfl,fitsfg), datacol="orange",
 
 # Same plot in y logscale
 cdfcompcens(list(fitsfn, fitsfl, fitsfg), ylog = TRUE)
+
+# same plot using argument add
+cdfcompcens(fitsfn, addlegend = FALSE, fitcol = "red")
+cdfcompcens(fitsfl, addlegend = FALSE, fitcol = "green", add = TRUE)
+cdfcompcens(fitsfg, addlegend = FALSE, fitcol = "blue", add = TRUE)

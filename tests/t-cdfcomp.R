@@ -172,7 +172,7 @@ cdfcomp(list(fit1, fit2, fit3), datapch=".", xlim=c(6, 8), ylim=c(.4, .55))
 
 # (6) discrete example
 #
-
+set.seed(1234)
 x3 <- rpois(20, 10)
 
 fit1 <- fitdist(x3, "pois", "mle")
@@ -191,4 +191,18 @@ f1 <- fitdist(rlnorm(n), "lnorm")
 cdfcomp(f1, do.points=TRUE)
 cdfcomp(f1, do.points=FALSE)
 cdfcomp(f1, horizontals = FALSE, verticals = FALSE, do.points = FALSE)
+
+# (8) argument add (must give the same plot (except colors) as ex. 6)
+#
+
+set.seed(1234)
+x3 <- rpois(20, 10)
+
+fit1 <- fitdist(x3, "pois", "mle")
+cdfcomp(fit1, fitcol = "red", horizontals=FALSE, addlegend = FALSE)
+
+fit2 <- fitdist(x3, "nbinom", "qme", probs=c(1/3, 2/3))
+cdfcomp(fit2, fitcol = "blue", horizontals=FALSE, addlegend = FALSE, 
+        add = TRUE)
+
 

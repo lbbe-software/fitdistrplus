@@ -26,7 +26,7 @@
 
 cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
     datacol, fitlty, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", 
-    ylegend = NULL, lines01 = FALSE,Turnbull.confint = FALSE,...)
+    ylegend = NULL, lines01 = FALSE,Turnbull.confint = FALSE, add = FALSE,...)
 {
 
   if(inherits(ft, "fitdistcens"))
@@ -92,20 +92,46 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
     if(missing(ylim))
     {
         if (Turnbull.confint)
+        {
+          if (!add)
+          plot(survfitted, fun="event", xlab=xlab, ylab=ylab, main=main, 
+               log=logxy, col=datacol, xlim = xlim, ...)
+          else
+          lines(survfitted, fun="event", xlab=xlab, ylab=ylab, main=main, 
+                 log=logxy, col=datacol, xlim = xlim, ...)
+          
+        }else
+        {
+          if (!add)
             plot(survfitted, fun="event", xlab=xlab, ylab=ylab, main=main, 
-                log=logxy, col=datacol, xlim = xlim, ...)
-        else
-            plot(survfitted, fun="event", xlab=xlab, ylab=ylab, main=main, 
-                log=logxy, col=datacol, conf.int = FALSE, xlim = xlim, ...)
+               log=logxy, col=datacol, conf.int = FALSE, xlim = xlim, ...)
+          else
+            lines(survfitted, fun="event", xlab=xlab, ylab=ylab, main=main, 
+                 log=logxy, col=datacol, conf.int = FALSE, xlim = xlim, ...)
+          
+        }
     }
     else
     {
         if (Turnbull.confint)
+        {
+          if (!add)
             plot(survfitted, fun="event", xlab=xlab, ylab=ylab, main=main, 
-                log=logxy, col=datacol, xlim = xlim, ylim=ylim, ...)
-        else
+               log=logxy, col=datacol, xlim = xlim, ylim=ylim, ...)
+          else
+            lines(survfitted, fun="event", xlab=xlab, ylab=ylab, main=main, 
+                 log=logxy, col=datacol, xlim = xlim, ylim=ylim, ...)
+          
+        } else
+        {
+          if (!add)
             plot(survfitted, fun="event", xlab=xlab, ylab=ylab, main=main, 
-                log=logxy, col=datacol, conf.int = FALSE, xlim = xlim, ylim = ylim, ...)
+               log=logxy, col=datacol, conf.int = FALSE, xlim = xlim, ylim = ylim, ...)
+          else
+            lines(survfitted, fun="event", xlab=xlab, ylab=ylab, main=main, 
+                 log=logxy, col=datacol, conf.int = FALSE, xlim = xlim, ylim = ylim, ...)
+          
+        }
     }
     # plot of each fitted distribution
     plot.fti <- function(i, ...)

@@ -25,24 +25,45 @@
 
 CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.col = "red", CI.lty = 2, 
                     CI.fill = NULL, CI.only = FALSE, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
-                    xlab, ylab, datapch, datacol, fitlty, fitcol, addlegend = FALSE, legendtext, 
-                    xlegend = "bottomright", ylegend = NULL, horizontals = TRUE, verticals = FALSE, 
+                    xlab, ylab, datapch, datacol, fitlty, fitcol, horizontals = TRUE, verticals = FALSE, 
                     do.points = TRUE, use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, ...)
 {
-  if(!inherits(b, "bootdist"))
+  if(inherits(b, "bootdist"))
   {
-    stop("argument b must be a 'bootdist' objects")
+    cens <- FALSE
+  } else
+  if(inherits(b, "bootdistcens"))
+  {
+    cens <- TRUE
+  } else
+  {
+    stop("argument b must be a 'bootdist' or a `bootdistcens` object")
   }
   if(missing(CI.output))
     stop("argument CI.output must be specified: either 'probability' or 'quantile'.")
   CI.output <- match.arg(CI.output, c("probability", "quantile"))
   CI.type <- match.arg(CI.type, c("two.sided", "less", "greater"))
   CI.level <- CI.level[1]
-  mydat <- b$fitpart$data
-  n <- length(mydat)
   #compute lower and upper value for the area
-  lowx <- ifelse(min(mydat) < 0, min(mydat)*1.5, min(mydat)*.5)
-  uppx <- ifelse(max(mydat) < 0, max(mydat)*.5, max(mydat)*1.5)
+  if (!cens)
+  {
+    mydat <- b$fitpart$data
+    n <- length(mydat)
+    xmin <- min(mydat)
+    xmax <- max(mydat)
+  } else
+  {
+    censdata <- b$fitpart$censdata
+    n <- nrow(censdata)
+    xmin <- min(c(censdata$left, censdata$right), na.rm=TRUE)
+    xmax <- max(c(censdata$left, censdata$right), na.rm=TRUE)
+  }
+  if (missing(xlim)) xlim <- c(xmin, xmax)
+  lowx <- min(xlim[1], ifelse(xmin < 0, xmin*1.5, xmin*.5))
+  uppx <- max(xlim[2], ifelse(xmax < 0, xmax*.5, xmax*1.5))
+
+  if(missing(ylim)) ylim <- c(0, 1)
+  
   if(!is.logical(CI.only))
     stop("argument CI.only must be a logical")
   
@@ -51,10 +72,15 @@ CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.c
   if (missing(datacol)) datacol <- "black"
   if (missing(fitcol)) fitcol <- 2
   if (missing(fitlty)) fitlty <- 1
-  if (missing(xlab)) xlab <- ifelse(xlogscale, "data in log scale", "data")
+   if (missing(xlab)) 
+  {
+     if (!cens)
+       xlab <- ifelse(xlogscale, "data in log scale", "data")
+     else
+       xlab <- ifelse(xlogscale, "censored data in log scale", "censored data")
+  }
   if (missing(ylab)) ylab <- "CDF"
-  if (missing(main)) main <- paste("Empirical and theoretical CDFs")
-  if (missing(xlim)) xlim <- range(mydat)
+  if (missing(main)) main <- ifelse(CI.only, "Theoretical CDF with CI", "Empirical and theoretical CDF with CI")
 
   #get name and cdf name
   distname <- b$fitpart$distname
@@ -135,44 +161,14 @@ CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.c
   
   #temp var to open a graphic (if needed)
   logxy <- paste0(ifelse(xlogscale,"x",""), ifelse(ylogscale,"y",""))
-  s <- sort(mydat)
-  if (use.ppoints)
-    obsp <- ppoints(n,a = a.ppoints)
-  else
-    obsp <- (1:n) / n
-  #compute y-limits if needed
-  if(missing(ylim) && CI.output == "probability")
-    ylim <- range(obsp, CIband) 
-  if(missing(ylim) && CI.output == "quantile")
-    ylim <- range(obsp) 
-  ylim <- pmax(pmin(ylim, 1), 0) #cropped to unit interval
   
-  #plot
-  if(is.null(CI.fill)) #edged confidence area
-  {
-    if(!CI.only)
-      cdfcomp(b$fitpart, xlim=xlim, ylim=ylim, xlogscale = xlogscale, ylogscale = ylogscale, 
-            main=main, xlab=xlab, ylab=ylab, datapch=datapch, datacol=datacol, fitlty=fitlty, 
-            fitcol=fitcol, addlegend = addlegend, legendtext=legendtext, xlegend = xlegend, 
-            ylegend = ylegend, horizontals = horizontals, verticals = verticals, do.points = do.points, 
-            use.ppoints = use.ppoints, a.ppoints = a.ppoints, lines01 = lines01,
-            add=FALSE)
-    else #open a graphic
-      plot(s, obsp, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim,
-           log=logxy, type="n")
-    
-    if(CI.output == "probability")
-    {
-      matlines(x, CIband, col=CI.col, lty=CI.lty, ...) 
-    }else #CI.output == "quantile"
-    {
-      matlines(CIband, p, col=CI.col, lty=CI.lty, ...) 
-    }
-  }else #filled confidence area
-  {
-    #open graphic window
-    plot(s, obsp, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim,
+  ##### plot ####
+  #open graphic window
+  plot(0, 0, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim,
          log=logxy, type="n")
+  
+  if (!is.null(CI.fill)) # first fill the band
+  {
     if(CI.output == "probability")
     {
       if(CI.type == "two.sided")
@@ -191,14 +187,33 @@ CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.c
       else #if(CI.type == "greater")
         polygon(c(CIband, lowx, lowx), c(p, 1, 0), col=CI.fill, border=CI.fill, ...)
     }
-    
-    if(!CI.only)
+  }
+
+  # add lines for the bounds of the CI
+  if(CI.output == "probability")
+  {
+    matlines(x, CIband, col=CI.col, lty=CI.lty, ...) 
+  }else #CI.output == "quantile"
+  {
+    matlines(CIband, p, col=CI.col, lty=CI.lty, ...) 
+  }
+        
+  if(!CI.only) # add the empirical and fitted distributions
+  {
+    if (!cens)
+    {
       cdfcomp(b$fitpart, xlim=xlim, ylim=ylim, xlogscale = xlogscale, ylogscale = ylogscale, 
-            main=main, xlab=xlab, ylab=ylab, datapch=datapch, datacol=datacol, fitlty=fitlty, 
-            fitcol=fitcol, addlegend = addlegend, legendtext=legendtext, xlegend = xlegend, 
-            ylegend = ylegend, horizontals = horizontals, verticals = verticals, do.points = do.points, 
-            use.ppoints = use.ppoints, a.ppoints = a.ppoints, lines01 = lines01,
-            add=TRUE)
-    #else nothing to plot
+              main=main, xlab=xlab, ylab=ylab, datapch=datapch, datacol=datacol, fitlty=fitlty, 
+              fitcol=fitcol, horizontals = horizontals, verticals = verticals, do.points = do.points, 
+              use.ppoints = use.ppoints, a.ppoints = a.ppoints, lines01 = lines01, addlegend = FALSE,
+              add=TRUE)
+      
+    } else
+    {
+      cdfcompcens(b$fitpart, xlim=xlim, ylim=ylim, xlogscale = xlogscale, ylogscale = ylogscale, 
+              main=main, xlab=xlab, ylab=ylab, datacol=datacol, fitlty=fitlty,  
+              fitcol=fitcol, lines01 = lines01, Turnbull.confint = FALSE, addlegend = FALSE, add=TRUE)
+      
+    }
   }
 }

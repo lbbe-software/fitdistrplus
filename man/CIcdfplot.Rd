@@ -6,11 +6,11 @@
 }
 
 \usage{
-CIcdfplot(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.col = "pink", CI.lty = 2, 
-  CI.fill = NULL, CI.only = FALSE, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
-  xlab, ylab, datapch, datacol, fitlty, fitcol, addlegend = FALSE, legendtext, 
-  xlegend = "bottomright", ylegend = NULL, horizontals = TRUE, verticals = FALSE, 
-  do.points = TRUE, use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, \dots)
+CIcdfplot(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.col = "red", 
+  CI.lty = 2, CI.fill = NULL, CI.only = FALSE, xlim, ylim, xlogscale = FALSE, 
+  ylogscale = FALSE, main, xlab, ylab, datapch, datacol, fitlty, fitcol, 
+  horizontals = TRUE, verticals = FALSE, do.points = TRUE, use.ppoints = TRUE, 
+  a.ppoints = 0.5, lines01 = FALSE, \dots)
 }
 \arguments{
 \item{b}{One \code{"bootdist"} object.}
@@ -34,39 +34,37 @@ CIcdfplot(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.col = "pink",
 \item{ylab}{A label for the \eqn{y}-axis, defaults to a description of \code{y}.}
 
 \item{datapch}{An integer specifying a symbol to be used in plotting data points, 
-    see also \code{\link{points}}.}
+    see also \code{\link{points}} (only for non censored data).}
 \item{datacol}{A specification of the color to be used in plotting data points.}
 \item{fitcol}{A (vector of) color(s) to plot fitted distributions. 
     If there are fewer colors than fits they are recycled in the standard fashion.}
 \item{fitlty}{A (vector of) line type(s) to plot fitted distributions/densities. 
     If there are fewer colors than fits they are recycled in the standard fashion.
     See also \code{\link{par}}.}
-\item{addlegend}{If \code{TRUE}, a legend is added to the plot.}
-\item{legendtext}{A character or expression vector of length \eqn{\geq 1} to appear
-    in the legend, see also \code{\link{legend}}.}
-\item{xlegend, ylegend}{The \eqn{x} and \eqn{y} co-ordinates to be used to position 
-  the legend. They can be specified by keyword or in any way which is
-          accepted by 'xy.coords': see \code{\link{legend}} for details.}
 \item{horizontals}{If \code{TRUE}, draws horizontal lines for the step empirical 
-  cdf function. See also \code{\link{plot.stepfun}}.}
+  cdf function (only for non censored data). See also \code{\link{plot.stepfun}}.}
 \item{do.points}{logical; if \code{TRUE}, also draw points at the x-locations. 
-  Default is true.}
+  Default is true (only for non censored data).}
 \item{verticals}{If \code{TRUE}, draws also vertical lines for the empirical cdf function. 
-    Only taken into account if \code{horizontals=TRUE}. }
+    Only taken into account if \code{horizontals=TRUE} (only for non censored data). }
 \item{use.ppoints}{If \code{TRUE}, probability points of the empirical distribution
     are defined using function \code{\link{ppoints}} as 
-    \code{(1:n - a.ppoints)/(n - 2a.ppoints + 1)}.
+    \code{(1:n - a.ppoints)/(n - 2a.ppoints + 1)} (only for non censored data).
      If \code{FALSE}, 
     probability points are simply defined as \code{1:n / n}. This argument is ignored 
     for discrete data.}
-\item{a.ppoints}{If \code{use.ppoints=TRUE}, this is passed to function \code{\link{ppoints}}.}
+\item{a.ppoints}{If \code{use.ppoints=TRUE}, this is passed to function \code{\link{ppoints}}
+  (only for non censored data).}
 \item{lines01}{A logical to plot two horizontal lines at \code{h=0} and \code{h=1} for \code{cdfcomp}.}
 \item{\dots}{Further graphical arguments passed to \code{matlines} or \code{polygon},
   respectively when \code{CI.fill=FALSE} and \code{CI.fill=TRUE}.}
 }
 
 \details{
-    \code{CIcdfplot} provides a plot of the empirical distribution with bootstraped pointwise confidence        intervals on probabilities (y values) or on quantiles (x values). 
+    \code{CIcdfplot} provides a plot of the empirical distribution using
+    \code{\link{cdfcomp}} or \code{\link{cdfcompcens}},
+    with bootstraped pointwise confidence intervals on probabilities (y values) 
+    or on quantiles (x values). 
     Each interval is computed by evaluating the quantity of interest (probability
     associated to an x value or quantile associated to an y value) using all the
     bootstraped values of parameters to get a bootstraped sample
@@ -80,7 +78,8 @@ CIcdfplot(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.col = "pink",
 }
 
 \seealso{ 
-    See also \code{\link{cdfcomp}}, \code{\link{bootdist}} and \code{\link{quantile}}.  
+    See also \code{\link{cdfcomp}}, \code{\link{cdfcompcens}},
+    \code{\link{bootdist}} and \code{\link{quantile}}.  
 }
 
 
@@ -119,18 +118,20 @@ CIcdfplot(b1, CI.level= 95/100, CI.output = "probability",
 # plot of the previous intervals as a band without empirical and fitted dist. functions
 CIcdfplot(b1, CI.level= 95/100, CI.output = "probability", CI.only = TRUE,
   CI.fill = "pink", CI.col = "red")
+  
+# same plot without contours
+CIcdfplot(b1, CI.level= 95/100, CI.output = "probability", CI.only = TRUE,
+  CI.fill = "pink", CI.col = "pink")
 
 # plot 95 percent bilateral confidence intervals on x values (quantiles)
-# with coloring the band
-CIcdfplot(b1, CI.level= 95/100, CI.output = "quantile",
-  CI.fill = "pink", CI.col = "red")
+CIcdfplot(b1, CI.level= 95/100, CI.output = "quantile")
 
 
 # plot 95 percent unilateral confidence intervals on quantiles
 CIcdfplot(b1, CI.level = 95/100, CI.output = "quant", CI.type = "less", 
-  CI.fill = "grey80", CI.col = "black")
+  CI.fill = "grey80", CI.col = "black", CI.lty = 1)
 CIcdfplot(b1, CI.level= 95/100, CI.output = "quant", CI.type = "greater",
-  CI.fill = "grey80", CI.col = "black")
+  CI.fill = "grey80", CI.col = "black", CI.lty = 1)
 
 # (2) Fit of a normal distribution on acute toxicity log-transformed values of 
 # endosulfan for nonarthropod invertebrates, using maximum likelihood estimation
@@ -150,7 +151,20 @@ log10ATV <- log10(subset(endosulfan, group == "NonArthroInvert")$ATV)
 fln <- fitdist(log10ATV, "norm")
 bln <- bootdist(fln, bootmethod ="param", niter=101)
 quantile(bln, probs = c(0.05, 0.1, 0.2))
-CIcdfplot(bln, CI.output = "quantile", CI.fill = "lightblue", CI.col = "blue")
+CIcdfplot(bln, CI.output = "quantile", CI.fill = "lightblue", CI.col = "blue",
+          xlim = c(1,5))
+
+
+# (3) Same type of example as example (2) from ecotoxicology
+# with censored data
+#
+data(salinity)
+log10LC50 <-log10(salinity)
+fln <- fitdistcens(log10LC50,"norm")
+bln <- bootdistcens(fln, niter=101)
+(HC5ln <- quantile(bln,probs = 0.05))
+CIcdfplot(bln, CI.output = "quantile", CI.fill = "lightblue", CI.col = "blue",
+    xlab = "log10(LC50)",xlim=c(0.5,2),lines01 = TRUE)
 
 }
 

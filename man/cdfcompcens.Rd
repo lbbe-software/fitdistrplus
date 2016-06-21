@@ -12,7 +12,7 @@
 \usage{
 cdfcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
     datacol, fitlty, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", 
-    ylegend = NULL, lines01 = FALSE, Turnbull.confint = FALSE, \dots)
+    ylegend = NULL, lines01 = FALSE, Turnbull.confint = FALSE, add = FALSE, \dots)
 }
 %- maybe also 'usage' for other objects documented here.
 
@@ -40,6 +40,8 @@ cdfcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, yl
 \item{lines01}{A logical to plot two horizontal lines at \code{h=0} and \code{h=1}.}
 \item{Turnbull.confint}{ if TRUE, confidence intervals will be added to the Turnbull plot
     of the empirical distribution.}
+\item{add}{logical; if \code{TRUE} add to an already existing plot; if \code{FALSE} start 
+  a new plot.}  
 \item{\dots}{Further graphical arguments passed to graphical functions used in \code{\link{cdfcompcens}}.}
 }
 
