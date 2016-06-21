@@ -7,7 +7,7 @@ nbboot <- 10
 #
 
 set.seed(123)
-s1 <- rgamma(50, 3, 2)
+s1 <- rgamma(20, 3, 2)
 f1 <- fitdist(s1, "gamma")
 b1 <- bootdist(f1, niter=nbboot, silent=TRUE)
 
@@ -15,28 +15,29 @@ plot(b1)
 quantile(b1)
 
 par(mfrow=c(1,2))
-CIcdfplot(b1, CI.level=95/100, CI.output = "probability", CI.fill=TRUE, CI.col="grey80")
+CIcdfplot(b1, CI.level=95/100, CI.output = "probability", CI.fill="grey80", CI.col="black")
 CIcdfplot(b1, CI.level=95/100, CI.output = "quantile", datacol="blue")
 
 
 par(mfrow=c(1,2))
 CIcdfplot(b1, CI.level=90/100, CI.output = "probability")
-CIcdfplot(b1, CI.level=90/100, CI.output = "quantile", CI.col="grey85", CI.type = "less", CI.fill=TRUE, 
-        verticals=TRUE, datacol="blue", do.points=FALSE)
+CIcdfplot(b1, CI.level=90/100, CI.output = "quantile", CI.col="black", CI.type = "less", 
+          CI.fill="grey85", verticals=TRUE, datacol="blue", do.points=FALSE)
 
 par(mfrow=c(1,2))
 CIcdfplot(b1, CI.level=90/100, CI.output = "probability", CI.type = "greater")
-CIcdfplot(b1, CI.level=90/100, CI.output = "quantile", CI.col="grey90", CI.type = "greater", CI.fill=TRUE, 
-        datacol="blue", datapch=21)
+CIcdfplot(b1, CI.level=90/100, CI.output = "quantile", CI.col="black", CI.type = "greater", 
+          CI.fill="grey90", datacol="blue", datapch=21)
 
 
 par(mfrow=c(1,1))
-CIcdfplot(b1, CI.level=90/100, CI.output = "probability", CI.col="grey85", CI.type = "less", CI.fill=TRUE)
-CIcdfplot(b1, CI.level=90/100, CI.output = "quantile", CI.col="grey85", CI.type = "less", CI.fill=TRUE, 
+CIcdfplot(b1, CI.level=90/100, CI.output = "probability", CI.col="black", CI.type = "less", CI.fill="grey90")
+CIcdfplot(b1, CI.level=90/100, CI.output = "quantile", CI.col="black", CI.type = "less", CI.fill="grey90", 
           verticals=TRUE, datacol="blue", do.points=FALSE)
-CIcdfplot(b1, CI.level=90/100, CI.output = "quantile", CI.col="grey85", CI.type = "less", CI.fill=TRUE, 
-          verticals=TRUE, datacol="blue", do.points=FALSE, dataplot=FALSE)
-CIcdfplot(b1, CI.level=90/100, CI.output = "probability", CI.col="grey85", CI.type = "less", CI.fill=TRUE, dataplot=FALSE)
+CIcdfplot(b1, CI.level=90/100, CI.output = "quantile", CI.col="grey90", CI.type = "less", CI.fill="grey90", 
+          verticals=TRUE, datacol="blue", do.points=FALSE, CI.only=TRUE)
+CIcdfplot(b1, CI.level=90/100, CI.output = "probability", CI.col="grey85", CI.type = "less", CI.fill="grey90", 
+          CI.only = TRUE)
 
 
 #some ideas from http://edild.github.io/ssd/

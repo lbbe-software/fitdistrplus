@@ -23,9 +23,9 @@
 ###
 
 
-CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.col="red", CI.lty=2, 
-                    CI.fill=FALSE, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
-                    dataplot=TRUE, datapch, datacol, fitlty, fitcol, addlegend = FALSE, legendtext, 
+CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.col = "red", CI.lty = 2, 
+                    CI.fill = NULL, CI.only = FALSE, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
+                    xlab, ylab, datapch, datacol, fitlty, fitcol, addlegend = FALSE, legendtext, 
                     xlegend = "bottomright", ylegend = NULL, horizontals = TRUE, verticals = FALSE, 
                     do.points = TRUE, use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, ...)
 {
@@ -43,8 +43,8 @@ CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.c
   #compute lower and upper value for the area
   lowx <- ifelse(min(mydat) < 0, min(mydat)*1.5, min(mydat)*.5)
   uppx <- ifelse(max(mydat) < 0, max(mydat)*.5, max(mydat)*1.5)
-  if(!is.logical(dataplot))
-    stop("argument dataplot must be a logical")
+  if(!is.logical(CI.only))
+    stop("argument CI.only must be a logical")
   
   #default values (same as cdfcomp())
   if (missing(datapch)) datapch <- 16
@@ -148,9 +148,9 @@ CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.c
   ylim <- pmax(pmin(ylim, 1), 0) #cropped to unit interval
   
   #plot
-  if(!CI.fill) #edged confidence area
+  if(is.null(CI.fill)) #edged confidence area
   {
-    if(dataplot)
+    if(!CI.only)
       cdfcomp(b$fitpart, xlim=xlim, ylim=ylim, xlogscale = xlogscale, ylogscale = ylogscale, 
             main=main, xlab=xlab, ylab=ylab, datapch=datapch, datacol=datacol, fitlty=fitlty, 
             fitcol=fitcol, addlegend = addlegend, legendtext=legendtext, xlegend = xlegend, 
@@ -176,23 +176,23 @@ CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.c
     if(CI.output == "probability")
     {
       if(CI.type == "two.sided")
-        polygon(c(x, rev(x)), c(CIband[,2], rev(CIband[,1])), col=CI.col, border=CI.col, ...)
+        polygon(c(x, rev(x)), c(CIband[,2], rev(CIband[,1])), col=CI.fill, border=CI.fill, ...)
       else if(CI.type == "less")
-        polygon(c(x, uppx, uppx), c(CIband, 1, 0), col=CI.col, border=CI.col, ...)
+        polygon(c(x, uppx, uppx), c(CIband, 1, 0), col=CI.fill, border=CI.fill, ...)
       else #if(CI.type == "greater")
-        polygon(c(x, lowx, lowx), c(CIband, 1, 0), col=CI.col, border=CI.col, ...)
+        polygon(c(x, lowx, lowx), c(CIband, 1, 0), col=CI.fill, border=CI.fill, ...)
       
     }else #CI.output == "quantile"
     {
       if(CI.type == "two.sided")
-        polygon(c(CIband[,2], rev(CIband[,1])), c(p, rev(p)), col=CI.col, border=CI.col, ...)
+        polygon(c(CIband[,2], rev(CIband[,1])), c(p, rev(p)), col=CI.fill, border=CI.fill, ...)
       else if(CI.type == "less")
-        polygon(c(CIband, uppx, uppx), c(p, 1, 0), col=CI.col, border=CI.col, ...)
+        polygon(c(CIband, uppx, uppx), c(p, 1, 0), col=CI.fill, border=CI.fill, ...)
       else #if(CI.type == "greater")
-        polygon(c(CIband, lowx, lowx), c(p, 1, 0), col=CI.col, border=CI.col, ...)
+        polygon(c(CIband, lowx, lowx), c(p, 1, 0), col=CI.fill, border=CI.fill, ...)
     }
     
-    if(dataplot)
+    if(!CI.only)
       cdfcomp(b$fitpart, xlim=xlim, ylim=ylim, xlogscale = xlogscale, ylogscale = ylogscale, 
             main=main, xlab=xlab, ylab=ylab, datapch=datapch, datacol=datacol, fitlty=fitlty, 
             fitcol=fitcol, addlegend = addlegend, legendtext=legendtext, xlegend = xlegend, 
