@@ -165,6 +165,10 @@ bln <- bootdistcens(fln, niter=101)
 (HC5ln <- quantile(bln,probs = 0.05))
 CIcdfplot(bln, CI.output = "quantile", CI.fill = "lightblue", CI.col = "blue",
     xlab = "log10(LC50)",xlim=c(0.5,2),lines01 = TRUE)
+# zoom around the HC5  
+CIcdfplot(bln, CI.output = "quantile", CI.fill = "lightblue", CI.col = "blue",
+          xlab = "log10(LC50)", lines01 = TRUE, xlim = c(0.8, 1.5), ylim = c(0, 0.1))
+abline(h = 0.05, lty = 2) # line corresponding to a CDF of 5 percent
 
 }
 

@@ -107,7 +107,7 @@ CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.c
       colnames(res) <- paste0("x=", x)
       res
     }
-    x <- seq(lowx, uppx, length=101)
+    x <- seq(lowx, uppx, length=501)
     
     #compute quantiles on c.d.f. 
     if (CI.type == "two.sided")
@@ -140,7 +140,8 @@ CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.c
       res
     }
     #compute lower and upper value for the area
-    p <- seq(sqrt(.Machine$double.eps), 1- sqrt(.Machine$double.eps), length=101)
+#    p <- seq(sqrt(.Machine$double.eps), 1- sqrt(.Machine$double.eps), length=101)
+    p <- seq(0.0001, 1- 0.0001, length=501)
     
     #compute quantiles on c.d.f. 
     if (CI.type == "two.sided")
