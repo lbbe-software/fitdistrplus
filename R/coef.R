@@ -32,7 +32,7 @@
 
 coef.fitdist <- function(object, ...)
 {
-    stopifnot(class(object) == "fitdist")
+    stopifnot(inherits(object, "fitdist"))  
     
     if(is.null(object$estimate))
         stop("Internal error in coef.fitdist")
@@ -42,7 +42,7 @@ coef.fitdist <- function(object, ...)
 
 coef.fitdistcens <- function(object, ...)
 {
-    stopifnot(class(object) == "fitdistcens")
+    stopifnot(inherits(object, "fitdistcens"))
     
     if(is.null(object$estimate))
         stop("Internal error in coef.fitdistcens")

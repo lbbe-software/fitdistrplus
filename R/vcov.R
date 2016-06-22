@@ -32,7 +32,7 @@
 
 vcov.fitdist <- function(object, ...)
 {
-    stopifnot(class(object) == "fitdist")
+    stopifnot(inherits(object, "fitdist"))
     if (object$method != "mle")
       warning("The variance-covariance matrix can only be calculated for fits using the mle method")
     return(object$vcov)
@@ -40,7 +40,7 @@ vcov.fitdist <- function(object, ...)
 
 vcov.fitdistcens <- function(object, ...)
 {
-    stopifnot(class(object) == "fitdistcens")
+    stopifnot(inherits(object, "fitdistcens"))
     
     return(object$vcov)
 }
