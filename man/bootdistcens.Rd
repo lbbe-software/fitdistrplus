@@ -93,9 +93,11 @@ Generic functions:
         
 
 \seealso{ 
-    \code{\link{fitdistcens}}, \code{\link{mledist}} and  \code{\link{quantile.bootdistcens}} 
+    \code{\link{fitdistcens}}, \code{\link{mledist}}, \code{\link{quantile.bootdistcens}} 
     for another generic function to calculate 
-    quantiles from the fitted distribution and its bootstrap results.
+    quantiles from the fitted distribution and its bootstrap results
+    and \code{\link{CIcdfplot}} for adding confidence intervals on quantiles
+    to a CDF plot of the fitted distribution.
 }
 
 \references{ 
@@ -130,6 +132,7 @@ b1
 summary(b1)
 plot(b1)
 quantile(b1)
+CIcdfplot(b1, CI.output = "quantile")
 
 # (2) Estimation of the mean of the normal distribution 
 # by maximum likelihood with the standard deviation fixed at 1 

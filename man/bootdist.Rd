@@ -123,9 +123,11 @@ Generic functions:
 
 \seealso{ 
     \code{\link{fitdist}}, \code{\link{mledist}}, \code{\link{qmedist}}, \code{\link{mmedist}},
-    \code{\link{mgedist}}
-    and  \code{\link{quantile.bootdist}} for another generic function to calculate 
-    quantiles from the fitted distribution and its bootstrap results.
+    \code{\link{mgedist}},
+    \code{\link{quantile.bootdist}} for another generic function to calculate 
+    quantiles from the fitted distribution and its bootstrap results
+    and \code{\link{CIcdfplot}} for adding confidence intervals on quantiles
+    to a CDF plot of the fitted distribution.
 
 }
 
@@ -162,6 +164,7 @@ plot(b1)
 plot(b1, enhance=TRUE)
 summary(b1)
 quantile(b1)
+CIcdfplot(b1, CI.output = "quantile")
 
 # (2) non parametric bootstrap on the same fit
 #

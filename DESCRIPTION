@@ -3,7 +3,7 @@ Title: Help to Fit of a Parametric Distribution to Non-Censored or Censored Data
 Version: 1.0-7
 Authors@R: c(person("Marie Laure", "Delignette-Muller", role = c("aut", "cre"), email= "marielaure.delignettemuller@vetagro-sup.fr"),person("Christophe", "Dutang", role = "aut", email = "christophe.dutang@univ-lemans.fr"),person("Regis", "Pouillot", role = "ctb", email = "rpouillot@yahoo.fr"),person("Jean-Baptiste", "Denis", role = "ctb", email = "jbdenis@jouy.inra.fr"))
 Description: Extends the fitdistr() function (of the MASS package) with several functions to help the fit of a parametric distribution to non-censored or censored data. Censored data may contain left censored, right censored and interval censored values, with several lower and upper bounds. In addition to maximum likelihood estimation (MLE), the package provides moment matching (MME), quantile matching (QME) and maximum goodness-of-fit estimation (MGE) methods (available only for non-censored data). Weighted versions of MLE, MME and QME are available.
-Depends: R (>= 3.2.0), MASS, grDevices, survival
+Depends: R (>= 3.2.0), MASS, grDevices, survival, methods
 Imports: stats
 Suggests: actuar, rgenoud, mc2d, gamlss.dist, knitr, knitcitations
 VignetteBuilder: knitr

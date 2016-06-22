@@ -86,7 +86,7 @@
         
 
 \seealso{ 
-    \code{\link{fitdist}}, \code{\link{bootdist}}, \code{\link{fitdistcens}} and \code{\link{bootdistcens}}.
+    \code{\link{fitdist}}, \code{\link{bootdist}}, \code{\link{fitdistcens}}, \code{\link{bootdistcens}} and \code{\link{CIcdfplot}}.
 }
 
 
@@ -130,7 +130,12 @@ cdfcomp(fln)
 q1 <- quantile(bln, probs = seq(0,1,length=101))
 points(q1$quantCI[1,],q1$probs,type="l")
 points(q1$quantCI[2,],q1$probs,type="l")
- 
+
+# (2b) Draw of 95 percent confidence intervals on quantiles of the 
+# previously fitted distribution
+# using the NEW function CIcdfplot
+#
+CIcdfplot(bln, CI.output = "quantile", CI.fill = "pink")
 
 # (3) Fit of a distribution on acute salinity log-transformed tolerance 
 # for riverine macro-invertebrates, using maximum likelihood estimation

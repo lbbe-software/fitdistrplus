@@ -57,7 +57,7 @@ cdfcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, yl
 }
 
 \seealso{ 
-    \code{\link{plotdistcens}}, \code{\link{survfit.formula}}, \code{\link{legend}} 
+    \code{\link{CIcdfplot}}, \code{\link{plotdistcens}}, \code{\link{survfit.formula}}, \code{\link{legend}} 
     and \code{\link{par}}.
 }
 

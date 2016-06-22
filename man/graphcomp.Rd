@@ -121,7 +121,8 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
 }
 
 \seealso{ 
-    See \code{\link{plot}}, \code{\link{legend}}, \code{\link{ppoints}}, \code{\link{plot.stepfun}} 
+    See \code{\link{CIcdfplot}} and \code{\link{plot}}, \code{\link{legend}}, \code{\link{ppoints}}, 
+    \code{\link{plot.stepfun}} 
     for classic plotting functions and \code{\link{plotdist}}.  
 }
 

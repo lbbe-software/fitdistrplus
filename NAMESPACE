@@ -2,10 +2,11 @@
 import(stats)
 importFrom("survival", Surv, survfit)
 importFrom("MASS", kde2d)
-importFrom("grDevices", colorRampPalette) 
-importFrom("graphics", abline, axis, hist, legend, lines, par, plot, points, polygon)
+importFrom("grDevices", colorRampPalette, terrain.colors) 
+importFrom("graphics", abline, axis, hist, legend, lines, par, plot, points, polygon, contour, layout, matlines)
 importFrom("graphics", segments, stripchart, image, pairs)
 importFrom("utils", head)
+importFrom("methods", formalArgs)
 
 ### Exports
 

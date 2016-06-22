@@ -6,7 +6,6 @@
 \alias{logLik.fitdist}
 \alias{vcov.fitdist}
 \alias{coef.fitdist}
-\alias{fitdistrplus}
 \title{ Fit of univariate distributions to non-censored data}
 
 \description{
