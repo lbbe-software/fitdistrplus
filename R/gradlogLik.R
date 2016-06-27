@@ -19,7 +19,7 @@
 #############################################################################
 ### gradient of log-likelihood
 ###
-###         R functions
+###         R functions (not exported)
 ### 
 
 #Beta distribution
