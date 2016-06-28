@@ -32,42 +32,47 @@ The Nelder-Mead method is one of the most well known derivative-free methods
 that use only values of $f$ to search for the minimum.
 It consists in building a simplex of $n+1$ points and moving/shrinking
 this simplex into the good direction.
-\begin{enumerate}
-\item set initial points $x_1, \dots, x_{n+1}$.
-\item order points such that $f(x_1)\leq f(x_2)\leq\dots\leq f(x_n)$.
-\item compute $x_o$ as the centroid of $x_1, \dots, x_{n}$. 
-\item Reflection: 
-  \begin{itemize}
-  \item compute the reflected point $x_r = x_o + \alpha(x_o-x_{n+1})$
-  \item \textbf{if} $f(x_1)\leq f(x_r)<f(x_n)$, 
+
+1. set initial points $x_1, \dots, x_{n+1}$.
+
+2. order points such that $f(x_1)\leq f(x_2)\leq\dots\leq f(x_n)$.
+
+3. compute $x_o$ as the centroid of $x_1, \dots, x_{n}$. 
+
+4. Reflection: 
+  + compute the reflected point $x_r = x_o + \alpha(x_o-x_{n+1})$
+
+  + \textbf{if} $f(x_1)\leq f(x_r)<f(x_n)$, 
   then replace $x_{n+1}$ by $x_r$,
   go to step 2.
-  \item \textbf{else} go step 5.
-  \end{itemize}
-\item Expansion:   
-  \begin{itemize}
-  \item \textbf{if} $f(x_r)<f(x_1)$, then compute the expansion point
+
+  + \textbf{else} go step 5.
+
+5. Expansion:   
+  
+  + \textbf{if} $f(x_r)<f(x_1)$, then compute the expansion point
     $x_e= x_o+\gamma(x_o-x_{n+1})$.
-    \begin{itemize}
-    \item[] \textbf{if} $f(x_e) <f(x_r)$, then replace $x_{n+1}$ by $x_e$,
+   
+   + \textbf{if} $f(x_e) <f(x_r)$, then replace $x_{n+1}$ by $x_e$,
   go to step 2.
-    \item[] \textbf{else} $x_{n+1}$ by $x_r$, go to step 2.
-    \end{itemize}  
-  \item \textbf{else} go to step 6.
-  \end{itemize}
-\item Contraction:  
-  \begin{itemize}
-  \item compute the contracted point $x_c = x_o + \beta(x_o-x_{n+1})$
-  \item \textbf{if} $f(x_c)<f(x_{n+1})$, 
+  
+   + \textbf{else} $x_{n+1}$ by $x_r$, go to step 2.
+   
+  + \textbf{else} go to step 6.
+
+6. Contraction:  
+  
+  + compute the contracted point $x_c = x_o + \beta(x_o-x_{n+1})$
+  
+  + \textbf{if} $f(x_c)<f(x_{n+1})$, 
   then replace $x_{n+1}$ by $x_c$,
   go to step 2.
-  \item \textbf{else} go step 7.
-  \end{itemize}
-\item Reduction:  
-  \begin{itemize}
-  \item for $i=2,\dots, n+1$, compute $x_i = x_1+\sigma(x_i-x_{1})$
-  \end{itemize}
-\end{enumerate}
+  
+  + \textbf{else} go step 7.
+  
+7. Reduction:  
+  
+  +for $i=2,\dots, n+1$, compute $x_i = x_1+\sigma(x_i-x_{1})$
 The Nelder-Mead method is available in `optim`.
 By default, in `optim`, $\alpha=1$, $\beta=1/2$, $\gamma=2$ and $\sigma=1/2$.
 
@@ -89,20 +94,21 @@ To determine $W_k$, first it must verify the secant equation $H_k y_k =s_k$ or $
 
 
 There are two rank-2 updates which are symmetric and preserve positive definiteness 
-\begin{itemize}
-\item DFP \emph{Davidon-Fletcher-Powell} minimizes $\min || H - H_k ||_F$ such that $H=H^T$:
+
+* DFP \emph{Davidon-Fletcher-Powell} minimizes $\min || H - H_k ||_F$ such that $H=H^T$:
 $$ 
 H_{k+1} = \left (I-\frac {y_k s_k^T} {y_k^T s_k} \right ) H_k \left (I-\frac {s_k y_k^T} {y_k^T s_k} \right )+\frac{y_k y_k^T} {y_k^T s_k}  
 \Leftrightarrow
 W_{k+1} = W_k +  \frac{s_k s_k^T}{y_k^{T} s_k} - \frac {W_k y_k y_k^T W_k^T} {y_k^T W_k y_k} .
 $$
-\item BFGS \emph{Broyden-Fletcher-Goldfarb-Shanno} minimizes $\min || W - W_k ||_F$ such that $W=W^T$:
+
+* BFGS \emph{Broyden-Fletcher-Goldfarb-Shanno} minimizes $\min || W - W_k ||_F$ such that $W=W^T$:
 $$
 H_{k+1} = H_k - \frac{ H_k y_k y_k^T H_k }{ y_k^T H_k y_k }  + \frac{ s_k s_k^T }{ y_k^T s_k }
 \Leftrightarrow
 W_{k+1} = \left (I-\frac {y_k s_k^T} {y_k^T s_k} \right )^T W_k \left (I-\frac { y_k s_k^T} {y_k^T s_k} \right )+\frac{s_k s_k^T} {y_k^T s_k} .
 $$
-\end{itemize}
+
 In `R`, the so-called BFGS scheme is implemented in `optim`.
 
 
@@ -112,10 +118,11 @@ This consists in computing directions $(d_0, \dots, d_k)$ that are conjugate
 with respect to a matrix close to the true Hessian $H(x_k)$.
 Directions are computed iteratively by $d_k = -g(x_k) + \beta_k d_{k-1}$ for $k>1$, once initiated by $d_1 = -g(x_1)$. 
 $\beta_k$ are updated according a scheme: 
-\begin{itemize}
-\item $\beta_k = \frac{ g_k^T g_k}{g_{k-1}^T g_{k-1} }$: Fletcher-Reeves update,
-\item $\beta_k = \frac{ g_k^T (g_k-g_{k-1} )}{g_{k-1}^T g_{k-1}}$: Polak-Ribi\`ere update.
-\end{itemize}
+
+* $\beta_k = \frac{ g_k^T g_k}{g_{k-1}^T g_{k-1} }$: Fletcher-Reeves update,
+
+* $\beta_k = \frac{ g_k^T (g_k-g_{k-1} )}{g_{k-1}^T g_{k-1}}$: Polak-Ribi\`ere update.
+
 There exists also three-term formula for computing direction 
 $d_k = -g(x_k) + \beta_k d_{k-1}+\gamma_{k} d_t$ for $t<k$.
 A possible scheme is the Beale-Sorenson update defined as
@@ -131,14 +138,13 @@ Let $\phi_k(t) = f(x_k + t d_k)$ for a given direction/iterate $(d_k, x_k)$.
 We need to find conditions to find a satisfactory stepsize $t_k$. In literature, we consider the  descent condition: $\phi_k'(0) < 0$
 and the Armijo condition: $\phi_k(t) \leq \phi_k(0) + t c_1 \phi_k'(0)$ ensures a decrease of $f$.
 Nocedal \& Wright (2006) presents a backtracking (or geometric) approach satisfying the Armijo condition and minimal condition, i.e. Goldstein and Price.
-\begin{itemize}
-\item set $t_{k,0}$ e.g. 1, $0 < \alpha < 1$,
-\item \textbf{Repeat} until Armijo satisfied,
-	\begin{itemize}
-	\item[] $t_{k,i+1} =  \alpha \times t_{k,i}$.
-	\end{itemize} 
-\item \textbf{end Repeat}
-\end{itemize}
+
+* set $t_{k,0}$ e.g. 1, $0 < \alpha < 1$,
+
+* \textbf{Repeat} until Armijo satisfied,
+	
+	+ $t_{k,i+1} =  \alpha \times t_{k,i}$.
+* \textbf{end Repeat}
 This backtracking linesearch is available in `optim`.
 
 
