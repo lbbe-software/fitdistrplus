@@ -295,3 +295,22 @@ bg$CI
 fg$estimate + cbind("estimate"= 0, "2.5%"= -1.96*fg$sd, "97.5%"= 1.96*fg$sd)
 llplot(fg)
 
+## ---- fig.height=4, fig.width=6, warning = FALSE-------------------------
+data(salinity)
+log10LC50 <-log10(salinity)
+fit <- fitdistcens(log10LC50, "norm")
+# Bootstrap 
+bootsample <- bootdistcens(fit, niter = 101)
+#### We used only 101 iterations in that example to limit the calculation time but
+#### in practice you should take at least 1001 bootstrap iterations
+# Calculation of the quantile of interest (here the 5 percent hazard concentration)
+(HC5 <- quantile(bootsample, probs = 0.05))
+# visualizing pointwise confidence intervals on other quantiles
+CIcdfplot(bootsample, CI.output = "quantile", CI.fill = "pink", xlim = c(0.5,2))
+
+## ------------------------------------------------------------------------
+exposure <- 1.2
+# Bootstrap sample of the PAF at this exposure
+PAF <- pnorm(exposure, mean = bootsample$estim$mean, sd = bootsample$estim$sd)
+# confidence interval from 2.5 and 97.5 percentiles
+quantile(PAF, probs = c(0.025, 0.975))

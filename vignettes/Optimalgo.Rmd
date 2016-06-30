@@ -8,7 +8,7 @@ output:
     toc: yes
     toc_depth: 2
     toc_float: 
-      collapsed: false
+      collapsed: yes
     number_sections: yes
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}

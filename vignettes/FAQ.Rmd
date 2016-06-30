@@ -753,7 +753,7 @@ fitdist(x, "pois", method="qme", probs=1/2, optim.method="SANN", start=list(lamb
 
 
 
-# Questions regarding uncertainty on parameter estimates
+# Questions regarding uncertainty 
 
 ## Can we compute marginal confidence intervals on parameter estimates from their reported standard error ?
 
@@ -774,8 +774,11 @@ Before using this approximation, one must keep in mind that its validity does no
 size. It also strongly depends on the data, of the distribution, and also on the parameterization 
 of the distribution. For this reason we recommend potential users of the Wald approximation
 to compare the results
-to the ones obtained using the bootstrap procedure (see below) before using this approximation. A look
+to the ones obtained using the bootstrap procedure (see below) before using this approximation. 
+A look
 at the loglikelihood contours is also interesting as the Wald approximation assumes elliptical contours.
+**In a more general context, we recommend the use of bootstrap to compute confidence intervals
+on parameters or on any function of those parameters.**
 
 Below you will find two examples, one for which Wald confidence intervals seem correct and one for which
 they give wrong results, with parameter values even outside their possible range 
@@ -803,3 +806,53 @@ bg$CI
 fg$estimate + cbind("estimate"= 0, "2.5%"= -1.96*fg$sd, "97.5%"= 1.96*fg$sd)
 llplot(fg)
 ```
+
+## How can we compute confidence intervals on quantiles from the fit of a distribution ?
+
+The `quantile()` function can be used to calculate any quantile from a fitted distribution when
+it is called with an object of class `fitdist` or `fitdistcens` as the first argument. 
+When called with an object of class `bootdist` or `bootdistcens` as the first argument, 
+quantiles are returned accompanied with a confidence interval calculated using the bootstraped
+sample of parameters. Moreover, you can use the `CIcdfplot()` function to plot the fitted distribution
+as a CDF curve surrounded by a band corresponding to  pointwise intervals on the quantiles. 
+See an example below on censored data corresponding to 72-hour acute salinity tolerance (LC50values)
+of rivermarine invertebrates.
+
+```{r, fig.height=4, fig.width=6, warning = FALSE}
+data(salinity)
+log10LC50 <-log10(salinity)
+fit <- fitdistcens(log10LC50, "norm")
+# Bootstrap 
+bootsample <- bootdistcens(fit, niter = 101)
+#### We used only 101 iterations in that example to limit the calculation time but
+#### in practice you should take at least 1001 bootstrap iterations
+# Calculation of the quantile of interest (here the 5 percent hazard concentration)
+(HC5 <- quantile(bootsample, probs = 0.05))
+# visualizing pointwise confidence intervals on other quantiles
+CIcdfplot(bootsample, CI.output = "quantile", CI.fill = "pink", xlim = c(0.5,2))
+```
+
+## How can we compute confidence intervals on any function of the parameters of the fitted distribution ?
+
+The bootstrap sample of parameter estimates can be used to calculate  a bootstrap
+sample of any variable defined as a function of the parameters of the fitted 
+distribution. From such a bootstrap sample you can easily compute a conidence interval using
+percentiles. Below is an example that uses the bootstrap sample of parameters
+from the previous example (FAQ 4.2) to calculate a 95 percent confidence interval 
+on the Potentially Affected Portion (PAF) of species at a given exposure to salinity 
+(fixed to 1.2 in log10 in this example).
+
+
+```{r}
+exposure <- 1.2
+# Bootstrap sample of the PAF at this exposure
+PAF <- pnorm(exposure, mean = bootsample$estim$mean, sd = bootsample$estim$sd)
+# confidence interval from 2.5 and 97.5 percentiles
+quantile(PAF, probs = c(0.025, 0.975))
+```
+
+For more complex calculations especially to tranfer uncertainty within
+a quantitative risk assessment, 
+we recommend the use of the package `mc2d` which aims at making such calculations
+easy and which gives extensive examples of use of such bootstrap samples of 
+parameters estimated using functions of the package `fitdistrplus`.
