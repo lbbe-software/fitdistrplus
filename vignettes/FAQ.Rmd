@@ -4,7 +4,9 @@ author: Marie Laure Delignette Muller, Christophe Dutang
 date: '`r Sys.Date()`'
 output:
   html_document:
+    theme: paper
     toc: yes
+    toc_depth: 2
     toc_float: 
       collapsed: false
     number_sections: yes

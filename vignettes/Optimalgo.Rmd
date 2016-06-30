@@ -3,9 +3,12 @@ title: Which optimization algorithm to choose?
 author: Marie Laure Delignette Muller, Christophe Dutang
 date: '`r Sys.Date()`'
 output:
-  html_vignette:
+  html_document:
+    theme: paper
     toc: yes
     toc_depth: 2
+    toc_float: 
+      collapsed: false
     number_sections: yes
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
@@ -23,9 +26,11 @@ require(knitr)
 
 # Quick overview of main optimization methods
 
-For a good introduction, please read books such as Nocedal \& Wright (2006) 
-or Bonnans, Gilbert, Lemarechal \& Sagastizabal (2006). We consider
-the problem $\min_x f(x)$ for $x\in\mathbb{R}^n$.
+We present very quickly the main optimization methods.
+Please refer to **Numerical Optimization (Nocedal \& Wright, 2006)** 
+or **Numerical Optimization: theoretical and practical aspects 
+(Bonnans, Gilbert, Lemarechal \& Sagastizabal, 2006)** for a good introduction. 
+We consider the following problem $\min_x f(x)$ for $x\in\mathbb{R}^n$.
 
 ## Derivative-free optimization methods
 The Nelder-Mead method is one of the most well known derivative-free methods
@@ -33,46 +38,32 @@ that use only values of $f$ to search for the minimum.
 It consists in building a simplex of $n+1$ points and moving/shrinking
 this simplex into the good direction.
 
-1. set initial points $x_1, \dots, x_{n+1}$.
-
-2. order points such that $f(x_1)\leq f(x_2)\leq\dots\leq f(x_n)$.
-
+1. set initial points $x_1, \dots, x_{n+1}$. 
+2. order points such that $f(x_1)\leq f(x_2)\leq\dots\leq f(x_n)$. 
 3. compute $x_o$ as the centroid of $x_1, \dots, x_{n}$. 
-
-4. Reflection: 
-  + compute the reflected point $x_r = x_o + \alpha(x_o-x_{n+1})$
-
-  + \textbf{if} $f(x_1)\leq f(x_r)<f(x_n)$, 
+4. Reflection:  
+    + compute the reflected point $x_r = x_o + \alpha(x_o-x_{n+1})$. 
+    + \textbf{if} $f(x_1)\leq f(x_r)<f(x_n)$, 
   then replace $x_{n+1}$ by $x_r$,
-  go to step 2.
+  go to step 2. 
+    + \textbf{else} go step 5.
 
-  + \textbf{else} go step 5.
-
-5. Expansion:   
-  
-  + \textbf{if} $f(x_r)<f(x_1)$, then compute the expansion point
-    $x_e= x_o+\gamma(x_o-x_{n+1})$.
-   
-   + \textbf{if} $f(x_e) <f(x_r)$, then replace $x_{n+1}$ by $x_e$,
-  go to step 2.
-  
-   + \textbf{else} $x_{n+1}$ by $x_r$, go to step 2.
-   
-  + \textbf{else} go to step 6.
-
+5. Expansion:  
+    + \textbf{if} $f(x_r)<f(x_1)$, then compute the expansion point
+    $x_e= x_o+\gamma(x_o-x_{n+1})$. 
+    + \textbf{if} $f(x_e) <f(x_r)$, then replace $x_{n+1}$ by $x_e$,
+  go to step 2. 
+    + \textbf{else} $x_{n+1}$ by $x_r$, go to step 2. 
+    + \textbf{else} go to step 6. 
 6. Contraction:  
-  
-  + compute the contracted point $x_c = x_o + \beta(x_o-x_{n+1})$
-  
-  + \textbf{if} $f(x_c)<f(x_{n+1})$, 
+    + compute the contracted point $x_c = x_o + \beta(x_o-x_{n+1})$. 
+    + \textbf{if} $f(x_c)<f(x_{n+1})$, 
   then replace $x_{n+1}$ by $x_c$,
-  go to step 2.
-  
-  + \textbf{else} go step 7.
-  
+  go to step 2.  
+    + \textbf{else} go step 7. 
 7. Reduction:  
-  
-  +for $i=2,\dots, n+1$, compute $x_i = x_1+\sigma(x_i-x_{1})$
+    + for $i=2,\dots, n+1$, compute $x_i = x_1+\sigma(x_i-x_{1})$. 
+    
 The Nelder-Mead method is available in `optim`.
 By default, in `optim`, $\alpha=1$, $\beta=1/2$, $\gamma=2$ and $\sigma=1/2$.
 
@@ -93,16 +84,15 @@ Some implementation may also directly approximate the inverse of the Hessian $W_
 To determine $W_k$, first it must verify the secant equation $H_k y_k =s_k$ or $y_k=W_k s_k$ where $y_k = g_{k+1}-g_k$ and $s_k=x_{k+1}-x_k$. To define the $n(n-1)$ terms, we generally impose a symmetry and a minimum distance conditions. We say we have a rank 2 update if  $H_k = H_{k-1} + a u u^T + b v v^T$ and a rank 1 update if  $H_k = H_{k-1} + a u u^T $. Rank $n$ update is justified by the spectral decomposition theorem.
 
 
-There are two rank-2 updates which are symmetric and preserve positive definiteness 
+There are two rank-2 updates which are symmetric and preserve positive definiteness
 
-* DFP \emph{Davidon-Fletcher-Powell} minimizes $\min || H - H_k ||_F$ such that $H=H^T$:
+  * DFP \emph{Davidon-Fletcher-Powell} minimizes $\min || H - H_k ||_F$ such that $H=H^T$:
 $$ 
 H_{k+1} = \left (I-\frac {y_k s_k^T} {y_k^T s_k} \right ) H_k \left (I-\frac {s_k y_k^T} {y_k^T s_k} \right )+\frac{y_k y_k^T} {y_k^T s_k}  
 \Leftrightarrow
 W_{k+1} = W_k +  \frac{s_k s_k^T}{y_k^{T} s_k} - \frac {W_k y_k y_k^T W_k^T} {y_k^T W_k y_k} .
-$$
-
-* BFGS \emph{Broyden-Fletcher-Goldfarb-Shanno} minimizes $\min || W - W_k ||_F$ such that $W=W^T$:
+$$  
+  * BFGS \emph{Broyden-Fletcher-Goldfarb-Shanno} minimizes $\min || W - W_k ||_F$ such that $W=W^T$:
 $$
 H_{k+1} = H_k - \frac{ H_k y_k y_k^T H_k }{ y_k^T H_k y_k }  + \frac{ s_k s_k^T }{ y_k^T s_k }
 \Leftrightarrow
@@ -117,11 +107,10 @@ is the nonlinear conjugate gradients.
 This consists in computing directions $(d_0, \dots, d_k)$ that are conjugate
 with respect to a matrix close to the true Hessian $H(x_k)$.
 Directions are computed iteratively by $d_k = -g(x_k) + \beta_k d_{k-1}$ for $k>1$, once initiated by $d_1 = -g(x_1)$. 
-$\beta_k$ are updated according a scheme: 
+$\beta_k$ are updated according a scheme:  
 
-* $\beta_k = \frac{ g_k^T g_k}{g_{k-1}^T g_{k-1} }$: Fletcher-Reeves update,
-
-* $\beta_k = \frac{ g_k^T (g_k-g_{k-1} )}{g_{k-1}^T g_{k-1}}$: Polak-Ribi\`ere update.
+  * $\beta_k = \frac{ g_k^T g_k}{g_{k-1}^T g_{k-1} }$: Fletcher-Reeves update, 
+  * $\beta_k = \frac{ g_k^T (g_k-g_{k-1} )}{g_{k-1}^T g_{k-1}}$: Polak-Ribi\`ere update. 
 
 There exists also three-term formula for computing direction 
 $d_k = -g(x_k) + \beta_k d_{k-1}+\gamma_{k} d_t$ for $t<k$.
@@ -129,7 +118,7 @@ A possible scheme is the Beale-Sorenson update defined as
  $\beta_k = \frac{ g_k^T (g_k-g_{k-1} )}{d^T_{k-1}(g_{k}- g_{k-1})}$ 
  and $\gamma_k = \frac{ g_k^T (g_{t+1}-g_{t} )}{d^T_{t}(g_{t+1}- g_{t})}$ if $k>t+1$ otherwise $\gamma_k=0$ if $k=t$.
 See Yuan (2006) for other well-known schemes such as Hestenses-Stiefel, Dixon or Conjugate-Descent.
-This three updates of the (non-linear) conjugate gradient are available in `optim`.
+The three updates (Fletcher-Reeves, Polak-Ribi\`ere, Beale-Sorenson) of the (non-linear) conjugate gradient are available in `optim`.
 
 
 ### Computing the stepsize $t_k$
@@ -137,14 +126,13 @@ This three updates of the (non-linear) conjugate gradient are available in `opti
 Let $\phi_k(t) = f(x_k + t d_k)$ for a given direction/iterate $(d_k, x_k)$. 
 We need to find conditions to find a satisfactory stepsize $t_k$. In literature, we consider the  descent condition: $\phi_k'(0) < 0$
 and the Armijo condition: $\phi_k(t) \leq \phi_k(0) + t c_1 \phi_k'(0)$ ensures a decrease of $f$.
-Nocedal \& Wright (2006) presents a backtracking (or geometric) approach satisfying the Armijo condition and minimal condition, i.e. Goldstein and Price.
+Nocedal \& Wright (2006) presents a backtracking (or geometric) approach satisfying the Armijo condition and minimal condition, i.e. Goldstein and Price condition.
 
-* set $t_{k,0}$ e.g. 1, $0 < \alpha < 1$,
-
-* \textbf{Repeat} until Armijo satisfied,
-	
+* set $t_{k,0}$ e.g. 1, $0 < \alpha < 1$, 
+* **Repeat** until Armijo satisfied, 
 	+ $t_{k,i+1} =  \alpha \times t_{k,i}$.
-* \textbf{end Repeat}
+* **end Repeat**
+
 This backtracking linesearch is available in `optim`.
 
 
@@ -257,7 +245,7 @@ numerically approximated one).
 
 
 
-## Results of numerical investigation
+## Results of the numerical investigation
 Results are displayed in the following tables:
 (1) the original parametrization without specifying the gradient (`-B` stands for bounded version),
 (2) the original parametrization with the (true) gradient (`-B` stands for bounded version),
@@ -367,7 +355,7 @@ points(min(x):max(x), dnbinom(min(x):max(x), trueval["size"], trueval["prob"]), 
 legend("topleft", lty=1, col=c("red","green"), leg=c("empirical", "theoretical"))
 ```
 
-## Fit Beta distribution
+## Fit a negative binomial distribution
 
 Define control parameters and make the benchmark.
 ```{r}
@@ -405,7 +393,7 @@ to minimize and its gradient (whether it is the theoretical gradient or the
 numerically approximated one).
 
 
-
+## Results of the numerical investigation
 Results are displayed in the following tables:
 (1) the original parametrization without specifying the gradient (`-B` stands for bounded version),
 (2) the original parametrization with the (true) gradient (`-B` stands for bounded version),

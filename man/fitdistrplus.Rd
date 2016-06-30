@@ -8,7 +8,7 @@ JB Denis, R Pouillot and ML Delignette who at this time worked in the
 area of quantitative risk assessment. The implementation of this package 
 was a part of a more general project named "Risk assessment with R" 
 gathering different packages and 
-hosted in \href{http://r-forge.r-project.org/projects/riskassessment/}{Rforge}.
+hosted in \href{http://r-forge.r-project.org/projects/riskassessment/}{R-forge}.
 
 The \pkg{fitdistrplus} package was first written by ML Delignette-Muller and made 
 available in \href{https://cran.r-project.org/package=fitdistrplus}{CRAN} on 2009 and presented at the \href{https://www.r-project.org/conferences/useR-2009/}{2009 useR conference} in Rennes.
@@ -16,16 +16,15 @@ A few months after, C Dutang joined the project by
 starting to participate to the implementation of the \pkg{fitdistrplus} package.
 The package has also been presented at \href{https://www.r-project.org/conferences/useR-2011/}{2011 useR conference}, \href{http://r2013-lyon.sciencesconf.org/}{2eme rencontres R} in 2013.
 
-Two vignettes are available within the package. 
+Three vignettes are available within the package:
 \itemize{
-\item 
-The first one corresponds to 
-a general presentation of the package published in the 
+\item a \href{../doc/paper2JSS.pdf}{general overview} of the package published in the 
 \href{https://www.jstatsoft.org/article/view/v064i04}{Journal of Statistical Software},
-\item and the second is a document answering the most Frequently Asked Questions (a FAQ vignette).
+\item a html document answering the most \href{../doc/FAQ.html}{Frequently Asked Questions},
+\item a html document presenting a \href{../doc/Optimalgo.html}{benchmark of optimization algorithms} when finding parameters.
 }
 
-Fitdistrplus is a general package that aims at helping the fit of univariate parametric 
+The \pkg{fitdistrplus} package is a general package that aims at helping the fit of univariate parametric 
 distributions to censored or
 non-censored data. The two main functions are 
 \code{\link{fitdist}} for fit on non-censored data and 
@@ -40,10 +39,10 @@ Using functions \code{\link{fitdist}} and
 \code{\link{fitdistcens}}, different methods can be used to estimate the 
 distribution parameters: 
 \itemize{
-\item maximum likelihood by default (\code{\link{mledist}}),
-\item moment matching (\code{\link{mmedist}}), 
-\item quantile matching (\code{\link{qmedist}})
-\item or maximum goodness-of-fit estimation (\code{\link{mgedist}}). 
+\item maximum likelihood estimation by default (\code{\link{mledist}}),
+\item moment matching estimation (\code{\link{mmedist}}), 
+\item quantile matching estimation (\code{\link{qmedist}}),
+\item maximum goodness-of-fit estimation (\code{\link{mgedist}}). 
 }
 For classical distributions initial values are automatically calculated
 if not provided by the user.
@@ -55,7 +54,7 @@ constrained parameters. In the case where maximum likelihood is chosen
 as the estimation method, function \code{\link{llplot}} enables to
 visualize loglikelihood contours.
 
-The goodness-of-fit of fitted distributions can be explored
+The goodness-of-fit of fitted distributions (a single fit or multiple fits) can be explored
 using different graphical functions (\code{\link{cdfcomp}}, \code{\link{denscomp}},
 \code{\link{qqcomp}} and \code{\link{ppcomp}} for non-censored data and
 \code{\link{cdfcompcens}} for censored data). Goodness-of-fit statistics are also 
