@@ -8,7 +8,7 @@ output:
     toc: yes
     toc_depth: 2
     toc_float: 
-      collapsed: yes
+      collapsed: false
     number_sections: yes
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
@@ -43,24 +43,24 @@ this simplex into the good direction.
 3. compute $x_o$ as the centroid of $x_1, \dots, x_{n}$. 
 4. Reflection:  
     + compute the reflected point $x_r = x_o + \alpha(x_o-x_{n+1})$. 
-    + \textbf{if} $f(x_1)\leq f(x_r)<f(x_n)$, 
+    + **if** $f(x_1)\leq f(x_r)<f(x_n)$, 
   then replace $x_{n+1}$ by $x_r$,
   go to step 2. 
-    + \textbf{else} go step 5.
+    + **else** go step 5.
 
 5. Expansion:  
-    + \textbf{if} $f(x_r)<f(x_1)$, then compute the expansion point
+    + **if** $f(x_r)<f(x_1)$, then compute the expansion point
     $x_e= x_o+\gamma(x_o-x_{n+1})$. 
-    + \textbf{if} $f(x_e) <f(x_r)$, then replace $x_{n+1}$ by $x_e$,
+    + **if** $f(x_e) <f(x_r)$, then replace $x_{n+1}$ by $x_e$,
   go to step 2. 
-    + \textbf{else} $x_{n+1}$ by $x_r$, go to step 2. 
-    + \textbf{else} go to step 6. 
+    + **else** $x_{n+1}$ by $x_r$, go to step 2. 
+    + **else** go to step 6. 
 6. Contraction:  
     + compute the contracted point $x_c = x_o + \beta(x_o-x_{n+1})$. 
-    + \textbf{if} $f(x_c)<f(x_{n+1})$, 
+    + **if** $f(x_c)<f(x_{n+1})$, 
   then replace $x_{n+1}$ by $x_c$,
   go to step 2.  
-    + \textbf{else} go step 7. 
+    + **else** go step 7. 
 7. Reduction:  
     + for $i=2,\dots, n+1$, compute $x_i = x_1+\sigma(x_i-x_{1})$. 
     
@@ -110,7 +110,7 @@ Directions are computed iteratively by $d_k = -g(x_k) + \beta_k d_{k-1}$ for $k>
 $\beta_k$ are updated according a scheme:  
 
   * $\beta_k = \frac{ g_k^T g_k}{g_{k-1}^T g_{k-1} }$: Fletcher-Reeves update, 
-  * $\beta_k = \frac{ g_k^T (g_k-g_{k-1} )}{g_{k-1}^T g_{k-1}}$: Polak-Ribi\`ere update. 
+  * $\beta_k = \frac{ g_k^T (g_k-g_{k-1} )}{g_{k-1}^T g_{k-1}}$: Polak-Ribiere update. 
 
 There exists also three-term formula for computing direction 
 $d_k = -g(x_k) + \beta_k d_{k-1}+\gamma_{k} d_t$ for $t<k$.
@@ -118,7 +118,7 @@ A possible scheme is the Beale-Sorenson update defined as
  $\beta_k = \frac{ g_k^T (g_k-g_{k-1} )}{d^T_{k-1}(g_{k}- g_{k-1})}$ 
  and $\gamma_k = \frac{ g_k^T (g_{t+1}-g_{t} )}{d^T_{t}(g_{t+1}- g_{t})}$ if $k>t+1$ otherwise $\gamma_k=0$ if $k=t$.
 See Yuan (2006) for other well-known schemes such as Hestenses-Stiefel, Dixon or Conjugate-Descent.
-The three updates (Fletcher-Reeves, Polak-Ribi\`ere, Beale-Sorenson) of the (non-linear) conjugate gradient are available in `optim`.
+The three updates (Fletcher-Reeves, Polak-Ribiere, Beale-Sorenson) of the (non-linear) conjugate gradient are available in `optim`.
 
 
 ### Computing the stepsize $t_k$
@@ -438,9 +438,9 @@ plot(b1, enhance=TRUE, trueval=c(trueval["size"], trueval["mu"]))
 
 # Conclusion
 
-Based on the two previous example, we observe that all methods converge to the same
+Based on the two previous examples, we observe that all methods converge to the same
 point. This is rassuring.  
-However, the number of function evaluation (and the gradient evaluation) is
+However, the number of function evaluations (and the gradient evaluations) is
 very different from a method to another.
 Furthermore, specifying the true gradient of the log-likelihood does not
 help at all the fitting procedure and generally slows down the convergence.
