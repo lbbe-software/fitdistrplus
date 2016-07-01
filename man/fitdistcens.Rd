@@ -85,8 +85,8 @@ otherwise only a sample subset is returned.}
     When dealing with large datasets, we can remove the original dataset from the output by
     setting \code{keepdata = FALSE}. In such a case, only \code{keepdata.nb} points (at most) 
     are kept by random subsampling \code{keepdata.nb}-4 points from the dataset and 
-    adding the component-wise minimum and maximum. If combined with \code{\link{bootdistcens}}, please make
-    sure that you use parametric bootstrap and not non-parametric bootstrap on the subset
+    adding the component-wise minimum and maximum. 
+    If combined with \code{\link{bootdistcens}}, be aware that bootstrap is performed on the subset
     randomly selected in \code{fitdistcens}. Currently, the graphical comparisons of multiple fits 
     is not available in this framework.
     
