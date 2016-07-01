@@ -3,12 +3,8 @@ title: Which optimization algorithm to choose?
 author: Marie Laure Delignette Muller, Christophe Dutang
 date: '`r Sys.Date()`'
 output:
-  html_document:
-    theme: paper
-    toc: yes
-    toc_depth: 2
-    toc_float: 
-      collapsed: false
+  html_vignette:
+    toc: true
     number_sections: yes
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
@@ -16,12 +12,13 @@ vignette: >
   %!\VignetteEncoding{UTF-8}
   \usepackage[utf8]{inputenc}
 ---
-```{r, message=FALSE}
-require(fitdistrplus)
-require(actuar)
-require(knitr)
-```
 
+```{r setup, echo=FALSE, message=FALSE, warning=FALSE}
+require(fitdistrplus)
+require(knitr) #for kable() function
+set.seed(12345)
+options(digits = 3)
+```
 
 
 # Quick overview of main optimization methods
@@ -39,7 +36,7 @@ It consists in building a simplex of $n+1$ points and moving/shrinking
 this simplex into the good direction.
 
 1. set initial points $x_1, \dots, x_{n+1}$. 
-2. order points such that $f(x_1)\leq f(x_2)\leq\dots\leq f(x_n)$. 
+2. order points such that $f(x_1)\leq f(x_2)\leq\dots\leq f(x_{n+1})$. 
 3. compute $x_o$ as the centroid of $x_1, \dots, x_{n}$. 
 4. Reflection:  
     + compute the reflected point $x_r = x_o + \alpha(x_o-x_{n+1})$. 
@@ -197,7 +194,6 @@ grlnlbeta <- fitdistrplus:::grlnlbeta
 ```{r, fig.height=5, fig.width=5}
 #(1) beta distribution
 n <- 200
-set.seed(12345)
 x <- rbeta(n, 3, 3/4)
 grlnlbeta(c(3, 4), x) #test
 hist(x, prob=TRUE)
@@ -248,9 +244,9 @@ numerically approximated one).
 ## Results of the numerical investigation
 Results are displayed in the following tables:
 (1) the original parametrization without specifying the gradient (`-B` stands for bounded version),
-(2) the original parametrization with the (true) gradient (`-B` stands for bounded version),
+(2) the original parametrization with the (true) gradient (`-B` stands for bounded version and `-G` for gradient),
 (3) the log-transformed parametrization without specifying the gradient,
-(4) the log-transformed parametrization with the (true) gradient.
+(4) the log-transformed parametrization with the (true) gradient (`-G` stands for gradient).
 
 ```{r, results='asis', echo=FALSE}
 kable(unconstropt[, grep("G-", colnames(unconstropt), invert=TRUE)], digits=3)
@@ -281,7 +277,7 @@ We can simulate bootstrap replicates using the `bootdist` function.
 ```{r, fig.width=5, fig.height=5}
 b1 <- bootdist(fitdist(x, "beta", method="mle", optim.method="BFGS"), niter=100, parallel="snow", ncpus=2)
 summary(b1)
-plot(b1, enhance=TRUE, trueval=c(3, 3/4))
+plot(b1, trueval=c(3, 3/4))
 ```
 
 
@@ -345,7 +341,6 @@ grlnlNB <- function(x, obs, ...)
 ```{r, fig.height=5, fig.width=5}
 #(1) beta distribution
 n <- 200
-set.seed(12345)
 trueval <- c("size"=10, "prob"=3/4, "mu"=10/3)
 x <- rnbinom(n, trueval["size"], trueval["prob"])
 
@@ -396,9 +391,9 @@ numerically approximated one).
 ## Results of the numerical investigation
 Results are displayed in the following tables:
 (1) the original parametrization without specifying the gradient (`-B` stands for bounded version),
-(2) the original parametrization with the (true) gradient (`-B` stands for bounded version),
+(2) the original parametrization with the (true) gradient (`-B` stands for bounded version and `-G` for gradient),
 (3) the log-transformed parametrization without specifying the gradient,
-(4) the log-transformed parametrization with the (true) gradient.
+(4) the log-transformed parametrization with the (true) gradient (`-G` stands for gradient).
 
 ```{r, results='asis', echo=FALSE}
 kable(unconstropt[, grep("G-", colnames(unconstropt), invert=TRUE)], digits=3)
@@ -430,7 +425,7 @@ We can simulate bootstrap replicates using the `bootdist` function.
 ```{r, fig.width=5, fig.height=5}
 b1 <- bootdist(fitdist(x, "nbinom", method="mle", optim.method="BFGS"), niter=100, parallel="snow", ncpus=2)
 summary(b1)
-plot(b1, enhance=TRUE, trueval=c(trueval["size"], trueval["mu"]))
+plot(b1, trueval=c(trueval["size"], trueval["mu"]))
 ```
 
 
