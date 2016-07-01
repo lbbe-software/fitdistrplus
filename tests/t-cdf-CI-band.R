@@ -45,7 +45,7 @@ CIcdfplot(b1, CI.level=90/100, CI.output = "probability", CI.col="grey85", CI.ty
 data(salinity)
 log10LC50 <-log10(salinity)
 fln <- fitdistcens(log10LC50,"norm")
-bln <- bootdistcens(fln, niter=nboot)
+bln <- bootdistcens(fln, niter=nbboot)
 (HC5ln <- quantile(bln,probs = 0.05))
 CIcdfplot(bln, CI.output = "quantile", CI.fill = "lightblue", CI.col = "blue",
           xlab = "log10(LC50)",xlim=c(0.5,2),lines01 = TRUE)
