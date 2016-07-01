@@ -1,7 +1,8 @@
-## ---- message=FALSE------------------------------------------------------
+## ----setup, echo=FALSE, message=FALSE, warning=FALSE---------------------
 require(fitdistrplus)
-require(actuar)
-require(knitr)
+require(knitr) #for kable() function
+set.seed(12345)
+options(digits = 3)
 
 ## ---- echo=TRUE, eval=FALSE----------------------------------------------
 #  fitbench <- function(data, distr, method, grad=NULL, control=list(trace=0, REPORT=1, maxit=1000), lower=-Inf, upper=+Inf, ...)
@@ -14,10 +15,9 @@ lnL <- function(par, fix.arg, obs, ddistnam)
   fitdistrplus:::loglikelihood(par, fix.arg, obs, ddistnam) 
 grlnlbeta <- fitdistrplus:::grlnlbeta
 
-## ---- fig.height=5, fig.width=5------------------------------------------
+## ---- fig.height=4, fig.width=4------------------------------------------
 #(1) beta distribution
 n <- 200
-set.seed(12345)
 x <- rbeta(n, 3, 3/4)
 grlnlbeta(c(3, 4), x) #test
 hist(x, prob=TRUE)
@@ -57,17 +57,17 @@ kable(expopt[, grep("G-", colnames(expopt), invert=TRUE)], digits=3)
 ## ---- results='asis', echo=FALSE-----------------------------------------
 kable(expopt[, grep("G-", colnames(expopt))], digits=3)
 
-## ---- fig.width=5, fig.height=5------------------------------------------
+## ---- fig.width=4, fig.height=4------------------------------------------
 llsurface(min.arg=c(0.1, 0.1), max.arg=c(7, 3), 
           plot.arg=c("shape1", "shape2"), nlev=25,
-          plot.np=50, data=x, distr="beta")
+          plot.np=50, data=x, distr="beta", back.col = FALSE)
 points(unconstropt[1,"BFGS"], unconstropt[2,"BFGS"], pch="+", col="red")
 points(3, 3/4, pch="x", col="green")
 
-## ---- fig.width=5, fig.height=5------------------------------------------
+## ---- fig.width=4, fig.height=4------------------------------------------
 b1 <- bootdist(fitdist(x, "beta", method="mle", optim.method="BFGS"), niter=100, parallel="snow", ncpus=2)
 summary(b1)
-plot(b1, enhance=TRUE, trueval=c(3, 3/4))
+plot(b1, trueval=c(3, 3/4))
 
 ## ------------------------------------------------------------------------
 grlnlNB <- function(x, obs, ...)
@@ -79,10 +79,9 @@ grlnlNB <- function(x, obs, ...)
     m*n/p - sum(obs)/(1-p))
 }
 
-## ---- fig.height=5, fig.width=5------------------------------------------
+## ---- fig.height=4, fig.width=4------------------------------------------
 #(1) beta distribution
 n <- 200
-set.seed(12345)
 trueval <- c("size"=10, "prob"=3/4, "mu"=10/3)
 x <- rnbinom(n, trueval["size"], trueval["prob"])
 
@@ -126,15 +125,15 @@ kable(expopt[, grep("G-", colnames(expopt), invert=TRUE)], digits=3)
 ## ---- results='asis', echo=FALSE-----------------------------------------
 kable(expopt[, grep("G-", colnames(expopt))], digits=3)
 
-## ---- fig.width=5, fig.height=5------------------------------------------
+## ---- fig.width=4, fig.height=4------------------------------------------
 llsurface(min.arg=c(5, 0.3), max.arg=c(15, 1), 
           plot.arg=c("size", "prob"), nlev=25,
-          plot.np=50, data=x, distr="nbinom")
+          plot.np=50, data=x, distr="nbinom", back.col = FALSE)
 points(unconstropt["fitted size","BFGS"], unconstropt["fitted prob","BFGS"], pch="+", col="red")
 points(trueval["size"], trueval["prob"], pch="x", col="green")
 
-## ---- fig.width=5, fig.height=5------------------------------------------
+## ---- fig.width=4, fig.height=4------------------------------------------
 b1 <- bootdist(fitdist(x, "nbinom", method="mle", optim.method="BFGS"), niter=100, parallel="snow", ncpus=2)
 summary(b1)
-plot(b1, enhance=TRUE, trueval=c(trueval["size"], trueval["mu"]))
+plot(b1, trueval=c(trueval["size"], trueval["mu"]), enhance = TRUE)
 

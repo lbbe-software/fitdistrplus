@@ -3,13 +3,10 @@ title: Frequently Asked Questions
 author: Marie Laure Delignette Muller, Christophe Dutang
 date: '`r Sys.Date()`'
 output:
-  html_document:
-    theme: paper
+  html_vignette:
     toc: yes
-    toc_depth: 2
-    toc_float: 
-      collapsed: false
     number_sections: yes
+
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{Frequently Asked Questions} 
@@ -104,14 +101,16 @@ $$
 \hat\sigma^2_{MLE} = \frac{1}{n}\sum_{i=1}^n (\log(x_i) - \hat\mu_{MLE})^2.
 $$
 Let us fit a sample by MLE and MME. The fit looks particularly good in both cases.
-```{r, fig.height=4, fig.width=8}
+
+```{r, fig.height=3, fig.width=6}
 x3 <- rlnorm(1000)
 f1 <- fitdist(x3, "lnorm", method="mle") 
 f2 <- fitdist(x3, "lnorm", method="mme")
 par(mfrow=1:2)
-cdfcomp(list(f1, f2), do.points=FALSE, xlogscale = TRUE)
-denscomp(list(f1, f2), demp=TRUE)
+cdfcomp(list(f1, f2), do.points=FALSE, xlogscale = TRUE, main = "CDF plot")
+denscomp(list(f1, f2), demp=TRUE, main = "Density plot")
 ```
+
 Let us compare the theoretical moments (mean and variance) given the fitted values 
 ($\hat\mu,\hat\sigma$), that is
 $$
@@ -174,7 +173,7 @@ have access to them as described in the example below. Nevertheless, p-values ar
 For Anderson-Darling (ad), Cramer von Mises (cvm) and Kolomogorov (ks), 
 only the decision (rejection of H0 or not) is given, when available (see FAQ 2.3 for more details).
 
-```{r, fig.height=4, fig.width=8}
+```{r, fig.height=3, fig.width=6}
 set.seed(1234)
 x <- rgamma(n = 100, shape = 2, scale = 1)
 # fit of the good distribution
@@ -241,7 +240,7 @@ approximated by a normal distribution. Testing the fit (here using a Kolmogorov-
 of 100 observations would not reject the normal fit, while testing it on a sample of 10000
 observations would reject it, while both samples come from the same distribution.
 
-```{r, fig.height=4, fig.width=8}
+```{r, fig.height=3, fig.width=6}
 set.seed(1234)
 x1 <- rpois(n = 100, lambda = 100)
 f1 <- fitdist(x1, "norm")
@@ -254,8 +253,8 @@ g2 <- gofstat(f2)
 g2$kstest
 
 par(mfrow=1:2)
-denscomp(f1, demp = TRUE, addlegend = FALSE)
-denscomp(f2, demp = TRUE, addlegend = FALSE)
+denscomp(f1, demp = TRUE, addlegend = FALSE, main = "small sample")
+denscomp(f2, demp = TRUE, addlegend = FALSE, main = "big sample")
 
 ```
 
@@ -282,7 +281,7 @@ test, for the small sample the normal fit is  rejected only for the bigger sampl
 visual confrontation of the distributions. In that particular case, the chi square test with
 classes defined by default would have rejected te normal fit for both samples.
 
-```{r, fig.height=4, fig.width=8}
+```{r, fig.height=3, fig.width=6}
 set.seed(1234)
 x3 <- rpois(n = 500, lambda = 1)
 f3 <- fitdist(x3, "norm")
@@ -295,8 +294,8 @@ g4 <- gofstat(f4)
 g4$kstest
 
 par(mfrow=1:2)
-denscomp(f3, addlegend = FALSE) 
-denscomp(f4, addlegend = FALSE)
+denscomp(f3, addlegend = FALSE, main = "big sample") 
+denscomp(f4, addlegend = FALSE, main = "small sample")
 ```
 
 ```{r}
@@ -652,13 +651,14 @@ F_X^{-1}(q) = \left\lfloor\frac{\log(1-q)}{\log(1-p)}\right\rfloor.
 $$
 Due to the integer part (floor function), both the distribution function and the
 quantile function are step functions.
-```{r, fig.height=4, fig.width=8}
+```{r, fig.height=3, fig.width=6}
 pgeom(0:3, prob=1/2)
 qgeom(c(0.3, 0.6, 0.9), prob=1/2)
 par(mar=c(4,4,2,1), mfrow=1:2)
 curve(pgeom(x, prob=1/2), 0, 10, n=301, main="c.d.f.")
 curve(qgeom(x, prob=1/2), 0, 1, n=301, main="q.f.")
 ```
+
 Now we study the QME for the geometric distribution. Since we have only one parameter,
 we choose one probabiliy, $p=1/2$.
 The theoretical median is the following integer
@@ -787,24 +787,24 @@ they give wrong results, with parameter values even outside their possible range
 
 
 
-```{r, fig.height=4, fig.width=6, warning = FALSE}
+```{r, fig.height=4, fig.width=4, warning = FALSE}
 set.seed(1234)
 n <- rnorm(30, mean = 10, sd = 2)
 fn <- fitdist(n, "norm")
 bn <- bootdist(fn)
 bn$CI
 fn$estimate + cbind("estimate"= 0, "2.5%"= -1.96*fn$sd, "97.5%"= 1.96*fn$sd)
-llplot(fn)
+llplot(fn, back.col = FALSE)
 ```
 
-```{r, fig.height=4, fig.width=6, warning = FALSE}
+```{r, fig.height=4, fig.width=4, warning = FALSE}
 set.seed(1234)
 g <- rgamma(30, shape = 0.1, rate = 10)
 fg <- fitdist(g, "gamma")
 bg <- bootdist(fg)
 bg$CI
 fg$estimate + cbind("estimate"= 0, "2.5%"= -1.96*fg$sd, "97.5%"= 1.96*fg$sd)
-llplot(fg)
+llplot(fg, back.col = FALSE)
 ```
 
 ## How can we compute confidence intervals on quantiles from the fit of a distribution ?
@@ -818,7 +818,7 @@ as a CDF curve surrounded by a band corresponding to  pointwise intervals on the
 See an example below on censored data corresponding to 72-hour acute salinity tolerance (LC50values)
 of rivermarine invertebrates.
 
-```{r, fig.height=4, fig.width=6, warning = FALSE}
+```{r, fig.height=3, fig.width=4, warning = FALSE}
 data(salinity)
 log10LC50 <-log10(salinity)
 fit <- fitdistcens(log10LC50, "norm")
@@ -829,7 +829,7 @@ bootsample <- bootdistcens(fit, niter = 101)
 # Calculation of the quantile of interest (here the 5 percent hazard concentration)
 (HC5 <- quantile(bootsample, probs = 0.05))
 # visualizing pointwise confidence intervals on other quantiles
-CIcdfplot(bootsample, CI.output = "quantile", CI.fill = "pink", xlim = c(0.5,2))
+CIcdfplot(bootsample, CI.output = "quantile", CI.fill = "pink", xlim = c(0.5,2), main = "")
 ```
 
 ## How can we compute confidence intervals on any function of the parameters of the fitted distribution ?

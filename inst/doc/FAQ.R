@@ -28,13 +28,13 @@ library("actuar")
 fendo.B <- fitdist(endosulfan$ATV, "burr", start = list(shape1 = 0.3, shape2 = 1, rate = 1))
 summary(fendo.B)
 
-## ---- fig.height=4, fig.width=8------------------------------------------
+## ---- fig.height=3, fig.width=6------------------------------------------
 x3 <- rlnorm(1000)
 f1 <- fitdist(x3, "lnorm", method="mle") 
 f2 <- fitdist(x3, "lnorm", method="mme")
 par(mfrow=1:2)
-cdfcomp(list(f1, f2), do.points=FALSE, xlogscale = TRUE)
-denscomp(list(f1, f2), demp=TRUE)
+cdfcomp(list(f1, f2), do.points=FALSE, xlogscale = TRUE, main = "CDF plot")
+denscomp(list(f1, f2), demp=TRUE, main = "Density plot")
 
 ## ------------------------------------------------------------------------
 c("E(X) by MME"=as.numeric(exp(f2$estimate["meanlog"]+f2$estimate["sdlog"]^2/2)), 
@@ -62,7 +62,7 @@ x <- rnorm(100, mean = 0.5, sd = 0.25)
 fitdist(x[x > 0 & x < 1], "beta")
 fitdist((x - min(x)*1.01) / (max(x) * 1.01 - min(x) * 1.01), "beta")
 
-## ---- fig.height=4, fig.width=8------------------------------------------
+## ---- fig.height=3, fig.width=6------------------------------------------
 set.seed(1234)
 x <- rgamma(n = 100, shape = 2, scale = 1)
 # fit of the good distribution
@@ -82,7 +82,7 @@ g$cvmtest
 ## Kolmogorov-Smirnov test
 g$kstest
 
-## ---- fig.height=4, fig.width=8------------------------------------------
+## ---- fig.height=3, fig.width=6------------------------------------------
 set.seed(1234)
 x1 <- rpois(n = 100, lambda = 100)
 f1 <- fitdist(x1, "norm")
@@ -95,11 +95,11 @@ g2 <- gofstat(f2)
 g2$kstest
 
 par(mfrow=1:2)
-denscomp(f1, demp = TRUE, addlegend = FALSE)
-denscomp(f2, demp = TRUE, addlegend = FALSE)
+denscomp(f1, demp = TRUE, addlegend = FALSE, main = "small sample")
+denscomp(f2, demp = TRUE, addlegend = FALSE, main = "big sample")
 
 
-## ---- fig.height=4, fig.width=8------------------------------------------
+## ---- fig.height=3, fig.width=6------------------------------------------
 set.seed(1234)
 x3 <- rpois(n = 500, lambda = 1)
 f3 <- fitdist(x3, "norm")
@@ -112,8 +112,8 @@ g4 <- gofstat(f4)
 g4$kstest
 
 par(mfrow=1:2)
-denscomp(f3, addlegend = FALSE) 
-denscomp(f4, addlegend = FALSE)
+denscomp(f3, addlegend = FALSE, main = "big sample") 
+denscomp(f4, addlegend = FALSE, main = "small sample")
 
 ## ------------------------------------------------------------------------
 g3$chisqtable
@@ -239,7 +239,7 @@ rsexp <- function(n, rate, shift)
 x <- rsexp(1000, 1/4, 1)
 fitdist(x, "sexp", start=list(rate=1, shift=0), lower= c(0, -min(x)))
 
-## ---- fig.height=4, fig.width=8------------------------------------------
+## ---- fig.height=3, fig.width=6------------------------------------------
 pgeom(0:3, prob=1/2)
 qgeom(c(0.3, 0.6, 0.9), prob=1/2)
 par(mar=c(4,4,2,1), mfrow=1:2)
@@ -277,25 +277,25 @@ curve(L2(x), 6, 9, xlab=expression(lambda), ylab=expression(L2(lambda)), main="s
 fitdist(x, "pois", method="qme", probs=1/2, start=list(lambda=2))
 fitdist(x, "pois", method="qme", probs=1/2, optim.method="SANN", start=list(lambda=2))
 
-## ---- fig.height=4, fig.width=6, warning = FALSE-------------------------
+## ---- fig.height=4, fig.width=4, warning = FALSE-------------------------
 set.seed(1234)
 n <- rnorm(30, mean = 10, sd = 2)
 fn <- fitdist(n, "norm")
 bn <- bootdist(fn)
 bn$CI
 fn$estimate + cbind("estimate"= 0, "2.5%"= -1.96*fn$sd, "97.5%"= 1.96*fn$sd)
-llplot(fn)
+llplot(fn, back.col = FALSE)
 
-## ---- fig.height=4, fig.width=6, warning = FALSE-------------------------
+## ---- fig.height=4, fig.width=4, warning = FALSE-------------------------
 set.seed(1234)
 g <- rgamma(30, shape = 0.1, rate = 10)
 fg <- fitdist(g, "gamma")
 bg <- bootdist(fg)
 bg$CI
 fg$estimate + cbind("estimate"= 0, "2.5%"= -1.96*fg$sd, "97.5%"= 1.96*fg$sd)
-llplot(fg)
+llplot(fg, back.col = FALSE)
 
-## ---- fig.height=4, fig.width=6, warning = FALSE-------------------------
+## ---- fig.height=3, fig.width=4, warning = FALSE-------------------------
 data(salinity)
 log10LC50 <-log10(salinity)
 fit <- fitdistcens(log10LC50, "norm")
@@ -306,7 +306,7 @@ bootsample <- bootdistcens(fit, niter = 101)
 # Calculation of the quantile of interest (here the 5 percent hazard concentration)
 (HC5 <- quantile(bootsample, probs = 0.05))
 # visualizing pointwise confidence intervals on other quantiles
-CIcdfplot(bootsample, CI.output = "quantile", CI.fill = "pink", xlim = c(0.5,2))
+CIcdfplot(bootsample, CI.output = "quantile", CI.fill = "pink", xlim = c(0.5,2), main = "")
 
 ## ------------------------------------------------------------------------
 exposure <- 1.2
@@ -314,3 +314,4 @@ exposure <- 1.2
 PAF <- pnorm(exposure, mean = bootsample$estim$mean, sd = bootsample$estim$sd)
 # confidence interval from 2.5 and 97.5 percentiles
 quantile(PAF, probs = c(0.025, 0.975))
+
