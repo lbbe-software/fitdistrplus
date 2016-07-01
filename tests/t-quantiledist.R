@@ -1,5 +1,6 @@
 library(fitdistrplus)
-nbboot <- 101
+nbboot <- 1001
+nbboot <- 21
 # (1) Fit of a normal distribution on acute toxicity log-transformed values of endosulfan for
 # nonarthropod invertebrates, using maximum likelihood estimation
 # to estimate what is called a species sensitivity distribution 
@@ -12,7 +13,7 @@ ATV <- subset(endosulfan, group == "NonArthroInvert")$ATV
 log10ATV <- log10(subset(endosulfan, group == "NonArthroInvert")$ATV)
 fln <- fitdist(log10ATV, "norm")
 quantile(fln, probs = c(0.05, 0.1, 0.2))
-bln <- bootdist(fln,niter=nbboot,bootmethod="param")
+bln <- bootdist(fln, niter=nbboot, bootmethod="param")
 quantile(bln, probs = c(0.05, 0.1, 0.2))
 quantile(bln, probs = c(0.05, 0.1, 0.2), CI.type = "greater")
 quantile(bln, probs = c(0.05, 0.1, 0.2), CI.level = 0.9)
