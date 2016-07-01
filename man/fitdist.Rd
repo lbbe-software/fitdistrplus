@@ -138,11 +138,15 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
     the estimates calculated from the Hessian at the solution found by \code{optim} 
     or by the user-supplied function passed to mledist.
 
-    By default (\code{keepdata = TRUE}), the returned object contains the data vector itself.
-    For large dataset purposes, we can remove the original dataset from the output by
+    By default (\code{keepdata = TRUE}), the object returned by \code{fitdist} contains 
+    the data vector given in input.
+    When dealing with large datasets, we can remove the original dataset from the output by
     setting \code{keepdata = FALSE}. In such a case, only \code{keepdata.nb} points (at most) 
     are kept by random subsampling \code{keepdata.nb}-2 points from the dataset and 
-    adding the minimum and the maximum.
+    adding the minimum and the maximum. If combined with \code{\link{bootdist}}, please make
+    sure that you use parametric bootstrap and not non-parametric bootstrap on the subset
+    randomly selected in \code{fitdist}. Currently, the graphical comparisons of multiple fits 
+    is not available in this framework.
     
     Weighted version of the estimation process is available for \code{method = "mle", "mme", "qme"}
     by using \code{weights=\dots}. See the corresponding man page for details.
@@ -223,6 +227,7 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
 }
 
 \seealso{
+    See \code{\link{fitdistrplus}} for an overview of the package.
     See \code{\link{mledist}}, \code{\link{mmedist}}, \code{\link{qmedist}}, 
     \code{\link{mgedist}} for details on parameter estimation.
     See \code{\link{gofstat}} for goodness-of-fit statistics.

@@ -1,5 +1,6 @@
 \name{fitdistrplus-package}
 \alias{fitdistrplus}
+\alias{fitdistrplus-package}
 \title{Overview of the \pkg{fitdistrplus} package}
 
 \description{

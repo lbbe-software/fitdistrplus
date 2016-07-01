@@ -79,7 +79,17 @@ otherwise only a sample subset is returned.}
     With the parameter estimates, the function returns the log-likelihood and the standard errors of 
     the estimates calculated from the 
     Hessian at the solution found by \code{optim} or by the user-supplied function passed to mledist.
-     
+    
+    By default (\code{keepdata = TRUE}), the object returned by \code{fitdist} contains 
+    the data vector given in input.
+    When dealing with large datasets, we can remove the original dataset from the output by
+    setting \code{keepdata = FALSE}. In such a case, only \code{keepdata.nb} points (at most) 
+    are kept by random subsampling \code{keepdata.nb}-4 points from the dataset and 
+    adding the component-wise minimum and maximum. If combined with \code{\link{bootdistcens}}, please make
+    sure that you use parametric bootstrap and not non-parametric bootstrap on the subset
+    randomly selected in \code{fitdistcens}. Currently, the graphical comparisons of multiple fits 
+    is not available in this framework.
+    
     Weighted version of the estimation process is available for \code{method = "mle"}
     by using \code{weights=\dots}. See the corresponding man page for details.
     It is not yet possible to take into account weighths in functions plotdistcens, 
@@ -108,12 +118,7 @@ otherwise only a sample subset is returned.}
       \code{NULL} if no such arguments.}
     \item{weights}{the vector of weigths used in the estimation process or \code{NULL}.}
     
-    By default (\code{keepdata = TRUE}), the returned object contains the data vector itself.
-    For large dataset purposes, we can remove the original dataset from the output by
-    setting \code{keepdata = FALSE}. In such a case, only \code{keepdata.nb} points (at most) 
-    are kept by random subsampling \code{keepdata.nb}-4 points from the dataset and 
-    adding the component-wise minimum and maximum.
-    
+
     Generic functions:
 \describe{       
     \item{\code{print}}{
@@ -140,6 +145,7 @@ otherwise only a sample subset is returned.}
 
 
 \seealso{ 
+    See \code{\link{fitdistrplus}} for an overview of the package.
     \code{\link{plotdistcens}}, \code{\link{optim}}, \code{\link{mledist}}, 
     \code{\link{fitdist}} and \code{\link{quantile.fitdistcens}} for another generic function to calculate 
     quantiles from the fitted distribution.

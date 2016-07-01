@@ -93,6 +93,7 @@ Generic functions:
         
 
 \seealso{ 
+    See \code{\link{fitdistrplus}} for an overview of the package.
     \code{\link{fitdistcens}}, \code{\link{mledist}}, \code{\link{quantile.bootdistcens}} 
     for another generic function to calculate 
     quantiles from the fitted distribution and its bootstrap results

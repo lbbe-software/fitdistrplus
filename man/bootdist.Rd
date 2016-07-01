@@ -122,6 +122,7 @@ Generic functions:
         
 
 \seealso{ 
+    See \code{\link{fitdistrplus}} for an overview of the package.
     \code{\link{fitdist}}, \code{\link{mledist}}, \code{\link{qmedist}}, \code{\link{mmedist}},
     \code{\link{mgedist}},
     \code{\link{quantile.bootdist}} for another generic function to calculate 
