@@ -106,7 +106,7 @@ Christophe Dutang and Marie-Laure Delignette-Muller.
 set.seed(123)
 s1 <- rexp(50, 1)
 f1 <- fitdist(s1, "exp")
-b1 <- bootdist(f1, niter= 51) 
+b1 <- bootdist(f1, niter= 11) #voluntarily low to decrease computation time
 
 # plot 95 percent bilateral confidence intervals on y values (probabilities)
 CIcdfplot(b1, CI.level= 95/100, CI.output = "probability")
