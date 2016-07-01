@@ -67,7 +67,8 @@ points(3, 3/4, pch="x", col="green")
 ## ---- fig.width=4, fig.height=4------------------------------------------
 b1 <- bootdist(fitdist(x, "beta", method="mle", optim.method="BFGS"), niter=100, parallel="snow", ncpus=2)
 summary(b1)
-plot(b1, trueval=c(3, 3/4))
+plot(b1)
+abline(v=3, h=3/4, col="red", lwd=1.5)
 
 ## ------------------------------------------------------------------------
 grlnlNB <- function(x, obs, ...)
@@ -135,5 +136,6 @@ points(trueval["size"], trueval["prob"], pch="x", col="green")
 ## ---- fig.width=4, fig.height=4------------------------------------------
 b1 <- bootdist(fitdist(x, "nbinom", method="mle", optim.method="BFGS"), niter=100, parallel="snow", ncpus=2)
 summary(b1)
-plot(b1, trueval=c(trueval["size"], trueval["mu"]), enhance = TRUE)
+plot(b1)
+abline(v=trueval["size"], h=trueval["mu"], col="red", lwd=1.5)
 
