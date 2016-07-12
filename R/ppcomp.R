@@ -48,8 +48,10 @@ ppcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
   
     
     nft <- length(ft)
+    n <- length(mydata)
+    largedata <- (n > 1e4)
     if (missing(fitcol)) fitcol <- 2:(nft+1)
-    if (missing(fitpch)) fitpch <- 21
+    if (missing(fitpch)) fitpch <- ifelse(largedata, 1, 21)
     fitcol <- rep(fitcol, length.out=nft)
     fitpch <- rep(fitpch, length.out=nft)
     
@@ -69,13 +71,11 @@ ppcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
     }
     lapply(ft, verif.ftidata)
 
-    n <- length(mydata)
     sdata <- sort(mydata)
     if (use.ppoints)
         obsp <- ppoints(n, a = a.ppoints)
     else
         obsp <- (1:n) / n
-    largedata <- (n > 1e4)
     
     # computation of each fitted distribution
     comput.fti <- function(i, ...)
@@ -102,7 +102,7 @@ ppcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
             pch=fitpch[1], xlim=xlim, ylim=ylim, col=fitcol[1], type="p", ...)
     else
       resquant <- plot(fittedprob[,1], obsp, main=main, xlab=xlab, ylab=ylab, log=logxy,
-                       xlim=xlim, ylim=ylim, col=fitcol[1], type="l", ...)
+                       xlim=xlim, ylim=ylim, col=fitcol[1], type="l", lty = fitpch[1], ...)
     
     #plot other fitted probabilities
     if(nft > 1 && !ynoise && !largedata)
@@ -113,7 +113,7 @@ ppcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
             points(fittedprob[,i], obsp*(1 + rnorm(n, 0, 0.01)), pch=fitpch[i], col=fitcol[i], ...)
     if(largedata)
         for(i in 2:nft)
-          lines(fittedprob[,i], obsp, col=fitcol[i], ...)
+          lines(fittedprob[,i], obsp, col=fitcol[i], lty = fitpch[i], ...)
     
     if(line01)
         abline(0, 1, lty=line01lty, col=line01col)
@@ -125,7 +125,7 @@ ppcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
         if(!largedata)
           legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, pch=fitpch, col=fitcol, ...)
         else
-          legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, col=fitcol, lty = 1, ...)
+          legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, col=fitcol, lty = fitpch, ...)
     }
     invisible()
 }
