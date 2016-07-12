@@ -126,7 +126,7 @@ qqcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
         if(!largedata)
           legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, pch=fitpch, col=fitcol, ...)
         else
-          legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, col=fitcol, ...)  
+          legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, col=fitcol, lty = 1, ...)  
     }
     invisible()
 }
