@@ -1,5 +1,11 @@
 === fitdistrplus : Help to fit of a parametric distribution ===
 
+Version 1.0-8
+=============
+
+BUG FIXES
+- correct legend for qqcomp and ppomp on large data
+
 Version 1.0-7
 =============
 
