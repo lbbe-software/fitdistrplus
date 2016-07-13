@@ -46,9 +46,19 @@ qqcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
     stop("qqcomp is not yet available when using weights")
   
     
+    nft <- length(ft)
+    mydata <- ft[[1]]$data
+  
+    verif.ftidata <- function(fti)
+    {
+      if (any(fti$data != mydata))
+      stop("All compared fits must have been obtained with the same dataset")
+      invisible()
+    }
+    lapply(ft, verif.ftidata)
     n <- length(mydata)
     largedata <- (n > 1e4)
-    nft <- length(ft)
+    
     if (missing(fitcol)) fitcol <- 2:(nft+1)
     if (missing(fitpch)) fitpch <- ifelse(largedata, 1, 21)
     fitcol <- rep(fitcol, length.out=nft)
@@ -61,15 +71,6 @@ qqcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
     if (missing(main)) 
         main <- "Q-Q plot"
     
-    mydata <- ft[[1]]$data
-
-    verif.ftidata <- function(fti)
-    {
-        if (any(fti$data != mydata))
-            stop("All compared fits must have been obtained with the same dataset")
-        invisible()
-    }
-    lapply(ft, verif.ftidata)
 
     sdata <- sort(mydata)
     if (use.ppoints)

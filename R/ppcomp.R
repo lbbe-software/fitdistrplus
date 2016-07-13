@@ -48,6 +48,14 @@ ppcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
   
     
     nft <- length(ft)
+    mydata <- ft[[1]]$data
+    verif.ftidata <- function(fti)
+    {
+      if (any(fti$data != mydata))
+        stop("All compared fits must have been obtained with the same dataset")
+      invisible()
+    }
+    lapply(ft, verif.ftidata)
     n <- length(mydata)
     largedata <- (n > 1e4)
     if (missing(fitcol)) fitcol <- 2:(nft+1)
@@ -62,15 +70,6 @@ ppcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
     if (missing(main)) 
         main <- "P-P plot"
     
-    mydata <- ft[[1]]$data
-    verif.ftidata <- function(fti)
-    {
-        if (any(fti$data != mydata))
-            stop("All compared fits must have been obtained with the same dataset")
-        invisible()
-    }
-    lapply(ft, verif.ftidata)
-
     sdata <- sort(mydata)
     if (use.ppoints)
         obsp <- ppoints(n, a = a.ppoints)
