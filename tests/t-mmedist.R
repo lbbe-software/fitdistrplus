@@ -47,6 +47,13 @@ if(any(installed.packages()[, "Package"] == "actuar"))
             lower=2, upper=Inf)
     mmedist(x4, "pareto", order=1, memp=memp, start=list(shape=10), fix.arg=function(x) list(scale=1.5), 
             lower=2, upper=Inf)
+    
+    #weights
+    memp2 <- function(x, order, weights) sum(x^order * weights)/sum(weights)
+    w <- rep(1, length(x4))
+    w[x4 < 1] <- 2
+    mmedist(x4, "pareto", order=c(1, 2), memp=memp2, weights=w,
+            start=list(shape=10, scale=10), lower=1, upper=Inf)
 			
 #fit
 data(danishuni)

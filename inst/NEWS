@@ -4,7 +4,8 @@ Version 1.0-8
 =============
 
 BUG FIXES
-- correct legend for qqcomp and ppomp on large data
+- correct legend for qqcomp and ppomp on large data.
+- correct weights in mmedist.
 
 Version 1.0-7
 =============
@@ -20,7 +21,7 @@ NEW FEATURES
 
 BUG FIXES
 - add invisible() for all graphical functions.
-- bug fixed concerning the use of weights on censored data
+- bug fixed concerning the use of weights on censored data.
 
 
 Version 1.0-6
@@ -63,7 +64,6 @@ inflate Poisson distribution).
 
 BUG FIXES
 - fitdist can handle non invertible Hessian matrices.
-- 
 
 
 Version 1.0-2
@@ -76,7 +76,7 @@ or both superimposed.
 about the problematic high variance of skewness and kurtosis.
 
 BUG FIXES
-- bug fixed in bootdistcens : argument fix.arg is now correctly passed to mle
+- bug fixed in bootdistcens : argument fix.arg is now correctly passed to mle.
 
 
 Version 1.0-1
@@ -104,23 +104,23 @@ NEW FEATURES
   quantile generic function is available both for "fitdistcens" and "bootdistcens" objects.
 
 BUG FIXES
-- correction the formula for the CvM test for Weibull distribution
+- correction the formula for the CvM test for Weibull distribution.
 - elimination of CvM and AD tests for normal, lognormal and logistic distributions : 
 formulas previously used (given by Stephens 1986) do not use exactly MLE estimates and thus
 results were only approximates.
-- make arguments xlim and ylim functional in cdfcompcens
+- make arguments xlim and ylim functional in cdfcompcens.
 - bug fix in the closed formula in mmedist for lognormal distributions.
 
 Version 0.3-4
 =============
 
 NEW FEATURES
-- posibility to fix xlegend to a keyword (e.g. "bottomright") in "cdfcomp" and "cdfcompdens"
-- improvement of the new vignette
+- posibility to fix xlegend to a keyword (e.g. "bottomright") in "cdfcomp" and "cdfcompdens".
+- improvement of the new vignette.
 
 BUG FIXES
 - correction of the NAMESPACE file in order to enable the correct print of a summary of a fitdistcens object
-(with the correlation matrix, the loglikelihood and AIC and BIC statistics)
+(with the correlation matrix, the loglikelihood and AIC and BIC statistics).
 
 Version 0.3-3
 =============
@@ -135,15 +135,15 @@ Version 0.3-2
 
 NEW FEATURES
 - new plot of the empirical cdf curve in plotdistcens, using the Turnbull algorithm by a call
-to function survfit{survival}
-- new arguments to function "cdfcomp" : verticals, horizontals and xlim
+to function survfit{survival}.
+- new arguments to function "cdfcomp" : verticals, horizontals and xlim.
 
 
 Version 0.3-1
 =============
 
 NEW FEATURES
-- add of a draft of a new version of the vignette
+- add of a draft of a new version of the vignette.
 
 Version 0.3-0
 =============
@@ -172,7 +172,7 @@ Version 0.1-5
 
 NEW FEATURES
 - a new goodness-of-fit statistic was added in gofstat, with corresponding test :
-the Cramer-von Mises distance
+the Cramer-von Mises distance.
 - a new fitting method has been implemented : the quantile matching estimation (function "qmedist").
 For the moment, only available for non censored data.
 - the moment matching estimation has been extended (in function mmedist) to enable numerical
@@ -181,7 +181,7 @@ matching when closed formula are not available.
 BUG FIXES
 
 - correction of a bug inserted while adding the argument "fix.arg" which prevent the print of the
-results of goodness-of-fit tests .
+results of goodness-of-fit tests.
 
 
 Version 0.1-4
@@ -227,7 +227,7 @@ BUG FIXES
 
 - correction of a bug in plotdist due to the redefinition in the previous version
     of the parameter "ylim" for the plot of a histogram with theoretical density function
-    (there was a problem with infinite values of theoretical density function)
+    (there was a problem with infinite values of theoretical density function).
 
 Version 0.1-2
 =============

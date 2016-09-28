@@ -299,17 +299,17 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
                 
                 opttryerror <- try(opt <- constrOptim(theta=vstart, f=fnobj, ui=Mat, ci=Bnd, grad=gradient,
                                                       fix.arg=fix.arg, obs=data, mdistnam=mdistname, memp=memp, 
-                                                      hessian=!is.null(gradient), method=opt.meth, ...), silent=TRUE)
+                                                      hessian=!is.null(gradient), method=opt.meth, weights=weights, 
+                                                      ...), silent=TRUE)
                 if(!inherits(opttryerror, "try-error"))
                   if(length(opt$counts) == 1) #appears when the initial point is a solution
                     opt$counts <- c(opt$counts, NA)
                 
-                
               }else #opt.fun == "optim"
               {
                 opttryerror <- try(opt <- optim(par=vstart, fn=fnobj, fix.arg=fix.arg, obs=data, gr=gradient,
-                                                mdistnam=mdistname, memp=memp, hessian=TRUE, method=opt.meth, lower=lower, upper=upper, 
-                                                  ...), silent=TRUE)       
+                                                mdistnam=mdistname, memp=memp, hessian=TRUE, method=opt.meth, 
+                                                lower=lower, upper=upper, weights=weights, ...), silent=TRUE)       
               }
               
             }else #hasbound == FALSE
