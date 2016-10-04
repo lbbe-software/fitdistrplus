@@ -169,7 +169,7 @@ The answer is yes: but the fitting procedure must be carried out carefully.
 Let $X$ be the original untruncated random variable. The truncated variable is
 $Y = \max(\min(X, u), l)$ with $l<u$ the lower and upper bounds.
 The cdf of $Y$ is $F_Y(y)=F_X(y)1_{u>y>l} + 1_{y>u}$.
-There is no density (w.r.t. the Lebesgues meausre) since
+There is no density (w.r.t. the Lebesgues measure) since
 there are two probability masses $P(Y=l)= P(X\leq l)>0$ and $P(Y=u)=P(X>u)>0$.
 ```{r}
 dtexp <- function(x, rate, low, upp)
