@@ -171,17 +171,8 @@ $Y = \max(\min(X, u), l)$ with $l<u$ the lower and upper bounds.
 The cdf of $Y$ is $F_Y(y)=F_X(y)1_{u>y>l} + 1_{y>u}$.
 There is no density (w.r.t. the Lebesgues measure) since
 there are two probability masses $P(Y=l)= P(X\leq l)>0$ and $P(Y=u)=P(X>u)>0$.
-```{r}
-dtexp <- function(x, rate, low, upp)
-{
-  PU <- pexp(upp, rate=rate)
-  PL <- pexp(low, rate=rate)
-  dexp(x, rate) * (x >= low) * (x <= upp) + PL * (x == low) + PU * (x == upp)
-}
-ptexp <- function(q, rate, low, upp)
-  pexp(q, rate) * (q >= low) * (q <= upp) + 1 * (q > upp)
-```
-The density function with respect to the measure $m(x)= \delta_l(x)+\delta_u(x)+\lambda(x)$ is
+However, the density function with respect to the measure 
+$m(x)= \delta_l(x)+\delta_u(x)+\lambda(x)$ is
 $$
 f_Y(y) = 
 \left\{\begin{array}{ll}
@@ -191,32 +182,44 @@ f_X(y) & \text{if } l<y<u \\
 \end{array}\right.
 $$
 Let $\theta$ be the parameter of the untruncated distribution. 
-Hence, the  likelihood can be factorized as 
+Since the  likelihood can be factorized, the maximization can be done separately
 $$
 L(l, \theta, u) = 1_{\forall i, l\leq y_i\leq u} \prod_{i=1, y_i=l}^n F_X(l, \theta)
 \times \prod_{i=1,l<y_i<u}^n f_X(y_i, \theta)
-\times \prod_{i=1,y_i=u}^n (1-F_X(u, \theta)).
+\times \prod_{i=1,y_i=u}^n (1-F_X(u, \theta)),
 $$
-Since $\forall i, l\leq y_i\leq u\Leftrightarrow l\leq \min_i y_i\leq \max_i y_i\leq u$,
+Furthermore, using $\forall i, l\leq y_i\leq u\Leftrightarrow l\leq \min_i y_i\leq \max_i y_i\leq u$,
 the likelihood is zero for $l>\min_i y_i$ or $u<\max_i y_i$
 and increasing with respect to $l$ in $]-\infty, \min_i y_i]$
 and decreasing with respect to $u$ in $[\max_i y_i,+\infty[$.
-The maximum of $L$ is reached at $l=\min_i y_i$ and $u=\max_i y_i$,
-i.e.~the MLE is $\hat l=\min_i Y_i$ and $\hat u=\max_i Y_i$,
-The MLE of $\theta$ is obtained by maximizing the log-likelihood $\log(L)$
-with $u=\hat u$ and $l=\hat l$.
-```{r, message=FALSE, fig.height=4, fig.width=4}
-n <- 1000
-x <- pmax(pmin(rexp(n), 3), .5)
-f1 <- fitdist(x, "texp", method="mle", start=list(rate=1/mean(x), low=.1, upp=1e1), lower=0)
+So the maximum of $L$ is reached at $l=\min_i y_i$ and $u=\max_i y_i$.
+<!--i.e.~the MLE is $\hat l=\min_i Y_i$ and $\hat u=\max_i Y_i$,-->
+The MLE of $\theta$ is then obtained by maximizing the log-likelihood $\log(L(l, \theta, u))$
+with $u=\max_i Y_i$ and $l=\min_i Y_i$.
+
+Let us illustrate truncated distribution with the truncated exponential distribution.
+The first method directly maximizes the log-likelihood $L(l, \theta, u)$; the second
+method assumes that  $u=\hat u$ and $l=\hat l$ are known; whereas the third method
+maximizes the log-likelihood on the subset $y_i$ such that $l<y_i<u$.
+The first and the second methods give exactly the same result.
+```{r, message=FALSE, fig.height=4, fig.width=6}
+dtexp <- function(x, rate, low, upp)
+{
+  PU <- pexp(upp, rate=rate, lower.tail = FALSE)
+  PL <- pexp(low, rate=rate)
+  dexp(x, rate) * (x >= low) * (x <= upp) + PL * (x == low) + PU * (x == upp)
+}
+ptexp <- function(q, rate, low, upp)
+  pexp(q, rate) * (q >= low) * (q <= upp) + 1 * (q > upp)
+n <- 100; x <- pmax(pmin(rexp(n), 3), .5)
+f1 <- fitdist(x, "texp", method="mle", start=list(rate=1/mean(x), low=.1, upp=1e1))
 f2 <- fitdist(x, "texp", method="mle", start=list(rate=1/mean(x)), fix.arg=list(low=min(x), upp=max(x)))
 f3 <- fitdist(x[x> min(x) & x < max(x)], "exp", method="mle")
-
 cdfcomp(list(f1, f2), do.points = FALSE, addlegend=FALSE)
 curve(ptexp(x, f3$estimate, min(x), max(x)), add=TRUE, col="blue", lty=3)
 curve(ptexp(x, 1, .5, 3), add=TRUE, col="darkorange", lty=4)
 legend("bottomright", lty=1:4, col=c("red", "green", "blue", "darkorange"), 
-        leg=c("full MLE", "MLE fix arg", "MLE on subdata", "true cdf"))
+        leg=c("full MLE", "MLE fixed arg", "MLE on subset", "true CDF"))
 ```
 
 # Questions regarding goodness-of-fit tests and statistics
