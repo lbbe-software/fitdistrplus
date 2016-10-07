@@ -216,22 +216,18 @@ llcurve(x, "texp", plot.arg="upp", fix.arg = list(rate=2, low=0), min.arg=3, max
 ```
 
 The first method directly maximizes the log-likelihood $L(l, \theta, u)$; the second
-method starts with the true value  $u=\hat u$ and $l=\hat l$ are known; whereas the third method
-maximizes the log-likelihood on the subset $y_i$ such that $l<y_i<u$.
+method starts with the true value  $u=\hat u$ and $l=\hat l$ are known.
 The first and the second methods  method stalls for $u$ and $l$ yet $\theta$ is correctly found.
 However in terms of cdf, there is no difference but the gof statistics do show differences.
-The third method is rather bad.
 ```{r, fig.height=4, fig.width=6}
-f1 <- fitdist(x, "texp", method="mle", start=list(rate=1/mean(x), low=0, upp=20))
-f2 <- fitdist(x, "texp", method="mle", start=list(rate=1/mean(x), low=min(x), upp=max(x)), low=0)
-f3 <- fitdist(x[x> min(x) & x < max(x)], "exp", method="mle")
-cdfcomp(list(f1, f2), do.points = FALSE, addlegend=FALSE)
-curve(ptexp(x, f3$estimate, min(x), max(x)), add=TRUE, col="blue", lty=3)
-curve(ptexp(x, 1, .5, 3), add=TRUE, col="darkorange", lty=4)
-legend("bottomright", lty=1:4, col=c("red", "green", "blue", "darkorange"), 
-        leg=c("full MLE", "MLE fixed arg", "MLE on subset", "true CDF"))
-cbind(coef(f1), coef(f2))
+(f1 <- fitdist(x, "texp", method="mle", start=list(rate=3, low=0, upp=20)))
+(f2 <- fitdist(x, "texp", method="mle", start=list(rate=1/mean(x)), fix.arg=list(low=min(x), upp=max(x))))
 gofstat(list(f1,f2))
+cdfcomp(list(f1, f2), do.points = FALSE, addlegend=FALSE, xlim=c(0, 3.5))
+curve(ptexp(x, 1, .5, 3), add=TRUE, col="blue", lty=3)
+legend("bottomright", lty=1:3, col=c("red", "green", "blue"), 
+        leg=c("full MLE", "MLE fixed arg", "true CDF"))
+
 ```
 
 # Questions regarding goodness-of-fit tests and statistics
