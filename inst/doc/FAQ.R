@@ -62,6 +62,30 @@ x <- rnorm(100, mean = 0.5, sd = 0.25)
 fitdist(x[x > 0 & x < 1], "beta")
 fitdist((x - min(x)*1.01) / (max(x) * 1.01 - min(x) * 1.01), "beta")
 
+## ---- message=FALSE, fig.height=4, fig.width=8---------------------------
+dtexp <- function(x, rate, low, upp)
+{
+  PU <- pexp(upp, rate=rate, lower.tail = FALSE)
+  PL <- pexp(low, rate=rate)
+  dexp(x, rate) * (x >= low) * (x <= upp) + PL * (x == low) + PU * (x == upp)
+}
+ptexp <- function(q, rate, low, upp)
+  pexp(q, rate) * (q >= low) * (q <= upp) + 1 * (q > upp)
+n <- 100; x <- pmax(pmin(rexp(n), 3), .5)
+# the loglikelihood has a discontinous point at the solution
+par(mar=c(4,4,2,1), mfrow=1:2)
+llcurve(x, "texp", plot.arg="low", fix.arg = list(rate=2, upp=5), min.arg=0, max.arg=.5, lseq=200)
+llcurve(x, "texp", plot.arg="upp", fix.arg = list(rate=2, low=0), min.arg=3, max.arg=4, lseq=200)
+
+## ---- fig.height=4, fig.width=6------------------------------------------
+(f1 <- fitdist(x, "texp", method="mle", start=list(rate=3, low=0, upp=20)))
+(f2 <- fitdist(x, "texp", method="mle", start=list(rate=3), fix.arg=list(low=min(x), upp=max(x))))
+gofstat(list(f1, f2))
+cdfcomp(list(f1, f2), do.points = FALSE, addlegend=FALSE, xlim=c(0, 3.5))
+curve(ptexp(x, 1, .5, 3), add=TRUE, col="blue", lty=3)
+legend("bottomright", lty=1:3, col=c("red", "green", "blue", "black"), 
+        leg=c("full MLE", "MLE fixed arg", "true CDF", "emp. CDF"))
+
 ## ---- fig.height=3, fig.width=6------------------------------------------
 set.seed(1234)
 x <- rgamma(n = 100, shape = 2, scale = 1)
