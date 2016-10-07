@@ -216,17 +216,17 @@ llcurve(x, "texp", plot.arg="upp", fix.arg = list(rate=2, low=0), min.arg=3, max
 ```
 
 The first method directly maximizes the log-likelihood $L(l, \theta, u)$; the second
-method starts with the true value  $u=\hat u$ and $l=\hat l$ are known.
-The first and the second methods  method stalls for $u$ and $l$ yet $\theta$ is correctly found.
+method maximizes the log-likelihood $L(\theta)$ assuming that $u=\hat u$ and $l=\hat l$ are known.
+The first and the second methods stalls for $u$ and $l$ yet $\theta$ is correctly found.
 However in terms of cdf, there is no difference but the gof statistics do show differences.
 ```{r, fig.height=4, fig.width=6}
 (f1 <- fitdist(x, "texp", method="mle", start=list(rate=3, low=0, upp=20)))
-(f2 <- fitdist(x, "texp", method="mle", start=list(rate=1/mean(x)), fix.arg=list(low=min(x), upp=max(x))))
-gofstat(list(f1,f2))
+(f2 <- fitdist(x, "texp", method="mle", start=list(rate=3), fix.arg=list(low=min(x), upp=max(x))))
+gofstat(list(f1, f2))
 cdfcomp(list(f1, f2), do.points = FALSE, addlegend=FALSE, xlim=c(0, 3.5))
 curve(ptexp(x, 1, .5, 3), add=TRUE, col="blue", lty=3)
-legend("bottomright", lty=1:3, col=c("red", "green", "blue"), 
-        leg=c("full MLE", "MLE fixed arg", "true CDF"))
+legend("bottomright", lty=1:3, col=c("red", "green", "blue", "black"), 
+        leg=c("full MLE", "MLE fixed arg", "true CDF", "emp. CDF"))
 
 ```
 
