@@ -30,6 +30,7 @@ data(danishmulti)
     \item{\code{Date}}{The day of claim occurence.}
     \item{\code{Loss}}{The total loss amount in millions of Danish Krone (DKK).}
 }
+
 \code{danishmulti} contains five columns:
 \describe{
     \item{\code{Date}}{The day of claim occurence.}
@@ -42,13 +43,14 @@ All columns are numeric except Date columns of class Date.
 
 }
 
-\source{ 
-Alexander McNeil, see \url{http://www.ma.hw.ac.uk/~mcneil/data.html} }
+\source{
+Embrechts, P., Kluppelberg, C. and Mikosch, T. (1997) \emph{Modelling Extremal Events for Insurance and Finance}. Berlin: Springer.
+}
 
 \references{ 
-Dataset used in McNeil (1996), \emph{Estimating the Tails of Loss Severity
-Distributions using Extreme Value Theory}, ASTIN Bull.
- }
+Dataset used in McNeil (1996), \emph{Estimating the Tails of Loss Severity Distributions using Extreme Value Theory}, ASTIN Bull.
+Davison, A. C. (2003) \emph{Statistical Models}. Cambridge University Press. Page 278.
+}
 
 \examples{
 
@@ -56,25 +58,26 @@ Distributions using Extreme Value Theory}, ASTIN Bull.
 #
 data(danishuni)
 
+
 # (2) plot and description of data
 #
 plotdist(danishuni$Loss)
+
 
 # (3) load of data
 #
 data(danishmulti)
 
+
 # (4) plot and description of data
 #
 idx <- sample(1:NROW(danishmulti), 10)
-barplot(danishmulti$Building[idx], col="grey25", 
-    ylim=c(0, max(danishmulti$Total[idx])), main="Some claims of danish data set")
-barplot(danishmulti$Content[idx], add=TRUE, col="grey50", axes=FALSE)
-barplot(danishmulti$Profits[idx], add=TRUE, col="grey75", axes=FALSE)
-legend("topleft", legend=c("Building", "Content", "Profits"), fill=c("grey25", 
-    "grey50", "grey75"))
-
-
+barplot(danishmulti$Building[idx], col = "grey25", 
+  ylim = c(0, max(danishmulti$Total[idx])), main = "Some claims of danish data set")
+barplot(danishmulti$Content[idx], add = TRUE, col = "grey50", axes = FALSE)
+barplot(danishmulti$Profits[idx], add = TRUE, col = "grey75", axes = FALSE)
+legend("topleft", legend = c("Building", "Content", "Profits"), 
+  fill = c("grey25", "grey50", "grey75"))
 }
 
-\keyword{ datasets }
+\keyword{datasets}
