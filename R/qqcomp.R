@@ -26,9 +26,9 @@
 
 
 qqcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
-    fitpch, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", ylegend = NULL, 
-    use.ppoints = TRUE, a.ppoints = 0.5, line01 = TRUE, line01col = "black", line01lty = 1,
-    ynoise = TRUE, ...)
+                   fitpch, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", ylegend = NULL, 
+                   use.ppoints = TRUE, a.ppoints = 0.5, line01 = TRUE, line01col = "black", line01lty = 1,
+                   ynoise = TRUE, plotstyle = "graphics", ...)
 {
   if(inherits(ft, "fitdist"))
   {
@@ -41,93 +41,148 @@ qqcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
     if(any(sapply(ft, function(x) !inherits(x, "fitdist"))))        
       stop("argument ft must be a list of 'fitdist' objects")
   }
+  
   # In the future developments, it will be necessary to check that all the fits share the same weights
   if(!is.null(ft[[1]]$weights))
     stop("qqcomp is not yet available when using weights")
   
-    
-    nft <- length(ft)
-    mydata <- ft[[1]]$data
+  # check the 'plotstyle' argument
+  plotstyle <- match.arg(plotstyle[1], choices = c("graphics", "ggplot"), several.ok = FALSE)
   
-    verif.ftidata <- function(fti)
-    {
-      if (any(fti$data != mydata))
+  # check data
+  mydata <- ft[[1]]$data
+  verif.ftidata <- function(fti)
+  {
+    if (any(fti$data != mydata))
       stop("All compared fits must have been obtained with the same dataset")
-      invisible()
-    }
-    lapply(ft, verif.ftidata)
-    n <- length(mydata)
-    largedata <- (n > 1e4)
+    invisible()
+  }
+  lapply(ft, verif.ftidata)
+  
+  n <- length(mydata)
+  sdata <- sort(mydata)
+  largedata <- (n > 1e4)
+  logxy <- paste(ifelse(xlogscale,"x",""), ifelse(ylogscale,"y",""), sep="")
+  
+  # manage default parameters
+  nft <- length(ft)
+  if (missing(fitcol)) fitcol <- 2:(nft+1)
+  if (missing(fitpch)) fitpch <- ifelse(largedata, 1, 21)
+  fitcol <- rep(fitcol, length.out=nft)
+  fitpch <- rep(fitpch, length.out=nft)
+  if (missing(legendtext)) 
+    legendtext <- paste("fit",1:nft)
+  
+  if (missing(xlab))
+    xlab <- "Theoretical quantiles"
+  if (missing(ylab)) 
+    ylab <- "Empirical quantiles"
+  if (missing(main)) 
+    main <- "Q-Q plot"
+  
+  if (use.ppoints)
+    obsp <- ppoints(n, a = a.ppoints)
+  else
+    obsp <- (1:n) / n
+  
+  # computation of each fitted distribution
+  comput.fti <- function(i)
+  {
+    fti <- ft[[i]]
+    para <- c(as.list(fti$estimate), as.list(fti$fix.arg))
+    distname <- fti$distname
+    qdistname <- paste("q", distname, sep="")
+    do.call(qdistname, c(list(p=obsp), as.list(para)))
+  }
+  fittedquant <- sapply(1:nft, comput.fti)
+  if(NCOL(fittedquant) != nft || NROW(fittedquant) != length(obsp))
+    stop("problem when computing fitted CDFs.")
+  
+  # check limits
+  if(missing(xlim))
+    xlim <- range(fittedquant)
+  if(missing(ylim))
+    ylim <- range(mydata)       
+  
+  
+  
+  if(plotstyle == "graphics") {
+    ######## plot if plotstyle=='graphics' ########
     
-    if (missing(fitcol)) fitcol <- 2:(nft+1)
-    if (missing(fitpch)) fitpch <- ifelse(largedata, 1, 21)
-    fitcol <- rep(fitcol, length.out=nft)
-    fitpch <- rep(fitpch, length.out=nft)
-    
-    if (missing(xlab))
-        xlab <- "Theoretical quantiles"
-    if (missing(ylab)) 
-        ylab <- "Empirical quantiles"
-    if (missing(main)) 
-        main <- "Q-Q plot"
-    
-
-    sdata <- sort(mydata)
-    if (use.ppoints)
-        obsp <- ppoints(n, a = a.ppoints)
-    else
-        obsp <- (1:n) / n
-    
-# computation of each fitted distribution
-    comput.fti <- function(i, ...)
-    {
-        fti <- ft[[i]]
-        para <- c(as.list(fti$estimate), as.list(fti$fix.arg))
-        distname <- fti$distname
-        qdistname <- paste("q", distname, sep="")
-        do.call(qdistname, c(list(p=obsp), as.list(para)))
-    }
-    fittedquant <- sapply(1:nft, comput.fti, ...)
-    if(NCOL(fittedquant) != nft || NROW(fittedquant) != length(obsp))
-        stop("problem when computing fitted CDFs.")
-
-    if(missing(xlim))
-        xlim <- range(fittedquant)
-    if(missing(ylim))
-        ylim <- range(mydata)       
-
-    logxy <- paste(ifelse(xlogscale,"x",""), ifelse(ylogscale,"y",""), sep="")
-    #main plotting
+    # main plot
     if(!largedata)
       resquant <- plot(fittedquant[,1], sdata, main=main, xlab=xlab, ylab=ylab, log=logxy,
-            pch=fitpch[1], xlim=xlim, ylim=ylim, col=fitcol[1], type="p", ...)
+                       pch = fitpch[1], xlim=xlim, ylim=ylim, col=fitcol[1], type="p", ...)
     else
       resquant <- plot(fittedquant[,1], sdata, main=main, xlab=xlab, ylab=ylab, log=logxy,
-                       xlim=xlim, ylim=ylim, col=fitcol[1], type="l", lty = fitpch[1], ...)
-
+                       lty = fitpch[1], xlim=xlim, ylim=ylim, col=fitcol[1], type="l", ...)
+    
     #plot of fitted quantiles
     if(nft > 1 && !ynoise && !largedata)
-        for(i in 2:nft)
-            points(fittedquant[,i], sdata, pch=fitpch[i], col=fitcol[i], ...)
+      for(i in 2:nft)
+        points(fittedquant[,i], sdata, pch=fitpch[i], col=fitcol[i], ...)
     if(nft > 1 && ynoise && !largedata)
-        for(i in 2:nft)
-            points(fittedquant[,i], sdata*(1 + rnorm(n, 0, 0.01)), 
-                   pch=fitpch[i], col=fitcol[i], ...)
+      for(i in 2:nft)
+        points(fittedquant[,i], sdata*(1 + rnorm(n, 0, 0.01)), pch=fitpch[i], col=fitcol[i], ...)
     if(largedata)
       for(i in 2:nft)
         lines(fittedquant[,i], sdata, col=fitcol[i], lty = fitpch[i], ...)
-
+    
     if(line01)
-        abline(0, 1, lty=line01lty, col=line01col)
+      abline(0, 1, lty=line01lty, col=line01col)
     
     if (addlegend)
     {
-        if (missing(legendtext)) 
-            legendtext <- paste("fit",1:nft)
-        if(!largedata)
-          legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, pch=fitpch, col=fitcol, ...)
-        else
-          legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, col=fitcol, lty = fitpch, ...)  
+      if(!largedata)
+        legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, col=fitcol, pch = fitpch, ...)
+      else
+        legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, col=fitcol, lty = fitpch, ...)  
     }
     invisible()
+    
+  } else if (!requireNamespace("ggplot2", quietly = TRUE)) {
+    stop("ggplot2 needed for this function to work with plotstyle = 'ggplot'. Please install it", call. = FALSE)
+    
+  } else {
+    ######## plot if plotstyle=='ggplot' ########
+    
+    # recode the legend position according to available positions in ggplot2
+    if(xlegend %in% c("topleft", "bottomleft"))
+      xlegend <- "left"
+    if(xlegend %in% c("topright", "bottomright"))
+      xlegend <- "right"
+    
+    # structure the fittedquant in a relevant data.frame
+    fittedquant <- as.data.frame(fittedquant)
+    colnames(fittedquant) <- unlist(lapply(ft, function(X) X["distname"]))
+    fittedquant <- stack(fittedquant)
+    fittedquant$sdata <- sdata   # sdata is recycled in the standard fashion
+    fittedquant$ind <- factor(fittedquant$ind, levels = unique(fittedquant$ind))   # reorder levels in the appearance order of the input
+    if(nft > 1 && ynoise && !largedata) {
+      fittedquant$sdata <- fittedquant$sdata*(1 + rnorm(n*nft, 0, 0.01))
+    }
+    
+    ggqqcomp <-
+      ggplot2::ggplot(data = fittedquant, ggplot2::aes_(quote(values), quote(sdata), group = quote(ind), colour = quote(ind), shape = quote(ind))) +
+      ggplot2::xlab(xlab) +
+      ggplot2::ylab(ylab) +
+      ggplot2::ggtitle(main) +
+      ggplot2::coord_cartesian(xlim = c(xlim[1], xlim[2]), ylim = c(ylim[1], ylim[2])) +
+      {if(!largedata) ggplot2::geom_point() else ggplot2::geom_line(ggplot2::aes_(linetype = quote(ind)))} +
+      
+      {if(addlegend) ggplot2::theme(legend.position = c(xlegend, ylegend)) else ggplot2::theme(legend.position = "none")} +
+      ggplot2::scale_color_manual(values = fitcol, labels = legendtext) +
+      ggplot2::scale_shape_manual(values = fitpch, labels = legendtext) +
+      ggplot2::scale_linetype_manual(values = fitpch, labels = legendtext) +
+      
+      ggplot2::guides(colour = ggplot2::guide_legend(title = NULL)) +
+      ggplot2::guides(shape = ggplot2::guide_legend(title = NULL)) +
+      ggplot2::guides(linetype = ggplot2::guide_legend(title = NULL)) +
+      
+      {if(line01) ggplot2::geom_abline(intercept = 0, slope = 1)} +
+      {if(xlogscale) ggplot2::scale_x_continuous(trans='log10')} +
+      {if(ylogscale) ggplot2::scale_y_continuous(trans='log10')}
+    
+    return(ggqqcomp)
+  }
 }
