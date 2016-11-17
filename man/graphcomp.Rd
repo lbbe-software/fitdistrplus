@@ -224,18 +224,31 @@ fitnb <- fitdist(number, "nbinom")
 cdfcomp(list(fitp, fitnb), legendtext = c("Poisson", "negative binomial"))
 
 
-# (5) Customize graphical output
+# (5) Customizing of graphical output and use of ggplot2
 #
+data(groundbeef)
+serving <- groundbeef$serving
+fitW <- fitdist(serving, "weibull")
+fitln <- fitdist(serving, "lnorm")
+fitg <- fitdist(serving, "gamma")
+if (requireNamespace ("ggplot2", quietly = TRUE)) {
+denscomp(list(fitW, fitln, fitg), plotstyle = "ggplot")
+cdfcomp(list(fitW, fitln, fitg), plotstyle = "ggplot")
+qqcomp(list(fitW, fitln, fitg), plotstyle = "ggplot")
+ppcomp(list(fitW, fitln, fitg), plotstyle = "ggplot")
+}
+
+# customizing graphical output with graphics
 denscomp(list(fitW, fitln, fitg), legendtext = c("Weibull", "lognormal", "gamma"),
   main = "ground beef fits", xlab = "serving sizes (g)", xlim = c(0, 250),
   xlegend = "topright", addlegend = FALSE)
 
+# customizing graphical output with ggplot2
 if (requireNamespace ("ggplot2", quietly = TRUE)) {
   dcomp <- denscomp(list(fitW, fitln, fitg), legendtext = c("Weibull", "lognormal", "gamma"),
     xlab = "serving sizes (g)", xlim = c(0, 250),
     xlegend = "topright", plotstyle = "ggplot", breaks = 20, addlegend = FALSE)
-  plot(dcomp)
-  dcomp + ggplot2::theme_minimal() + ggplot2::ggtitle("ground beef fits")
+  dcomp + ggplot2::theme_minimal() + ggplot2::ggtitle("Ground beef fits")
 }
 
 }
