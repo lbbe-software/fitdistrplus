@@ -2,6 +2,8 @@
 
 Version 1.0-8
 =============
+NEW FEATURES
+- support the use of ggplot2 for cdfcomp, denscomp, qqcomp, ppcomp.
 
 BUG FIXES
 - correct legend for qqcomp and ppomp on large data.
