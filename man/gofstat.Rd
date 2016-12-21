@@ -101,7 +101,7 @@ gofstat(f, chisqbreaks, meancount, discrete, fitnames=NULL)
     \code{"not computed"} if not computed }
     \item{ kstest }{ a named vector with the decisions of the Kolmogorov-Smirnov test 
     or \code{"not computed"} if not computed }
-	\item{aic}{a named vector with the values of the Aikake's Information Criterion.}
+	\item{aic}{a named vector with the values of the Akaike's Information Criterion.}
 	\item{bic}{a named vector with the values of the Bayesian Information Criterion.}
 	\item{discrete}{the input argument or the automatic definition by the function from  the first
     object of class \code{"fitdist"} of the list in input.}

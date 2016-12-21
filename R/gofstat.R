@@ -378,7 +378,7 @@ print.gofstat.fitdist <- function(x, ...)
 
 			cat("\nGoodness-of-fit criteria\n")
 			mm <- rbind(AIC=x$aic, BIC=x$bic)
-			rownames(mm) <- c("Aikake's Information Criterion",
+			rownames(mm) <- c("Akaike's Information Criterion",
 							  "Bayesian Information Criterion")
 			print(mm)
         }
@@ -394,7 +394,7 @@ print.gofstat.fitdist <- function(x, ...)
 
 			cat("\nGoodness-of-fit criteria\n")
 			mm <- rbind(AIC=x$aic, BIC=x$bic)
-			rownames(mm) <- c("Aikake's Information Criterion",
+			rownames(mm) <- c("Akaike's Information Criterion",
 							  "Bayesian Information Criterion")
 			print(mm)
 #		}

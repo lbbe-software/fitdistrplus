@@ -268,6 +268,9 @@ fit1 <- fitdist(x3, "pois", "mle")
 cdfcomp(fit1, fitcol = "red", horizontals=FALSE, addlegend = FALSE)
 fit2 <- fitdist(x3, "nbinom", "qme", probs=c(1/3, 2/3))
 cdfcomp(fit2, fitcol = "blue", horizontals=FALSE, addlegend = FALSE, add = TRUE)
+cdfcomp(list(fit1, fit2), horizontals=FALSE, addlegend = FALSE, 
+        fitcol=c("red", "blue"))
+
 
 if (requireNamespace ("ggplot2", quietly = TRUE)) {
   # the argument add is not available when plotstyle = "ggplot"

@@ -8,6 +8,7 @@ NEW FEATURES
 BUG FIXES
 - correct legend for qqcomp and ppomp on large data.
 - correct weights in mmedist.
+- correct the name Akaike in gofstat.
 
 Version 1.0-7
 =============
