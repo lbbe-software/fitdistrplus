@@ -339,3 +339,25 @@ PAF <- pnorm(exposure, mean = bootsample$estim$mean, sd = bootsample$estim$sd)
 # confidence interval from 2.5 and 97.5 percentiles
 quantile(PAF, probs = c(0.025, 0.975))
 
+
+## ---- fig.height=6, fig.width=6, warning = FALSE-------------------------
+data(groundbeef)
+serving <- groundbeef$serving
+fit <- fitdist(serving, "gamma")
+par(mfrow = c(2,2), mar = c(4, 4, 1, 1))
+denscomp(fit, addlegend = FALSE, main = "", xlab = "serving sizes (g)", fitcol = "orange")
+qqcomp(fit, addlegend = FALSE, main = "", fitpch = 16, fitcol = "grey", line01lty = 2)
+cdfcomp(fit, addlegend = FALSE, main = "", xlab = "serving sizes (g)", fitcol = "orange", lines01 = TRUE)
+ppcomp(fit, addlegend = FALSE, main = "", fitpch = 16, fitcol = "grey", line01lty = 2)
+
+## ---- fig.height=4, fig.width=6, warning = FALSE-------------------------
+library(ggplot2)
+fitW <- fitdist(serving, "weibull")
+fitln <- fitdist(serving, "lnorm")
+fitg <- fitdist(serving, "gamma")
+dcomp <- denscomp(list(fitW, fitln, fitg), legendtext = c("Weibull", "lognormal", "gamma"),
+                  xlab = "serving sizes (g)", xlim = c(0, 250), 
+                  fitcol = c("red", "green", "orange"), fitlty = 1, 
+                  xlegend = "topright", plotstyle = "ggplot", addlegend = FALSE)
+dcomp + ggplot2::theme_minimal() + ggplot2::ggtitle("Ground beef fits")
+

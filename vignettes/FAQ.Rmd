@@ -379,7 +379,9 @@ Concerning the Kolmogorov-Smirnov test, it is proposed for any
 continuous distribution, but with a critical value corresponding to the comparison of the empirical distribution
 to a fully specified distribution. As the distribution is not fully known for a fitted distribution, the
 result of this test is subject to caution, but there is no general asymptotic theory for the Kolmogorov-Smirnov
-statistics in case of a fitted distribution.
+statistics in case of a fitted distribution. Nevertheless, one can use Monte Carlo
+methods to conduct Kolmgorov-Smirnov goodness-of-fit tests in cases when
+the sample is used to estimate model parameters. Such a method is implemented in the R package `KScorrect` for a variety of continuous distributions.
 
 Such an asymptotic theory was proposed for quadratic statistics for some distributions 
 (Anderson-Darling, Cramer von Mises). The reference book we used on this subject 
@@ -410,7 +412,7 @@ to appreciate the quality of a fit and to compare the fits of different distribu
 Goodness-of-fit statistics based on the empirical distribution function  (Kolmogorov-Smirnov, Anderson-Darling
 and Cramer von Mises) may be used to measure a distance between the fitted distribution and the empirical
 distribution. So if one wants to compare the fit of various distributions on the same data set, the smaller are 
-those statistics the better. the Kolmogorov-Smirnov statistics will be sensitive when distributions differ in a global 
+those statistics the better. The Kolmogorov-Smirnov statistics will be sensitive when distributions differ in a global 
 fashion near the centre of the distribution while the Anderson-Darling statistics will be more sensitive when distributions 
 differ in their tails, and the Cramer von Mises statistics will be more sensitive when there are small but repetitive differences 
 between empirical and theoretical distribution functions. 
@@ -920,3 +922,51 @@ a quantitative risk assessment,
 we recommend the use of the package `mc2d` which aims at making such calculations
 easy and which gives extensive examples of use of such bootstrap samples of 
 parameters estimated using functions of the package `fitdistrplus`.
+
+# How to personalize plots 
+
+## Can I personalize the default plot given for an object of class `fitdist` or `fitdistcens`?
+
+The default plot given by using the `plot()` function on an object of class `fitdist` or `fitdistcens` is hard to personalize. Indeed this plot was designed only to give a quick 
+overview of the fit, not to be used as a graph in a manuscript or a formal presentation. 
+To personalize some of (or all) the goodness-of-fit plots, you should rather use specific graphical 
+functions, `denscomp`, `cdfcomp`, `ppcomp`, `qqcomp` or `cdfcompcens` (see how in the following paragraphs).
+
+## How to personalize goodness-of-fit plots ?
+
+The default plot of an object of class `fitdist` can be easily reproduced and personalized 
+using `denscomp`, `cdfcomp`, `ppcomp` and `qqcomp`.
+
+```{r, fig.height=6, fig.width=6, warning = FALSE}
+data(groundbeef)
+serving <- groundbeef$serving
+fit <- fitdist(serving, "gamma")
+par(mfrow = c(2,2), mar = c(4, 4, 1, 1))
+denscomp(fit, addlegend = FALSE, main = "", xlab = "serving sizes (g)", fitcol = "orange")
+qqcomp(fit, addlegend = FALSE, main = "", fitpch = 16, fitcol = "grey", line01lty = 2)
+cdfcomp(fit, addlegend = FALSE, main = "", xlab = "serving sizes (g)", fitcol = "orange", lines01 = TRUE)
+ppcomp(fit, addlegend = FALSE, main = "", fitpch = 16, fitcol = "grey", line01lty = 2)
+```
+
+In a similar way the default plot of an object of class `fitdistcens` can be easily personalized 
+using `cdfcompcens`.
+
+## Is it possible to obtain `ggplot2` plots ?
+
+A argument `plotstyle` was added to functions `denscomp`, `cdfcomp`, `ppcomp`, `qqcomp`
+to enable the generation of plots using the `ggplot2` package. This argument by default 
+fixed at "graphics" must simply be fixed at "ggplot" for this purpose, as in the following example. In that latter case the graphical functions return a graphic object that can be further personalized using `ggplot2` functions.
+
+```{r, fig.height= 4, fig.width= 6, warning = FALSE}
+library(ggplot2)
+fitW <- fitdist(serving, "weibull")
+fitln <- fitdist(serving, "lnorm")
+fitg <- fitdist(serving, "gamma")
+dcomp <- denscomp(list(fitW, fitln, fitg), legendtext = c("Weibull", "lognormal", "gamma"),
+    xlab = "serving sizes (g)", xlim = c(0, 250), 
+    fitcol = c("red", "green", "orange"), fitlty = 1, 
+    xlegend = "topright", plotstyle = "ggplot", addlegend = FALSE)
+  dcomp + ggplot2::theme_minimal() + ggplot2::ggtitle("Ground beef fits")
+```
+
+We plan to include the argument `plotstyle` to other functions of the `fitdistrplus` package in a next future.
