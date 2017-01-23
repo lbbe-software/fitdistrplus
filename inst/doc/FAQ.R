@@ -65,24 +65,44 @@ fitdist((x - min(x)*1.01) / (max(x) * 1.01 - min(x) * 1.01), "beta")
 ## ---- message=FALSE, fig.height=4, fig.width=8---------------------------
 dtexp <- function(x, rate, low, upp)
 {
+  PU <- pexp(upp, rate=rate)
+  PL <- pexp(low, rate=rate)
+  dexp(x, rate) / (PU-PL) * (x >= low) * (x <= upp) 
+}
+ptexp <- function(q, rate, low, upp)
+{
+  PU <- pexp(upp, rate=rate)
+  PL <- pexp(low, rate=rate)
+  (pexp(q, rate)-PL) / (PU-PL) * (q >= low) * (q <= upp) + 1 * (q > upp)
+}
+n <- 200
+x <- rexp(n); x <- x[x > .5 & x < 3]
+f1 <- fitdist(x, "texp", method="mle", start=list(rate=3), fix.arg=list(low=min(x), upp=max(x)))
+f2 <- fitdist(x, "texp", method="mle", start=list(rate=3), fix.arg=list(low=.5, upp=3))
+gofstat(list(f1, f2))
+cdfcomp(list(f1, f2), do.points = FALSE, xlim=c(0, 3.5))
+
+## ---- message=FALSE, fig.height=4, fig.width=8---------------------------
+dtiexp <- function(x, rate, low, upp)
+{
   PU <- pexp(upp, rate=rate, lower.tail = FALSE)
   PL <- pexp(low, rate=rate)
   dexp(x, rate) * (x >= low) * (x <= upp) + PL * (x == low) + PU * (x == upp)
 }
-ptexp <- function(q, rate, low, upp)
+ptiexp <- function(q, rate, low, upp)
   pexp(q, rate) * (q >= low) * (q <= upp) + 1 * (q > upp)
 n <- 100; x <- pmax(pmin(rexp(n), 3), .5)
 # the loglikelihood has a discontinous point at the solution
 par(mar=c(4,4,2,1), mfrow=1:2)
-llcurve(x, "texp", plot.arg="low", fix.arg = list(rate=2, upp=5), min.arg=0, max.arg=.5, lseq=200)
-llcurve(x, "texp", plot.arg="upp", fix.arg = list(rate=2, low=0), min.arg=3, max.arg=4, lseq=200)
+llcurve(x, "tiexp", plot.arg="low", fix.arg = list(rate=2, upp=5), min.arg=0, max.arg=.5, lseq=200)
+llcurve(x, "tiexp", plot.arg="upp", fix.arg = list(rate=2, low=0), min.arg=3, max.arg=4, lseq=200)
 
 ## ---- fig.height=4, fig.width=6------------------------------------------
-(f1 <- fitdist(x, "texp", method="mle", start=list(rate=3, low=0, upp=20)))
-(f2 <- fitdist(x, "texp", method="mle", start=list(rate=3), fix.arg=list(low=min(x), upp=max(x))))
+(f1 <- fitdist(x, "tiexp", method="mle", start=list(rate=3, low=0, upp=20)))
+(f2 <- fitdist(x, "tiexp", method="mle", start=list(rate=3), fix.arg=list(low=min(x), upp=max(x))))
 gofstat(list(f1, f2))
 cdfcomp(list(f1, f2), do.points = FALSE, addlegend=FALSE, xlim=c(0, 3.5))
-curve(ptexp(x, 1, .5, 3), add=TRUE, col="blue", lty=3)
+curve(ptiexp(x, 1, .5, 3), add=TRUE, col="blue", lty=3)
 legend("bottomright", lty=1:3, col=c("red", "green", "blue", "black"), 
         leg=c("full MLE", "MLE fixed arg", "true CDF", "emp. CDF"))
 
@@ -339,7 +359,6 @@ PAF <- pnorm(exposure, mean = bootsample$estim$mean, sd = bootsample$estim$sd)
 # confidence interval from 2.5 and 97.5 percentiles
 quantile(PAF, probs = c(0.025, 0.975))
 
-
 ## ---- fig.height=6, fig.width=6, warning = FALSE-------------------------
 data(groundbeef)
 serving <- groundbeef$serving
@@ -350,14 +369,14 @@ qqcomp(fit, addlegend = FALSE, main = "", fitpch = 16, fitcol = "grey", line01lt
 cdfcomp(fit, addlegend = FALSE, main = "", xlab = "serving sizes (g)", fitcol = "orange", lines01 = TRUE)
 ppcomp(fit, addlegend = FALSE, main = "", fitpch = 16, fitcol = "grey", line01lty = 2)
 
-## ---- fig.height=4, fig.width=6, warning = FALSE-------------------------
+## ---- fig.height= 4, fig.width= 6, warning = FALSE-----------------------
 library(ggplot2)
 fitW <- fitdist(serving, "weibull")
 fitln <- fitdist(serving, "lnorm")
 fitg <- fitdist(serving, "gamma")
 dcomp <- denscomp(list(fitW, fitln, fitg), legendtext = c("Weibull", "lognormal", "gamma"),
-                  xlab = "serving sizes (g)", xlim = c(0, 250), 
-                  fitcol = c("red", "green", "orange"), fitlty = 1, 
-                  xlegend = "topright", plotstyle = "ggplot", addlegend = FALSE)
-dcomp + ggplot2::theme_minimal() + ggplot2::ggtitle("Ground beef fits")
+    xlab = "serving sizes (g)", xlim = c(0, 250), 
+    fitcol = c("red", "green", "orange"), fitlty = 1, 
+    xlegend = "topright", plotstyle = "ggplot", addlegend = FALSE)
+  dcomp + ggplot2::theme_minimal() + ggplot2::ggtitle("Ground beef fits")
 

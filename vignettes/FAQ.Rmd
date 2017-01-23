@@ -164,7 +164,44 @@ fitdist(x[x > 0 & x < 1], "beta")
 fitdist((x - min(x)*1.01) / (max(x) * 1.01 - min(x) * 1.01), "beta")
 ```
 
-## Can I fit truncated distributions?
+
+## Can I fit truncated  distributions?
+The answer is yes: but the fitting procedure must be carried out carefully.
+Let $X$ be the original untruncated random variable. The truncated variable is
+the conditionnal random variable
+$Y = X ~\vert~ l< X <u$ with $l<u$ the lower and upper bounds.
+The cdf of $Y$ is $F_Y(y)=\frac{F_X(x) - F_X(l)}{F_X(u)-F_X(l)}$.
+There is a density (w.r.t. the Lebesgues measure) given by
+$$
+f_Y(y) = 
+\left\{\begin{array}{ll}
+\frac{f_X(x)}{F_X(u)-F_X(l)} & \text{if }  l < x < u \\
+0 & \text{otherwise }\\
+\end{array}\right.
+$$
+
+```{r, message=FALSE, fig.height=4, fig.width=8}
+dtexp <- function(x, rate, low, upp)
+{
+  PU <- pexp(upp, rate=rate)
+  PL <- pexp(low, rate=rate)
+  dexp(x, rate) / (PU-PL) * (x >= low) * (x <= upp) 
+}
+ptexp <- function(q, rate, low, upp)
+{
+  PU <- pexp(upp, rate=rate)
+  PL <- pexp(low, rate=rate)
+  (pexp(q, rate)-PL) / (PU-PL) * (q >= low) * (q <= upp) + 1 * (q > upp)
+}
+n <- 200
+x <- rexp(n); x <- x[x > .5 & x < 3]
+f1 <- fitdist(x, "texp", method="mle", start=list(rate=3), fix.arg=list(low=min(x), upp=max(x)))
+f2 <- fitdist(x, "texp", method="mle", start=list(rate=3), fix.arg=list(low=.5, upp=3))
+gofstat(list(f1, f2))
+cdfcomp(list(f1, f2), do.points = FALSE, xlim=c(0, 3.5))
+```
+
+## Can I fit truncated inflated distributions?
 The answer is yes: but the fitting procedure must be carried out carefully.
 Let $X$ be the original untruncated random variable. The truncated variable is
 $Y = \max(\min(X, u), l)$ with $l<u$ the lower and upper bounds.
@@ -200,19 +237,19 @@ with $u=\max_i Y_i$ and $l=\min_i Y_i$.
 Let us illustrate truncated distribution with the truncated exponential distribution.
 The log-likelihood is particularly bad-shaped.
 ```{r, message=FALSE, fig.height=4, fig.width=8}
-dtexp <- function(x, rate, low, upp)
+dtiexp <- function(x, rate, low, upp)
 {
   PU <- pexp(upp, rate=rate, lower.tail = FALSE)
   PL <- pexp(low, rate=rate)
   dexp(x, rate) * (x >= low) * (x <= upp) + PL * (x == low) + PU * (x == upp)
 }
-ptexp <- function(q, rate, low, upp)
+ptiexp <- function(q, rate, low, upp)
   pexp(q, rate) * (q >= low) * (q <= upp) + 1 * (q > upp)
 n <- 100; x <- pmax(pmin(rexp(n), 3), .5)
 # the loglikelihood has a discontinous point at the solution
 par(mar=c(4,4,2,1), mfrow=1:2)
-llcurve(x, "texp", plot.arg="low", fix.arg = list(rate=2, upp=5), min.arg=0, max.arg=.5, lseq=200)
-llcurve(x, "texp", plot.arg="upp", fix.arg = list(rate=2, low=0), min.arg=3, max.arg=4, lseq=200)
+llcurve(x, "tiexp", plot.arg="low", fix.arg = list(rate=2, upp=5), min.arg=0, max.arg=.5, lseq=200)
+llcurve(x, "tiexp", plot.arg="upp", fix.arg = list(rate=2, low=0), min.arg=3, max.arg=4, lseq=200)
 ```
 
 The first method directly maximizes the log-likelihood $L(l, \theta, u)$; the second
@@ -220,14 +257,18 @@ method maximizes the log-likelihood $L(\theta)$ assuming that $u=\hat u$ and $l=
 Inside $[0.5,3]$, the CDF are correctly estimated in both methods but the first method
 does not succeed to estimate the true value of the bounds $l,u$.
 ```{r, fig.height=4, fig.width=6}
-(f1 <- fitdist(x, "texp", method="mle", start=list(rate=3, low=0, upp=20)))
-(f2 <- fitdist(x, "texp", method="mle", start=list(rate=3), fix.arg=list(low=min(x), upp=max(x))))
+(f1 <- fitdist(x, "tiexp", method="mle", start=list(rate=3, low=0, upp=20)))
+(f2 <- fitdist(x, "tiexp", method="mle", start=list(rate=3), fix.arg=list(low=min(x), upp=max(x))))
 gofstat(list(f1, f2))
 cdfcomp(list(f1, f2), do.points = FALSE, addlegend=FALSE, xlim=c(0, 3.5))
-curve(ptexp(x, 1, .5, 3), add=TRUE, col="blue", lty=3)
+curve(ptiexp(x, 1, .5, 3), add=TRUE, col="blue", lty=3)
 legend("bottomright", lty=1:3, col=c("red", "green", "blue", "black"), 
         leg=c("full MLE", "MLE fixed arg", "true CDF", "emp. CDF"))
 ```
+
+
+
+
 
 # Questions regarding goodness-of-fit tests and statistics
 
