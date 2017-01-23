@@ -1,6 +1,6 @@
 
 pairs4boot <- function(x, trueval, col4ramp = c("green", "yellow", "orange", "red"), 
-                   nbgrid = 100, nbcol = 100, ...)
+                   nbgrid = 100, nbcol = 100, enhance=TRUE, ...)
 {
   x <- data.matrix(rbind(x, trueval))
   n <- NROW(x)
@@ -8,13 +8,13 @@ pairs4boot <- function(x, trueval, col4ramp = c("green", "yellow", "orange", "re
     id1 <- 1:n
   else
     id1 <- 1:(n-1)
-  panel.upper <- function(x, y, ...)
+  panel.points <- function(x, y, ...)
   {
     points(x[id1], y[id1], xlim=range(x, na.rm=TRUE), ylim=range(y, na.rm=TRUE))
     if(!is.null(trueval))
       abline(v=x[n], h=y[n], col="red", lwd=2)
   }
-  panel.lower <- function(x, y, ...)
+  panel.density <- function(x, y, ...)
   {
     id2 <- id1[!is.na(x[id1])]
     #require(MASS)
@@ -24,7 +24,11 @@ pairs4boot <- function(x, trueval, col4ramp = c("green", "yellow", "orange", "re
     if(!is.null(trueval))
       abline(v=x[n], h=y[n], col="black", lty="dashed")
   }
-  pairs(x, upper.panel=panel.upper,
-        lower.panel=panel.lower, ...)
+  if(enhance)
+    pairs(x, upper.panel=panel.points,
+        lower.panel=panel.density, ...)
+  else
+    pairs(x, upper.panel=panel.points,
+          lower.panel=panel.points, ...)
   invisible()
 }  

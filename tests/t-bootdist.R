@@ -19,12 +19,27 @@ print(lapply(b1, head))
 plot(b1)
 summary(b1)
 
-
+# (1) bis test new plot arguments
 #for new graph functions
+f1 <- fitdist(rgamma(100, 2, 3), "gamma")
+b1 <- bootdist(f1, niter=nbboot, silent=TRUE)
 plot(b1)
+plot(b1, trueval = c(2, 3))
 plot(b1, enhance=TRUE)
+plot(b1, enhance=TRUE, trueval = c(2, 3))
 plot(b1, enhance=TRUE, rampcol=c("blue", "green"), nbgrid=15, nbcol=15)
 
+if(any(installed.packages()[, "Package"] == "actuar"))
+{
+  require(actuar)
+  
+  f1 <- fitdist(rburr(100, 2, 3, 1), "burr", start=list(shape1=10, shape2=10, rate=1))
+  b1 <- bootdist(f1, niter=nbboot, silent=TRUE)
+  plot(b1)
+  plot(b1, trueval = c(2, 3, 1))
+  plot(b1, enhance=TRUE)
+  plot(b1, enhance=TRUE, trueval = c(2, 3, 1))
+}
 
 # (2) non parametric bootstrap on the same fit
 # with less iterations
