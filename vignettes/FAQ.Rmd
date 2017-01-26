@@ -31,7 +31,7 @@ For example, you must use `"pois"` for the Poisson distribution and **not** `"po
 For non-standard distributions, you can either find a package
 implementing them or define by yourself. 
 A comprehensive list of non-standard distributions is given in the Distributions task view
-https://cran.r-project.org/web/views/Distributions.html.
+https://CRAN.R-project.org/view=Distributions.
 Here are some two examples of user-defined distributions. A third example (shifted exponential) is given in FAQ 3.5.4.
 
 * The Gumbel distribution
@@ -989,12 +989,12 @@ cdfcomp(fit, addlegend = FALSE, main = "", xlab = "serving sizes (g)", fitcol = 
 ppcomp(fit, addlegend = FALSE, main = "", fitpch = 16, fitcol = "grey", line01lty = 2)
 ```
 
-In a similar way the default plot of an object of class `fitdistcens` can be easily personalized 
+In a similar way, the default plot of an object of class `fitdistcens` can be easily personalized 
 using `cdfcompcens`.
 
 ## Is it possible to obtain `ggplot2` plots ?
 
-A argument `plotstyle` was added to functions `denscomp`, `cdfcomp`, `ppcomp`, `qqcomp`
+An argument `plotstyle` was added to functions `denscomp`, `cdfcomp`, `ppcomp`, `qqcomp`
 to enable the generation of plots using the `ggplot2` package. This argument by default 
 fixed at "graphics" must simply be fixed at "ggplot" for this purpose, as in the following example. In that latter case the graphical functions return a graphic object that can be further personalized using `ggplot2` functions.
 
@@ -1007,7 +1007,7 @@ dcomp <- denscomp(list(fitW, fitln, fitg), legendtext = c("Weibull", "lognormal"
     xlab = "serving sizes (g)", xlim = c(0, 250), 
     fitcol = c("red", "green", "orange"), fitlty = 1, 
     xlegend = "topright", plotstyle = "ggplot", addlegend = FALSE)
-  dcomp + ggplot2::theme_minimal() + ggplot2::ggtitle("Ground beef fits")
+dcomp + ggplot2::theme_minimal() + ggplot2::ggtitle("Ground beef fits")
 ```
 
 We plan to include the argument `plotstyle` to other functions of the `fitdistrplus` package in a next future.

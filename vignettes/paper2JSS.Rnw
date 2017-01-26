@@ -355,7 +355,7 @@ the distribution and the quantile functions) are defined.
 Classical distributions are already defined in that way in the \pkg{stats} package,
 e.g., \code{dnorm}, \code{pnorm} and \code{qnorm} for the normal distribution
 (see \code{?Distributions}). Others
-may be found in various packages (see the CRAN task view: Probability Distributions at \url{http://cran.r-project.org/web/views/Distributions.html}). 
+may be found in various packages (see the CRAN task view: Probability Distributions at \url{https://CRAN.R-project.org/view=Distributions}). 
 Distributions not found in any package must be implemented by the user as
 \code{d}, \code{p}, \code{q} functions.
 In the call to \code{fitdist}, a distribution  has to be specified via

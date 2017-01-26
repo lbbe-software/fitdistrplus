@@ -1,11 +1,11 @@
 Package: fitdistrplus
 Title: Help to Fit of a Parametric Distribution to Non-Censored or Censored Data
 Version: 1.0-8
-Authors@R: c(person("Marie Laure", "Delignette-Muller", role = c("aut", "cre"), email = "marielaure.delignettemuller@vetagro-sup.fr"),
-             person("Christophe", "Dutang", role = "aut", email = "christophe.dutang@univ-lemans.fr"),
+Authors@R: c(person("Marie Laure", "Delignette-Muller", role = "aut", email = "marielaure.delignettemuller@vetagro-sup.fr"),
+             person("Christophe", "Dutang", role = "aut", email = "christophe.dutang@ensimag.fr"),
              person("Regis", "Pouillot", role = "ctb", email = "rpouillot@yahoo.fr"),
              person("Jean-Baptiste", "Denis", role = "ctb", email = "jbdenis@jouy.inra.fr"),
-             person("Aurélie", "Siberchicot", role = "aut", email = "aurelie.siberchicot@univ-lyon1.fr"))
+             person("Aurélie", "Siberchicot", role = c("aut", "cre"), email = "aurelie.siberchicot@univ-lyon1.fr"))
 Description: Extends the fitdistr() function (of the MASS package) with several functions to help the fit of a parametric distribution to non-censored or censored data. Censored data may contain left censored, right censored and interval censored values, with several lower and upper bounds. In addition to maximum likelihood estimation (MLE), the package provides moment matching (MME), quantile matching (QME) and maximum goodness-of-fit estimation (MGE) methods (available only for non-censored data). Weighted versions of MLE, MME and QME are available.
 Depends: R (>= 3.2.0), MASS, grDevices, survival, methods
 Imports: stats
@@ -14,4 +14,6 @@ VignetteBuilder: knitr
 BuildVignettes: true
 License: GPL (>= 2)
 Encoding: UTF-8
-URL: http://riskassessment.r-forge.r-project.org
+URL: https://lbbe.univ-lyon1.fr/fitdistrplus.html, http://riskassessment.r-forge.r-project.org
+MailingList: http://listes.univ-lyon1.fr/wws/info/fitdist-users
+Contact: Marie-Laure Delignette-Muller <marielaure.delignettemuller at vetagro-sup.fr>, Christophe Dutang <christophe.dutang at ensimag.fr>
