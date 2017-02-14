@@ -32,7 +32,7 @@ plot(b1, enhance=TRUE, rampcol=c("blue", "green"), nbgrid=15, nbcol=15)
 if(any(installed.packages()[, "Package"] == "actuar"))
 {
   require(actuar)
-  
+  set.seed(123)
   f1 <- fitdist(rburr(100, 2, 3, 1), "burr", start=list(shape1=10, shape2=10, rate=1))
   b1 <- bootdist(f1, niter=nbboot, silent=TRUE)
   plot(b1)

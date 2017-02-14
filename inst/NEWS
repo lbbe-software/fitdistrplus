@@ -1,5 +1,9 @@
 === fitdistrplus : Help to fit of a parametric distribution ===
 
+Version 1.0-9
+=============
+- update the FAQ with linear inequality constraints.
+
 Version 1.0-8
 =============
 NEW FEATURES

@@ -745,6 +745,54 @@ x <- rsexp(1000, 1/4, 1)
 fitdist(x, "sexp", start=list(rate=1, shift=0), lower= c(0, -min(x)))
 ```
 
+### Setting linear inequality bounds
+For some distributions, bounds between parameters are not independent. 
+For instance, the normal inverse Gaussian distribution ($\mu, \delta, \alpha, \beta$ parametrization) 
+has the following parameter constraints, which can be reformulated as a linear inequality:
+$$
+\left\{
+\begin{array}{l}\alpha > 0\\ \delta >0\\ \alpha > |\beta|\end{array}
+\right.
+\Leftrightarrow
+\underbrace{
+\left(
+\begin{matrix}
+0 & 1 & 0 & 0 \\
+0 & 0 & 1 & 0 \\
+0 & 0 & 1 & -1 \\
+0 & 0 & 1 & 1 \\
+\end{matrix}
+\right)
+}_{ui}
+\left(
+\begin{matrix}
+\mu\\ \delta\\ \alpha \\ \beta \\
+\end{matrix}
+\right)
+\geq 
+\underbrace{
+\left(
+\begin{matrix}
+0\\ 0\\ 0 \\ 0 \\
+\end{matrix}
+\right)}_{ci}.
+$$
+These constraints can be carried out via `constrOptim()` and the arguments `ci` and `ui`. 
+Here is an example
+```{r, message=FALSE}
+library(GeneralizedHyperbolic)
+myoptim <- function(fn, par, ui, ci, ...)
+{
+  res <- constrOptim(f=fn, theta=par, method="Nelder-Mead", ui=ui, ci=ci, ...)
+  c(res, convergence=res$convergence, value=res$objective, par=res$minimum, hessian=res$hessian)
+}
+x <- rnig(1000, 3, 1/2, 1/2, 1/4)
+ui <- rbind(c(0,1,0,0), c(0,0,1,0), c(0,0,1,-1), c(0,0,1,1))
+ci <- c(0,0,0,0)
+fitdist(x, "nig", custom.optim=myoptim, ui=ui, ci=ci, start=list(mu = 0, delta = 1, alpha = 1, beta = 0))
+```
+
+
 
 
 
