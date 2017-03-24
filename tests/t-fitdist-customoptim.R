@@ -1,7 +1,7 @@
 myoptimize <- function(fn,par,ui,ci,...){
-    res <- constrOptim(f=fn,theta=par,method="Nelder-Mead",ui=ui,ci=ci, ...);
-    standardres <- c(res,convergence=0,value=res$objective,par=res$minimum,hessian=NA);
-    return(standardres)
+  res <- constrOptim(f=fn,theta=par,method="Nelder-Mead",ui=ui,ci=ci, ...)
+  standardres <- c(res,convergence=0,value=res$objective,par=res$minimum,hessian=NA)
+  return(standardres)
 }
 
 
