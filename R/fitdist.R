@@ -165,7 +165,8 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
       reslist <- list(estimate = estimate, method = method, sd = sd, cor = correl, 
                   vcov = varcovar, loglik = loglik, aic=aic, bic=bic, n = n, data=data,
                   distname = distname, fix.arg = fix.arg, fix.arg.fun = fix.arg.fun, 
-                  dots = my3dots, convergence = convergence, discrete = discrete, weights = weights)
+                  dots = my3dots, convergence = convergence, discrete = discrete, 
+                  weights = weights)
     }else #just keep a sample set of all observations
     {
       n2keep <- min(keepdata.nb, n)-2
@@ -176,8 +177,9 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
       
       reslist <- list(estimate = estimate, method = method, sd = sd, cor = correl, 
                   vcov = varcovar, loglik = loglik, aic=aic, bic=bic, n = n, data=subdata,
-                  distname = distname, fix.arg = fix.arg, fix.arg.fun = fix.arg.fun, dots = my3dots, 
-                  convergence = convergence, discrete = discrete, weights = weights)  
+                  distname = distname, fix.arg = fix.arg, fix.arg.fun = fix.arg.fun, 
+                  dots = my3dots, convergence = convergence, discrete = discrete, 
+                  weights = weights)  
     }
     
     

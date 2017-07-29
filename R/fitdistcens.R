@@ -83,10 +83,11 @@ fitdistcens <- function (censdata, distr, start=NULL, fix.arg=NULL,
     weights <- mle$weights
     if(keepdata)
     {
-      reslist <- list(estimate = estimate, sd = sd, cor = correl, vcov = varcovar,
-                    loglik = loglik, aic=aic, bic=bic, censdata=censdata, distname=distname,
-                    fix.arg=as.list(fix.arg), fix.arg.fun = fix.arg.fun, dots=my3dots, 
-                    weights = weights)
+      reslist <- list(estimate = estimate, method="mle", sd = sd, cor = correl, 
+                      vcov = varcovar, loglik = loglik, aic=aic, bic=bic, n=n, censdata=censdata, 
+                      distname=distname, fix.arg=as.list(fix.arg), fix.arg.fun = fix.arg.fun, 
+                      dots=my3dots, convergence=mle$convergence, discrete=FALSE,
+                      weights = weights)
     }else
     {
       n2keep <- min(keepdata.nb, n)-4
@@ -95,12 +96,13 @@ fitdistcens <- function (censdata, distr, start=NULL, fix.arg=NULL,
       subdata <- censdata[sample((1:n)[-c(imin, imax)], size=n2keep, replace=FALSE), ]
       subdata <- rbind.data.frame(subdata, censdata[c(imin, imax), ])
       
-      reslist <- list(estimate = estimate, sd = sd, cor = correl, vcov = varcovar,
-                      loglik = loglik, aic=aic, bic=bic, censdata=subdata, distname=distname,
-                      fix.arg=as.list(fix.arg), fix.arg.fun = fix.arg.fun, dots=my3dots,
+      reslist <- list(estimate = estimate, method="mle", sd = sd, cor = correl, 
+                      vcov = varcovar, loglik = loglik, aic=aic, bic=bic, n=n, censdata=subdata, 
+                      distname=distname, fix.arg=as.list(fix.arg), fix.arg.fun = fix.arg.fun, 
+                      dots=my3dots, convergence=mle$convergence, discrete=FALSE,
                       weights = weights)
     }
-      
+    
     return(structure(reslist, class = "fitdistcens"))
         
 }

@@ -166,8 +166,8 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
 
 \value{ 
     \code{fitdist} returns an object of class \code{"fitdist"}, a list with the following components:
-    \item{estimate }{ the parameter estimates.}
-    \item{method }{ the character string coding for the fitting method : 
+    \item{estimate}{ the parameter estimates.}
+    \item{method}{ the character string coding for the fitting method : 
         \code{"mle"} for 'maximum likelihood estimation', \code{"mme"} for 'matching moment estimation',
          \code{"qme"} for 'matching quantile estimation'
     and \code{"mge"} for 'maximum goodness-of-fit estimation'.}
@@ -186,13 +186,21 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
         that must be kept fixed rather than estimated by maximum likelihood or \code{NULL} 
         if there are no such parameters. }
     \item{fix.arg.fun}{the function used to set the value of \code{fix.arg} or \code{NULL}.}    
-    \item{discrete}{ the input argument or the automatic definition by the function to be passed
-        to functions \code{\link{gofstat}}, \code{\link{plotdist}} 
-        and \code{\link{cdfcomp}}. }
     \item{dots}{ the list of  further arguments passed in \dots to be used in \code{\link{bootdist}} 
         in iterative calls to \code{\link{mledist}}, \code{\link{mmedist}},
         \code{\link{qmedist}}, \code{\link{mgedist}} or 
         \code{NULL} if no such arguments.}
+    \item{convergence}{ an integer code for the convergence of 
+    \code{\link{optim}}/\code{\link{constrOptim}} defined as below
+    or defined by the user in the user-supplied optimization function. 
+        \code{0} indicates successful convergence.
+        \code{1} indicates that the iteration limit of \code{\link{optim}} has been reached.
+        \code{10} indicates degeneracy of the Nealder-Mead simplex.
+        \code{100} indicates that \code{\link{optim}} encountered an internal error.}    
+    \item{discrete}{ the input argument or the automatic definition by the function to be passed
+        to functions \code{\link{gofstat}}, \code{\link{plotdist}} 
+        and \code{\link{cdfcomp}}. }
+    
     \item{weights}{the vector of weigths used in the estimation process or \code{NULL}.}    
 
     Generic functions:
