@@ -267,6 +267,23 @@ legend("bottomright", lty=1:3, col=c("red", "green", "blue", "black"),
 ```
 
 
+## Can I fit a beta distribution with the same shape parameter?
+Yes, you can wrap the density function of the beta distribution so
+that there is a only one shape parameter.
+Here is an example of a concave density.
+```{r}
+x <- rbeta(1000, 3, 3)
+dbeta2 <- function(x, shape, ...)
+	dbeta(x, shape, shape, ...)
+pbeta2 <- function(q, shape, ...)
+	pbeta(q, shape, shape, ...)	
+fitdist(x, "beta2", start=list(shape=1/2))
+```
+Another example with a U-shaped density.
+```{r}
+x <- rbeta(1000, .3, .3)
+fitdist(x, "beta2", start=list(shape=1/2), optim.method="L-BFGS-B", lower=1e-2)	
+```
 
 
 
@@ -1059,3 +1076,6 @@ dcomp + ggplot2::theme_minimal() + ggplot2::ggtitle("Ground beef fits")
 ```
 
 We plan to include the argument `plotstyle` to other functions of the `fitdistrplus` package in a next future.
+
+
+# Questions regarding censored data
