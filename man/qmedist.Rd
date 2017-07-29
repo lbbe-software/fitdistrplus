@@ -74,32 +74,28 @@ qmedist(data, distr, probs, start = NULL, fix.arg = NULL, qtype = 7,
 
 \value{ 
     \code{qmedist} returns a list with following components,
+    
     \item{estimate}{ the parameter estimates.}
     \item{convergence}{ an integer code for the convergence of \code{\link{optim}} defined as below
     or defined by the user in the user-supplied optimization function. 
-    
         \code{0} indicates successful convergence.
-        
         \code{1} indicates that the iteration limit of \code{\link{optim}} has been reached.
-
         \code{10} indicates degeneracy of the Nealder-Mead simplex.
-
         \code{100} indicates that \code{\link{optim}} encountered an internal error.
         }
     \item{value}{the value of the statistic distance corresponding to estimate.}    
     \item{hessian}{ a symmetric matrix computed by \code{\link{optim}} as an estimate of the Hessian
         at the solution found or computed in the user-supplied optimization function. }
-    \item{probs}{ the probability vector on which quantiles are matched. }   
-    \item{optim.function }{ the name of the optimization function used.  }
-    \item{loglik}{ the log-likelihood. }
-    \item{fix.arg}{ the named list giving the values of parameters of the named distribution
+    \item{optim.function}{the name of the optimization function used for maximum likelihood.}
+    \item{optim.method}{when \code{\link{optim}} is used, the name of the
+    algorithm used, the field \code{method} of the \code{custom.optim} function
+    otherwise.}
+    \item{fix.arg}{the named list giving the values of parameters of the named distribution
         that must kept fixed rather than estimated by maximum likelihood or \code{NULL} 
         if there are no such parameters. }
-    \item{optim.method}{when \code{\link{optim}} is used, the name of the algorithm used, 
-    \code{NULL} otherwise.}    
     \item{fix.arg.fun}{the function used to set the value of \code{fix.arg} or \code{NULL}.}
     \item{weights}{the vector of weigths used in the estimation process or \code{NULL}.}
-     \item{counts}{A two-element integer vector giving the number of calls 
+    \item{counts}{A two-element integer vector giving the number of calls 
     to the log-likelihood function and its gradient respectively. 
     This excludes those calls needed to compute the Hessian, if requested, 
     and any calls to log-likelihood function to compute a finite-difference
@@ -108,6 +104,8 @@ qmedist(data, distr, probs, start = NULL, fix.arg = NULL, qtype = 7,
     \item{optim.message}{A character string giving any additional information 
     returned by the optimizer, or \code{NULL}. To understand exactly the message,
     see the source code.}
+    \item{loglik}{ the log-likelihood value. }
+    \item{probs}{ the probability vector on which quantiles are matched. }   
 }
 
 

@@ -313,10 +313,10 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
         }
         if(is.null(names(opt$par)))
           names(opt$par) <- names(vstart)
-        res <- list(estimate = opt$par, convergence = opt$convergence, loglik = -opt$value, 
-                    hessian = opt$hessian, optim.function=opt.fun, fix.arg = fix.arg, 
-                    optim.method=meth, fix.arg.fun = fix.arg.fun, weights = weights, 
-                    counts=opt$counts, optim.message=opt$message)
+        res <- list(estimate = opt$par, convergence = opt$convergence, value=opt$value,  
+                    hessian = opt$hessian, optim.function=opt.fun, optim.method=meth, 
+                    fix.arg = fix.arg, fix.arg.fun = fix.arg.fun, weights = weights, 
+                    counts=opt$counts, optim.message=opt$message, loglik = -opt$value)
     }
     else # Try to minimize the minus (log-)likelihood using a user-supplied optim function 
     {
@@ -343,18 +343,14 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
             warnings("The customized optimization function failed to converge, with the error code ", 
                      opt$convergence)
         }
-        argdot <- list(...)
-        method.cust <- argdot[argdot == "method"]
-        if(length(method.cust) == 0)
-        {
-          method.cust <- NULL
-        }
         if(is.null(names(opt$par)))
           names(opt$par) <- names(vstart)
-        res <- list(estimate = opt$par, convergence = opt$convergence, loglik = -opt$value, 
-                      hessian = opt$hessian, optim.function = custom.optim, fix.arg = fix.arg,
-                      method = method.cust, fix.arg.fun = fix.arg.fun, weights = weights, 
-                      counts=opt$counts, optim.message=opt$message)        
+        argdot <- list(...)
+        method.cust <- argdot$method
+        res <- list(estimate = opt$par, convergence = opt$convergence, value=opt$value, 
+                    hessian = opt$hessian, optim.function = custom.optim, optim.method = method.cust, 
+                    fix.arg = fix.arg, fix.arg.fun = fix.arg.fun, weights = weights, 
+                    counts=opt$counts, optim.message=opt$message, loglik = -opt$value)        
     }   
         
     return(res) 

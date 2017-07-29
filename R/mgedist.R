@@ -318,10 +318,10 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
         if(is.null(names(opt$par)))
           names(opt$par) <- names(vstart)
         res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
-                    hessian = opt$hessian, gof=gof, optim.function=opt.fun,
-                    loglik=loglik(opt$par, fix.arg, data, ddistname), fix.arg = fix.arg, 
-                    optim.method=meth, fix.arg.fun = fix.arg.fun, counts=opt$counts, 
-                    optim.message=opt$message)
+                    hessian = opt$hessian, optim.function=opt.fun, optim.method=meth, 
+                    fix.arg = fix.arg, fix.arg.fun = fix.arg.fun, weights=NULL,
+                    counts=opt$counts, optim.message=opt$message,
+                    loglik=loglik(opt$par, fix.arg, data, ddistname), gof=gof)
     }
     else # Try to minimize the gof distance using a user-supplied optim function 
     {
@@ -347,11 +347,13 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
         }
         if(is.null(names(opt$par)))
           names(opt$par) <- names(vstart)
+        argdot <- list(...)
+        method.cust <- argdot$method
         res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
-                    gof=gof, hessian = opt$hessian, optim.function=custom.optim,
-                    loglik=loglik(opt$par, fix.arg, data, ddistname), fix.arg = fix.arg,
-                    optim.method=NULL, fix.arg.fun = fix.arg.fun, counts=opt$counts, 
-                    optim.message=opt$message)
+                    hessian = opt$hessian, optim.function=custom.optim, optim.method=method.cust,
+                    fix.arg = fix.arg, fix.arg.fun = fix.arg.fun, weights=NULL,
+                    counts=opt$counts, optim.message=opt$message,
+                    loglik=loglik(opt$par, fix.arg, data, ddistname), gof=gof)
     }   
    
     return(res)                

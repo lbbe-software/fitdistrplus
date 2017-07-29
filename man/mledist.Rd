@@ -137,29 +137,24 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
     \item{convergence}{ an integer code for the convergence of 
     \code{\link{optim}}/\code{\link{constrOptim}} defined as below
     or defined by the user in the user-supplied optimization function. 
-    
         \code{0} indicates successful convergence.
-        
         \code{1} indicates that the iteration limit of \code{\link{optim}} has been reached.
-
         \code{10} indicates degeneracy of the Nealder-Mead simplex.
-
         \code{100} indicates that \code{\link{optim}} encountered an internal error.
         }
-        
-    \item{loglik}{the log-likelihood value.}
     \item{hessian}{a symmetric matrix computed by \code{\link{optim}} as an estimate of the Hessian
         at the solution found or computed in the user-supplied optimization function.
         It is used in \code{fitdist} to estimate standard errors. }
     \item{optim.function}{the name of the optimization function used for maximum likelihood.}
+    \item{optim.method}{when \code{\link{optim}} is used, the name of the
+    algorithm used, the field \code{method} of the \code{custom.optim} function
+    otherwise.}
     \item{fix.arg}{the named list giving the values of parameters of the named distribution
         that must kept fixed rather than estimated by maximum likelihood or \code{NULL} 
         if there are no such parameters. }
-    \item{optim.method}{when \code{\link{optim}} is used, the name of the algorithm used, 
-    \code{NULL} otherwise.}
     \item{fix.arg.fun}{the function used to set the value of \code{fix.arg} or \code{NULL}.}
     \item{weights}{the vector of weigths used in the estimation process or \code{NULL}.}
-     \item{counts}{A two-element integer vector giving the number of calls 
+    \item{counts}{A two-element integer vector giving the number of calls 
     to the log-likelihood function and its gradient respectively. 
     This excludes those calls needed to compute the Hessian, if requested, 
     and any calls to log-likelihood function to compute a finite-difference
@@ -168,6 +163,7 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
     \item{optim.message}{A character string giving any additional information 
     returned by the optimizer, or \code{NULL}. To understand exactly the message,
     see the source code.}
+    \item{loglik}{the log-likelihood value.}
 }
 
 

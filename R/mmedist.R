@@ -62,6 +62,16 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
     if (!(is.numeric(data) & length(data)>1)) 
         stop("data must be a numeric vector of length greater than 1")
     
+    if(is.null(weights))
+    {  
+      loglik <- function(par, fix.arg, obs, ddistnam) 
+        sum(log(do.call(ddistnam, c(list(obs), as.list(par), as.list(fix.arg)) ) ) )
+    }else
+    {
+      loglik <- function(par, fix.arg, obs, ddistnam) 
+        sum(weights * log(do.call(ddistnam, c(list(obs), as.list(par), as.list(fix.arg)) ) ) )
+    }
+    
     if(meth == "closed formula")
     {
 		  n <- length(data)
@@ -138,9 +148,10 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             order <- 1:2            
        }
         res <- list(estimate=estimate, convergence=0, value=NULL, hessian=NULL,
-                    optim.function=NULL, order=order, memp=NULL, counts=NULL,
-                    optim.message=NULL)
-		    opt.meth <- fix.arg.fun <- NULL
+                    optim.function=NULL, opt.meth=NULL, fix.arg=NULL, fix.arg.fun=NULL,
+                    weights=weights, counts=NULL, optim.message=NULL, 
+                    loglik=ifelse(exists(ddistname), loglik(estimate, fix.arg, data, ddistname), NULL),
+                    method=meth, order=order, memp=NULL)
 		    
     }else #an optimimisation has to be done, where fix.arg and start can be a function
     {
@@ -336,8 +347,11 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             if(is.null(names(opt$par)))
               names(opt$par) <- names(vstart)
             res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
-                        hessian = opt$hessian, optim.function=opt.fun, order=order, 
-                        memp=memp, counts=opt$counts, optim.message=opt$message)  
+                    hessian = opt$hessian, optim.function=opt.fun, optim.method=opt.meth,
+                    fix.arg=fix.arg, fix.arg.fun=fix.arg.fun, weights=weights, 
+                    counts=opt$counts, optim.message=opt$message, 
+                    loglik=ifelse(exists(ddistname), loglik(opt$par, fix.arg, data, ddistname), NULL),
+                    method=meth, order=order, memp=memp)  
             
         }else # Try to minimize the stat distance using a user-supplied optim function 
         {
@@ -363,32 +377,19 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
                 warnings("The customized optimization function failed to converge, with the error code ",
                          opt$convergence)
             }
-            
+            if(is.null(names(opt$par)))
+              names(opt$par) <- names(vstart)
+            argdot <- list(...)
+            method.cust <- argdot$method
             res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
-                        hessian = opt$hessian, optim.function=custom.optim, order=order, 
-                        memp=memp, counts=opt$counts, optim.message=opt$message)  
-            
+                    hessian = opt$hessian, optim.function=custom.optim, optim.method=method.cust,
+                    fix.arg=fix.arg, fix.arg.fun=fix.arg.fun, weights=weights, 
+                    counts=opt$counts, optim.message=opt$message, 
+                    loglik=ifelse(exists(ddistname), loglik(opt$par, fix.arg, data, ddistname), NULL),
+                    method=meth, order=order, memp=memp)  
         }   
         
     }
-    
-    if(is.null(weights))
-    {  
-      loglik <- function(par, fix.arg, obs, ddistnam) 
-        sum(log(do.call(ddistnam, c(list(obs), as.list(par), as.list(fix.arg)) ) ) )
-    }else
-    {
-      loglik <- function(par, fix.arg, obs, ddistnam) 
-        sum(weights * log(do.call(ddistnam, c(list(obs), as.list(par), as.list(fix.arg)) ) ) )
-    }
-    if(exists(ddistname))
-        loglik <- loglik(res$estimate, fix.arg, data, ddistname)
-    else
-        loglik <- NULL
-    
-    res <- c(res, fix.arg=fix.arg, loglik=loglik, method=meth, optim.method=opt.meth, 
-             fix.arg.fun=fix.arg.fun, list(weights = weights))
-    
     return(res)
 }
 

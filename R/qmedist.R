@@ -253,9 +253,10 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
         if(is.null(names(opt$par)))
           names(opt$par) <- names(vstart)
         res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
-					hessian = opt$hessian, probs=probs, optim.function=opt.fun, 
-					loglik=loglik(opt$par, fix.arg, data, ddistname), fix.arg=fix.arg,
-          optim.method=meth, weights = weights, counts=opt$counts, optim.message=opt$message)		
+					hessian = opt$hessian, optim.function=opt.fun, optim.method=meth, 
+					fix.arg=fix.arg, fix.arg.fun=fix.arg.fun, weights = weights, 
+					counts=opt$counts, optim.message=opt$message, 
+					loglik=loglik(opt$par, fix.arg, data, ddistname), probs=probs)		
     }
     else # Try to minimize the stat distance using a user-supplied optim function 
     {
@@ -279,10 +280,13 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
         }
         if(is.null(names(opt$par)))
           names(opt$par) <- names(vstart)
+        argdot <- list(...)
+        method.cust <- argdot$method
         res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
-					hessian = opt$hessian, probs=probs, optim.function=custom.optim, 
-					loglik=loglik(opt$par, fix.arg, data, ddistname), fix.arg=fix.arg, 
-          optim.method=NULL, weights = weights, counts=opt$counts, optim.message=opt$message)		
+                    hessian = opt$hessian, optim.function=custom.optim, optim.method=method.cust, 
+                    fix.arg=fix.arg, fix.arg.fun=fix.arg.fun, weights = weights, 
+                    counts=opt$counts, optim.message=opt$message, 
+                    loglik=loglik(opt$par, fix.arg, data, ddistname), probs=probs)
     }   
     return(res)    
      
