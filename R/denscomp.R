@@ -25,17 +25,19 @@
 ###
 
 
-denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab, datacol, fitlty, fitcol, 
-                     addlegend = TRUE, legendtext, xlegend = "topright", ylegend = NULL, 
-                     demp = FALSE, dempcol = "grey", plotstyle = "graphics", ...)
+denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab, 
+                     datacol, fitlty, fitcol, addlegend = TRUE, legendtext, 
+                     xlegend = "topright", ylegend = NULL, demp = FALSE, 
+                     dempcol = "grey", plotstyle = "graphics", 
+                     discrete, fitnbpts=101, ...)
 {
   if(inherits(ft, "fitdist"))
   {
     ft <- list(ft)
-  } else if(!is.list(ft))
+  }else if(!is.list(ft))
   {
     stop("argument ft must be a list of 'fitdist' objects")
-  } else
+  }else
   {
     if(any(sapply(ft, function(x) !inherits(x, "fitdist"))))        
       stop("argument ft must be a list of 'fitdist' objects")
@@ -89,10 +91,20 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab, datac
     xmin <- xlim[1]
     xmax <- xlim[2]
   }
+  # initiate discrete if not given 
+  if(missing(discrete))
+  {
+    discrete <- any(sapply(ft, function(x) x$discrete))
+  }
+  if(!is.logical(discrete))
+    stop("wrong argument 'discrete'.")
   
   # some variable definitions
   n <- length(mydata)
-  sfin <- seq(xmin, xmax, length.out=101)
+  if(!discrete)
+    sfin <- seq(xmin, xmax, length.out=fitnbpts[1])
+  else
+    sfin <- unique(round(seq(xmin, xmax, length.out=fitnbpts[1]), digits=0))
   reshist <- hist(mydata, plot = FALSE, ...)
   scalefactor <- ifelse(probability, 1, n * diff(reshist$breaks))
   binwidth <- min(diff(reshist$breaks))
@@ -145,16 +157,35 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab, datac
     #main plotting
     reshist <- hist(mydata, main = main, xlab = xlab, ylab = ylab, xlim = xlim, ylim = ylim, col = datacol, probability = probability, ...)
     
-    #plot fitted densities
-    for(i in 1:nft)
-      lines(sfin, fitteddens[,i], lty=fitlty[i], col=fitcol[i], ...)
-    
-    #plot empirical density
-    if(demp)
-      lines(density(mydata)$x, density(mydata)$y * scalefactor, col=dempcol)
-    
-    if (addlegend)
-      legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, lty=fitlty, col=fitcol, ...)
+    if(!discrete)
+    {
+      #plot fitted densities
+      for(i in 1:nft)
+        lines(sfin, fitteddens[,i], lty=fitlty[i], col=fitcol[i], ...)
+      
+      #plot empirical density
+      if(demp)
+        lines(density(mydata)$x, density(mydata)$y * scalefactor, col=dempcol)
+      
+      if (addlegend)
+        legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, lty=fitlty, col=fitcol, ...)
+    }else
+    {
+      eps <- diff(range(sfin))/100
+      #plot fitted mass probability functions
+      for(i in 1:nft)
+      {
+        lines(sfin+(i-1)*eps, fitteddens[,i], lty=fitlty[i], col=fitcol[i], type="h", ...)
+        points(sfin+(i-1)*eps, fitteddens[,i], col=fitcol[i], pch=1)
+      }
+      
+      #plot empirical density
+      if(demp)
+        lines(density(mydata)$x, density(mydata)$y * scalefactor, col=dempcol)
+      
+      if (addlegend)
+        legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, lty=fitlty, col=fitcol, ...)
+    }
     invisible()
     
     

@@ -217,3 +217,29 @@ denscomp(list(fitW, fitW2, fitln, fitg)) #distrib+method
 denscomp(list(fitW, fitW2, fitW3, fitln, fitg)) #distrib+method+num
 if (requireNamespace ("ggplot2", quietly = TRUE))
   denscomp(list(fitW, fitW2, fitW3, fitln, fitg), plotstyle = "ggplot") #distrib+method+num
+
+# (8) discrete distrib
+#
+
+x <- c(rpois(100, 5), rbinom(100, 12, 2/3))
+fpois <- fitdist(x, "pois")
+fgeo <- fitdist(x, "geom")
+fnbinom <- fitdist(x, "nbinom")
+par(mar=c(4,4,2,1))
+denscomp(list(fpois, fnbinom, fgeo))
+
+#test the call to any()
+fpois$discrete <- fnbinom$discrete <- FALSE
+denscomp(list(fpois, fnbinom, fgeo))
+#test the forced usage
+fgeo$discrete <- FALSE
+denscomp(list(fpois, fnbinom, fgeo), discrete=TRUE)
+
+
+x <- c(rpois(100, 30), rbinom(100, 12, 2/3))
+fpois <- fitdist(x, "pois")
+fgeo <- fitdist(x, "geom")
+fnbinom <- fitdist(x, "nbinom")
+par(mar=c(4,4,2,1))
+denscomp(list(fpois, fnbinom, fgeo))
+

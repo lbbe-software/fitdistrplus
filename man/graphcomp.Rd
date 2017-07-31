@@ -18,11 +18,13 @@ cdfcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
     datapch, datacol, fitlty, fitcol, addlegend = TRUE, legendtext, 
     xlegend = "bottomright", ylegend = NULL, horizontals = TRUE, 
     verticals = FALSE, do.points = TRUE, use.ppoints = TRUE, a.ppoints = 0.5, 
-    lines01 = FALSE, discrete, add = FALSE, plotstyle = "graphics", \dots)
+    lines01 = FALSE, discrete, add = FALSE, plotstyle = "graphics", 
+    fitnbpts=101, \dots)
     
 denscomp(ft, xlim, ylim, probability = TRUE, main, xlab, ylab, datacol, fitlty, 
     fitcol, addlegend = TRUE, legendtext, xlegend = "topright", ylegend = NULL, 
-    demp = FALSE, dempcol = "grey", plotstyle = "graphics", \dots)
+    demp = FALSE, dempcol = "grey", plotstyle = "graphics", 
+    discrete, fitnbpts=101, \dots)
 
 qqcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
     fitpch, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", 
@@ -56,6 +58,8 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
 \item{fitpch}{A (vector of) line type(s) to plot fitted quantiles/probabilities. 
   If there are fewer colors than fits they are recycled in the standard fashion.
   See also \code{\link{par}}.}
+\item{fitnbpts}{A numeric for the point number to compute fitted quantiles/probabilities. 
+  Default to \code{101}.}
 \item{addlegend}{If \code{TRUE}, a legend is added to the plot.}
 \item{legendtext}{A character or expression vector of length \eqn{\ge 1} to appear
   in the legend. See also \code{\link{legend}}.}
@@ -86,8 +90,7 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
   quantiles/probabilities for \code{qqcomp} and \code{ppcomp}.}
 \item{probability}{A logical to use the probability scale for \code{denscomp}. See also \code{\link{hist}}.}
 \item{discrete}{If \code{TRUE}, the distributions are considered discrete.
-  If missing, \code{discrete} is passed from the first object of class \code{"fitdist"} of 
-  the list \code{ft}.}
+  When missing, \code{discrete} is set to \code{TRUE} if at least one object of the list \code{ft} is discrete.}
 \item{add}{If \code{TRUE}, adds to an already existing plot. If \code{FALSE}, starts a new plot.
   This parameter is not available when \code{plotstyle = "ggplot"}.}
 \item{plotstyle}{\code{"graphics"} or \code{"ggplot"}. If \code{"graphics"}, the display is built with \code{\link{graphics}} functions. 

@@ -28,7 +28,8 @@
 cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
                     datapch, datacol, fitlty, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", 
                     ylegend = NULL, horizontals = TRUE, verticals = FALSE, do.points = TRUE, 
-                    use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, discrete, add = FALSE, plotstyle = "graphics", ...)
+                    use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, discrete, add = FALSE, 
+                    plotstyle = "graphics", fitnbpts=101, ...)
 {
   if(inherits(ft, "fitdist"))
   {
@@ -78,11 +79,10 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
   # initiate discrete if not given 
   if(missing(discrete))
   {
-    discrete <- ft[[1]]$discrete
+    discrete <- any(sapply(ft, function(x) x$discrete))
   }
   if(!is.logical(discrete))
     stop("wrong argument 'discrete'.")
-  
   
   # check data
   mydata <- ft[[1]]$data
@@ -119,9 +119,9 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
   
   # plot of data (ecdf)
   if(xlogscale && !discrete)
-    sfin <- seq(log10(xmin), log10(xmax), by=(log10(xmax)-log10(xmin))/100)
+    sfin <- seq(log10(xmin), log10(xmax), by=(log10(xmax)-log10(xmin))/fitnbpts[1])
   else # (!xlogscale && !discrete) and discrete
-    sfin <- seq(xmin, xmax, length.out=101)
+    sfin <- seq(xmin, xmax, length.out=fitnbpts[1])
   
   
   # previous version with no vizualisation of ex-aequos
