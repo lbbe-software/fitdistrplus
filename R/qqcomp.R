@@ -70,8 +70,15 @@ qqcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
   if (missing(fitpch)) fitpch <- ifelse(largedata, 1, 21)
   fitcol <- rep(fitcol, length.out=nft)
   fitpch <- rep(fitpch, length.out=nft)
-  if (missing(legendtext)) 
-    legendtext <- paste("fit",1:nft)
+  # check legend parameters if added
+  if(missing(legendtext)) 
+  {
+    legendtext <- sapply(ft, function(x) x$distname)
+    if(length(legendtext) != length(unique(legendtext)))
+      legendtext <- paste(legendtext, sapply(ft, function(x) toupper(x$method)), sep="-")
+    if(length(legendtext) != length(unique(legendtext)))
+      legendtext <- paste(legendtext, 1:nft, sep="-")
+  }
   
   if (missing(xlab))
     xlab <- "Theoretical quantiles"

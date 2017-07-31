@@ -123,20 +123,21 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab, datac
     ylim <- range(ylim) # in case of users enter a bad ylim
   
   # check legend parameters if added
-  if (missing(legendtext) && !demp) 
+  if(missing(legendtext)) 
   {
-    legendtext <- paste("fit", 1:nft)
-  }else if (missing(legendtext) && demp) 
-  {
-    legendtext <- c(paste("fit", 1:nft), "emp.")
-    fitlty <- c(fitlty, 1)
-    fitcol <- c(fitcol, dempcol)
-  }else if(demp)
+    legendtext <- sapply(ft, function(x) x$distname)
+    if(length(legendtext) != length(unique(legendtext)))
+      legendtext <- paste(legendtext, sapply(ft, function(x) toupper(x$method)), sep="-")
+    if(length(legendtext) != length(unique(legendtext)))
+      legendtext <- paste(legendtext, 1:nft, sep="-")
+  }
+  if(demp)
   {
     legendtext <- c(legendtext, "emp.")
     fitlty <- c(fitlty, 1)
     fitcol <- c(fitcol, dempcol)
-  }   
+  }
+  
   
   if(plotstyle == "graphics") {
     ######## plot if plotstyle=='graphics' ########

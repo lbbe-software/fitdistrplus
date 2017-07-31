@@ -277,3 +277,18 @@ if (requireNamespace ("ggplot2", quietly = TRUE)) {
   cdfcomp(list(fit1, fit2), fitcol = c("red", "blue"), fitlty = 1, horizontals = FALSE, addlegend = FALSE, plotstyle = "ggplot")
 }
 
+
+# (9) test legend labels
+#
+serving <- groundbeef$serving
+fitW <- fitdist(serving,"weibull")
+fitW2 <- fitdist(serving,"weibull", method="qme", probs=c(1/3,2/3))
+fitW3 <- fitdist(serving,"weibull", method="qme", probs=c(1/2,2/3))
+fitln <- fitdist(serving,"lnorm")
+fitg <- fitdist(serving,"gamma")
+
+cdfcomp(list(fitW, fitln, fitg)) #distrib
+cdfcomp(list(fitW, fitW2, fitln, fitg)) #distrib+method
+cdfcomp(list(fitW, fitW2, fitW3, fitln, fitg)) #distrib+method+num
+if (requireNamespace ("ggplot2", quietly = TRUE))
+  cdfcomp(list(fitW, fitW2, fitW3, fitln, fitg), plotstyle = "ggplot") #distrib+method+num

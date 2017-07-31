@@ -67,7 +67,13 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
   
   # check legend parameters if added
   if(missing(legendtext)) 
-    legendtext <- paste("fit", 1:nft)
+  {
+    legendtext <- sapply(ft, function(x) x$distname)
+    if(length(legendtext) != length(unique(legendtext)))
+      legendtext <- paste(legendtext, sapply(ft, function(x) toupper(x$method)), sep="-")
+    if(length(legendtext) != length(unique(legendtext)))
+      legendtext <- paste(legendtext, 1:nft, sep="-")
+  }
   
   # initiate discrete if not given 
   if(missing(discrete))
