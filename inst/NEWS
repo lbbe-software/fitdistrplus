@@ -1,5 +1,13 @@
 === fitdistrplus : Help to fit of a parametric distribution ===
 
+Version 1.0-10
+=============
+- update the FAQ with beta(a,a).
+- improve graphics for discrete distributions in denscomp().
+- improve automatic naming of legends in xxxcomp().
+- harmonize outputs in mledist, qmedist, mmedist, mgedist, fitdist and fitdistcens.
+- automatic test of d,p,q functions
+
 Version 1.0-9
 =============
 - update the FAQ with linear inequality constraints.
