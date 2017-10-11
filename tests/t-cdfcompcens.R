@@ -31,3 +31,5 @@ cdfcompcens(list(fitsfn, fitsfl, fitsfg), ylog = TRUE)
 cdfcompcens(fitsfn, addlegend = FALSE, fitcol = "red")
 cdfcompcens(fitsfl, addlegend = FALSE, fitcol = "green", add = TRUE)
 cdfcompcens(fitsfg, addlegend = FALSE, fitcol = "blue", add = TRUE)
+
+

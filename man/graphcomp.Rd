@@ -19,12 +19,12 @@ cdfcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
     xlegend = "bottomright", ylegend = NULL, horizontals = TRUE, 
     verticals = FALSE, do.points = TRUE, use.ppoints = TRUE, a.ppoints = 0.5, 
     lines01 = FALSE, discrete, add = FALSE, plotstyle = "graphics", 
-    fitnbpts=101, \dots)
+    fitnbpts = 101, \dots)
     
 denscomp(ft, xlim, ylim, probability = TRUE, main, xlab, ylab, datacol, fitlty, 
     fitcol, addlegend = TRUE, legendtext, xlegend = "topright", ylegend = NULL, 
     demp = FALSE, dempcol = "grey", plotstyle = "graphics", 
-    discrete, fitnbpts=101, \dots)
+    discrete, fitnbpts = 101, \dots)
 
 qqcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
     fitpch, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", 
@@ -58,8 +58,8 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
 \item{fitpch}{A (vector of) line type(s) to plot fitted quantiles/probabilities. 
   If there are fewer colors than fits they are recycled in the standard fashion.
   See also \code{\link{par}}.}
-\item{fitnbpts}{A numeric for the point number to compute fitted quantiles/probabilities. 
-  Default to \code{101}.}
+\item{fitnbpts}{A numeric for the number of points to compute fitted probabilities 
+  or cumulative probabilities. Default to \code{101}.}
 \item{addlegend}{If \code{TRUE}, a legend is added to the plot.}
 \item{legendtext}{A character or expression vector of length \eqn{\ge 1} to appear
   in the legend. See also \code{\link{legend}}.}

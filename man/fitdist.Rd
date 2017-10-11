@@ -53,13 +53,6 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
     or a function of data computing (fixed) parameter values and returning a named list. 
     Parameters with fixed value are thus NOT estimated by this maximum likelihood procedure.
     The use of this argument is not possible if \code{method="mme"} and a closed-form formula is used.}
-\item{x}{An object of class \code{"fitdist"}.  }
-\item{object}{An object of class \code{"fitdist"}.  }
-\item{breaks}{If \code{"default"} the histogram is plotted with the function \code{hist} 
-    with its default breaks definition. Else \code{breaks} is passed to the function \code{hist}.
-    This argument is not taken into account with discrete distributions: \code{"binom"}, 
-    \code{"nbinom"}, \code{"geom"}, \code{"hyper"} and \code{"pois"}. }
-    
 \item{keepdata}{a logical. If \code{TRUE}, dataset is returned, 
     otherwise only a sample subset is returned.}
 \item{keepdata.nb}{When \code{keepdata=FALSE}, the length (>1) of the subset returned.}
@@ -71,6 +64,12 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
     to enter this argument when using another discrete distribution. This argument will not directly affect
     the results of the fit but will be passed to functions \code{\link{gofstat}}, \code{\link{plotdist}} 
     and \code{\link{cdfcomp}}.  }
+\item{x}{An object of class \code{"fitdist"}.  }
+\item{object}{An object of class \code{"fitdist"}.  }
+\item{breaks}{If \code{"default"} the histogram is plotted with the function \code{hist} 
+    with its default breaks definition. Else \code{breaks} is passed to the function \code{hist}.
+    This argument is not taken into account with discrete distributions: \code{"binom"}, 
+    \code{"nbinom"}, \code{"geom"}, \code{"hyper"} and \code{"pois"}. }
 \item{\dots}{Further arguments to be passed to generic functions, or to one of the functions
     \code{"mledist"},  \code{"mmedist"}, \code{"qmedist"} or \code{"mgedist"}
     depending of the chosen method. See \code{\link{mledist}}, \code{\link{mmedist}}, \code{\link{qmedist}}, 

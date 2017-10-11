@@ -142,6 +142,7 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
         \code{10} indicates degeneracy of the Nealder-Mead simplex.
         \code{100} indicates that \code{\link{optim}} encountered an internal error.
         }
+    \item{value}{the minimal value reached for the criterion to minimize.}    
     \item{hessian}{a symmetric matrix computed by \code{\link{optim}} as an estimate of the Hessian
         at the solution found or computed in the user-supplied optimization function.
         It is used in \code{fitdist} to estimate standard errors. }

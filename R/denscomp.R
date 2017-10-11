@@ -29,7 +29,7 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
                      datacol, fitlty, fitcol, addlegend = TRUE, legendtext, 
                      xlegend = "topright", ylegend = NULL, demp = FALSE, 
                      dempcol = "grey", plotstyle = "graphics", 
-                     discrete, fitnbpts=101, ...)
+                     discrete, fitnbpts = 101, ...)
 {
   if(inherits(ft, "fitdist"))
   {
@@ -102,9 +102,9 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
   # some variable definitions
   n <- length(mydata)
   if(!discrete)
-    sfin <- seq(xmin, xmax, length.out=fitnbpts[1])
+    sfin <- seq(xmin, xmax, length.out = fitnbpts[1])
   else
-    sfin <- unique(round(seq(xmin, xmax, length.out=fitnbpts[1]), digits=0))
+    sfin <- unique(round(seq(xmin, xmax, length.out = fitnbpts[1]), digits = 0))
   reshist <- hist(mydata, plot = FALSE, ...)
   scalefactor <- ifelse(probability, 1, n * diff(reshist$breaks))
   binwidth <- min(diff(reshist$breaks))
@@ -117,7 +117,7 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
     distname <- fti$distname
     ddistname <- paste("d", distname, sep="")
     
-    do.call(ddistname, c(list(x=sfin), as.list(para))) * scalefactor
+    do.call(ddistname, c(list(x = sfin), as.list(para))) * scalefactor
   }
   fitteddens <- sapply(1:nft, comput.fti)
   if(NCOL(fitteddens) != nft || NROW(fitteddens) != length(sfin))

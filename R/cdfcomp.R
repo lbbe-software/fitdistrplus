@@ -29,7 +29,7 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
                     datapch, datacol, fitlty, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", 
                     ylegend = NULL, horizontals = TRUE, verticals = FALSE, do.points = TRUE, 
                     use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, discrete, add = FALSE, 
-                    plotstyle = "graphics", fitnbpts=101, ...)
+                    plotstyle = "graphics", fitnbpts = 101, ...)
 {
   if(inherits(ft, "fitdist"))
   {
