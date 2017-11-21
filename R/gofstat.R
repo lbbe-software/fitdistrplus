@@ -79,8 +79,7 @@ gofstat <- function (f, chisqbreaks, meancount, discrete,
 			limit <- sdata[meancount]
 			sdata <- sdata[sdata>limit]
 			chisqbreaks <- limit
-		}
-		else {
+		}else {
 			warnings("The sample is too small to automatically define chisqbreaks")
 			chisq <- NULL
 			chisqbreaks <- NULL
@@ -218,36 +217,23 @@ compute.gofstat.KSCvMAD <- function(sdata, n, distname, pdistname, estimate,
 		if (distname == "exp" & n>=5) {
 			a2mod <- ad*(1+0.6/n)
 			adtest <- ifelse(a2mod>1.321, "rejected", "not rejected")
-		}
-		else
+		}else
 		if (distname == "gamma" & n>=5) {
 			m <- as.list(estimate)$shape
 			interp <- approxfun(c(1,2,3,4,5,6,8,10,12,15,20),
 								c(0.786,0.768,0.762,0.759,0.758,0.757,0.755,0.754,0.754,0.754,0.753),
 								yright=0.752)
 			adtest <- ifelse(ad>interp(m), "rejected", "not rejected")
-		}
-		else
+		}else
 		if (distname == "weibull" & n>=5) {
 			a2mod <- ad*(1+0.2/sqrt(n))
 			adtest <- ifelse(a2mod>0.757, "rejected", "not rejected")
-		}
-		else
+		}else
 		if (distname == "logis" & n>=5) {
 		   a2mod <- ad*(1+0.25/n)
 		   adtest <- ifelse(a2mod>0.66,"rejected","not rejected")
-		}
-		# else 
-		# the following test does not correspond to MLE estimate  
-		#   if (distname == "cauchy" & n>=5) {
-		# 	interp <- approxfun(c(5,8,10,12,15,20,25,30,40,50,60,100),
-		# 						c(1.77,3.2,3.77,4.14,4.25,4.05,3.57,3.09,2.48,2.14,1.92,1.52),
-		# 						yright=1.225)
-		# 	adtest <- ifelse(ad>interp(n), "rejected", "not rejected")
-		# }
-		else adtest <- "not computed"
-	}  # if (is.null(fix.arg)...)
-	else 
+		}else adtest <- "not computed"
+	}  else # if (is.null(fix.arg)...)
 		adtest <- "not computed"
 	
 	# Cramer-von Mises statistic
@@ -266,37 +252,24 @@ compute.gofstat.KSCvMAD <- function(sdata, n, distname, pdistname, estimate,
 		if (distname == "exp" & n>=5) {
 			w2mod <- cvm*(1+0.16/n)
 			cvmtest <- ifelse(w2mod>0.222,"rejected","not rejected")
-		}
-		else
+		}else
 		if (distname == "gamma" & n>=5) {
 			m <- as.list(estimate)$shape
 			interp <- approxfun(c(1,2,3,4,5,6,8,10,12,15,20),
 								c(0.136,0.131,0.129,0.128,0.128,0.128,0.127,0.127,0.127,0.127,0.126),
 								yright=0.126)
 			cvmtest <- ifelse(cvm>interp(m),"rejected","not rejected")
-		}
-		else
+		}else
 		if (distname == "weibull" & n>=5) {
 			w2mod <- cvm*(1+0.2/sqrt(n))
 			cvmtest <- ifelse(w2mod>0.124,"rejected","not rejected")
-		}
-		else
+		}else
 		if (distname == "logis" & n>=5) {
 		    w2mod <- (n*cvm - 0.08)/(n - 1)
 		    cvmtest <- ifelse(w2mod>0.098,"rejected","not rejected")
-		}
-		# else
-		# not with an MLE estimate in Stephens
-		# if (distname == "cauchy" & n>=5) {
-		# 	interp <- approxfun(c(5,8,10,12,15,20,25,30,40,50,60,100),
-		# 						c(0.393,0.703,0.833,0.896,0.904,0.835,0.726,0.615,0.460,0.381,0.330,0.2378),
-		# 						yright=0.170)
-		# 	cvmtest <- ifelse(cvm>interp(n),"rejected","not rejected")
-		# }
-		else cvmtest <- "not computed"
-	}  # if (is.null(fix.arg))
-	else 
-		cvmtest <- "not computed"
+		}else cvmtest <- "not computed"
+	} else # if (is.null(fix.arg))
+	 cvmtest <- "not computed"
 	
 	if (length(table(sdata)) != length(sdata))
 		warnings("Kolmogorov-Smirnov, Cramer-von Mises and Anderson-Darling statistics may not be correct with ties")
@@ -336,8 +309,17 @@ compute.gofstat.Chi2 <- function(sdata, n, distname, pdistname, estimate, fix.ar
 		chisq <- sum(((obscounts-theocounts)^2)/theocounts)
 		chisqdf <- length(obscounts)-1-length(estimate)
 		
-		chisqpvalue <- ifelse(chisqdf>0, pchisq(chisq, df=chisqdf, lower.tail=FALSE), NULL)
-	
+		
+# replacing of the line below which causes an error message for chisqdf <=0
+#		chisqpvalue <- ifelse(chisqdf>0, pchisq(chisq, df=chisqdf, lower.tail=FALSE), NULL)
+		if (chisqdf>0)
+		{
+		  chisqpvalue <- pchisq(chisq, df=chisqdf, lower.tail=FALSE) 
+    } else
+    {
+      chisqpvalue <- NULL
+    }
+		
 		chisqtable <- as.table(cbind(obscounts, theocounts))
 		for (i in 1:length(obscounts)-1)
 			rownames(chisqtable)[i] <- paste("<=", signif(chisqbreaks[i], digits=4))
@@ -365,8 +347,7 @@ print.gofstat.fitdist <- function(x, ...)
 			{
 				cat("  The degree of freedom of the chi-squared distribution is less than 1  \n") 
 				cat("  The number of cells is insufficient to calculate the p-value.  \n") 
-			}
-			else
+			}else
 			{ 
 				cat("Chi-squared p-value: ",x$chisqpvalue,"\n")
 				if (any(x$chisqtable[,-1] < 5)) 
@@ -381,8 +362,7 @@ print.gofstat.fitdist <- function(x, ...)
 			rownames(mm) <- c("Akaike's Information Criterion",
 							  "Bayesian Information Criterion")
 			print(mm)
-        }
-        else 
+        }else 
 			cat("The sample is too small to automatically define cells for Chi-squared test \n")
     }else # continuous distribution
     { 
