@@ -4,10 +4,10 @@ library(fitdistrplus)
 testdpqfun <- fitdistrplus:::testdpqfun
 
 ##### existence ##### 
-#a list of TRUE
-testdpqfun("exp")
-#a list of error messages
-testdpqfun("exp2")
+#a data.frame of TRUE and ""
+testdpqfun("exp", start=c(rate=1))
+#a data.frame with error messages
+testdpqfun("exp2", start=c(rate=1))
 
 ##### void vector ##### 
 dexp2 <- function(x, rate)
@@ -80,9 +80,25 @@ testdpqfun("norm2", "d", c(mean=1, sd=1))
 
 ##### inconsistent name ##### 
 dnorm2 <- function(x, mean=0, sd=1, ...)
-    dnorm(x,mean,sd)
+    dnorm(x, mean, sd)
+
+dnorm3 <- dnorm2
+pnorm3 <- pnorm
+qnorm3 <- qnorm
 
 #TRUE
 testdpqfun("norm", "d", c(mean=1, sd=1))
 #error message
 testdpqfun("norm2", "d", c(mean=1, sd=1))
+
+
+#a data.frame with error messages
+testdpqfun("norm", c("d", "p", "q"), c(mean=1, sd=1))
+testdpqfun("norm2", c("d", "p", "q"), c(mean=1, sd=1))
+testdpqfun("norm3", c("d", "p", "q"), c(mean=1, sd=1))
+
+x <- rnorm(100)
+fitdist(x, "norm") #ok
+fitdist(x, "norm2", start=list(mean=1, sd=1)) #pnorm2 not defined
+fitdist(x, "norm3", start=list(mean=1, sd=1)) #The dnorm3 function should return raise an error when names are incorrectly named
+

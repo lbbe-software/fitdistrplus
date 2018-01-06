@@ -25,6 +25,7 @@
 fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=NULL, 
                      fix.arg=NULL, discrete, keepdata = TRUE, keepdata.nb=100, ...) 
 {
+    #check argument distr
     if (!is.character(distr)) 
         distname <- substring(as.character(match.call()$distr), 2)
     else 
@@ -33,10 +34,10 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
     if (!exists(ddistname, mode="function"))
         stop(paste("The ", ddistname, " function must be defined"))
     
-    pdistname <- paste("p", distname, sep="")
-    if (!exists(pdistname, mode="function"))
-        stop(paste("The ", pdistname, " function must be defined"))
-    
+    #pdistname <- paste("p", distname, sep="")
+    #if (!exists(pdistname, mode="function"))
+    #    stop(paste("The ", pdistname, " function must be defined"))
+    #check argument discrete
     if(missing(discrete))
     {
       if (is.element(distname, c("binom", "nbinom", "geom", "hyper", "pois"))) 
@@ -48,19 +49,56 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
       stop("wrong argument 'discrete'.")
     if(!is.logical(keepdata) || !is.numeric(keepdata.nb) || keepdata.nb < 2)
       stop("wrong arguments 'keepdata' and 'keepdata.nb'")
-    
+    #check argument method
     if(any(method == "mom"))
         warning("the name \"mom\" for matching moments is NO MORE used and is replaced by \"mme\"")
     
     method <- match.arg(method, c("mle", "mme", "qme", "mge"))
-    
+    if(method %in% c("mle", "mme", "mge"))
+      dpq2test <- c("d", "p")
+    else
+      dpq2test <- c("d", "p", "q")
+    #check argument data
     if (!(is.vector(data) & is.numeric(data) & length(data)>1))
         stop("data must be a numeric vector of length greater than 1")
-    
+    #encapsulate three dots arguments
     my3dots <- list(...)    
     if (length(my3dots) == 0) 
       my3dots <- NULL
     n <- length(data)
+    
+    # definition of starting/fixed values values
+    argddistname <- names(formals(ddistname))
+    chfixstt <- checkparam(start.arg=start, fix.arg=fix.arg, argdistname=argddistname, 
+                           errtxt=NULL, data10=head(data, 10), distname=distname)
+    if(!chfixstt$ok)
+      stop(chfixstt$txt)
+    #unlist starting values as needed in optim()
+    if(is.function(chfixstt$start.arg))
+      vstart <- unlist(chfixstt$start.arg(data))
+    else
+      vstart <- unlist(chfixstt$start.arg)
+    #set fix.arg.fun
+    if(is.function(fix.arg)) #function
+    { 
+      fix.arg.fun <- fix.arg
+      fix.arg <- fix.arg(data)
+    }else
+    {
+      #otherwise fix.arg is a named list or NULL
+      fix.arg.fun <- NULL
+    }
+    
+    # check d, p, q, functions of distname
+    resdpq <- testdpqfun(distname, dpq2test, start.arg=vstart, 
+               fix.arg=fix.arg, discrete=discrete)
+    if(any(!resdpq$ok))
+    {
+      for(x in resdpq[!resdpq$ok, "txt"])
+        warning(x)
+    }
+    
+    
     # Fit with mledist, qmedist, mgedist or mmedist
     if (method == "mme")
     {

@@ -105,6 +105,7 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
       vstart <- unlist(chfixstt$start.arg(data))
     else
       vstart <- unlist(chfixstt$start.arg)
+    #set fix.arg.fun
     if(is.function(fix.arg)) #function
     { 
       fix.arg.fun <- fix.arg
