@@ -118,6 +118,32 @@ start.arg.default <- function(x, distr)
     scale <- (m1*m2)/(m2-2*m1^2)
     shape <- 2*(m2-m1^2)/(m2-2*m1^2)
     start <- list(shape=shape, scale=scale)
+  }else if (distr == "lgamma")
+  {
+    if (any(x < 0)) 
+      stop("values must be positive to fit a log-gamma distribution")
+    #p228 of Klugmann and Hogg (1984)
+    m1 <- mean(log(x))
+    m2 <- mean(log(x)^2)
+    alpha <- m1^2/(m2-m1^2)
+    lambda <- m1/(m2-m1^2)
+    start <- list(shapelog=alpha, ratelog=lambda)
+  }else if (distr == "trgamma") {
+    if (any(x < 0)) 
+      stop("values must be positive to fit an trans-gamma  distribution")
+    #same as gamma with shape2=tau=1
+    n <- length(x)
+    m <- mean(x)
+    v <- (n - 1)/n*var(x)
+    start <- list(shape1=m^2/v, shape2=1, rate=m/v)
+  }else if (distr == "invtrgamma") {
+    if (any(x < 0)) 
+      stop("values must be positive to fit an inverse trans-gamma  distribution")
+    #same as gamma with shape2=tau=1
+    n <- length(1/x)
+    m <- mean(1/x)
+    v <- (n - 1)/n*var(1/x)
+    start <- list(shape1=m^2/v, shape2=1, rate=m/v)
   }else
     stop(paste0("Unknown starting values for distribution ", distr, "."))
   
