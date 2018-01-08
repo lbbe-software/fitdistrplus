@@ -225,8 +225,11 @@ x <- c(rpois(100, 5), rbinom(100, 12, 2/3))
 fpois <- fitdist(x, "pois")
 fgeo <- fitdist(x, "geom")
 fnbinom <- fitdist(x, "nbinom")
+
 par(mar=c(4,4,2,1))
 denscomp(list(fpois, fnbinom, fgeo))
+denscomp(list(fpois, fnbinom, fgeo), fittype="o")
+denscomp(list(fpois, fnbinom, fgeo), fittype="p")
 
 #test the call to any()
 fpois$discrete <- fnbinom$discrete <- FALSE
@@ -240,6 +243,11 @@ x <- c(rpois(100, 30), rbinom(100, 12, 2/3))
 fpois <- fitdist(x, "pois")
 fgeo <- fitdist(x, "geom")
 fnbinom <- fitdist(x, "nbinom")
-par(mar=c(4,4,2,1))
-denscomp(list(fpois, fnbinom, fgeo))
 
+#3 types of plot of probability mass function
+par(mar=c(4,4,2,1))
+denscomp(list(fpois, fnbinom, fgeo)) #fittype = "l"
+denscomp(list(fpois, fnbinom, fgeo), fittype = "p")
+denscomp(list(fpois, fnbinom, fgeo), fittype = "o")
+denscomp(list(fpois, fnbinom, fgeo), fittype = "p", demp=TRUE)
+denscomp(list(fpois, fnbinom, fgeo), fittype = "l", demp=TRUE)

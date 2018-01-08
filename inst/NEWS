@@ -7,7 +7,8 @@ NEW FEATURES
 - improve graphics for discrete distributions in denscomp().
 - improve automatic naming of legends in xxxcomp().
 - harmonize outputs in mledist, qmedist, mmedist, mgedist, fitdist and fitdistcens.
-- automatic test of d,p,q functions
+- automatic test of d, p, q functions in fitdist().
+- add new default starting values for distributions in actuar.
 
 BUG FIXES
 - bug fixed concerning the use of gofstat with a chi squared df <=0 (error message blocking the other functions)

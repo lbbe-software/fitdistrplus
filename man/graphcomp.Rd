@@ -24,7 +24,7 @@ cdfcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
 denscomp(ft, xlim, ylim, probability = TRUE, main, xlab, ylab, datacol, fitlty, 
     fitcol, addlegend = TRUE, legendtext, xlegend = "topright", ylegend = NULL, 
     demp = FALSE, dempcol = "grey", plotstyle = "graphics", 
-    discrete, fitnbpts = 101, \dots)
+    discrete, fitnbpts = 101, fittype="l", \dots)
 
 qqcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
     fitpch, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", 
@@ -58,6 +58,11 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
 \item{fitpch}{A (vector of) line type(s) to plot fitted quantiles/probabilities. 
   If there are fewer colors than fits they are recycled in the standard fashion.
   See also \code{\link{par}}.}
+\item{fittype}{The type of plot for fitted probabilities in the case of
+  discrete distributions: possible types are \code{"p"} for points,
+  \code{"l"} for lines and \code{"o"} for both overplotted 
+  (as in \code{\link{plot.default}}).
+  \code{fittype} is not used for non-discrete distributions.}  
 \item{fitnbpts}{A numeric for the number of points to compute fitted probabilities 
   or cumulative probabilities. Default to \code{101}.}
 \item{addlegend}{If \code{TRUE}, a legend is added to the plot.}
@@ -90,7 +95,8 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
   quantiles/probabilities for \code{qqcomp} and \code{ppcomp}.}
 \item{probability}{A logical to use the probability scale for \code{denscomp}. See also \code{\link{hist}}.}
 \item{discrete}{If \code{TRUE}, the distributions are considered discrete.
-  When missing, \code{discrete} is set to \code{TRUE} if at least one object of the list \code{ft} is discrete.}
+  When missing, \code{discrete} is set to \code{TRUE} if at least one 
+  object of the list \code{ft} is discrete.}
 \item{add}{If \code{TRUE}, adds to an already existing plot. If \code{FALSE}, starts a new plot.
   This parameter is not available when \code{plotstyle = "ggplot"}.}
 \item{plotstyle}{\code{"graphics"} or \code{"ggplot"}. If \code{"graphics"}, the display is built with \code{\link{graphics}} functions. 
@@ -114,7 +120,11 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
   no empirical point is drawn, only the fitted cdf is shown.
     
   \code{denscomp} provides a density plot of each fitted distribution
-  with the histogram of the data (data are assumed continuous). 
+  with the histogram of the data. 
+  When \code{discrete=TRUE}, discrete distributions are considered and 
+  fitted probabilities are plotted differently either with vertical lines
+  \code{fittype="l"}, with single points \code{fittype="p"} or
+  both lines and points \code{fittype="o"}.
     
   \code{ppcomp} provides a plot of the probabilities of each fitted distribution
   (\eqn{x}-axis) against the empirical probabilities (\eqn{y}-axis) by default defined as 
@@ -132,8 +142,10 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
 }
 
 \seealso{ 
-  See \code{\link{CIcdfplot}} and \code{\link{plot}}, \code{\link{legend}}, \code{\link{ppoints}}, 
-  \code{\link{plot.stepfun}} for classic plotting functions and \code{\link{plotdist}}.  
+  See \code{\link{plot}}, \code{\link{legend}}, \code{\link{ppoints}}, 
+  \code{\link{plot.stepfun}} for classic plotting functions.
+  See \code{\link{CIcdfplot}} and \code{\link{plotdist}} for other plot functions
+  of fitdistrplus.  
 }
 
 

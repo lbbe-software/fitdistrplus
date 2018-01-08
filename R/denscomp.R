@@ -29,7 +29,7 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
                      datacol, fitlty, fitcol, addlegend = TRUE, legendtext, 
                      xlegend = "topright", ylegend = NULL, demp = FALSE, 
                      dempcol = "grey", plotstyle = "graphics", 
-                     discrete, fitnbpts = 101, ...)
+                     discrete, fitnbpts = 101, fittype="l", ...)
 {
   if(inherits(ft, "fitdist"))
   {
@@ -61,6 +61,7 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
   if (missing(fitlty)) fitlty <- 1:nft
   fitcol <- rep(fitcol, length.out=nft)
   fitlty <- rep(fitlty, length.out=nft)
+  fittype <- match.arg(fittype[1], c("p", "l", "o"))
   
   if (missing(xlab))
     xlab <- "data"
@@ -97,6 +98,8 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
     discrete <- any(sapply(ft, function(x) x$discrete))
   }
   if(!is.logical(discrete))
+    stop("wrong argument 'discrete'.")
+  if(!is.logical(demp))
     stop("wrong argument 'discrete'.")
   
   # some variable definitions
@@ -143,6 +146,7 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
     if(length(legendtext) != length(unique(legendtext)))
       legendtext <- paste(legendtext, 1:nft, sep="-")
   }
+  #add empirical density/fmp to legend vectors
   if(demp)
   {
     legendtext <- c(legendtext, "emp.")
@@ -159,9 +163,14 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
     
     if(!discrete)
     {
-      #plot fitted densities
-      for(i in 1:nft)
-        lines(sfin, fitteddens[,i], lty=fitlty[i], col=fitcol[i], ...)
+      #plot fitted densities (line)
+      if(fittype %in% c("l", "o"))
+        for(i in 1:nft)
+          lines(sfin, fitteddens[,i], lty=fitlty[i], col=fitcol[i], ...)
+      #plot fitted densities (point)
+      if(fittype %in% c("p", "o"))
+        for(i in 1:nft)
+          points(sfin, fitteddens[,i], col=fitcol[i])
       
       #plot empirical density
       if(demp)
@@ -171,20 +180,38 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
         legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, lty=fitlty, col=fitcol, ...)
     }else
     {
-      eps <- diff(range(sfin))/100
-      #plot fitted mass probability functions
-      for(i in 1:nft)
+      eps <- diff(range(sfin))/200
+      if(fittype %in% c("l", "o"))
       {
-        lines(sfin+(i-1)*eps, fitteddens[,i], lty=fitlty[i], col=fitcol[i], type="h", ...)
-        points(sfin+(i-1)*eps, fitteddens[,i], col=fitcol[i], pch=1)
+        #plot fitted mass probability functions (line)
+        for(i in 1:nft)
+          lines(sfin+(i-1)*eps, fitteddens[,i], lty=fitlty[i], col=fitcol[i], type="h", ...)
+        #plot empirical mass probabilty function
+        if(demp)
+        {
+          empval <- sort(unique(mydata))
+          empprob <- as.numeric(table(mydata))/length(mydata)
+          lines(empval, empprob, col=dempcol, type="h")
+        }
+      }
+      if(fittype %in% c("p", "o"))  
+      {
+        #plot fitted mass probability functions (point)
+        for(i in 1:nft)
+          points(sfin+(i-1)*eps, fitteddens[,i], col=fitcol[i], pch=1)
+        #plot empirical density
+        if(demp)
+        {
+          empval <- sort(unique(mydata))
+          empprob <- as.numeric(table(mydata))/length(mydata)
+          points(empval, empprob, col=dempcol, pch=1)
+        }  
       }
       
-      #plot empirical density
-      if(demp)
-        lines(density(mydata)$x, density(mydata)$y * scalefactor, col=dempcol)
-      
-      if (addlegend)
+      if (addlegend && fittype %in% c("l", "o"))
         legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, lty=fitlty, col=fitcol, ...)
+      if (addlegend && fittype == "p")
+        legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, pch=1, col=fitcol, ...)
     }
     invisible()
     
