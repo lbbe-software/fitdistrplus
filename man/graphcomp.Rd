@@ -157,7 +157,7 @@ Journal of Statistical Software, 64(4), 1-34.
 }
 
 \author{ 
-Christophe Dutang, Marie-Laure Delignette-Muller and Aurélie Siberchicot.
+Christophe Dutang, Marie-Laure Delignette-Muller and Aurelie Siberchicot.
 }
 
 \examples{
