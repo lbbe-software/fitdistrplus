@@ -68,7 +68,8 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
     \code{"exp"} and \code{"pois"}, \code{"cauchy"}, \code{"gamma"}, \code{"logis"},
     \code{"nbinom"} (parametrized by mu and size), \code{"geom"}, \code{"beta"}, \code{"weibull"}
     from the \code{stats} package; 
-    \code{"invgamma"}, \code{"llogis"}, \code{"invweibull"}, \code{"pareto1"}, \code{"pareto"}
+    \code{"invgamma"}, \code{"llogis"}, \code{"invweibull"}, \code{"pareto1"}, \code{"pareto"},
+    \code{"lgamma"}, \code{"trgamma"}, \code{"invtrgamma"}
     from the \code{actuar} package. 
     Note that these starting values may not be good enough if the fit is poor. 
     The function uses a closed-form formula to fit the uniform distribution.

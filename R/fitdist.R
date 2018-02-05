@@ -61,6 +61,7 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
     #check argument data
     if (!(is.vector(data) & is.numeric(data) & length(data)>1))
         stop("data must be a numeric vector of length greater than 1")
+ 
     #encapsulate three dots arguments
     my3dots <- list(...)    
     if (length(my3dots) == 0) 
@@ -68,6 +69,13 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
     n <- length(data)
     
     # definition of starting/fixed values values
+    ### ML comment : it is perturbating to see the following lines here
+    # as the starting values are really computed in mledist
+    # is it really necessary to do that
+    # il yes the real computing of starting values should be here and not in mledist
+    # but it will require hazardous changes, especially concerning fitdistcens for which the
+    # computing of starting values needs more lines of code
+    # I am not in favour of such a BIG CHANGE in the struture of the code
     argddistname <- names(formals(ddistname))
     chfixstt <- checkparam(start.arg=start, fix.arg=fix.arg, argdistname=argddistname, 
                            errtxt=NULL, data10=head(data, 10), distname=distname)

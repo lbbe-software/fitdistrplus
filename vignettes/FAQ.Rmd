@@ -60,7 +60,8 @@ fitdist(x2, "zmgeom", start=list(p1=1/2, p2=1/2))
 
 ## How do I set (or find) initial values for non standard distributions?
 As documented, we provide initial values for the following distributions:
-`"norm"`, `"lnorm"`, `"exp"`, `"pois"`, `"cauchy"`, `"gamma`", `"logis"`, `"nbinom"`, `"geom"`, `"beta"`, `"weibull"` from the `stats` package; `"invgamma"`, `"llogis"`, `"invweibull"`, `"pareto1"`, `"pareto"` from the `actuar` package.
+`"norm"`, `"lnorm"`, `"exp"`, `"pois"`, `"cauchy"`, `"gamma`", `"logis"`, `"nbinom"`, `"geom"`, `"beta"`, `"weibull"` from the `stats` package; `"invgamma"`, `"llogis"`, `"invweibull"`, `"pareto1"`, `"pareto"`,
+`"lgamma"`, `"trgamma"`, `"invtrgamma"` from the `actuar` package.
 
 Look first at statistics and probability books such as 
 

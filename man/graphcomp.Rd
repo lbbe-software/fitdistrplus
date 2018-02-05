@@ -120,9 +120,10 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
   no empirical point is drawn, only the fitted cdf is shown.
     
   \code{denscomp} provides a density plot of each fitted distribution
-  with the histogram of the data. 
-  When \code{discrete=TRUE}, discrete distributions are considered and 
-  fitted probabilities are plotted differently either with vertical lines
+  with the histogram of the data for conyinuous data. 
+  When \code{discrete=TRUE}, distributions are considered as discrete,
+  no histogram is plotted but \code{demp} is forced to \code{TRUE}
+  and fitted and empirical probabilities are plotted either with vertical lines
   \code{fittype="l"}, with single points \code{fittype="p"} or
   both lines and points \code{fittype="o"}.
     
@@ -237,6 +238,13 @@ number <- toxocara$number
 fitp <- fitdist(number, "pois")
 fitnb <- fitdist(number, "nbinom")
 cdfcomp(list(fitp, fitnb), legendtext = c("Poisson", "negative binomial"))
+denscomp(list(fitp, fitnb),demp = TRUE, legendtext = c("Poisson", "negative binomial"))
+denscomp(list(fitp, fitnb),demp = TRUE, fittype = "l", dempcol = "black",
+        legendtext = c("Poisson", "negative binomial"))
+denscomp(list(fitp, fitnb),demp = TRUE, fittype = "p", dempcol = "black",
+        legendtext = c("Poisson", "negative binomial"))
+denscomp(list(fitp, fitnb),demp = TRUE, fittype = "o", dempcol = "black",
+        legendtext = c("Poisson", "negative binomial"))
 
 
 # (5) Customizing of graphical output and use of ggplot2

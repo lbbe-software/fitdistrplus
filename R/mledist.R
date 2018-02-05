@@ -93,7 +93,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
         data<-c(rcens, lcens, ncens, (icens$left+icens$right)/2)
     }
     
-    # definition of starting/fixed values values
+    # definition of starting/fixed values
     argddistname <- names(formals(ddistname))
     chfixstt <- checkparam(start.arg=start.arg, fix.arg=fix.arg, argdistname=argddistname, 
                            errtxt=NULL, data10=head(data, 10), distname=distname)

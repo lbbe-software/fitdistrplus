@@ -249,5 +249,4 @@ par(mar=c(4,4,2,1))
 denscomp(list(fpois, fnbinom, fgeo)) #fittype = "l"
 denscomp(list(fpois, fnbinom, fgeo), fittype = "p")
 denscomp(list(fpois, fnbinom, fgeo), fittype = "o")
-denscomp(list(fpois, fnbinom, fgeo), fittype = "p", demp=TRUE)
-denscomp(list(fpois, fnbinom, fgeo), fittype = "l", demp=TRUE)
+

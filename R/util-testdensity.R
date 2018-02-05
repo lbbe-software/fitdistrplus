@@ -77,7 +77,7 @@ test1fun <- function(fn, start.arg, fix.arg)
   x <- c(0, 1, NA)
   res2 <- try(do.call(fn, c(list(x), as.list(start.arg), as.list(fix.arg))), silent=TRUE)
   t4 <- paste("The", fn, "function should return a vector of with NA values when input has missing values and not raise an error")
-  t5 <- paste("The", fn, "function should return a vector of with NA values when input has missing values and not remove missing value")
+  t5 <- paste("The", fn, "function should return a vector of with NA values when input has missing values and not remove missing values")
   if(class(res2) == "try-error")
   {
     res$txt <- t4
@@ -104,7 +104,7 @@ test1fun <- function(fn, start.arg, fix.arg)
   x <- 0:1
   names(start.arg) <- paste0(names(start.arg), "_")
   res4 <- try(do.call(fn, c(list(x), as.list(start.arg), as.list(fix.arg))), silent=TRUE)
-  t8 <- paste("The", fn, "function should return raise an error when names are incorrectly named")
+  t8 <- paste("The", fn, "function should raise an error when names are incorrectly named")
   if(class(res4) != "try-error")
   {
     res$txt <- t8

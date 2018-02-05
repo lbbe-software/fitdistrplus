@@ -146,6 +146,10 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
     if(length(legendtext) != length(unique(legendtext)))
       legendtext <- paste(legendtext, 1:nft, sep="-")
   }
+  
+  # forces demp to TRUE if discrete is TRUE
+  demp <- TRUE
+  
   #add empirical density/fmp to legend vectors
   if(demp)
   {
@@ -163,29 +167,32 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
     
     if(!discrete)
     {
-      #plot fitted densities (line)
-      if(fittype %in% c("l", "o"))
-        for(i in 1:nft)
-          lines(sfin, fitteddens[,i], lty=fitlty[i], col=fitcol[i], ...)
-      #plot fitted densities (point)
-      if(fittype %in% c("p", "o"))
-        for(i in 1:nft)
-          points(sfin, fitteddens[,i], col=fitcol[i])
+      #main plotting
+      reshist <- hist(mydata, main = main, xlab = xlab, ylab = ylab, xlim = xlim, ylim = ylim, col = datacol, probability = probability, ...)
       
+      #plot fitted densities (line)
+      for(i in 1:nft)
+          lines(sfin, fitteddens[,i], lty=fitlty[i], col=fitcol[i], ...)
+ 
       #plot empirical density
       if(demp)
         lines(density(mydata)$x, density(mydata)$y * scalefactor, col=dempcol)
       
       if (addlegend)
         legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, lty=fitlty, col=fitcol, ...)
-    }else
+    }else # so if discrete
     {
+      #main plotting
+      # plotting of an empty histogramm
+      reshist <- hist(mydata, main = main, xlab = xlab, ylab = ylab, xlim = xlim, ylim = ylim, border = "white",
+                      probability = probability, ...)
+       
       eps <- diff(range(sfin))/200
       if(fittype %in% c("l", "o"))
       {
         #plot fitted mass probability functions (line)
         for(i in 1:nft)
-          lines(sfin+(i-1)*eps, fitteddens[,i], lty=fitlty[i], col=fitcol[i], type="h", ...)
+          lines(sfin+(i)*eps, fitteddens[,i], lty=fitlty[i], col=fitcol[i], type="h", ...)
         #plot empirical mass probabilty function
         if(demp)
         {
@@ -198,7 +205,7 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
       {
         #plot fitted mass probability functions (point)
         for(i in 1:nft)
-          points(sfin+(i-1)*eps, fitteddens[,i], col=fitcol[i], pch=1)
+          points(sfin+(i)*eps, fitteddens[,i], col=fitcol[i], pch=1)
         #plot empirical density
         if(demp)
         {
@@ -222,42 +229,49 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
   } else {
     ######## plot if plotstyle=='ggplot' ########
     
-    # recode the legend position according to available positions in ggplot2
-    if(xlegend %in% c("topleft", "bottomleft"))
-      xlegend <- "left"
-    if(xlegend %in% c("topright", "bottomright"))
-      xlegend <- "right"
-    
-    # the default colors of the bars is the same as panel.background.fill in theme_grey()
-    if(is.null(datacol))
-      datacol <- "grey92"
-    
-    # structure the fitteddens in a relevant data.frame
-    fitteddens <- as.data.frame(fitteddens)
-    colnames(fitteddens) <- unlist(lapply(ft, function(X) X["distname"]))
-    fitteddens <- stack(fitteddens)
-    fitteddens$sfin <- sfin   # sfin is recycled in the standard fashion
-    fitteddens$ind <- factor(fitteddens$ind, levels = unique(fitteddens$ind))   # reorder levels in the appearance order of the input
-    if(demp) # bind empirical data if demp is TRUE
-      fitteddens <- rbind(fitteddens, data.frame(values = density(mydata)$y * scalefactor, ind = "demp", sfin = density(mydata)$x))
-    
-    histdata <- data.frame(values = mydata, ind = "hist", sfin = mydata) # the added data must have the same column names as the main data to be compatible with ggplot
-    binwidth <- min(diff(reshist$breaks))
-    
-    ggdenscomp <-
-      ggplot2::ggplot(fitteddens, ggplot2::aes_(quote(sfin), quote(values), group = quote(ind), colour = quote(ind))) +
-      ggplot2::xlab(xlab) +
-      ggplot2::ylab(ylab) +
-      ggplot2::ggtitle(main) +
-      ggplot2::coord_cartesian(xlim = c(xlim[1], xlim[2]), ylim = c(ylim[1], ylim[2])) +
-      {if(probability) ggplot2::geom_histogram(data = histdata, ggplot2::aes_(quote(values), quote(..density..)), binwidth = binwidth, boundary = 0, show.legend = FALSE, col = "black", alpha = 1, fill = datacol)
-        else ggplot2::geom_histogram(data = histdata, ggplot2::aes_(quote(values), quote(..count..)), binwidth = binwidth, boundary = 0, show.legend = FALSE, col = "black", alpha = 1, fill = datacol)} +
-      ggplot2::geom_line(data = fitteddens, ggplot2::aes_(linetype = quote(ind), colour = quote(ind)), size = 0.4) +
-      ggplot2::guides(colour = ggplot2::guide_legend(title = NULL)) +
-      ggplot2::guides(linetype = ggplot2::guide_legend(title = NULL)) +
-      {if(addlegend) ggplot2::theme(legend.position = c(xlegend, ylegend)) else ggplot2::theme(legend.position = "none")} +
-      ggplot2::scale_color_manual(values = fitcol, labels = legendtext) +
-      ggplot2::scale_linetype_manual(values = fitlty, labels = legendtext)
-    return(ggdenscomp)
+    if (!discrete)
+    {
+      # recode the legend position according to available positions in ggplot2
+      if(xlegend %in% c("topleft", "bottomleft"))
+        xlegend <- "left"
+      if(xlegend %in% c("topright", "bottomright"))
+        xlegend <- "right"
+      
+      # the default colors of the bars is the same as panel.background.fill in theme_grey()
+      if(is.null(datacol))
+        datacol <- "grey92"
+      
+      # structure the fitteddens in a relevant data.frame
+      fitteddens <- as.data.frame(fitteddens)
+      colnames(fitteddens) <- unlist(lapply(ft, function(X) X["distname"]))
+      fitteddens <- stack(fitteddens)
+      fitteddens$sfin <- sfin   # sfin is recycled in the standard fashion
+      fitteddens$ind <- factor(fitteddens$ind, levels = unique(fitteddens$ind))   # reorder levels in the appearance order of the input
+      if(demp) # bind empirical data if demp is TRUE
+        fitteddens <- rbind(fitteddens, data.frame(values = density(mydata)$y * scalefactor, ind = "demp", sfin = density(mydata)$x))
+      
+      histdata <- data.frame(values = mydata, ind = "hist", sfin = mydata) # the added data must have the same column names as the main data to be compatible with ggplot
+      binwidth <- min(diff(reshist$breaks))
+      
+      ggdenscomp <-
+        ggplot2::ggplot(fitteddens, ggplot2::aes_(quote(sfin), quote(values), group = quote(ind), colour = quote(ind))) +
+        ggplot2::xlab(xlab) +
+        ggplot2::ylab(ylab) +
+        ggplot2::ggtitle(main) +
+        ggplot2::coord_cartesian(xlim = c(xlim[1], xlim[2]), ylim = c(ylim[1], ylim[2])) +
+        {if(probability) ggplot2::geom_histogram(data = histdata, ggplot2::aes_(quote(values), quote(..density..)), binwidth = binwidth, boundary = 0, show.legend = FALSE, col = "black", alpha = 1, fill = datacol)
+          else ggplot2::geom_histogram(data = histdata, ggplot2::aes_(quote(values), quote(..count..)), binwidth = binwidth, boundary = 0, show.legend = FALSE, col = "black", alpha = 1, fill = datacol)} +
+        ggplot2::geom_line(data = fitteddens, ggplot2::aes_(linetype = quote(ind), colour = quote(ind)), size = 0.4) +
+        ggplot2::guides(colour = ggplot2::guide_legend(title = NULL)) +
+        ggplot2::guides(linetype = ggplot2::guide_legend(title = NULL)) +
+        {if(addlegend) ggplot2::theme(legend.position = c(xlegend, ylegend)) else ggplot2::theme(legend.position = "none")} +
+        ggplot2::scale_color_manual(values = fitcol, labels = legendtext) +
+        ggplot2::scale_linetype_manual(values = fitlty, labels = legendtext)
+      return(ggdenscomp)
+      
+    } else
+    {
+      stop("This plot is not yet available using ggplot2 for discrete distributions.")
+    }
   }
 }

@@ -44,9 +44,24 @@ fitdistcens <- function (censdata, distr, start=NULL, fix.arg=NULL,
     if(!is.logical(keepdata) || !is.numeric(keepdata.nb) || keepdata.nb < 3)
       stop("wrong arguments 'keepdata' and 'keepdata.nb'.")
     
+    #encapsulate three dots arguments
     my3dots <- list(...)    
     if (length(my3dots) == 0) 
       my3dots <- NULL
+    
+    # Check of d p functions
+    ### ML comment : seems complex to implement as it would need vstart which is calculated in mledist 
+    # using many lines of code
+    # dpq2test <- c("d", "p")
+    # # check d, p, q, functions of distname
+    # resdpq <- testdpqfun(distname, dpq2test, start.arg=vstart, 
+    #                      fix.arg=fix.arg, discrete=discrete)
+    # if(any(!resdpq$ok))
+    # {
+    #   for(x in resdpq[!resdpq$ok, "txt"])
+    #     warning(x)
+    # }
+    
         
     # MLE fit with mledist 
     mle <- mledist(censdata, distname, start, fix.arg, ...)
