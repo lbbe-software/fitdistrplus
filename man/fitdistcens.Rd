@@ -184,13 +184,13 @@ Marie-Laure Delignette-Muller and Christophe Dutang.
 data(smokedfish)
 fitsf  <-  fitdistcens(smokedfish,"lnorm")
 summary(fitsf)
-# default plot using the Turnbull algorithm
+# default plot using the Wang technique (see ?plotdiscens for details)
 plot(fitsf)
-# plot using the Turnbull algorithm with confidence intervals for the 
-# empirical distribution
-plot(fitsf, Turnbull.confint = TRUE)
+# plot using the Turnbull algorithm (see ?plotdiscens for details)
+# with confidence intervals for the empirical distribution
+plot(fitsf, NPMLE = TRUE, NPMLE.method = "Turnbull", Turnbull.confint = TRUE)
 # basic plot using intervals and points (see ?plotdiscens for details)
-plot(fitsf, Turnbull = FALSE)
+plot(fitsf, NPMLE = FALSE)
 # plot of the same fit using the Turnbull algorithm in logscale
 cdfcompcens(fitsf,main="bacterial contamination fits",
     xlab="bacterial concentration (CFU/g)",ylab="F",
@@ -283,6 +283,14 @@ fln <- fitdistcens(log10EC50,"norm")
 
 quantile(fln, probs = 0.05)
 quantile(fln, probs = c(0.05, 0.1, 0.2))
+
+# (9) Fit of a lognormal distribution on 72-hour acute salinity tolerance (LC50 values)
+# of riverine macro-invertebrates using maximum likelihood estimation
+
+data(salinity)
+log10LC50 <-log10(salinity)
+fln <- fitdistcens(log10LC50,"norm")
+plot(fln)
 
 }
 

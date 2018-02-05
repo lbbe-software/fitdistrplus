@@ -9,8 +9,8 @@
 }
 
 \usage{
-plotdistcens(censdata, distr, para, leftNA = -Inf, rightNA = Inf,
-    Turnbull = TRUE, Turnbull.confint = FALSE, \dots)
+plotdistcens(censdata, distr, para, leftNA = -Inf, rightNA = Inf,NPMLE = TRUE,
+    Turnbull = NULL, Turnbull.confint = FALSE, NPMLE.method = "Wang", \dots)
 }
 
 \arguments{
@@ -31,22 +31,50 @@ plotdistcens(censdata, distr, para, leftNA = -Inf, rightNA = Inf,
     or a finite value such as \code{0} for positive data for example.}
 \item{rightNA}{ the real value of the right bound of right censored observations : \code{Inf}
      or a finite value such as a realistic maximum value.}
-\item{Turnbull}{ if TRUE the Turnbull algorithm is used to estimate the cdf curve of the censored data
+\item{NPMLE}{ if TRUE an NPMLE (nonparametric maximum likelihood estimate) technique is 
+    used to estimate the cdf curve of the censored data
     and previous arguments \code{leftNA} and \code{rightNA} are not used (see details)}
-\item{Turnbull.confint}{ if TRUE confidence intervals will be added to the Turnbull plot.}
+\item{Turnbull}{ Turnbull is a deprecated argument. You should now use \code{NPMLE} to choose
+    to use an NPMLE technique (or not) and \code{NPMLE.method} to choose the method.}
+\item{Turnbull.confint}{ if TRUE confidence intervals will be added to the Turnbull plot.
+    In that case NPMLE.method is forced to \code{"Turnbull"}}
+\item{NPMLE.method}{Two NPMLE technique are provided, \code{"Wang"}, the default one,
+    which is implemented in the package npsurv and \code{"Turnbull"}, an older one,
+    which is implemented in the package survival (see details). Only \code{"Wang"}
+    enables the derivation of a Q-Q plot and a P-P plot.}
 \item{\dots}{ further graphical arguments passed to other methods }
 }
 
 \details{
-    Empirical and, if specified, theoretical distributions are plotted
-    in cdf. 
-    If \code{Turnbull} is \code{TRUE}, the EM approach of Turnbull (Turnbull, 1974) 
-    is used to compute the overall 
+     If \code{NPMLE} is \code{TRUE}, and \code{NPMLE.method} is \code{"Wang"},
+    empirical and, if specified, theoretical distributions are plotted
+    in cdf using either the constrained Newton method (Wang, 2008)
+    or the hierarchical constrained Newton method (Wang, 2013) 
+    to compute the overall 
+    empirical cdf curve, 
+    by calls to functions \code{\link{npsurv}} from the 
+    \code{npsurv} package. In this plot, grey rectangles represent areas
+    where the empirical distribution function is not unique. In cases
+    where a theoretical distribution is specified, two goodness-of-fit plots
+    are also provided, a Q-Q plot (plot of the quantiles of the theoretical fitted 
+    distribution (x-axis) against the empirical quantiles of the data) and a P-P plot
+    (i.e. for each value of the data set, plot of the cumulative density function 
+    of the fitted distribution (x-axis) against the empirical cumulative density function 
+    (y-axis)). Grey rectangles in a Q-Q plot or a P-P plot also represent areas of 
+    non uniqueness of empirical quantiles or probabilities, directly derived from 
+    non uniqueness areas of the empirical cumulative distribution.
+
+    If \code{NPMLE} is \code{TRUE}, and \code{NPMLE.method} is \code{"Turnbull"},
+    empirical and, if specified, theoretical distributions are plotted
+    in cdf using the EM approach of Turnbull (Turnbull, 1974) 
+    to compute the overall 
     empirical cdf curve, with confidence intervals if \code{Turnbull.confint} is \code{TRUE}, 
     by calls to functions \code{\link{survfit}} and \code{\link{plot.survfit}} from the 
     \code{survival} package. 
     
-    Else data are reported directly as segments for interval, left and right censored data, 
+    If \code{NPMLE} is \code{FALSE} empirical and, if specified, theoretical distributions 
+    are plotted in cdf, with data directly reported as segments for interval, 
+    left and right censored data, 
     and as points for non-censored data. Before plotting, observations are ordered and a rank r
     is associated to each of them. Left censored observations are ordered
     first, by their right bounds. Interval censored and non censored observations
@@ -71,6 +99,12 @@ plotdistcens(censdata, distr, para, leftNA = -Inf, rightNA = Inf,
 \references{ 
 Turnbull BW (1974), \emph{Nonparametric estimation of a survivorship function with doubly
 censored data}. Journal of American Statistical Association, 69, 169-173.
+
+Wang Y (2008), \emph{Dimension-reduced nonparametric maximum likelihood computation
+for interval-censored data}. Computational Statistics & Data Analysis, 52, 2388-2402.
+
+Wang Y and Taylor SM (2013), \emph{Efficient computation of nonparametric survival
+functions via a hierarchical mixture formulation}. Statistics and Computing, 23, 713-725.
 
 Delignette-Muller ML and Dutang C (2015), \emph{fitdistrplus: An R Package for Fitting Distributions}.
 Journal of Statistical Software, 64(4), 1-34.
@@ -98,15 +132,17 @@ plotdistcens(d1,"norm",para=list(mean=-1.6,sd=1.5))
 
 # (3) Various plots of the same empirical distribution 
 #
-# default Turnbull plot
-plotdistcens(d1,Turnbull = TRUE)
+# default Wang plot
+plotdistcens(d1, NPMLE = TRUE, NPMLE.method = "Wang")
+# Turnbull plot
+plotdistcens(d1, NPMLE = TRUE, NPMLE.method = "Turnbull")
 # Turnbull plot with confidence intervals
-plotdistcens(d1,Turnbull = TRUE,Turnbull.confint = TRUE)
+plotdistcens(d1, NPMLE = TRUE, NPMLE.method = "Turnbull", Turnbull.confint = TRUE)
 # with intervals and points
-plotdistcens(d1,rightNA=3, Turnbull = FALSE)
+plotdistcens(d1,rightNA=3, NPMLE = FALSE)
 # with intervals and points
 # defining a minimum value for left censored values
-plotdistcens(d1,leftNA=-3, Turnbull = FALSE)
+plotdistcens(d1,leftNA=-3, NPMLE = FALSE)
 
 }
 
