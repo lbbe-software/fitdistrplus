@@ -136,7 +136,7 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
       ## calul des points points pour Q et P dans les GOF stat et graph
       Fbefore <- c(0, Fnpsurv[-k])
       df <- data.frame(left = f$left, right = f$right)
-      dfb <- subset(df, (left != - Inf) & (right != Inf) ) # without Inf
+      dfb <- df[(df$left != -Inf) & (df$right != Inf), ]
       
       # Definition of vertices of each rectangle
       Qi.left <- df$left # dim k
