@@ -162,9 +162,6 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
   if(plotstyle == "graphics") {
     ######## plot if plotstyle=='graphics' ########
     
-    #main plotting
-    reshist <- hist(mydata, main = main, xlab = xlab, ylab = ylab, xlim = xlim, ylim = ylim, col = datacol, probability = probability, ...)
-    
     if(!discrete)
     {
       #main plotting
