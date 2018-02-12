@@ -261,6 +261,7 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
         ggplot2::geom_line(data = fitteddens, ggplot2::aes_(linetype = quote(ind), colour = quote(ind)), size = 0.4) +
         ggplot2::guides(colour = ggplot2::guide_legend(title = NULL)) +
         ggplot2::guides(linetype = ggplot2::guide_legend(title = NULL)) +
+        ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
         {if(addlegend) ggplot2::theme(legend.position = c(xlegend, ylegend)) else ggplot2::theme(legend.position = "none")} +
         ggplot2::scale_color_manual(values = fitcol, labels = legendtext) +
         ggplot2::scale_linetype_manual(values = fitlty, labels = legendtext)
