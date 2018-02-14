@@ -158,7 +158,6 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
     fitcol <- c(fitcol, dempcol)
   }
   
-  
   if(plotstyle == "graphics") {
     ######## plot if plotstyle=='graphics' ########
     
@@ -226,18 +225,18 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
   } else {
     ######## plot if plotstyle=='ggplot' ########
     
+    # recode the legend position according to available positions in ggplot2
+    if(xlegend %in% c("topleft", "bottomleft"))
+      xlegend <- "left"
+    if(xlegend %in% c("topright", "bottomright"))
+      xlegend <- "right"
+    
+    # the default colors of the bars is the same as panel.background.fill in theme_grey()
+    if(is.null(datacol))
+      datacol <- "grey92"
+    
     if (!discrete)
     {
-      # recode the legend position according to available positions in ggplot2
-      if(xlegend %in% c("topleft", "bottomleft"))
-        xlegend <- "left"
-      if(xlegend %in% c("topright", "bottomright"))
-        xlegend <- "right"
-      
-      # the default colors of the bars is the same as panel.background.fill in theme_grey()
-      if(is.null(datacol))
-        datacol <- "grey92"
-      
       # structure the fitteddens in a relevant data.frame
       fitteddens <- as.data.frame(fitteddens)
       colnames(fitteddens) <- unlist(lapply(ft, function(X) X["distname"]))
@@ -269,7 +268,36 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
       
     } else
     {
-      stop("This plot is not yet available using ggplot2 for discrete distributions.")
+      eps <- diff(range(sfin))/200
+      
+      # structure the fitteddens in a relevant data.frame
+      fitteddens <- as.data.frame(fitteddens)
+      colnames(fitteddens) <- unlist(lapply(ft, function(X) X["distname"]))
+      fitteddens <- stack(fitteddens)
+      fitteddens$ind <- factor(fitteddens$ind, levels = unique(fitteddens$ind))   # reorder levels in the appearance order of the input
+      fitteddens$sfin <- sfin + sapply(fitteddens$ind, function(X) which(X == levels(fitteddens$ind))) *eps   # sfin is recycled in the standard fashion
+      
+      if(demp) # bind empirical data if demp is TRUE
+        fitteddens <- rbind(fitteddens, data.frame(values = as.numeric(table(mydata))/length(mydata) * scalefactor, 
+                                                   ind = "demp", 
+                                                   sfin = as.numeric(names(table(mydata)))))
+      
+      ggdenscomp <-
+        ggplot2::ggplot(fitteddens, ggplot2::aes_(quote(sfin), quote(values), group = quote(ind), colour = quote(ind))) +
+        ggplot2::xlab(xlab) +
+        ggplot2::ylab(ylab) +
+        ggplot2::ggtitle(main) +
+        ggplot2::coord_cartesian(xlim = c(xlim[1], xlim[2]), ylim = c(ylim[1], ylim[2])) +
+        {if(fittype %in% c("l", "o")) ggplot2::geom_segment(data = fitteddens, ggplot2::aes_(x = quote(sfin), xend = quote(sfin), y = 0, yend = quote(values), linetype = quote(ind)))} +
+        {if(fittype %in% c("p", "o")) ggplot2::geom_point(data = fitteddens, ggplot2::aes_(x = quote(sfin), y = quote(values), colour = quote(ind)), shape = 1)} +
+        ggplot2::guides(colour = ggplot2::guide_legend(title = NULL)) +
+        ggplot2::guides(linetype = ggplot2::guide_legend(title = NULL)) +
+        ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
+        {if(addlegend) ggplot2::theme(legend.position = c(xlegend, ylegend)) else ggplot2::theme(legend.position = "none")} +
+        ggplot2::scale_color_manual(values = fitcol, labels = legendtext) +
+        ggplot2::scale_linetype_manual(values = fitlty, labels = legendtext)
+      return(ggdenscomp)
+      
     }
   }
 }
