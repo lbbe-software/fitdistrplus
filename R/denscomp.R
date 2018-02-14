@@ -132,7 +132,7 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
     if(!probability)
       ylim <- c(0, max(reshist$counts))
     else
-      ylim <- c(0, max(reshist$density))
+      ylim <- c(0, max(c(reshist$density, as.numeric(table(mydata))/length(mydata))))
     ylim <- range(ylim, fitteddens)	
   }else
     ylim <- range(ylim) # in case of users enter a bad ylim
