@@ -148,7 +148,8 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
   }
   
   # forces demp to TRUE if discrete is TRUE
-  demp <- TRUE
+  if(discrete)
+    demp <- TRUE
   
   #add empirical density/fmp to legend vectors
   if(demp)
