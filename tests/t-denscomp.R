@@ -230,13 +230,23 @@ par(mar=c(4,4,2,1))
 denscomp(list(fpois, fnbinom, fgeo))
 denscomp(list(fpois, fnbinom, fgeo), fittype="o")
 denscomp(list(fpois, fnbinom, fgeo), fittype="p")
+# 'ggplot' plot style
+if (requireNamespace ("ggplot2", quietly = TRUE)) {
+  denscomp(list(fpois, fnbinom, fgeo), plotstyle="ggplot")
+  denscomp(list(fpois, fnbinom, fgeo), fittype="o", plotstyle="ggplot")
+  denscomp(list(fpois, fnbinom, fgeo), fittype="p", plotstyle="ggplot")
+}
 
 #test the call to any()
 fpois$discrete <- fnbinom$discrete <- FALSE
 denscomp(list(fpois, fnbinom, fgeo))
+if (requireNamespace ("ggplot2", quietly = TRUE))
+  denscomp(list(fpois, fnbinom, fgeo), plotstyle="ggplot")
 #test the forced usage
 fgeo$discrete <- FALSE
 denscomp(list(fpois, fnbinom, fgeo), discrete=TRUE)
+if (requireNamespace ("ggplot2", quietly = TRUE))
+  denscomp(list(fpois, fnbinom, fgeo), discrete=TRUE, plotstyle="ggplot")
 
 
 x <- c(rpois(100, 30), rbinom(100, 12, 2/3))
@@ -249,4 +259,9 @@ par(mar=c(4,4,2,1))
 denscomp(list(fpois, fnbinom, fgeo)) #fittype = "l"
 denscomp(list(fpois, fnbinom, fgeo), fittype = "p")
 denscomp(list(fpois, fnbinom, fgeo), fittype = "o")
+if (requireNamespace ("ggplot2", quietly = TRUE)) {
+  denscomp(list(fpois, fnbinom, fgeo), plotstyle="ggplot") #fittype = "l"
+  denscomp(list(fpois, fnbinom, fgeo), fittype = "p", plotstyle="ggplot")
+  denscomp(list(fpois, fnbinom, fgeo), fittype = "o", plotstyle="ggplot")
+}
 
