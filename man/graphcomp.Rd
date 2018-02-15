@@ -23,7 +23,7 @@ cdfcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
     
 denscomp(ft, xlim, ylim, probability = TRUE, main, xlab, ylab, datacol, fitlty, 
     fitcol, addlegend = TRUE, legendtext, xlegend = "topright", ylegend = NULL, 
-    demp = FALSE, dempcol = "grey", plotstyle = "graphics", 
+    demp = FALSE, dempcol = "black", plotstyle = "graphics", 
     discrete, fitnbpts = 101, fittype="l", \dots)
 
 qqcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 

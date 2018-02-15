@@ -16,8 +16,8 @@ try(denscomp("list(fitW, fitln, fitg)",horizontals = FALSE), silent=TRUE)
 try(denscomp(list(fitW, fitln, fitg, a=1),horizontals = FALSE), silent=TRUE)
 
 #real call
-denscomp(list(fitW, fitln, fitg), probability=TRUE)
-denscomp(list(fitW, fitln, fitg), probability=FALSE)
+denscomp(list(fitW, fitln, fitg), probability = TRUE)
+denscomp(list(fitW, fitln, fitg), probability = FALSE)
 if (requireNamespace ("ggplot2", quietly = TRUE)) {
   denscomp(list(fitW, fitln, fitg), probability=TRUE, plotstyle = "ggplot")
   denscomp(list(fitW, fitln, fitg), probability=FALSE, plotstyle = "ggplot")
@@ -227,12 +227,14 @@ fgeo <- fitdist(x, "geom")
 fnbinom <- fitdist(x, "nbinom")
 
 par(mar=c(4,4,2,1))
-denscomp(list(fpois, fnbinom, fgeo))
+denscomp(list(fpois, fnbinom, fgeo), probability = TRUE)
+denscomp(list(fpois, fnbinom, fgeo), probability = FALSE)
 denscomp(list(fpois, fnbinom, fgeo), fittype="o")
 denscomp(list(fpois, fnbinom, fgeo), fittype="p")
 # 'ggplot' plot style
 if (requireNamespace ("ggplot2", quietly = TRUE)) {
-  denscomp(list(fpois, fnbinom, fgeo), plotstyle="ggplot")
+  denscomp(list(fpois, fnbinom, fgeo), plotstyle="ggplot", probability = TRUE)
+  denscomp(list(fpois, fnbinom, fgeo), plotstyle="ggplot", probability = FALSE)
   denscomp(list(fpois, fnbinom, fgeo), fittype="o", plotstyle="ggplot")
   denscomp(list(fpois, fnbinom, fgeo), fittype="p", plotstyle="ggplot")
 }

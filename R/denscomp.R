@@ -28,7 +28,7 @@
 denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab, 
                      datacol, fitlty, fitcol, addlegend = TRUE, legendtext, 
                      xlegend = "topright", ylegend = NULL, demp = FALSE, 
-                     dempcol = "grey", plotstyle = "graphics", 
+                     dempcol = "black", plotstyle = "graphics", 
                      discrete, fitnbpts = 101, fittype="l", ...)
 {
   if(inherits(ft, "fitdist"))
@@ -109,7 +109,13 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
   else
     sfin <- unique(round(seq(xmin, xmax, length.out = fitnbpts[1]), digits = 0))
   reshist <- hist(mydata, plot = FALSE, ...)
-  scalefactor <- ifelse(probability, 1, n * diff(reshist$breaks))
+  if (!discrete)
+  {
+    scalefactor <- ifelse(probability, 1, n * diff(reshist$breaks))
+  } else
+  {
+    scalefactor <- ifelse(probability, 1, n)
+  }
   binwidth <- min(diff(reshist$breaks))
   
   # computation of each fitted distribution
@@ -130,9 +136,23 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
   if (missing(ylim))
   {
     if(!probability)
-      ylim <- c(0, max(reshist$counts))
-    else
-      ylim <- c(0, max(c(reshist$density, as.numeric(table(mydata))/length(mydata))))
+      if (discrete) 
+      {
+        ylim <- c(0, max(as.numeric(table(mydata))))
+      } else
+      {
+        ylim <- c(0, max(reshist$counts))
+      }
+    else # so if probability
+    {
+      if (discrete) 
+      {
+        ylim <- c(0, max(as.numeric(table(mydata))/length(mydata)))
+      } else
+      {
+        ylim <- c(0, max(reshist$density))
+      }
+    }
     ylim <- range(ylim, fitteddens)	
   }else
     ylim <- range(ylim) # in case of users enter a bad ylim
@@ -194,7 +214,7 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
         if(demp)
         {
           empval <- sort(unique(mydata))
-          empprob <- as.numeric(table(mydata))/length(mydata)
+          empprob <- as.numeric(table(mydata))/length(mydata) * scalefactor
           lines(empval, empprob, col=dempcol, type="h")
         }
       }
@@ -207,7 +227,7 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
         if(demp)
         {
           empval <- sort(unique(mydata))
-          empprob <- as.numeric(table(mydata))/length(mydata)
+          empprob <- as.numeric(table(mydata))/length(mydata) * scalefactor
           points(empval, empprob, col=dempcol, pch=1)
         }  
       }
