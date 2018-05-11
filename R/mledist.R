@@ -264,8 +264,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
             else #cens == TRUE
               opttryerror <- try(opt <- constrOptim(theta=vstart, f=fnobjcens, ui=Mat, ci=Bnd, grad=gradient,
                     ddistnam=ddistname, rcens=rcens, lcens=lcens, icens=icens, ncens=ncens, pdistnam=pdistname,
-                    fix.arg=fix.arg, obs=data, hessian=!is.null(gradient), method=meth, 
-                    ...), silent=TRUE)
+                    fix.arg=fix.arg, hessian=!is.null(gradient), method=meth, ...), silent=TRUE)
             if(!inherits(opttryerror, "try-error"))
               if(length(opt$counts) == 1) #appears when the initial point is a solution
                 opt$counts <- c(opt$counts, NA)

@@ -40,19 +40,8 @@ mledist(x4, "pois", silent=TRUE)
 mledist(x4, "pois", silent=FALSE)
 mledist(x4, "nbinom")
 
-# (6) fit a continuous distribution (Gumbel) to censored data.
-#
 
-data(fluazinam)
-log10EC50 <-log10(fluazinam)
-# definition of the Gumbel distribution
-dgumbel  <-  function(x,a,b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
-pgumbel  <-  function(q,a,b) exp(-exp((a-q)/b))
-qgumbel  <-  function(p,a,b) a-b*log(-log(p))
-
-mledist(log10EC50,"gumbel",start=list(a=0,b=2),optim.method="Nelder-Mead")
-
-# (7) scaling problem
+# (6) scaling problem
 # the simulated dataset (below) has particularly small values, hence without scaling (10^0),
 # the optimization raises an error. The for loop shows how scaling by 10^i
 # for i=1,...,6 makes the fitting procedure work correctly.
@@ -63,7 +52,7 @@ for(i in 6:0)
     cat(i, try(mledist(x*10^i, "cauchy")$estimate, silent=TRUE), "\n")
         
 
-# (8) scaling problem
+# (7) scaling problem
 #
 
 x <- c(-0.00707717, -0.000947418, -0.00189753, 
@@ -91,7 +80,7 @@ for(i in 6:0)
 cat(i, try(mledist(x*10^i, "cauchy")$estimate, silent=TRUE), "\n")
 
 
-# (9) normal mixture
+# (8) normal mixture
 #
 
 #mixture of two normal distributions
@@ -121,7 +110,7 @@ fit1 <- mledist(x, "norm2", start=list(w=1/3, m1=4, s1=2, m2=8, s2=2),
 
 
 
-# (10) fit a Pareto and log-logistic distributions
+# (9) fit a Pareto and log-logistic distributions
 #
 
 if(any(installed.packages()[,"Package"] == "actuar"))
@@ -144,7 +133,7 @@ mledist(x4, "llogis", start=list(shape=10, rate=1), lower=1, upper=Inf)
 
 
 
-# (11) custom optim for exponential distribution
+# (10) custom optim for exponential distribution
 #
 if(any(installed.packages()[,"Package"] == "rgenoud") && FALSE)
 {
@@ -199,7 +188,7 @@ fgenoud=fgenoud$estimate)
 }
 
 
-# (12) custom optim for gamma distribution
+# (11) custom optim for gamma distribution
 #
 if(any(installed.packages()[,"Package"] == "rgenoud") && FALSE)
 {
@@ -255,7 +244,7 @@ fgenoud=fgenoud$estimate)
 
 
 
-# (13) test error messages
+# (12) test error messages
 #
 
 dnorm2 <- function(x, a)
@@ -269,7 +258,7 @@ attr(try(log("a"), silent=TRUE), "condition")
 
 
 
-# (14) weighted MLE
+# (13) weighted MLE
 #
 n <- 1e6
 n <- 1e2
@@ -290,7 +279,7 @@ f2 <- try(mledist(xval, "pois", weights=rep(1/3, length(xval)), start=list(lambd
 f2 <- try(mledist(1:10, "pois", weights=c(rep(1, 9), 1.001), start=list(lambda=mean(x))))
 f2 <- try(mledist(1:10, "pois", weights=c(rep(1, 9), 1.0000001), start=list(lambda=mean(x))))
 
-# (15) no convergence
+# (14) no convergence
 #
 n <- 1e2
 x <- c(rep(0, n), rpois(n, 10), rpois(n, 50))
@@ -300,7 +289,7 @@ mledist(x, "pois", optim.method="Nelder-Mead", control=list(maxit=10))
 
 
 
-# (16) basic fit of a normal distribution with new fix.arg/start.arg
+# (15) basic fit of a normal distribution with new fix.arg/start.arg
 #
 
 set.seed(1234)
@@ -329,7 +318,7 @@ try( mledist(x1,"abcnorm", fix.arg=function(x) list(mean=mean(x))) ) #t8
 
 
 
-# (17) relevant example for zero modified geometric distribution
+# (16) relevant example for zero modified geometric distribution
 #
 dzmgeom <- function(x, p1, p2)
 {
@@ -356,13 +345,13 @@ mledist(x3, "zmgeom", fix.arg=initp1, start=list(p2=1/2))[c("estimate", "fix.arg
 mledist(x4, "zmgeom", fix.arg=initp1, start=list(p2=1/2))[c("estimate", "fix.arg")]
 
 
-# (18) test the component optim.message
+# (17) test the component optim.message
 x <- rnorm(1000)
 #change parameter to obtain unsuccessful convergence
 mledist(x, "norm", control=list(maxit=2), start=list(mean=1e5, sd=1), optim.method="L-BFGS-B", lower=0)
 
 
-# (19) management of bounds in optim/constrOptim
+# (18) management of bounds in optim/constrOptim
 x <- rexp(100)
 mledist(x, "exp") #optim, BFGS
 mledist(x, "exp", optim.method="Brent", lower=0, upper=100) #optim, Brent
