@@ -68,38 +68,23 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
       my3dots <- NULL
     n <- length(data)
     
-    # definition of starting/fixed values values
-    ### ML comment : it is perturbating to see the following lines here
-    # as the starting values are really computed in mledist
-    # is it really necessary to do that
-    # il yes the real computing of starting values should be here and not in mledist
-    # but it will require hazardous changes, especially concerning fitdistcens for which the
-    # computing of starting values needs more lines of code
-    # I am not in favour of such a BIG CHANGE in the struture of the code
+    # manage starting/fixed values: may raise errors or return two named list
+    arg_startfix <- manageparam(start.arg=start, fix.arg=fix.arg, obs=data, 
+                                 distname=distname)
+    
+    #check inconsistent parameters
     argddistname <- names(formals(ddistname))
-    chfixstt <- checkparam(start.arg=start, fix.arg=fix.arg, argdistname=argddistname, 
-                           errtxt=NULL, data10=head(data, 10), distname=distname)
-    if(!chfixstt$ok)
-      stop(chfixstt$txt)
-    #unlist starting values as needed in optim()
-    if(is.function(chfixstt$start.arg))
-      vstart <- unlist(chfixstt$start.arg(data))
-    else
-      vstart <- unlist(chfixstt$start.arg)
-    #set fix.arg.fun
-    if(is.function(fix.arg)) #function
-    { 
+    arg_startfix <- checkparamlist(arg_startfix$start.arg, arg_startfix$fix.arg, argddistname)
+    #arg_startfix contains two names list (no longer NULL nor function)
+    #store fix.arg.fun if supplied by the user
+    if(is.function(fix.arg))
       fix.arg.fun <- fix.arg
-      fix.arg <- fix.arg(data)
-    }else
-    {
-      #otherwise fix.arg is a named list or NULL
+    else
       fix.arg.fun <- NULL
-    }
     
     # check d, p, q, functions of distname
-    resdpq <- testdpqfun(distname, dpq2test, start.arg=vstart, 
-               fix.arg=fix.arg, discrete=discrete)
+    resdpq <- testdpqfun(distname, dpq2test, start.arg=arg_startfix$start.arg, 
+               fix.arg=arg_startfix$fix.arg, discrete=discrete)
     if(any(!resdpq$ok))
     {
       for(x in resdpq[!resdpq$ok, "txt"])
@@ -115,7 +100,8 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
             if (!"order" %in% names(my3dots))
                 stop("moment matching estimation needs an 'order' argument")   
         
-        mme <- mmedist(data, distname, start=start, fix.arg=fix.arg, ...)
+        mme <- mmedist(data, distname, start=arg_startfix$start.arg, 
+                       fix.arg=arg_startfix$fix.arg, checkstartfix=TRUE, ...)
                 
         sd <- NULL
         correl <- varcovar <- NULL
@@ -127,11 +113,11 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
         bic <- -2*loglik+log(n)*npar
         convergence <- mme$convergence
         fix.arg <- mme$fix.arg
-        fix.arg.fun <- NULL
         weights <- mme$weights
     }else if (method == "mle")
     {
-        mle <- mledist(data, distname, start, fix.arg, ...)
+        mle <- mledist(data, distname, start=arg_startfix$start.arg, 
+                       fix.arg=arg_startfix$fix.arg, checkstartfix=TRUE, ...)
         if (mle$convergence>0) 
            stop("the function mle failed to estimate the parameters, 
                 with the error code ", mle$convergence, "\n") 
@@ -158,14 +144,14 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
         bic <- -2*loglik+log(n)*npar
         convergence <- mle$convergence
         fix.arg <- mle$fix.arg
-        fix.arg.fun <- mle$fix.arg.fun
         weights <- mle$weights
     }else if (method == "qme")
     {
         if (!"probs" %in% names(my3dots))
             stop("quantile matching estimation needs an 'probs' argument") 
                 
-        qme <- qmedist(data, distname, start, fix.arg, ...)
+        qme <- qmedist(data, distname, start=arg_startfix$start.arg, 
+                       fix.arg=arg_startfix$fix.arg, checkstartfix=TRUE, ...)
 
         estimate <- qme$estimate
         sd <- NULL
@@ -177,14 +163,14 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
         
         convergence <- qme$convergence   
         fix.arg <- qme$fix.arg
-        fix.arg.fun <- qme$fix.arg.fun
         weights <- qme$weights
     }else if (method == "mge")
     {
         if (!"gof" %in% names(my3dots))
             warning("maximum GOF estimation has a default 'gof' argument set to 'CvM'")    
 
-        mge <- mgedist(data, distname, start, fix.arg, ...)
+        mge <- mgedist(data, distname, start=arg_startfix$start.arg, 
+                       fix.arg=arg_startfix$fix.arg, checkstartfix=TRUE, ...)
 
         estimate <- mge$estimate
         sd <- NULL
@@ -196,7 +182,6 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
         
         convergence <- mge$convergence
         fix.arg <- mge$fix.arg
-        fix.arg.fun <- mge$fix.arg.fun
         weights <- NULL
     }else
     {
@@ -204,7 +189,8 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
     }
     
     #needed for bootstrap
-    if (!is.null(fix.arg)) fix.arg <- as.list(fix.arg)
+    if (!is.null(fix.arg)) 
+      fix.arg <- as.list(fix.arg)
     
     if(keepdata)
     {

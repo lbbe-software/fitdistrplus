@@ -30,6 +30,7 @@ checkparam <- function(start.arg, fix.arg, argdistname, errtxt=NULL, data10, dis
   #start.arg \ fix.arg | NULL | non NULL
   # NULL               | 1    | 2 
   # non NULL           | 3    | 4
+  
   if(is.null(start.arg) && is.null(fix.arg)) #1
   { #default case from fitdist, mledist,...
     start.arg <- start.arg.default(data10, distr=distname)

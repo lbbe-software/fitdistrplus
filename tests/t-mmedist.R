@@ -90,12 +90,12 @@ c(truestim=exp(2*mu+s2)*(exp(s2)-1),
 # (6) test error messages
 #
 
-mnorm2 <- function(x, a)
+mnorm3 <- dnorm3 <- function(x, a)
   "NA"
-x <- rexp(10)
+x <- rnorm(10)
 
 #should get a one-line error 
-res <- mmedist(x, "norm2", start=list(a=1), order=1, memp=function(x, order) mean(x))
+res <- mmedist(x, "norm3", start=list(a=1), order=1, memp=function(x, order) mean(x))
 #as in 
 attr(try(log("a"), silent=TRUE), "condition")
 

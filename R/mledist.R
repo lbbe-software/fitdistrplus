@@ -25,7 +25,8 @@
 ### the mle function of the stat package.
 
 mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="default", 
-    lower=-Inf, upper=Inf, custom.optim=NULL, weights=NULL, silent=TRUE, gradient=NULL, ...)
+    lower=-Inf, upper=Inf, custom.optim=NULL, weights=NULL, silent=TRUE, gradient=NULL, 
+    checkstartfix=FALSE, ...)
     # data may correspond to a vector for non censored data or to
     # a dataframe of two columns named left and right for censored data 
 {
@@ -34,6 +35,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
     else 
         distname <- distr
     ddistname <- paste("d", distname, sep="")
+    argddistname <- names(formals(ddistname))
     
     if (!exists(ddistname, mode="function"))
         stop(paste("The ", ddistname, " function must be defined"))
@@ -74,46 +76,47 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
     }
     
     if (cens) {
-        # Definition of datasets lcens (left censored)=vector, rcens (right censored)= vector, 
-        #   icens (interval censored) = dataframe with left and right 
-        # and ncens (not censored) = vector
-        irow.lcens <- is.na(censdata$left) # rows corresponding to lcens data
-        lcens <- censdata[irow.lcens, ]$right
-        if (any(is.na(lcens)) )
-            stop("An observation cannot be both right and left censored, coded with two NA values")
-        irow.rcens <- is.na(censdata$right)  # rows corresponding to rcens data
-        rcens <- censdata[irow.rcens, ]$left
-        irow.ncens <- censdata$left==censdata$right & !is.na(censdata$left) & 
-                      !is.na(censdata$right)  # rows corresponding to ncens data
-        ncens<-censdata[irow.ncens, ]$left
-        irow.icens <- censdata$left!=censdata$right & !is.na(censdata$left) & 
-          !is.na(censdata$right)  # rows corresponding to icens data
-        icens<-censdata[irow.icens, ]
-        # Definition of a data set for calculation of starting values
-        data<-c(rcens, lcens, ncens, (icens$left+icens$right)/2)
+        #format data for calculation of starting values and fitting process
+        dataformat <- cens2pseudo(censdata)
+        data <- dataformat$pseudo
+        rcens <- dataformat$rcens; lcens <- dataformat$lcens 
+        icens <- dataformat$icens; ncens <- dataformat$ncens
+        
+        irow <- cens2idxrow(censdata)
+        irow.rcens <- irow$rcens; irow.lcens <- irow$lcens
+        irow.icens <- irow$icens; irow.ncens <- irow$ncens
     }
     
-    # definition of starting/fixed values
-    argddistname <- names(formals(ddistname))
-    chfixstt <- checkparam(start.arg=start.arg, fix.arg=fix.arg, argdistname=argddistname, 
-                           errtxt=NULL, data10=head(data, 10), distname=distname)
-    if(!chfixstt$ok)
-      stop(chfixstt$txt)
-    #unlist starting values as needed in optim()
-    if(is.function(chfixstt$start.arg))
-      vstart <- unlist(chfixstt$start.arg(data))
-    else
-      vstart <- unlist(chfixstt$start.arg)
-    #set fix.arg.fun
-    if(is.function(fix.arg)) #function
-    { 
-      fix.arg.fun <- fix.arg
-      fix.arg <- fix.arg(data)
-    }else
+    if(!checkstartfix) #pre-check has not been done by fitdist() or bootdist()
+    {
+      # manage starting/fixed values: may raise errors or return two named list
+      arg_startfix <- manageparam(start.arg=start, fix.arg=fix.arg, obs=data, 
+                                  distname=distname)
+      
+      #check inconsistent parameters
+      arg_startfix <- checkparamlist(arg_startfix$start.arg, arg_startfix$fix.arg, argddistname)
+      #arg_startfix contains two names list (no longer NULL nor function)  
+      
+      #set fix.arg.fun
+      if(is.function(fix.arg))
+        fix.arg.fun <- fix.arg
+      else
+        fix.arg.fun <- NULL
+    }else #pre-check has been done by fitdist<cens>() or bootdist<cens>()
+    {
+      arg_startfix <- list(start.arg=start, fix.arg=fix.arg)
       fix.arg.fun <- NULL
-    #otherwise fix.arg is a named list or NULL
+    }
     
-    # end of the definition of starting/fixed values   
+    #unlist starting values as needed in optim()
+    vstart <- unlist(arg_startfix$start.arg)
+    #sanity check
+    if(is.null(vstart))
+      stop("Starting values could not be NULL with checkstartfix=TRUE")
+    
+    #erase user value
+    fix.arg <- unlist(arg_startfix$fix.arg)
+    
     
     ############# closed-form formula for uniform distribution ##########
     if(distname == "unif")

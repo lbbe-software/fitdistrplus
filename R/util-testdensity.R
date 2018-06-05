@@ -4,7 +4,8 @@
 # INPUTS 
 #distr : the distribution name
 #fun: a character vector with letters among d, p, q
-#start.arg: an initial value vector
+#start.arg: an initial value list
+#fix.arg: a fixed value list
 #discrete: a logical whether the distribution is discrete
 
 # OUTPUTS
@@ -16,10 +17,10 @@ testdpqfun <- function(distr, fun=c("d","p","q"), start.arg,
   fun <- fun[fun %in% c("d","p","q")]
   stopifnot(length(fun) > 0)
   
-  if(is.list(start.arg)) 
-    start.arg <- as.vector(start.arg)
+  if(is.vector(start.arg)) 
+    start.arg <- as.list(start.arg)
   if(is.function(fix.arg))
-    stop("fix.arg should be either a named vector or NULL but not a function")
+    stop("fix.arg should be either a named list or NULL but not a function")
   
   op <- options() #get current options
   #print(getOption("warn"))
@@ -40,6 +41,9 @@ testdpqfun <- function(distr, fun=c("d","p","q"), start.arg,
 test1fun <- function(fn, start.arg, fix.arg)
 {
   res <- data.frame(ok=FALSE, txt="")
+  stopifnot(is.list(start.arg))
+  if(!is.null(fix.arg))
+    stopifnot(is.list(fix.arg))
   
   #does the function exist?
   if(!exists(fn, mode="function"))
@@ -49,7 +53,7 @@ test1fun <- function(fn, start.arg, fix.arg)
   }
   
   #zero-component vector
-  res0 <- try(do.call(fn, c(list(numeric(0)), as.list(start.arg), as.list(fix.arg))), silent=TRUE)
+  res0 <- try(do.call(fn, c(list(numeric(0)), start.arg, fix.arg)), silent=TRUE)
   t0 <- paste("The", fn, "function should return a zero-length vector when input has length zero and not raise an error")
   t1 <- paste("The", fn, "function should return a zero-length vector when input has length zero")
   if(class(res0) == "try-error")
@@ -65,7 +69,7 @@ test1fun <- function(fn, start.arg, fix.arg)
   
   #inconsistent value
   x <- c(0, 1, Inf, NaN, -1)
-  res1 <- try(do.call(fn, c(list(x), as.list(start.arg), as.list(fix.arg))), silent=TRUE)
+  res1 <- try(do.call(fn, c(list(x), start.arg, fix.arg)), silent=TRUE)
   t2 <- paste("The", fn, "function should return a vector of with NaN values when input has inconsistent values and not raise an error")
   if(class(res1) == "try-error")
   {
@@ -75,7 +79,7 @@ test1fun <- function(fn, start.arg, fix.arg)
   
   #missing value 
   x <- c(0, 1, NA)
-  res2 <- try(do.call(fn, c(list(x), as.list(start.arg), as.list(fix.arg))), silent=TRUE)
+  res2 <- try(do.call(fn, c(list(x), start.arg, fix.arg)), silent=TRUE)
   t4 <- paste("The", fn, "function should return a vector of with NA values when input has missing values and not raise an error")
   t5 <- paste("The", fn, "function should return a vector of with NA values when input has missing values and not remove missing values")
   if(class(res2) == "try-error")
@@ -91,8 +95,8 @@ test1fun <- function(fn, start.arg, fix.arg)
   
   #inconsistent parameter
   x <- 0:1
-  start.arg <- -1*start.arg
-  res3 <- try(do.call(fn, c(list(x), as.list(start.arg), as.list(fix.arg))), silent=TRUE)
+  start.arg <- lapply(start.arg, function(x) -x)
+  res3 <- try(do.call(fn, c(list(x), start.arg, fix.arg)), silent=TRUE)
   t6 <- paste("The", fn, "function should return a vector of with NaN values when input has inconsistent parameters and not raise an error")
   if(class(res3) == "try-error")
   {
@@ -103,7 +107,7 @@ test1fun <- function(fn, start.arg, fix.arg)
   #wrong parameter name
   x <- 0:1
   names(start.arg) <- paste0(names(start.arg), "_")
-  res4 <- try(do.call(fn, c(list(x), as.list(start.arg), as.list(fix.arg))), silent=TRUE)
+  res4 <- try(do.call(fn, c(list(x), start.arg, fix.arg)), silent=TRUE)
   t8 <- paste("The", fn, "function should raise an error when names are incorrectly named")
   if(class(res4) != "try-error")
   {

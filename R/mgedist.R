@@ -25,7 +25,8 @@
 ### 
 
 mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.method="default",
-    lower=-Inf, upper=Inf, custom.optim=NULL, silent=TRUE, gradient=NULL, ...)
+    lower=-Inf, upper=Inf, custom.optim=NULL, silent=TRUE, gradient=NULL, 
+    checkstartfix=FALSE, ...)
     # data may correspond to a vector for non censored data or to
     # a dataframe of two columns named left and right for censored data 
 {
@@ -44,6 +45,7 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
     ddistname <- paste("d",distname,sep="")    
     if (!exists(ddistname, mode="function"))
         stop(paste("The ", ddistname, " function must be defined"))
+    argddistname <- names(formals(ddistname))
 
     if(is.null(custom.optim))
       optim.method <- match.arg(optim.method, c("default", "Nelder-Mead", "BFGS", "CG", "L-BFGS-B", "SANN", "Brent"))
@@ -92,29 +94,36 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
         data<-c(rcens,lcens,ncens,(icens$left+icens$right)/2)
     }
     
-    # MGE fit 
-    # definition of starting/fixed values values
-    argddistname <- names(formals(ddistname))
-    chfixstt <- checkparam(start.arg=start.arg, fix.arg=fix.arg, argdistname=argddistname, 
-                           errtxt=NULL, data10=head(data, 10), distname=distname)
+    if(!checkstartfix) #pre-check has not been done by fitdist() or bootdist()
+    {
+      cat("checkstartfix is carried out\n")
+      # manage starting/fixed values: may raise errors or return two named list
+      arg_startfix <- manageparam(start.arg=start, fix.arg=fix.arg, obs=data, 
+                                  distname=distname)
+      
+      #check inconsistent parameters
+      arg_startfix <- checkparamlist(arg_startfix$start.arg, arg_startfix$fix.arg, argddistname)
+      #arg_startfix contains two names list (no longer NULL nor function)  
     
-    if(!chfixstt$ok)
-      stop(chfixstt$txt)
-    #unlist starting values as needed in optim()
-    if(is.function(chfixstt$start.arg))
-      vstart <- unlist(chfixstt$start.arg(data))
-    else
-      vstart <- unlist(chfixstt$start.arg)
-    #set fix.arg.fun
-    if(is.function(fix.arg)) #function
-    { 
-      fix.arg.fun <- fix.arg
-      fix.arg <- fix.arg(data)
-    }else
+      #set fix.arg.fun
+      if(is.function(fix.arg))
+        fix.arg.fun <- fix.arg
+      else
+        fix.arg.fun <- NULL
+    }else #pre-check has been done by fitdist() or bootdist()
+    {
+      arg_startfix <- list(start.arg=start, fix.arg=fix.arg)
       fix.arg.fun <- NULL
-    #otherwise fix.arg is a named list or NULL
+    }
     
-    # end of the definition of starting/fixed values 
+    #unlist starting values as needed in optim()
+    vstart <- unlist(arg_startfix$start.arg)
+    #sanity check
+    if(is.null(vstart))
+      stop("Starting values could not be NULL with checkstartfix=TRUE")
+    
+    #erase user value
+    fix.arg <- unlist(arg_startfix$fix.arg)
    
    ############# MGE fit using optim or custom.optim ##########
 

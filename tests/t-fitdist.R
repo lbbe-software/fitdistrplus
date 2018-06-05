@@ -478,7 +478,3 @@ try(qqcomp(list(f,f2)))
 try(gofstat(f))
 try(gofstat(list(f,f2)))
 try(bootdist(f))
-
-
-
-

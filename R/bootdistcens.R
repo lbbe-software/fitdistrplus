@@ -54,30 +54,63 @@ bootdistcens <- function (f, niter=1001, silent=TRUE,
       fix.arg <- f$fix.arg.fun
     else 
       fix.arg <- f$fix.arg
-    if (is.null(f$dots))
+    if (is.null(f$dots) && !is.function(fix.arg))
     {
-      funcmle <- function(iter) {
+      funcmle <- function(iter) 
+        {
         mle <- try(do.call(mledist, list(data=data.frame(left=f$censdata[rnumrow[, iter], ]$left, 
             right=f$censdata[rnumrow[, iter], ]$right), distr=f$distname, start=start, 
-            fix.arg=fix.arg)), silent=silent)
+            fix.arg=fix.arg, checkstartfix=TRUE)), silent=silent)
         if(inherits(mle, "try-error"))
           return(c(rep(NA, length(start)), 100))
         else
           return(c(mle$estimate, mle$convergence))
         
         }
-    }else
+    }else if (is.null(f$dots) && is.function(fix.arg))
     {
-      funcmle <- function(iter) {
+      funcmle <- function(iter) 
+        {
+        bootdata <- data.frame(left=f$censdata[rnumrow[, iter], ]$left, 
+                               right=f$censdata[rnumrow[, iter], ]$right)
+        fix.arg.iter <- fix.arg(cens2pseudo(bootdata)$pseudo)
+        mle <- try(do.call(mledist, list(data=bootdata, distr=f$distname, start=start, 
+                            fix.arg=fix.arg.iter, checkstartfix=TRUE)), silent=silent)
+        if(inherits(mle, "try-error"))
+          return(c(rep(NA, length(start)), 100))
+        else
+          return(c(mle$estimate, mle$convergence))
+      }
+      
+    }else if(!is.null(f$dots) && !is.function(fix.arg)) 
+    {
+      funcmle <- function(iter) 
+        {
         mle <- try(do.call(mledist, c(list(data=data.frame(left=f$censdata[rnumrow[, iter], ]$left, 
             right=f$censdata[rnumrow[, iter], ]$right), distr=f$distname, start=start), 
-            fix.arg=fix.arg, f$dots)), silent=silent)
+            fix.arg=fix.arg, f$dots, checkstartfix=TRUE)), silent=silent)
         if(inherits(mle, "try-error"))
           return(c(rep(NA, length(start)), 100))
         else
           return(c(mle$estimate, mle$convergence))
         }
-    }
+    }else if(!is.null(f$dots) && is.function(fix.arg)) 
+    {
+      funcmle <- function(iter) 
+      {
+        bootdata <- data.frame(left=f$censdata[rnumrow[, iter], ]$left, 
+                               right=f$censdata[rnumrow[, iter], ]$right)
+        fix.arg.iter <- fix.arg(cens2pseudo(bootdata)$pseudo)
+        mle <- try(do.call(mledist, c(list(data=bootdata, distr=f$distname, start=start), 
+                        fix.arg=fix.arg.iter, f$dots, checkstartfix=TRUE)), silent=silent)
+        if(inherits(mle, "try-error"))
+          return(c(rep(NA, length(start)), 100))
+        else
+          return(c(mle$estimate, mle$convergence))
+      }
+    }else
+      stop("wrong implementation in bootdistcens")
+      
     owarn <- getOption("warn")
     oerr <- getOption("show.error.messages")
     options(warn=ifelse(silent, -1, 0), show.error.messages=!silent)
