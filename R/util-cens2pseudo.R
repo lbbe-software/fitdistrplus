@@ -14,7 +14,10 @@ cens2pseudo <- function(censdata)
 {
   # Definition of datasets lcens (left censored)=vector, rcens (right censored)= vector, 
   #   icens (interval censored) = dataframe with left and right 
-  # and ncens (not censored) = vector
+  #  ncens (not censored) = vector and 
+  # pseudo (data transformed in non censored pseudo data by taking the
+  # mean of bounds for interval censored data and the left or right bound for the other 
+  # censored data) = vector
   
   
   irow.lcens <- is.na(censdata$left) # rows corresponding to lcens data

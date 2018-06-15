@@ -8,7 +8,7 @@ NEW FEATURES
 - improve automatic naming of legends in xxxcomp().
 - harmonize outputs in mledist, qmedist, mmedist, mgedist, fitdist and fitdistcens.
 - automatic test of d, p, q functions in fitdist() and raise warnings.
-- improve test for starting and fixe values.
+- improve test for starting and fixed values.
 - add new default starting values for distributions in actuar.
 - change of the default CDF plot for censored data, using the Wang NPMLE algorithm provided in the package npsurv
 - add of two new goodness-of-fit plots (QQ-plot and PP-plot) for censored data (cf. plotdistcens) 
