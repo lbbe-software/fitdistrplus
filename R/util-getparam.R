@@ -14,12 +14,15 @@ computegetparam <- function(argdistname)
   #see ?dnig, dhyperb, dskewlap, dgig,...
   nonparaminGenHyperbolic <- c("param", "KOmega", "ibfTol", "nmax", "method", "intTol",
                                "valueOnly", "nInterpol", "uniTol", "subdivisions", "logPars")
+  #see ?dsn
+  nonparamsn <- "dp"
   
   plist <- setdiff(argdistname, nonparaminR)
   plist <- setdiff(plist, nonparaminActuar)
   plist <- setdiff(plist, nonparaminGamlssdist)
   plist <- setdiff(plist, nonparamspecial)
   plist <- setdiff(plist, nonparaminGenHyperbolic)
+  plist <- setdiff(plist, nonparamsn)
   
   plist
 }
