@@ -126,8 +126,8 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
       upper <- max(finitebounds)
       lower <- min(finitebounds)
       width <- upper - lower
-      xmax <- upper + width * 0.2 # limits for the plot
-      xmin <- lower - width * 0.2
+      xmax <- upper + width * 0.1 # limits for the plot
+      xmin <- lower - width * 0.1
       xmaxinf <- xmax + width * 10 # larger limits for the non finite rectangles
       xmininf <- xmin - width * 10
       k <- length(f$left)
@@ -149,7 +149,7 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
       Pi.up <- Fnpsurv
       
       # Plot of the ECDF
-      plot(0, 0, type = "n", xlim = c(xmin, xmax), ylim = c(0,1), xlab = "Censored data", 
+      plot(1, 1, type = "n", xlim = c(xmin, xmax), ylim = c(0,1), xlab = "Censored data", 
            ylab = "CDF", main = titleCDF)
       
       # the line at right of the rectangles
@@ -265,7 +265,7 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
   if (!onlyCDFplot)
   {
     ## Q-Q plot
-    plot(0, 0, type = "n", main = "Q-Q plot", xlim = c(xmin, xmax), ylim = c(xmin, xmax),
+    plot(1, 1, type = "n", main = "Q-Q plot", xlim = c(xmin, xmax), ylim = c(xmin, xmax),
          xlab = "Theoretical quantiles", ylab = "Empirical quantiles")
     
     # plot of rectangles
@@ -281,7 +281,7 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
     
     
     ## P-P plot
-    plot(0, 0, type = "n", main = "P-P plot", xlim = c(0,1), ylim = c(0, 1),
+    plot(1, 1, type = "n", main = "P-P plot", xlim = c(0,1), ylim = c(0, 1),
          xlab = "Theoretical probabilities", ylab = "Empirical probabilities")
     
     # plot of rectangles

@@ -6,30 +6,44 @@ data(smokedfish)
 Clog10 <- log10(smokedfish)
 
 fitsfn <- fitdistcens(Clog10,"norm")
-summary(fitsfn)
-
 fitsfl <- fitdistcens(Clog10,"logis")
-summary(fitsfl)
 
 dgumbel <- function(x,a,b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
 pgumbel <- function(q,a,b) exp(-exp((a-q)/b))
 qgumbel <- function(p,a,b) a-b*log(-log(p))
 fitsfg<-fitdistcens(Clog10, "gumbel", start=list(a=-3,b=3))
-summary(fitsfg)
 
 cdfcompcens(list(fitsfn,fitsfl,fitsfg))
-cdfcompcens(list(fitsfn,fitsfl,fitsfg), datacol="orange",
+cdfcompcens(list(fitsfn,fitsfl,fitsfg), datacol="grey",
     legendtext=c("normal","logistic","Gumbel"),
     main="bacterial contamination fits",
     xlab="bacterial concentration (CFU/g)", ylab="F",
     xlegend = "center", lines01 = TRUE)
 
-# Same plot in y logscale
-cdfcompcens(list(fitsfn, fitsfl, fitsfg), ylog = TRUE)
+cdfcompcens(list(fitsfn, fitsfl, fitsfg), NPMLE.method = "Turnbull")
 
+# Same plot in y logscale
+cdfcompcens(list(fitsfn, fitsfl, fitsfg), NPMLE.method = "Turnbull",
+            ylogscale = TRUE, ylim=c(.5, .99))
+cdfcompcens(list(fitsfn, fitsfl, fitsfg), NPMLE.method = "Wang",
+            ylogscale = TRUE, ylim=c(.5, .99))
+
+# Use of x logscale
+if(any(installed.packages()[,"Package"] == "actuar"))
+{
+  require(actuar)
+  data(smokedfish)
+  fln <- fitdistcens(smokedfish,"lnorm")
+  fll <- fitdistcens(smokedfish,"llogis")
+  cdfcompcens(list(fln, fll))
+  cdfcompcens(list(fln, fll), xlogscale = TRUE)
+  cdfcompcens(list(fln, fll), xlogscale = TRUE, xlim = c(0.01, 1000))
+  cdfcompcens(list(fln, fll), NPMLE.method = "Turnbull",
+              xlogscale = TRUE, xlim = c(0.01, 1000))
+}
 # same plot using argument add
 cdfcompcens(fitsfn, addlegend = FALSE, fitcol = "red")
-cdfcompcens(fitsfl, addlegend = FALSE, fitcol = "green", add = TRUE)
-cdfcompcens(fitsfg, addlegend = FALSE, fitcol = "blue", add = TRUE)
+cdfcompcens(fitsfl, addlegend = FALSE, filldatacol = NA, fitcol = "green", add = TRUE)
+cdfcompcens(fitsfg, addlegend = FALSE, filldatacol = NA, fitcol = "blue", add = TRUE)
 
 

@@ -10,7 +10,7 @@ NEW FEATURES
 - automatic test of d, p, q functions in fitdist() and raise warnings.
 - improve test for starting and fixed values.
 - add new default starting values for distributions in actuar.
-- change of the default CDF plot for censored data, using the Wang NPMLE algorithm provided in the package npsurv
+- change of the default CDF plot for censored data, using the Wang NPMLE algorithm provided in the package npsurv (in plotdistcens and cdfcompcens)
 - add of two new goodness-of-fit plots (QQ-plot and PP-plot) for censored data (cf. plotdistcens) 
 
 BUG FIXES

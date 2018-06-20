@@ -4,12 +4,15 @@ library(fitdistrplus)
 # using the default Turnbull method
 #
 data(smokedfish)
+plotdistcens(smokedfish)
 d1 <- as.data.frame(log10(smokedfish))
 plotdistcens(d1)
 
+
 # (2) Add the CDF of a normal distribution and QQ and PP plots
 #
-plotdistcens(d1,"norm",para=list(mean=-1.6,sd=1.5))
+plotdistcens(smokedfish,"lnorm", para=list(meanlog=-3.6,sdlog=3.5))
+plotdistcens(d1,"norm", para=list(mean=-1.6,sd=1.5))
 
 # (3) Various plots of the same empirical distribution 
 #

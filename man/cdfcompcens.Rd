@@ -11,8 +11,9 @@
 
 \usage{
 cdfcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
-    datacol, fitlty, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", 
-    ylegend = NULL, lines01 = FALSE, Turnbull.confint = FALSE, add = FALSE, \dots)
+    datacol, filldatacol, fitlty, fitcol, addlegend = TRUE, legendtext, 
+    xlegend = "bottomright", ylegend = NULL, lines01 = FALSE, 
+    Turnbull.confint = FALSE, NPMLE.method = "Wang", add = FALSE, \dots)
 }
 %- maybe also 'usage' for other objects documented here.
 
@@ -26,6 +27,10 @@ cdfcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, yl
 \item{xlab}{A label for the \eqn{x}-axis, defaults to a description of \code{x}.}
 \item{ylab}{A label for the \eqn{y}-axis, defaults to a description of \code{y}.}
 \item{datacol}{A specification of the color to be used in plotting data points.}
+\item{filldatacol}{A specification of the color to be used for filling rectanges
+  of non uniqueness of the empirical cumulative distribution 
+  (only used if \code{NPMLE.method} is equal to \code{"Wang"}).
+  Fix it to \code{NA} if you do not want to fill the rectangles.}
 \item{fitcol}{A (vector of) color(s) to plot fitted distributions. 
     If there are fewer colors than fits they are recycled in the standard fashion.}
 \item{fitlty}{A (vector of) line type(s) to plot fitted distributions. 
@@ -38,8 +43,12 @@ cdfcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, yl
           They can be specified by keyword or in any way which is
           accepted by 'xy.coords': see \code{\link{legend}} for details.}
 \item{lines01}{A logical to plot two horizontal lines at \code{h=0} and \code{h=1}.}
-\item{Turnbull.confint}{ if TRUE, confidence intervals will be added to the Turnbull plot
-    of the empirical distribution.}
+\item{Turnbull.confint}{ if TRUE confidence intervals will be added to the Turnbull plot.
+    In that case NPMLE.method is forced to \code{"Turnbull"}}
+\item{NPMLE.method}{Two NPMLE technique are provided, \code{"Wang"}, the default one,
+    which is implemented in the package npsurv and \code{"Turnbull"}, an older one,
+    which is implemented in the package survival (see details). Only \code{"Wang"}
+    enables the derivation of a Q-Q plot and a P-P plot.}
 \item{add}{logical; if \code{TRUE} add to an already existing plot; if \code{FALSE} start 
   a new plot.}  
 \item{\dots}{Further graphical arguments passed to graphical functions used in \code{\link{cdfcompcens}}.}
@@ -97,11 +106,14 @@ fitsfg<-fitdistcens(Clog10,"gumbel",start=list(a=-3,b=3))
 summary(fitsfg)
 
 cdfcompcens(list(fitsfn,fitsfl,fitsfg))
-cdfcompcens(list(fitsfn,fitsfl,fitsfg),datacol="orange",
+cdfcompcens(list(fitsfn,fitsfl,fitsfg),datacol="orange",filldatacol = NA, 
     legendtext=c("normal","logistic","Gumbel"),
     main="bacterial contamination fits",
     xlab="bacterial concentration (CFU/g)",ylab="F",
-    xlegend = "center",lines01 = TRUE)
+    xlegend = "topright",lines01 = TRUE)
+# alternative Turnbull plot for the empirical cumulative distribution
+# (default plot of the previous versions of the package)
+cdfcompcens(list(fitsfn,fitsfl,fitsfg), NPMLE.method = "Turnbull")
 
 }
 
