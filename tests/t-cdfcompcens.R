@@ -43,7 +43,7 @@ if(any(installed.packages()[,"Package"] == "actuar"))
 }
 # same plot using argument add
 cdfcompcens(fitsfn, addlegend = FALSE, fitcol = "red")
-cdfcompcens(fitsfl, addlegend = FALSE, filldatacol = NA, fitcol = "green", add = TRUE)
-cdfcompcens(fitsfg, addlegend = FALSE, filldatacol = NA, fitcol = "blue", add = TRUE)
+cdfcompcens(fitsfl, addlegend = FALSE, fillrect = NA, fitcol = "green", add = TRUE)
+cdfcompcens(fitsfg, addlegend = FALSE, fillrect = NA, fitcol = "blue", add = TRUE)
 
 

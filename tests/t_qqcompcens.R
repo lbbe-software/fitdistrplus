@@ -1,0 +1,59 @@
+library(fitdistrplus)
+
+data(smokedfish)
+fitsf  <-  fitdistcens(smokedfish,"lnorm")
+plot(fitsf)
+qqcompcens(fitsf)
+qqcompcens(fitsf, fillrect = NA)
+qqcompcens(fitsf, fitcol = "black")
+qqcompcens(fitsf, fitcol = "black", fillrect = NA)
+qqcompcens(fitsf, ylim = c(0,150)) 
+qqcompcens(fitsf, xlim = c(0,150)) 
+qqcompcens(fitsf, xlim = c(0,150), ylim = c(0, 120)) 
+
+data(fluazinam)
+log10EC50 <-log10(fluazinam)
+fln <- fitdistcens(log10EC50,"norm")
+plot(fln)
+qqcompcens(fln)
+
+
+data(salinity)
+log10LC50 <-log10(salinity)
+plotdistcens(log10LC50)
+plotdistcens(log10LC50, NPMLE = FALSE)
+fn <- fitdistcens(log10LC50,"norm")
+fl <- fitdistcens(log10LC50,"logis")
+plot(fn)
+plot(fl)
+qqcompcens(fn)
+qqcompcens(fl)
+qqcompcens(list(fn, fl))
+
+
+require(actuar)
+data(salinity)
+fln <- fitdistcens(salinity,"lnorm")
+fll <- fitdistcens(salinity,"llogis")
+plot(fln)
+par(mfrow = c(2,1))
+qqcompcens(fln)
+qqcompcens(fll)
+par(mfrow = c(1,1))
+qqcompcens(list(fln, fll))
+qqcompcens(list(fln, fll), ynoise = FALSE)
+qqcompcens(list(fln, fll), fitcol = c("blue", "orange"))
+qqcompcens(list(fln, fll), xlogscale = TRUE, ylogscale = TRUE)
+qqcompcens(list(fln, fll), ylogscale = TRUE) 
+qqcompcens(list(fln, fll), xlogscale = TRUE, ynoise = FALSE) 
+
+
+# test for transparency
+# datacol <- "red"
+# rgbdatacol <- col2rgb(datacol)
+# lightdatacol <- rgb(rgbdatacol[1], rgbdatacol[2], rgbdatacol[3],
+#                     maxColorValue = 255, alpha = 50)
+# plot(1:3, 1:3, pch = 19, cex = 1, col = datacol)
+# points(1:3, 1:3, pch = 19, cex = 5, col = lightdatacol)
+# rect(xleft = 1.5, ybottom = 1.5, xright = 2, ytop = 2,
+#      border = datacol, col = lightdatacol)

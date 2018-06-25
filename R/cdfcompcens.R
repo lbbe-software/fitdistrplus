@@ -25,7 +25,7 @@
 ###
 
 cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
-    datacol, filldatacol, fitlty, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", 
+    datacol, fillrect, fitlty, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", 
     ylegend = NULL, lines01 = FALSE,Turnbull.confint = FALSE, NPMLE.method = "Wang", add = FALSE,...)
 {
 
@@ -54,7 +54,7 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
   
     nft <- length(ft)
     if (missing(datacol)) datacol <- "black"
-    if (missing(filldatacol)) filldatacol <- "lightgrey"
+    if (missing(fillrect)) fillrect <- "lightgrey"
     if (missing(fitcol)) fitcol <- 2:(nft+1)
     if (missing(fitlty)) fitlty <- 1:nft
     fitcol <- rep(fitcol, length.out=nft)
@@ -231,7 +231,7 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
     #                     alpha = 10)
     for(i in 1:k) {
       rect(xleft = Qi.left4plot, ybottom = Pi.low, xright = Qi.right4plot, ytop = Pi.up,
-           border = datacol, col = filldatacol)
+           border = datacol, col = fillrect)
     }
   }
   
