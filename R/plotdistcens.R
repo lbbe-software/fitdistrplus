@@ -51,6 +51,21 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
     titleCDF <- "Empirical and theoretical CDFs"
   }
   
+  
+  # definition of xlim or lim for data and of xrange, xmininf and xmaxinf
+  ibounds <- c(censdata$right, censdata$left)
+  iboundsnotNA <- ibounds[!is.na(ibounds)]
+  xmin <- min(iboundsnotNA)
+  xmax <- max(iboundsnotNA)
+  xrange <- xmax - xmin
+  xmin <- xmin - 0.1 * xrange
+  xmax <- xmax + 0.1 * xrange
+  xmininf <- xmin - 10 * xrange
+  xmaxinf <- xmax + 10 * xrange
+  xlim <- c(xmin,xmax)
+  #definition of ylim or lim for ECDF
+  ylim <- c(0,1)
+  
   ###################################### Part to check !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   if (!missing(Turnbull))
   {
@@ -121,15 +136,16 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
       db$left[is.na(db$left)] <- -Inf
       db$right[is.na(db$right)] <- Inf
       f <- npsurv(db)$f
-      bounds <- c(f$right, f$left)
-      finitebounds <- bounds[is.finite(bounds)]
-      upper <- max(finitebounds)
-      lower <- min(finitebounds)
-      width <- upper - lower
-      xmax <- upper + width * 0.1 # limits for the plot
-      xmin <- lower - width * 0.1
-      xmaxinf <- xmax + width * 10 # larger limits for the non finite rectangles
-      xmininf <- xmin - width * 10
+      # bounds <- c(f$right, f$left)
+      # finitebounds <- bounds[is.finite(bounds)]
+      # upper <- max(finitebounds)
+      # lower <- min(finitebounds)
+      # width <- upper - lower
+      # xmax <- upper + width * 0.1 # limits for the plot
+      # xmin <- lower - width * 0.1
+      # xmaxinf <- xmax + width * 10 # larger limits for the non finite rectangles
+      # xmininf <- xmin - width * 10
+      
       k <- length(f$left)
       Fnpsurv <- cumsum(f$p) 
       
@@ -149,22 +165,22 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
       Pi.up <- Fnpsurv
       
       # Plot of the ECDF
-      plot(1, 1, type = "n", xlim = c(xmin, xmax), ylim = c(0,1), xlab = "Censored data", 
-           ylab = "CDF", main = titleCDF)
+      plot(1, 1, type = "n", xlim = xlim, ylim = ylim, xlab = "Censored data", 
+           ylab = "CDF", main = titleCDF, ...)
       
       # the line at right of the rectangles
       dright <- c(f$left[1], rep(f$right, rep(2,k)), f$right[k]) 
       Fright <- rep(c(0,Fnpsurv), rep(2,k+1))
-      lines(dright, Fright)
+      lines(dright, Fright, ...)
       ### the line at left of the rectangles
       dleft = rep(c(f$left,f$right[k]), rep(2,k+1))
       Fleft = c(0,rep(Fnpsurv, rep(2,k)),1)
-      lines(dleft, Fleft)
+      lines(dleft, Fleft, ...)
       
       # Add of the filled rectangles
       for(i in 1:k) {
         rect(xleft = Qi.left4plot, ybottom = Pi.low, xright = Qi.right4plot, ytop = Pi.up,
-             border = "black", col = "lightgrey")
+             border = "black", col = "lightgrey", ...)
       }
     } else # plot using package survival
     {
@@ -172,10 +188,11 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
       survfitted <- survfit(survdata ~ 1)
       if (Turnbull.confint)
         plot(survfitted,fun="event",xlab="Censored data",
-             ylab="CDF",main = titleCDF, ...)
+             ylab="CDF",xlim = xlim, ylim = ylim, main = titleCDF, ...)
       else
         plot(survfitted,fun="event",xlab="Censored data",
-             ylab="CDF", conf.int = FALSE, main = titleCDF, ...)
+             ylab="CDF", conf.int = FALSE, main = titleCDF, 
+             xlim = xlim, ylim = ylim,  ...)
       xmin <- par("usr")[1]
       xmax <- par("usr")[2]
     }
@@ -201,39 +218,40 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
     nrcens<-length(rcens)
     nnoricens<-length(noricens$left)
     n<-length(censdata$left)
-    # definition of xlim 
-    xminright<-min(censdata[!is.na(censdata$right),]$right)
-    xminleft<-min(censdata[!is.na(censdata$left),]$left)
-    xmin<-min(xminright,xminleft)
-    xmaxright<-max(censdata[!is.na(censdata$right),]$right)
-    xmaxleft<-max(censdata[!is.na(censdata$left),]$left)
-    xmax<-max(xmaxright,xmaxleft)
-    xrange<-xmax-xmin
-    xmin<-xmin-0.3*xrange
-    xmax<-xmax+0.3*xrange
-    xlim<-c(xmin,xmax)
-    plot(c(0,0),c(0,0),type="n",xlim=xlim,ylim=c(0,1),xlab="Censored data",
+
+    # definition of xlim NOW AT THE BEGINNING OF THE FUNCTION
+    # xminright<-min(censdata[!is.na(censdata$right),]$right)
+    # xminleft<-min(censdata[!is.na(censdata$left),]$left)
+    # xmin<-min(xminright,xminleft)
+    # xmaxright<-max(censdata[!is.na(censdata$right),]$right)
+    # xmaxleft<-max(censdata[!is.na(censdata$left),]$left)
+    # xmax<-max(xmaxright,xmaxleft)
+    # xrange<-xmax-xmin
+    # xmin<-xmin-0.1*xrange
+    # xmax<-xmax+0.1*xrange
+    # xlim<-c(xmin,xmax)
+    plot(c(0,0),c(0,0),type="n",xlim=xlim,ylim=ylim,xlab="Censored data",
          ylab="CDF",main="Cumulative distribution", ...)
     # functions to plot one interval or point for each observation for 
     # observation ordered i out of n
     plotlcens<-function(i) {
       y<-i/n
-      lines(c(xmin,lcens[ordlcens[i]]),c(y,y))
+      lines(c(xmininf,lcens[ordlcens[i]]),c(y,y),...) 
     }
     if (nlcens>=1)
       toto<-sapply(1:nlcens,plotlcens)
     plotnoricens<-function(i) {
       y<-(i+nlcens)/n
       if (noricens[ordmid[i],]$left!=noricens[ordmid[i],]$right)
-        lines(c(noricens[ordmid[i],]$left,noricens[ordmid[i],]$right),c(y,y))
+        lines(c(noricens[ordmid[i],]$left,noricens[ordmid[i],]$right),c(y,y), ...)
       else
-        points(noricens[ordmid[i],]$left,y,pch=4)
+        points(noricens[ordmid[i],]$left,y,pch=4, ...)
     }
     if (nnoricens>=1)
       toto<-sapply(1:nnoricens,plotnoricens)
     plotrcens<-function(i) {
       y<-(i+nlcens+nnoricens)/n
-      lines(c(rcens[ordrcens[i]],xmax),c(y,y))
+      lines(c(rcens[ordrcens[i]],xmaxinf),c(y,y), ...) 
     }
     if (nrcens>=1)
       toto<-sapply(1:nrcens,plotrcens)
@@ -265,7 +283,7 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
   if (!onlyCDFplot)
   {
     ## Q-Q plot
-    plot(1, 1, type = "n", main = "Q-Q plot", xlim = c(xmin, xmax), ylim = c(xmin, xmax),
+    plot(1, 1, type = "n", main = "Q-Q plot", xlim = xlim, ylim = xlim,
          xlab = "Theoretical quantiles", ylab = "Empirical quantiles")
     
     # plot of rectangles
@@ -281,7 +299,7 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
     
     
     ## P-P plot
-    plot(1, 1, type = "n", main = "P-P plot", xlim = c(0,1), ylim = c(0, 1),
+    plot(1, 1, type = "n", main = "P-P plot", xlim = ylim, ylim = ylim,
          xlab = "Theoretical probabilities", ylab = "Empirical probabilities")
     
     # plot of rectangles

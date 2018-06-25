@@ -197,6 +197,7 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
     ## calculation of points for Q and P in graphs
     Fbefore <- c(0, Fnpsurv[-k])
     df <- data.frame(left = f$left, right = f$right)
+    ################## is dfb used ? I think NO. TO REMOVE !!!!!!!!!!!!!!!!!!
     dfb <- df[(df$left != -Inf) & (df$right != Inf), ]
     
     # Definition of vertices of each rectangle
