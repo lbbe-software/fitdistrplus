@@ -247,13 +247,13 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
         if (xlogscale == TRUE)
         {
             sfin <- seq(log10(xmin), log10(xmax), by=(log10(xmax)-log10(xmin))/100)
-            theopfin <- do.call(pdistname, c(list(q=10^sfin), as.list(para)))
+            theopfin <- do.call(pdistname, c(list(10^sfin), as.list(para)))
             lines(10^sfin, theopfin, lty=fitlty[i], col=fitcol[i], ...)
         }
         else
         {
             sfin <- seq(xmin, xmax, by=(xmax-xmin)/100)
-            theopfin <- do.call(pdistname, c(list(q=sfin), as.list(para)))
+            theopfin <- do.call(pdistname, c(list(sfin), as.list(para)))
             lines(sfin, theopfin, lty=fitlty[i], col=fitcol[i], ...)
         }
     }

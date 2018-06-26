@@ -188,7 +188,7 @@ compute.gofstat.KSCvMAD <- function(sdata, n, distname, pdistname, estimate,
 	
 	obspu <- seq(1,n)/n
     obspl <- seq(0,n-1)/n
-    theop <- do.call(pdistname, c(list(q=sdata), as.list(estimate), fix.arg))
+    theop <- do.call(pdistname, c(list(sdata), as.list(estimate), fix.arg))
 	
 	# Kolmogorov-Smirnov statistic
 	ks <- max(pmax(abs(theop-obspu), abs(theop-obspl)))
@@ -288,7 +288,7 @@ compute.gofstat.Chi2 <- function(sdata, n, distname, pdistname, estimate, fix.ar
 			stop("chisqbreaks must be a numeric vector defining the cell boundaries")
 
 		nbreaks <- length(chisqbreaks)  
-		pbreaks <- do.call(pdistname, c(list(q=chisqbreaks), as.list(estimate), fix.arg))
+		pbreaks <- do.call(pdistname, c(list(chisqbreaks), as.list(estimate), fix.arg))
 		Fobsbreaks <- ecdf(sdata)(chisqbreaks)
 		
 		Fobsunder <- c(0, Fobsbreaks[1:nbreaks-1]) 

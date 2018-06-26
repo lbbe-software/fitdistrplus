@@ -99,7 +99,7 @@ CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.c
       calcp <- function(i)
       {
         parai <- c(as.list(b$estim[i, ]), as.list(b$fitpart$fix.arg))
-        do.call(pdistname, c(list(q=x), as.list(parai)))
+        do.call(pdistname, c(list(x), as.list(parai)))
       }
       
       res <- t(sapply(1:b$nbboot, calcp))
@@ -131,7 +131,7 @@ CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.c
       calcp <- function(i)
       {
         parai <- c(as.list(b$estim[i, ]), as.list(b$fitpart$fix.arg))
-        do.call(qdistname, c(list(p=p), as.list(parai)))
+        do.call(qdistname, c(list(p), as.list(parai)))
       }
       
       res <- t(sapply(1:b$nbboot, calcp))

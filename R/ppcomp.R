@@ -99,7 +99,7 @@ ppcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
     para <- c(as.list(fti$estimate), as.list(fti$fix.arg))
     distname <- fti$distname
     pdistname <- paste("p", distname, sep="")
-    do.call(pdistname, c(list(q=sdata), as.list(para)))
+    do.call(pdistname, c(list(sdata), as.list(para)))
   }
   fittedprob <- sapply(1:nft, comput.fti)
   if(NCOL(fittedprob) != nft || NROW(fittedprob) != length(sdata))

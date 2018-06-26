@@ -126,7 +126,7 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
     distname <- fti$distname
     ddistname <- paste("d", distname, sep="")
     
-    do.call(ddistname, c(list(x = sfin), as.list(para))) * scalefactor
+    do.call(ddistname, c(list(sfin), as.list(para))) * scalefactor
   }
   fitteddens <- sapply(1:nft, comput.fti)
   if(NCOL(fitteddens) != nft || NROW(fitteddens) != length(sfin))

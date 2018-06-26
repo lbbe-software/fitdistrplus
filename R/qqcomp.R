@@ -99,7 +99,7 @@ qqcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
     para <- c(as.list(fti$estimate), as.list(fti$fix.arg))
     distname <- fti$distname
     qdistname <- paste("q", distname, sep="")
-    do.call(qdistname, c(list(p=obsp), as.list(para)))
+    do.call(qdistname, c(list(obsp), as.list(para)))
   }
   fittedquant <- sapply(1:nft, comput.fti)
   if(NCOL(fittedquant) != nft || NROW(fittedquant) != length(obsp))

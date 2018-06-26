@@ -145,7 +145,7 @@ plotdist <- function(data, distr, para, histo = TRUE, breaks="default", demp = F
             else
                 h <- hist(data, breaks=breaks, plot=FALSE, ...)           
             xhist <- seq(min(h$breaks), max(h$breaks), length=1000)
-            yhist <- do.call(ddistname, c(list(x=xhist), as.list(para)))
+            yhist <- do.call(ddistname, c(list(xhist), as.list(para)))
             if(length(yhist) != length(xhist))
               stop("problem when computing densities.")
             ymax <- ifelse(is.finite(max(yhist)), max(max(h$density), max(yhist)), max(h$density)) 
@@ -173,7 +173,7 @@ plotdist <- function(data, distr, para, histo = TRUE, breaks="default", demp = F
             lines(xhist, yhist,lty=1,col="red")
            
             # PLOT 2 - plot of the qqplot
-            theoq <- do.call(qdistname, c(list(p=obsp), as.list(para)))
+            theoq <- do.call(qdistname, c(list(obsp), as.list(para)))
             if(length(theoq) != length(obsp))
               stop("problem when computing quantities.")
             
@@ -190,12 +190,12 @@ plotdist <- function(data, distr, para, histo = TRUE, breaks="default", demp = F
             plot(s, obsp, main=paste("Empirical and theoretical CDFs"), xlab="Data", 
 				      ylab="CDF", xlim=c(xmin, xmax), ...)
             sfin <- seq(xmin, xmax, by=(xmax-xmin)/100)
-            theopfin <- do.call(pdistname, c(list(q=sfin), as.list(para)))
+            theopfin <- do.call(pdistname, c(list(sfin), as.list(para)))
             lines(sfin, theopfin, lty=1,col="red")
             
             # PLOT 4 - plot of the ppplot
             
-				    theop <- do.call(pdistname, c(list(q=s), as.list(para)))
+				    theop <- do.call(pdistname, c(list(s), as.list(para)))
 				    if(length(theop) != length(obsp))
 				      stop("problem when computing probabilities.")
 				    
@@ -214,7 +214,7 @@ plotdist <- function(data, distr, para, histo = TRUE, breaks="default", demp = F
             xval <- as.numeric(names(t))
             xvalfin <- seq(min(xval), max(xval),by=1)
             xlinesdec <- min((max(xval)-min(xval))/30, 0.4)
-            yd <- do.call(ddistname, c(list(x=xvalfin), as.list(para)))
+            yd <- do.call(ddistname, c(list(xvalfin), as.list(para)))
             if(length(yd) != length(xvalfin))
               stop("problem when computing density points.")
             
@@ -230,7 +230,7 @@ plotdist <- function(data, distr, para, histo = TRUE, breaks="default", demp = F
                 bty="o", bg="white",cex=0.6,...)
             
             # plot of the cumulative probability distributions
-            ycdf <- do.call(pdistname, c(list(q=xvalfin), as.list(para)))
+            ycdf <- do.call(pdistname, c(list(xvalfin), as.list(para)))
             if(length(ycdf) != length(xvalfin))
               stop("problem when computing probabilities.")
             

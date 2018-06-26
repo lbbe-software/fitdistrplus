@@ -140,10 +140,10 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
     pdistname <- paste("p", distname, sep = "")
     if(xlogscale && !discrete)
     {
-      do.call(pdistname, c(list(q=10^sfin), as.list(para)))
+      do.call(pdistname, c(list(10^sfin), as.list(para)))
     }else
     {
-      do.call(pdistname, c(list(q=sfin), as.list(para)))
+      do.call(pdistname, c(list(sfin), as.list(para)))
     }
   }
   fittedprob <- sapply(1:nft, comput.fti)  	

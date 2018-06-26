@@ -277,7 +277,7 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
       stop(paste("'para' specifies names which are not arguments to ",ddistname))
     # plot of continuous data with theoretical distribution
     s<-seq(xmin,xmax,by=(xmax-xmin)/100)
-    theop<-do.call(pdistname,c(list(q=s),as.list(para)))
+    theop<-do.call(pdistname,c(list(s),as.list(para)))
     lines(s,theop,col="red")
   }
   if (!onlyCDFplot)
@@ -287,8 +287,8 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
          xlab = "Theoretical quantiles", ylab = "Empirical quantiles")
     
     # plot of rectangles
-    Qitheo.left <- do.call(qdistname, c(list(p = Pi.low), as.list(para)))
-    Qitheo.right <- do.call(qdistname, c(list(p = Pi.up), as.list(para)))
+    Qitheo.left <- do.call(qdistname, c(list(Pi.low), as.list(para)))
+    Qitheo.right <- do.call(qdistname, c(list(Pi.up), as.list(para)))
     Qitheo.left4plot <- Qitheo.left
     if (Qitheo.left4plot[1] == - Inf) Qitheo.left4plot[1] <- xmininf
     Qitheo.right4plot <- Qitheo.right
@@ -303,8 +303,8 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
          xlab = "Theoretical probabilities", ylab = "Empirical probabilities")
     
     # plot of rectangles
-    Pitheo.low <- do.call(pdistname, c(list(q=Qi.left), as.list(para)))
-    Pitheo.up <- do.call(pdistname, c(list(q=Qi.right), as.list(para)))
+    Pitheo.low <- do.call(pdistname, c(list(Qi.left), as.list(para)))
+    Pitheo.up <- do.call(pdistname, c(list(Qi.right), as.list(para)))
     rect(xleft = Pitheo.low, ybottom = Pi.low, xright = Pitheo.up, ytop = Pi.up, 
          border = "black", col = "lightgrey")
     abline(0,1)

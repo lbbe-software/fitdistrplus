@@ -13,6 +13,9 @@ NEW FEATURES
 - change of the default CDF plot for censored data, using the Wang NPMLE algorithm provided in the package npsurv (in plotdistcens and cdfcompcens)
 - add of two new goodness-of-fit plots (QQ-plot and PP-plot) for censored data (cf. plotdistcens, qqcompcens and ppcompcens). 
 - homogeneization of xlim and ylim default definition in plotdistcens.
+- Removing of the name of the first argument in calls to dpq functions in order
+to make the package compatible with distributions defined with a non classical
+name for their first argument (resp. x, q, p for d, p, q functions).
 
 BUG FIXES
 - bug fixed concerning the use of gofstat with a chi squared df <=0 (error message blocking the other functions)

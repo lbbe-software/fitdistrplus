@@ -144,8 +144,8 @@ ppcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
     pdistname <- paste("p", distname, sep="")
     if (is.element(distname, c("binom", "nbinom", "geom", "hyper", "pois")))
       warning(" Be careful, variables are considered continuous in this function!")
-    Pitheo.low <- do.call(pdistname, c(list(q=Qi.left), as.list(para)))
-    Pitheo.up <- do.call(pdistname, c(list(q=Qi.right), as.list(para)))
+    Pitheo.low <- do.call(pdistname, c(list(Qi.left), as.list(para)))
+    Pitheo.up <- do.call(pdistname, c(list(Qi.right), as.list(para)))
     if (ynoise & nft > 1)
     {
       if (xlogscale == TRUE)

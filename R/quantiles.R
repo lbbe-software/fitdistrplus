@@ -48,7 +48,7 @@ myquantiles.fitdist <- function(f, probs, cens)
      
     # computation and print of quantiles using estimations of parameters   
     para=c(as.list(f$estimate), as.list(f$fix.arg))
-    quantiles <- do.call(qdistname, c(list(p=probs), as.list(para)))
+    quantiles <- do.call(qdistname, c(list(probs), as.list(para)))
     if (length(probs)>1)
         quantiles <- as.data.frame(t(quantiles))
     else
@@ -135,7 +135,7 @@ myquantiles.bootdist <- function(b, probs, CI.type, CI.level, cens)
     calcquant <- function(i)
     {
         parai <- c(as.list(b$estim[i, ]), as.list(b$fitpart$fix.arg))
-        do.call(qdistname, c(list(p=probs), as.list(parai)))
+        do.call(qdistname, c(list(probs), as.list(parai)))
     }
     
     bootquant <- sapply(1:b$nbboot, calcquant)

@@ -172,8 +172,8 @@ qqcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
     qdistname <- paste("q", distname, sep="")
     if (is.element(distname, c("binom", "nbinom", "geom", "hyper", "pois")))
       warning(" Be careful, variables are considered continuous in this function!")
-    Qitheo.left <- do.call(qdistname, c(list(p = Pi.low), as.list(para)))
-    Qitheo.right <- do.call(qdistname, c(list(p = Pi.up), as.list(para)))
+    Qitheo.left <- do.call(qdistname, c(list(Pi.low), as.list(para)))
+    Qitheo.right <- do.call(qdistname, c(list(Pi.up), as.list(para)))
     Qitheo.left4plot <- Qitheo.left
     if (Qitheo.left4plot[1] == - Inf) Qitheo.left4plot[1] <- xmininf
     Qitheo.right4plot <- Qitheo.right
