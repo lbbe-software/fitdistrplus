@@ -47,13 +47,3 @@ qqcompcens(list(fln, fll), xlogscale = TRUE, ylogscale = TRUE)
 qqcompcens(list(fln, fll), ylogscale = TRUE) 
 qqcompcens(list(fln, fll), xlogscale = TRUE, ynoise = FALSE) 
 
-
-# test for transparency
-# datacol <- "red"
-# rgbdatacol <- col2rgb(datacol)
-# lightdatacol <- rgb(rgbdatacol[1], rgbdatacol[2], rgbdatacol[3],
-#                     maxColorValue = 255, alpha = 50)
-# plot(1:3, 1:3, pch = 19, cex = 1, col = datacol)
-# points(1:3, 1:3, pch = 19, cex = 5, col = lightdatacol)
-# rect(xleft = 1.5, ybottom = 1.5, xright = 2, ytop = 2,
-#      border = datacol, col = lightdatacol)
