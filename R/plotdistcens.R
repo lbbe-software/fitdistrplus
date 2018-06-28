@@ -219,19 +219,8 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
     nnoricens<-length(noricens$left)
     n<-length(censdata$left)
 
-    # definition of xlim NOW AT THE BEGINNING OF THE FUNCTION
-    # xminright<-min(censdata[!is.na(censdata$right),]$right)
-    # xminleft<-min(censdata[!is.na(censdata$left),]$left)
-    # xmin<-min(xminright,xminleft)
-    # xmaxright<-max(censdata[!is.na(censdata$right),]$right)
-    # xmaxleft<-max(censdata[!is.na(censdata$left),]$left)
-    # xmax<-max(xmaxright,xmaxleft)
-    # xrange<-xmax-xmin
-    # xmin<-xmin-0.1*xrange
-    # xmax<-xmax+0.1*xrange
-    # xlim<-c(xmin,xmax)
     plot(c(0,0),c(0,0),type="n",xlim=xlim,ylim=ylim,xlab="Censored data",
-         ylab="CDF",main="Cumulative distribution", ...)
+         ylab="CDF",main=titleCDF, ...)
     # functions to plot one interval or point for each observation for 
     # observation ordered i out of n
     plotlcens<-function(i) {
