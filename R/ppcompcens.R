@@ -142,7 +142,10 @@ ppcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
     para=c(as.list(fti$estimate), as.list(fti$fix.arg))
     distname <- fti$distname
     pdistname <- paste("p", distname, sep="")
-    if (is.element(distname, c("binom", "nbinom", "geom", "hyper", "pois")))
+    
+    #est ce qu'il faut pas tester plutot le fait que discrete=TRUE?
+    
+    if (is.element(distname, c("binom", "nbinom", "geom", "hyper", "pois"))) 
       warning(" Be careful, variables are considered continuous in this function!")
     Pitheo.low <- do.call(pdistname, c(list(Qi.left), as.list(para)))
     Pitheo.up <- do.call(pdistname, c(list(Qi.right), as.list(para)))

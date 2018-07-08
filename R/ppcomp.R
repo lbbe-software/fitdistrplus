@@ -62,6 +62,12 @@ ppcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
   n <- length(mydata)
   sdata <- sort(mydata)
   largedata <- (n > 1e4)
+  if (xlogscale != ylogscale)
+  {
+    #est ce trop fort de changer la valeur d'un argument?
+    warning("As a Q-Q plot should use the same scale on x and y axes, 
+            both axes were put in a logarithmic scale.")
+  }
   logxy <- paste(ifelse(xlogscale,"x",""), ifelse(ylogscale,"y",""), sep="")
   
   # manage default parameters
@@ -128,7 +134,17 @@ ppcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
         points(fittedprob[,i], obsp, pch=fitpch[i], col=fitcol[i], ...)
     if(nft > 1 && ynoise && !largedata)
       for(i in 2:nft)
-        points(fittedprob[,i], obsp*(1 + rnorm(n, 0, 0.01)), pch=fitpch[i], col=fitcol[i], ...)
+      {
+        if (ylogscale)
+        {
+          noise2mult <- runif(n, 0.95, 1.05)
+          points(fittedprob[,i], obsp*noise2mult, pch=fitpch[i], col=fitcol[i], ...)
+        }else
+        {
+          noise2add <- runif(n, -0.02, 0.02)
+          points(fittedprob[,i], obsp+noise2add, pch=fitpch[i], col=fitcol[i], ...)
+        }
+      }
     if(largedata)
       for(i in 2:nft)
         lines(fittedprob[,i], obsp, col=fitcol[i], lty = fitpch[i], ...)
