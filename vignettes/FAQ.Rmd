@@ -1079,7 +1079,7 @@ dcomp + ggplot2::theme_minimal() + ggplot2::ggtitle("Ground beef fits")
 We plan to include the argument `plotstyle` to other functions of the `fitdistrplus` package in a next future.
 
 
-# Questions regarding censored data
+# Questions regarding (left, right and/or interval) censored data
 
 ## How to code censored data in `fitdistrplus` ?
 
@@ -1092,8 +1092,34 @@ dtoy <- data.frame(left = c(NA, 2, 4, 6, 9.7, 10), right = c(1, 3, 7, 8, 9.7, NA
 dtoy
 ```
 
+## How do I use the output of `Surv()` to code the input of `fitdistcens()`?
 
-## How to representan empirical distribution from censored data ?
+Let us consider a right-censored dataset for human life:
+twenty values randomly chosen from `canlifins` dataset of `CASdatasets` package.
+```{r}
+exitage <- c(81.1,78.9,72.6,67.9,60.1,78.3,83.4,66.9,74.8,80.5,75.6,67.1,
+             75.3,82.8,70.1,85.4,74,70,71.6,76.5)
+death <- c(0,0,1,0,0,0,0,1,0,0,0,0,0,0,1,1,0,0,0,0)
+```
+The `Surv()` function can handle many type of censoring, we focus only on right-censoring.
+```{r}
+svdata <- Surv(exitage, death)
+```
+In order to match the input of, we replace non-censored data.
+```{r}
+fitdstdata <- cbind.data.frame(left=svdata[,"time"], right=NA)
+fitdstdata$right[svdata[,"status"] == 1] <- fitdstdata$left[svdata[,"status"] == 1]
+```
+Let us now fit two simple distributions.
+```{r}
+flnormc <- fitdistcens(fitdstdata, "lnorm")
+fweic <- fitdistcens(fitdstdata, "weibull")
+cdfcompcens(list(fweic, flnormc), xlim=range(exitage))
+```
+
+
+
+## How to represent an empirical distribution from censored data ?
 
 The representation of an empirical distribution from censored data is not a
 trivial problem. One can simply represent each observation as an interval at an

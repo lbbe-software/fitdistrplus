@@ -91,7 +91,7 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
 \item{demp}{A logical to add the empirical density on the plot, using the 
   \code{\link{density}} function.}
 \item{dempcol}{A color for the empirical density in case it is added on the plot (\code{demp=TRUE}).}
-\item{ynoise}{A logical to add a small Gaussian noise when plotting empirical 
+\item{ynoise}{A logical to add a small noise when plotting empirical 
   quantiles/probabilities for \code{qqcomp} and \code{ppcomp}.}
 \item{probability}{A logical to use the probability scale for \code{denscomp}. See also \code{\link{hist}}.}
 \item{discrete}{If \code{TRUE}, the distributions are considered discrete.
