@@ -18,9 +18,10 @@ plotdistcens(d1,"norm", para=list(mean=-1.6,sd=1.5))
 #
 # default Wang plot
 plotdistcens(d1, NPMLE = TRUE, NPMLE.method = "Wang")
-plotdistcens(d1, NPMLE = TRUE, NPMLE.method = "Wang", lwd = 3)
+plotdistcens(d1, NPMLE = TRUE, NPMLE.method = "Wang", lwd = 3, main = "Wang ECDF plot")
 # Turnbull plot
-plotdistcens(d1, NPMLE = TRUE, NPMLE.method = "Turnbull")
+plotdistcens(d1, NPMLE = TRUE, NPMLE.method = "Turnbull", col = "red", 
+             main = "Turnbull ECDF plot")
 plotdistcens(d1,Turnbull = TRUE) # deprecated way to do it
 # Turnbull plot with confidence intervals
 plotdistcens(d1,NPMLE = TRUE, NPMLE.method = "Turnbull", Turnbull.confint = TRUE)
@@ -34,10 +35,13 @@ plotdistcens(d1,rightNA=3, Turnbull = FALSE) # deprecated way to do it
 # defining a minimum value for left censored values
 plotdistcens(d1,leftNA=-3, NPMLE = FALSE)
 
-# (4) Plot of the CDF of the same dataset after logarithmic transformation
-#   with a lognormal distribution, successively using the two proposed methods
+# (4) Goodness-of-fit plots for the same dataset after logarithmic transformation
+#   with a lognormal distribution, successively using the three proposed methods
 #
-d3<-smokedfish
-plotdistcens(d3,"lnorm",para=list(meanlog=-3.6,sdlog=3.5))
-plotdistcens(d3,"lnorm",para=list(meanlog=-3.6,sdlog=3.5),NPMLE = FALSE, leftNA=0)
+d3 <- smokedfish
+plotdistcens(d3,"lnorm",para=list(meanlog=-3.6,sdlog=3.5), main = "Wang plot")
+plotdistcens(d3,"lnorm",para=list(meanlog=-3.6,sdlog=3.5), 
+             NPMLE.method = "Turnbull", main = "Turnbull plot")
+plotdistcens(d3,"lnorm",para=list(meanlog=-3.6,sdlog=3.5),
+             NPMLE = FALSE, leftNA=0, main = "Plot of ordered intervals")
 

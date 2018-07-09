@@ -23,7 +23,8 @@
 ### 
 
 plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPMLE = TRUE,
-                         Turnbull = NULL, Turnbull.confint = FALSE, NPMLE.method = "Wang", ...){
+                         Turnbull = NULL, Turnbull.confint = FALSE, NPMLE.method = "Wang",...)
+{
   if (missing(censdata) ||
       !(is.vector(censdata$left) & is.vector(censdata$right) & length(censdata[,1])>1))
     stop("datacens must be a dataframe with two columns named left 
@@ -31,6 +32,10 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
   if ((missing(distr) & !missing(para)) || 
       (missing(distr) & !missing(para)))
     stop("distr and para must defined")
+  
+  my3dots <- list(...)
+  if("main" %in% names(my3dots)) specifytitle <- FALSE else specifytitle <- TRUE
+  
   if (missing(distr))
   {
     onlyCDFplot <- TRUE
@@ -165,8 +170,11 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
       Pi.up <- Fnpsurv
       
       # Plot of the ECDF
-      plot(1, 1, type = "n", xlim = xlim, ylim = ylim, xlab = "Censored data", 
-           ylab = "CDF", main = titleCDF, ...)
+      if (specifytitle)
+        plot(1, 1, type = "n", xlim = xlim, ylim = ylim, xlab = "Censored data", 
+           ylab = "CDF", main = titleCDF, ...) else
+        plot(1, 1, type = "n", xlim = xlim, ylim = ylim, xlab = "Censored data", 
+                  ylab = "CDF", ...)
       
       # the line at right of the rectangles
       dright <- c(f$left[1], rep(f$right, rep(2,k)), f$right[k]) 
@@ -187,12 +195,19 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
       survdata <- Surv(time = censdata$left, time2 = censdata$right, type="interval2")
       survfitted <- survfit(survdata ~ 1)
       if (Turnbull.confint)
-        plot(survfitted,fun="event",xlab="Censored data",
-             ylab="CDF",xlim = xlim, ylim = ylim, main = titleCDF, ...)
+        if (specifytitle)
+          plot(survfitted,fun="event",xlab="Censored data",
+             ylab="CDF",xlim = xlim, ylim = ylim, main = titleCDF, ...) else
+          plot(survfitted,fun="event",xlab="Censored data",
+                    ylab="CDF",xlim = xlim, ylim = ylim, ...)
       else
+        if (specifytitle)
         plot(survfitted,fun="event",xlab="Censored data",
              ylab="CDF", conf.int = FALSE, main = titleCDF, 
-             xlim = xlim, ylim = ylim,  ...)
+             xlim = xlim, ylim = ylim,  ...) else
+        plot(survfitted,fun="event",xlab="Censored data",
+                    ylab="CDF", conf.int = FALSE,  
+                    xlim = xlim, ylim = ylim,  ...)       
       xmin <- par("usr")[1]
       xmax <- par("usr")[2]
     }
@@ -219,8 +234,12 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
     nnoricens<-length(noricens$left)
     n<-length(censdata$left)
 
-    plot(c(0,0),c(0,0),type="n",xlim=xlim,ylim=ylim,xlab="Censored data",
-         ylab="CDF",main=titleCDF, ...)
+    
+    if (specifytitle)
+      plot(c(0,0),c(0,0),type="n",xlim=xlim,ylim=ylim,xlab="Censored data",
+         ylab="CDF",main=titleCDF, ...) else
+      plot(c(0,0),c(0,0),type="n",xlim=xlim,ylim=ylim,xlab="Censored data",
+                ylab="CDF", ...)     
     # functions to plot one interval or point for each observation for 
     # observation ordered i out of n
     plotlcens<-function(i) {

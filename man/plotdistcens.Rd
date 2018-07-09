@@ -42,7 +42,8 @@ plotdistcens(censdata, distr, para, leftNA = -Inf, rightNA = Inf,NPMLE = TRUE,
     which is implemented in the package npsurv and \code{"Turnbull"}, an older one,
     which is implemented in the package survival (see details). Only \code{"Wang"}
     enables the derivation of a Q-Q plot and a P-P plot.}
-\item{\dots}{ further graphical arguments passed to other methods }
+\item{\dots}{ further graphical arguments passed to other methods. The title of the plot 
+ can be modified using the argument \code{main} only for the CDF plot.}
 }
 
 \details{
