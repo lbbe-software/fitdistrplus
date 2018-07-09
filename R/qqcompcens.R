@@ -182,7 +182,7 @@ qqcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
     {
       if (xlogscale == TRUE)
       {
-        noise2mult <- runif(nPi, 0.995, 1.005)
+        noise2mult <- runif(nPi, 0.99, 1.01)
         rect(xleft = Qitheo.left4plot, ybottom = Qi.left4plot * noise2mult, 
              xright = Qitheo.right4plot, 
              ytop = Qi.right4plot * noise2mult, 
@@ -190,7 +190,7 @@ qqcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
        }
         else
         {
-          noise2add <- runif(nPi, -width*0.002, width*0.002)
+          noise2add <- runif(nPi, -width*0.01, width*0.01)
           rect(xleft = Qitheo.left4plot, ybottom = Qi.left4plot + noise2add, 
                xright = Qitheo.right4plot, 
                ytop = Qi.right4plot + noise2add, 

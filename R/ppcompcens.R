@@ -143,8 +143,6 @@ ppcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
     distname <- fti$distname
     pdistname <- paste("p", distname, sep="")
     
-    #est ce qu'il faut pas tester plutot le fait que discrete=TRUE?
-    
     if (is.element(distname, c("binom", "nbinom", "geom", "hyper", "pois"))) 
       warning(" Be careful, variables are considered continuous in this function!")
     Pitheo.low <- do.call(pdistname, c(list(Qi.left), as.list(para)))
@@ -153,14 +151,14 @@ ppcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
     {
       if (xlogscale == TRUE)
       {
-        noise2mult <- runif(nQi, 0.995, 1.005)
+        noise2mult <- runif(nQi, 0.99, 1.01)
         rect(xleft = Pitheo.low, ybottom = Pi.low * noise2mult, 
              xright = Pitheo.up, ytop = Pi.up * noise2mult, 
              border = fitcol[i], col = fillrect)
       }
       else
       {
-        noise2add <- runif(nQi, -0.002, 0.002)
+        noise2add <- runif(nQi, -0.01, 0.01)
         rect(xleft = Pitheo.low, ybottom = Pi.low + noise2add, 
              xright = Pitheo.up, ytop = Pi.up + noise2add, 
              border = fitcol[i], col = fillrect)

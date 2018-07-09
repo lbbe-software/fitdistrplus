@@ -62,6 +62,11 @@ qqcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
   n <- length(mydata)
   sdata <- sort(mydata)
   largedata <- (n > 1e4)
+  if (xlogscale != ylogscale)
+  {
+    warning("As a Q-Q plot should use the same scale on x and y axes, 
+            both or none of the axes should be put in a logarithmic scale.")
+  }
   logxy <- paste(ifelse(xlogscale,"x",""), ifelse(ylogscale,"y",""), sep="")
   
   # manage default parameters
@@ -130,7 +135,15 @@ qqcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
         points(fittedquant[,i], sdata, pch=fitpch[i], col=fitcol[i], ...)
     if(nft > 1 && ynoise && !largedata)
       for(i in 2:nft)
-        points(fittedquant[,i], sdata*(1 + rnorm(n, 0, 0.01)), pch=fitpch[i], col=fitcol[i], ...)
+        if (ylogscale)
+        {
+          noise2mult <- runif(n, 0.95, 1.05)
+          points(fittedquant[,i], sdata*noise2mult, pch=fitpch[i], col=fitcol[i], ...)
+        }else
+        {
+          noise2add <- runif(n, -0.02, 0.02)
+          points(fittedquant[,i], sdata+noise2add, pch=fitpch[i], col=fitcol[i], ...)
+        }
     if(largedata)
       for(i in 2:nft)
         lines(fittedquant[,i], sdata, col=fitcol[i], lty = fitpch[i], ...)
@@ -166,7 +179,15 @@ qqcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
     fittedquant$sdata <- sdata   # sdata is recycled in the standard fashion
     fittedquant$ind <- factor(fittedquant$ind, levels = unique(fittedquant$ind))   # reorder levels in the appearance order of the input
     if(nft > 1 && ynoise && !largedata) {
-      fittedquant$sdata <- fittedquant$sdata*(1 + rnorm(n*nft, 0, 0.01))
+      if (ylogscale)
+      {
+        noise2mult <- runif(n, 0.95, 1.05)
+        fittedquant$sdata <- fittedquant$sdata*noise2mult
+      }else
+      {
+        noise2add <- runif(n, -0.02, 0.02)
+        fittedquant$sdata <- fittedquant$sdata+noise2add
+      }
     }
     
     ggqqcomp <-

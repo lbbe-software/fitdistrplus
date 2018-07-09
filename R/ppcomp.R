@@ -64,9 +64,8 @@ ppcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
   largedata <- (n > 1e4)
   if (xlogscale != ylogscale)
   {
-    #est ce trop fort de changer la valeur d'un argument?
-    warning("As a Q-Q plot should use the same scale on x and y axes, 
-            both axes were put in a logarithmic scale.")
+    warning("As a P-P plot should use the same scale on x and y axes, 
+            both or none of the axes should be put in a logarithmic scale.")
   }
   logxy <- paste(ifelse(xlogscale,"x",""), ifelse(ylogscale,"y",""), sep="")
   
@@ -179,7 +178,15 @@ ppcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
     fittedprob$obsp <- obsp   # obsp is recycled in the standard fashion
     fittedprob$ind <- factor(fittedprob$ind, levels = unique(fittedprob$ind))   # reorder levels in the appearance order of the input
     if(nft > 1 && ynoise && !largedata) {
-      fittedprob$obsp <- fittedprob$obsp*(1 + rnorm(n*nft, 0, 0.01))
+      if (ylogscale)
+      {
+        noise2mult <- runif(n, 0.95, 1.05)
+        fittedprob$obsp <- fittedprob$obsp*noise2mult
+      }else
+      {
+        noise2add <- runif(n, -0.02, 0.02)
+        fittedprob$obsp <- fittedprob$obsp+noise2add
+      }
     }
     
     ggppcomp <-
