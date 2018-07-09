@@ -380,3 +380,77 @@ dcomp <- denscomp(list(fitW, fitln, fitg), legendtext = c("Weibull", "lognormal"
     xlegend = "topright", plotstyle = "ggplot", addlegend = FALSE)
   dcomp + ggplot2::theme_minimal() + ggplot2::ggtitle("Ground beef fits")
 
+## ---------------------------
+dtoy <- data.frame(left = c(NA, 2, 4, 6, 9.7, 10), right = c(1, 3, 7, 8, 9.7, NA))
+dtoy
+
+## ---- fig.height= 4, fig.width= 8-----------------------
+par(mfrow = c(1,2), mar = c(3, 4, 3, 0.5))
+plotdistcens(dtoy, NPMLE = FALSE)
+data(smokedfish)
+dsmo <-  log10(smokedfish)
+plotdistcens(dsmo, NPMLE = FALSE)
+
+## ---- fig.height= 6, fig.width= 6-----------------------
+par(mfrow = c(2, 1),  mar = c(3, 4, 3, 0.5))
+# Turnbull plot of the ECDF
+plotdistcens(dsmo, NPMLE.method = "Turnbull")
+# Wang plot of the ECD
+plotdistcens(dsmo, NPMLE.method = "Wang")
+
+## ---- echo = FALSE, fig.height= 4, fig.width= 8-----------------------
+d <- data.frame(left = c(NA, 2, 4, 6, 9.5, 10), right = c(1, 3, 7, 8, 9.5, NA))
+addbounds <- function(d)
+{
+  xbounds <- c(d$left, d$right)
+  xboundsnotNA <- xbounds[!is.na(xbounds)]
+  abline(v = xboundsnotNA, col = "grey")
+}
+addLR <- function(d)
+{
+  Lbounds <- d$left[!is.na(d$left)]
+  Rbounds <- d$right[!is.na(d$right)]
+  range <- range(c(Lbounds,Rbounds)) 
+  eps <- (range[2] - range[1]) * 0.01
+  text(x = Lbounds-eps, y = 0.05, labels = "L", col = "red", cex = 0.75)
+  text(x = Rbounds+eps, y = 0.05, labels = "R", col = "red", cex = 0.75)
+}
+addeq <- function(deq)
+{
+  left <- deq$left
+  left[is.na(left)] <- -100
+  right <- deq$right
+  right[is.na(right)] <- 100
+  rect(left, -2, right, 2, density = 10)
+}
+par(mfrow = c(2,1), mar = c(2, 4, 3, 0.5))
+# First step
+plotdistcens(d, NPMLE = FALSE, lwd = 2, col = "blue", main = "Step 1 : identification of equivalence classes")
+addbounds(d)
+addLR(d)
+deq <- data.frame(left = c(NA, 2, 6, 9.5, 10), right = c(1, 3, 7,9.5, NA))
+addeq(deq)
+# Second step
+plotdistcens(d, lwd = 2, main = "Step 2 : estimation of mass probabilities")
+
+## ---------------------------
+fnorm <- fitdistcens(dsmo,"norm")
+flogis <- fitdistcens(dsmo,"logis")
+# comparison of AIC values
+summary(fnorm)$aic
+summary(flogis)$aic
+
+## ------ fig.height= 6, fig.width= 6 ---------------------
+par(mar = c(2, 4, 3, 0.5))
+plot(fnorm)
+
+## ------ fig.height= 4, fig.width= 4 ---------------------
+cdfcompcens(list(fnorm, flogis), fitlty = 1)
+qqcompcens(list(fnorm, flogis))
+ppcompcens(list(fnorm, flogis))
+
+## ------ fig.height= 4, fig.width= 8 ---------------------
+par(mfrow = c(1,2))
+qqcompcens(fnorm, fitcol = "red", fillrect = "red", lwd = 2)
+qqcompcens(flogis, fitcol = "green", fillrect = "green", lwd = 2)
+

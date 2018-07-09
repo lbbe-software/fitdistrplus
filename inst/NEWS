@@ -13,11 +13,13 @@ fitdistcens().
 - add new default starting values for distributions in actuar.
 - change of the default CDF plot for censored data, using the Wang NPMLE algorithm provided in the package npsurv (in plotdistcens() and cdfcompcens())
 - add of two new goodness-of-fit plots (QQ-plot and PP-plot) for censored data (cf. plotdistcens, qqcompcens and ppcompcens). 
+- add of a part dedicated to censored datain the FAQ vignette.
 - homogeneization of xlim and ylim default definition in plotdistcens.
 - Removing of the name of the first argument in calls to dpq functions in order
 to make the package compatible with distributions defined with a non classical
 name for their first argument (resp. x, q, p for d, p, q functions).
 - add the possibility to change the title of the CDF plot in plotdistcens() using the argument main.
+
 
 BUG FIXES
 - bug fixed concerning the use of gofstat with a chi squared df <=0 (error message blocking the other functions)

@@ -1080,3 +1080,154 @@ We plan to include the argument `plotstyle` to other functions of the `fitdistrp
 
 
 # Questions regarding censored data
+
+## How to code censored data in `fitdistrplus` ?
+
+Censored data must be rpresented in the package by a dataframe of two columns respectively named left and right, describing each observed value as an interval. The left column contains either `NA` for left censored observations, the left bound of the interval for interval censored observations, or the observed value for non-censored observations. The right column contains either `NA` for right censored observations, the right bound of the interval for interval censored observations, or the observed value for non-censored observations. This type of representation
+corresponds to the coding names `"interval2"` in function `Surv` of the package 
+`survival`. There is no other way to represent censored data in `fitdistrplus`
+for the moment. You have a toy example below.
+```{r}
+dtoy <- data.frame(left = c(NA, 2, 4, 6, 9.7, 10), right = c(1, 3, 7, 8, 9.7, NA))
+dtoy
+```
+
+
+## How to representan empirical distribution from censored data ?
+
+The representation of an empirical distribution from censored data is not a
+trivial problem. One can simply represent each observation as an interval at an
+y-value defined by the rank of the observation as done below using function
+`plotdistcens`. This representation can be interesting to visualize the raw data,
+but it remains difficult to correctly order the observations
+in any case (see the example below on the right using data `smokedfish`).
+
+```{r, fig.height= 4, fig.width= 8}
+par(mfrow = c(1,2), mar = c(3, 4, 3, 0.5))
+plotdistcens(dtoy, NPMLE = FALSE)
+data(smokedfish)
+dsmo <-  log10(smokedfish)
+plotdistcens(dsmo, NPMLE = FALSE)
+```
+
+Many authors worked on the development of algorithms for
+**non parametric maximum likelihood estimation (NPMLE)** of the 
+**empirical cumulative distribution function (ECDF)** from interval censored data (including
+left and right censored data that can be considered as interval censored data
+with one bound at infinity). In old versions of `fitdistrplus` we used the
+Turnbull algorithm using calls to functions of the package `survival`. 
+Even if this type of
+plot is still available in the package, the default plot now uses the
+function `npsurv` of  the package `npsurv`. This package provides more 
+performant algorithms developped by Yong Wang (see references cited in the help
+page of `plotdistcens`).  
+
+```{r, fig.height= 6, fig.width= 6}
+par(mfrow = c(2, 1),  mar = c(3, 4, 3, 0.5))
+# Turnbull plot of the ECDF
+plotdistcens(dsmo, NPMLE.method = "Turnbull")
+# Wang plot of the ECD
+plotdistcens(dsmo, NPMLE.method = "Wang")
+```
+
+As you can see in the above example, `npsurv` also provides a different type of plot
+for the ECDF, representing by filled rectangles the zones of non-uniqueness
+of the NPMLE ECDF. Indeed an NPMLE algorithm generally proceeds in two steps.
+
+1. The first step aims at identifying **equivalence classes** (also named in the litterture
+**Turnbull intervals** or **maximal intersection intervals** or **innermost intervals** or **maximal cliques** of the data). Equivalences classess are points/intervals under which the NPMLE ECDF may change. Equivalence classes have been shown to correspond to regions between a left bound of an interval
+(named L in the following plot on a the previous toy example) immediately followed by a right bound of an interval (named R in the following plot). An equivalence class may be of null length (for example
+at each non censored value).
+
+2. The second step aims at assigning a **probability mass** to each equivalence 
+class, which may be zero on some classes. The NPMLE is unique only up to these equivalence classes and this **non uniqueness** of the NPMLE ECDF is represented by **filled rectangles**.
+
+Various NPMLE algorithms are implemented in the packages **Icens**, **interval** and **npsurv**. They are more or less performant and all of them do not enable the handling
+of other data than survival data, especially with left censored observations.
+
+```{r, echo = FALSE, fig.height= 4, fig.width= 8}
+d <- data.frame(left = c(NA, 2, 4, 6, 9.5, 10), right = c(1, 3, 7, 8, 9.5, NA))
+addbounds <- function(d)
+{
+  xbounds <- c(d$left, d$right)
+  xboundsnotNA <- xbounds[!is.na(xbounds)]
+  abline(v = xboundsnotNA, col = "grey")
+}
+addLR <- function(d)
+{
+  Lbounds <- d$left[!is.na(d$left)]
+  Rbounds <- d$right[!is.na(d$right)]
+  range <- range(c(Lbounds,Rbounds)) 
+  eps <- (range[2] - range[1]) * 0.01
+  text(x = Lbounds-eps, y = 0.05, labels = "L", col = "red", cex = 0.75)
+  text(x = Rbounds+eps, y = 0.05, labels = "R", col = "red", cex = 0.75)
+}
+addeq <- function(deq)
+{
+  left <- deq$left
+  left[is.na(left)] <- -100
+  right <- deq$right
+  right[is.na(right)] <- 100
+  rect(left, -2, right, 2, density = 10)
+}
+par(mfrow = c(2,1), mar = c(2, 4, 3, 0.5))
+# First step
+plotdistcens(d, NPMLE = FALSE, lwd = 2, col = "blue", main = "Step 1 : identification of equivalence classes")
+addbounds(d)
+addLR(d)
+deq <- data.frame(left = c(NA, 2, 6, 9.5, 10), right = c(1, 3, 7,9.5, NA))
+addeq(deq)
+# Second step
+plotdistcens(d, lwd = 2, main = "Step 2 : estimation of mass probabilities")
+```
+
+## How to assess the goodness-of-fit of a distribution fitted on censored data ?
+
+The only available method in `fitdistrplus` to fit distributions on censored data
+is the maximum likelihood estimation (MLE). Once a distribution is fitted using 
+`fitdistcens`, AIC and BIC values can be found in the `summary` of the object 
+of class `fitdistcens` returned by the function.  Those values can be used to 
+compare the fit of various distributions on a same dataset.
+Function `gofstat` is not yet proposed in our package for fits on censored
+data but we plan to develop it in the future with the calculation of other 
+goodness-of-fit statistics for censored data.
+
+```{r}
+fnorm <- fitdistcens(dsmo,"norm")
+flogis <- fitdistcens(dsmo,"logis")
+# comparison of AIC values
+summary(fnorm)$aic
+summary(flogis)$aic
+```
+
+Considering goodness-of-fit plots, the generic `plot` function of an object of class
+`fitdistcens`provides three plots, one in CDF using the NPMLE ECDF plot (by default
+using the Wang prepresentation, see previous part for details), a Q-Q plot and a P-P plot
+simply derived from the Wang plot of the ECDF, with filled rectangles indicating non uniqueness of the NPMLE ECDF. 
+
+```{r, fig.height= 6, fig.width= 6}
+par(mar = c(2, 4, 3, 0.5))
+plot(fnorm)
+```
+
+Functions `cdfcompcens()`, `qqcompens()` and `ppcompcens()` can be used to 
+individualize and personnalize
+CDF, Q-Q and P-P goodness-of-fit plots and/or to compare the fit of various distributions
+on a same dataset.
+
+```{r, fig.height= 4, fig.width= 4}
+cdfcompcens(list(fnorm, flogis), fitlty = 1)
+qqcompcens(list(fnorm, flogis))
+ppcompcens(list(fnorm, flogis))
+```
+
+Considering Q-Q plots and P-P plots, it may be easier to compare various fits by 
+manually splitting the plots as below. We will soon propose an automatic plot of
+this type in a `plotstyle` `ggplot` in`qqcompens()` and `ppcompcens()`.
+
+```{r, fig.height= 4, fig.width= 8}
+par(mfrow = c(1,2))
+qqcompcens(fnorm, fitcol = "red", fillrect = "red", lwd = 2)
+qqcompcens(flogis, fitcol = "green", fillrect = "green", lwd = 2)
+```
+

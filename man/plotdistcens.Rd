@@ -107,6 +107,8 @@ for interval-censored data}. Computational Statistics & Data Analysis, 52, 2388-
 Wang Y and Taylor SM (2013), \emph{Efficient computation of nonparametric survival
 functions via a hierarchical mixture formulation}. Statistics and Computing, 23, 713-725.
 
+Wang, Y., & Fani, S. (2018), \emph{Nonparametric maximum likelihood computation of a U-shaped hazard function}. Statistics and Computing, 28(1), 187-200.
+
 Delignette-Muller ML and Dutang C (2015), \emph{fitdistrplus: An R Package for Fitting Distributions}.
 Journal of Statistical Software, 64(4), 1-34.
 
