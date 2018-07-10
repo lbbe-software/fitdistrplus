@@ -1111,10 +1111,10 @@ fitdstdata <- cbind.data.frame(left=svdata[,"time"], right=NA)
 fitdstdata$right[svdata[,"status"] == 1] <- fitdstdata$left[svdata[,"status"] == 1]
 ```
 Let us now fit two simple distributions.
-```{r}
+```{r, fig.height= 4, fig.width= 6}
 flnormc <- fitdistcens(fitdstdata, "lnorm")
 fweic <- fitdistcens(fitdstdata, "weibull")
-cdfcompcens(list(fweic, flnormc), xlim=range(exitage))
+cdfcompcens(list(fweic, flnormc), xlim=range(exitage), xlegend = "topleft")
 ```
 
 

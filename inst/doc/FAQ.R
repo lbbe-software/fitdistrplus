@@ -384,6 +384,23 @@ dcomp <- denscomp(list(fitW, fitln, fitg), legendtext = c("Weibull", "lognormal"
 dtoy <- data.frame(left = c(NA, 2, 4, 6, 9.7, 10), right = c(1, 3, 7, 8, 9.7, NA))
 dtoy
 
+## ---------------------------
+exitage <- c(81.1,78.9,72.6,67.9,60.1,78.3,83.4,66.9,74.8,80.5,75.6,67.1,
+             75.3,82.8,70.1,85.4,74,70,71.6,76.5)
+death <- c(0,0,1,0,0,0,0,1,0,0,0,0,0,0,1,1,0,0,0,0)
+
+## ---------------------------
+svdata <- Surv(exitage, death)
+
+## ---------------------------
+fitdstdata <- cbind.data.frame(left=svdata[,"time"], right=NA)
+fitdstdata$right[svdata[,"status"] == 1] <- fitdstdata$left[svdata[,"status"] == 1]
+
+## ---- fig.height= 4, fig.width= 6-----------------------
+flnormc <- fitdistcens(fitdstdata, "lnorm")
+fweic <- fitdistcens(fitdstdata, "weibull")
+cdfcompcens(list(fweic, flnormc), xlim=range(exitage), xlegend = "topleft")
+
 ## ---- fig.height= 4, fig.width= 8-----------------------
 par(mfrow = c(1,2), mar = c(3, 4, 3, 0.5))
 plotdistcens(dtoy, NPMLE = FALSE)
