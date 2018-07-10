@@ -26,7 +26,6 @@ checkparamlist <- function(start.arg, fix.arg, argdistname)
   #check NA/NaN values
   if(any(is.na(vstart) || is.nan(vstart)))
     stop(errtxt$t6)
-  
   if(!is.null(fix.arg))
   {
     vfix <- unlist(fix.arg)
