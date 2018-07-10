@@ -50,7 +50,7 @@
 \title{\pkg{fitdistrplus}: An \proglang{R} Package for Fitting Distributions}
 %\Plaintitle{fitdistrplus: an R Package for Fitting Distributions}
 
-\date{October 2014\footnote{Paper accepted in the Journal of Statistical Software}}
+\date{October 2014 \footnote{Paper accepted in the Journal of Statistical Software} (revised in July 2018)}
 
 %quantile matching, maximum goodness-of-fit, distributions, R}
 
@@ -906,9 +906,6 @@ to loss data from the \code{danishuni} data set.}
 \label{fig:danish:mme}
 \end{figure}
 
-% je trouve nos legendes de graph trop longues?
-% 
-
 
 In a second time, a Pareto distribution, which gives more weight to 
 the right-tail of the distribution, is fitted.
@@ -959,8 +956,6 @@ Whatever the statistic considered, the MLE-fitted lognormal always provides the 
 to the observed data.
 
 Maximum likelihood and moment matching 
-%(the default on many softwares)
-% si on ne trouve pas de references on l'enleve?
 estimations are 
 certainly the most commonly used method for fitting distributions \citep{Cullen99}. 
 Keeping in mind that these two methods may produce very different results,
@@ -968,8 +963,6 @@ the user should be aware of its great sensitivity to outliers
 when choosing the moment matching estimation. This may be seen as an advantage in our example if the
 objective is to better describe the right tail of the distribution, but it may be seen as a
 drawback if the objective is different.
-% As-tu des references indiquant que le MLE est meilleurs dans certains cas, cf. commentaires de Regis ?
-
 
 
 %\subsubsection{Quantile matching estimation}
@@ -1036,7 +1029,7 @@ cdfcomp(list(fdanish.ln.MLE, fdanish.ln.QME1, fdanish.ln.QME2),
 \label{fig:danish:qme}
 \end{figure}
 
-\clearpage
+%\clearpage
 
 \subsection[Customizing optimization]{Customization of the optimization algorithm}
 \label{Customization}
@@ -1128,6 +1121,9 @@ cbind(NM = fNM$estimate,
 \subsection[Other types of data]{Fitting distributions to other types of data}
 \label{otherdata}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\emph{This section was modified since the publication of this vignette in the Journal of 
+Statistical Software in order to include new goodness-of-fit plots for censored and discrete data.}
+
 Analytical methods often lead to semi-quantitative results which are referred to as
 censored data. Observations only known to be under a limit of detection are 
 left-censored data. Observations only known to be above a limit of quantification
@@ -1175,16 +1171,24 @@ str(salinity)
 
 Using censored data such as those coded in the \code{salinity} data set,
 the empirical distribution can be plotted using the \code{plotdistcens} function.
-By default, this function uses the Expectation-Maximization approach of \cite{Turnbull74} to compute the overall
+In older versions of the package, by default this function used the Expectation-Maximization approach of \cite{Turnbull74} to compute the overall
 empirical cdf curve with optional confidence intervals, by calls to \code{survfit}
-and \code{plot.survfit} functions from the \pkg{survival} package 
-(Figure~\ref{cdfcompcens} shows the Turnbull plot of data together with two fitted distributions). 
+and \code{plot.survfit} functions from the \pkg{survival} package. 
+Even if this representation is always available (by fixing the argument 
+\code{NPMLE.method} to \code{"Turnbull"}), now the default representation of the 
+empirical cumulative distribution function (ECDF) uses another more performant non parametric
+maximum likelihood estimation (NPMLE) approach developped by Wang \citep{Wang2007, Wang2008, Wang2013, Wang2018}, 
+by calls to the \code{npsurv} function from the \pkg{npsurv} package.  
+Figure~\ref{cdfcompcens} shows on the top left the Wang plot of data together with two fitted distributions.
+Grey filled rectangles in such a plot represent the regions of non uniqueness of the NPMLE ECDF.
+
 A less rigorous
 but sometimes more illustrative plot can be 
-obtained by fixing the argument \code{Turnbull} to \code{FALSE} in the call to \code{plotdistcens}
+obtained by fixing the argument \code{NPMLE} to \code{FALSE} in the call to \code{plotdistcens}
 (see Figure~\ref{plotdistcens} for an example and the help page of Function
 \code{plotdistcens} for details). This plot enables to see the real nature of censored data, as
-points and intervals. 
+points and intervals, but the difficulty in building such a plot is to define a relevant ordering of 
+observations. 
 
 %%% R code
 %<<plotsalinity.echo, echo=TRUE, fig=FALSE>>=
@@ -1195,12 +1199,8 @@ points and intervals.
 
 %%% R code
 <<plotsalinity2.echo, echo=TRUE, fig=FALSE>>=
-plotdistcens(salinity,Turnbull = FALSE)
+plotdistcens(salinity, NPMLE = FALSE)
 @
-
-
-% pourquoi ne pas travailler avec un exemple simulé?
-%
 
 
 \setkeys{Gin}{width=0.5\textwidth} 
@@ -1268,26 +1268,40 @@ developed for fits using censored data but the quality of fit
 can be judged using Akaike and Schwarz's Bayesian 
 information criteria (AIC and BIC) and the goodness-of-fit CDF plot, 
 respectively provided when summarizing or plotting an object of class \code{"fitdistcens"}. 
-Function \code{cdfcompcens} can also be used to compare the fit of various
-distributions to the same censored data set. Its call is similar to the one of \code{cdfcomp}. Below is
-an example of comparison of the two fitted distributions to the \code{salinity} data set (see Figure~\ref{cdfcompcens}).
+Functions \code{cdfcompcens}, \code{qqcompcens} and \code{ppcompcens}
+can also be used to compare the fit of various
+distributions to the same censored data set. Their calls are similar to the ones of \code{cdfcomp},
+\code{qqcomp} and \code{ppcomp}. Below are
+examples of use of those functions with the two fitted distributions to the \code{salinity} data set (see Figure~\ref{cdfcompcens}). When \code{qqcompcens} and \code{ppcompcens} are used with
+more than one fitted distribution, the non uniqueness rectangles are not filled and a small noise 
+is added on the y-axis in order to help the visualization of various fits.
 
 %%% R code
 <<fitsalinity.cdfcomp.echo, echo=TRUE, fig=FALSE, eval=FALSE>>=
+par(mfrow=c(2, 2))
 cdfcompcens(list(fsal.ln, fsal.ll), 
   legendtext = c("lognormal", "loglogistic "))
+qqcompcens(fsal.ln, legendtext = "lognormal")
+ppcompcens(fsal.ln, legendtext = "lognormal")
+qqcompcens(list(fsal.ln, fsal.ll), legendtext = c("lognormal", "loglogistic "),
+           main = "Q-Q plot with 2 dist.")
 @
 
 
-\setkeys{Gin}{width=0.5\textwidth} %default
+\setkeys{Gin}{width=0.8\textwidth} %default
 \begin{figure}[htb!]
   \centering
   %%% R code
-<<fitsalinitycdfcompplot, echo=FALSE, fig=TRUE, width=6, height=6, eps=FALSE>>=
+<<fitsalinitycdfcompplot, echo=FALSE, fig=TRUE, width=7, height=7, eps=FALSE>>=
+par(mfrow=c(2, 2))
 cdfcompcens(list(fsal.ln, fsal.ll),
     legendtext=c("lognormal", "loglogistic "))
+qqcompcens(fsal.ln, legendtext = "lognormal")
+ppcompcens(fsal.ln, legendtext = "lognormal")
+qqcompcens(list(fsal.ln, fsal.ll), legendtext = c("lognormal", "loglogistic "),
+           main = "Q-Q plot with 2 dist.")
 @
-  \caption{Goodness-of-fit CDF plot for fits of a lognormal and a loglogistic distribution
+  \caption{Some goodness-of-fit plots for fits of a lognormal and a loglogistic distribution
   to censored data: LC50 values from 
    the \code{salinity} data set.}
   \label{cdfcompcens}
@@ -1333,37 +1347,28 @@ negative binomial distributions can be easily fitted.
 
 For discrete distributions, the plot of an object of class \code{"fitdist"} simply provides
 two goodness-of-fit plots comparing empirical and theoretical distributions
-in density and in  CDF (Figure~\ref{plotdiscfitP}). Function \code{cdfcomp} can also be used to compare several plots
+in density and in  CDF. Functions \code{cdfcomp} and \code{denscomp}
+can also be used to compare several plots
 to the same data set, as follows for the previous fits (Figure~\ref{plotdiscfit}). 
-<<fittoxocara.pois.echo, echo=TRUE, fig=FALSE>>=
-plot(ftoxo.P)
+
+<<fittoxocara.poisnbinom.echo, echo=TRUE, fig=FALSE>>=
+par(mfrow = c(1,2))
+denscomp(list(ftoxo.P, ftoxo.nb), 
+  legendtext = c("Poisson", "negative binomial"), fitlty = 1)
+cdfcomp(list(ftoxo.P, ftoxo.nb), 
+  legendtext = c("Poisson", "negative binomial"), fitlty = 1)
 @
 
 \setkeys{Gin}{width=0.9\textwidth} %default
 
 \begin{figure}[htb]
   \centering
-<<fittoxocarapois, echo=FALSE, results=hide, fig=TRUE, width=7, height=3.5, eps=FALSE>>=
-plot(ftoxo.P)
-@
-  \caption{Plot of the fit of a discrete distribution (Poisson distribution
-  fitted to numbers of \emph{Toxocara cati} parasites from the \code{toxocara} data set).}
-  \label{plotdiscfitP}
-\end{figure}
-
-
-<<fittoxocara.poisnbinom.echo, echo=TRUE, fig=FALSE>>=
+<<fittoxocarapoisnbinomplot, echo=FALSE, results=hide, fig=TRUE, width=9, height=4.5, eps=FALSE>>=
+par(mfrow = c(1,2))
+denscomp(list(ftoxo.P, ftoxo.nb), 
+  legendtext = c("Poisson", "negative binomial"), fitlty = 1)
 cdfcomp(list(ftoxo.P, ftoxo.nb), 
-  legendtext = c("Poisson", "negative binomial"))
-@
-
-\setkeys{Gin}{width=0.5\textwidth} %default
-
-\begin{figure}[htb]
-  \centering
-<<fittoxocarapoisnbinomplot, echo=FALSE, results=hide, fig=TRUE, width=4, height=4, eps=FALSE>>=
-cdfcomp(list(ftoxo.P, ftoxo.nb), 
-        legendtext = c("Poisson", "negative binomial"))
+  legendtext = c("Poisson", "negative binomial"), fitlty = 1)
 @
   \caption{Comparison of the fits of a negative binomial and a Poisson distribution
    to numbers of \emph{Toxocara cati} parasites from the \code{toxocara} data set.}

@@ -176,16 +176,17 @@ qqcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
     fittedquant <- as.data.frame(fittedquant)
     colnames(fittedquant) <- unlist(lapply(ft, function(X) X["distname"]))
     fittedquant <- stack(fittedquant)
+    nfq <- nrow(fittedquant)
     fittedquant$sdata <- sdata   # sdata is recycled in the standard fashion
     fittedquant$ind <- factor(fittedquant$ind, levels = unique(fittedquant$ind))   # reorder levels in the appearance order of the input
     if(nft > 1 && ynoise && !largedata) {
       if (ylogscale)
       {
-        noise2mult <- runif(n, 0.95, 1.05)
+        noise2mult <- runif(nfq, 0.95, 1.05)
         fittedquant$sdata <- fittedquant$sdata*noise2mult
       }else
       {
-        noise2add <- runif(n, -0.02, 0.02)
+        noise2add <- runif(nfq, -0.02, 0.02)
         fittedquant$sdata <- fittedquant$sdata+noise2add
       }
     }

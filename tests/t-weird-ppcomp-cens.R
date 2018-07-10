@@ -43,10 +43,6 @@ par(mfrow=1:2, mar=c(4,4,2,1))
 ppcomp(list(f1, f2, f3))
 ppcompcens(list(f1c, f2c, f3c))
 
-# with ggplot
-ppcomp(list(f1, f2, f3), plotstyle = "ggplot")
-#PB no noise ? Or the same for each fitted distribution (no interest)
-
 #test log-scale
 par(mfrow=1:2, mar=c(4,4,2,1))
 ppcomp(list(f1, f2, f3), xlogscale = TRUE, ylogscale = TRUE, xlim=c(.1, 1), ylim=c(.1, 1))
@@ -65,7 +61,6 @@ ppcomp(list(f1, f2, f3), ynoise=FALSE)
 # with ggplot
 ppcomp(list(f1, f2, f3), plotstyle = "ggplot")
 ppcomp(list(f1, f2, f3), ynoise=FALSE, plotstyle = "ggplot")
-#PB : the same noise in put for each fitted dist. -> not the purpose
 
 par(mfrow=1:2, mar=c(4,4,2,1))
 ppcompcens(list(f1c, f2c, f3c))
@@ -82,7 +77,7 @@ ppcomp(list(f1, f2, f3), xlogscale = TRUE, ylogscale = TRUE,
        xlim=c(.1, 1), ylim=c(.1, 1), plotstyle = "ggplot")
 ppcomp(list(f1, f2, f3), xlogscale = TRUE, ylogscale = TRUE, 
        xlim=c(.1, 1), ylim=c(.1, 1), ynoise=FALSE, plotstyle = "ggplot")
-#PB both pb with warning and wrong noise
+#warning ?
 
 par(mfrow=1:2, mar=c(4,4,2,1))
 ppcompcens(list(f1c, f2c), xlogscale = TRUE, ylogscale = TRUE, xlim=c(.1, 1), ylim=c(.1, 1))

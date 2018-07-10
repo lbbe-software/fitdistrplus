@@ -175,16 +175,17 @@ ppcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
     fittedprob <- as.data.frame(fittedprob)
     colnames(fittedprob) <- unlist(lapply(ft, function(X) X["distname"]))
     fittedprob <- stack(fittedprob)
+    nfp <- nrow(fittedprob)
     fittedprob$obsp <- obsp   # obsp is recycled in the standard fashion
     fittedprob$ind <- factor(fittedprob$ind, levels = unique(fittedprob$ind))   # reorder levels in the appearance order of the input
     if(nft > 1 && ynoise && !largedata) {
       if (ylogscale)
       {
-        noise2mult <- runif(n, 0.95, 1.05)
+        noise2mult <- runif(nfp, 0.95, 1.05)
         fittedprob$obsp <- fittedprob$obsp*noise2mult
       }else
       {
-        noise2add <- runif(n, -0.02, 0.02)
+        noise2add <- runif(nfp, -0.02, 0.02)
         fittedprob$obsp <- fittedprob$obsp+noise2add
       }
     }
