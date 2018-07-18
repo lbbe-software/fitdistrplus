@@ -142,7 +142,7 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
             { 
                 n <- length(obs)
                 s <- sort(obs)
-                theop <- do.call(pdistnam,c(list(q=s),as.list(par),as.list(fix.arg)))
+                theop <- do.call(pdistnam,c(list(s),as.list(par),as.list(fix.arg)))
                 1/(12*n) + sum( ( theop - (2 * 1:n - 1)/(2 * n) )^2 )
             }
         else     
@@ -153,7 +153,7 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
                 s <- sort(obs)
                 obspu <- seq(1,n)/n
                 obspl <- seq(0,n-1)/n
-                theop <- do.call(pdistnam,c(list(q=s),as.list(par),as.list(fix.arg)))
+                theop <- do.call(pdistnam,c(list(s),as.list(par),as.list(fix.arg)))
                 max(pmax(abs(theop-obspu),abs(theop-obspl)))
             }
         else
@@ -162,7 +162,7 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
             { 
                 n <- length(obs)
                 s <- sort(obs)
-                theop <- do.call(pdistnam,c(list(q=s),as.list(par),as.list(fix.arg)))
+                theop <- do.call(pdistnam,c(list(s),as.list(par),as.list(fix.arg)))
                 - n - mean( (2 * 1:n - 1) * (log(theop) + log(1 - rev(theop))) ) 
             }
         else
@@ -171,7 +171,7 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
             { 
                 n <- length(obs)
                 s <- sort(obs)
-                theop <- do.call(pdistnam,c(list(q=s),as.list(par),as.list(fix.arg)))
+                theop <- do.call(pdistnam,c(list(s),as.list(par),as.list(fix.arg)))
                 n/2 - 2 * sum(theop) - mean ( (2 * 1:n - 1) * log(1 - rev(theop)) )
             }
         else
@@ -180,7 +180,7 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
             { 
                 n <- length(obs)
                 s <- sort(obs)
-                theop <- do.call(pdistnam,c(list(q=s),as.list(par),as.list(fix.arg)))
+                theop <- do.call(pdistnam,c(list(s),as.list(par),as.list(fix.arg)))
                 -3*n/2 + 2 * sum(theop) - mean ( (2 * 1:n - 1) * log(theop) )
             }
         else  
@@ -189,7 +189,7 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
             { 
                 n <- length(obs)
                 s <- sort(obs)
-                theop <- do.call(pdistnam,c(list(q=s),as.list(par),as.list(fix.arg)))
+                theop <- do.call(pdistnam,c(list(s),as.list(par),as.list(fix.arg)))
                 2 * sum(log(1 - theop)) + mean ( (2 * 1:n - 1) / (1 - rev(theop)) )
             }
         else  
@@ -198,7 +198,7 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
             { 
                 n <- length(obs)
                 s <- sort(obs)
-                theop <- do.call(pdistnam,c(list(q=s),as.list(par),as.list(fix.arg)))
+                theop <- do.call(pdistnam,c(list(s),as.list(par),as.list(fix.arg)))
                 2 * sum(log(theop)) + mean ( (2 * 1:n - 1) / theop )
             }
          else  
@@ -207,7 +207,7 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
             { 
                 n <- length(obs)
                 s <- sort(obs)
-                theop <- do.call(pdistnam,c(list(q=s),as.list(par),as.list(fix.arg)))
+                theop <- do.call(pdistnam,c(list(s),as.list(par),as.list(fix.arg)))
                 2 * sum(log(theop) + log(1 - theop) ) + 
                 mean ( ((2 * 1:n - 1) / theop) + ((2 * 1:n - 1) / (1 - rev(theop))) )
             }

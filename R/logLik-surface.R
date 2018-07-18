@@ -368,11 +368,11 @@ likelihood <- function(par, fix.arg, obs, ddistnam, weights)
 loglikelihoodcens <- function(par, fix.arg, rcens, lcens, icens, ncens, ddistnam, pdistnam, 
                               weights, irow.ncens, irow.lcens, irow.rcens, irow.icens)
 {
-  p1 <- log(do.call(ddistnam, c(list(x=ncens), as.list(par), as.list(fix.arg))))
-  p2 <- log(do.call(pdistnam, c(list(q=lcens), as.list(par), as.list(fix.arg)))) 
-  p3 <- log(1-do.call(pdistnam, c(list(q=rcens), as.list(par), as.list(fix.arg))))
-  p4 <- log(do.call(pdistnam, c(list(q=icens$right), as.list(par), as.list(fix.arg))) - 
-              do.call(pdistnam, c(list(q=icens$left), as.list(par), as.list(fix.arg))) )
+  p1 <- log(do.call(ddistnam, c(list(ncens), as.list(par), as.list(fix.arg))))
+  p2 <- log(do.call(pdistnam, c(list(lcens), as.list(par), as.list(fix.arg)))) 
+  p3 <- log(1-do.call(pdistnam, c(list(rcens), as.list(par), as.list(fix.arg))))
+  p4 <- log(do.call(pdistnam, c(list(icens$right), as.list(par), as.list(fix.arg))) - 
+              do.call(pdistnam, c(list(icens$left), as.list(par), as.list(fix.arg))) )
   sum(weights[irow.ncens] * p1) + 
     sum(weights[irow.lcens] * p2) + 
     sum(weights[irow.rcens] * p3) + 
@@ -383,11 +383,11 @@ loglikelihoodcens <- function(par, fix.arg, rcens, lcens, icens, ncens, ddistnam
 likelihoodcens <- function(par, fix.arg, rcens, lcens, icens, ncens, ddistnam, pdistnam, 
                            weights, irow.ncens, irow.lcens, irow.rcens, irow.icens)
 {
-  p1 <- do.call(ddistnam, c(list(x=ncens), as.list(par), as.list(fix.arg)))
-  p2 <- do.call(pdistnam, c(list(q=lcens), as.list(par), as.list(fix.arg)))
-  p3 <- 1-do.call(pdistnam, c(list(q=rcens), as.list(par), as.list(fix.arg)))
-  p4 <- do.call(pdistnam, c(list(q=icens$right), as.list(par), as.list(fix.arg))) - 
-              do.call(pdistnam, c(list(q=icens$left), as.list(par), as.list(fix.arg))) 
+  p1 <- do.call(ddistnam, c(list(ncens), as.list(par), as.list(fix.arg)))
+  p2 <- do.call(pdistnam, c(list(lcens), as.list(par), as.list(fix.arg)))
+  p3 <- 1-do.call(pdistnam, c(list(rcens), as.list(par), as.list(fix.arg)))
+  p4 <- do.call(pdistnam, c(list(icens$right), as.list(par), as.list(fix.arg))) - 
+              do.call(pdistnam, c(list(icens$left), as.list(par), as.list(fix.arg))) 
   prod(p1^weights[irow.ncens]) * 
     prod(p2^weights[irow.lcens]) * 
     prod(p3^weights[irow.rcens]) * 

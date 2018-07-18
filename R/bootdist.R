@@ -51,7 +51,7 @@ bootdist <- function (f, bootmethod="param", niter=1001, silent=TRUE,
         rdistname <- paste("r", f$distname, sep="")
         if (!exists(rdistname, mode="function"))
             stop(paste("The ", rdistname, " function must be defined"))
-        rdata <- do.call(rdistname, c(list(n=niter*f$n), as.list(f$estimate), f$fix.arg))
+        rdata <- do.call(rdistname, c(list(niter*f$n), as.list(f$estimate), f$fix.arg))
         dim(rdata) <- c(f$n, niter)
     }
     else { # non parametric bootstrap

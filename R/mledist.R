@@ -154,18 +154,18 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
       argpdistname<-names(formals(pdistname))
         if (("log" %in% argddistname) & ("log.p" %in% argpdistname))
             fnobjcens <- function(par, fix.arg, rcens, lcens, icens, ncens, ddistnam, pdistnam)
-                -sum(do.call(ddistnam, c(list(x=ncens), as.list(par), as.list(fix.arg), list(log=TRUE)))) -
-                sum(do.call(pdistnam, c(list(q=lcens), as.list(par), as.list(fix.arg), list(log=TRUE)))) -
-                sum(do.call(pdistnam, c(list(q=rcens), as.list(par), as.list(fix.arg), list(lower.tail=FALSE), list(log=TRUE)))) -
-                sum(log(do.call(pdistnam, c(list(q=icens$right), as.list(par), as.list(fix.arg))) - # without log=TRUE here
-                do.call(pdistnam, c(list(q=icens$left), as.list(par), as.list(fix.arg))) )) # without log=TRUE here
+                -sum(do.call(ddistnam, c(list(ncens), as.list(par), as.list(fix.arg), list(log=TRUE)))) -
+                sum(do.call(pdistnam, c(list(lcens), as.list(par), as.list(fix.arg), list(log=TRUE)))) -
+                sum(do.call(pdistnam, c(list(rcens), as.list(par), as.list(fix.arg), list(lower.tail=FALSE), list(log=TRUE)))) -
+                sum(log(do.call(pdistnam, c(list(icens$right), as.list(par), as.list(fix.arg))) - # without log=TRUE here
+                do.call(pdistnam, c(list(icens$left), as.list(par), as.list(fix.arg))) )) # without log=TRUE here
         else
             fnobjcens <- function(par, fix.arg, rcens, lcens, icens, ncens, ddistnam, pdistnam)
-                -sum(log(do.call(ddistnam, c(list(x=ncens), as.list(par), as.list(fix.arg))))) -
-                sum(log(do.call(pdistnam, c(list(q=lcens), as.list(par), as.list(fix.arg))))) -
-                sum(log(1-do.call(pdistnam, c(list(q=rcens), as.list(par), as.list(fix.arg))))) -
-                sum(log(do.call(pdistnam, c(list(q=icens$right), as.list(par), as.list(fix.arg))) - 
-                do.call(pdistnam, c(list(q=icens$left), as.list(par), as.list(fix.arg))) ))
+                -sum(log(do.call(ddistnam, c(list(ncens), as.list(par), as.list(fix.arg))))) -
+                sum(log(do.call(pdistnam, c(list(lcens), as.list(par), as.list(fix.arg))))) -
+                sum(log(1-do.call(pdistnam, c(list(rcens), as.list(par), as.list(fix.arg))))) -
+                sum(log(do.call(pdistnam, c(list(icens$right), as.list(par), as.list(fix.arg))) - 
+                do.call(pdistnam, c(list(icens$left), as.list(par), as.list(fix.arg))) ))
     }else if(!cens && !is.null(weights))
     {
         fnobj <- function(par, fix.arg, obs, ddistnam) {
@@ -175,11 +175,11 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
     {
       fnobjcens <- function(par, fix.arg, rcens, lcens, icens, ncens, ddistnam, pdistnam)
       {
-        p1 <- log(do.call(ddistnam, c(list(x=ncens), as.list(par), as.list(fix.arg))))
-        p2 <- log(do.call(pdistnam, c(list(q=lcens), as.list(par), as.list(fix.arg)))) 
-        p3 <- log(1-do.call(pdistnam, c(list(q=rcens), as.list(par), as.list(fix.arg))))
-        p4 <- log(do.call(pdistnam, c(list(q=icens$right), as.list(par), as.list(fix.arg))) - 
-                    do.call(pdistnam, c(list(q=icens$left), as.list(par), as.list(fix.arg))) )
+        p1 <- log(do.call(ddistnam, c(list(ncens), as.list(par), as.list(fix.arg))))
+        p2 <- log(do.call(pdistnam, c(list(lcens), as.list(par), as.list(fix.arg)))) 
+        p3 <- log(1-do.call(pdistnam, c(list(rcens), as.list(par), as.list(fix.arg))))
+        p4 <- log(do.call(pdistnam, c(list(icens$right), as.list(par), as.list(fix.arg))) - 
+                    do.call(pdistnam, c(list(icens$left), as.list(par), as.list(fix.arg))) )
         -sum(weights[irow.ncens] * p1) - 
           sum(weights[irow.lcens] * p2) - 
           sum(weights[irow.rcens] * p3) - 
