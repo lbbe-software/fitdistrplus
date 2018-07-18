@@ -154,19 +154,19 @@ ppcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
         noise2mult <- runif(nQi, 0.99, 1.01)
         rect(xleft = Pitheo.low, ybottom = Pi.low * noise2mult, 
              xright = Pitheo.up, ytop = Pi.up * noise2mult, 
-             border = fitcol[i], col = fillrect)
+             border = fitcol[i], col = fillrect[i])
       }
       else
       {
         noise2add <- runif(nQi, -0.01, 0.01)
         rect(xleft = Pitheo.low, ybottom = Pi.low + noise2add, 
              xright = Pitheo.up, ytop = Pi.up + noise2add, 
-             border = fitcol[i], col = fillrect)
+             border = fitcol[i], col = fillrect[i])
       }
     } else # ! ynoise
     {
       rect(xleft = Pitheo.low, ybottom = Pi.low, xright = Pitheo.up, ytop = Pi.up, 
-           border = fitcol[i], col = fillrect)
+           border = fitcol[i], col = fillrect[i])
     }
   }
   s <- sapply(1:nft, plot.fti, ...)

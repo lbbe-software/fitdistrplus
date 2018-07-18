@@ -186,7 +186,7 @@ qqcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
         rect(xleft = Qitheo.left4plot, ybottom = Qi.left4plot * noise2mult, 
              xright = Qitheo.right4plot, 
              ytop = Qi.right4plot * noise2mult, 
-             border = fitcol[i], col = fillrect)
+             border = fitcol[i], col = fillrect[i])
        }
         else
         {
@@ -194,13 +194,13 @@ qqcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
           rect(xleft = Qitheo.left4plot, ybottom = Qi.left4plot + noise2add, 
                xright = Qitheo.right4plot, 
                ytop = Qi.right4plot + noise2add, 
-               border = fitcol[i], col = fillrect)
+               border = fitcol[i], col = fillrect[i])
         }
     } else # ! ynoise
     {
       rect(xleft = Qitheo.left4plot, ybottom = Qi.left4plot, xright = Qitheo.right4plot, 
            ytop = Qi.right4plot, 
-           border = fitcol[i], col = fillrect)
+           border = fitcol[i], col = fillrect[i])
     }
   }
   s <- sapply(1:nft, plot.fti, ...)
