@@ -267,3 +267,43 @@ if (requireNamespace ("ggplot2", quietly = TRUE)) {
   denscomp(list(fpois, fnbinom, fgeo), fittype = "o", plotstyle="ggplot")
 }
 
+# (9) examples with user specified regular of irregular breaks in the histogram
+#     in probability or not
+#
+
+# two plots with user specified regular breaks in probability or not
+# hist(serving, breaks = seq(0,200,50))
+denscomp(list(fitW, fitln, fitg), addlegend = FALSE,
+         main = "ground beef fits", xlab = "serving sizes (g)", xlim = c(0, 250), 
+         breaks = seq(0,200,50))
+denscomp(list(fitW, fitln, fitg), addlegend = FALSE,
+         main = "ground beef fits", xlab = "serving sizes (g)", xlim = c(0, 250), 
+         probability = FALSE, breaks = seq(0,200,50))
+# with ggplot2
+denscomp(list(fitW, fitln, fitg), addlegend = FALSE,
+         main = "ground beef fits", xlab = "serving sizes (g)", xlim = c(0, 250), 
+         plotstyle = "ggplot", breaks = seq(0,200,50))
+denscomp(list(fitW, fitln, fitg), addlegend = FALSE,
+         main = "ground beef fits", xlab = "serving sizes (g)", xlim = c(0, 250), 
+         probability = FALSE, plotstyle = "ggplot", breaks = seq(0,200,50))
+
+
+# two plots with irregular breaks in probability or not
+# hist(serving, breaks = c(0, 20, 50, 100, 200, 300))
+denscomp(list(fitW, fitln, fitg), addlegend = FALSE,
+         main = "ground beef fits", xlab = "serving sizes (g)", xlim = c(0, 250), 
+         breaks = c(0, 20, 50, 100, 200, 300))
+# hist(serving, breaks = c(0, 20, 50, 100, 200, 300), probability = FALSE)
+try(denscomp(list(fitW, fitln, fitg), addlegend = FALSE,
+         main = "ground beef fits", xlab = "serving sizes (g)", xlim = c(0, 250), 
+         breaks = c(0, 20, 50, 100, 200, 300), probability = FALSE))
+# with ggplot2
+denscomp(list(fitW, fitln, fitg), addlegend = FALSE,
+         main = "ground beef fits", xlab = "serving sizes (g)", xlim = c(0, 250), 
+         breaks = c(0, 20, 50, 100, 200, 300), plotstyle = "ggplot")
+##### ggplot2 does not take into account non-equidistant breaks !!!!!!!!!!!!!!!!
+try(denscomp(list(fitW, fitln, fitg), addlegend = FALSE,
+             main = "ground beef fits", xlab = "serving sizes (g)", xlim = c(0, 250), 
+             breaks = c(0, 20, 50, 100, 200, 300), 
+             probability = FALSE, plotstyle = "ggplot"))
+

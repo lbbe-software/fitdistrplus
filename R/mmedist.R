@@ -148,12 +148,12 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             scale <- sqrt(3*v)/pi
             estimate<-c(location=m, scale=scale)
             order <- 1:2            
-       }
+        }
+		    if (exists(ddistname)) loglikval <- loglik(estimate, fix.arg, data, ddistname)  else loglikval <- NULL
         res <- list(estimate=estimate, convergence=0, value=NULL, hessian=NULL,
                     optim.function=NULL, opt.meth=NULL, fix.arg=NULL, fix.arg.fun=NULL,
                     weights=weights, counts=NULL, optim.message=NULL, 
-                    loglik=ifelse(exists(ddistname), loglik(estimate, fix.arg, data, ddistname), NULL),
-                    method=meth, order=order, memp=NULL)
+                    loglik= loglikval, method=meth, order=order, memp=NULL)
 		    
     }else #an optimimisation has to be done, where fix.arg and start can be a function
     {

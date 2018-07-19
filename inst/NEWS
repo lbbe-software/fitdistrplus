@@ -24,6 +24,9 @@ name for their first argument (resp. x, q, p for d, p, q functions).
 BUG FIXES
 - bug fixed concerning the use of gofstat with a chi squared df <=0 (error message blocking the other functions)
 - bug fix in mledist() when bounds were set (so not NULL) for censored MLE
+- enable a correct use of non-equidistant breaks in denscomp for the histogram
+when plotstyle = "ggplot", and prohibit the use of non-equidistant breaks with probability = FALSE
+(adding a stop in this case).
 
 Version 1.0-9
 =============

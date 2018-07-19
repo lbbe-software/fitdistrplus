@@ -1,5 +1,6 @@
 #############################################################################
-#   Copyright (c) 2012 Christophe Dutang, Aurelie Siberchicot
+#   Copyright (c) 2012 Christophe Dutang, Aurelie Siberchicot, 
+#                      Marie Laure Delignette-Muller
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -51,6 +52,7 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
   plotstyle <- match.arg(plotstyle[1], choices = c("graphics", "ggplot"), several.ok = FALSE)
   
   # parameters used in 'hist' function 
+  ###### Where are they used - to remove ? !!!!!!!!!!!!!!!!!!!!!!!!
   argshistPlotFalse <- c("breaks", "nclass", "include.lowest", "right")
   argshistPlotTrue <- c(argshistPlotFalse, "density", "angle", "border", "axes", "labels")
   
@@ -111,12 +113,22 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
   reshist <- hist(mydata, plot = FALSE, ...)
   if (!discrete)
   {
-    scalefactor <- ifelse(probability, 1, n * diff(reshist$breaks))
+    if (probability)
+    {
+      scalefactor <- 1
+    } else
+    {
+      if (length(unique(diff(reshist$breaks))) > 1) # wrong histogram and not possibleto compute a scalefactor
+        stop("You should not use probability = FALSE with non-equidistant breaks for the histogram !") else
+      scalefactor <- n * diff(reshist$breaks)[1]
+    }
+#    previous writing that gave incorrect output in case of probability = 1 and non-equidistant breaks
+#    scalefactor <- ifelse(probability, 1, n * diff(reshist$breaks))
   } else
   {
     scalefactor <- ifelse(probability, 1, n)
   }
-  binwidth <- min(diff(reshist$breaks))
+#  binwidth <- min(diff(reshist$breaks))
   
   # computation of each fitted distribution
   comput.fti <- function(i)
@@ -268,16 +280,15 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
         fitteddens <- rbind(fitteddens, data.frame(values = density(mydata)$y * scalefactor, ind = "demp", sfin = density(mydata)$x))
       
       histdata <- data.frame(values = mydata, ind = "hist", sfin = mydata) # the added data must have the same column names as the main data to be compatible with ggplot
-      binwidth <- min(diff(reshist$breaks))
       
-      ggdenscomp <-
+        ggdenscomp <-
         ggplot2::ggplot(fitteddens, ggplot2::aes_(quote(sfin), quote(values), group = quote(ind), colour = quote(ind))) +
         ggplot2::xlab(xlab) +
         ggplot2::ylab(ylab) +
         ggplot2::ggtitle(main) +
         ggplot2::coord_cartesian(xlim = c(xlim[1], xlim[2]), ylim = c(ylim[1], ylim[2])) +
-        {if(probability) ggplot2::geom_histogram(data = histdata, ggplot2::aes_(quote(values), quote(..density..)), binwidth = binwidth, boundary = 0, show.legend = FALSE, col = "black", alpha = 1, fill = datacol)
-          else ggplot2::geom_histogram(data = histdata, ggplot2::aes_(quote(values), quote(..count..)), binwidth = binwidth, boundary = 0, show.legend = FALSE, col = "black", alpha = 1, fill = datacol)} +
+          {if(probability) ggplot2::geom_histogram(data = histdata, ggplot2::aes_(quote(values), quote(..density..)), breaks = reshist$breaks, boundary = 0, show.legend = FALSE, col = "black", alpha = 1, fill = datacol)
+            else ggplot2::geom_histogram(data = histdata, ggplot2::aes_(quote(values), quote(..count..)), breaks = reshist$breaks, boundary = 0, show.legend = FALSE, col = "black", alpha = 1, fill = datacol)} +
         ggplot2::geom_line(data = fitteddens, ggplot2::aes_(linetype = quote(ind), colour = quote(ind)), size = 0.4) +
         ggplot2::guides(colour = ggplot2::guide_legend(title = NULL)) +
         ggplot2::guides(linetype = ggplot2::guide_legend(title = NULL)) +
