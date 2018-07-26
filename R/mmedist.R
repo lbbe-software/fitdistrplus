@@ -168,7 +168,9 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
                                       distname=distname)
           
           #check inconsistent parameters
-          arg_startfix <- checkparamlist(arg_startfix$start.arg, arg_startfix$fix.arg, argddistname)
+          hasnodefaultval <- sapply(formals(ddistname), is.name)
+          arg_startfix <- checkparamlist(arg_startfix$start.arg, arg_startfix$fix.arg, 
+                                         argddistname, hasnodefaultval)
           #arg_startfix contains two names list (no longer NULL nor function)  
           
           #set fix.arg.fun

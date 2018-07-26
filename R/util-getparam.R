@@ -2,7 +2,7 @@
 # argdistname : argument names of the distribution from names(formals())
 
 # OUTPUTS 
-# parameter names (as a vector)
+# parameter names (as a vector) of the distribution (excluding non parameter argument)
 
 computegetparam <- function(argdistname)
 {

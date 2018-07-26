@@ -96,14 +96,14 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
     
     if(!checkstartfix) #pre-check has not been done by fitdist() or bootdist()
     {
-      cat("manageparam is carried out\n")
       # manage starting/fixed values: may raise errors or return two named list
       arg_startfix <- manageparam(start.arg=start, fix.arg=fix.arg, obs=data, 
                                   distname=distname)
       
-      cat("checkstartfix is carried out\n")
       #check inconsistent parameters
-      arg_startfix <- checkparamlist(arg_startfix$start.arg, arg_startfix$fix.arg, argddistname)
+      hasnodefaultval <- sapply(formals(ddistname), is.name)
+      arg_startfix <- checkparamlist(arg_startfix$start.arg, arg_startfix$fix.arg, 
+                                     argddistname, hasnodefaultval)
       #arg_startfix contains two names list (no longer NULL nor function)  
       
       #set fix.arg.fun

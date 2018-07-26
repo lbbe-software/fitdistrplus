@@ -101,6 +101,18 @@ try(fitdist(x, "norm", start=list(sd=NA)))
 try(mgedist(x, "norm", start=function(x) list("toto"=1)))
 try(fitdist(x, "norm", fix=list(toto=2)))
 
+#test unset arguments
+dbeta2<-function(x, shape1, ncp2) 
+  dbeta(x, shape1, shape1, ncp2)
+x <- rbeta(1e2, 3, 3)
+try(fitdist(x, "beta2", start=list(shape1=2)))
+
+dbeta3<-function(x, shape1, ncp2=0) 
+  dbeta(x, shape1, shape1, ncp2)
+fitdist(x, "beta3", start=list(shape1=2))
+
+
+
 # (2) censored data
 #
 

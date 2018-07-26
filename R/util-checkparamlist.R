@@ -3,20 +3,22 @@
 # INPUTS 
 # start.arg : a named list
 # fix.arg : NULL or a named list
-# argdistname : parameter names of the distribution
+# argdistname : argument names of the distribution
+# hasnodefaultval : vector of logical indicating no default value of argument
 
 # OUTPUTS 
 # a named list with components: ok (TRUE or FALSE), txt (NULL or the error message), 
 # start.arg : a named list of starting values for optimization 
 # or a function to compute them from data
-checkparamlist <- function(start.arg, fix.arg, argdistname)
+checkparamlist <- function(start.arg, fix.arg, argdistname, hasnodefaultval)
 {
   errtxt <- list(t3="'start' must specify names which are arguments to 'distr'.",
           t4="'fix.arg' must specify names which are arguments to 'distr'.",
           t5="A distribution parameter cannot be specified both in 'start' and 'fix.arg'.",
           t6="'start' should not have NA or NaN values.",
           t7="'fix.arg' should not have NA or NaN values.",
-          t8="Some parameter names have no starting/fixed value.")
+          t8="Some parameter names have no starting/fixed value.",
+          t9="Some parameter names have no starting/fixed value but have a default value.")
   
   vstart <- unlist(start.arg)
   #check unexpected names
@@ -57,8 +59,15 @@ checkparamlist <- function(start.arg, fix.arg, argdistname)
     errt8 <- any(!allparname %in% theoparam) || length(allparname) != length(theoparam)-1
   }else
     errt8 <- any(!theoparam %in% allparname)
+  #only make a warning if unset arguments have a default value
   if(errt8)
-    stop(errtxt$t8)
+  {
+    unsetarg <- theoparam[!theoparam %in% allparname] 
+    if(any(hasnodefaultval[unsetarg]))
+      stop(errtxt$t8)
+    else
+      warning(errtxt$t9)
+  }
   
   list("start.arg"=start.arg, "fix.arg"=fix.arg)
 }
