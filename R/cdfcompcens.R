@@ -25,10 +25,10 @@
 ###
 
 cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
-    datacol, fillrect, fitlty, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", 
-    ylegend = NULL, lines01 = FALSE,Turnbull.confint = FALSE, NPMLE.method = "Wang", add = FALSE,...)
+                        datacol, fillrect, fitlty, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", 
+                        ylegend = NULL, lines01 = FALSE,Turnbull.confint = FALSE, NPMLE.method = "Wang", add = FALSE,...)
 {
-
+  
   if(inherits(ft, "fitdistcens"))
   {
     ft <- list(ft)
@@ -52,33 +52,35 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
   if(!is.null(ft[[1]]$weights))
     stop("cdfcompcens is not yet available when using weights")
   
-    nft <- length(ft)
-    if (missing(datacol)) datacol <- "black"
-    if (missing(fillrect)) fillrect <- "lightgrey"
-    if (missing(fitcol)) fitcol <- 2:(nft+1)
-    if (missing(fitlty)) fitlty <- 1:nft
-    fitcol <- rep(fitcol, length.out=nft)
-    fitlty <- rep(fitlty, length.out=nft)
-
-    if (missing(xlab))
-        xlab <- ifelse(xlogscale, "censored data in log scale", "censored data")
-    if (missing(ylab)) ylab <- "CDF"
-    if (missing(main)) main <- paste("Empirical and theoretical CDFs")
-
-    censdata <- ft[[1]]$censdata
-    logxy <- paste(ifelse(xlogscale, "x", ""), ifelse(ylogscale, "y", ""), sep="")
-    
-    verif.ftidata <- function(fti)
-    {
-        if (any(fti$censdata$left != censdata$left, na.rm=TRUE) | 
-            any(fti$censdata$right != censdata$right, na.rm=TRUE))
-            stop("All compared fits must have been obtained with the same dataset")
-    }
-    l <- lapply( ft, verif.ftidata)
-    rm(l)
+  nft <- length(ft)
+  if (missing(datacol)) datacol <- "black"
+  if (missing(fillrect)) fillrect <- "lightgrey"
+  if (missing(fitcol)) fitcol <- 2:(nft+1)
+  if (missing(fitlty)) fitlty <- 1:nft
+  fitcol <- rep(fitcol, length.out=nft)
+  fitlty <- rep(fitlty, length.out=nft)
+  
+  if (missing(xlab))
+    xlab <- ifelse(xlogscale, "censored data in log scale", "censored data")
+  if (missing(ylab)) ylab <- "CDF"
+  if (missing(main)) main <- paste("Empirical and theoretical CDFs")
+  
+  censdata <- ft[[1]]$censdata
+  logxy <- paste(ifelse(xlogscale, "x", ""), ifelse(ylogscale, "y", ""), sep="")
+  
+  verif.ftidata <- function(fti)
+  {
+    if (any(fti$censdata$left != censdata$left, na.rm=TRUE) | 
+        any(fti$censdata$right != censdata$right, na.rm=TRUE))
+      stop("All compared fits must have been obtained with the same dataset")
+  }
+  
+  l <- lapply( ft, verif.ftidata)
+  rm(l)
+  
   ####### Plot of the data ############################
   if (NPMLE.method == "Turnbull")
-  # Turnbull plot
+    # Turnbull plot
   {
     if(missing(xlim))
     {
@@ -101,50 +103,50 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
     #main plotting
     if(missing(ylim))
     {
-        if (Turnbull.confint)
-        {
-          if (!add)
+      if (Turnbull.confint)
+      {
+        if (!add)
           plot(survfitted, fun="event", xlab=xlab, ylab=ylab, main=main, 
                log=logxy, col=datacol, xlim = xlim, ...)
-          else
+        else
           lines(survfitted, fun="event", xlab=xlab, ylab=ylab, main=main, 
-                 log=logxy, col=datacol, xlim = xlim, ...)
-          
-        }else
-        {
-          if (!add)
-            plot(survfitted, fun="event", xlab=xlab, ylab=ylab, main=main, 
+                log=logxy, col=datacol, xlim = xlim, ...)
+        
+      }else
+      {
+        if (!add)
+          plot(survfitted, fun="event", xlab=xlab, ylab=ylab, main=main, 
                log=logxy, col=datacol, conf.int = FALSE, xlim = xlim, ...)
-          else
-            lines(survfitted, fun="event", xlab=xlab, ylab=ylab, main=main, 
-                 log=logxy, col=datacol, conf.int = FALSE, xlim = xlim, ...)
-          
-        }
+        else
+          lines(survfitted, fun="event", xlab=xlab, ylab=ylab, main=main, 
+                log=logxy, col=datacol, conf.int = FALSE, xlim = xlim, ...)
+        
+      }
     }
     else
     {
-        if (Turnbull.confint)
-        {
-          if (!add)
-            plot(survfitted, fun="event", xlab=xlab, ylab=ylab, main=main, 
+      if (Turnbull.confint)
+      {
+        if (!add)
+          plot(survfitted, fun="event", xlab=xlab, ylab=ylab, main=main, 
                log=logxy, col=datacol, xlim = xlim, ylim=ylim, ...)
-          else
-            lines(survfitted, fun="event", xlab=xlab, ylab=ylab, main=main, 
-                 log=logxy, col=datacol, xlim = xlim, ylim=ylim, ...)
-          
-        } else
-        {
-          if (!add)
-            plot(survfitted, fun="event", xlab=xlab, ylab=ylab, main=main, 
+        else
+          lines(survfitted, fun="event", xlab=xlab, ylab=ylab, main=main, 
+                log=logxy, col=datacol, xlim = xlim, ylim=ylim, ...)
+        
+      } else
+      {
+        if (!add)
+          plot(survfitted, fun="event", xlab=xlab, ylab=ylab, main=main, 
                log=logxy, col=datacol, conf.int = FALSE, xlim = xlim, ylim = ylim, ...)
-          else
-            lines(survfitted, fun="event", xlab=xlab, ylab=ylab, main=main, 
-                 log=logxy, col=datacol, conf.int = FALSE, xlim = xlim, ylim = ylim, ...)
-          
-        }
+        else
+          lines(survfitted, fun="event", xlab=xlab, ylab=ylab, main=main, 
+                log=logxy, col=datacol, conf.int = FALSE, xlim = xlim, ylim = ylim, ...)
+        
+      }
     }
   } else # if NPMLE.method == "Wang"
-  # Wang plot
+    # Wang plot
   {
     db <- censdata
     db$left[is.na(db$left)] <- -Inf
@@ -212,8 +214,8 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
     
     # Plot of the ECDF
     if (!add)
-    plot(1, 1, type = "n", xlab=xlab, ylab=ylab, main=main, 
-         log = logxy, xlim = xlim, ylim = ylim, ...)
+      plot(1, 1, type = "n", xlab=xlab, ylab=ylab, main=main, 
+           log = logxy, xlim = xlim, ylim = ylim, ...)
     
     # the line at right of the rectangles
     dright <- c(f$left[1], rep(f$right, rep(2,k)), f$right[k]) 
@@ -236,45 +238,47 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
   }
   
   ################## plot of each fitted distribution
-    plot.fti <- function(i, ...)
+  plot.fti <- function(i, ...)
+  {
+    fti <- ft[[i]]
+    para=c(as.list(fti$estimate), as.list(fti$fix.arg))
+    distname <- fti$distname
+    pdistname <- paste("p", distname, sep="")
+    if (is.element(distname, c("binom", "nbinom", "geom", "hyper", "pois")))
+      warning(" Be careful, variables are considered continuous in this function!")
+    if (xlogscale == TRUE)
     {
-        fti <- ft[[i]]
-        para=c(as.list(fti$estimate), as.list(fti$fix.arg))
-        distname <- fti$distname
-        pdistname <- paste("p", distname, sep="")
-        if (is.element(distname, c("binom", "nbinom", "geom", "hyper", "pois")))
-            warning(" Be careful, variables are considered continuous in this function!")
-        if (xlogscale == TRUE)
-        {
-            sfin <- seq(log10(xmin), log10(xmax), by=(log10(xmax)-log10(xmin))/100)
-            theopfin <- do.call(pdistname, c(list(10^sfin), as.list(para)))
-            lines(10^sfin, theopfin, lty=fitlty[i], col=fitcol[i], ...)
-        }
-        else
-        {
-            sfin <- seq(xmin, xmax, by=(xmax-xmin)/100)
-            theopfin <- do.call(pdistname, c(list(sfin), as.list(para)))
-            lines(sfin, theopfin, lty=fitlty[i], col=fitcol[i], ...)
-        }
+      sfin <- seq(log10(xmin), log10(xmax), by=(log10(xmax)-log10(xmin))/100)
+      theopfin <- do.call(pdistname, c(list(10^sfin), as.list(para)))
+      lines(10^sfin, theopfin, lty=fitlty[i], col=fitcol[i], ...)
     }
-    s <- sapply(1:nft, plot.fti, ...)
-    rm(s)
-
-    if(lines01)
-        abline(h=c(0, 1), lty="dashed", col="grey")
-
-    if (addlegend)
+    else
     {
-      # check legend parameters if added
-      if(missing(legendtext)) 
-      {
-        legendtext <- sapply(ft, function(x) x$distname)
-        if(length(legendtext) != length(unique(legendtext)))
-          legendtext <- paste(legendtext, sapply(ft, function(x) toupper(x$method)), sep="-")
-        if(length(legendtext) != length(unique(legendtext)))
-          legendtext <- paste(legendtext, 1:nft, sep="-")
-      }
-      legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, lty=fitlty, col=fitcol, ...)
+      sfin <- seq(xmin, xmax, by=(xmax-xmin)/100)
+      theopfin <- do.call(pdistname, c(list(sfin), as.list(para)))
+      lines(sfin, theopfin, lty=fitlty[i], col=fitcol[i], ...)
     }
-    invisible()
+  }
+  
+  s <- sapply(1:nft, plot.fti, ...)
+  rm(s)
+  
+  if(lines01)
+    abline(h=c(0, 1), lty="dashed", col="grey")
+  
+  if (addlegend)
+  {
+    # check legend parameters if added
+    if(missing(legendtext)) 
+    {
+      legendtext <- sapply(ft, function(x) x$distname)
+      if(length(legendtext) != length(unique(legendtext)))
+        legendtext <- paste(legendtext, sapply(ft, function(x) toupper(x$method)), sep="-")
+      if(length(legendtext) != length(unique(legendtext)))
+        legendtext <- paste(legendtext, 1:nft, sep="-")
+    }
+    legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, lty=fitlty, col=fitcol, ...)
+  }
+  
+  invisible()
 }
