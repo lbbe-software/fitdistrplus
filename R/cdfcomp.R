@@ -233,6 +233,9 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
       xlegend <- "left"
     if(xlegend %in% c("topright", "bottomright"))
       xlegend <- "right"
+    if(xlegend == "center")
+      xlegend <- "right"
+    
     
     # structure the fittedprob in a relevant data.frame
     fittedprob <- as.data.frame(fittedprob)
@@ -265,7 +268,8 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
       
       {if(discrete) ggplot2::geom_step(data = fittedprob, ggplot2::aes_(linetype = quote(ind), colour = quote(ind)), size = 0.4)} +
       {if(!discrete) ggplot2::geom_line(data = fittedprob, ggplot2::aes_(linetype = quote(ind), colour = quote(ind)), size = 0.4)} +
-      
+
+      ggplot2::theme_bw() +   
       {if(addlegend) ggplot2::theme(legend.position = c(xlegend, ylegend)) else ggplot2::theme(legend.position = "none")} +
       ggplot2::scale_color_manual(values = fitcol, labels = legendtext) +
       ggplot2::scale_linetype_manual(values = fitlty, labels = legendtext) +

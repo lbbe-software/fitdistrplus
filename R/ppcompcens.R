@@ -28,7 +28,7 @@
 
 ppcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, fillrect,
                    fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", ylegend = NULL, 
-                   line01 = TRUE, line01col = "black", line01lty = 1, ynoise = TRUE, ...)
+                   line01 = TRUE, line01col = "black", line01lty = 1, ynoise = TRUE, plotstyle = "graphics", ...)
 {
   if(inherits(ft, "fitdistcens"))
   {
@@ -41,6 +41,9 @@ ppcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
     if(any(sapply(ft, function(x) !inherits(x, "fitdistcens"))))        
       stop("argument ft must be a list of 'fitdistcens' objects")
   }
+  
+  # check the 'plotstyle' argument
+  plotstyle <- match.arg(plotstyle[1], choices = c("graphics", "ggplot"), several.ok = FALSE)
   
   # In the future developments, it will be necessary to check that all the fits share the same weights
   if(!is.null(ft[[1]]$weights))

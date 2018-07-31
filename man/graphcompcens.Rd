@@ -3,7 +3,6 @@
 \alias{cdfcompcens}\alias{denscompcens}
 \alias{qqcompcens}
 \alias{ppcompcens}
-%- Also NEED an '\alias' for EACH other topic documented here.
 
 \title{Graphical comparison of multiple fitted distributions for censored data}
 
@@ -17,17 +16,17 @@
 cdfcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
     datacol, fillrect, fitlty, fitcol, addlegend = TRUE, legendtext, 
     xlegend = "bottomright", ylegend = NULL, lines01 = FALSE, 
-    Turnbull.confint = FALSE, NPMLE.method = "Wang", add = FALSE, \dots)
+    Turnbull.confint = FALSE, NPMLE.method = "Wang", add = FALSE, 
+    plotstyle = "graphics", \dots)
 qqcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
       fillrect, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", 
       ylegend = NULL, line01 = TRUE, line01col = "black", line01lty = 1, 
-      ynoise = TRUE, \dots)
+      ynoise = TRUE, plotstyle = "graphics", \dots)
 ppcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
       fillrect, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", 
       ylegend = NULL, line01 = TRUE, line01col = "black", line01lty = 1, 
-      ynoise = TRUE, \dots)
+      ynoise = TRUE, plotstyle = "graphics", \dots)
 }
-%- maybe also 'usage' for other objects documented here.
 
 \arguments{
 \item{ft}{One \code{"fitdistcens"} object or a list of objects of class \code{"fitdistcens"}.}
@@ -51,26 +50,31 @@ ppcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, yla
 \item{addlegend}{If \code{TRUE}, a legend is added to the plot.}
 \item{legendtext}{A character or expression vector of length \eqn{\geq 1} to appear
     in the legend, see also \code{\link{legend}}.}
-\item{xlegend, ylegend}{The \eqn{x} and \eqn{y} co-ordinates to be used to position the legend.
-          They can be specified by keyword or in any way which is
-          accepted by 'xy.coords': see \code{\link{legend}} for details.}
+\item{xlegend, ylegend}{The \eqn{x} and \eqn{y} coordinates to be used to position the legend.
+    They can be specified by keyword.
+  If \code{plotstyle = "graphics"}, see \code{\link{xy.coords}} and \code{\link{legend}}.
+  If \code{plotstyle = "ggplot"}, the \code{xlegend} keyword must be one of \code{top}, \code{bottom}, 
+  \code{left}, or \code{right}. See also \code{guide_legend} in \code{ggplot2}}
 \item{lines01}{A logical to plot two horizontal lines at \code{h=0} and \code{h=1}
   for \code{cdfcompcens}.}
 \item{Turnbull.confint}{ if TRUE confidence intervals will be added to the Turnbull plot.
     In that case NPMLE.method is forced to \code{"Turnbull"}}
-\item{NPMLE.method}{Two NPMLE technique are provided, \code{"Wang"}, the default one,
+\item{NPMLE.method}{Two NPMLE techniques are provided, \code{"Wang"}, the default one,
     which is implemented in the package npsurv and \code{"Turnbull"}, an older one,
     which is implemented in the package survival (see details). Only \code{"Wang"}
     enables the derivation of a Q-Q plot and a P-P plot.}
-\item{add}{logical; if \code{TRUE} add to an already existing plot; if \code{FALSE} start 
-  a new plot.}  
+\item{add}{If \code{TRUE}, adds to an already existing plot. If \code{FALSE}, starts a new plot.
+  This parameter is not available when \code{plotstyle = "ggplot"}.}
 \item{line01}{A logical to plot an horizontal line \eqn{y=x} for 
   \code{qqcompcens} and \code{ppcompcens}.}
 \item{line01col, line01lty}{Color and line type for \code{line01}. See also \code{\link{par}}.}
 \item{ynoise}{A logical to add a small noise when plotting empirical 
   quantiles/probabilities for \code{qqcompcens} and \code{ppcompcens}.}
-\item{\dots}{Further graphical arguments passed to graphical functions 
-  used in \code{cdfcompcens}, \code{ppcompcens} 
+\item{plotstyle}{\code{"graphics"} or \code{"ggplot"}. 
+  If \code{"graphics"}, the display is built with \code{\link{graphics}} functions.
+  If \code{"ggplot"}, a graphic object output is created with \code{ggplot2} functions.
+  In \code{"cdfcompcens"}, \code{"ggplot"} graphics are only available with \code{"Wang"} NPMLE technique.}
+\item{\dots}{Further graphical arguments passed to graphical functions used in \code{cdfcompcens}, \code{ppcompcens} 
   and \code{qqcompcens}.}
 }
 
@@ -103,7 +107,6 @@ Journal of Statistical Software, 64(4), 1-34.
 Marie-Laure Delignette-Muller and Christophe Dutang.
 }
 
-%\note{  }
 
 \examples{
 # (1) Plot various distributions fitted to bacterial contamination data
@@ -134,6 +137,15 @@ cdfcompcens(list(fitsfn,fitsfl,fitsfg),datacol="orange",fillrect = NA,
 # (default plot of the previous versions of the package)
 cdfcompcens(list(fitsfn,fitsfl,fitsfg), NPMLE.method = "Turnbull")
 
+# customizing graphical output with ggplot2
+if (requireNamespace ("ggplot2", quietly = TRUE)) {
+  cdfcompcens <- cdfcompcens(list(fitsfn,fitsfl,fitsfg),datacol="orange",fillrect = NA, 
+    legendtext=c("normal","logistic","Gumbel"),
+    xlab="bacterial concentration (CFU/g)",ylab="F",
+    xlegend = "bottom",lines01 = TRUE, plotstyle = "ggplot")
+  cdfcompcens + ggplot2::theme_minimal() + ggplot2::ggtitle("Bacterial contamination fits")
+}
+
 # PP plot
 ppcompcens(list(fitsfn,fitsfl,fitsfg))
 ppcompcens(list(fitsfn,fitsfl,fitsfg), ynoise = FALSE)
@@ -154,4 +166,4 @@ par(mfrow = c(1,1))
 
 }
 
-\keyword{ distribution }% at least one, from doc/KEYWORDS
+\keyword{distribution}

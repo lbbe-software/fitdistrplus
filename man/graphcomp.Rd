@@ -101,7 +101,6 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
   This parameter is not available when \code{plotstyle = "ggplot"}.}
 \item{plotstyle}{\code{"graphics"} or \code{"ggplot"}. If \code{"graphics"}, the display is built with \code{\link{graphics}} functions. 
   If \code{"ggplot"}, a graphic object output is created with \code{ggplot2} functions.}
-  
 \item{\dots}{Further graphical arguments passed to graphical functions used in \code{cdfcomp}, \code{denscomp}, \code{ppcomp} 
   and \code{qqcomp} when \code{plotstyle = "graphics"}. 
   When \code{plotstyle = "ggplot"}, these arguments are only used by the histogram plot (\code{\link{hist}}) in the \code{denscomp} function.

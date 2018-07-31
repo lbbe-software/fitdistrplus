@@ -38,7 +38,7 @@ plotdistcens(censdata, distr, para, leftNA = -Inf, rightNA = Inf,NPMLE = TRUE,
     to use an NPMLE technique (or not) and \code{NPMLE.method} to choose the method.}
 \item{Turnbull.confint}{ if TRUE confidence intervals will be added to the Turnbull plot.
     In that case NPMLE.method is forced to \code{"Turnbull"}}
-\item{NPMLE.method}{Two NPMLE technique are provided, \code{"Wang"}, the default one,
+\item{NPMLE.method}{Two NPMLE techniques are provided, \code{"Wang"}, the default one,
     which is implemented in the package npsurv and \code{"Turnbull"}, an older one,
     which is implemented in the package survival (see details). Only \code{"Wang"}
     enables the derivation of a Q-Q plot and a P-P plot.}
