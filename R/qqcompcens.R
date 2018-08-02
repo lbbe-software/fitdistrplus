@@ -27,8 +27,8 @@
 
 
 qqcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, fillrect,
-                   fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", ylegend = NULL, 
-                   line01 = TRUE, line01col = "black", line01lty = 1, ynoise = TRUE, plotstyle = "graphics", ...)
+                       fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", ylegend = NULL, 
+                       line01 = TRUE, line01col = "black", line01lty = 1, ynoise = TRUE, plotstyle = "graphics", ...)
 {
   if(inherits(ft, "fitdistcens"))
   {
@@ -75,7 +75,7 @@ qqcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
   fitcol <- rep(fitcol, length.out=nft)
   if (missing(fillrect)) 
     if (nft == 1) fillrect <- "lightpink" else fillrect <- NA
-
+  
   
   # check legend parameters if added
   if(missing(legendtext)) 
@@ -101,7 +101,7 @@ qqcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
   f <- npsurv(db)$f
   bounds <- c(f$right, f$left)
   finitebounds <- bounds[is.finite(bounds)]
-
+  
   if(missing(xlim) & missing(ylim))
   {
     upper <- max(finitebounds)
@@ -143,12 +143,12 @@ qqcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
       xmaxinf <- upper + width * 10
     }
   }    
- 
+  
   k <- length(f$left)
   Fnpsurv <- cumsum(f$p) 
   Fbefore <- c(0, Fnpsurv[-k])
   df <- data.frame(left = f$left, right = f$right)
-
+  
   # Definition of vertices of each rectangle
   Qi.left <- df$left # dim k
   Qi.left4plot <- Qi.left
@@ -160,37 +160,54 @@ qqcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
   Pi.up <- Fnpsurv
   nPi <- length(Pi.low)
   
-  
-  ######## plot with graphics ########
-  # main plot
-  plot(1, 1, type = "n", main = main, xlim = xlim, ylim = ylim,
-       xlab = xlab, ylab = ylab, log = logxy)
-  
-  # plot of rectangles
-  plot.fti <- function(i, ...)
+  lrect <- vector(mode = "list", length = nft)
+  for(i in 1:nft)
   {
     fti <- ft[[i]]
-    para=c(as.list(fti$estimate), as.list(fti$fix.arg))
+    para <- c(as.list(fti$estimate), as.list(fti$fix.arg))
     distname <- fti$distname
     qdistname <- paste("q", distname, sep="")
+    
     if (is.element(distname, c("binom", "nbinom", "geom", "hyper", "pois")))
       warning(" Be careful, variables are considered continuous in this function!")
+    
     Qitheo.left <- do.call(qdistname, c(list(Pi.low), as.list(para)))
     Qitheo.right <- do.call(qdistname, c(list(Pi.up), as.list(para)))
     Qitheo.left4plot <- Qitheo.left
     if (Qitheo.left4plot[1] == - Inf) Qitheo.left4plot[1] <- xmininf
     Qitheo.right4plot <- Qitheo.right
     if (Qitheo.right4plot[k] == Inf) Qitheo.right4plot[k] <- xmaxinf
-    if (ynoise & nft > 1)
+    lrect[[i]] <- data.frame(Qitheo.left4plot = Qitheo.left4plot, 
+                             Qi.left4plot = Qi.left4plot, 
+                             Qitheo.right4plot = Qitheo.right4plot, 
+                             Qi.right4plot = Qi.right4plot, ind = legendtext[i])
+  }
+  
+  if(plotstyle == "graphics") {
+    ######## plot if plotstyle=='graphics' ########
+    
+    # main plot
+    plot(1, 1, type = "n", main = main, xlim = xlim, ylim = ylim,
+         xlab = xlab, ylab = ylab, log = logxy)
+    
+    # plot of rectangles
+    plot.fti <- function(i, ...)
     {
-      if (xlogscale == TRUE)
+      Qitheo.left4plot <- lrect[[i]]$Qitheo.left4plot 
+      Qi.left4plot <- lrect[[i]]$Qi.left4plot 
+      Qitheo.right4plot <- lrect[[i]]$Qitheo.right4plot 
+      Qi.right4plot <- lrect[[i]]$Qi.right4plot
+      
+      if (ynoise & nft > 1)
       {
-        noise2mult <- runif(nPi, 0.99, 1.01)
-        rect(xleft = Qitheo.left4plot, ybottom = Qi.left4plot * noise2mult, 
-             xright = Qitheo.right4plot, 
-             ytop = Qi.right4plot * noise2mult, 
-             border = fitcol[i], col = fillrect[i])
-       }
+        if (xlogscale == TRUE)
+        {
+          noise2mult <- runif(nPi, 0.99, 1.01)
+          rect(xleft = Qitheo.left4plot, ybottom = Qi.left4plot * noise2mult, 
+               xright = Qitheo.right4plot, 
+               ytop = Qi.right4plot * noise2mult, 
+               border = fitcol[i], col = fillrect[i])
+        }
         else
         {
           noise2add <- runif(nPi, -width*0.01, width*0.01)
@@ -199,22 +216,51 @@ qqcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
                ytop = Qi.right4plot + noise2add, 
                border = fitcol[i], col = fillrect[i])
         }
-    } else # ! ynoise
-    {
-      rect(xleft = Qitheo.left4plot, ybottom = Qi.left4plot, xright = Qitheo.right4plot, 
-           ytop = Qi.right4plot, 
-           border = fitcol[i], col = fillrect[i])
+      } else # ! ynoise
+      {
+        rect(xleft = Qitheo.left4plot, ybottom = Qi.left4plot, xright = Qitheo.right4plot, 
+             ytop = Qi.right4plot, 
+             border = fitcol[i], col = fillrect[i])
+      }
     }
-  }
-  s <- sapply(1:nft, plot.fti, ...)
-  rm(s)
-  
-  if(line01)
-    abline(0, 1, lty = line01lty, col = line01col)
+    s <- sapply(1:nft, plot.fti, ...)
+    rm(s)
     
-  if (addlegend)
-  {
+    if(line01)
+      abline(0, 1, lty = line01lty, col = line01col)
+    
+    if (addlegend)
+    {
       legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, col=fitcol, lty = 1, ...)
+    }
+    invisible()
+    
+  } else if (!requireNamespace("ggplot2", quietly = TRUE)) {
+    stop("ggplot2 needed for this function to work with plotstyle = 'ggplot'. Please install it", call. = FALSE)
+    
+  } else {
+    ######## plot if plotstyle=='ggplot' ########
+    
+    if (ynoise & nft > 1)
+    {
+      message("ynoise is not managed with ggplot graphics. facets are used instead of ynoise.")
+    }
+    drect <-  do.call("rbind", lrect)
+    ind <- as.factor(drect$ind)
+    fitcol <- rep(fitcol, table(ind))
+    fillrect <- if(length(fillrect) > 1) {rep(fillrect, table(ind))} else {fillrect}
+    
+    ggqqcompcens <- ggplot2::ggplot(drect) + 
+      ggplot2::coord_cartesian(xlim = xlim, ylim = ylim)  +
+      ggplot2::ggtitle(main) + ggplot2::xlab(xlab) + ggplot2::ylab(ylab) +
+      ggplot2::geom_rect(data=drect, mapping=ggplot2::aes_(xmin=quote(Qitheo.left4plot), xmax=quote(Qitheo.right4plot), ymin=quote(Qi.left4plot), ymax=quote(Qi.right4plot)), colour = fitcol, fill = fillrect, alpha=0.5) +
+      ggplot2::theme_bw() +
+      ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
+      {if(line01) ggplot2::geom_abline(ggplot2::aes(slope = 1, intercept = 0), color = line01col, linetype = line01lty)} +
+      {if(xlogscale) ggplot2::scale_x_continuous(trans='log10')} +
+      {if(ylogscale) ggplot2::scale_y_continuous(trans='log10')} + 
+      ggplot2::facet_wrap(~ind)
+    
+    return(ggqqcompcens)
   }
-  invisible()
 }

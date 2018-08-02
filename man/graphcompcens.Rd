@@ -164,6 +164,12 @@ qqcompcens(fitsfl)
 qqcompcens(fitsfg)
 par(mfrow = c(1,1))
 
+if (requireNamespace ("ggplot2", quietly = TRUE)) {
+  ppcompcens(list(fitsfn,fitsfl,fitsfg), ynoise = FALSE, plotstyle = "ggplot")
+  qqcompcens(list(fitsfn,fitsfl,fitsfg), ynoise = FALSE, plotstyle = "ggplot")
+  qqcompcens(list(fitsfn,fitsfl,fitsfg), ynoise = FALSE, plotstyle = "ggplot", fillrect = "lightpink", fitcol = "red")
+}
+
 }
 
 \keyword{distribution}

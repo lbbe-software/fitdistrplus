@@ -13,12 +13,25 @@ ppcompcens(fitsf, xlim = c(0.4,1), ylim = c(0,1))
 ppcompcens(fitsf, xlim = c(0.5,0.99), xlogscale = TRUE)
 try(ppcompcens(fitsf, xlogscale = TRUE))
 
+if (requireNamespace("ggplot2", quietly = TRUE)) {
+  ppcompcens(fitsf, plotstyle = "ggplot")
+  ppcompcens(fitsf, fillrect = NA, plotstyle = "ggplot")
+  ppcompcens(fitsf, fitcol = "black", plotstyle = "ggplot")
+  ppcompcens(fitsf, fitcol = "black", fillrect = NA, plotstyle = "ggplot")
+  ppcompcens(fitsf, ylim = c(0.4,1), plotstyle = "ggplot")
+  ppcompcens(fitsf, xlim = c(0.4,1), plotstyle = "ggplot")
+  ppcompcens(fitsf, xlim = c(0.4,1), ylim = c(0,1), plotstyle = "ggplot")
+  ppcompcens(fitsf, xlim = c(0.5,0.99), xlogscale = TRUE, plotstyle = "ggplot")
+}
+
+
 data(fluazinam)
 log10EC50 <-log10(fluazinam)
 fln <- fitdistcens(log10EC50,"norm")
 plot(fln)
-ppcompcens(fln)
-
+if (requireNamespace("ggplot2", quietly = TRUE)) {
+  ppcompcens(fln, plotstyle = "ggplot")
+}
 
 data(salinity)
 log10LC50 <-log10(salinity)
@@ -34,5 +47,11 @@ ppcompcens(list(fn, fl))
 ppcompcens(list(fn, fl), ynoise = FALSE)
 ppcompcens(list(fn, fl), xlogscale = TRUE, xlim = c(0.01, 0.6))
 
-
+if (requireNamespace ("ggplot2", quietly = TRUE)) {
+  ppcompcens(fn, plotstyle = "ggplot")
+  ppcompcens(fl, plotstyle = "ggplot")
+  ppcompcens(list(fn, fl), plotstyle = "ggplot", fitcol = "red")
+  ppcompcens(list(fn, fl), ynoise = FALSE, plotstyle = "ggplot")
+  ppcompcens(list(fn, fl), xlogscale = TRUE, xlim = c(0.01, 0.6), plotstyle = "ggplot")
+}
 

@@ -27,8 +27,8 @@
 
 
 ppcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, fillrect,
-                   fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", ylegend = NULL, 
-                   line01 = TRUE, line01col = "black", line01lty = 1, ynoise = TRUE, plotstyle = "graphics", ...)
+                       fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", ylegend = NULL, 
+                       line01 = TRUE, line01col = "black", line01lty = 1, ynoise = TRUE, plotstyle = "graphics", ...)
 {
   if(inherits(ft, "fitdistcens"))
   {
@@ -74,8 +74,8 @@ ppcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
   if (missing(fitcol)) fitcol <- 2:(nft+1)
   fitcol <- rep(fitcol, length.out=nft)
   if (missing(fillrect)) 
-    if (nft == 1) fillrect <- "lightpink" else fillrect <- NA
-
+    if ((nft == 1 & plotstyle == "graphics") | (plotstyle == "ggplot")) fillrect <- "lightpink" else fillrect <- NA
+  
   
   # check legend parameters if added
   if(missing(legendtext)) 
@@ -99,7 +99,7 @@ ppcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
   db$left[is.na(db$left)] <- -Inf
   db$right[is.na(db$right)] <- Inf
   f <- npsurv(db)$f
-
+  
   if(missing(xlim) & missing(ylim))
   {
     if (xlogscale == TRUE)
@@ -119,12 +119,12 @@ ppcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
       if (missing(xlim)) xlim <- ylim else ylim <- xlim
     }
   }    
- 
+  
   k <- length(f$left)
   Fnpsurv <- cumsum(f$p) 
   Fbefore <- c(0, Fnpsurv[-k])
   df <- data.frame(left = f$left, right = f$right)
-
+  
   # Definition of vertices of each rectangle
   Qi.left <- df$left # dim k
   Qi.right <- df$right
@@ -132,55 +132,101 @@ ppcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
   Pi.low <- Fbefore
   Pi.up <- Fnpsurv
   
-  
-  ######## plot with graphics ########
-  # main plot
-  plot(1, 1, type = "n", main = main, xlim = xlim, ylim = ylim,
-       xlab = xlab, ylab = ylab, log = logxy)
-  
-  # plot of rectangles
-  plot.fti <- function(i, ...)
+  lrect <- vector(mode = "list", length = nft)
+  for(i in 1:nft)
   {
     fti <- ft[[i]]
-    para=c(as.list(fti$estimate), as.list(fti$fix.arg))
+    para <- c(as.list(fti$estimate), as.list(fti$fix.arg))
     distname <- fti$distname
     pdistname <- paste("p", distname, sep="")
     
     if (is.element(distname, c("binom", "nbinom", "geom", "hyper", "pois"))) 
       warning(" Be careful, variables are considered continuous in this function!")
+    
     Pitheo.low <- do.call(pdistname, c(list(Qi.left), as.list(para)))
     Pitheo.up <- do.call(pdistname, c(list(Qi.right), as.list(para)))
+    lrect[[i]] <- data.frame(Pitheo.low = Pitheo.low, 
+                             Pitheo.up = Pitheo.up, 
+                             Pi.low = Pi.low, 
+                             Pi.up = Pi.up, ind = legendtext[i])
+  }
+  
+  if(plotstyle == "graphics") {
+    ######## plot if plotstyle=='graphics' ########
+    
+    # main plot
+    plot(1, 1, type = "n", main = main, xlim = xlim, ylim = ylim,
+         xlab = xlab, ylab = ylab, log = logxy)
+    
+    # plot of rectangles
+    plot.fti <- function(i, ...)
+    {
+      Pitheo.low <- lrect[[i]]$Pitheo.low 
+      Pi.low <- lrect[[i]]$Pi.low 
+      Pitheo.up <- lrect[[i]]$Pitheo.up 
+      Pi.up <- lrect[[i]]$Pi.up
+      
+      if (ynoise & nft > 1)
+      {
+        if (xlogscale == TRUE)
+        {
+          noise2mult <- runif(nQi, 0.99, 1.01)
+          rect(xleft = Pitheo.low, ybottom = Pi.low * noise2mult, 
+               xright = Pitheo.up, ytop = Pi.up * noise2mult, 
+               border = fitcol[i], col = fillrect[i])
+        }
+        else
+        {
+          noise2add <- runif(nQi, -0.01, 0.01)
+          rect(xleft = Pitheo.low, ybottom = Pi.low + noise2add, 
+               xright = Pitheo.up, ytop = Pi.up + noise2add, 
+               border = fitcol[i], col = fillrect[i])
+        }
+      } else # ! ynoise
+      {
+        rect(xleft = Pitheo.low, ybottom = Pi.low, xright = Pitheo.up, ytop = Pi.up, 
+             border = fitcol[i], col = fillrect[i])
+      }
+    }
+    s <- sapply(1:nft, plot.fti, ...)
+    rm(s)
+    
+    if(line01)
+      abline(0, 1, lty = line01lty, col = line01col)
+    
+    if (addlegend)
+    {
+      legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, col=fitcol, lty = 1, ...)
+    }
+    invisible()
+    
+  } else if (!requireNamespace("ggplot2", quietly = TRUE)) {
+    stop("ggplot2 needed for this function to work with plotstyle = 'ggplot'. Please install it", call. = FALSE)
+    
+  } else {
+    ######## plot if plotstyle=='ggplot' ########
+    
     if (ynoise & nft > 1)
     {
-      if (xlogscale == TRUE)
-      {
-        noise2mult <- runif(nQi, 0.99, 1.01)
-        rect(xleft = Pitheo.low, ybottom = Pi.low * noise2mult, 
-             xright = Pitheo.up, ytop = Pi.up * noise2mult, 
-             border = fitcol[i], col = fillrect[i])
-      }
-      else
-      {
-        noise2add <- runif(nQi, -0.01, 0.01)
-        rect(xleft = Pitheo.low, ybottom = Pi.low + noise2add, 
-             xright = Pitheo.up, ytop = Pi.up + noise2add, 
-             border = fitcol[i], col = fillrect[i])
-      }
-    } else # ! ynoise
-    {
-      rect(xleft = Pitheo.low, ybottom = Pi.low, xright = Pitheo.up, ytop = Pi.up, 
-           border = fitcol[i], col = fillrect[i])
+      message("ynoise is not managed with ggplot graphics. facets are used instead of ynoise.")
     }
-  }
-  s <- sapply(1:nft, plot.fti, ...)
-  rm(s)
-  
-  if(line01)
-    abline(0, 1, lty = line01lty, col = line01col)
+    drect <-  do.call("rbind", lrect)
+    ind <- as.factor(drect$ind)
+
+    fitcol <- rep(fitcol, table(ind))
+    fillrect <- if(length(fillrect) > 1) {rep(fillrect, table(ind))} else {fillrect}
     
-  if (addlegend)
-  {
-      legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, col=fitcol, lty = 1, ...)
+    ggppcompcens <- ggplot2::ggplot(drect) + 
+      ggplot2::coord_cartesian(xlim = xlim, ylim = ylim)  +
+      ggplot2::ggtitle(main) + ggplot2::xlab(xlab) + ggplot2::ylab(ylab) +
+      ggplot2::geom_rect(data=drect, mapping=ggplot2::aes_(xmin=quote(Pitheo.low), xmax=quote(Pitheo.up), ymin=quote(Pi.low), ymax=quote(Pi.up)), colour = fitcol, fill = fillrect, alpha=0.5) +
+      ggplot2::theme_bw() +
+      ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
+      {if(line01) ggplot2::geom_abline(ggplot2::aes(slope = 1, intercept = 0), color = line01col, linetype = line01lty)} +
+      {if(xlogscale) ggplot2::scale_x_continuous(trans='log10')} +
+      {if(ylogscale) ggplot2::scale_y_continuous(trans='log10')} + 
+      ggplot2::facet_wrap(~ind)
+    
+    return(ggppcompcens)
   }
-  invisible()
 }
