@@ -1,6 +1,7 @@
 \name{graphcompcens}
 \alias{graphcompcens}
-\alias{cdfcompcens}\alias{denscompcens}
+\alias{cdfcompcens}
+\alias{denscompcens}
 \alias{qqcompcens}
 \alias{ppcompcens}
 

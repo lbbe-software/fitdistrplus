@@ -1060,9 +1060,7 @@ using `cdfcompcens`.
 
 ## Is it possible to obtain `ggplot2` plots ?
 
-An argument `plotstyle` was added to functions `denscomp`, `cdfcomp`, `ppcomp`, `qqcomp`
-to enable the generation of plots using the `ggplot2` package. This argument by default 
-fixed at "graphics" must simply be fixed at "ggplot" for this purpose, as in the following example. In that latter case the graphical functions return a graphic object that can be further personalized using `ggplot2` functions.
+An argument `plotstyle` was added to functions `denscomp`, `cdfcomp`, `ppcomp`, `qqcomp`and `cdfcompcens`, `ppcompcens`, `qqcompcens` to enable the generation of plots using the `ggplot2` package. This argument by default fixed at `graphics` must simply be fixed at `ggplot` for this purpose, as in the following example. In that latter case the graphical functions return a graphic object that can be further personalized using `ggplot2` functions.
 
 ```{r, fig.height= 4, fig.width= 6, warning = FALSE}
 library(ggplot2)
@@ -1076,7 +1074,7 @@ dcomp <- denscomp(list(fitW, fitln, fitg), legendtext = c("Weibull", "lognormal"
 dcomp + ggplot2::theme_minimal() + ggplot2::ggtitle("Ground beef fits")
 ```
 
-We plan to include the argument `plotstyle` to other functions of the `fitdistrplus` package in a next future.
+<!-- We plan to include the argument `plotstyle` to other functions of the `fitdistrplus` package in a next future. -->
 
 
 # Questions regarding (left, right and/or interval) censored data

@@ -19,6 +19,7 @@ fitdistcens().
 to make the package compatible with distributions defined with a non classical
 name for their first argument (resp. x, q, p for d, p, q functions).
 - add the possibility to change the title of the CDF plot in plotdistcens() using the argument main.
+- support the use of ggplot2 for cdfcompcens, qqcompcens, ppcompcens.
 
 
 BUG FIXES
