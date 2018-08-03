@@ -191,7 +191,8 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
           stop("Starting values could not be NULL with checkstartfix=TRUE")
         
         #erase user value
-        fix.arg <- unlist(arg_startfix$fix.arg)
+        #(cannot coerce to vector as there might be different modes: numeric, character...)
+        fix.arg <- arg_startfix$fix.arg
         
         if(length(vstart) != length(order))
             stop("wrong dimension for the moment order to match")
@@ -361,7 +362,7 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
               names(opt$par) <- names(vstart)
             res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
                     hessian = opt$hessian, optim.function=opt.fun, optim.method=opt.meth,
-                    fix.arg=fix.arg, fix.arg.fun=fix.arg.fun, weights=weights, 
+                    fix.arg=unlist(fix.arg), fix.arg.fun=fix.arg.fun, weights=weights, 
                     counts=opt$counts, optim.message=opt$message, 
                     loglik=ifelse(exists(ddistname), loglik(opt$par, fix.arg, data, ddistname), NULL),
                     method=meth, order=order, memp=memp)  
@@ -396,7 +397,7 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             method.cust <- argdot$method
             res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
                     hessian = opt$hessian, optim.function=custom.optim, optim.method=method.cust,
-                    fix.arg=fix.arg, fix.arg.fun=fix.arg.fun, weights=weights, 
+                    fix.arg=unlist(fix.arg), fix.arg.fun=fix.arg.fun, weights=weights, 
                     counts=opt$counts, optim.message=opt$message, 
                     loglik=ifelse(exists(ddistname), loglik(opt$par, fix.arg, data, ddistname), NULL),
                     method=meth, order=order, memp=memp)  

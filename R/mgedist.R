@@ -124,8 +124,9 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
       stop("Starting values could not be NULL with checkstartfix=TRUE")
     
     #erase user value
-    fix.arg <- unlist(arg_startfix$fix.arg)
-   
+    #(cannot coerce to vector as there might be different modes: numeric, character...)
+    fix.arg <- arg_startfix$fix.arg
+    
    ############# MGE fit using optim or custom.optim ##########
 
     # definition of the function to minimize depending on the argument gof
@@ -291,7 +292,7 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
               stop("Starting values must be in the feasible region.")
             
             opttryerror <- try(opt <- constrOptim(theta=vstart, f=fnobj, ui=Mat, ci=Bnd, grad=gradient,
-                                                    fix.arg=fix.arg, obs=data, pdistnam=pdistname, hessian=!is.null(gradient), method=meth, 
+                                                  fix.arg=fix.arg, obs=data, pdistnam=pdistname, hessian=!is.null(gradient), method=meth, 
                                                     ...), silent=TRUE)
             if(!inherits(opttryerror, "try-error"))
               if(length(opt$counts) == 1) #appears when the initial point is a solution
@@ -330,7 +331,7 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
           names(opt$par) <- names(vstart)
         res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
                     hessian = opt$hessian, optim.function=opt.fun, optim.method=meth, 
-                    fix.arg = fix.arg, fix.arg.fun = fix.arg.fun, weights=NULL,
+                    fix.arg = unlist(fix.arg), fix.arg.fun = fix.arg.fun, weights=NULL,
                     counts=opt$counts, optim.message=opt$message,
                     loglik=loglik(opt$par, fix.arg, data, ddistname), gof=gof)
     }
@@ -362,7 +363,7 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
         method.cust <- argdot$method
         res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
                     hessian = opt$hessian, optim.function=custom.optim, optim.method=method.cust,
-                    fix.arg = fix.arg, fix.arg.fun = fix.arg.fun, weights=NULL,
+                    fix.arg = unlist(fix.arg), fix.arg.fun = fix.arg.fun, weights=NULL,
                     counts=opt$counts, optim.message=opt$message,
                     loglik=loglik(opt$par, fix.arg, data, ddistname), gof=gof)
     }   

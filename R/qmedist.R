@@ -105,7 +105,8 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
       stop("Starting values could not be NULL with checkstartfix=TRUE")
     
     #erase user value
-    fix.arg <- unlist(arg_startfix$fix.arg)
+    #(cannot coerce to vector as there might be different modes: numeric, character...)
+    fix.arg <- arg_startfix$fix.arg
 
     if(length(vstart) != length(probs))
         stop("wrong dimension for the quantiles to match.")
@@ -264,7 +265,7 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
           names(opt$par) <- names(vstart)
         res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
 					hessian = opt$hessian, optim.function=opt.fun, optim.method=meth, 
-					fix.arg=fix.arg, fix.arg.fun=fix.arg.fun, weights = weights, 
+					fix.arg=unlist(fix.arg), fix.arg.fun=fix.arg.fun, weights = weights, 
 					counts=opt$counts, optim.message=opt$message, 
 					loglik=loglik(opt$par, fix.arg, data, ddistname), probs=probs)		
     }
@@ -294,7 +295,7 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
         method.cust <- argdot$method
         res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
                     hessian = opt$hessian, optim.function=custom.optim, optim.method=method.cust, 
-                    fix.arg=fix.arg, fix.arg.fun=fix.arg.fun, weights = weights, 
+                    fix.arg=unlist(fix.arg), fix.arg.fun=fix.arg.fun, weights = weights, 
                     counts=opt$counts, optim.message=opt$message, 
                     loglik=loglik(opt$par, fix.arg, data, ddistname), probs=probs)
     }   

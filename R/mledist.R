@@ -117,7 +117,8 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
       stop("Starting values could not be NULL with checkstartfix=TRUE")
     
     #erase user value
-    fix.arg <- unlist(arg_startfix$fix.arg)
+    #(cannot coerce to vector as there might be different modes: numeric, character...)
+    fix.arg <- arg_startfix$fix.arg
     
     
     ############# closed-form formula for uniform distribution ##########
@@ -125,7 +126,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
     {
         par <- c(min=min(data), max=max(data))
         res <- list(estimate = par[!names(par) %in% names(fix.arg)], convergence = 0, loglik = NA, 
-                    hessian = NA, optim.function= NA, fix.arg = fix.arg)
+                    hessian = NA, optim.function= NA, fix.arg = unlist(fix.arg))
         return(res)
     }
     
@@ -308,7 +309,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
             warnings("The function optim encountered an error and stopped.")
             if(getOption("show.error.messages")) print(attr(opttryerror, "condition"))          
             return(list(estimate = rep(NA, length(vstart)), convergence = 100, loglik = NA, 
-                        hessian = NA, optim.function=opt.fun, fix.arg = fix.arg, 
+                        hessian = NA, optim.function=opt.fun, fix.arg = unlist(fix.arg), 
                         optim.method=meth, fix.arg.fun = fix.arg.fun, counts=c(NA, NA)))
         }
         
@@ -320,7 +321,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
           names(opt$par) <- names(vstart)
         res <- list(estimate = opt$par, convergence = opt$convergence, value=opt$value,  
                     hessian = opt$hessian, optim.function=opt.fun, optim.method=meth, 
-                    fix.arg = fix.arg, fix.arg.fun = fix.arg.fun, weights = weights, 
+                    fix.arg = unlist(fix.arg), fix.arg.fun = fix.arg.fun, weights = weights, 
                     counts=opt$counts, optim.message=opt$message, loglik = -opt$value)
     }
     else # Try to minimize the minus (log-)likelihood using a user-supplied optim function 
@@ -340,7 +341,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
             warnings("The customized optimization function encountered an error and stopped.")
             if(getOption("show.error.messages")) print(attr(opttryerror, "condition"))          
             return(list(estimate = rep(NA, length(vstart)), convergence = 100, loglik = NA, 
-                        hessian = NA, optim.function=custom.optim, fix.arg = fix.arg, 
+                        hessian = NA, optim.function=custom.optim, fix.arg = unlist(fix.arg), 
                         fix.arg.fun = fix.arg.fun, counts=c(NA, NA)))
         }
         
@@ -354,7 +355,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
         method.cust <- argdot$method
         res <- list(estimate = opt$par, convergence = opt$convergence, value=opt$value, 
                     hessian = opt$hessian, optim.function = custom.optim, optim.method = method.cust, 
-                    fix.arg = fix.arg, fix.arg.fun = fix.arg.fun, weights = weights, 
+                    fix.arg = unlist(fix.arg), fix.arg.fun = fix.arg.fun, weights = weights, 
                     counts=opt$counts, optim.message=opt$message, loglik = -opt$value)        
     }   
         
