@@ -84,7 +84,7 @@ ppcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, yla
 }
 
 \seealso{ 
-    \code{\link{plotdistcens}}, \code{\link{survfit.formula}}, \code{\link{legend}}     and \code{\link{par}}.
+    \code{\link{plotdistcens}}, \code{\link{survfit.formula}}, \code{\link{legend}} and \code{\link{par}}.
 }
 
 \references{ 
@@ -168,7 +168,8 @@ par(mfrow = c(1,1))
 if (requireNamespace ("ggplot2", quietly = TRUE)) {
   ppcompcens(list(fitsfn,fitsfl,fitsfg), ynoise = FALSE, plotstyle = "ggplot")
   qqcompcens(list(fitsfn,fitsfl,fitsfg), ynoise = FALSE, plotstyle = "ggplot")
-  qqcompcens(list(fitsfn,fitsfl,fitsfg), ynoise = FALSE, plotstyle = "ggplot", fillrect = "lightpink", fitcol = "red")
+  qqcompcens(list(fitsfn,fitsfl,fitsfg), ynoise = FALSE, plotstyle = "ggplot", 
+    fillrect = "lightpink", fitcol = "red")
 }
 
 }
