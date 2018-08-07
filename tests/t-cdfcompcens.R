@@ -30,7 +30,7 @@ cdfcompcens(list(fitsfn, fitsfl, fitsfg), NPMLE.method = "Wang",
 
 if (requireNamespace ("ggplot2", quietly = TRUE)) {
   cdfcompcens(list(fitsfn,fitsfl,fitsfg), plotstyle = "ggplot")
-  cdfcompcens(list(fitsfn,fitsfl,fitsfg), datacol="grey",
+  cdfcompcens(list(fitsfn,fitsfl,fitsfg), datacol="grey", 
               legendtext=c("normal","logistic","Gumbel"),
               main="bacterial contamination fits",
               xlab="bacterial concentration (CFU/g)", ylab="F",

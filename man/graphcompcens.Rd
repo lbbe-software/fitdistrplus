@@ -70,7 +70,10 @@ ppcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, yla
   \code{qqcompcens} and \code{ppcompcens}.}
 \item{line01col, line01lty}{Color and line type for \code{line01}. See also \code{\link{par}}.}
 \item{ynoise}{A logical to add a small noise when plotting empirical 
-  quantiles/probabilities for \code{qqcompcens} and \code{ppcompcens}.}
+  quantiles/probabilities for \code{qqcompcens} and \code{ppcompcens}. \code{ynoise} is only 
+  used when various
+  fits are plotted with the \code{"graphics"} \code{plotstyle}. 
+  Facets are used instead with the \code{"ggplot"} \code{plotstyle}.}
 \item{plotstyle}{\code{"graphics"} or \code{"ggplot"}. 
   If \code{"graphics"}, the display is built with \code{\link{graphics}} functions.
   If \code{"ggplot"}, a graphic object output is created with \code{ggplot2} functions.
@@ -155,6 +158,12 @@ ppcompcens(fitsfn)
 ppcompcens(fitsfl)
 ppcompcens(fitsfg)
 par(mfrow = c(1,1))
+if (requireNamespace ("ggplot2", quietly = TRUE)) {
+  ppcompcens(list(fitsfn,fitsfl,fitsfg), plotstyle = "ggplot")
+  ppcompcens(list(fitsfn,fitsfl,fitsfg), plotstyle = "ggplot", 
+    fillrect = c("lightpink", "lightblue", "lightgreen"), 
+    fitcol = c("red", "blue", "green"))
+}
 
 # QQ plot
 qqcompcens(list(fitsfn,fitsfl,fitsfg))
@@ -166,10 +175,10 @@ qqcompcens(fitsfg)
 par(mfrow = c(1,1))
 
 if (requireNamespace ("ggplot2", quietly = TRUE)) {
-  ppcompcens(list(fitsfn,fitsfl,fitsfg), ynoise = FALSE, plotstyle = "ggplot")
   qqcompcens(list(fitsfn,fitsfl,fitsfg), ynoise = FALSE, plotstyle = "ggplot")
   qqcompcens(list(fitsfn,fitsfl,fitsfg), ynoise = FALSE, plotstyle = "ggplot", 
-    fillrect = "lightpink", fitcol = "red")
+    fillrect = c("lightpink", "lightblue", "lightgreen"), 
+    fitcol = c("red", "blue", "green"))
 }
 
 }

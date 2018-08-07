@@ -41,11 +41,12 @@ plot(fl)
 qqcompcens(fn)
 qqcompcens(fl)
 qqcompcens(list(fn, fl))
+qqcompcens(list(fn, fl), xlim = c(1, 1.7))
 
 if (requireNamespace("ggplot2", quietly = TRUE)) {
   qqcompcens(fn, plotstyle = "ggplot")
   qqcompcens(fl, plotstyle = "ggplot")
-  qqcompcens(list(fn, fl), plotstyle = "ggplot")
+  qqcompcens(list(fn, fl), plotstyle = "ggplot", xlim = c(1, 1.7))
 }
 
 

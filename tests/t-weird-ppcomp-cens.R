@@ -89,7 +89,7 @@ ppcomp(list(f1, f2, f3), xlogscale = TRUE, ylogscale = TRUE, xlim=c(.1, 1), ylim
 par(mfrow = c(1,1))
 if (requireNamespace ("ggplot2", quietly = TRUE)) {
   ppcomp(list(f1, f2, f3), xlogscale = TRUE, ylogscale = TRUE, xlim=c(.1, 1), ylim=c(.1, 1), plotstyle = "ggplot")
-  ppcomp(list(f1, f2, f3), xlogscale = TRUE, ylogscale = TRUE, xlim=c(.1, 1), ylim=c(.1, 1), ynoise=FALSE, plotstyle = "ggplot")
+  ppcomp(list(f1, f2, f3), xlogscale = TRUE, ylogscale = TRUE, xlim=c(.1, 1), ylim=c(.1, 1), plotstyle = "ggplot")
 }
 
 par(mfrow=1:2, mar=c(4,4,2,1))
@@ -98,5 +98,5 @@ ppcompcens(list(f1c, f2c), xlogscale = TRUE, ylogscale = TRUE, xlim=c(.1, 1), yl
 par(mfrow = c(1,1))
 if (requireNamespace ("ggplot2", quietly = TRUE)) {
   ppcompcens(list(f1c, f2c), xlogscale = TRUE, ylogscale = TRUE, xlim=c(.1, 1), ylim=c(.1, 1), plotstyle = "ggplot")
-  ppcompcens(list(f1c, f2c), xlogscale = TRUE, ylogscale = TRUE, xlim=c(.1, 1), ylim=c(.1, 1), ynoise=FALSE, plotstyle = "ggplot")
+  ppcompcens(list(f1c, f2c), xlogscale = TRUE, ylogscale = TRUE, xlim=c(.1, 1), ylim=c(.1, 1), plotstyle = "ggplot")
 }

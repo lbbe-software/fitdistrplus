@@ -78,7 +78,7 @@ qqcompcens(list(f1c, f2c, f3c))
 qqcompcens(list(f1c, f2c, f3c), ynoise=FALSE)
 par(mfrow = c(1,1))
 if (requireNamespace ("ggplot2", quietly = TRUE)) {
-  qqcompcens(list(f1c, f2c, f3c), ynoise=FALSE, plotstyle = "ggplot")
+  qqcompcens(list(f1c, f2c, f3c), plotstyle = "ggplot")
 }
 
 #test log-scale y-noise
@@ -95,5 +95,5 @@ qqcompcens(list(f1c, f2c), xlogscale = TRUE, ylogscale = TRUE)
 qqcompcens(list(f1c, f2c), xlogscale = TRUE, ylogscale = TRUE, ynoise=FALSE)
 par(mfrow = c(1,1))
 if (requireNamespace ("ggplot2", quietly = TRUE)) {
-  qqcompcens(list(f1c, f2c), xlogscale = TRUE, ylogscale = TRUE, ynoise=FALSE, plotstyle = "ggplot")
+  qqcompcens(list(f1c, f2c), xlogscale = TRUE, ylogscale = TRUE, plotstyle = "ggplot")
 }

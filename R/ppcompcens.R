@@ -74,8 +74,8 @@ ppcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
   if (missing(fitcol)) fitcol <- 2:(nft+1)
   fitcol <- rep(fitcol, length.out=nft)
   if (missing(fillrect)) 
-    if ((nft == 1 & plotstyle == "graphics") | (plotstyle == "ggplot")) fillrect <- "lightpink" else fillrect <- NA
-  
+    if ((nft == 1) | plotstyle == "ggplot") fillrect <- "lightgrey" else fillrect <- NA
+
   
   # check legend parameters if added
   if(missing(legendtext)) 
@@ -206,16 +206,11 @@ ppcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
   } else {
     ######## plot if plotstyle=='ggplot' ########
     
-    if (ynoise & nft > 1)
-    {
-      message("ynoise is not managed with ggplot graphics. facets are used instead of ynoise.")
-    }
     drect <-  do.call("rbind", lrect)
     ind <- as.factor(drect$ind)
-
     fitcol <- rep(fitcol, table(ind))
     fillrect <- if(length(fillrect) > 1) {rep(fillrect, table(ind))} else {fillrect}
-    
+
     ggppcompcens <- ggplot2::ggplot(drect) + 
       ggplot2::coord_cartesian(xlim = xlim, ylim = ylim)  +
       ggplot2::ggtitle(main) + ggplot2::xlab(xlab) + ggplot2::ylab(ylab) +
