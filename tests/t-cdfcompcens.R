@@ -66,3 +66,20 @@ cdfcompcens(fitsfl, addlegend = FALSE, fillrect = NA, fitcol = "green", add = TR
 cdfcompcens(fitsfg, addlegend = FALSE, fillrect = NA, fitcol = "blue", add = TRUE)
 
 cdfcompcens(list(fitsfn, fitsfl, fitsfg), addlegend = FALSE, fitcol = 2:4, fitlty = 1, plotstyle = "ggplot")
+
+# Test on the salinity data set
+#
+data(salinity)
+log10LC50 <-log10(salinity)
+plotdistcens(log10LC50)
+plotdistcens(log10LC50, NPMLE = FALSE)
+fn <- fitdistcens(log10LC50,"norm")
+fl <- fitdistcens(log10LC50,"logis")
+plot(fn)
+plot(fl)
+cdfcompcens(list(fn, fl))
+
+if (requireNamespace("ggplot2", quietly = TRUE)) {
+  cdfcompcens(list(fn, fl), plotstyle = "ggplot")
+}
+

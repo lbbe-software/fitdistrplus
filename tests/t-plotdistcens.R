@@ -45,3 +45,14 @@ plotdistcens(d3,"lnorm",para=list(meanlog=-3.6,sdlog=3.5),
 plotdistcens(d3,"lnorm",para=list(meanlog=-3.6,sdlog=3.5),
              NPMLE = FALSE, leftNA=0, main = "Plot of ordered intervals")
 
+# Test with the salinity data set
+#
+data(salinity)
+log10LC50 <-log10(salinity)
+plotdistcens(log10LC50)
+plotdistcens(log10LC50, NPMLE.method = "Turnbull")
+plotdistcens(log10LC50, NPMLE = FALSE)
+fn <- fitdistcens(log10LC50,"norm")
+fl <- fitdistcens(log10LC50,"logis")
+plot(fn)
+plot(fl)

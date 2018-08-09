@@ -65,13 +65,12 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
   xrange <- xmax - xmin
   xmin <- xmin - 0.1 * xrange
   xmax <- xmax + 0.1 * xrange
-  xmininf <- xmin - 10 * xrange
-  xmaxinf <- xmax + 10 * xrange
-  xlim <- c(xmin,xmax)
+  xmininf <- xmin - 100 * xrange
+  xmaxinf <- xmax + 100 * xrange
+  xlim <- c(xmin, xmax)
   #definition of ylim or lim for ECDF
   ylim <- c(0,1)
   
-  ###################################### Part to check !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   if (!missing(Turnbull))
   {
     warning("The argument Turnbull is deprecated and should note be used any more. 
@@ -141,24 +140,25 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
       db$left[is.na(db$left)] <- -Inf
       db$right[is.na(db$right)] <- Inf
       f <- npsurv(db)$f
-      # bounds <- c(f$right, f$left)
-      # finitebounds <- bounds[is.finite(bounds)]
-      # upper <- max(finitebounds)
-      # lower <- min(finitebounds)
-      # width <- upper - lower
-      # xmax <- upper + width * 0.1 # limits for the plot
-      # xmin <- lower - width * 0.1
-      # xmaxinf <- xmax + width * 10 # larger limits for the non finite rectangles
-      # xmininf <- xmin - width * 10
       
+      # New xlim calculation form Wang intervals
+      bounds <- c(f$right, f$left)
+      finitebounds <- bounds[is.finite(bounds)]
+      upper <- max(finitebounds)
+      lower <- min(finitebounds)
+      width <- upper - lower
+      xmin.Wang.cdf <- lower - width * 0.1
+      xmax.Wang.cdf <- upper + width * 0.1
+      xlim.Wang.cdf <- c(xmin.Wang.cdf, xmax.Wang.cdf)
+      ylim.Wang.cdf <- c(0,1)
+    
       k <- length(f$left)
       Fnpsurv <- cumsum(f$p) 
       
       ## calul des points points pour Q et P dans les GOF stat et graph
       Fbefore <- c(0, Fnpsurv[-k])
       df <- data.frame(left = f$left, right = f$right)
-      dfb <- df[(df$left != -Inf) & (df$right != Inf), ]
-      
+
       # Definition of vertices of each rectangle
       Qi.left <- df$left # dim k
       Qi.left4plot <- Qi.left
@@ -171,10 +171,14 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
       
       # Plot of the ECDF
       if (specifytitle)
-        plot(1, 1, type = "n", xlim = xlim, ylim = ylim, xlab = "Censored data", 
+        plot(1, 1, type = "n", xlim = xlim.Wang.cdf, ylim = ylim.Wang.cdf, 
+             xlab = "Censored data", 
            ylab = "CDF", main = titleCDF, ...) else
-        plot(1, 1, type = "n", xlim = xlim, ylim = ylim, xlab = "Censored data", 
+        plot(1, 1, type = "n", xlim = xlim.Wang.cdf, ylim = ylim.Wang.cdf, 
+             xlab = "Censored data", 
                   ylab = "CDF", ...)
+      xmin <- par("usr")[1]
+      xmax <- par("usr")[2]
       
       # the line at right of the rectangles
       dright <- c(f$left[1], rep(f$right, rep(2,k)), f$right[k]) 
@@ -197,17 +201,17 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
       if (Turnbull.confint)
         if (specifytitle)
           plot(survfitted,fun="event",xlab="Censored data",
-             ylab="CDF",xlim = xlim, ylim = ylim, main = titleCDF, ...) else
+             ylab="CDF",ylim = c(0,1), main = titleCDF, ...) else
           plot(survfitted,fun="event",xlab="Censored data",
-                    ylab="CDF",xlim = xlim, ylim = ylim, ...)
+                    ylab="CDF", ylim = c(0,1), ...)
       else
         if (specifytitle)
         plot(survfitted,fun="event",xlab="Censored data",
              ylab="CDF", conf.int = FALSE, main = titleCDF, 
-             xlim = xlim, ylim = ylim,  ...) else
+             ylim = c(0,1),  ...) else
         plot(survfitted,fun="event",xlab="Censored data",
                     ylab="CDF", conf.int = FALSE,  
-                    xlim = xlim, ylim = ylim,  ...)       
+                    ylim = c(0,1),  ...)       
       xmin <- par("usr")[1]
       xmax <- par("usr")[2]
     }
@@ -262,7 +266,7 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
       lines(c(rcens[ordrcens[i]],xmaxinf),c(y,y), ...) 
     }
     if (nrcens>=1)
-      toto<-sapply(1:nrcens,plotrcens)
+      toto <- sapply(1:nrcens,plotrcens)
   } # en of else if NPMLE
   
   if (!missing(distr)){ # plot of the theoretical cumulative function
@@ -290,17 +294,22 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
   }
   if (!onlyCDFplot)
   {
-    ## Q-Q plot
-    plot(1, 1, type = "n", main = "Q-Q plot", xlim = xlim, ylim = xlim,
-         xlab = "Theoretical quantiles", ylab = "Empirical quantiles")
-    
-    # plot of rectangles
+    # definition of rectangles and limits
     Qitheo.left <- do.call(qdistname, c(list(Pi.low), as.list(para)))
     Qitheo.right <- do.call(qdistname, c(list(Pi.up), as.list(para)))
+
+    xmin.Wang.qq <- min(xmin.Wang.cdf, Qitheo.right)
+    xmax.Wang.qq <- max(xmin.Wang.cdf, Qitheo.left)
+    xlim.Wang.qq <- c(xmin.Wang.qq, xmax.Wang.qq)
+
     Qitheo.left4plot <- Qitheo.left
     if (Qitheo.left4plot[1] == - Inf) Qitheo.left4plot[1] <- xmininf
     Qitheo.right4plot <- Qitheo.right
     if (Qitheo.right4plot[k] == Inf) Qitheo.right4plot[k] <- xmaxinf
+
+        ## Q-Q plot
+    plot(1, 1, type = "n", main = "Q-Q plot", xlim = xlim.Wang.qq, ylim = xlim.Wang.qq,
+         xlab = "Theoretical quantiles", ylab = "Empirical quantiles")
     rect(xleft = Qitheo.left4plot, ybottom = Qi.left4plot, xright = Qitheo.right4plot, ytop = Qi.right4plot, 
          border = "black", col = "lightgrey")
     abline(0,1)

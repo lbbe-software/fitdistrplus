@@ -104,6 +104,7 @@ qqcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
   
   if(missing(xlim) & missing(ylim))
   {
+    user.defined.lim <- FALSE
     upper <- max(finitebounds)
     lower <- min(finitebounds)
     width <- upper - lower
@@ -111,19 +112,20 @@ qqcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
     {
       xmin <- lower * (upper / lower)^(-0.1)
       xmax <- upper * (upper / lower)^0.1
-      xmininf <- lower * (upper / lower)^(-10) # 10 to be very large
-      xmaxinf <- upper * (upper / lower)^10
+      xmininf <- lower * (upper / lower)^(-100) # 100 to be very large
+      xmaxinf <- upper * (upper / lower)^100
     } else
     {
       xmin <- lower - width * 0.1
       xmax <- upper + width * 0.1
-      xmininf <- lower - width * 10
-      xmaxinf <- upper + width * 10
+      xmininf <- lower - width * 100
+      xmaxinf <- upper + width * 100
     }
     xlim <- c(xmin, xmax)
     ylim <- c(xmin, xmax)
   } else # at least xlim or ylim are specified
   {
+    user.defined.lim <- TRUE
     if (missing(xlim) | missing(ylim))
     {
       warning("By default the same limits are applied to x and y axes.
@@ -135,12 +137,12 @@ qqcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
     width <- upper - lower
     if (xlogscale == TRUE)
     {
-      xmininf <- lower * (upper / lower)^(-10) # 10 to be very large
-      xmaxinf <- upper * (upper / lower)^10
+      xmininf <- lower * (upper / lower)^(-100) # 100 to be very large
+      xmaxinf <- upper * (upper / lower)^100
     } else
     {
-      xmininf <- lower - width * 10
-      xmaxinf <- upper + width * 10
+      xmininf <- lower - width * 100
+      xmaxinf <- upper + width * 100
     }
   }    
   
@@ -161,6 +163,8 @@ qqcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
   nPi <- length(Pi.low)
   
   lrect <- vector(mode = "list", length = nft)
+  theo.xmin <- xlim[1]
+  theo.xmax <- xlim[2]
   for(i in 1:nft)
   {
     fti <- ft[[i]]
@@ -173,7 +177,9 @@ qqcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
     
     Qitheo.left <- do.call(qdistname, c(list(Pi.low), as.list(para)))
     Qitheo.right <- do.call(qdistname, c(list(Pi.up), as.list(para)))
+    theo.xmin <- min(theo.xmin, Qitheo.right)
     Qitheo.left4plot <- Qitheo.left
+    theo.xmax <- max(theo.xmax, Qitheo.left)
     if (Qitheo.left4plot[1] == - Inf) Qitheo.left4plot[1] <- xmininf
     Qitheo.right4plot <- Qitheo.right
     if (Qitheo.right4plot[k] == Inf) Qitheo.right4plot[k] <- xmaxinf
@@ -182,6 +188,15 @@ qqcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
                              Qitheo.right4plot = Qitheo.right4plot, 
                              Qi.right4plot = Qi.right4plot, ind = legendtext[i])
   }
+  
+  # insert here a check of limits in order to enlarge xlim and ylim if needed
+  # in order to be sure to visualize each interval, for all the fitted distributions
+  if (!user.defined.lim)
+  {
+    xlim <- c(theo.xmin, theo.xmax)
+    ylim <- c(theo.xmin, theo.xmax)
+  }
+  
   
   if(plotstyle == "graphics") {
     ######## plot if plotstyle=='graphics' ########
