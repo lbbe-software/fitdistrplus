@@ -78,7 +78,6 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
     
     if(!checkstartfix) #pre-check has not been done by fitdist() or bootdist()
     {
-      cat("checkstartfix is carried out\n")
       # manage starting/fixed values: may raise errors or return two named list
       arg_startfix <- manageparam(start.arg=start, fix.arg=fix.arg, obs=data, 
                                   distname=distname)
@@ -265,7 +264,7 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
           names(opt$par) <- names(vstart)
         res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
 					hessian = opt$hessian, optim.function=opt.fun, optim.method=meth, 
-					fix.arg=unlist(fix.arg), fix.arg.fun=fix.arg.fun, weights = weights, 
+					fix.arg=fix.arg, fix.arg.fun=fix.arg.fun, weights = weights, 
 					counts=opt$counts, optim.message=opt$message, 
 					loglik=loglik(opt$par, fix.arg, data, ddistname), probs=probs)		
     }
@@ -295,7 +294,7 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
         method.cust <- argdot$method
         res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
                     hessian = opt$hessian, optim.function=custom.optim, optim.method=method.cust, 
-                    fix.arg=unlist(fix.arg), fix.arg.fun=fix.arg.fun, weights = weights, 
+                    fix.arg=fix.arg, fix.arg.fun=fix.arg.fun, weights = weights, 
                     counts=opt$counts, optim.message=opt$message, 
                     loglik=loglik(opt$par, fix.arg, data, ddistname), probs=probs)
     }   

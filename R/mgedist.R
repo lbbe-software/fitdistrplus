@@ -331,7 +331,7 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
           names(opt$par) <- names(vstart)
         res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
                     hessian = opt$hessian, optim.function=opt.fun, optim.method=meth, 
-                    fix.arg = unlist(fix.arg), fix.arg.fun = fix.arg.fun, weights=NULL,
+                    fix.arg = fix.arg, fix.arg.fun = fix.arg.fun, weights=NULL,
                     counts=opt$counts, optim.message=opt$message,
                     loglik=loglik(opt$par, fix.arg, data, ddistname), gof=gof)
     }
@@ -363,7 +363,7 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
         method.cust <- argdot$method
         res <- list(estimate = opt$par, convergence = opt$convergence, value = opt$value, 
                     hessian = opt$hessian, optim.function=custom.optim, optim.method=method.cust,
-                    fix.arg = unlist(fix.arg), fix.arg.fun = fix.arg.fun, weights=NULL,
+                    fix.arg = fix.arg, fix.arg.fun = fix.arg.fun, weights=NULL,
                     counts=opt$counts, optim.message=opt$message,
                     loglik=loglik(opt$par, fix.arg, data, ddistname), gof=gof)
     }   
