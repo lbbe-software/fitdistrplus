@@ -1275,6 +1275,11 @@ distributions to the same censored data set. Their calls are similar to the ones
 examples of use of those functions with the two fitted distributions to the \code{salinity} data set (see Figure~\ref{cdfcompcens}). When \code{qqcompcens} and \code{ppcompcens} are used with
 more than one fitted distribution, the non uniqueness rectangles are not filled and a small noise 
 is added on the y-axis in order to help the visualization of various fits.
+But we rather recommend the use of the \code{plotstyle} \code{ggplot} of 
+\code{qqcompcens} and \code{ppcompcens} to compare the fits of various 
+distributions as it provides a clearer plot splitted in facets 
+(see \code{?graphcompcens}).
+
 
 %%% R code
 <<fitsalinity.cdfcomp.echo, echo=TRUE, fig=FALSE, eval=FALSE>>=

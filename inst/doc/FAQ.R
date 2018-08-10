@@ -411,7 +411,7 @@ plotdistcens(dsmo, NPMLE = FALSE)
 ## ---- fig.height= 6, fig.width= 6-----------------------
 par(mfrow = c(2, 1),  mar = c(3, 4, 3, 0.5))
 # Turnbull plot of the ECDF
-plotdistcens(dsmo, NPMLE.method = "Turnbull")
+plotdistcens(dsmo, NPMLE.method = "Turnbull", xlim = c(-1.8, 2.4))
 # Wang plot of the ECD
 plotdistcens(dsmo, NPMLE.method = "Wang")
 
@@ -467,7 +467,7 @@ qqcompcens(list(fnorm, flogis))
 ppcompcens(list(fnorm, flogis))
 
 ## ------ fig.height= 4, fig.width= 8 ---------------------
-par(mfrow = c(1,2))
-qqcompcens(fnorm, fitcol = "red", fillrect = "red", lwd = 2)
-qqcompcens(flogis, fitcol = "green", fillrect = "green", lwd = 2)
+qqcompcens(list(fnorm, flogis), lwd = 2, plotstyle = "ggplot",
+           fitcol = c("red", "green"), fillrect = c("pink", "lightgreen"),
+           legendtext = c("normal distribution", "logistic distribution"))
 
