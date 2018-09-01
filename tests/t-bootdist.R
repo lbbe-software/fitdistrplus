@@ -3,7 +3,7 @@ library(fitdistrplus)
 #For practical application, we recommend to use nbboot=501 or nbboot=1001.
 
 nbboot <- 1001
-nbboot <- 21
+nbboot <- 10
 
 # (1) Fit of a gamma distribution to serving size data
 # using default method (maximum likelihood estimation)

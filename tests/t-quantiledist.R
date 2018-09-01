@@ -1,6 +1,8 @@
 library(fitdistrplus)
 nbboot <- 1001
-nbboot <- 21
+nbboot <- 10
+
+
 # (1) Fit of a normal distribution on acute toxicity log-transformed values of endosulfan for
 # nonarthropod invertebrates, using maximum likelihood estimation
 # to estimate what is called a species sensitivity distribution 

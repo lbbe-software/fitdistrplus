@@ -348,7 +348,7 @@ fitdist(serving, "gamma", optim.method="SANN")
 
 # (7) custom optimization function
 #
-
+\dontrun{
 #create the sample
 set.seed(1234)
 mysample <- rexp(100, 5)
@@ -379,6 +379,7 @@ res2 <- fitdist(mysample, "exp", start=mystart, custom.optim=myoptimize,
 
 #show the result
 summary(res2)
+}
 
 
 # (8) custom optimization function - another example with the genetic algorithm
@@ -457,7 +458,7 @@ gofstat(fWqme)
 # (12) Fit of a Weibull distribution to serving size data by maximum 
 # goodness-of-fit estimation using all the distances available
 # 
-
+\dontrun{
 data(groundbeef)
 serving <- groundbeef$serving
 (f1 <- fitdist(serving, "weibull", method="mge", gof="CvM"))
@@ -472,6 +473,7 @@ cdfcomp(list(f1, f2, f3, f4, f5, f6, f7, f8))
 cdfcomp(list(f1, f2, f3, f4, f5, f6, f7, f8), 
   xlogscale=TRUE, xlim=c(8, 250), verticals=TRUE)
 denscomp(list(f1, f2, f3, f4, f5, f6, f7, f8))
+}
 
 # (13) Fit of a uniform distribution using maximum likelihood 
 # (a closed formula is used in this special case where the loglikelihood is not defined),

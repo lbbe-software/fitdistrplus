@@ -1,7 +1,7 @@
 
 library(fitdistrplus)
 nbboot <- 100
-
+nbboot <- 10
 
 # (1) basic fit of a gamma distribution by maximum likelihood estimation
 #
@@ -203,7 +203,7 @@ cdfcomp(list(f1, f2, f3, f4, f5, f6, f7, f8), xlogscale=TRUE, xlim=c(8, 250), ve
 # 
 
 set.seed(1234)
-u <- runif(50, min=5, max=10)
+u <- runif(10, min=5, max=10)
 
 fumle <- fitdist(u, "unif", method="mle")
 summary(fumle)

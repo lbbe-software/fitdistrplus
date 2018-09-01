@@ -1,5 +1,6 @@
 library(fitdistrplus)
 nbboot <- 100
+nbboot <- 10
 
 # (1) Description of a sample from a normal distribution
 # with and without uncertainty on skewness and kurtosis estimated by bootstrap 

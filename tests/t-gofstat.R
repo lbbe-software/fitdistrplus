@@ -44,7 +44,7 @@ attributes(gofstat(list(fitp, fitnb)))
 #
 
 set.seed(1234)
-x4 <- rweibull(n=1000,shape=2,scale=1)
+x4 <- rweibull(n=10,shape=2,scale=1)
 # fit of the good distribution
 f4 <- fitdist(x4, "weibull")
 g4  <- gofstat(f4, meancount=10)

@@ -6,7 +6,7 @@ myoptimize <- function(fn,par,ui,ci,...){
 
 
 #one parameter example
-x <- rexp(1000)
+x <- rexp(100)
 library(fitdistrplus)
 fitdist(x, "exp")
 
@@ -30,7 +30,7 @@ library(GeneralizedHyperbolic)
 args(dnig)
 
 
-x <- rnig(1000, 3, 1/2, 1/2, 1/4)
+x <- rnig(100, 3, 1/2, 1/2, 1/4)
 ui<-rbind(c(0,1,0,0),c(0,0,1,0),c(0,0,1,-1),c(0,0,1,1))
 ci<-c(0,0,0,0)
 fitdist(x, "nig", custom.optim=myoptimize, ui=ui, ci=ci, start=list(mu = 0, delta = 1, alpha = 1, beta = 0))

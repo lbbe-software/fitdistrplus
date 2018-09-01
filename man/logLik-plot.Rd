@@ -83,9 +83,11 @@ data(groundbeef)
 serving <- groundbeef$serving
 fitg <- fitdist(serving, "gamma")
 llplot(fitg)
+\dontrun{
 llplot(fitg, expansion = 2)
 llplot(fitg, pal.col = heat.colors(100), fit.show = TRUE)
 llplot(fitg, back.col = FALSE, nlev = 25, fit.show = TRUE)
+}
 
 # (3) a distribution with two parameters with one fixed
 # 

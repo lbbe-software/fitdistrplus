@@ -15,16 +15,6 @@ fitdist(x, "pois", method="qme", probs=1/2, start=list(lambda=15), control=list(
 fitdist(x, "pois", method="qme", optim.method="SANN", probs=1/2, start=list(lambda=2), control=list(trace=1, REPORT=100))
 fitdist(x, "pois", method="qme", optim.method="SANN", probs=1/2, start=list(lambda=17), control=list(trace=1, REPORT=100))
 
-if(FALSE) #does not work
-{
-# library(nleqslv)
-# 
-# F <- function(x, obs)
-#   qpois(1/2, lambda = x) - median(obs)
-# nleqslv(2, F, obs=x, control=list(allowSingular=TRUE))
-# nleqslv(6.8, F, obs=x, control=list(allowSingular=TRUE))
-
-}
 
 
 #Geometric

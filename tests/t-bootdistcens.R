@@ -1,6 +1,6 @@
 library(fitdistrplus)
 nbboot <- 101
-nbboot <- 11
+nbboot <- 10
 
 # (1) Fit of a normal distribution to fluazinam data in log10
 # followed by nonparametric bootstrap

@@ -193,7 +193,8 @@ quantile(bln, probs = c(0.05, 0.1, 0.2))
 # to be tried with a greater number of iterations (1001 or more)
 #
 \dontrun{
-niter <- 1001
+#small number to reduce computation time
+niter <- 10 #in practice, choose above 100
 data(groundbeef)
 x1 <- groundbeef$serving
 f1 <- fitdist(x1, "gamma")

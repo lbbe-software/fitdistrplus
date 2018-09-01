@@ -333,9 +333,9 @@ rzmgeom <- function(n, p1, p2)
 # check
 # dzmgeom(0:5, 1/2, 1/10)
 
-x2 <- rzmgeom(1000, 1/2, 1/10)
-x3 <- rzmgeom(1000, 1/3, 1/10)
-x4 <- rzmgeom(1000, 1/4, 1/10)
+x2 <- rzmgeom(100, 1/2, 1/10)
+x3 <- rzmgeom(100, 1/3, 1/10)
+x4 <- rzmgeom(100, 1/4, 1/10)
 table(x2)
 #this is the MLE which converges almost surely and in distribution to the true value.
 initp1 <- function(x) list(p1=mean(x == 0))
@@ -346,7 +346,7 @@ mledist(x4, "zmgeom", fix.arg=initp1, start=list(p2=1/2))[c("estimate", "fix.arg
 
 
 # (17) test the component optim.message
-x <- rnorm(1000)
+x <- rnorm(100)
 #change parameter to obtain unsuccessful convergence
 mledist(x, "norm", control=list(maxit=2), start=list(mean=1e5, sd=1), optim.method="L-BFGS-B", lower=0)
 
