@@ -1,6 +1,7 @@
 library(fitdistrplus)
 nbboot <- 101
 nbboot <- 10
+visualize <- FALSE # TRUE for manual tests with visualization of results
 
 # (1) Fit of a normal distribution to fluazinam data in log10
 # followed by nonparametric bootstrap
@@ -15,18 +16,6 @@ b1 <- bootdistcens(f1, niter = nbboot, silent=FALSE)
 b1
 summary(b1)
 plot(b1)
-
-# (2) Estimation of the mean of the normal distribution 
-# by maximum likelihood with the standard deviation fixed at 1 
-# using the argument fix.arg
-# followed by nonparametric bootstrap with less iterations
-#
-f1b <- fitdistcens(d1, "norm", start = list(mean = 1), fix.arg = list(sd = 1))
-b1b <- bootdistcens(f1b, niter = nbboot)
-
-
-summary(b1b)
-plot(b1b)
 
 # (3) Estimation of the standard deviation of a normal distribution 
 # by maximum likelihood with the mean fixed at 0.1 using the argument fix.arg
@@ -71,28 +60,29 @@ b1 <- bootdistcens(f1, niter=nbboot)
 plot(b1)
 
 # (6) efficiency of parallel operation
-# niter <- 5001 
-# data(fluazinam)
-#   d1 <-log10(fluazinam)
-#   f1 <- fitdistcens(d1, "norm")
-#   
-#   for (cli in 1:4)
-#   {
-#     print(cli)
-#     ptm <- proc.time()
-#     print(summary(bootdistcens(f1, niter = niter, parallel = "snow", ncpus = cli)))
-#     print(proc.time() - ptm)
-#     
-#   }
-#   # not available on Windows
-#   for (cli in 1:4)
-#   {
-#     print(cli)
-#     ptm <- proc.time()
-#     print(summary(bootdistcens(f1, niter = niter, parallel = "multicore", ncpus = cli)))
-#     print(proc.time() - ptm)
-#     
-#   }
+if (visualize) # too long to run on CRAN and forbiden due to parallel computing
+{
+  niter <- 5001
+  data(fluazinam)
+  d1 <-log10(fluazinam)
+  f1 <- fitdistcens(d1, "norm")
+  
+  for (cli in 1:4)
+  {
+    print(cli)
+    ptm <- proc.time()
+    print(summary(bootdistcens(f1, niter = niter, parallel = "snow", ncpus = cli)))
+    print(proc.time() - ptm)
+  }
+  # not available on Windows
+  for (cli in 1:4)
+  {
+    print(cli)
+    ptm <- proc.time()
+    print(summary(bootdistcens(f1, niter = niter, parallel = "multicore", ncpus = cli)))
+    print(proc.time() - ptm)
+  }
+}
 
 # (5) with weights (not yet available, test of error message)
 #

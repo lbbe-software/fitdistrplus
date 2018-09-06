@@ -1,4 +1,5 @@
 library(fitdistrplus)
+visualize <- FALSE # TRUE for manual tests with visualization of results
 
 data(smokedfish)
 fitsf  <-  fitdistcens(smokedfish,"lnorm")
@@ -13,6 +14,8 @@ qqcompcens(fitsf, xlim = c(0,150), ylim = c(0, 120))
 
 if (requireNamespace("ggplot2", quietly = TRUE)) {
   qqcompcens(fitsf, plotstyle = "ggplot")
+}
+if (requireNamespace("ggplot2", quietly = TRUE) & visualize) {
   qqcompcens(fitsf, fillrect = NA, plotstyle = "ggplot")
   qqcompcens(fitsf, fitcol = "black", plotstyle = "ggplot")
   qqcompcens(fitsf, fitcol = "black", fillrect = NA, plotstyle = "ggplot")
@@ -21,13 +24,17 @@ if (requireNamespace("ggplot2", quietly = TRUE)) {
   qqcompcens(fitsf, xlim = c(0,150), ylim = c(0, 120), plotstyle = "ggplot")
 }
 
-data(fluazinam)
-log10EC50 <-log10(fluazinam)
-fln <- fitdistcens(log10EC50,"norm")
-plot(fln)
-qqcompcens(fln)
-if (requireNamespace("ggplot2", quietly = TRUE)) {
-  qqcompcens(fln, plotstyle = "ggplot")
+if (visualize)
+{
+  data(fluazinam)
+  log10EC50 <-log10(fluazinam)
+  fln <- fitdistcens(log10EC50,"norm")
+  plot(fln)
+  qqcompcens(fln)
+  if (requireNamespace("ggplot2", quietly = TRUE)) {
+    qqcompcens(fln, plotstyle = "ggplot")
+  }
+  
 }
 
 data(salinity)
@@ -43,9 +50,12 @@ qqcompcens(fl)
 qqcompcens(list(fn, fl))
 
 if (requireNamespace("ggplot2", quietly = TRUE)) {
-  qqcompcens(fn, plotstyle = "ggplot")
-  qqcompcens(fl, plotstyle = "ggplot")
   qqcompcens(list(fn, fl), plotstyle = "ggplot")
+}
+
+if (requireNamespace("ggplot2", quietly = TRUE) & visualize) {
+  qqcompcens(fl, plotstyle = "ggplot")
+  qqcompcens(lfn, plotstyle = "ggplot")
 }
 
 
@@ -65,7 +75,7 @@ qqcompcens(list(fln, fll), xlogscale = TRUE, ylogscale = TRUE)
 qqcompcens(list(fln, fll), ylogscale = TRUE) 
 qqcompcens(list(fln, fll), xlogscale = TRUE, ynoise = FALSE) 
 
-if (requireNamespace("ggplot2", quietly = TRUE)) {
+if (requireNamespace("ggplot2", quietly = TRUE) & visualize) {
   qqcompcens(list(fln, fll), plotstyle = "ggplot")
   qqcompcens(list(fln, fll), ynoise = FALSE, plotstyle = "ggplot")
   qqcompcens(list(fln, fll), fitcol = c("blue", "orange"), plotstyle = "ggplot")

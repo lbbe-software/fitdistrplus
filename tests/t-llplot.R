@@ -1,4 +1,7 @@
 require(fitdistrplus)
+visualize <- FALSE # TRUE for manual tests with visualization of results
+nsample <- 10000
+nsample <- 10
 
 # (1) tests with the Burr distribution (three parameters)
 #
@@ -24,9 +27,8 @@ if(any(installed.packages()[, "Package"] == "actuar"))
 
 # (2) An example on discrete data with or without weights
 #
-n <- 1e6
-n <- 1e2
-x <- rpois(n, 10)
+set.seed(1234)
+x <- rpois(nsample, 10)
 xtab <- table(x)
 xval <- sort(unique(x))
 f1 <- fitdist(x, "pois")
@@ -41,9 +43,8 @@ llplot(f2, loglik = FALSE,fit.show = TRUE) # should give the same
 
 # (3) An example on censored data with or without weights
 #
-if(FALSE)
+if(visualize)
 {
-  
   data(salinity)
   salinity.unique <- unique(salinity)
   string.unique <- paste(salinity.unique$left, salinity.unique$right)

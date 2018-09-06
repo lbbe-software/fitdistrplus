@@ -1,7 +1,10 @@
 library(fitdistrplus)
 
-# ?cdfcomp
+# ?ppcomp
 
+visualize <- FALSE # TRUE for manual tests with visualization of results
+nsample <- 1000
+nsample <- 100
 
 # (1) Plot various distributions fitted to serving size data
 #
@@ -36,7 +39,10 @@ ppcomp(list(fitW, fitln, fitg), legendtext=c("Weibull","lognormal","gamma"),
 
 if (requireNamespace ("ggplot2", quietly = TRUE)) {
   ppcomp(list(fitW, fitln, fitg), plotstyle = "ggplot")
-  
+}
+
+
+if (requireNamespace ("ggplot2", quietly = TRUE) & visualize) {
   ppcomp(list(fitW, fitln, fitg), legendtext=c("Weibull","lognormal","gamma"),
          main="ground beef fits", xlab="Theo.",
          ylab="serving sizes (g)", xlim = c(0, 1/2), plotstyle = "ggplot")
@@ -83,7 +89,7 @@ ppcomp(llfit, ynoise=FALSE,	xlogscale=TRUE, ylogscale=TRUE, xlim=c(1e-3,1), ylim
 
 ppcomp(flnMGEKS)
 
-if (requireNamespace ("ggplot2", quietly = TRUE)) {
+if (requireNamespace ("ggplot2", quietly = TRUE) & visualize) {
   ppcomp(llfit, main="fits of a lognormal dist. using various GOF dist.", plotstyle = "ggplot")
   
   ppcomp(llfit, xlegend="topleft",
@@ -106,38 +112,40 @@ if (requireNamespace ("ggplot2", quietly = TRUE)) {
 # maximum goodness-of-fit estimation
 # using various distances (data plotted in log scale)
 #
-
-x1 <- c(6.4,13.3,4.1,1.3,14.1,10.6,9.9,9.6,15.3,22.1,13.4,13.2,8.4,6.3,8.9,5.2,10.9,14.4)
-n1 <- length(x1)
-
-dgumbel <- function(x,a,b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
-pgumbel <- function(q,a,b) exp(-exp((a-q)/b))
-
-f1 <- mledist(x1, "norm")
-f2 <- mledist(x1, "gumbel", start = list(a = 10, b = 5))
-f3 <- mledist(x1, "exp")
-
-xx1 <- pnorm(sort(x1), f1$estimate[1], f1$estimate[2])
-xx2 <- pgumbel(sort(x1), f2$estimate[1], f2$estimate[2])
-xx3 <- pexp(sort(x1), f3$estimate[1])
-xlim <- c(xx1, xx2, xx3)
-xlim <- range(xlim[which(is.finite(xlim))])
-
-# graph 1
-plot(xx1, 1:n1/n1, col = "red", xlim = xlim)
-points(xx2, 1:n1/n1, col = "green")
-points(xx3, 1:n1/n1, col = "blue")
-legend("bottomright", pch = 1, leg = c("Normal","Gumbel","Exp"), col = c("red","green","blue"))
-
-# graph 2
-f1 <- fitdist(x1,"norm")
-f2 <- fitdist(x1,"gumbel",start=list(a=10,b=5))
-f3 <- fitdist(x1, "exp")
-ppcomp(list(f1, f2, f3), fitcol=c("red","green","blue"), ynoise = FALSE, legendtext = c("Normal","Gumbel","Exp"))
-
-# graph 3
-if (requireNamespace ("ggplot2", quietly = TRUE)) {
-  ppcomp(list(f1, f2, f3), fitcol=c("red","green","blue"), ynoise = FALSE, legendtext = c("Normal","Gumbel","Exp"), plotstyle = "gg")
+if (visualize)
+{
+  x1 <- c(6.4,13.3,4.1,1.3,14.1,10.6,9.9,9.6,15.3,22.1,13.4,13.2,8.4,6.3,8.9,5.2,10.9,14.4)
+  n1 <- length(x1)
+  
+  dgumbel <- function(x,a,b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
+  pgumbel <- function(q,a,b) exp(-exp((a-q)/b))
+  
+  f1 <- mledist(x1, "norm")
+  f2 <- mledist(x1, "gumbel", start = list(a = 10, b = 5))
+  f3 <- mledist(x1, "exp")
+  
+  xx1 <- pnorm(sort(x1), f1$estimate[1], f1$estimate[2])
+  xx2 <- pgumbel(sort(x1), f2$estimate[1], f2$estimate[2])
+  xx3 <- pexp(sort(x1), f3$estimate[1])
+  xlim <- c(xx1, xx2, xx3)
+  xlim <- range(xlim[which(is.finite(xlim))])
+  
+  # graph 1
+  plot(xx1, 1:n1/n1, col = "red", xlim = xlim)
+  points(xx2, 1:n1/n1, col = "green")
+  points(xx3, 1:n1/n1, col = "blue")
+  legend("bottomright", pch = 1, leg = c("Normal","Gumbel","Exp"), col = c("red","green","blue"))
+  
+  # graph 2
+  f1 <- fitdist(x1,"norm")
+  f2 <- fitdist(x1,"gumbel",start=list(a=10,b=5))
+  f3 <- fitdist(x1, "exp")
+  ppcomp(list(f1, f2, f3), fitcol=c("red","green","blue"), ynoise = FALSE, legendtext = c("Normal","Gumbel","Exp"))
+  
+  # graph 3
+  if (requireNamespace ("ggplot2", quietly = TRUE)) {
+    ppcomp(list(f1, f2, f3), fitcol=c("red","green","blue"), ynoise = FALSE, legendtext = c("Normal","Gumbel","Exp"), plotstyle = "gg")
+  }
 }
 
 
@@ -162,7 +170,7 @@ pnorm2 <- function(q, poid, m1, s1, m2, s2)
 
 #basic normal distribution
 set.seed(1234)
-x2 <- c(rnorm(1000, 5),  rnorm(1000, 10))
+x2 <- c(rnorm(nsample, 5),  rnorm(nsample, 10))
 #MLE fit
 fit1 <- fitdist(x2, "norm2", "mle", start=list(poid=1/3, m1=4, s1=2, m2=8, s2=2), 
                 lower=c(0, 0, 0, 0, 0))
@@ -175,39 +183,45 @@ fit3 <- fitdist(x2, "norm2", "mge", gof="AD",
 
 ppcomp(list(fit1, fit2, fit3), fitpch=rep(".", 3), fitcol=c("green", "red", "blue"))
 
-if (requireNamespace ("ggplot2", quietly = TRUE)) {
+if (requireNamespace ("ggplot2", quietly = TRUE) & visualize) {
   ppcomp(list(fit1, fit2, fit3), fitpch=rep(".", 3), fitcol=c("green", "red", "blue"), plotstyle = "gg")
 }
 
 # (5) large data
 #
-
-n <- 2e4
-# n <- 1e2
-x <- rlnorm(n)
-f1 <- fitdist(x, "lnorm")
-f2 <- fitdist(x, "exp")
-
-ppcomp(list(f1, f2), fitpch=2)
-
-if (requireNamespace ("ggplot2", quietly = TRUE)) {
-  ppcomp(list(f1, f2), fitpch=2, plotstyle = "ggplot")
+if (visualize)
+{
+  n <- 2e4
+  x <- rlnorm(n)
+  f1 <- fitdist(x, "lnorm")
+  f2 <- fitdist(x, "exp")
+  
+  ppcomp(list(f1, f2), fitpch=2)
+  
+  if (requireNamespace ("ggplot2", quietly = TRUE)) {
+    ppcomp(list(f1, f2), fitpch=2, plotstyle = "ggplot")
+  }
+  
 }
 
 
 # (6) test legend labels
 #
-serving <- groundbeef$serving
-fitW <- fitdist(serving,"weibull")
-fitW2 <- fitdist(serving,"weibull", method="qme", probs=c(1/3,2/3))
-fitW3 <- fitdist(serving,"weibull", method="qme", probs=c(1/2,2/3))
-fitln <- fitdist(serving,"lnorm")
-fitg <- fitdist(serving,"gamma")
-
-ppcomp(list(fitW, fitln, fitg)) #distrib
-ppcomp(list(fitW, fitW2, fitln, fitg)) #distrib+method
-ppcomp(list(fitW, fitW2, fitW3, fitln, fitg)) #distrib+method+num
-if (requireNamespace ("ggplot2", quietly = TRUE))
-  ppcomp(list(fitW, fitW2, fitW3, fitln, fitg), plotstyle = "ggplot") #distrib+method+num
+if (visualize)
+{
+  serving <- groundbeef$serving
+  fitW <- fitdist(serving,"weibull")
+  fitW2 <- fitdist(serving,"weibull", method="qme", probs=c(1/3,2/3))
+  fitW3 <- fitdist(serving,"weibull", method="qme", probs=c(1/2,2/3))
+  fitln <- fitdist(serving,"lnorm")
+  fitg <- fitdist(serving,"gamma")
+  
+  ppcomp(list(fitW, fitln, fitg)) #distrib
+  ppcomp(list(fitW, fitW2, fitln, fitg)) #distrib+method
+  ppcomp(list(fitW, fitW2, fitW3, fitln, fitg)) #distrib+method+num
+  if (requireNamespace ("ggplot2", quietly = TRUE))
+    ppcomp(list(fitW, fitW2, fitW3, fitln, fitg), plotstyle = "ggplot") #distrib+method+num
+  
+}
 
 

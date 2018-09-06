@@ -1,5 +1,7 @@
 library(fitdistrplus)
 
+visualize <- FALSE # TRUE for manual tests with visualization of results
+
 # (1) Plot various distributions fitted to bacterial contamination data
 #
 data(smokedfish)
@@ -14,13 +16,6 @@ qgumbel <- function(p,a,b) a-b*log(-log(p))
 fitsfg <- fitdistcens(Clog10, "gumbel", start=list(a=-3,b=3))
 
 cdfcompcens(list(fitsfn,fitsfl,fitsfg))
-cdfcompcens(list(fitsfn,fitsfl,fitsfg), datacol="grey",
-    legendtext=c("normal","logistic","Gumbel"),
-    main="bacterial contamination fits",
-    xlab="bacterial concentration (CFU/g)", ylab="F",
-    xlegend = "center", lines01 = TRUE)
-
-cdfcompcens(list(fitsfn, fitsfl, fitsfg), NPMLE.method = "Turnbull")
 
 # Same plot in y logscale
 cdfcompcens(list(fitsfn, fitsfl, fitsfg), NPMLE.method = "Turnbull",
@@ -42,30 +37,34 @@ if (requireNamespace ("ggplot2", quietly = TRUE)) {
 }
 
 # Use of x logscale
-if(any(installed.packages()[,"Package"] == "actuar"))
+if (visualize)
 {
-  require(actuar)
-  data(smokedfish)
-  fln <- fitdistcens(smokedfish,"lnorm")
-  fll <- fitdistcens(smokedfish,"llogis")
-  cdfcompcens(list(fln, fll))
-  cdfcompcens(list(fln, fll), xlogscale = TRUE)
-  cdfcompcens(list(fln, fll), xlogscale = TRUE, xlim = c(0.01, 1000))
-  cdfcompcens(list(fln, fll), NPMLE.method = "Turnbull",
-              xlogscale = TRUE, xlim = c(0.01, 1000))
-  
-  if (requireNamespace ("ggplot2", quietly = TRUE)) {
-    cdfcompcens(list(fln, fll), plotstyle = "ggplot")
-    cdfcompcens(list(fln, fll), xlogscale = TRUE, plotstyle = "ggplot")
-    cdfcompcens(list(fln, fll), xlogscale = TRUE, xlim = c(0.01, 1000), plotstyle = "ggplot")
+  if(any(installed.packages()[,"Package"] == "actuar"))
+  {
+    require(actuar)
+    data(smokedfish)
+    fln <- fitdistcens(smokedfish,"lnorm")
+    fll <- fitdistcens(smokedfish,"llogis")
+    cdfcompcens(list(fln, fll))
+    cdfcompcens(list(fln, fll), xlogscale = TRUE)
+    cdfcompcens(list(fln, fll), xlogscale = TRUE, xlim = c(0.01, 1000))
+    cdfcompcens(list(fln, fll), NPMLE.method = "Turnbull",
+                xlogscale = TRUE, xlim = c(0.01, 1000))
+    
+    if (requireNamespace ("ggplot2", quietly = TRUE)) {
+      cdfcompcens(list(fln, fll), plotstyle = "ggplot")
+      cdfcompcens(list(fln, fll), xlogscale = TRUE, plotstyle = "ggplot")
+      cdfcompcens(list(fln, fll), xlogscale = TRUE, xlim = c(0.01, 1000), plotstyle = "ggplot")
+    }
   }
+  # same plot using argument add
+  cdfcompcens(fitsfn, addlegend = FALSE, fitcol = "red")
+  cdfcompcens(fitsfl, addlegend = FALSE, fillrect = NA, fitcol = "green", add = TRUE)
+  cdfcompcens(fitsfg, addlegend = FALSE, fillrect = NA, fitcol = "blue", add = TRUE)
+  
+  cdfcompcens(list(fitsfn, fitsfl, fitsfg), addlegend = FALSE, fitcol = 2:4, fitlty = 1, plotstyle = "ggplot")
+  
 }
-# same plot using argument add
-cdfcompcens(fitsfn, addlegend = FALSE, fitcol = "red")
-cdfcompcens(fitsfl, addlegend = FALSE, fillrect = NA, fitcol = "green", add = TRUE)
-cdfcompcens(fitsfg, addlegend = FALSE, fillrect = NA, fitcol = "blue", add = TRUE)
-
-cdfcompcens(list(fitsfn, fitsfl, fitsfg), addlegend = FALSE, fitcol = 2:4, fitlty = 1, plotstyle = "ggplot")
 
 # Test on the salinity data set
 #

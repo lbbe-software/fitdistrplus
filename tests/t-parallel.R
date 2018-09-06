@@ -1,5 +1,6 @@
+visualize <- FALSE # TRUE for manual tests with visualization of results
 
-if(FALSE)
+if(visualize)
 {
   
   library(parallel)

@@ -212,7 +212,7 @@ CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.c
     } else
     {
       cdfcompcens(b$fitpart, xlim=xlim, ylim=ylim, xlogscale = xlogscale, ylogscale = ylogscale, 
-              main=main, xlab=xlab, ylab=ylab, datacol=datacol, fitlty=fitlty,  
+              main=main, xlab=xlab, ylab=ylab, datacol=datacol, fitlty=fitlty, fillrect = NA, 
               fitcol=fitcol, lines01 = lines01, Turnbull.confint = FALSE, addlegend = FALSE, add=TRUE)
       
     }

@@ -1,12 +1,12 @@
 library(fitdistrplus)
-
+nsample <- 1000
+nsample <- 10
 
 
 #(1) beta distribution
 #
 
-n <- 100
-x <- rbeta(n, 3, 3/4)
+x <- rbeta(nsample, 3, 3/4)
 
 llsurface(data = x, distr = "beta", plot.arg=c("shape1", "shape2"),
           min.arg=c(0.1, 0.1), max.arg=c(7, 3))

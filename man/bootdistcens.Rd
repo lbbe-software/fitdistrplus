@@ -151,8 +151,7 @@ quantile(b1b)
 # to be tried with a greater number of iterations (1001 or more)
 #
 \dontrun{
-#small number to reduce computation time
-niter <- 10 #in practice, choose above 100
+niter <- 1001
 data(fluazinam)
 d1 <-log10(fluazinam)
 f1 <- fitdistcens(d1, "norm")

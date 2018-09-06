@@ -5,6 +5,11 @@ library(fitdistrplus)
 nbboot <- 1001
 nbboot <- 10
 
+nsample <- 100
+nsample <- 10
+
+visualize <- FALSE # TRUE for manual tests with visualization of results
+
 # (1) Fit of a gamma distribution to serving size data
 # using default method (maximum likelihood estimation)
 # followed by parametric bootstrap
@@ -21,7 +26,7 @@ summary(b1)
 
 # (1) bis test new plot arguments
 #for new graph functions
-f1 <- fitdist(rgamma(100, 2, 3), "gamma")
+f1 <- fitdist(rgamma(nsample, 2, 3), "gamma")
 b1 <- bootdist(f1, niter=nbboot, silent=TRUE)
 plot(b1)
 plot(b1, trueval = c(2, 3))
@@ -33,7 +38,7 @@ if(any(installed.packages()[, "Package"] == "actuar"))
 {
   require(actuar)
   set.seed(123)
-  f1 <- fitdist(rburr(100, 2, 3, 1), "burr", start=list(shape1=10, shape2=10, rate=1))
+  f1 <- fitdist(rburr(nsample, 2, 3, 1), "burr", start=list(shape1=10, shape2=10, rate=1))
   b1 <- bootdist(f1, niter=nbboot, silent=TRUE)
   plot(b1)
   plot(b1, trueval = c(2, 3, 1))
@@ -41,11 +46,6 @@ if(any(installed.packages()[, "Package"] == "actuar"))
   plot(b1, enhance=TRUE, trueval = c(2, 3, 1))
 }
 
-# (2) non parametric bootstrap on the same fit
-# with less iterations
-#
-b1b <- bootdist(f1, bootmethod="nonparam", niter=nbboot)
-summary(b1b)
 
 # (3) estimation of the rate of a gamma distribution 
 # by maximum likelihood with the shape fixed at 4 using the argument fix.arg
@@ -54,7 +54,6 @@ summary(b1b)
 f1c  <- fitdist(serving, "gamma", start=list(rate=0.1), fix.arg=list(shape=4))
 b1c  <-  bootdist(f1c, niter=nbboot)
 summary(b1c)
-plot(b1c)
 
 # (4) fit of a gamma distribution to serving size data 
 # by quantile matching estimation (in this example matching 
@@ -76,7 +75,7 @@ summary(b1e)
 # (using a closed formula) followed by parametric bootstrap
 #
 set.seed(1234)
-x2 <- rpois(n=30, lambda = 5)
+x2 <- rpois(nsample, lambda = 5)
 f2 <- fitdist(x2, "pois", method="mme")
 b2 <- bootdist(f2, niter=nbboot)
 plot(b2,pch=16)
@@ -85,7 +84,7 @@ summary(b2)
 # (7) Fit of a uniform distribution using the Cramer-von Mises distance
 # followed by parametric bootstrap 
 # 
-x3  <-  runif(50, min=5, max=10)
+x3  <-  runif(nsample, min=5, max=10)
 f3  <-  fitdist(x3, "unif", method="mge", gof="CvM")
 b3  <-  bootdist(f3, bootmethod="param", niter=nbboot)
 summary(b3)
@@ -108,12 +107,15 @@ quantile(bWqme, probs=c(0.25, 0.75))
 
 # (10) Fit of a Pareto distribution by numerical moment matching estimation
 # followed by parametric bootstrap
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LONG TO RUN !!!!!!!!!!!!!!!!!!!!!!!!
 #
+if (visualize) 
+{
 if(any(installed.packages()[, "Package"] == "actuar"))
 {
     require(actuar)
 #simulate a sample
-    x4 <- rpareto(1000,  6,  2)
+    x4 <- rpareto(nsample,  6,  2)
     memp <- function(x,  order)
     ifelse(order == 1,  mean(x),  sum(x^order)/length(x))
     
@@ -126,22 +128,27 @@ if(any(installed.packages()[, "Package"] == "actuar"))
     
     b4npar <- bootdist(f4,  niter=nbboot,  bootmethod="nonparam")
     summary(b4npar)
-}   
+}
+}
 
 # (11) Fit of a Burr distribution (3 parameters) using MLE 
 # followed by parametric boostrap
-# 
-if(any(installed.packages()[, "Package"] == "actuar"))
+# !!!!!!!!!!!!!!!! LONG TO RUN !!!!!!!!!!!!!!!!!!
+#
+if (visualize)
 {
+  if(any(installed.packages()[, "Package"] == "actuar"))
+  {
     require(actuar)
     data(danishuni)
-
-fdan <- fitdist(danishuni$Loss, "burr", method="mle", 
-    start=list(shape1=5, shape2=5, rate=10), lower=0+1e-1, control=list(trace=0))
-bdan <- bootdist(fdan,  bootmethod="param", niter=nbboot)
-summary(bdan)
-plot(bdan)
-cdfcomp(fdan, xlogscale=TRUE)
+    
+    fdan <- fitdist(danishuni$Loss, "burr", method="mle", 
+                    start=list(shape1=5, shape2=5, rate=10), lower=0+1e-1, control=list(trace=0))
+    bdan <- bootdist(fdan,  bootmethod="param", niter=nbboot)
+    summary(bdan)
+    plot(bdan)
+    cdfcomp(fdan, xlogscale=TRUE)
+  }
 }
 
 # (12) Fit of a Triangular distribution (3 parameters) using MLE 
@@ -150,7 +157,8 @@ cdfcomp(fdan, xlogscale=TRUE)
 if(any(installed.packages()[, "Package"] == "mc2d"))
 {
     require(mc2d)
-    x4 <- rtriang(100,min=0,mode=4,max=20)
+    set.seed(1234)
+    x4 <- rtriang(100,min=0,mode=4,max=20) # nsample not used : does not converge if the sample is too small
     fit4t<-fitdist(x4,dtriang,start=list(min=0,mode=4,max=20))
     summary(fit4t)
     b4t<-bootdist(fit4t,niter=nbboot) 
@@ -167,7 +175,7 @@ if(any(installed.packages()[, "Package"] == "mc2d"))
 data(endosulfan)
 ATV <-endosulfan$ATV
 plotdist(ATV)
-descdist(ATV,boot=1000)
+descdist(ATV,boot=nbboot)
 
 fln <- fitdist(ATV, "lnorm")
 summary(fln)
@@ -217,7 +225,7 @@ rzmgeom <- function(n, p1, p2)
   u
 }
 
-x2 <- rzmgeom(1000, 1/2, 1/10)
+x2 <- rzmgeom(nsample, 1/2, 1/10)
 
 f2 <- fitdist(x2, "zmgeom", method="mle", fix.arg=function(x) list(p1=mean(x == 0)), start=list(p2=1/2))
 b2 <- bootdist(f2, niter=nbboot)
@@ -234,9 +242,10 @@ summary(b3$estim[, "p2"] - 1/10)
 par(mfrow=c(1, 2))
 hist(b2$estim[, "p2"] - 1/10, breaks=100, xlim=c(-.015, .015))
 hist(b3$estim[, "p2"] - 1/10, breaks=100, xlim=c(-.015, .015))
+par(mfrow=c(1, 1))
 
 # (16) efficiency of parallel operation
-if(FALSE)
+if (visualize)
 {
   niter <- 1001 
   data(groundbeef)
@@ -275,8 +284,7 @@ if(FALSE)
 
 # (17) bootdist with weights (not yet available, test of error message)
 #
-n <- 1e2
-x <- rpois(n, 10)
+x <- rpois(nsample, 10)
 xtab <- table(x)
 xval <- sort(unique(x))
 (f1 <- fitdist(x, "pois"))
