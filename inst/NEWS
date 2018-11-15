@@ -1,5 +1,11 @@
 === fitdistrplus : Help to fit of a parametric distribution ===
 
+Version 1.0-12
+=============
+BUG FIXES
+- bug fixed in qmedist() and fitdistcens() which raised an error in checkparamlist().
+- bug fixed in testdpqfun() which assumes the first argument of d,p,q,r functions are exactly the same as in base R.
+
 Version 1.0-11
 =============
 NEW FEATURES

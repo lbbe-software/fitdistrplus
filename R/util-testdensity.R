@@ -38,7 +38,7 @@ testdpqfun <- function(distr, fun=c("d","p","q"), start.arg,
   res
 } 
 
-test1fun <- function(fn, start.arg, fix.arg)
+test1fun <- function(fn, start.arg, fix.arg, dpqr)
 {
   res <- data.frame(ok=FALSE, txt="")
   stopifnot(is.list(start.arg))
@@ -49,6 +49,18 @@ test1fun <- function(fn, start.arg, fix.arg)
   if(!exists(fn, mode="function"))
   {
     res$txt <- paste("The", fn, "function must be defined")
+    return(res)
+  }
+  
+  #naming convention
+  if(missing(dpqr))
+    dpqr <- substr(fn, 1, 1)
+  firstarg_theo <- switch(dpqr, "d"="x", "p"="q", "q"="p", "r"="n")
+  firstarg_found <- names(formals(fn))[1]
+  if(firstarg_found != firstarg_theo)
+  {    
+    t0 <- paste("The", fn, "function should have its first argument named:", firstarg_theo)
+    res$txt <- paste(t0, "as in base R")
     return(res)
   }
   

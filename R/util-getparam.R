@@ -6,8 +6,11 @@
 
 computegetparam <- function(argdistname)
 {
-  #see ?dgamma, pgamma, qgamma, dbeta
-  nonparaminR <- c("x", "p", "q", "n", "log", "log.p", "lower.tail", "ncp")
+  #remove first argument, that should be "x", "p", "q", or "n", see ?dgamma, pgamma, qgamma
+  argdistname <- argdistname[-1]
+  nonparaminR <- c("x", "p", "q", "n") #defensive programming
+  #remove other arguments, see ?dgamma, pgamma, qgamma, dbeta
+  nonparaminR <- c(nonparaminR, "log", "log.p", "lower.tail", "ncp")
   nonparaminActuar <- c("limit", "order", "t")
   nonparaminGamlssdist <- "fast"
   nonparamspecial <- c("...", "..1", "..2")

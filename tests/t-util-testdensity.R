@@ -3,6 +3,18 @@ library(fitdistrplus)
 
 testdpqfun <- fitdistrplus:::testdpqfun
 
+
+
+##### first argument ##### 
+#a data.frame of TRUE and ""
+testdpqfun("exp", start=c(rate=1))
+#a data.frame with error messages
+dEXP <- function(y, rate) dexp(x, rate)
+pEXP <- function(y, rate) pexp(x, rate)
+qEXP <- function(y, rate) qexp(x, rate)
+testdpqfun("EXP", start=c(rate=1))
+
+
 ##### existence ##### 
 #a data.frame of TRUE and ""
 testdpqfun("exp", start=c(rate=1))

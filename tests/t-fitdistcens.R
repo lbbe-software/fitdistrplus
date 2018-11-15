@@ -3,6 +3,7 @@ library(fitdistrplus)
 nsample <- 500
 nsample <- 50
 visualize <- FALSE # TRUE for manual tests with visualization of results
+set.seed(1234)
 
 # (6) custom optimisation function - example with the genetic algorithm
 #
