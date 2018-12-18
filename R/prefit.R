@@ -70,7 +70,7 @@ prefit <- function(data, distr, method = c("mle", "mme", "qme", "mge"), feasible
   lower <- as.double(rep_len(lower, npar)) #as in optim() line 64
   upper <- as.double(rep_len(upper, npar))
   
-  if(is.infinite(lower) && is.infinite(upper))
+  if(all(is.infinite(lower)) && all(is.infinite(upper)))
   {
     bnd <- detectbound(distname, feasible.par, data, fix.arg=fix.arg)
   }else

@@ -85,7 +85,7 @@ detectbound <- function(distname, vstart, obs, fix.arg=NULL, echo=FALSE)
       {
         lowb[a] <- aval[i]
       }
-      if(is.nan(dx1) && !is.nan(dx2))
+      if(all(is.nan(dx1)) && all(!is.nan(dx2)))
       {
         lowb[a] <- aval[i]
       }
@@ -93,7 +93,7 @@ detectbound <- function(distname, vstart, obs, fix.arg=NULL, echo=FALSE)
       {
         uppb[a] <- aval[i]
       }
-      if(!is.nan(dx1) && is.nan(dx2))
+      if(all(!is.nan(dx1)) && all(is.nan(dx2)))
       {
         uppb[a] <- aval[i]
       }

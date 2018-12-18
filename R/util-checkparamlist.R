@@ -26,7 +26,7 @@ checkparamlist <- function(start.arg, fix.arg, argdistname, hasnodefaultval)
   if (any(is.na(m))) 
     stop(errtxt$t3)
   #check NA/NaN values
-  if(any(is.na(vstart) || is.nan(vstart)))
+  if(any(is.na(vstart)) || any(is.nan(vstart)))
     stop(errtxt$t6)
   if(!is.null(fix.arg))
   {
@@ -42,7 +42,7 @@ checkparamlist <- function(start.arg, fix.arg, argdistname, hasnodefaultval)
       stop(errtxt$t5)
     
     #check NA/NaN values
-    if(any(is.na(vfix) || is.nan(vfix)))
+    if(any(is.na(vfix)) || any(is.nan(vfix)))
       stop(errtxt$t7)
     allparname <- names(c(vstart, vfix))
   }else
