@@ -77,6 +77,7 @@ detectbound <- function(distname, vstart, obs, fix.arg=NULL, echo=FALSE)
       dx2 <- try(do.call(ddistname, c(list(obs), as.list(vstarta), as.list(fix.arg))), silent=TRUE)
       if(echo)
       {
+        cat(i, "\ttested value", vstarta, "\n")
         print(dx1)
         print(dx2)
       }
@@ -85,7 +86,7 @@ detectbound <- function(distname, vstart, obs, fix.arg=NULL, echo=FALSE)
       {
         lowb[a] <- aval[i]
       }
-      if(all(is.nan(dx1)) && all(!is.nan(dx2)))
+      if(any(is.nan(dx1)) && any(!is.nan(dx2)))
       {
         lowb[a] <- aval[i]
       }
@@ -93,7 +94,7 @@ detectbound <- function(distname, vstart, obs, fix.arg=NULL, echo=FALSE)
       {
         uppb[a] <- aval[i]
       }
-      if(all(!is.nan(dx1)) && all(is.nan(dx2)))
+      if(any(!is.nan(dx1)) && any(is.nan(dx2)))
       {
         uppb[a] <- aval[i]
       }

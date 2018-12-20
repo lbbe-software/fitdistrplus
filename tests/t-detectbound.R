@@ -1,7 +1,7 @@
 require(fitdistrplus)
 
 #case where the density returns a Not-an-Numeric value.
-detectbound("gamma", c(shape=3, scale=3), 1:10)
+detectbound("gamma", c(shape=3, scale=3), 1:10, echo=TRUE)
 detectbound("logis", c(location=3, scale=3), 1:10)
 detectbound("geom", c(prob=1/2), 1:10)
 
@@ -9,6 +9,11 @@ detectbound("geom", c(prob=1/2), 1:10)
 detectbound("gamma", c(shape=1, scale=3), 1:10)
 detectbound("gamma", c(shape=1, rate=1/3), 1:10)
 
+x1 <- c(NaN, 1:3)
+x2 <- c(1:4)
+x3 <- c(NaN, NaN)
+is.nan(x1) && !is.nan(x2)
+is.nan(x3) && !is.nan(x2)
 
 #case where the density returns a Not-an-Numeric value and one parameter is fixed.
 detectbound("gamma", c(shape=3), 1:10, fix.arg=c(scale=3))
