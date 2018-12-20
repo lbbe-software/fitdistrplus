@@ -1,6 +1,6 @@
 Package: fitdistrplus
 Title: Help to Fit of a Parametric Distribution to Non-Censored or Censored Data
-Version: 1.0-12
+Version: 1.0-13
 Authors@R: c(person("Marie-Laure", "Delignette-Muller", role = "aut", email = "marielaure.delignettemuller@vetagro-sup.fr"),
              person("Christophe", "Dutang", role = "aut", email = "christophe.dutang@ensimag.fr"),
              person("Regis", "Pouillot", role = "ctb", email = "rpouillot@yahoo.fr"),
@@ -15,4 +15,4 @@ BuildVignettes: true
 License: GPL (>= 2)
 Encoding: UTF-8
 URL: MailingList: http://listes.univ-lyon1.fr/wws/info/fitdist-users; https://lbbe.univ-lyon1.fr/fitdistrplus.html, http://riskassessment.r-forge.r-project.org
-Contact: Marie-Laure Delignette-Muller <marielaure.delignettemuller at vetagro-sup.fr> or Christophe Dutang <christophe.dutang at ensimag.fr>
+Contact: Marie-Laure Delignette-Muller <marielaure.delignettemuller@vetagro-sup.fr> or Christophe Dutang <christophe.dutang@ensimag.fr>
