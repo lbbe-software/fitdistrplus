@@ -197,7 +197,6 @@ qqcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
     ylim <- c(theo.xmin, theo.xmax)
   }
   
-  
   if(plotstyle == "graphics") {
     ######## plot if plotstyle=='graphics' ########
     

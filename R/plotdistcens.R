@@ -185,8 +185,8 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
       Fright <- rep(c(0,Fnpsurv), rep(2,k+1))
       lines(dright, Fright, ...)
       ### the line at left of the rectangles
-      dleft = rep(c(f$left,f$right[k]), rep(2,k+1))
-      Fleft = c(0,rep(Fnpsurv, rep(2,k)),1)
+      dleft <- rep(c(f$left,f$right[k]), rep(2,k+1))
+      Fleft <- c(0,rep(Fnpsurv, rep(2,k)),1)
       lines(dleft, Fleft, ...)
       
       # Add of the filled rectangles
