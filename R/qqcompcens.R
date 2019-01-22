@@ -154,10 +154,13 @@ qqcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
   # Definition of vertices of each rectangle
   Qi.left <- df$left # dim k
   Qi.left4plot <- Qi.left
-  if (Qi.left4plot[1] == - Inf) Qi.left4plot[1] <- xmininf
+  
+  # when R is configured with noLD (--disable-long-double), qnorm and other 'q' functions
+  # produce NaN values instead of Inf values for 0 and first argument.
+  if (is.infinite(Qi.left4plot[1]) | is.nan(Qi.left4plot[1])) Qi.left4plot[1] <- xmininf
   Qi.right <- df$right
   Qi.right4plot <- Qi.right
-  if (Qi.right4plot[k] == Inf) Qi.right4plot[k] <- xmaxinf
+  if (is.infinite(Qi.right4plot[k]) | is.nan(Qi.right4plot[k])) Qi.right4plot[k] <- xmaxinf
   Pi.low <- Fbefore
   Pi.up <- Fnpsurv
   nPi <- length(Pi.low)
@@ -177,12 +180,12 @@ qqcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
     
     Qitheo.left <- do.call(qdistname, c(list(Pi.low), as.list(para)))
     Qitheo.right <- do.call(qdistname, c(list(Pi.up), as.list(para)))
-    theo.xmin <- min(theo.xmin, Qitheo.right)
+    theo.xmin <- min(theo.xmin, Qitheo.right[-k])
     Qitheo.left4plot <- Qitheo.left
-    theo.xmax <- max(theo.xmax, Qitheo.left)
-    if (Qitheo.left4plot[1] == - Inf) Qitheo.left4plot[1] <- xmininf
+    theo.xmax <- max(theo.xmax, Qitheo.left[-1])
+    if (is.infinite(Qitheo.left4plot[1]) | is.nan(Qitheo.left4plot[1])) Qitheo.left4plot[1] <- xmininf
     Qitheo.right4plot <- Qitheo.right
-    if (Qitheo.right4plot[k] == Inf) Qitheo.right4plot[k] <- xmaxinf
+    if (is.infinite(Qitheo.right4plot[k]) | is.nan(Qitheo.right4plot[k])) Qitheo.right4plot[k] <- xmaxinf
     lrect[[i]] <- data.frame(Qitheo.left4plot = Qitheo.left4plot, 
                              Qi.left4plot = Qi.left4plot, 
                              Qitheo.right4plot = Qitheo.right4plot, 

@@ -145,10 +145,10 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
     # Definition of vertices of each rectangle
     Qi.left <- df$left # dim k
     Qi.left4plot <- Qi.left
-    if (Qi.left4plot[1] == - Inf) Qi.left4plot[1] <- xmininf
+    if (is.infinite(Qi.left4plot[1]) | is.nan(Qi.left4plot[1])) Qi.left4plot[1] <- xmininf
     Qi.right <- df$right
     Qi.right4plot <- Qi.right
-    if (Qi.right4plot[k] == Inf) Qi.right4plot[k] <- xmaxinf
+    if (is.infinite(Qi.right4plot[k]) | is.nan(Qi.right4plot[k])) Qi.right4plot[k] <- xmaxinf
     Pi.low <- Fbefore
     Pi.up <- Fnpsurv
     

@@ -162,21 +162,23 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
       # Definition of vertices of each rectangle
       Qi.left <- df$left # dim k
       Qi.left4plot <- Qi.left
-      if (Qi.left4plot[1] == - Inf) Qi.left4plot[1] <- xmininf
+      if (is.infinite(Qi.left4plot[1]) | is.nan(Qi.left4plot[1])) Qi.left4plot[1] <- xmininf
       Qi.right <- df$right
       Qi.right4plot <- Qi.right
-      if (Qi.right4plot[k] == Inf) Qi.right4plot[k] <- xmaxinf
+      if (is.infinite(Qi.right4plot[k]) | is.nan(Qi.right4plot[k])) Qi.right4plot[k] <- xmaxinf
       Pi.low <- Fbefore
       Pi.up <- Fnpsurv
       
       # Plot of the ECDF
-      if (specifytitle)
+      if (specifytitle) {
         plot(1, 1, type = "n", xlim = xlim.Wang.cdf, ylim = ylim.Wang.cdf, 
              xlab = "Censored data", 
-           ylab = "CDF", main = titleCDF, ...) else
+             ylab = "CDF", main = titleCDF, ...) 
+      } else {
         plot(1, 1, type = "n", xlim = xlim.Wang.cdf, ylim = ylim.Wang.cdf, 
              xlab = "Censored data", 
-                  ylab = "CDF", ...)
+             ylab = "CDF", ...)
+      }
       xmin <- par("usr")[1]
       xmax <- par("usr")[2]
       
@@ -198,20 +200,25 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
     {
       survdata <- Surv(time = censdata$left, time2 = censdata$right, type="interval2")
       survfitted <- survfit(survdata ~ 1)
-      if (Turnbull.confint)
-        if (specifytitle)
+      if (Turnbull.confint) {
+        if (specifytitle) {
           plot(survfitted,fun="event",xlab="Censored data",
-             ylab="CDF",ylim = c(0,1), main = titleCDF, ...) else
+               ylab="CDF",ylim = c(0,1), main = titleCDF, ...) 
+        } else {
           plot(survfitted,fun="event",xlab="Censored data",
-                    ylab="CDF", ylim = c(0,1), ...)
-      else
-        if (specifytitle)
-        plot(survfitted,fun="event",xlab="Censored data",
-             ylab="CDF", conf.int = FALSE, main = titleCDF, 
-             ylim = c(0,1),  ...) else
-        plot(survfitted,fun="event",xlab="Censored data",
-                    ylab="CDF", conf.int = FALSE,  
-                    ylim = c(0,1),  ...)       
+               ylab="CDF", ylim = c(0,1), ...)
+        }
+      } else {
+        if (specifytitle) {
+          plot(survfitted,fun="event",xlab="Censored data",
+               ylab="CDF", conf.int = FALSE, main = titleCDF, 
+               ylim = c(0,1),  ...) 
+        } else {
+          plot(survfitted,fun="event",xlab="Censored data",
+               ylab="CDF", conf.int = FALSE,  
+               ylim = c(0,1),  ...)
+        }
+      }
       xmin <- par("usr")[1]
       xmax <- par("usr")[2]
     }
@@ -239,11 +246,13 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
     n<-length(censdata$left)
 
     
-    if (specifytitle)
+    if (specifytitle) {
       plot(c(0,0),c(0,0),type="n",xlim=xlim,ylim=ylim,xlab="Censored data",
-         ylab="CDF",main=titleCDF, ...) else
+           ylab="CDF",main=titleCDF, ...) 
+    } else {
       plot(c(0,0),c(0,0),type="n",xlim=xlim,ylim=ylim,xlab="Censored data",
-                ylab="CDF", ...)     
+           ylab="CDF", ...)
+    }
     # functions to plot one interval or point for each observation for 
     # observation ordered i out of n
     plotlcens<-function(i) {
@@ -274,12 +283,13 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
     else distname<-distr
     if (!is.list(para)) 
       stop("'para' must be a named list")
-    ddistname<-paste("d",distname,sep="")
-    if (!exists(ddistname,mode="function"))
-      stop(paste("The ",ddistname," function must be defined"))
-    pdistname<-paste("p",distname,sep="")
-    if (!exists(pdistname,mode="function"))
-      stop(paste("The ",pdistname," function must be defined"))
+    ddistname <- paste0("d", distname)
+    if (!exists(ddistname, mode="function"))
+      stop(paste("The ", ddistname, " function must be defined"))
+    pdistname <- paste0("p", distname)
+    if (!exists(pdistname, mode="function"))
+      stop(paste("The ", pdistname, " function must be defined"))
+    
     densfun <- get(ddistname,mode="function")    
     nm <- names(para)
     f <- formals(densfun)
@@ -288,9 +298,9 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
     if (any(is.na(m))) 
       stop(paste("'para' specifies names which are not arguments to ",ddistname))
     # plot of continuous data with theoretical distribution
-    s<-seq(xmin,xmax,by=(xmax-xmin)/100)
-    theop<-do.call(pdistname,c(list(s),as.list(para)))
-    lines(s,theop,col="red")
+    s <- seq(xmin, xmax, by=(xmax-xmin)/100)
+    theop <- do.call(pdistname, c(list(s), as.list(para)))
+    lines(s, theop, col="red")
   }
   if (!onlyCDFplot)
   {
@@ -298,16 +308,16 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
     Qitheo.left <- do.call(qdistname, c(list(Pi.low), as.list(para)))
     Qitheo.right <- do.call(qdistname, c(list(Pi.up), as.list(para)))
 
-    xmin.Wang.qq <- min(xmin.Wang.cdf, Qitheo.right)
-    xmax.Wang.qq <- max(xmin.Wang.cdf, Qitheo.left)
+    xmin.Wang.qq <- min(xmin.Wang.cdf, Qitheo.right[-k])
+    xmax.Wang.qq <- max(xmin.Wang.cdf, Qitheo.left[-1])
     xlim.Wang.qq <- c(xmin.Wang.qq, xmax.Wang.qq)
 
     Qitheo.left4plot <- Qitheo.left
-    if (Qitheo.left4plot[1] == - Inf) Qitheo.left4plot[1] <- xmininf
+    if (is.infinite(Qitheo.left4plot[1]) | is.nan(Qitheo.left4plot[1])) Qitheo.left4plot[1] <- xmininf
     Qitheo.right4plot <- Qitheo.right
-    if (Qitheo.right4plot[k] == Inf) Qitheo.right4plot[k] <- xmaxinf
-
-        ## Q-Q plot
+    if (is.infinite(Qitheo.right4plot[k]) | is.nan(Qitheo.right4plot[k])) Qitheo.right4plot[k] <- xmaxinf
+    
+    ## Q-Q plot
     plot(1, 1, type = "n", main = "Q-Q plot", xlim = xlim.Wang.qq, ylim = xlim.Wang.qq,
          xlab = "Theoretical quantiles", ylab = "Empirical quantiles")
     rect(xleft = Qitheo.left4plot, ybottom = Qi.left4plot, xright = Qitheo.right4plot, ytop = Qi.right4plot, 
