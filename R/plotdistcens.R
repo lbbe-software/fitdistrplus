@@ -166,8 +166,9 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
       Qi.right <- df$right
       Qi.right4plot <- Qi.right
       if (is.infinite(Qi.right4plot[k]) | is.nan(Qi.right4plot[k])) Qi.right4plot[k] <- xmaxinf
-      Pi.low <- Fbefore
-      Pi.up <- Fnpsurv
+      # keep only 16 significants digits for R configured with noLD (--disable-long-double)
+      Pi.low <- signif(Fbefore, 16)
+      Pi.up <- signif(Fnpsurv, 16)
       
       # Plot of the ECDF
       if (specifytitle) {

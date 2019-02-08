@@ -161,8 +161,9 @@ qqcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
   Qi.right <- df$right
   Qi.right4plot <- Qi.right
   if (is.infinite(Qi.right4plot[k]) | is.nan(Qi.right4plot[k])) Qi.right4plot[k] <- xmaxinf
-  Pi.low <- Fbefore
-  Pi.up <- Fnpsurv
+  # keep only 16 significants digits for R configured with noLD (--disable-long-double)
+  Pi.low <- signif(Fbefore, 16)
+  Pi.up <- signif(Fnpsurv, 16)
   nPi <- length(Pi.low)
   
   lrect <- vector(mode = "list", length = nft)
