@@ -30,7 +30,7 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
     stop("datacens must be a dataframe with two columns named left 
          and right and more than one line")
   if ((missing(distr) & !missing(para)) || 
-      (missing(distr) & !missing(para)))
+      (!missing(distr) & missing(para)))
     stop("distr and para must defined")
   
   my3dots <- list(...)
