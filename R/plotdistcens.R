@@ -256,9 +256,9 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
     }
     # functions to plot one interval or point for each observation for 
     # observation ordered i out of n
-    plotlcens<-function(i) {
-      y<-i/n
-      lines(c(xmininf,lcens[ordlcens[i]]),c(y,y),...) 
+    plotlcens <- function(i) {
+      y <- i/n
+      lines(c(xmininf, lcens[ordlcens[i]]), c(y, y), ...) 
     }
     if (nlcens>=1)
       toto<-sapply(1:nlcens,plotlcens)
