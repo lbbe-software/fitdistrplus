@@ -20,8 +20,9 @@ mgedist(data, distr, gof = "CvM", start = NULL, fix.arg = NULL, optim.method = "
     quantile function 
     \code{qname} and the corresponding density distribution \code{dname} must be classically defined. }
 \item{gof}{A character string coding for the name of the goodness-of-fit distance used : 
-    "CvM" for Cramer-von Mises distance,"KS" for Kolmogorov-Smirnov distance,
-    "AD" for Anderson-Darling distance, "ADR", "ADL", "AD2R", "AD2L" and "AD2" for variants of
+    \code{"CvM"} for Cramer-von Mises distance, \code{"KS"} for Kolmogorov-Smirnov distance,
+    \code{"AD"} for Anderson-Darling distance, \code{"ADR"}, \code{"ADL"}, \code{"AD2R"}, 
+    \code{"AD2L"} and \code{"AD2"} for variants of
     Anderson-Darling distance described by Luceno (2006).}  
 \item{start}{A named list giving the initial values of parameters of the named distribution
     or a function of data computing initial values and returning a named list.

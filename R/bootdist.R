@@ -60,7 +60,8 @@ bootdist <- function (f, bootmethod="param", niter=1001, silent=TRUE,
     }
     
     #compute bootstrap estimates
-    foncestim <- switch(f$method, "mle"=mledist, "qme"=qmedist, "mme"=mmedist, "mge"=mgedist)
+    foncestim <- switch(f$method, "mle"=mledist, "qme"=qmedist, "mme"=mmedist, 
+                        "mge"=mgedist, "mse"=msedist)
     start <- as.list(f$estimate) #a named vector is no longer is accepted as starting values.
     if(is.function(f$fix.arg.fun))
       fix.arg <- f$fix.arg.fun

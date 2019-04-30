@@ -65,7 +65,7 @@ S3method(print, descdist)
 
 
 #dedicated fit functions
-export(mledist, mmedist, qmedist, mgedist)
+export(mledist, mmedist, qmedist, mgedist, msedist)
 export(detectbound, prefit)
 
 #plot functions

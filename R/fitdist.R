@@ -22,7 +22,7 @@
 ###         R functions
 ### 
 
-fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=NULL, 
+fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge", "mse"), start=NULL, 
                      fix.arg=NULL, discrete, keepdata = TRUE, keepdata.nb=100, ...) 
 {
     #check argument distr
@@ -53,8 +53,8 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
     if(any(method == "mom"))
         warning("the name \"mom\" for matching moments is NO MORE used and is replaced by \"mme\"")
     
-    method <- match.arg(method, c("mle", "mme", "qme", "mge"))
-    if(method %in% c("mle", "mme", "mge"))
+    method <- match.arg(method, c("mle", "mme", "qme", "mge", "mse"))
+    if(method %in% c("mle", "mme", "mge", "mse"))
       dpq2test <- c("d", "p")
     else
       dpq2test <- c("d", "p", "q")
@@ -185,9 +185,25 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge"), start=
         convergence <- mge$convergence
         fix.arg <- mge$fix.arg
         weights <- NULL
+    }else if (method == "mse")
+    {
+      mse <- msedist(data, distname, start=arg_startfix$start.arg, 
+                     fix.arg=arg_startfix$fix.arg, checkstartfix=TRUE, ...)
+      
+      estimate <- mse$estimate
+      sd <- NULL
+      loglik <- mse$loglik
+      npar <- length(estimate)
+      aic <- -2*loglik+2*npar
+      bic <- -2*loglik+log(n)*npar
+      correl <- varcovar <- NULL
+      
+      convergence <- mse$convergence
+      fix.arg <- mse$fix.arg
+      weights <- mse$weights
     }else
     {
-        stop("match.arg() does not work correctly")
+        stop("match.arg() did not work correctly")
     }
     
     #needed for bootstrap

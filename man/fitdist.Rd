@@ -18,7 +18,7 @@
 }
 
 \usage{
-fitdist(data, distr, method = c("mle", "mme", "qme", "mge"), 
+fitdist(data, distr, method = c("mle", "mme", "qme", "mge", "mse"), 
     start=NULL, fix.arg=NULL, discrete, keepdata = TRUE, keepdata.nb=100, \dots)
     
 \method{print}{fitdist}(x, \dots)
@@ -43,7 +43,8 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
     corresponding quantile function \code{qname} must be defined, or directly the density function.}
 \item{method}{A character string coding for the fitting method: 
     \code{"mle"} for 'maximum likelihood estimation', \code{"mme"} for 'moment matching estimation', 
-    \code{"qme"} for 'quantile matching estimation' and \code{"mge"} for 'maximum goodness-of-fit estimation'.}
+    \code{"qme"} for 'quantile matching estimation', \code{"mge"} for 'maximum goodness-of-fit estimation'
+    and \code{"mse"} for 'maximum spacing estimation'.}
 \item{start}{A named list giving the initial values of parameters of the named distribution
     or a function of data computing initial values and returning a named list.
     This argument may be omitted (default) for some distributions for which reasonable 
@@ -119,6 +120,10 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
     or one of the variants of this last distance proposed by Luceno (2006)
     (see \code{\link{mgedist}} for more details). This method is not suitable for discrete distributions.
     }
+    \item{When \code{method = "mse"}}{
+    Maximum goodness-of-fit estimation consists in maximizing the average log spacing.
+    A numerical optimization is carried out in \code{\link{msedist}} via \code{optim}.
+    }
 }
         
     By default, direct optimization of the log-likelihood (or other criteria depending
@@ -167,9 +172,11 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
     \code{fitdist} returns an object of class \code{"fitdist"}, a list with the following components:
     \item{estimate}{ the parameter estimates.}
     \item{method}{ the character string coding for the fitting method : 
-        \code{"mle"} for 'maximum likelihood estimation', \code{"mme"} for 'matching moment estimation',
-         \code{"qme"} for 'matching quantile estimation'
-    and \code{"mge"} for 'maximum goodness-of-fit estimation'.}
+        \code{"mle"} for 'maximum likelihood estimation', 
+        \code{"mme"} for 'matching moment estimation',
+        \code{"qme"} for 'matching quantile estimation'
+        \code{"mge"} for 'maximum goodness-of-fit estimation'
+        and \code{"mse"} for 'maximum spacing estimation'.}
     \item{sd}{ the estimated standard errors, \code{NA} if numerically not computable
         or \code{NULL} if not available.}
     \item{cor}{ the estimated correlation matrix, \code{NA} if numerically not computable
@@ -236,7 +243,7 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge"),
 \seealso{
     See \code{\link{fitdistrplus}} for an overview of the package.
     See \code{\link{mledist}}, \code{\link{mmedist}}, \code{\link{qmedist}}, 
-    \code{\link{mgedist}} for details on parameter estimation.
+    \code{\link{mgedist}}, \code{\link{msedist}} for details on parameter estimation.
     See \code{\link{gofstat}} for goodness-of-fit statistics.
     See \code{\link{plotdist}}, \code{\link{graphcomp}}, \code{\link{CIcdfplot}} for graphs
     (with or without uncertainty and/or multiple fits).
