@@ -160,3 +160,40 @@ par(mfrow=c(1,1))
 cdfcomp(list(mle_pois1, mse_pois1), addlegend = FALSE, fitlty = 1)
 curve(ppois(x, lambda=mse_pois2$estimate), type="s", col="blue", add=TRUE)
 legend("bottomright", lty=1, col=c("red", "green", "blue"), leg=c("MLE", "MSE no weight", "MSE with weight"))
+
+
+
+#--------------------------------------------------------
+# real dataset
+# library(CASdatasets)
+# data("ushustormloss")
+# x <- ushustormloss$Normalized.CL05
+# 
+# plot(Normalized.CL05 ~ Year, data=ushustormloss, type="h", main="Normalized Hurricane Damages in United States")
+# 
+# mse_burr <- fitdist(x, "burr", method="mse", start=list(shape1=1, shape2=1, rate=10), lower=0)
+# mle_burr0 <- fitdist(x, "burr", method="mle", start=list(shape1=1, shape2=1, rate=10), lower=0)
+# 
+# cbind(MSE=coef(mse_burr), MLE=coef(mle_burr0))
+# 
+# 
+# setwd("~/Desktop/")
+# par(mar=c(4,4,2,1))
+# pdf("Ushustorm-cdfcomp.pdf", 6, 6)
+# cdfcomp(list(mse_burr, mle_burr0), xlogscale = TRUE, do.points = FALSE)
+# dev.off()
+# pdf("Ushustorm-qqcomp.pdf", 6, 6)
+# qqcomp(list(mse_burr, mle_burr0), xlogscale=TRUE, ylogscale=TRUE)
+# dev.off()
+# pdf("Ushustorm-ppcomp.pdf", 6, 6)
+# ppcomp(list(mse_burr, mle_burr0))
+# dev.off()
+# 
+# gofstat(list(mse_burr, mle_burr0))
+# 
+# mse_iburr <- fitdist(x, "invburr", method="mse", start=list(shape1=1, shape2=1, rate=10), lower=0)
+# mle_iburr0 <- fitdist(x, "invburr", method="mle", start=list(shape1=1, shape2=1, rate=10), lower=0)
+# 
+# gofstat(list(mse_iburr, mle_iburr0))
+# cdfcomp(list(mse_iburr, mle_iburr0))
+
