@@ -1,6 +1,7 @@
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/fitdistrplus)](http://cran.r-project.org/package=fitdistrplus)
 [![CRAN Downloads](https://cranlogs.r-pkg.org/badges/fitdistrplus)](https://cran.r-project.org/package=fitdistrplus)
 
+
 The stable version of `fitdistrplus` can be installed from CRAN using:
 ```r
 install.packages("fitdistrplus")
