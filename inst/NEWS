@@ -1,5 +1,13 @@
 ==== fitdistrplus : Help to fit of a parametric distribution ===
 
+Version 1.0-14
+=============
+- add a new estimation method called maximum spacing estimation via msedist()
+
+Version 1.0-13
+=============
+TODO
+
 Version 1.0-12
 =============
 BUG FIXES
