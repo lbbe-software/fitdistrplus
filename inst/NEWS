@@ -2,11 +2,13 @@
 
 Version 1.0-14
 =============
+NEW FEATURES
 - add a new estimation method called maximum spacing estimation via msedist()
 
 Version 1.0-13
 =============
-TODO
+BUG FIXES
+- fix issues coming from the noLD (--disable-long-double) configuration of R
 
 Version 1.0-12
 =============
