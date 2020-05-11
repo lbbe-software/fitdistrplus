@@ -23,7 +23,8 @@
 ### 
 
 plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPMLE = TRUE,
-                         Turnbull = NULL, Turnbull.confint = FALSE, NPMLE.method = "Wang",...)
+                         Turnbull = NULL, Turnbull.confint = FALSE, NPMLE.method = "Wang",
+                         npsurv.version = "original", ...)
 {
   if (missing(censdata) ||
       !(is.vector(censdata$left) & is.vector(censdata$right) & length(censdata[,1])>1))
@@ -139,8 +140,14 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
       db <- censdata
       db$left[is.na(db$left)] <- -Inf
       db$right[is.na(db$right)] <- Inf
-      f <- npsurv(db)$f
       
+      ##### Alternatives for npsurv
+      if (npsurv.version == "original") {f <- npsurv(db)$f} else
+      if(npsurv.version == "minimal.limSolve") {f <- npsurv.minimal(db, pkg="limSolve")$f} else
+      if(npsurv.version == "minimal.stats") {f <- npsurv.minimal(db, pkg="stats")$f} else
+      if(npsurv.version == "fromsurvival") {f <- npsurv.fromsurvival(censdata)} 
+        
+          
       # New xlim calculation form Wang intervals
       bounds <- c(f$right, f$left)
       finitebounds <- bounds[is.finite(bounds)]

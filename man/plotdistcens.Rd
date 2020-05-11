@@ -10,7 +10,8 @@
 
 \usage{
 plotdistcens(censdata, distr, para, leftNA = -Inf, rightNA = Inf,NPMLE = TRUE,
-    Turnbull = NULL, Turnbull.confint = FALSE, NPMLE.method = "Wang", \dots)
+    Turnbull = NULL, Turnbull.confint = FALSE, NPMLE.method = "Wang",
+                         npsurv.version = "original", \dots)
 }
 
 \arguments{
@@ -42,6 +43,12 @@ plotdistcens(censdata, distr, para, leftNA = -Inf, rightNA = Inf,NPMLE = TRUE,
     which is implemented in the package npsurv and \code{"Turnbull"}, an older one,
     which is implemented in the package survival (see details). Only \code{"Wang"}
     enables the derivation of a Q-Q plot and a P-P plot.}
+\item{npsurv.version}{indicates the function chosen to compute maximal intersection intervals
+    (also called Turnbull intervals) and their associated masses: original npsurv function 
+    from the npsurv package \code{"original"}, its rewriting using package limSolve 
+    \code{"minimal.limSolve"} or package stats \code{"minimal.stats"} or an extrapolation of
+    Turnbull intervals from the survit output of the survival package \code{"fromsurvival"}.
+    This argument is used only when \code{NPMLE.method} is equal to \code{"Wang"}.}
 \item{\dots}{ further graphical arguments passed to other methods. The title of the plot 
  can be modified using the argument \code{main} only for the CDF plot.}
 }
