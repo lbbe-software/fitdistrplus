@@ -26,8 +26,9 @@
 
 cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
                         datacol, fillrect, fitlty, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", 
-                        ylegend = NULL, lines01 = FALSE,Turnbull.confint = FALSE, NPMLE.method = "Wang", add = FALSE,
-                        plotstyle = "graphics", ...)
+                        ylegend = NULL, lines01 = FALSE,Turnbull.confint = FALSE, 
+                        NPMLE.method = "Wang", 
+                        add = FALSE, plotstyle = "graphics", ...)
 {
   
   if(inherits(ft, "fitdistcens"))
@@ -42,18 +43,26 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
       stop("argument ft must be a list of 'fitdistcens' objects")
   }
   
-  if ((Turnbull.confint == TRUE) & (NPMLE.method == "Wang"))
+  NPMLE.method <- match.arg(NPMLE.method, c("Wang", "Turnbull.intervals", "Turnbull.middlepoints", "Turnbull"))
+  if (NPMLE.method == "Turnbull")
   {
-    warning("When Turnbull.confint is TRUE NPMLE.method is forced to Turnbull." )
-    NPMLE.method <- "Turnbull"
+    warning("Turnbull is now a deprecated option for NPMLE.method. You should use Turnbull.middlepoints
+            of Turnbull.intervals. It was here fixed as Turnbull.middlepoints, equivalent to former Turnbull.")
+    NPMLE.method <- "Turnbull.middlepoints"
+  }
+
+    if ((Turnbull.confint == TRUE) & ((NPMLE.method == "Wang") | (NPMLE.method == "Turnbull.intervals")))
+  {
+    warning("When Turnbull.confint is TRUE NPMLE.method is forced to Turnbull.middlepoints." )
+    NPMLE.method <- "Turnbull.middlepoints"
   } 
   
   # check the 'plotstyle' argument
   plotstyle <- match.arg(plotstyle[1], choices = c("graphics", "ggplot"), several.ok = FALSE)
   
-  if ((plotstyle == "ggplot") & (NPMLE.method == "Turnbull"))
+  if ((plotstyle == "ggplot") & (NPMLE.method == "Turnbull.middlepoints"))
   {
-    warning("When NPMLE.method is Turnbull, plotstyle is forced to graphics." )
+    warning("When NPMLE.method is Turnbull.middlepoints, plotstyle is forced to graphics." )
     plotstyle <- "graphics"
   } 
   
@@ -89,11 +98,9 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
   
   
   # calculations for Wang method, for both graphics and ggplot displays
-  if (NPMLE.method == "Wang") {
-    db <- censdata
-    db$left[is.na(db$left)] <- -Inf
-    db$right[is.na(db$right)] <- Inf
-    f <- npsurv(db)$f
+  if ((NPMLE.method == "Wang") | (NPMLE.method == "Turnbull.intervals")) {
+    f <- npmle(censdata, method = NPMLE.method)
+  
     bounds <- c(f$right, f$left)
     finitebounds <- bounds[is.finite(bounds)]
     upper <- max(finitebounds)
@@ -177,7 +184,7 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
     ######## plot if plotstyle=='graphics' ########
     
     
-    if (NPMLE.method == "Turnbull")
+    if (NPMLE.method == "Turnbull.middlepoints")
       # Turnbull plot
     {
       if(missing(xlim))
@@ -307,7 +314,7 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
     
   } else {
     ######## plot if plotstyle=='ggplot' ########
-    if (NPMLE.method == "Wang") {
+    if ((NPMLE.method == "Wang") | (NPMLE.method == "Turnbull.intervals")) {
       
       # recode the legend position according to available positions in ggplot2
       if(xlegend %in% c("topleft", "bottomleft"))

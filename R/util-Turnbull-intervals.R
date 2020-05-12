@@ -1,14 +1,12 @@
 # ----------------------------------------------------------------------- #
-#   Copyright (c) 2018 Marie Laure Delignette-Muller                      #
+#   Copyright (c) 2020 Marie Laure Delignette-Muller                      #
 #                                                                         #
-# Nonparametric maximum likelihood estimation from interval-censored data #
-# ----------------------------------------------------------------------- #
 # Extrapolation of bounds of the Turnbull intervals                       #
 # form the outputs of survfit (pakage survival)                           #
 # ----------------------------------------------------------------------- #
 
   
-npsurv.fromsurvival <- function(censdata)
+Turnbull.intervals <- function(censdata, threshold.par = 0.001)
 {
   survdata <- Surv(time = censdata$left, time2 = censdata$right, type="interval2")
   survfitted <- survfit(survdata ~ 1)
@@ -21,6 +19,7 @@ npsurv.fromsurvival <- function(censdata)
   
   # calculation of bounds of Turnbull intervals (equivalence classes)
   middletime <- survfitted$time
+  
   lem <- length(middletime)
   leftbounds <- numeric(length = lem)
   rightbounds <- numeric(length = lem)
@@ -50,9 +49,10 @@ npsurv.fromsurvival <- function(censdata)
       rightbounds[i] <- bounds[j]
     }
   }
+  # try to rewrite it with a min(which()) and apply 
   
   
-  # correction for first and last boundsif needed
+  # correction for first and last bounds if needed
   if (!is.finite(bounds[1]) & isTRUE(all.equal(leftbounds[1], rightbounds[1])) &
       isTRUE(all.equal(leftbounds[1], minbounds)) &
       !is.element(leftbounds[1], uncensoredvalues))
@@ -67,8 +67,10 @@ npsurv.fromsurvival <- function(censdata)
   }
   mass[lem] <- 1 - sum(mass[1:(lem - 1)])
   
+  
   f <- data.frame(left = leftbounds, right = rightbounds, p = mass, middletime = middletime)
-  # elimination of intervals withh negligible masses
-  threshold <- 0.0001 / nrow(censdata)
+  # elimination of negligible masses
+  threshold <- threshold.par / nrow(censdata)
   f <- f[f$p > threshold, ]
+  return(f)
 }

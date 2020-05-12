@@ -3,7 +3,8 @@
 Version 1.1-0
 =============
 NEW FEATURES
-- add of internal functions to cope with problems of lack of maintenance of the package npsurv
+- add of internal functions to cope with problems of lack of maintenance of the package npsurv and remove the dependence to this package
+- remove of the deprecated argument Turnbull of plotdistcens()
 
 Version 1.0-14
 =============

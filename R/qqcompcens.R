@@ -28,7 +28,8 @@
 
 qqcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, fillrect,
                        fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", ylegend = NULL, 
-                       line01 = TRUE, line01col = "black", line01lty = 1, ynoise = TRUE, plotstyle = "graphics", ...)
+                       line01 = TRUE, line01col = "black", line01lty = 1, ynoise = TRUE, 
+                       NPMLE.method = "Wang", plotstyle = "graphics", ...)
 {
   if(inherits(ft, "fitdistcens"))
   {
@@ -40,6 +41,14 @@ qqcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
   {
     if(any(sapply(ft, function(x) !inherits(x, "fitdistcens"))))        
       stop("argument ft must be a list of 'fitdistcens' objects")
+  }
+  
+  NPMLE.method <- match.arg(NPMLE.method, c("Wang", "Turnbull.intervals", "Turnbull.middlepoints"))
+  if (NPMLE.method == "Turnbull.middlepoints")
+  {
+    warning("The QQcomp plot for censored data is not available with NPMLE.method at Turnbull.middlepoints. 
+            Turnbull.intervals will be used instead of Turnbull.middlepoints.")
+    NPMLE.method <- "Turnbull.intervals"
   }
   
   # check the 'plotstyle' argument
@@ -95,10 +104,8 @@ qqcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
     main <- "Q-Q plot"
   
   # computation from censdata
-  db <- censdata
-  db$left[is.na(db$left)] <- -Inf
-  db$right[is.na(db$right)] <- Inf
-  f <- npsurv(db)$f
+  f <- npmle(censdata, method = NPMLE.method)
+  
   bounds <- c(f$right, f$left)
   finitebounds <- bounds[is.finite(bounds)]
   

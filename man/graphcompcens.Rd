@@ -17,16 +17,17 @@
 cdfcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
     datacol, fillrect, fitlty, fitcol, addlegend = TRUE, legendtext, 
     xlegend = "bottomright", ylegend = NULL, lines01 = FALSE, 
-    Turnbull.confint = FALSE, NPMLE.method = "Wang", add = FALSE, 
-    plotstyle = "graphics", \dots)
+    Turnbull.confint = FALSE, 
+    NPMLE.method = "Wang", 
+    add = FALSE, plotstyle = "graphics", \dots)
 qqcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
       fillrect, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", 
       ylegend = NULL, line01 = TRUE, line01col = "black", line01lty = 1, 
-      ynoise = TRUE, plotstyle = "graphics", \dots)
+      ynoise = TRUE, NPMLE.method = "Wang", plotstyle = "graphics", \dots)
 ppcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
       fillrect, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", 
       ylegend = NULL, line01 = TRUE, line01col = "black", line01lty = 1, 
-      ynoise = TRUE, plotstyle = "graphics", \dots)
+      ynoise = TRUE, NPMLE.method = "Wang", plotstyle = "graphics", \dots)
 }
 
 \arguments{
@@ -60,10 +61,13 @@ ppcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, yla
   for \code{cdfcompcens}.}
 \item{Turnbull.confint}{ if TRUE confidence intervals will be added to the Turnbull plot.
     In that case NPMLE.method is forced to \code{"Turnbull"}}
-\item{NPMLE.method}{Two NPMLE techniques are provided, \code{"Wang"}, the default one,
-    which is implemented in the package npsurv and \code{"Turnbull"}, an older one,
-    which is implemented in the package survival (see details). Only \code{"Wang"}
-    enables the derivation of a Q-Q plot and a P-P plot.}
+\item{NPMLE.method}{Three NPMLE techniques are provided, \code{"Wang"}, the default one,
+    rewritten from the package npsurv using function constrOptim from the package stats 
+    for optimisation, \code{"Turnbull.middlepoints"}, an older one which is implemented in 
+    the package survival and \code{"Turnbull.intervals"} that uses the same Turnbull algorithm 
+    from the package survival but associates an interval to each equivalence class instead of the 
+    middlepoint of this interval  (see details). Only \code{"Wang"} and
+    \code{"Turnbull.intervals"} enable the derivation of a Q-Q plot and a P-P plot.}
 \item{add}{If \code{TRUE}, adds to an already existing plot. If \code{FALSE}, starts a new plot.
   This parameter is not available when \code{plotstyle = "ggplot"}.}
 \item{line01}{A logical to plot an horizontal line \eqn{y=x} for 
@@ -139,7 +143,7 @@ cdfcompcens(list(fitsfn,fitsfl,fitsfg),datacol="orange",fillrect = NA,
     xlegend = "bottom",lines01 = TRUE)
 # alternative Turnbull plot for the empirical cumulative distribution
 # (default plot of the previous versions of the package)
-cdfcompcens(list(fitsfn,fitsfl,fitsfg), NPMLE.method = "Turnbull")
+cdfcompcens(list(fitsfn,fitsfl,fitsfg), NPMLE.method = "Turnbull.middlepoints")
 
 # customizing graphical output with ggplot2
 if (requireNamespace ("ggplot2", quietly = TRUE)) {

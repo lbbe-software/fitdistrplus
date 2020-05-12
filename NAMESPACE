@@ -75,7 +75,6 @@ export(llplot, llsurface, llcurve)
 #graphical comparison
 export(cdfcomp, denscomp, qqcomp, ppcomp)
 export(cdfcompcens, qqcompcens, ppcompcens)
-export(npsurv.minimal)
 
 #quantile functions [to be removed]
 #export(quantiledist)

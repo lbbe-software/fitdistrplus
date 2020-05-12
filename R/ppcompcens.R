@@ -28,7 +28,8 @@
 
 ppcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, fillrect,
                        fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", ylegend = NULL, 
-                       line01 = TRUE, line01col = "black", line01lty = 1, ynoise = TRUE, plotstyle = "graphics", ...)
+                       line01 = TRUE, line01col = "black", line01lty = 1, ynoise = TRUE, NPMLE.method = "Wang", 
+                       plotstyle = "graphics", ...)
 {
   if(inherits(ft, "fitdistcens"))
   {
@@ -42,7 +43,15 @@ ppcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
       stop("argument ft must be a list of 'fitdistcens' objects")
   }
   
-  # check the 'plotstyle' argument
+  NPMLE.method <- match.arg(NPMLE.method, c("Wang", "Turnbull.intervals", "Turnbull.middlepoints"))
+  if (NPMLE.method == "Turnbull.middlepoints")
+  {
+    warning("The PPcomp plot  for censored data is not available with NPMLE.method at Turnbull.middlepoints. 
+            Turnbull.intervals will be used instead of Turnbull.middlepoints.")
+    NPMLE.method <- "Turnbull.intervals"
+  }
+  
+    # check the 'plotstyle' argument
   plotstyle <- match.arg(plotstyle[1], choices = c("graphics", "ggplot"), several.ok = FALSE)
   
   # In the future developments, it will be necessary to check that all the fits share the same weights
@@ -95,10 +104,7 @@ ppcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
     main <- "P-P plot"
   
   # computation from censdata
-  db <- censdata
-  db$left[is.na(db$left)] <- -Inf
-  db$right[is.na(db$right)] <- Inf
-  f <- npsurv(db)$f
+  f <- npmle(censdata, method = NPMLE.method)
   
   if(missing(xlim) & missing(ylim))
   {

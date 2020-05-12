@@ -9,9 +9,9 @@
 }
 
 \usage{
-plotdistcens(censdata, distr, para, leftNA = -Inf, rightNA = Inf,NPMLE = TRUE,
-    Turnbull = NULL, Turnbull.confint = FALSE, NPMLE.method = "Wang",
-                         npsurv.version = "original", \dots)
+plotdistcens(censdata, distr, para, leftNA = -Inf, rightNA = Inf,
+    NPMLE = TRUE, Turnbull.confint = FALSE, 
+    NPMLE.method = "Wang", \dots)
 }
 
 \arguments{
@@ -35,33 +35,29 @@ plotdistcens(censdata, distr, para, leftNA = -Inf, rightNA = Inf,NPMLE = TRUE,
 \item{NPMLE}{ if TRUE an NPMLE (nonparametric maximum likelihood estimate) technique is 
     used to estimate the cdf curve of the censored data
     and previous arguments \code{leftNA} and \code{rightNA} are not used (see details)}
-\item{Turnbull}{ Turnbull is a deprecated argument. You should now use \code{NPMLE} to choose
-    to use an NPMLE technique (or not) and \code{NPMLE.method} to choose the method.}
 \item{Turnbull.confint}{ if TRUE confidence intervals will be added to the Turnbull plot.
-    In that case NPMLE.method is forced to \code{"Turnbull"}}
-\item{NPMLE.method}{Two NPMLE techniques are provided, \code{"Wang"}, the default one,
-    which is implemented in the package npsurv and \code{"Turnbull"}, an older one,
-    which is implemented in the package survival (see details). Only \code{"Wang"}
-    enables the derivation of a Q-Q plot and a P-P plot.}
-\item{npsurv.version}{indicates the function chosen to compute maximal intersection intervals
-    (also called Turnbull intervals) and their associated masses: original npsurv function 
-    from the npsurv package \code{"original"}, its rewriting using package limSolve 
-    \code{"minimal.limSolve"} or package stats \code{"minimal.stats"} or an extrapolation of
-    Turnbull intervals from the survit output of the survival package \code{"fromsurvival"}.
-    This argument is used only when \code{NPMLE.method} is equal to \code{"Wang"}.}
+    In that case NPMLE.method is forced to \code{"Turnbull.middlepoints"}}
+\item{NPMLE.method}{Three NPMLE techniques are provided, \code{"Wang"}, the default one,
+    rewritten from the package npsurv using function constrOptim from the package stats 
+    for optimisation, \code{"Turnbull.middlepoints"}, an older one which is implemented in 
+    the package survival and \code{"Turnbull.intervals"} that uses the same Turnbull algorithm 
+    from the package survival but associates an interval to each equivalence class instead of the 
+    middlepoint of this interval  (see details). Only \code{"Wang"} and
+    \code{"Turnbull.intervals"} enable the derivation of a Q-Q plot and a P-P plot.}
 \item{\dots}{ further graphical arguments passed to other methods. The title of the plot 
  can be modified using the argument \code{main} only for the CDF plot.}
 }
 
 \details{
-     If \code{NPMLE} is \code{TRUE}, and \code{NPMLE.method} is \code{"Wang"},
-    empirical and, if specified, theoretical distributions are plotted
+     If \code{NPMLE} is \code{TRUE}, and \code{NPMLE.method} is \code{"Wang"} ,
+    empirical distributions are plotted
     in cdf using either the constrained Newton method (Wang, 2008)
     or the hierarchical constrained Newton method (Wang, 2013) 
-    to compute the overall 
-    empirical cdf curve, 
-    by calls to functions \code{\link{npsurv}} from the 
-    \code{npsurv} package. In this plot, grey rectangles represent areas
+    to compute the overall empirical cdf curve. 
+     If \code{NPMLE} is \code{TRUE}, and \code{NPMLE.method} is \code{"Turnbull.intervals"} ,
+    empirical are plotted
+    in cdf using the EM approach of Turnbull  (Turnbull, 1974).
+    In those tow cases, grey rectangles represent areas
     where the empirical distribution function is not unique. In cases
     where a theoretical distribution is specified, two goodness-of-fit plots
     are also provided, a Q-Q plot (plot of the quantiles of the theoretical fitted 
@@ -72,7 +68,7 @@ plotdistcens(censdata, distr, para, leftNA = -Inf, rightNA = Inf,NPMLE = TRUE,
     non uniqueness of empirical quantiles or probabilities, directly derived from 
     non uniqueness areas of the empirical cumulative distribution.
 
-    If \code{NPMLE} is \code{TRUE}, and \code{NPMLE.method} is \code{"Turnbull"},
+    If \code{NPMLE} is \code{TRUE}, and \code{NPMLE.method} is \code{"Turnbull.middlepoints"},
     empirical and, if specified, theoretical distributions are plotted
     in cdf using the EM approach of Turnbull (Turnbull, 1974) 
     to compute the overall 
@@ -96,7 +92,7 @@ plotdistcens(censdata, distr, para, leftNA = -Inf, rightNA = Inf,NPMLE = TRUE,
     or a segment (an interval of possible x-values),
     with an y-value equal to r/n, r being the rank of each observation in the global ordering
     previously described. This second method may be interesting but 
-    is certainly less rigorous than the Turnbull method
+    is certainly less rigorous than the other methods
     that should be prefered.
 }
 
@@ -130,7 +126,7 @@ Marie-Laure Delignette-Muller and Christophe Dutang.
 
 \examples{
 # (1) Plot of an empirical censored distribution (censored data) as a CDF
-# using the default Turnbull method
+# using the default Wang method
 #
 data(smokedfish)
 d1 <- as.data.frame(log10(smokedfish))
@@ -138,16 +134,18 @@ plotdistcens(d1)
 
 # (2) Add the CDF of a normal distribution 
 #
-plotdistcens(d1,"norm",para=list(mean=-1.6,sd=1.5))
+plotdistcens(d1, "norm", para=list(mean = -1.6, sd = 1.5))
 
 # (3) Various plots of the same empirical distribution 
 #
-# default Wang plot
+# default Wang plot with representation of equivalence classess
 plotdistcens(d1, NPMLE = TRUE, NPMLE.method = "Wang")
-# Turnbull plot
-plotdistcens(d1, NPMLE = TRUE, NPMLE.method = "Turnbull")
-# Turnbull plot with confidence intervals
-plotdistcens(d1, NPMLE = TRUE, NPMLE.method = "Turnbull", Turnbull.confint = TRUE)
+# same plot but using the Turnbull alorithm from the package survival
+plotdistcens(d1, NPMLE = TRUE, NPMLE.method = "Wang")
+# Turnbull plot with middlepoints (as in the package survival)
+plotdistcens(d1, NPMLE = TRUE, NPMLE.method = "Turnbull.middlepoints")
+# Turnbull plot with middlepoints and confidence intervals
+plotdistcens(d1, NPMLE = TRUE, NPMLE.method = "Turnbull.middlepoints", Turnbull.confint = TRUE)
 # with intervals and points
 plotdistcens(d1,rightNA=3, NPMLE = FALSE)
 # with intervals and points

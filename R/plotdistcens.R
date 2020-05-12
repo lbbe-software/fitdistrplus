@@ -23,10 +23,11 @@
 ### 
 
 plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPMLE = TRUE,
-                         Turnbull = NULL, Turnbull.confint = FALSE, NPMLE.method = "Wang",
-                         npsurv.version = "original", ...)
+                         Turnbull.confint = FALSE, 
+                         NPMLE.method = "Wang",
+                         ...)
 {
-  if (missing(censdata) ||
+    if (missing(censdata) ||
       !(is.vector(censdata$left) & is.vector(censdata$right) & length(censdata[,1])>1))
     stop("datacens must be a dataframe with two columns named left 
          and right and more than one line")
@@ -71,45 +72,55 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
   xlim <- c(xmin, xmax)
   #definition of ylim or lim for ECDF
   ylim <- c(0,1)
+
+  # Supression of the deprecated argument Turnbull
+  ###############################################
+  # if (!missing(Turnbull))
+  # {
+  #   warning("The argument Turnbull is deprecated and should note be used any more. 
+  #           Now use the argument NPMLE to tell if you want to compute a nonparametric
+  #           maximum likelihood estimation of the cumulative distribution, and the argument NPMLE.method
+  #           to define the method chosen for the computation (Turnbull or Wang).") 
+  #   if (missing(NPMLE) & missing(NPMLE.method)) 
+  #   {
+  #     if (Turnbull == TRUE)
+  #     {
+  #       NPMLE <- TRUE
+  #       NPMLE.method <- "Turnbull"
+  #     } else
+  #     {
+  #       NPMLE <- FALSE
+  #     }
+  #   }
+  # }
   
-  if (!missing(Turnbull))
+  NPMLE.method <- match.arg(NPMLE.method, c("Wang", "Turnbull.intervals", "Turnbull.middlepoints", "Turnbull"))
+  if (NPMLE.method == "Turnbull")
   {
-    warning("The argument Turnbull is deprecated and should note be used any more. 
-            Now use the argument NPMLE to tell if you want to compute a nonparametric
-            maximum likelihood estimation of the cumulative distribution, and the argument NPMLE.method
-            to define the method chosen for the computation (Turnbull or Wang).") 
-    if (missing(NPMLE) & missing(NPMLE.method)) 
-    {
-      if (Turnbull == TRUE)
-      {
-        NPMLE <- TRUE
-        NPMLE.method <- "Turnbull"
-      } else
-      {
-        NPMLE <- FALSE
-      }
-    }
+    warning("Turnbull is now a deprecated option for NPMLE.method. You should use Turnbull.middlepoints
+            of Turnbull.intervals. It was here fixed as Turnbull.middlepoints, equivalent to former Turnbull.")
+    NPMLE.method <- "Turnbull.middlepoints"
   }
   
-  if ((Turnbull.confint == TRUE) & (NPMLE.method == "Wang"))
+  if ((Turnbull.confint == TRUE) & ((NPMLE.method == "Wang") | (NPMLE.method == "Turnbull.intervals")))
   {
-    warning("When Turnbull.confint is TRUE NPMLE.method is forced to Turnbull." )
-    NPMLE.method <- "Turnbull"
+    warning("When Turnbull.confint is TRUE NPMLE.method is forced to Turnbull.middlepoints." )
+    NPMLE.method <- "Turnbull.middlepoints"
     # so the second part of the message will be printed in the following if needed
     onlyCDFplot <- TRUE
   } 
-  if ((NPMLE.method == "Turnbull") & !missing(distr))
+  if ((NPMLE.method == "Turnbull.middlepoints") & !missing(distr))
   {
-    warning("Q-Q plot and P-P plot are available only using the method implemented in the package npsurv (Wang) 
-            with the arguments NPMLE.method at Wang (default recommended arguments)." )
+    warning("Q-Q plot and P-P plot are available only  
+            with the arguments NPMLE.method at Wang (default value) or Turnbull.intervals." )
     onlyCDFplot <- TRUE
   }
   if ((NPMLE == FALSE) & !missing(distr))
   {
     warning("When NPMLE is FALSE the nonparametric maximum likelihood estimation 
             of the cumulative distribution function is not computed.
-            Q-Q plot and P-P plot are available only using the method implemented in the package npsurv (Wang) 
-            with the arguments Turnbull.confint at FALSE and NPMLE.method at Wang (default recommended arguments)." )
+            Q-Q plot and P-P plot are available only with the arguments NPMLE.method at Wang 
+            (default value) or Turnbull.intervals." )
     onlyCDFplot <- TRUE
   }
   if (!onlyCDFplot)
@@ -135,20 +146,11 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPM
   # Plot of the empirical distribution as an ECDF       
   if (NPMLE)
   {
-    if (NPMLE.method == "Wang") # plot using package npsurv
+    if (NPMLE.method == "Wang" | NPMLE.method =="Turnbull.intervals") 
     {
-      db <- censdata
-      db$left[is.na(db$left)] <- -Inf
-      db$right[is.na(db$right)] <- Inf
-      
-      ##### Alternatives for npsurv
-      if (npsurv.version == "original") {f <- npsurv(db)$f} else
-      if(npsurv.version == "minimal.limSolve") {f <- npsurv.minimal(db, pkg="limSolve")$f} else
-      if(npsurv.version == "minimal.stats") {f <- npsurv.minimal(db, pkg="stats")$f} else
-      if(npsurv.version == "fromsurvival") {f <- npsurv.fromsurvival(censdata)} 
-        
+      f <- npmle(censdata, method = NPMLE.method)
           
-      # New xlim calculation form Wang intervals
+      # New xlim calculation from equivalence intervals
       bounds <- c(f$right, f$left)
       finitebounds <- bounds[is.finite(bounds)]
       upper <- max(finitebounds)
