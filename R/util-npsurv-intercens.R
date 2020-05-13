@@ -8,7 +8,10 @@
 
 
 
-# LR    matrix of intervals
+# Delta matrix = incidence matrix of maximal intersection intervals
+# Delta[i,j] = 1 indicates that ith observation is within jth interval
+# 
+# see section 2.2, p3 of Wang & Taylor : Delta matrix is denoted S
 
 # An interval is either (Li, Ri] if Li < Ri, or [Li, Ri] if Li = Ri. 
 Deltamatrix = function(LR) {
@@ -38,8 +41,10 @@ Deltamatrix = function(LR) {
   ## D = outer(L, left, "<=") & outer(R, right, ">=") 
   D = outer(L, left, "<=") & outer(R, right, ">=") &
     (outer(L, right, "<") | outer(R, left, "=="))  
+  colnames(D) <- paste0("left=", round(left, 1), "-right=", round(right, 1))
+  rownames(D) <- paste0("obs", 1:length(L))
 
-  dimnames(D) = names(left) = names(right) = NULL
+  names(left) = names(right) = NULL
   list(left=left, right=right, Delta=D)
 }
 

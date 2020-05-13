@@ -1,84 +1,10 @@
 # ----------------------------------------------------------------------- #
 # Nonparametric maximum likelihood estimation from interval-censored data #
 # ----------------------------------------------------------------------- #
-# Internal optimization functions for constrained Newton Method and       #
-# nonnegative least square method                                         #
+# Internal optimi functions for Hierarchical constrained Newton Method    #
 # ----------------------------------------------------------------------- #
 # Original code from Yong Wang, 2020                                      #
 # ----------------------------------------------------------------------- #
-
-## ==========================================================================
-## Nonnegative least squares (NNLS): 
-##                                   
-##        Minimize     ||ax - b||    
-##        subject to non-negativity for all components  
-##           x >= 0 i.e. diag(ncol(x)) x - 0 >= 0
-##        sum up to one 
-##         sum(x) = 1, ie. <x,1> - 1 >= 0, <x,-1> + 1 >= 0           
-## ==========================================================================
-
-NNLS_constrSum <- function(a, b, control=list(), pkg="stats", ...)
-{
-    pkg <- match.arg(pkg, c("limSolve", "stats"))
-    
-    controlnames <- c("trace", "fnscale", "parscale", "ndeps", "maxit", "abstol", 
-                      "reltol", "alpha", "beta", "gamma", "REPORT", "warn.1d.NelderMead", "type", 
-                      "lmm", "factr", "pgtol", "tmax", "temp")
-    if(length(control) >= 1)
-      control <- control[controlnames]
-    else
-      control <- list(maxit=500)
-    if (pkg == "stats")  #control parameter for Nelder-Mead used below
-    {
-      control$maxit <- max(control$maxit, 2000)
-      control$reltol <- 1e-6
-    }
-    
-    #sanity check
-    if(!is.vector(b)) b = drop(b)
-    if(!is.matrix(a)) stop("a not matrix")
-    m <- NROW(a)
-    n <- NCOL(a)
-    
-    if (pkg == "stats")  
-    {
-      #residual least square sum with theta=x[1:(n-1)] ; x[n] = 1-sum(theta)
-      RLS <- function(theta) 
-      {
-        x <- c(theta, 1-sum(theta))
-        y <- a %*% x - b
-        sum(y^2)
-      }
-      
-      # non negativity constraint
-      one_n <- rep(1, n-1)
-      ui <- diag(n-1)
-      rownames(ui) <- c(paste0("theta", 1:(n-1)))
-      ci <- rep(0, n-1)
-      
-      #initial guess
-      x0 <- rep(1/(n-1), n-1)
-      #call to constrOptim
-  
-      res <- constrOptim(theta=x0, f=RLS, grad=NULL, ui=ui, 
-                         ci=ci, method="Nelder-Mead", control=control, ...)
-      if(res$convergence != 0)
-        stop(paste("Convergence code", res$convergence, "\n", res$message))
-      xstar <- c(res$par, 1-sum(res$par))
-      
-    }else if (pkg == "limSolve")  
-    {
-      #TODO : pass control argument to limSolve::lsei
-      require(limSolve)
-      res <- limSolve::lsei(A=a, B=b, E=rep(1,n), F=1, G=diag(n), H=rep(0, n), ...)
-      if(res$IsError)
-        stop("error in limSolve::lsei when computing NNLS")
-      xstar <- res$X
-    }else
-      stop("wrong package")
-    xstar
-}
-
 
 
 
@@ -114,6 +40,7 @@ NNLS_constrSum <- function(a, b, control=list(), pkg="stats", ...)
 ##      recursive calls
 ##   depth: For internal use only: depth of recursion
 ##   verb: For internal use only: depth of recursion
+##   pkg: package used in NNLS_constrSum()
 
 ## Author: Stephen S. Taylor and Yong Wang
 
@@ -123,9 +50,10 @@ NNLS_constrSum <- function(a, b, control=list(), pkg="stats", ...)
 ## ==========================================================================
 
 hcnm = function(data, w=1, D=NULL, p0=NULL, maxit=100, tol=1e-6,
-                blockpar=NULL, recurs.maxit=2, depth=1, verb=0) {
+                blockpar=NULL, recurs.maxit=2, depth=1, verb=0,
+                pkg="stats", ...) {
   if(missing(D)) {
-    x2 = icendata(data, w)
+    x2 = icendata(data, w) #see npsurv-intercens.R
     if(nrow(x2$o) == 0 || all(x2$o[,2] == Inf)) { # exact or right-censored only
       r0 = km(x2)
       r = list(f=r0$f, convergence=TRUE, ll=r0$ll, maxgrad=0, numiter=1)
@@ -135,7 +63,7 @@ hcnm = function(data, w=1, D=NULL, p0=NULL, maxit=100, tol=1e-6,
     x = rbind(cbind(x2$t, x2$t), x2$o)
     nx = nrow(x)
     w = c(x2$wt, x2$wo)
-    dmat = Deltamatrix(x)
+    dmat = Deltamatrix(x) #see npsurv-intercens.R
     left = dmat$left
     right = dmat$right
     intervals = cbind(left, right)
@@ -178,7 +106,7 @@ hcnm = function(data, w=1, D=NULL, p0=NULL, maxit=100, tol=1e-6,
     g = colSums(w * S)
     dmax = max(g) - n
     if(verb > 0) {
-      cat("##### Iteration", i, "#####\n")
+      cat("##### Iteration", iter, "#####\n")
       cat("Log-likelihood: ", signif(ll, 6), "\n")
     }
     if(verb > 1) cat("Maximum gradient: ", signif(dmax, 6), "\n")
@@ -193,7 +121,7 @@ hcnm = function(data, w=1, D=NULL, p0=NULL, maxit=100, tol=1e-6,
     sj = sum(j)
     ## BW: matrix of block weights: sj rows, nblocks columns
     if(is.null(blockpar) || is.na(blockpar))
-      ## Default blockpar based on log(sj)
+      ## Default blockpar based on log(sj), Equation (14) p6 of Wang & Taylor
       iter.blockpar = ifelse(sj < 30, 0,
                              1 - log(max(20,10*log(sj/100)))/log(sj))
     else iter.blockpar = blockpar
@@ -219,10 +147,20 @@ hcnm = function(data, w=1, D=NULL, p0=NULL, maxit=100, tol=1e-6,
       sjj = sum(jj)
       if (sjj > 1 && (delta <- sum(p.old[jj])) > 0) {
         Sj = S[,jj]
-        res = pnnls(wr * Sj, wr * drop(Sj %*% p.old[jj]) + wr, sum=delta)
-        if (res$mode > 1) warning("Problem in pnnls(a,b)")
+        #original call
+        #res = pnnls(wr * Sj, wr * drop(Sj %*% p.old[jj]) + wr, sum=delta) 
+        #new call
+        resNNLS <- NNLS_constrSum(a=wr * Sj, b=wr * drop(Sj %*% p.old[jj]) + wr, 
+                              pkg=pkg, sumtotal=delta, control=list(trace=verb), ...) #see npsurv-NNLS.R
+        if(resNNLS$convergence != 0)
+          warning("Problem in pnnls(a,b)")
+        else
+          xj <- resNNLS$prob
+        
+        if(verb > 3) {cat("Block:", block, "\t Optimized vector by NNLS:\n"); print(xj)} 
+        
         p[jj] = p[jj] +  BW[jj[j],block] *
-          (res$x * (delta / sum(res$x)) - p.old[jj])
+          (xj * (delta / sum(xj)) - p.old[jj])
       }
     }
     
@@ -270,7 +208,7 @@ hcnm = function(data, w=1, D=NULL, p0=NULL, maxit=100, tol=1e-6,
         ## Recursively call HCNM to allocate probability among the blocks 
         res = hcnm(w=w, D=Q, p0=q, blockpar=iter.blockpar,
                    maxit=recurs.maxit, recurs.maxit=recurs.maxit,
-                   depth=depth+1)
+                   depth=depth+1, pkg=pkg, ...)
         maxdepth = max(maxdepth, res$maxdepth)
         if (res$ll > ll) {
           p[j] = p[j] * (BW %*% (res$pf / q))
