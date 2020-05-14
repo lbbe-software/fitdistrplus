@@ -42,6 +42,19 @@ ap.Delta <- fitdistrplus:::Deltamatrix(ap.x)
 
 resap <- fitdistrplus:::npsurv.minimal(ap, w=1, maxit=100, tol=1e-6, verb=mytrace, pkg="stats") 
 
+# if(FALSE)
+# {
+#   require(npsurv)
+#   rescheck <- npsurv::npsurv(ap, w=1, maxit=100, tol=1e-6, verb=3) 
+#   c(resap$ll, rescheck$ll)
+#   
+#   cbind(resap$f$left, rescheck$f$left)
+#   cbind(resap$f$right, rescheck$f$right)
+#   cbind(resap$f$p, rescheck$f$p)
+#   sum(abs(resap$f$p- rescheck$f$p))
+# }
+
+
 
 #----------------------------------------------------------------------------------
 # example with interval censoring leading to a single maximal intersection interval
@@ -100,7 +113,7 @@ n <- 100
 set.seed(123)
 LR <- sample.int(n)
 LR <- cbind(LR, LR+sample.int(n)/10)
-cnt <- round(450*dgeom(1:NROW(LR)-1, prob=1/10)
+cnt <- 1+round(450*dgeom(1:NROW(LR)-1, prob=1/10)
              +550*dbinom(1:NROW(LR)-1, size=NROW(LR), prob=4/5))
 theop <- cnt/sum(cnt)
 fakedata <- cbind(L=LR[,1], R=LR[,2], count=cnt)
@@ -111,3 +124,17 @@ fakedata.x2.Delta <- fitdistrplus:::Deltamatrix(fakedata.x2.x)
 str(fakedata.x2.Delta)
 
 resfk <- fitdistrplus:::npsurv.minimal(fakedata, w=1, maxit=100, tol=1e-6, verb=mytrace, pkg="stats") 
+
+
+
+# if(FALSE)
+# {
+#   require(npsurv)
+#   rescheck <- npsurv::npsurv(fakedata, w=1, maxit=100, tol=1e-6, verb=3) 
+#   c(resfk$ll, rescheck$ll)
+#   
+#   cbind(resfk$f$left, rescheck$f$left)
+#   cbind(resfk$f$right, rescheck$f$right)
+#   cbind(resfk$f$p, rescheck$f$p)
+#   sum(abs(resfk$f$p- rescheck$f$p))
+# }

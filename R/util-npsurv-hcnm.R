@@ -106,11 +106,15 @@ hcnm = function(data, w=1, D=NULL, p0=NULL, maxit=100, tol=1e-6,
     g = colSums(w * S)
     dmax = max(g) - n
     if(verb > 0) {
-      cat("##### Iteration", iter, "#####\n")
+      cat("\n##### Iteration", iter, "#####\n")
       cat("Log-likelihood: ", signif(ll, 6), "\n")
     }
     if(verb > 1) cat("Maximum gradient: ", signif(dmax, 6), "\n")
-    if(verb > 2) {cat("Probability vector:\n"); print(p)} 
+    if(verb > 2) 
+    {
+      cat("Probability vector of length ", length(p), " :\n")
+      print(as.numeric(p))
+    } 
     j = p > 0
     if(depth==1) {
       s = unique(c(1,m1[j],m))
@@ -151,16 +155,14 @@ hcnm = function(data, w=1, D=NULL, p0=NULL, maxit=100, tol=1e-6,
         #res = pnnls(wr * Sj, wr * drop(Sj %*% p.old[jj]) + wr, sum=delta) 
         #new call
         resNNLS <- NNLS_constrSum(a=wr * Sj, b=wr * drop(Sj %*% p.old[jj]) + wr, 
-                              pkg=pkg, sumtotal=delta, control=list(trace=verb), ...) #see npsurv-NNLS.R
+                              pkg=pkg, sumtotal=delta, control=list(trace=verb, maxit=5000), ...) #see npsurv-NNLS.R
         if(resNNLS$convergence != 0)
-          warning("Problem in pnnls(a,b)")
-        else
-          xj <- resNNLS$prob
+          warning("Problem NNLS_constrSum(a,b)")
+        xj <- resNNLS$prob
         
-        if(verb > 3) {cat("Block:", block, "\t Optimized vector by NNLS:\n"); print(xj)} 
+        if(verb > 3) {cat("Block:", block, "\t delta", delta, "\t Optimized vector by NNLS:\n"); print(xj)} 
         
-        p[jj] = p[jj] +  BW[jj[j],block] *
-          (xj * (delta / sum(xj)) - p.old[jj])
+        p[jj] = p[jj] +  BW[jj[j],block] * (xj * (delta / sum(xj)) - p.old[jj])
       }
     }
     
@@ -205,6 +207,8 @@ hcnm = function(data, w=1, D=NULL, p0=NULL, maxit=100, tol=1e-6,
         warning("A block has zero probability!")
       }
       else {
+        if(verb >= 4)
+          cat("recursion\n")
         ## Recursively call HCNM to allocate probability among the blocks 
         res = hcnm(w=w, D=Q, p0=q, blockpar=iter.blockpar,
                    maxit=recurs.maxit, recurs.maxit=recurs.maxit,

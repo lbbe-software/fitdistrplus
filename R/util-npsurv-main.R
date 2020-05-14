@@ -13,11 +13,22 @@
 ##   tol: Tolerance for the stopping condition (in log-likelihood value)
 ##   verb: For internal use only: depth of recursion (up to 4)
 ##   pkg: package used in NNLS_constrSum()
+##   probtol: Tolerance for keeping output probabilities (default value has
+##   been chosen so that the output is similar to original npsurv())
   
 npsurv.minimal <- function(data, w=1, maxit=100, tol=1e-6, verb=0,
-                           pkg="stats", ...) 
+                           pkg="stats", probtol=2e-4, ...) 
 {
+  #sanity checks
   pkg <- match.arg(pkg, c("stats"))
+  if(length(maxit) > 1) stop("maxit should be a positive scalar")
+  if(maxit <= 0) stop("maxit should be a positive scalar")
+  if(length(tol) > 1) stop("maxit should be a positive scalar")
+  if(tol <= 0) stop("maxit should be a positive scalar")
+  if(length(verb) > 1) stop("maxit should be a non-negative scalar")
+  if(verb < 0) stop("maxit should be a non-negative scalar")
+  if(length(probtol) > 1) stop("maxit should be a positive probability")
+  if(probtol <= 0 || probtol >= 1) stop("maxit should be a positive probability")
   
   x2 = icendata(data, w) #see npsurv-intercens.R
   # exact or right-censored only
@@ -67,8 +78,12 @@ npsurv.minimal <- function(data, w=1, maxit=100, tol=1e-6, verb=0,
     if(verb > 0)
       cat("call to hcnm()\n")
     r = hcnm(w=w, D=D, p0=p, maxit=maxit, tol=tol, verb=verb) #see npsurv-hcnm.R
-    j = r$pf > 0
-    f = idf(left[j], right[j], r$pf[j]) 
+    
+    j = r$pf > probtol
+    
+    f = idf(left=left[j], right=right[j], p=r$pf[j]) 
+    #normalize prob vector
+    f$p <- f$p/sum(f$p)
     r = list(f=f, upper=upper, convergence=r$convergence, method="hcnm", ll=r$ll,
              maxgrad=r$maxgrad, numiter=r$numiter, m=m)
     return(r)
@@ -76,7 +91,7 @@ npsurv.minimal <- function(data, w=1, maxit=100, tol=1e-6, verb=0,
   
   # interval censored and small dataset
   if(verb > 0)
-    cat("body of npsurv.minimal()\n")
+    cat("body of npsurv.minimal()\n\n")
   P = drop(D %*% p)
   ll = sum( w * log(P) )
   converge = FALSE
@@ -87,7 +102,7 @@ npsurv.minimal <- function(data, w=1, maxit=100, tol=1e-6, verb=0,
     d = colSums(w * S)
     dmax = max(d) - n
     if(verb > 0) {
-      cat("##### Iteration", i, "#####\n")
+      cat("\n##### Iteration", i, "#####\n")
       cat("Log-likelihood: ", signif(ll, 6), "\n")
     }
     if(verb > 1) cat("Maximum gradient: ", signif(dmax, 6), "\n")

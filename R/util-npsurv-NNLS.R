@@ -30,13 +30,13 @@ NNLS_constrSum <- function(a, b, control=list(), pkg="stats", sumtotal=1, ...)
     control$maxit <- max(control$maxit, 2000)
     control$reltol <- 1e-6
   }
-  print(control)
   
   #sanity check
   if(!is.vector(b)) b = drop(b)
   if(!is.matrix(a)) stop("a not matrix")
-  if(length(sumtotal) > 1) stop("sumtotal must be a scalar")
-  if(!is.numeric(sumtotal)) stop("sumtotal must be a scalar")
+  if(length(sumtotal) > 1) stop("sumtotal must be a positive scalar")
+  if(!is.numeric(sumtotal)) stop("sumtotal must be a positive scalar")
+  if(sumtotal <= 0) stop("sumtotal must be a positive scalar")
   m <- NROW(a)
   n <- NCOL(a)
   
@@ -64,11 +64,14 @@ NNLS_constrSum <- function(a, b, control=list(), pkg="stats", sumtotal=1, ...)
       #initial guess
       x0 <- rep(1/(n-1), n-1)
       #call to constrOptim
-      control$trace <- control$trace >=4
+      control$trace <- control$trace >=5
       res <- constrOptim(theta=x0, f=RLS, grad=NULL, ui=ui, 
                          ci=ci, method="Nelder-Mead", control=control, ...)
       #warning : convergence is not reached if(res$convergence != 0)
       res$prob <- c(res$par, sumtotal-sum(res$par))
+      #sanity check
+      res$prob <- pmax(res$prob, 0)
+      res$prob <- res$prob/sum(res$prob)*sumtotal
     }else if(n == 2)
     {
       #residual least square sum with theta=x[1:(n-1)] ; x[n] = 1-sum(theta)
@@ -99,7 +102,9 @@ NNLS_constrSum <- function(a, b, control=list(), pkg="stats", sumtotal=1, ...)
                          ci=ci, method="BFGS", control=control, ...)
       #warning : convergence is not reached if(res$convergence != 0)
       res$prob <- c(res$par, sumtotal-sum(res$par))
-      
+      #sanity check
+      res$prob <- pmax(res$prob, 0)
+      res$prob <- res$prob/sum(res$prob)*sumtotal
     }else if(n == 1)
     {
       xstar <- sumtotal
