@@ -15,6 +15,10 @@
 
 # An interval is either (Li, Ri] if Li < Ri, or [Li, Ri] if Li = Ri. 
 Deltamatrix = function(LR) {
+  #remove NAs
+  id_noNA <- rowSums(is.na(LR)) == 0
+  LR <- LR[id_noNA,]
+  
   L = LR[,1]
   R = LR[,2]
   ic = L != R             # inverval-censored
