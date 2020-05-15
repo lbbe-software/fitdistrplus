@@ -50,7 +50,7 @@
 \title{\pkg{fitdistrplus}: An \proglang{R} Package for Fitting Distributions}
 %\Plaintitle{fitdistrplus: an R Package for Fitting Distributions}
 
-\date{October 2014 \footnote{Paper accepted in the Journal of Statistical Software} (revised in July 2018)}
+\date{October 2014 \footnote{Paper accepted in the Journal of Statistical Software} (revised in May 2020)}
 
 %quantile matching, maximum goodness-of-fit, distributions, R}
 
@@ -1175,11 +1175,12 @@ In older versions of the package, by default this function used the Expectation-
 empirical cdf curve with optional confidence intervals, by calls to \code{survfit}
 and \code{plot.survfit} functions from the \pkg{survival} package. 
 Even if this representation is always available (by fixing the argument 
-\code{NPMLE.method} to \code{"Turnbull"}), now the default representation of the 
-empirical cumulative distribution function (ECDF) uses another more performant non parametric
-maximum likelihood estimation (NPMLE) approach developped by Wang \citep{Wang2007, Wang2008, Wang2013, Wang2018}, 
-by calls to the \code{npsurv} function from the \pkg{npsurv} package.  
-Figure~\ref{cdfcompcens} shows on the top left the Wang plot of data together with two fitted distributions.
+\code{NPMLE.method} to \code{"Turnbull.middlepoints"}), now the default plot of the 
+empirical cumulative distribution function (ECDF) explicitely represents the regions of non
+uniqueness of the NPMLE ECDF. The default computation of
+those regions of non uniqueness and their associated masses uses the non parametric
+maximum likelihood estimation (NPMLE) approach developped by Wang \citep{Wang2007, Wang2008, Wang2013, Wang2018}.  
+Figure~\ref{cdfcompcens} shows on the top left the new plot of data together with two fitted distributions.
 Grey filled rectangles in such a plot represent the regions of non uniqueness of the NPMLE ECDF.
 
 A less rigorous
@@ -1209,7 +1210,7 @@ plotdistcens(salinity, NPMLE = FALSE)
   \centering
   %%% R code
 <<plotsalinity, echo=FALSE, fig=TRUE, width=6, height=6, eps=FALSE, result=hide>>=
-plotdistcens(salinity,Turnbull = FALSE)
+plotdistcens(salinity, NPMLE = FALSE)
 @
   \caption{Simple plot of censored raw data (72-hour acute salinity tolerance of riverine macro-invertebrates from 
    the \code{salinity} data set) as ordered points 

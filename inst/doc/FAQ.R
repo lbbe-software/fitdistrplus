@@ -106,6 +106,18 @@ curve(ptiexp(x, 1, .5, 3), add=TRUE, col="blue", lty=3)
 legend("bottomright", lty=1:3, col=c("red", "green", "blue", "black"), 
         leg=c("full MLE", "MLE fixed arg", "true CDF", "emp. CDF"))
 
+## ------------------------------------------------------------------------
+x <- rbeta(1000, 3, 3)
+dbeta2 <- function(x, shape, ...)
+	dbeta(x, shape, shape, ...)
+pbeta2 <- function(q, shape, ...)
+	pbeta(q, shape, shape, ...)	
+fitdist(x, "beta2", start=list(shape=1/2))
+
+## ------------------------------------------------------------------------
+x <- rbeta(1000, .3, .3)
+fitdist(x, "beta2", start=list(shape=1/2), optim.method="L-BFGS-B", lower=1e-2)	
+
 ## ---- fig.height=3, fig.width=6------------------------------------------
 set.seed(1234)
 x <- rgamma(n = 100, shape = 2, scale = 1)
@@ -283,6 +295,18 @@ rsexp <- function(n, rate, shift)
 x <- rsexp(1000, 1/4, 1)
 fitdist(x, "sexp", start=list(rate=1, shift=0), lower= c(0, -min(x)))
 
+## ---- message=FALSE------------------------------------------------------
+library(GeneralizedHyperbolic)
+myoptim <- function(fn, par, ui, ci, ...)
+{
+  res <- constrOptim(f=fn, theta=par, method="Nelder-Mead", ui=ui, ci=ci, ...)
+  c(res, convergence=res$convergence, value=res$objective, par=res$minimum, hessian=res$hessian)
+}
+x <- rnig(1000, 3, 1/2, 1/2, 1/4)
+ui <- rbind(c(0,1,0,0), c(0,0,1,0), c(0,0,1,-1), c(0,0,1,1))
+ci <- c(0,0,0,0)
+fitdist(x, "nig", custom.optim=myoptim, ui=ui, ci=ci, start=list(mu = 0, delta = 1, alpha = 1, beta = 0))
+
 ## ---- fig.height=3, fig.width=6------------------------------------------
 pgeom(0:3, prob=1/2)
 qgeom(c(0.3, 0.6, 0.9), prob=1/2)
@@ -378,44 +402,46 @@ dcomp <- denscomp(list(fitW, fitln, fitg), legendtext = c("Weibull", "lognormal"
     xlab = "serving sizes (g)", xlim = c(0, 250), 
     fitcol = c("red", "green", "orange"), fitlty = 1, 
     xlegend = "topright", plotstyle = "ggplot", addlegend = FALSE)
-  dcomp + ggplot2::theme_minimal() + ggplot2::ggtitle("Ground beef fits")
+dcomp + ggplot2::theme_minimal() + ggplot2::ggtitle("Ground beef fits")
 
-## ---------------------------
+## ------------------------------------------------------------------------
 dtoy <- data.frame(left = c(NA, 2, 4, 6, 9.7, 10), right = c(1, 3, 7, 8, 9.7, NA))
 dtoy
 
-## ---------------------------
+## ------------------------------------------------------------------------
 exitage <- c(81.1,78.9,72.6,67.9,60.1,78.3,83.4,66.9,74.8,80.5,75.6,67.1,
              75.3,82.8,70.1,85.4,74,70,71.6,76.5)
 death <- c(0,0,1,0,0,0,0,1,0,0,0,0,0,0,1,1,0,0,0,0)
 
-## ---------------------------
+## ------------------------------------------------------------------------
 svdata <- Surv(exitage, death)
 
-## ---------------------------
+## ------------------------------------------------------------------------
 fitdstdata <- cbind.data.frame(left=svdata[,"time"], right=NA)
 fitdstdata$right[svdata[,"status"] == 1] <- fitdstdata$left[svdata[,"status"] == 1]
 
-## ---- fig.height= 4, fig.width= 6-----------------------
+## ---- fig.height= 4, fig.width= 6----------------------------------------
 flnormc <- fitdistcens(fitdstdata, "lnorm")
 fweic <- fitdistcens(fitdstdata, "weibull")
 cdfcompcens(list(fweic, flnormc), xlim=range(exitage), xlegend = "topleft")
 
-## ---- fig.height= 4, fig.width= 8-----------------------
+## ---- fig.height= 4, fig.width= 8----------------------------------------
 par(mfrow = c(1,2), mar = c(3, 4, 3, 0.5))
 plotdistcens(dtoy, NPMLE = FALSE)
 data(smokedfish)
 dsmo <-  log10(smokedfish)
 plotdistcens(dsmo, NPMLE = FALSE)
 
-## ---- fig.height= 6, fig.width= 6-----------------------
-par(mfrow = c(2, 1),  mar = c(3, 4, 3, 0.5))
-# Turnbull plot of the ECDF
-plotdistcens(dsmo, NPMLE.method = "Turnbull", xlim = c(-1.8, 2.4))
-# Wang plot of the ECD
+## ---- fig.height= 6, fig.width= 6----------------------------------------
+par(mfrow = c(2, 2),  mar = c(3, 4, 3, 0.5))
+# Turnbull algorithm with representation of middle points of equivalence classes
+plotdistcens(dsmo, NPMLE.method = "Turnbull.middlepoints", xlim = c(-1.8, 2.4))
+# Turnbull algorithm with representation of equivalence classes as intervals
+plotdistcens(dsmo, NPMLE.method = "Turnbull.intervals")
+# Wang algorithm with representation of equivalence classes as intervals
 plotdistcens(dsmo, NPMLE.method = "Wang")
 
-## ---- echo = FALSE, fig.height= 4, fig.width= 8-----------------------
+## ---- echo = FALSE, fig.height= 4, fig.width= 8--------------------------
 d <- data.frame(left = c(NA, 2, 4, 6, 9.5, 10), right = c(1, 3, 7, 8, 9.5, NA))
 addbounds <- function(d)
 {
@@ -450,24 +476,24 @@ addeq(deq)
 # Second step
 plotdistcens(d, lwd = 2, main = "Step 2 : estimation of mass probabilities")
 
-## ---------------------------
+## ------------------------------------------------------------------------
 fnorm <- fitdistcens(dsmo,"norm")
 flogis <- fitdistcens(dsmo,"logis")
 # comparison of AIC values
 summary(fnorm)$aic
 summary(flogis)$aic
 
-## ------ fig.height= 6, fig.width= 6 ---------------------
+## ---- fig.height= 6, fig.width= 6----------------------------------------
 par(mar = c(2, 4, 3, 0.5))
 plot(fnorm)
 
-## ------ fig.height= 4, fig.width= 4 ---------------------
+## ---- fig.height= 4, fig.width= 4----------------------------------------
 cdfcompcens(list(fnorm, flogis), fitlty = 1)
 qqcompcens(list(fnorm, flogis))
 ppcompcens(list(fnorm, flogis))
 
-## ------ fig.height= 4, fig.width= 8 ---------------------
+## ---- fig.height= 4, fig.width= 8----------------------------------------
 qqcompcens(list(fnorm, flogis), lwd = 2, plotstyle = "ggplot",
-           fitcol = c("red", "green"), fillrect = c("pink", "lightgreen"),
-           legendtext = c("normal distribution", "logistic distribution"))
+  fitcol = c("red", "green"), fillrect = c("pink", "lightgreen"),
+  legendtext = c("normal distribution", "logistic distribution"))
 

@@ -1,5 +1,5 @@
 ### R code from vignette source 'paper2JSS.Rnw'
-### Encoding: UTF-8
+### Encoding: ISO8859-1
 
 ###################################################
 ### code chunk number 1: par4vignette
@@ -204,7 +204,7 @@ fdanish.P.MLE <- fitdist(danishuni$Loss, "pareto",
 memp <- function(x, order) sum(x^order)/length(x)
 fdanish.P.MME <- fitdist(danishuni$Loss, "pareto", 
     method="mme", order=1:2, 
-memp="memp", start=c(shape=10, scale=10), lower=c(2+1e-6,2+1e-6), 
+memp="memp", start=list(shape=10, scale=10), lower=c(2+1e-6,2+1e-6), 
 upper=c(Inf,Inf))
 par(mfrow=c(1, 2))
 cdfcomp(list(fdanish.ln.MLE, fdanish.ln.MME), 
@@ -327,13 +327,13 @@ summary(fsal.ll)
 ###################################################
 ### code chunk number 34: fitsalinity.cdfcomp.echo (eval = FALSE)
 ###################################################
-par(mfrow=c(2, 2))
-cdfcompcens(list(fsal.ln, fsal.ll),
-            legendtext=c("lognormal", "loglogistic "))
-qqcompcens(fsal.ln, legendtext = "lognormal")
-ppcompcens(fsal.ln, legendtext = "lognormal")
-qqcompcens(list(fsal.ln, fsal.ll), legendtext = c("lognormal", "loglogistic "),
-           main = "Q-Q plot with 2 dist.")
+## par(mfrow=c(2, 2))
+## cdfcompcens(list(fsal.ln, fsal.ll), 
+##   legendtext = c("lognormal", "loglogistic "))
+## qqcompcens(fsal.ln, legendtext = "lognormal")
+## ppcompcens(fsal.ln, legendtext = "lognormal")
+## qqcompcens(list(fsal.ln, fsal.ll), legendtext = c("lognormal", "loglogistic "),
+##            main = "Q-Q plot with 2 dist.")
 
 
 ###################################################
@@ -342,7 +342,7 @@ qqcompcens(list(fsal.ln, fsal.ll), legendtext = c("lognormal", "loglogistic "),
 getOption("SweaveHooks")[["fig"]]()
 par(mfrow=c(2, 2))
 cdfcompcens(list(fsal.ln, fsal.ll),
-            legendtext=c("lognormal", "loglogistic "))
+    legendtext=c("lognormal", "loglogistic "))
 qqcompcens(fsal.ln, legendtext = "lognormal")
 ppcompcens(fsal.ln, legendtext = "lognormal")
 qqcompcens(list(fsal.ln, fsal.ll), legendtext = c("lognormal", "loglogistic "),
@@ -368,19 +368,20 @@ str(toxocara)
 ###################################################
 par(mfrow = c(1,2))
 denscomp(list(ftoxo.P, ftoxo.nb), 
-         legendtext = c("Poisson", "negative binomial"), fitlty = 1)
+  legendtext = c("Poisson", "negative binomial"), fitlty = 1)
 cdfcomp(list(ftoxo.P, ftoxo.nb), 
-        legendtext = c("Poisson", "negative binomial"), fitlty = 1)
+  legendtext = c("Poisson", "negative binomial"), fitlty = 1)
 
 
 ###################################################
 ### code chunk number 39: fittoxocarapoisnbinomplot
 ###################################################
+getOption("SweaveHooks")[["fig"]]()
 par(mfrow = c(1,2))
 denscomp(list(ftoxo.P, ftoxo.nb), 
-         legendtext = c("Poisson", "negative binomial"), fitlty = 1)
+  legendtext = c("Poisson", "negative binomial"), fitlty = 1)
 cdfcomp(list(ftoxo.P, ftoxo.nb), 
-        legendtext = c("Poisson", "negative binomial"), fitlty = 1)
+  legendtext = c("Poisson", "negative binomial"), fitlty = 1)
 
 
 ###################################################
