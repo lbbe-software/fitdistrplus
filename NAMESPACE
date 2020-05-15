@@ -4,7 +4,7 @@ importFrom("survival", Surv, survfit)
 importFrom("MASS", kde2d)
 importFrom("grDevices", colorRampPalette, terrain.colors) 
 importFrom("graphics", abline, axis, hist, hist.default, legend, lines, par, plot, points, polygon, contour, layout, matlines, segments, stripchart, image, pairs, rect)
-importFrom("utils", head, stack, modifyList)
+importFrom("utils", head, stack, modifyList, tail)
 importFrom("methods", formalArgs)
 
 
