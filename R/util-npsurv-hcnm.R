@@ -113,7 +113,10 @@ hcnm = function(data, w=1, D=NULL, p0=NULL, maxit=100, tol=1e-6,
     if(verb > 2) 
     {
       cat("Probability vector of length ", length(p), " :\n")
-      print(as.numeric(p))
+      if(length(p) > 12)
+        cat(head(as.numeric(p)), "\t ...\t", tail(as.numeric(p)), "\n")
+      else
+        cat(as.numeric(p), "\n")
     } 
     j = p > 0
     if(depth==1) {
