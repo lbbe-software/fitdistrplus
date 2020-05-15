@@ -29,8 +29,14 @@ npsurv.minimal <- function(data, w=1, maxit=100, tol=1e-6, verb=0,
   if(verb < 0) stop("maxit should be a non-negative scalar")
   if(length(probtol) > 1) stop("maxit should be a positive probability")
   if(probtol <= 0 || probtol >= 1) stop("maxit should be a positive probability")
+  if(sum(is.na(data))) stop("data should have no NA values")
   
   x2 = icendata(data, w) #see npsurv-intercens.R
+  
+  #sanity checks
+  if(sum(apply(x2$o, 1, function(x) x[1] > x[2])) > 0)
+    stop("some intervals have left bounds strictly greater than right bounds")
+  
   # exact or right-censored only
   if(nrow(x2$o) == 0 || all(x2$o[,2] == Inf)) { 
     if(verb > 0)

@@ -25,9 +25,9 @@ NNLS_constrSum <- function(a, b, control=list(), pkg="stats", sumtotal=1, ...)
     control <- control[names(control) %in% controlnames]
   else
     control <- list(maxit=500)
-  if (pkg == "stats")  #control parameter for Nelder-Mead/BFGS used below
+  if (pkg == "stats")  #control parameter for BFGS used below
   {
-    control$maxit <- max(control$maxit, 2000)
+    control$maxit <- max(control$maxit, 1000)
     control$reltol <- 1e-6
   }
   
@@ -54,6 +54,13 @@ NNLS_constrSum <- function(a, b, control=list(), pkg="stats", sumtotal=1, ...)
         y <- a %*% x - b
         sum(y^2)
       }
+      gradRLS <- function(theta)
+        {
+          x <- c(theta, sumtotal-sum(theta))
+          diffa <- a[, 1:(NCOL(a)-1)] - a[, NCOL(a)]
+          y <- a %*% x - b
+          2*crossprod(diffa, y)
+        }
       
       # non negativity constraint
       one_n <- rep(1, n-1)
@@ -65,8 +72,8 @@ NNLS_constrSum <- function(a, b, control=list(), pkg="stats", sumtotal=1, ...)
       x0 <- rep(1/(n-1), n-1)
       #call to constrOptim
       control$trace <- control$trace >=5
-      res <- constrOptim(theta=x0, f=RLS, grad=NULL, ui=ui, 
-                         ci=ci, method="Nelder-Mead", control=control, ...)
+      res <- constrOptim(theta=x0, f=RLS, grad=gradRLS, ui=ui, 
+                         ci=ci, method="BFGS", control=control, ...)
       #warning : convergence is not reached if(res$convergence != 0)
       res$prob <- c(res$par, sumtotal-sum(res$par))
       #sanity check

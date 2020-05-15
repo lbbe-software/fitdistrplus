@@ -126,15 +126,79 @@ str(fakedata.x2.Delta)
 resfk <- fitdistrplus:::npsurv.minimal(fakedata, w=1, maxit=100, tol=1e-6, verb=mytrace, pkg="stats") 
 
 
-
 # if(FALSE)
 # {
 #   require(npsurv)
-#   rescheck <- npsurv::npsurv(fakedata, w=1, maxit=100, tol=1e-6, verb=3) 
+#   rescheck <- npsurv::npsurv(fakedata, w=1, maxit=100, tol=1e-6, verb=3)
 #   c(resfk$ll, rescheck$ll)
-#   
+# 
 #   cbind(resfk$f$left, rescheck$f$left)
 #   cbind(resfk$f$right, rescheck$f$right)
 #   cbind(resfk$f$p, rescheck$f$p)
 #   sum(abs(resfk$f$p- rescheck$f$p))
 # }
+
+
+#----------------------------------------------------------------------------------------
+# simulated example with interval censoring leading to 258 maximal intersection intervals
+
+set.seed(1232)
+ns <- 500
+r <- rnorm(ns)
+d8 <- data.frame(left = r, right = r)
+delta <- rlnorm(ns)
+icensored <- rbinom(ns, size = 1, prob = 0.2) 
+Lcensored <- rbinom(ns, size = 1, prob = 0.2*(1 - icensored))
+Rcensored <- rbinom(ns, size = 1, prob = 0.3*(1 - icensored)*(1 - Lcensored))
+# icensored +  Lcensored + Rcensored
+d8$left <- d8$left * (1 - Lcensored) + (-1000) * Lcensored
+d8$right <- d8$right * (1 - Rcensored) + (1000) * Rcensored
+d8$right <- d8$right + delta * icensored
+d8$right[d8$right == 1000] <- +Inf
+d8$left[d8$left == -1000] <- -Inf
+
+
+d8.x2 <- fitdistrplus:::icendata(d8, w=1)
+d8.x2.x <- rbind(cbind(d8.x2$t, d8.x2$t), d8.x2$o)
+d8.x2.Delta <- fitdistrplus:::Deltamatrix(d8.x2.x)
+str(d8.x2.Delta)
+
+resd8 <- fitdistrplus:::npsurv.minimal(d8, w=1, maxit=100, tol=1e-6, verb=2, pkg="stats") 
+
+
+# if(FALSE)
+# {
+#   require(npsurv)
+#   d8bis <- d8
+#   d8bis$left[is.na(d8bis$left)] <- -Inf
+#   d8bis$right[is.na(d8bis$right)] <- Inf
+#   
+#   rescheck <- npsurv::npsurv(d8bis, w=1, maxit=100, tol=1e-6, verb=3)
+#   c(resd8$ll, rescheck$ll)
+#   
+#   cbind(resd8$f$left, rescheck$f$left)
+#   cbind(resd8$f$right, rescheck$f$right)
+#   head(cbind(resd8$f$p, rescheck$f$p))
+#   sum(abs(resd8$f$p- rescheck$f$p))
+# }
+
+
+#------------------------------------------------------
+# crash example with wrong interval censoring intervals
+
+set.seed(1232)
+ns <- 100
+r <- rnorm(ns)
+d8 <- data.frame(left = r, right = r)
+delta <- rlnorm(ns)
+icensored <- rbinom(ns, size = 1, prob = 0.2) 
+Lcensored <- rbinom(ns, size = 1, prob = 0.2*(1 - icensored))
+Rcensored <- rbinom(ns, size = 1, prob = 0.3*(1 - icensored)*(1 - Lcensored))
+# icensored +  Lcensored + Rcensored
+d8$left <- d8$left * (1 - Lcensored) + (-1000) * Lcensored
+d8$right <- d8$right * (1 - Rcensored) + (1000) * Rcensored
+d8$right <- d8$right + delta * icensored
+d8$right[d8$right == 1000] <- -Inf
+d8$left[d8$left == -1000] <- +Inf
+
+try(resd8 <- fitdistrplus:::npsurv.minimal(d8, w=1, maxit=100, tol=1e-6, verb=2, pkg="stats"))
