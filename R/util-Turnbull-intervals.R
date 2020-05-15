@@ -72,5 +72,7 @@ Turnbull.intervals <- function(censdata, threshold.par = 0.001)
   # elimination of negligible masses
   threshold <- threshold.par / nrow(censdata)
   f <- f[f$p > threshold, ]
+  nf <- nrow(f)
+  f$p[nf] <- 1 - sum(f$p[1:nf - 1])
   return(f)
 }
