@@ -144,6 +144,7 @@ resfk <- fitdistrplus:::npsurv.minimal(fakedata, w=1, maxit=100, tol=1e-6, verb=
 
 set.seed(1232)
 ns <- 500
+ns <- 100
 r <- rnorm(ns)
 d8 <- data.frame(left = r, right = r)
 delta <- rlnorm(ns)
@@ -163,8 +164,9 @@ d8.x2.x <- rbind(cbind(d8.x2$t, d8.x2$t), d8.x2$o)
 d8.x2.Delta <- fitdistrplus:::Deltamatrix(d8.x2.x)
 str(d8.x2.Delta)
 
-resd8 <- fitdistrplus:::npsurv.minimal(d8, w=1, maxit=100, tol=1e-6, verb=2, pkg="stats") 
-
+system.time(
+resd8 <- fitdistrplus:::npsurv.minimal(d8, w=1, maxit=100, tol=1e-6, verb=mytrace, pkg="stats") 
+)
 
 # if(FALSE)
 # {
