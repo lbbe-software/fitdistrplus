@@ -17,11 +17,16 @@ npmle <- function(censdata, method = "Wang")
     db$left[is.na(db$left)] <- -Inf
     db$right[is.na(db$right)] <- Inf
     
-    ############## TO CHANGE IF npsurv.minimal call is changed
+    if (nrow(censdata) > 100)
+    {
+      warning("The NPMLE computation may be very long with large data sets using the Wang method.
+              In case it is too long you can use the NPMLE method Turnbull.intervals.",
+              immediate. = TRUE)
+    }
     r <- npsurv.minimal(db, pkg="stats")
     if (r$convergence)
     {
-      f <- r$f
+      f <- as.data.frame(r$f)
     } else
     {
       warning("Due to lack of convergence of Wang algorithm, method Turnbull.intervals 
