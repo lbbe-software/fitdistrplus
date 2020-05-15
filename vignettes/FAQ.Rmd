@@ -1145,9 +1145,9 @@ is still available in the package, the default plot now uses the
 function `npsurv` of  the package `npsurv`. This package provides more 
 performant algorithms developped by Yong Wang (see references cited in the help
 page of `plotdistcens`). Due to lack of maintenance of this package we were forced to 
-rewrite their main functions in our package, using another less performant
-optimization function. For large data sets, if the computation is too long, quite the same
-ECDF plot can be obtained with the Turnbull algorithm of survival (see below).
+rewrite their main functions in our package, using another 
+optimization function. The same
+ECDF plot was also implemented in our using the Turnbull algorithm of survival (see below).
 
 ```{r, fig.height= 6, fig.width= 6}
 par(mfrow = c(2, 2),  mar = c(3, 4, 3, 0.5))

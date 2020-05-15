@@ -163,9 +163,8 @@ qqcompcens(list(fa, fb), ynoise = FALSE, NPMLE.method = "Wang")
 # set.seed(1234) # check OK
 # set.seed(1231) # check OK
 set.seed(1232)
-# ns <- 200
-# ns - 400
 ns <- 500
+# ns <- 5000 
 r <- rnorm(ns)
 d8 <- data.frame(left = r, right = r)
 delta <- rlnorm(ns)
@@ -180,10 +179,10 @@ d8$right[d8$right == 1000] <- NA
 d8$left[d8$left == -1000] <- NA
 d <- d8
 
+par(mfrow = c(2,2))
 system.time(plotdistcens(d, NPMLE.method = "Turnbull.middlepoints"))
 system.time(plotdistcens(d, NPMLE.method = "Turnbull.intervals"))
-system.time(plotdistcens(d, NPMLE.method = "Wang")) # very long  - ns = 500, more than 7 minutes
+system.time(plotdistcens(d, NPMLE.method = "Wang")) 
 
-plotdistcens(d)
 }
 
