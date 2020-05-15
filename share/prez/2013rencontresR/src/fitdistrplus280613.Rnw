@@ -1,0 +1,393 @@
+\documentclass[9pt, hide notes]{beamer}
+
+\mode<presentation>
+{
+  
+ 
+  
+   
+    %---- themes
+  	\usetheme{Antibes}
+    %\usetheme{Boadilla}
+  	%\usetheme{Singapore}
+  	%\usetheme{Warsaw}
+	
+	%nice theme for math fonts
+	\usefonttheme{professionalfonts}
+
+	%color theme
+	\usecolortheme{lily}
+
+	  %for math characters
+  %	\usefonttheme[onlylarge]{structuresmallcapsserif}
+	%\usefonttheme[onlysmall]{structurebold}
+	
+	%remove navigation symbols
+	\setbeamertemplate{navigation symbols}{}
+
+	%dark blue for normal text
+%	\definecolor{MyDarkBlue}{rgb}{0.0235,0.1569,0.4745}
+%	\setbeamercolor{normal text}{fg = MyDarkBlue}
+	
+	%white for background text color
+	\setbeamercolor{structure}{bg = white}
+		
+	%---- headline
+	% black and white for headline and footline
+	\setbeamercolor{section in head/foot}{bg = white, fg=black}
+	\setbeamercolor{subsection in head/foot}{bg = white, fg=black}
+	\setbeamercolor{title in head/foot}{bg = white, fg=black}	
+	
+	%What do you want in your header? by default, there is the current subsection
+	
+	%if you want to insert a complete navigation	
+		\setbeamertemplate{headline}
+		{%--
+			\begin{beamercolorbox}{section in head/foot}
+				\vskip2pt\insertnavigation{\paperwidth}\vskip2pt
+			\end{beamercolorbox}
+		}%--
+	
+	%---- footline	
+	%add frame number and logo
+	\setbeamertemplate{footline}
+	{%--
+	   %you can adjust the left and right white space with leftskip and rightskip
+	\begin{beamercolorbox}[ht=2.5ex,dp=1.125ex,
+	    leftskip=.15cm,rightskip=.15cm plus1fil]{title in head/foot}
+	     \insertframenumber/\inserttotalframenumber
+	     \hspace{0.5cm}	%you can use different horizontal spacing!
+	     \insertshortdate
+	     \hspace{0.5cm}
+	     Rencontres R 2013
+	     \hfill
+       M.L. Delignette-Muller et C. Dutang
+	\end{beamercolorbox}
+  	}%--
+  
+	%% No footline on title slide
+	\defbeamertemplate{footline}{title slide}{%
+	\relax
+	}
+	
+		
+	%---- misc
+  %\setbeamercovered{transparent}
+  % or whatever (possibly just delete it)
+  
+}
+
+
+
+\usepackage[francais]{babel}
+\usepackage[latin1]{inputenc}
+%\usepackage{beamerthemesplit}
+\usepackage{graphicx}
+\usepackage{verbatim}
+\usepackage{pdfcolmk}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage{url}
+
+% packages de Christophe en plus ?
+\usepackage{wrapfig}
+\usepackage{amsmath,amsfonts,amssymb,latexsym,qsymbols}
+\usepackage{multirow}
+
+\title[fitdistrplus : nouvelles fonctionnalit\'es]% 
+{Nouvelles fonctionnalit\'es du package \texttt{fitdistrplus}}
+
+\author[M.L. Delignette-Muller et C. Dutang]
+{\textbf{Marie Laure Delignette-Muller}\\ Universit\'e de Lyon \\
+UMR CNRS 5558, Laboratoire de Biom\'etrie et Biologie Evolutive\\
+VetAgro Sup, Campus v\'et\'erinaire de Lyon\\et\\
+           \textbf{Christophe Dutang} \\ Universit\'e de Strasbourg \\
+           UMR CNRS 7501, Institut de Recherche Math\'ematique Avanc\'ee}
+
+\date[26-27 juin 2013]{Deuxi\`emes rencontres R, Lyon, 27-28 juin 2013}
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+\setkeys{Gin}{width=0.5\textwidth}
+% une valeur inf?rieure au 0.8 par d?faut r?duit la taille des figures
+
+\begin{frame}[fragile]
+\titlepage
+\begin{center}
+\includegraphics[width=1cm]{Rlogo_2.jpg}
+\end{center}
+\end{frame}
+
+  %DIA 2
+\begin{frame}[fragile]
+\frametitle{Pr\'esentation du package \texttt{fitdistrplus}}
+\begin{center}
+\url{http://cran.r-project.org/package=fitdistrplus}\\
+\url{http://riskassessment.r-forge.r-project.org/}
+\end{center}
+Package pour \textbf{l'ajustement de distributions
+param\'etriques \`a des donn\'ees univari\'ees},\\ proposant diverses fonctions pour :
+  \begin{itemize}
+\item le choix de distributions candidates pour d\'ecrire les donn\'ees,
+\item l'ajustement de chacune des distributions candidates aux donn\'ees,
+\item la comparaison des ajustements en vue de choisir la distribution la plus adapt\'ee,
+\item le calcul, par bootstrap, de l'incertitude sur les param\`etres estim\'es de la distribution choisie.
+\end{itemize}
+\end{frame}
+
+% DIA 3
+\begin{frame}
+\frametitle{Quelques sp\'ecificit\'es du package}
+\begin{itemize}
+\item \textbf{Diff\'erentes m\'ethodes d'estimation des param\`etres} sont propos\'ees :
+  \begin{itemize}
+  \item m\'ethode du \textcolor{blue}{maximum de vraisemblance (MLE)}, 
+  \item m\'ethode des \textcolor{blue}{moments (MME)}, 
+  \item m\'ethode des \textcolor{blue}{quantiles (QME)}, 
+  \item m\'ethode de \textcolor{blue}{minimisation d'une statistique d'ajustement (MGE)} 
+  \\(8 distances propos\'ees).
+  \end{itemize}
+\item Prise en compte 
+    \begin{itemize}
+  \item des donn\'ees discr\`etes 
+    \item et des \textbf{donn\'ees censur\'ees} quel que
+soit le type de censures \\(\`a droite, \`a gauche ou par intervalle).
+  \end{itemize}
+\item Possibilit\'e de modifier l'algorithme d'optimisation \\(par d\'efaut \texttt{optim}).
+\end{itemize}
+\end{frame}
+              
+% DIA 4
+\begin{frame}
+\frametitle{Utilisation actuelle du package}
+\textbf{Package d\'evelopp\'e initialement pour l'appr\'eciation quantitative du risque}\\ 
+%(projet Rforge
+%\url{http://riskassessment.r-forge.r-project.org/})\\
+notamment pour permettre
+la caract\'erisation hi\'erarchique de la variabilit\'e et de l'incertitude dans le cadre de simulations de 
+Monte carlo \`a deux dimensions (package \texttt{mc2d}).\\
+\textbf{Package g\'en\'eraliste simple \`a utiliser}, \\utilis\'e dans des domaines vari\'es :
+\begin{itemize}
+\item risque alimentaire, 
+\item \'epid\'emiologie, 
+\item biologie mol\'eculaire, 
+%\item g\'enomique, 
+\item bioinformatique, 
+\item math\'ematiques financi\`eres et actuarielles, \dots
+\end{itemize}
+\textcolor{blue}{$\rightarrow$ les retours des utilisateurs nous ont incit\'e \`a d\'evelopper de 
+\textbf{nouvelles fonctionnalit\'es}}.
+\end{frame}
+
+% DIA 5
+\begin{frame}[fragile]
+\frametitle{Comparaison visuelle de plusieurs ajustements (\texttt{cdfcomp})}
+\begin{footnotesize}
+<<echo=FALSE,results=hide>>=
+rm(list=ls(all=TRUE))
+set.seed(1234) 
+library(fitdistrplus)
+options(digits=3)
+@
+\setkeys{Gin}{width=0.9\textwidth}
+%<<cdfgroundbeef, echo=TRUE, fig=TRUE, width=7, height=4, eps=FALSE>>=
+%data(groundbeef)
+%fw <- fitdist(groundbeef$serving, "weibull")
+%fg <- fitdist(groundbeef$serving,"gamma")
+%fln <- fitdist(groundbeef$serving,"lnorm")
+%cdfcomp(list(fw,fln,fg), legendtext=c("Weibull", "lognormal", "gamma"))
+%@
+<<cdfgroundbeefecho, echo=TRUE, fig=FALSE>>=
+data(groundbeef)
+fw <- fitdist(groundbeef$serving, "weibull")
+fg <- fitdist(groundbeef$serving,"gamma")
+fln <- fitdist(groundbeef$serving,"lnorm")
+cdfcomp(list(fw,fln,fg), 
+        legendtext=c("Weibull", "lognormal", "gamma"))
+@
+<<cdfgroundbeeffig, echo=FALSE, fig=TRUE, width=7, height=4, eps=FALSE>>=
+cdfcomp(list(fw,fln,fg), legendtext=c("Weibull", "lognormal", "gamma"),
+        fitlty=1,lwd=2)
+@
+\end{footnotesize}
+\end{frame}
+
+% DIA 6
+\begin{frame}[fragile]
+\frametitle{Comparaison visuelle de plusieurs ajustements : \\repr\'esentation en densit\'e de probabilit\'e (\texttt{denscomp})}
+\begin{footnotesize}
+\setkeys{Gin}{width=0.9\textwidth}
+<<densgroundbeefecho, echo=TRUE, fig=FALSE>>=
+denscomp(list(fw,fln,fg), 
+         legendtext=c("Weibull", "lognormal", "gamma"))
+@
+<<densgroundbeeffig, echo=FALSE, fig=TRUE, width=7, height=4.5, eps=FALSE>>=
+denscomp(list(fw,fln,fg), legendtext=c("Weibull", "lognormal", "gamma"),
+        fitlty=1,lwd=2)
+@
+\end{footnotesize}
+\end{frame}
+
+% DIA 7
+%\begin{frame}[fragile]
+%\frametitle{Comparaison visuelle de plusieurs ajustements : P-P plot (\texttt{ppcomp})
+%ou en Q-Q plot (\texttt{qqcomp})}
+%\begin{footnotesize}
+%\setkeys{Gin}{width=0.9\textwidth}
+%<<ppqqgroundbeefecho, echo=TRUE, fig=FALSE>>=
+%ppcomp(list(fw,fln,fg), legendtext=c("Weibull", "lognormal", "gamma"))
+%qqcomp(list(fw,fln,fg), legendtext=c("Weibull", "lognormal", "gamma"))
+%@
+%<<ppqqgroundbeeffig, echo=FALSE, fig=TRUE, width=7, height=4, eps=FALSE>>=
+%par(mfrow=c(1,2))
+%par(mar=c(4,4,1,1))
+%ppcomp(list(fw,fln,fg), legendtext=c("Weibull", "lognormal", "gamma"),
+%       fitpch=16)
+%qqcomp(list(fw,fln,fg), legendtext=c("Weibull", "lognormal", "gamma"),
+%       fitpch=16)
+%@
+%\end{footnotesize}
+%\end{frame}
+
+% DIA 7
+\begin{frame}[fragile]
+\frametitle{Comparaison visuelle de plusieurs ajustements :\\ P-P plot (\texttt{ppcomp})}
+\begin{footnotesize}
+\setkeys{Gin}{width=0.9\textwidth}
+<<ppgroundbeefecho, echo=TRUE, fig=FALSE>>=
+ppcomp(list(fw,fln,fg), 
+       legendtext=c("Weibull", "lognormal", "gamma"))
+@
+<<ppgroundbeeffig, echo=FALSE, fig=TRUE, width=7, height=4.5, eps=FALSE>>=
+ppcomp(list(fw,fln,fg), 
+       legendtext=c("Weibull", "lognormal", "gamma"),
+       fitpch=16)
+@
+\end{footnotesize}
+\end{frame}
+
+% DIA 8
+\begin{frame}[fragile]
+\frametitle{Comparaison visuelle de plusieurs ajustements : \\
+Q-Q plot (\texttt{qqcomp})}
+\begin{footnotesize}
+\setkeys{Gin}{width=0.9\textwidth}
+<<qqgroundbeefecho, echo=TRUE, fig=FALSE>>=
+qqcomp(list(fw,fln,fg), 
+       legendtext=c("Weibull", "lognormal", "gamma"))
+@
+<<qqgroundbeeffig, echo=FALSE, fig=TRUE, width=7, height=4.5, eps=FALSE>>=
+qqcomp(list(fw,fln,fg), legendtext=c("Weibull", "lognormal", "gamma"),
+       fitpch=16)
+@
+\end{footnotesize}
+\end{frame}
+
+
+% DIA 9
+\begin{frame}[fragile]
+\frametitle{Comparaison num\'erique de plusieurs ajustements}
+\begin{itemize}
+\item \textbf{Statistiques d'ajustement}, \\
+Kolmogorov-Smirnov, Cram\'er-von Mises et Anderson-Darling,\\
+\item et \textbf{crit\`eres d'information} , AIC et BIC.
+\end{itemize}
+\begin{footnotesize}
+\setkeys{Gin}{width=0.9\textwidth}
+<<ppqqgroundbeefecho, echo=TRUE, fig=FALSE>>=
+gofstat(list(fw,fln,fg),
+        fitnames = c("Weibull", "lognormal", "gamma"))
+@
+\end{footnotesize}
+\end{frame}
+
+% DIA 10 
+\begin{frame}[fragile]
+\frametitle{Calcul de quantiles \`a partir d'une loi ajust\'ee : \\ exemple sur donn\'ees censur\'ees en \'ecotoxicologie}
+\begin{footnotesize}
+<<salinityecho, echo=TRUE, fig=FALSE>>=
+data(salinity)
+f <- fitdistcens(salinity, "lnorm")
+quantile(f,probs = c(0.05, 0.20))
+@
+\begin{center}
+\setkeys{Gin}{width=0.7\textwidth}
+<<salinityfig, echo=FALSE, fig=TRUE, width=6, height=3.5, eps=FALSE>>=
+par(mar=c(4,4,1,1))
+cdfcompcens(f,lwd=2,addlegend=FALSE)
+probs <- c(0.05,0.2)
+q <- quantile(f,probs = probs)$quantiles
+abline(h=probs[1],col="red",lty=2,lwd=2)
+abline(h=probs[2],col="red",lty=3,lwd=2)
+abline(v=q[1],col="red",lty=2,lwd=2)
+abline(v=q[2],col="red",lty=3,lwd=2)
+points(q,probs,col="red",pch=16)
+text(2,0.05,"5%",pos=3,col="red")
+text(2,0.2,"20%",pos=3,col="red")
+@
+\end{center}
+\end{footnotesize}
+\end{frame}
+
+% DIA 11 
+\begin{frame}[fragile]
+\frametitle{Bootstrap}
+\begin{footnotesize}
+<<salinitybootecho, echo=TRUE, fig=FALSE>>=
+b <- bootdistcens(f,niter=1001) 
+summary(b)
+plot(b)
+@
+\begin{center}
+\setkeys{Gin}{width=0.45\textwidth}
+<<salinitybootfig, echo=FALSE, fig=TRUE, width=6, height=5, eps=FALSE>>=
+par(mar=c(4,4,1,1))
+plot(b,pch=16)
+@
+\end{center}\end{footnotesize}
+\end{frame}
+
+% DIA 12
+\begin{frame}[fragile]
+\frametitle{Intervalles de confiance bootstrap sur les quantiles}
+\begin{footnotesize}
+<<salinityICecho, echo=TRUE, fig=FALSE>>=
+cdfcompcens(f)
+q <- quantile(b, probs = seq(0,1,length=101))
+points(q$quantCI[1,],q$probs,type="l",lty=2,col="red")
+points(q$quantCI[2,],q$probs,type="l",lty=2,col="red")
+@
+\begin{center}
+\setkeys{Gin}{width=0.9\textwidth}
+<<salinityICfig, echo=FALSE, fig=TRUE, width=7, height=4, eps=FALSE>>=
+par(mar=c(4,4,1,1))
+cdfcompcens(f,lwd=2,,addlegend=FALSE)
+probs = seq(0,1,length=101)
+q <- quantile(b, probs = probs)
+points(q$quantCI[1,],q$probs,type="l",lty=2,col="red",lwd=2)
+points(q$quantCI[2,],q$probs,type="l",lty=2,col="red",lwd=2)
+arrows(q$quantCI[1,70],probs[70],q$quantCI[2,70],probs[70],
+       col="red",lwd=2,code=3,length=0.1)
+text((q$quantCI[1,70]+q$quantCI[2,70])/2,probs[70],"IC 95%",col="red",pos=3)
+@
+\end{center}\end{footnotesize}
+\end{frame}
+
+% DIA 13 
+\begin{frame}[fragile]
+\frametitle{Perspectives}
+Nous envisageons 
+\begin{itemize}
+\item d'\textbf{\'etendre aux donn\'ees censur\'ees certaines m\'ethodes} disponibles
+actuellement sur les donn\'ees non censur\'ees,
+\item d'\textbf{\'elargir le choix de distances} utilisables pour l'ajustement par minimisation de ces distances et pour l'\'evaluation de la qualit\'e de l'ajustement \\(distances bas\'ees sur les quantiles),
+\item d'\textbf{\'elargir le choix des moments} pour l'ajustement par la m\'ethode des moments \\(``L-moment'' et ``TL-moment''),
+\item aborder l'\textbf{ajustement de distributions multivari\'ees}.
+\end{itemize}
+\textcolor{blue}{N'h\'esitez pas \`a nous envoyer vos retours ou id\'ees en vue de l'am\'elioration de ce package.}
+\end{frame}
+
+
+\end{document}
+
+

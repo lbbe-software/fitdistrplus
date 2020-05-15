@@ -1,0 +1,136 @@
+---
+title: "Explanatory note for NNLS"
+author: "Christophe Dutang"
+date: "5/15/2020"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# The NNLS problem
+
+Consider the non-negative least square problem with a sum constraint.
+$$
+\min_{x} ||A x - b||^2, \text{ such that } <x,1>=c, \forall i, x_i\geq0,
+$$
+where $A\in\mathbb R^{m\times n}$, $b\in\mathbb R^{m}$ and $c\in\mathbb R^{n}$. 
+
+# Reformulation by integrating the sum constraint
+Let define the 
+$$
+\theta = 
+\left(\begin{matrix} x_1\\ \vdots\\ x_{n-1}
+\end{matrix}\right)
+\Rightarrow
+x_\theta=
+\left(\begin{matrix} x_1\\ \vdots\\ x_{n-1} \\ c-<1,\theta> 
+\end{matrix}\right)
+=\left(\begin{matrix} \theta \\ c-<1,\theta>
+\end{matrix}\right).
+$$
+The product matrix at that point is
+$$
+A x_\theta  = 
+\left(\begin{matrix} 
+A_{1,1} & \dots & A_{1,n-1} & A_{1,n} \\ &\vdots \\ 
+A_{m,1} & \dots & A_{m,n-1} & A_{m,n}
+\end{matrix}\right)
+\left(\begin{matrix} x_1\\ \vdots\\ x_{n-1} \\ c-<1,\theta> 
+\end{matrix}\right)
+=
+\left(\begin{matrix} 
+A_{1,1}x_1 + \dots + A_{1,n-1}x_{n-1} + A_{1,n}(c-<1,\theta>) \\ \vdots \\ 
+A_{m,1}x_1 + \dots + A_{m,n-1} + A_{m,n}(c-<1,\theta>)
+\end{matrix}\right)
+$$
+$$
+=
+A_{,\leq n-1}\theta + A_{,n} (c-<1,\theta>)
+$$
+where $A=(A_{,\leq n-1}, A_{,n})$.
+
+So we define the objective function
+$$
+F_c(\theta) = ||A x_\theta - b||^2
+= (A_{,\leq n-1}\theta + A_{,n} (c-<1,\theta>) - b)^T(A_{,\leq n-1}\theta + A_{,n} (c-<1,\theta>) - b)
+$$
+
+Let us compute the derivative for $i\leq n-1$
+$$
+\frac{\partial (A x_\theta - b)}{\partial \theta_i}
+= 
+\frac{\partial (A_{,\leq n-1}\theta ))}{\partial \theta_i}
++
+\frac{\partial (A_{,n} (c-<1,\theta>))}{\partial \theta_i}
+= A_{,i} - A_{,n}.
+$$
+The derivative for $F_c$ is $i\leq n-1$
+$$
+\frac{\partial F_c(\theta)}{\partial \theta_i}
+=2(A_{,i} - A_{,n})^T (A_{,\leq n-1}\theta + A_{,n} (c-<1,\theta>) - b).
+$$
+So the gradient for $F_c$ is
+$$
+\nabla F_c(\theta)
+=2(A_{,\leq n-1} - A_{,n})^T (A_{,\leq n-1}\theta + A_{,n} (c-<1,\theta>) - b).
+$$
+
+# Numerical check
+
+Quick check on R
+```{r}
+Mc <- function(theta, a, b, sumtotal)
+{
+  x <- c(theta, sumtotal-sum(theta))
+  a %*% x - b
+}
+gradMc <- function(i, a, b, sumtotal)
+{
+  a[, i] - a[, NCOL(a)]
+}
+  
+Fc <- function(theta, a, b, sumtotal)
+{
+  x <- c(theta, sumtotal-sum(theta))
+  sum((a %*% x - b)^2)
+}
+gradFc <- function(theta, i, a, b, sumtotal)
+{
+  x <- c(theta, sumtotal-sum(theta))
+  diffa <- a[, i] - a[, NCOL(a)]
+  y <- a %*% x - b
+  2*crossprod(diffa, y)
+}
+  
+fullgradFc <- function(theta, a, b, sumtotal)
+{
+  x <- c(theta, sumtotal-sum(theta))
+  sub_a <- a[, 1:(NCOL(a)-1)]
+  diffa <- sub_a - a[, NCOL(a)]
+  y <- a %*% x - b
+  2*crossprod(diffa, y)
+}
+  
+
+a <- matrix(1:12, 4, 3)
+b <- 1:4/4
+
+theta1 <- 1:2
+theta2 <- theta1+c(0,1e-3)
+(Mc(theta1, a, b, 1) - Mc(theta2, a, b, 1))/-1e-3
+  
+gradMc(2, a, b, 1)
+
+gradFc(theta1, 2, a, b, 1)
+(Fc(theta1, a, b, 1) - Fc(theta2, a, b, 1))/-1e-3
+
+fullgradFc(theta1, a, b, 1)
+sapply(1:2, function(i) gradFc(theta1, i, a, b, 1))
+```
+
+
+

@@ -1,0 +1,409 @@
+---
+title: "New goodness-of-fit plots for censored data in the package **fitdistrplus**"
+author: |
+ | M.L. Delignette-Muller (LBBE, Lyon)
+ | C. Dutang (CEREMADE, Paris) and 
+ | A. Siberchicot (LBBE, Lyon)
+date: "July 6th 2018"
+output:
+  beamer_presentation:
+ # theme: "Antibes"
+ #   toc: true
+    fig_width: 8
+    fig_height: 6
+    fig_caption: false
+---
+```{r, echo = FALSE, results = "hide", message = FALSE, warning = FALSE}
+options(digits = 3)
+require(fitdistrplus)
+set.seed(123)
+addbounds <- function(d)
+{
+  xbounds <- c(d$left, d$right)
+  xboundsnotNA <- xbounds[!is.na(xbounds)]
+  abline(v = xboundsnotNA, col = "grey")
+}
+addLR <- function(d)
+{
+  Lbounds <- d$left[!is.na(d$left)]
+  Rbounds <- d$right[!is.na(d$right)]
+  range <- range(c(Lbounds,Rbounds)) 
+  eps <- (range[2] - range[1]) * 0.01
+  text(x = Lbounds-eps, y = 0.05, labels = "L", col = "red")
+  text(x = Rbounds+eps, y = 0.05, labels = "R", col = "red")
+}
+
+addeq <- function(d)
+{
+  left <- d$left
+  left[is.na(left)] <- -100
+  right <- d$right
+  right[is.na(right)] <- 100
+  rect(left, -2, right, 2, density = 10)
+}
+
+addTurnbull <- function(d, conf.int = FALSE)
+{
+  (survdata <- Surv(time = d$left, time2 = d$right, type="interval2"))
+  survfitted <- survfit(Surv(left, right, type="interval2") ~ 1, data = d)
+  points(survfitted$time, 1 - survfitted$surv, col = "orange", type = "s", 
+         lwd = 5, lty = 2)
+  if (conf.int == TRUE)
+  {
+      points(survfitted$time, 1 - survfitted$lower, col = "orange", type = "s", 
+             lwd = 2, lty = 3)
+      points(survfitted$time, 1 - survfitted$upper, col = "orange", type = "s", 
+             lwd = 2, lty = 3)
+  }
+}
+```
+
+
+## General presentation of the package fitdistrplus
+A package to help the **fit of parametric distributions** to 
+univariate discrete our continuous non censored or censored data.
+
+* stable version 1.0-9 on **CRAN** (first release in 2009).
+* version 1.0-10 in development on **Rforge** (soon on CRAN).
+* Delignette-Muller, M. L., & Dutang, C. (2015). fitdistrplus: An R package for fitting distributions. **Journal of Statistical Software**, 64(4), 1-34. (311 citations in scholar google)
+* A FAQ vignette continuously updated in each new version.
+
+```{r, echo = FALSE, fig.height=3}
+par(mfrow = c(1,3))
+set.seed(124)
+r <- rgamma(100, shape = 8, rate = 1)
+f <- fitdist(r, "gamma")
+b <- bootdist(f)
+f.mme <- fitdist(r, "gamma", method = "mme")
+f.mge <- fitdist(r, "gamma", method = "mge", gof="AD2R")
+f.qme <- fitdist(r, "gamma", method = "qme", probs = c(0.25, 0.75))
+denscomp(list(f, f.mme, f.qme, f.mge), legendtext = c("MLE", "MME", "QME", "MGE"),
+         main = "Different fitting methods", xlim = c(2, 16), fitlty = 1)
+CIcdfplot(b, CI.output = "quantile", CI.fill = "pink", main = "Uncertainty using bootstrap")
+
+rd <- rpois(50, lambda = 5)
+fp <- fitdist(rd, "pois")
+denscomp(fp, demp = TRUE, main = "Fit of discrete distributions")
+```
+
+
+# Goodness-of-fit plots for non censored data
+
+## An example with non censored data
+```{r}
+r <- rweibull(100, shape = 3, scale = 1)
+fw <- fitdist(r, "weibull")
+fg <- fitdist(r, "gamma")
+fl <- fitdist(r, "lnorm")
+gofstat(list(fw, fg, fl), 
+        fitnames = c("Weibull", "gamma", "lnorm"))
+```
+
+## A goodness-of-fit plot in density plot
+```{r}
+denscomp(list(fw, fg, fl), demp = TRUE, fitlty = 1)
+```
+
+## A goodness-of-fit plot in CDF
+```{r}
+cdfcomp(list(fw, fg, fl), fitlty = 1)
+```
+
+## A Q-Q plot which emphasizes differences at tails
+```{r}
+qqcomp(list(fw, fg, fl))
+```
+
+## a P-P plot which emphasizes differences in the center
+```{r}
+ppcomp(list(fw, fg, fl))
+```
+
+# Representation of the ECDF for censored data
+
+## How to represent an ECDF from censored data ? 
+
+**A first toy example with left, right and interval censored data**
+```{r, echo = FALSE}
+d0 <- data.frame(left = c(NA, 2, 4, 7, 10), right = c(1, 2.5, 6, 8, NA))
+d <- d0
+```
+```{r}
+d
+```
+```{r, echo = FALSE, fig.height=2}
+par(mar = c(3, 4, 0.1, 0.1))
+plotdistcens(d, NPMLE = FALSE, lwd = 5, col = "blue", main = "") 
+```
+
+
+## Non Parametric Maximum Likelihood Estimation (NPMLE) of the ECDF: the Turnbull plot (package survival) used in former versions of fitdistrplus.
+```{r, echo = FALSE,fig.height=5}
+par(mar = c(3, 4, 0.1, 0.1))
+layout(matrix(c(1,2,2,2), nrow =4, byrow = TRUE))
+par(mar = c(3, 4, 0.1, 0.1))
+plotdistcens(d, NPMLE = FALSE, lwd = 5, col = "blue", main = "")
+addbounds(d)
+plotdistcens(d, NPMLE.method = "Turnbull", lwd = 5, col = "orange", main = "")
+addbounds(d)
+```
+
+
+## A new algorithm and plot from the package npsurv (Wang)
+```{r, echo = FALSE}
+# par(mfrow = c(2, 1))
+layout(matrix(c(1,2,2,2), nrow =4, byrow = TRUE))
+par(mar = c(3, 4, 0.1, 0.1))
+plotdistcens(d, NPMLE = FALSE, lwd = 5, col = "blue", main = "")
+addbounds(d)
+plotdistcens(d, NPMLE = TRUE, lwd = 5, main = "")
+addTurnbull(d)
+addbounds(d)
+legend("right", lty = c(1,2), lwd = c(5,5), col = c("black", "orange"),
+       legend = c("Wang", "Turnbull"), bty = "n", cex = 2)
+```
+
+## The two steps of an NPMLE algorithm  
+
+1. Identification of **equivalence classes** (also named **Turnbull intervals** or **maximal intersection intervals** or **innermost intervals** or **maximal cliques** of the data) 
+= set of points/intervals under which the ECDF may change (each region between a left bound \textcolor{red}{L} immediately followed by a right bound \textcolor{red}{R}, even if of null length). The NPMLE is unique only up to these equivalence classes (**non uniqueness** represented by **grey rectangles**).
+
+Equivalence classes on the first toy example
+
+```{r, echo = FALSE, fig.height = 2, fig.width = 8}
+par(mar = c(3, 4, 0.1, 0.1))
+plotdistcens(d, NPMLE = FALSE, lwd = 5, col = "blue", main = "")
+addbounds(d)
+addLR(d)
+addeq(d)
+```
+
+## The two steps of an NPMLE algorithm  
+
+1. Identification of **equivalence classes** (also named **Turnbull intervals** or **maximal intersection intervals** or **innermost intervals** or **maximal cliques** of the data) 
+= set of points/intervals under which the ECDF may change (each region between a left bound \textcolor{red}{L} immediately followed by a right bound \textcolor{red}{R}, even if of null length). The NPMLE is unique only up to these equivalence classes (**non uniqueness** represented by **grey rectangles**).
+
+Equivalence classes on a second toy example
+
+```{r, echo = FALSE, fig.height = 2, fig.width = 8}
+d0b <- data.frame(left = c(NA, 2, 4, 6, 10), right = c(1, 3, 7, 8, NA))
+d <- d0b
+deq <- data.frame(left = c(NA, 2, 6, 10), right = c(1, 3, 7, NA))
+par(mar = c(3, 4, 0.1, 0.1))
+plotdistcens(d, NPMLE = FALSE, lwd = 5, col = "blue", main = "")
+addbounds(d)
+addLR(d)
+addeq(deq)
+```
+
+
+## The two steps of an NPMLE algorithm  
+
+1. Identification of **equivalence classes** (also named **Turnbull intervals** or **maximal intersection intervals** or **innermost intervals** or **maximal cliques** of the data) 
+= set of points/intervals under which the ECDF may change (each region between a left bound \textcolor{red}{L} immediately followed by a right bound \textcolor{red}{R}, even if of null length). The NPMLE is unique only up to these equivalence classes (**non uniqueness** represented by **grey rectangles**).
+
+2. Assign a **probability mass** to each equivalence class (may be 0).
+
+The Wang plot on the second toy example
+
+```{r, echo = FALSE, fig.height = 2, fig.width = 8}
+par(mar = c(3, 4, 0.1, 0.1))
+plotdistcens(d, NPMLE = TRUE, lwd = 5, main = "")
+addbounds(d)
+```
+
+## The two steps of an NPMLE algorithm  
+
+1. Identification of **equivalence classes** (also named **Turnbull intervals** or **maximal intersection intervals** or **innermost intervals** or **maximal cliques** of the data) 
+= set of points/intervals under which the ECDF may change (each region between a left bound \textcolor{red}{L} immediately followed by a right bound \textcolor{red}{R}, even if of null length). The NPMLE is unique only up to these equivalence classes (**non uniqueness** represented by **grey rectangles**).
+
+2. Assign a **probability mass** to each equivalence class (may be 0).
+
+Various algorithms implemented in the packages **Icens**, **interval** and **npsurv** (more or less performant and not all handling left censored data).
+
+## A third toy example
+```{r, echo = FALSE}
+d3 <- data.frame(left = c(-1.4, -1.4, 2, -1.4, 0),
+                 right = c(1, 2, NA, 0, 2))
+d <- d3
+```
+```{r, echo = FALSE}
+# par(mfrow = c(2, 1))
+layout(matrix(c(1,2,2,2), nrow =4, byrow = TRUE))
+par(mar = c(3, 4, 0.1, 0.1))
+plotdistcens(d, NPMLE = FALSE, lwd = 5, col = "blue", main = "")
+addbounds(d)
+addLR(d)
+plotdistcens(d, NPMLE = TRUE, lwd = 5, main = "")
+addTurnbull(d)
+addbounds(d)
+legend("right", lty = c(1,2), lwd = c(5,5), col = c("black", "orange"),
+       legend = c("Wang", "Turnbull"), bty = "n", cex = 2)
+```
+
+## The third toy example with the add of a non censored obs.
+```{r, echo = FALSE}
+d3b <- data.frame(left = c(1.18, -1.4, -1.4, 2, -1.4, 0),
+                 right = c(1.18, 1, 2, NA, 0, 2))
+d <- d3b
+```
+```{r, echo = FALSE}
+# par(mfrow = c(2, 1))
+layout(matrix(c(1,2,2,2), nrow =4, byrow = TRUE))
+par(mar = c(3, 4, 0.1, 0.1))
+plotdistcens(d, NPMLE = FALSE, lwd = 5, col = "blue", main = "")
+addbounds(d)
+addLR(d)
+plotdistcens(d, NPMLE = TRUE, lwd = 5, main = "")
+addTurnbull(d)
+addbounds(d)
+legend("right", lty = c(1,2), lwd = c(5,5), col = c("black", "orange"),
+       legend = c("Wang", "Turnbull"), bty = "n", cex = 2)
+```
+
+
+
+## A realistic example: data salinity
+```{r, echo = FALSE}
+data(salinity)
+d <-  log10(salinity)
+```
+```{r, echo = FALSE}
+# par(mfrow = c(2, 1))
+layout(matrix(c(1,2,2,2), nrow =4, byrow = TRUE))
+par(mar = c(3, 4, 0.1, 0.1))
+plotdistcens(d, NPMLE = FALSE, lwd = 0.2, col = "blue", main = "")
+addbounds(d)
+addLR(d)
+plotdistcens(d, NPMLE = TRUE, lwd = 5, main = "")
+addbounds(d)
+```
+
+
+# New CDF, Q-Q and P-P plots implemented for censored data
+
+## Use of cdfcompcens() to assess the fit of 3 distributions on data smokedfish
+```{r, echo = FALSE}
+data(smokedfish)
+d <-  log10(smokedfish)
+fitsfn <- fitdistcens(d,"norm")
+fitsfl <- fitdistcens(d,"logis")
+dgumbel <- function(x,a,b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
+pgumbel <- function(q,a,b) exp(-exp((a-q)/b))
+qgumbel <- function(p,a,b) a-b*log(-log(p))
+fitsfg<-fitdistcens(d,"gumbel",start=list(a=-3,b=3))
+```
+```{r, echo = FALSE, fig.height = 3.5, fig.width = 5}
+# par(mfrow = c(2, 1))
+layout(matrix(c(1,2,2), nrow =3, byrow = TRUE))
+par(mar = c(3, 4, 2, 0.1))
+plotdistcens(d, NPMLE = FALSE, lwd = 0.2, col = "blue", main = "")
+# addbounds(d)
+cdfcompcens(list(fitsfn,fitsfl,fitsfg), fitlty = 1)
+# addbounds(d)
+```
+
+## Use of qqcompcens() for one distribution
+```{r, echo = FALSE, fig.height = 4.5, fig.width = 8}
+par(mfrow = c(1, 2))
+par(mar = c(4, 4, 2, 1))
+cdfcompcens(fitsfn, fitlty = 1)
+qqcompcens(fitsfn)
+```
+
+## Use of ppcompcens() for one distribution
+```{r, echo = FALSE, fig.height = 4.5, fig.width = 8}
+par(mfrow = c(1, 2))
+par(mar = c(4, 4, 2, 1))
+cdfcompcens(fitsfn, fitlty = 1)
+ppcompcens(fitsfn)
+```
+
+
+## Q-Q plots and P-P plot for the 3 distributions
+```{r, echo = FALSE, fig.height = 4.5, fig.width = 8}
+par(mfrow = c(1, 2))
+par(mar = c(4, 4, 2, 1))
+qqcompcens(list(fitsfn,fitsfl,fitsfg))
+ppcompcens(list(fitsfn,fitsfl,fitsfg))
+```
+
+## An alternative presentation of the Q-Q plots for the 3 dist. 
+```{r, echo = FALSE, fig.height = 5.5, fig.width = 6}
+par(mfrow = c(2,2))
+par(mar = c(4, 4, 2, 1))
+qqcompcens(fitsfn, fitcol = "red", fillrect = "red")
+qqcompcens(fitsfl, fitcol = "green", fillrect = "green")
+qqcompcens(fitsfg, fitcol = "blueviolet", fillrect = "blueviolet")
+```
+
+Will be soon implemented in the plotstyle ggplot.
+
+
+## Another example with data salinity
+```{r, echo = FALSE, fig.height = 5.5, fig.width = 6}
+data(salinity)
+d <-  log10(salinity)
+f <- fitdistcens(d,"norm")
+par(mfrow = c(2,2))
+par(mar = c(4, 4, 2, 1))
+plotdistcens(d, NPMLE = FALSE, main = "")
+cdfcompcens(f)
+qqcompcens(f)
+ppcompcens(f)
+```
+
+
+
+## How to use of these new goodness-of-fit plots ?
+
+Example of code:
+```{r, eval = FALSE}
+data(smokedfish)
+d <-  log10(smokedfish)
+# Plot of the NPMLE CDF on censored data
+plotdistcens(d)
+# Two MLE fits
+fitsfn <- fitdistcens(d,"norm")
+fitsfl <- fitdistcens(d,"logis")
+# Three goodness-of-fit plots for one fit
+plot(fitsfn)
+# Goodness-of-fit plots for one or more fits
+cdfcompcens(list(fitsfn,fitsfl))
+qqcompcens(list(fitsfn,fitsfl))
+ppcompcens(list(fitsfn,fitsfl))
+```
+
+
+## Other recent improvements of fitdistrplus 
+
+**Version 1.0-8**
+
+* add of an optional use of ggplot2 in cdfcomp(), denscomp(), qqcomp() and ppcomp().
+
+**Version 1.0-10**
+
+* Improvement of goodness-of-fit plots for discrete distributions in denscomp().
+* Add of new default starting values for distributions in actuar.
+
+**Version 1.0-11**
+
+* add of an optional use of ggplot2 in cdfcompcens(), denscompcens() and ppcompcens().
+
+
+## References
+* Turnbull BW (1974). Nonparametric estimation of a survivorship function with doubly censored data. Journal of American Statistical Association, 69, 169-173.
+* Gentleman, R., & Geyer, C. J. (1994). Maximum likelihood for interval censored data: Consistency and computation. Biometrika, 81(3), 618-623.
+* Wang, Y. (2008). Dimension-reduced nonparametric maximum likelihood computation for interval-censored data. Computational Statistics & Data Analysis, 52(5), 2388-2402.
+* Wang, Y., & Taylor, S. M. (2013). Efficient computation of nonparametric survival functions via a hierarchical mixture formulation. Statistics and Computing, 23(6), 713-725.
+* Wang, Y., & Fani, S. (2018). Nonparametric maximum likelihood computation of a U-shaped hazard function. Statistics and Computing, 28(1), 187-200.
+
+## 
+\begin{center}
+\begin{Large}
+Thank you for your attention ! 
+
+We are waiting for your feedback on these new tools.
+\end{Large}
+\end{center}
+
