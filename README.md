@@ -1,4 +1,4 @@
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/fitdistrplus)](http://cran.r-project.org/package=fitdistrplus)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/fitdistrplus)](https://cran.r-project.org/package=fitdistrplus)
 [![CRAN Downloads](https://cranlogs.r-pkg.org/badges/fitdistrplus)](https://cran.r-project.org/package=fitdistrplus)
 
 

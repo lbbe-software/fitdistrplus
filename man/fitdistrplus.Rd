@@ -15,7 +15,7 @@ The \pkg{fitdistrplus} package was first written by ML Delignette-Muller and mad
 available in \href{https://cran.r-project.org/package=fitdistrplus}{CRAN} on 2009 and presented at the \href{https://www.r-project.org/conferences/useR-2009/}{2009 useR conference} in Rennes.
 A few months after, C Dutang joined the project by
 starting to participate to the implementation of the \pkg{fitdistrplus} package.
-The package has also been presented at \href{https://www.r-project.org/conferences/useR-2011/}{2011 useR conference}, \href{http://r2013-lyon.sciencesconf.org/}{2eme rencontres R} in 2013.
+The package has also been presented at \href{https://www.r-project.org/conferences/useR-2011/}{2011 useR conference}, \href{https://r2013-lyon.sciencesconf.org/}{2eme rencontres R} in 2013.
 
 Three vignettes are available within the package:
 \itemize{

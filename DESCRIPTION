@@ -14,5 +14,6 @@ VignetteBuilder: knitr
 BuildVignettes: true
 License: GPL (>= 2)
 Encoding: UTF-8
-URL: MailingList: http://listes.univ-lyon1.fr/wws/info/fitdist-users; https://lbbe.univ-lyon1.fr/fitdistrplus.html, https://github.com/aursiber/fitdistrplus
-Contact: Marie-Laure Delignette-Muller <marielaure.delignettemuller@vetagro-sup.fr> or Christophe Dutang <christophe.dutang@ensimag.fr>
+URL: https://lbbe.univ-lyon1.fr/fitdistrplus.html, https://github.com/aursiber/fitdistrplus
+BugReports: https://github.com/aursiber/fitdistrplus/issues
+Contact: Marie-Laure Delignette-Muller <marielaure.delignettemuller@vetagro-sup.fr> or Christophe Dutang <christophe.dutang@ensimag.fr> 
