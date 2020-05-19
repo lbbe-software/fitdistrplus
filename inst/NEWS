@@ -1,6 +1,6 @@
 ==== fitdistrplus : Help to fit of a parametric distribution ===
 
-Version 1.1-0
+Version 1.1-1
 =============
 NEW FEATURES
 - add of internal functions to cope with problems of lack of maintenance of the package npsurv and remove the dependence to this package
