@@ -22,7 +22,7 @@ cdfcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
     fitnbpts = 101, \dots)
     
 denscomp(ft, xlim, ylim, probability = TRUE, main, xlab, ylab, datacol, fitlty, 
-    fitcol, addlegend = TRUE, legendtext, xlegend = "topright", ylegend = NULL, 
+    fitcol, fitlwd, addlegend = TRUE, legendtext, xlegend = "topright", ylegend = NULL, 
     demp = FALSE, dempcol = "black", plotstyle = "graphics", 
     discrete, fitnbpts = 101, fittype="l", \dots)
 
@@ -53,10 +53,13 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
   If there are fewer colors than fits they are recycled in the standard fashion.
   See also \code{\link{par}}.}
 \item{fitlty}{A (vector of) line type(s) to plot fitted distributions/densities. 
-  If there are fewer colors than fits they are recycled in the standard fashion.
+  If there are fewer values than fits they are recycled in the standard fashion.
+  See also \code{\link{par}}.}
+\item{fitlwd}{A (vector of) line size(s) to plot fitted distributions/densities. 
+  If there are fewer values than fits they are recycled in the standard fashion.
   See also \code{\link{par}}.}
 \item{fitpch}{A (vector of) line type(s) to plot fitted quantiles/probabilities. 
-  If there are fewer colors than fits they are recycled in the standard fashion.
+  If there are fewer values than fits they are recycled in the standard fashion.
   See also \code{\link{par}}.}
 \item{fittype}{The type of plot for fitted probabilities in the case of
   discrete distributions: possible types are \code{"p"} for points,

@@ -27,7 +27,7 @@
 
 
 denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab, 
-                     datacol, fitlty, fitcol, addlegend = TRUE, legendtext, 
+                     datacol, fitlty, fitcol, fitlwd, addlegend = TRUE, legendtext, 
                      xlegend = "topright", ylegend = NULL, demp = FALSE, 
                      dempcol = "black", plotstyle = "graphics", 
                      discrete, fitnbpts = 101, fittype="l", ...)
@@ -61,8 +61,10 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
   if (missing(datacol)) datacol <- NULL    
   if (missing(fitcol)) fitcol <- 2:(nft+1)
   if (missing(fitlty)) fitlty <- 1:nft
+  if (missing(fitlwd)) fitlwd <- 1
   fitcol <- rep(fitcol, length.out=nft)
   fitlty <- rep(fitlty, length.out=nft)
+  fitlwd <- rep(fitlwd, length.out=nft)
   fittype <- match.arg(fittype[1], c("p", "l", "o"))
   
   if (missing(xlab))
@@ -188,6 +190,7 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
   {
     legendtext <- c(legendtext, "emp.")
     fitlty <- c(fitlty, 1)
+    fitlwd <- c(fitlwd, 1)
     fitcol <- c(fitcol, dempcol)
   }
   
@@ -201,14 +204,14 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
       
       #plot fitted densities (line)
       for(i in 1:nft)
-          lines(sfin, fitteddens[,i], lty=fitlty[i], col=fitcol[i], ...)
+          lines(sfin, fitteddens[,i], lty=fitlty[i], col=fitcol[i], lwd=fitlwd[i], ...)
  
       #plot empirical density
       if(demp)
         lines(density(mydata)$x, density(mydata)$y * scalefactor, col=dempcol)
       
       if (addlegend)
-        legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, lty=fitlty, col=fitcol, ...)
+        legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, lty=fitlty, col=fitcol, lwd=fitlwd, ...)
     }else # so if discrete
     {
       #main plotting
@@ -221,7 +224,7 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
       {
         #plot fitted mass probability functions (line)
         for(i in 1:nft)
-          lines(sfin+(i)*eps, fitteddens[,i], lty=fitlty[i], col=fitcol[i], type="h", ...)
+          lines(sfin+(i)*eps, fitteddens[,i], lty=fitlty[i], col=fitcol[i], lwd=fitlwd[i], type="h", ...)
         #plot empirical mass probabilty function
         if(demp)
         {
@@ -245,7 +248,7 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
       }
       
       if (addlegend && fittype %in% c("l", "o"))
-        legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, lty=fitlty, col=fitcol, ...)
+        legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, lty=fitlty, col=fitcol, lwd=fitlwd, ...)
       if (addlegend && fittype == "p")
         legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, pch=1, col=fitcol, ...)
     }
@@ -289,13 +292,15 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
         ggplot2::coord_cartesian(xlim = c(xlim[1], xlim[2]), ylim = c(ylim[1], ylim[2])) +
           {if(probability) ggplot2::geom_histogram(data = histdata, ggplot2::aes_(quote(values), quote(..density..)), breaks = reshist$breaks, boundary = 0, show.legend = FALSE, col = "black", alpha = 1, fill = datacol)
             else ggplot2::geom_histogram(data = histdata, ggplot2::aes_(quote(values), quote(..count..)), breaks = reshist$breaks, boundary = 0, show.legend = FALSE, col = "black", alpha = 1, fill = datacol)} +
-        ggplot2::geom_line(data = fitteddens, ggplot2::aes_(linetype = quote(ind), colour = quote(ind)), size = 0.4) +
+        ggplot2::geom_line(data = fitteddens, ggplot2::aes_(linetype = quote(ind), colour = quote(ind), size = quote(ind))) +
         ggplot2::guides(colour = ggplot2::guide_legend(title = NULL)) +
         ggplot2::guides(linetype = ggplot2::guide_legend(title = NULL)) +
+        ggplot2::guides(size = ggplot2::guide_legend(title = NULL)) +
         ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
         {if(addlegend) ggplot2::theme(legend.position = c(xlegend, ylegend)) else ggplot2::theme(legend.position = "none")} +
         ggplot2::scale_color_manual(values = fitcol, labels = legendtext) +
-        ggplot2::scale_linetype_manual(values = fitlty, labels = legendtext)
+        ggplot2::scale_linetype_manual(values = fitlty, labels = legendtext) +
+        ggplot2::scale_size_manual(values = fitlwd, labels = legendtext)
       return(ggdenscomp)
       
     } else
@@ -320,14 +325,16 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
         ggplot2::ylab(ylab) +
         ggplot2::ggtitle(main) +
         ggplot2::coord_cartesian(xlim = c(xlim[1], xlim[2]), ylim = c(ylim[1], ylim[2])) +
-        {if(fittype %in% c("l", "o")) ggplot2::geom_segment(data = fitteddens, ggplot2::aes_(x = quote(sfin), xend = quote(sfin), y = 0, yend = quote(values), linetype = quote(ind)))} +
+        {if(fittype %in% c("l", "o")) ggplot2::geom_segment(data = fitteddens, ggplot2::aes_(x = quote(sfin), xend = quote(sfin), y = 0, yend = quote(values), linetype = quote(ind), size = quote(ind)))} +
         {if(fittype %in% c("p", "o")) ggplot2::geom_point(data = fitteddens, ggplot2::aes_(x = quote(sfin), y = quote(values), colour = quote(ind)), shape = 1)} +
         ggplot2::guides(colour = ggplot2::guide_legend(title = NULL)) +
         ggplot2::guides(linetype = ggplot2::guide_legend(title = NULL)) +
+        ggplot2::guides(size = ggplot2::guide_legend(title = NULL)) +
         ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
         {if(addlegend) ggplot2::theme(legend.position = c(xlegend, ylegend)) else ggplot2::theme(legend.position = "none")} +
         ggplot2::scale_color_manual(values = fitcol, labels = legendtext) +
-        ggplot2::scale_linetype_manual(values = fitlty, labels = legendtext)
+        ggplot2::scale_linetype_manual(values = fitlty, labels = legendtext) +
+        ggplot2::scale_size_manual(values = fitlwd, labels = legendtext)
       return(ggdenscomp)
       
     }

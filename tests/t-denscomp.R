@@ -323,3 +323,23 @@ if (visualize)
                probability = FALSE, plotstyle = "ggplot"))
 }
 
+
+# (10) fitlty, fitlwd for discrete
+x <- c(rpois(nsample, 30), rbinom(nsample, 12, 2/3))
+fpois <- fitdist(x, "pois")
+fgeo <- fitdist(x, "geom")
+fnbinom <- fitdist(x, "nbinom")
+denscomp(list(fpois, fnbinom, fgeo), fitlty = 2, fitlwd = 3:1)
+denscomp(list(fpois, fnbinom, fgeo), fittype = "o", fitlwd = 3:1)
+if (requireNamespace ("ggplot2", quietly = TRUE)) {
+  denscomp(list(fpois, fnbinom, fgeo), plotstyle = "ggplot", fitlty = 2, fitlwd = 3:1)
+  denscomp(list(fpois, fnbinom, fgeo), plotstyle = "ggplot", fittype = "o", fitlty = 1, fitlwd = 3:1)
+}
+
+# (11) fitlty, fitlwd for non discrete
+denscomp(list(fitW, fitln, fitg), fitlty = 1, fitlwd = 3:1)
+denscomp(list(fitW, fitln, fitg), fitlty = 1, fitlwd = 1:3, fitcol = c(1:2, 7))
+if (requireNamespace ("ggplot2", quietly = TRUE)) {
+  denscomp(list(fitW, fitln, fitg), plotstyle = "ggplot", fitlty = 1, fitlwd = 3:1)
+  denscomp(list(fitW, fitln, fitg), plotstyle = "ggplot", fitlty = 1, fitlwd = 1:3, fitcol = c(1:2, 7))
+}
