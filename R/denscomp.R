@@ -120,7 +120,7 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
       scalefactor <- 1
     } else
     {
-      if (length(unique(diff(reshist$breaks))) > 1) # wrong histogram and not possibleto compute a scalefactor
+      if (length(unique(diff(reshist$breaks))) > 1) # wrong histogram and not possible to compute a scale factor
         stop("You should not use probability = FALSE with non-equidistant breaks for the histogram !") else
       scalefactor <- n * diff(reshist$breaks)[1]
     }
@@ -215,7 +215,7 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
     }else # so if discrete
     {
       #main plotting
-      # plotting of an empty histogramm
+      # plotting of an empty histogram
       reshist <- hist(mydata, main = main, xlab = xlab, ylab = ylab, xlim = xlim, ylim = ylim, border = "white",
                       probability = probability, ...)
        
@@ -225,7 +225,7 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
         #plot fitted mass probability functions (line)
         for(i in 1:nft)
           lines(sfin+(i)*eps, fitteddens[,i], lty=fitlty[i], col=fitcol[i], lwd=fitlwd[i], type="h", ...)
-        #plot empirical mass probabilty function
+        #plot empirical mass probability function
         if(demp)
         {
           empval <- sort(unique(mydata))

@@ -22,7 +22,7 @@
 ###         R functions
 ### 
 
-plotdistcens <- function(censdata, distr, para, leftNA = -Inf,rightNA = Inf, NPMLE = TRUE,
+plotdistcens <- function(censdata, distr, para, leftNA = -Inf, rightNA = Inf, NPMLE = TRUE,
                          Turnbull.confint = FALSE, 
                          NPMLE.method = "Wang",
                          ...)
