@@ -25,7 +25,7 @@
 ###
 
 cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
-                        datacol, fillrect, fitlty, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", 
+                        datacol, fillrect, fitlty, fitcol, fitlwd, addlegend = TRUE, legendtext, xlegend = "bottomright", 
                         ylegend = NULL, lines01 = FALSE,Turnbull.confint = FALSE, 
                         NPMLE.method = "Wang", 
                         add = FALSE, plotstyle = "graphics", ...)
@@ -75,8 +75,10 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
   if (missing(fillrect)) fillrect <- "lightgrey"
   if (missing(fitcol)) fitcol <- 2:(nft+1)
   if (missing(fitlty)) fitlty <- 1:nft
+  if (missing(fitlwd)) fitlwd <- 1
   fitcol <- rep(fitcol, length.out=nft)
   fitlty <- rep(fitlty, length.out=nft)
+  fitlwd <- rep(fitlwd, length.out=nft)
   
   if (missing(xlab))
     xlab <- ifelse(xlogscale, "censored data in log scale", "censored data")
@@ -292,7 +294,7 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
         sfin <- seq(xmin, xmax, by=(xmax-xmin)/100)
       }
       theopfin <- do.call(pdistname, c(list(sfin), as.list(para)))
-      lines(sfin, theopfin, lty=fitlty[i], col=fitcol[i], ...)
+      lines(sfin, theopfin, lty=fitlty[i], col=fitcol[i], lwd=fitlwd[i], ...)
     }
     
     s <- sapply(1:nft, plot.fti, ...)
@@ -303,7 +305,7 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
     
     if (addlegend)
     {
-      legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, lty=fitlty, col=fitcol, ...)
+      legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, lty=fitlty, col=fitcol, lwd=fitlwd, ...)
     }
     
     invisible()
@@ -366,13 +368,15 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
         ggplot2::geom_rect(data=drect, mapping=ggplot2::aes_(xmin=quote(x1), xmax=quote(x2), ymin=quote(y1), ymax=quote(y2)), colour = datacol, fill = fillrect, alpha=0.5) +
         ggplot2::geom_segment(data=dsegmright, mapping=ggplot2::aes_(x=quote(x1), y=quote(y1), xend=quote(x2), yend=quote(y2)), colour = datacol) +
         ggplot2::geom_segment(data=dsegmleft, mapping=ggplot2::aes_(x=quote(x1), y=quote(y1), xend=quote(x2), yend=quote(y2)), colour = datacol) +
-        ggplot2::geom_line(data=dline, ggplot2::aes_(quote(x), quote(y), group = quote(ind), colour = quote(ind), linetype = quote(ind))) +
+        ggplot2::geom_line(data=dline, ggplot2::aes_(quote(x), quote(y), group = quote(ind), colour = quote(ind), linetype = quote(ind), size = quote(ind))) +
         ggplot2::theme_bw() +
         {if(addlegend) ggplot2::theme(legend.position = c(xlegend, ylegend), plot.title = ggplot2::element_text(hjust = 0.5)) else ggplot2::theme(legend.position = "none", plot.title = ggplot2::element_text(hjust = 0.5))} +
         ggplot2::scale_color_manual(values = fitcol, labels = legendtext) +
         ggplot2::scale_linetype_manual(values = fitlty, labels = legendtext) +
+        ggplot2::scale_size_manual(values = fitlwd, labels = legendtext) +
         ggplot2::guides(colour = ggplot2::guide_legend(title = NULL)) +
         ggplot2::guides(linetype = ggplot2::guide_legend(title = NULL)) +
+        ggplot2::guides(size = ggplot2::guide_legend(title = NULL)) +
         {if(xlogscale) ggplot2::scale_x_continuous(trans='log10')} +
         {if(ylogscale) ggplot2::scale_y_continuous(trans='log10')}
       

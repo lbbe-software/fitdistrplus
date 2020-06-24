@@ -15,7 +15,7 @@
 
 \usage{
 cdfcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
-    datacol, fillrect, fitlty, fitcol, addlegend = TRUE, legendtext, 
+    datacol, fillrect, fitlty, fitcol, fitlwd, addlegend = TRUE, legendtext, 
     xlegend = "bottomright", ylegend = NULL, lines01 = FALSE, 
     Turnbull.confint = FALSE, 
     NPMLE.method = "Wang", 
@@ -47,7 +47,10 @@ ppcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, yla
 \item{fitcol}{A (vector of) color(s) to plot fitted distributions. 
     If there are fewer colors than fits they are recycled in the standard fashion.}
 \item{fitlty}{A (vector of) line type(s) to plot fitted distributions. 
-    If there are fewer colors than fits they are recycled in the standard fashion.
+    If there are fewer values than fits they are recycled in the standard fashion.
+    See also \code{\link{par}}.}
+\item{fitlwd}{A (vector of) line size(s) to plot fitted distributions. 
+    If there are fewer values than fits they are recycled in the standard fashion.
     See also \code{\link{par}}.}
 \item{addlegend}{If \code{TRUE}, a legend is added to the plot.}
 \item{legendtext}{A character or expression vector of length \eqn{\geq 1} to appear

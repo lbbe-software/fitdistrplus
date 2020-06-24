@@ -16,6 +16,7 @@ qgumbel <- function(p,a,b) a-b*log(-log(p))
 fitsfg <- fitdistcens(Clog10, "gumbel", start=list(a=-3,b=3))
 
 cdfcompcens(list(fitsfn,fitsfl,fitsfg))
+cdfcompcens(list(fitsfn,fitsfl,fitsfg), fitlty=1, fitlwd=3)
 
 # Same plot in y logscale
 cdfcompcens(list(fitsfn, fitsfl, fitsfg), NPMLE.method = "Turnbull",
@@ -25,6 +26,7 @@ cdfcompcens(list(fitsfn, fitsfl, fitsfg), NPMLE.method = "Wang",
 
 if (requireNamespace ("ggplot2", quietly = TRUE)) {
   cdfcompcens(list(fitsfn,fitsfl,fitsfg), plotstyle = "ggplot")
+  cdfcompcens(list(fitsfn,fitsfl,fitsfg), plotstyle = "ggplot", fitlty=1, fitlwd=3)
   cdfcompcens(list(fitsfn,fitsfl,fitsfg), datacol="grey", 
               legendtext=c("normal","logistic","Gumbel"),
               main="bacterial contamination fits",
@@ -63,7 +65,7 @@ if (visualize)
   cdfcompcens(fitsfg, addlegend = FALSE, fillrect = NA, fitcol = "blue", add = TRUE)
   
   cdfcompcens(list(fitsfn, fitsfl, fitsfg), addlegend = FALSE, fitcol = 2:4, fitlty = 1, plotstyle = "ggplot")
-  
+  cdfcompcens(list(fitsfn, fitsfl, fitsfg), addlegend = FALSE, fitcol = 2:4, fitlty = 1, plotstyle = "ggplot")
 }
 
 # Test on the salinity data set
