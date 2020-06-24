@@ -69,4 +69,3 @@ if (requireNamespace ("ggplot2", quietly = TRUE) & visualize) {
   ppcompcens(list(fn, fl), ynoise = FALSE, plotstyle = "ggplot")
   ppcompcens(list(fn, fl), xlogscale = TRUE, xlim = c(0.01, 0.6), plotstyle = "ggplot")
 }
-
