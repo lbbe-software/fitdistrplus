@@ -188,10 +188,12 @@ if (visualize)
   f2 <- fitdist(x1, "gumbel", start = list(a = 10, b = 5))
   f3 <- fitdist(x1, "exp")
   cdfcomp(list(f1, f2, f3), xlim=range(x), fitcol = c("red", "green", "blue"), fitlty = 1, legendtext = c("Normal", "Gumbel", "Exp"))
+  cdfcomp(list(f1, f2, f3), xlim=range(x), fitcol = c("red", "green", "blue"), fitlty = 1, fitlwd = (1:3)*2, legendtext = c("Normal", "Gumbel", "Exp"))
   
   # graph 3
   if (requireNamespace ("ggplot2", quietly = TRUE)) {
     cdfcomp(list(f1, f2, f3), xlim=range(x), fitcol=c("red","green","blue"), fitlty = 1, legendtext = c("Normal", "Gumbel", "Exp"), plotstyle = "ggplot")
+    cdfcomp(list(f1, f2, f3), xlim=range(x), fitcol=c("red","green","blue"), fitlty = 1, fitlwd = 1:3, legendtext = c("Normal", "Gumbel", "Exp"), plotstyle = "ggplot")
   }
 }
 

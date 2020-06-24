@@ -193,10 +193,11 @@ if (requireNamespace ("ggplot2", quietly = TRUE) & visualize) {
   f1 <- fitdist(x, "lnorm")
   f2 <- fitdist(x, "exp")
   
-  # qqcomp(list(f1, f2), lty=2)
   qqcomp(list(f1, f2), fitpch=2)
+  qqcomp(list(f1, f2), fitlwd=4)
   if (requireNamespace ("ggplot2", quietly = TRUE)) {
     qqcomp(list(f1, f2), fitpch=2, plotstyle = "gg")
+    qqcomp(list(f1, f2), fitlwd=2, plotstyle = "gg")
   }
 }
 

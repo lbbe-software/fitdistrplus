@@ -27,7 +27,7 @@
 
 
 ppcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
-                   fitpch, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", ylegend = NULL, 
+                   fitpch, fitcol, fitlwd, addlegend = TRUE, legendtext, xlegend = "bottomright", ylegend = NULL, 
                    use.ppoints = TRUE, a.ppoints = 0.5, line01 = TRUE, line01col = "black", line01lty = 1,
                    ynoise = TRUE, plotstyle = "graphics", ...)
 {
@@ -73,8 +73,10 @@ ppcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
   nft <- length(ft)
   if (missing(fitcol)) fitcol <- 2:(nft+1)
   if (missing(fitpch)) fitpch <- ifelse(largedata, 1, 21)
+  if (missing(fitlwd)) fitlwd <- 1
   fitcol <- rep(fitcol, length.out=nft)
   fitpch <- rep(fitpch, length.out=nft)
+  fitlwd <- rep(fitlwd, length.out=nft)
   # check legend parameters if added
   if(missing(legendtext)) 
   {
@@ -125,7 +127,8 @@ ppcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
                        pch = fitpch[1], xlim=xlim, ylim=ylim, col=fitcol[1], type="p", ...)
     else
       resquant <- plot(fittedprob[,1], obsp, main=main, xlab=xlab, ylab=ylab, log=logxy,
-                       lty = fitpch[1], xlim=xlim, ylim=ylim, col=fitcol[1], type="l", ...)
+                       lty = fitpch[1], xlim=xlim, ylim=ylim, col=fitcol[1], type="l", 
+                       lwd = fitlwd[1], ...)
     
     #plot other fitted probabilities
     if(nft > 1 && !ynoise && !largedata)
@@ -146,7 +149,7 @@ ppcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
       }
     if(largedata)
       for(i in 2:nft)
-        lines(fittedprob[,i], obsp, col=fitcol[i], lty = fitpch[i], ...)
+        lines(fittedprob[,i], obsp, col=fitcol[i], lty = fitpch[i], lwd = fitlwd[i], ...)
     
     if(line01)
       abline(0, 1, lty=line01lty, col=line01col)
@@ -156,7 +159,7 @@ ppcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
       if(!largedata)
         legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, col=fitcol, pch = fitpch, ...)
       else
-        legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, col=fitcol, lty = fitpch, ...)
+        legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, col=fitcol, lty = fitpch, lwd = fitlwd, ...)
     }
     invisible()
   } else if (!requireNamespace("ggplot2", quietly = TRUE)) {
@@ -191,21 +194,23 @@ ppcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
     }
     
     ggppcomp <-
-      ggplot2::ggplot(data = fittedprob, ggplot2::aes_(quote(values), quote(obsp), group = quote(ind), colour = quote(ind), shape = quote(ind))) +
+      ggplot2::ggplot(data = fittedprob, ggplot2::aes_(quote(values), quote(obsp), group = quote(ind), colour = quote(ind), shape = quote(ind), size = quote(ind))) +
       ggplot2::xlab(xlab) +
       ggplot2::ylab(ylab) +
       ggplot2::ggtitle(main) +
       ggplot2::coord_cartesian(xlim = c(xlim[1], xlim[2]), ylim = c(ylim[1], ylim[2])) +
-      {if(!largedata) ggplot2::geom_point() else ggplot2::geom_line(ggplot2::aes_(linetype = quote(ind)))} +
+      {if(!largedata) ggplot2::geom_point() else ggplot2::geom_line(ggplot2::aes_(linetype = quote(ind), size = quote(ind)))} +
       
       {if(addlegend) ggplot2::theme(legend.position = c(xlegend, ylegend), plot.title = ggplot2::element_text(hjust = 0.5)) else ggplot2::theme(legend.position = "none", plot.title = ggplot2::element_text(hjust = 0.5))} +
       ggplot2::scale_color_manual(values = fitcol, labels = legendtext) +
       ggplot2::scale_shape_manual(values = fitpch, labels = legendtext) +
       ggplot2::scale_linetype_manual(values = fitpch, labels = legendtext) +
+      ggplot2::scale_size_manual(values = fitlwd, labels = legendtext) +
       
       ggplot2::guides(colour = ggplot2::guide_legend(title = NULL)) +
       ggplot2::guides(shape = ggplot2::guide_legend(title = NULL)) +
       ggplot2::guides(linetype = ggplot2::guide_legend(title = NULL)) +
+      ggplot2::guides(size = ggplot2::guide_legend(title = NULL)) +
       
       {if(line01) ggplot2::geom_abline(intercept = 0, slope = 1)} +
       {if(xlogscale) ggplot2::scale_x_continuous(trans='log10')} +

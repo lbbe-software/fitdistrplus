@@ -15,7 +15,7 @@
 
 \usage{
 cdfcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
-    datapch, datacol, fitlty, fitcol, addlegend = TRUE, legendtext, 
+    datapch, datacol, fitlty, fitcol, fitlwd, addlegend = TRUE, legendtext, 
     xlegend = "bottomright", ylegend = NULL, horizontals = TRUE, 
     verticals = FALSE, do.points = TRUE, use.ppoints = TRUE, a.ppoints = 0.5, 
     lines01 = FALSE, discrete, add = FALSE, plotstyle = "graphics", 
@@ -27,12 +27,12 @@ denscomp(ft, xlim, ylim, probability = TRUE, main, xlab, ylab, datacol, fitlty,
     discrete, fitnbpts = 101, fittype="l", \dots)
 
 qqcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
-    fitpch, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", 
+    fitpch, fitcol, fitlwd, addlegend = TRUE, legendtext, xlegend = "bottomright", 
     ylegend = NULL, use.ppoints = TRUE, a.ppoints = 0.5, line01 = TRUE, 
     line01col = "black", line01lty = 1, ynoise = TRUE, plotstyle = "graphics", \dots)
     
 ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
-    fitpch, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", 
+    fitpch, fitcol, fitlwd, addlegend = TRUE, legendtext, xlegend = "bottomright", 
     ylegend = NULL, use.ppoints = TRUE, a.ppoints = 0.5, line01 = TRUE, 
     line01col = "black", line01lty = 1, ynoise = TRUE, plotstyle = "graphics", \dots)
 }

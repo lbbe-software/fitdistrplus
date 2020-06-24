@@ -196,10 +196,12 @@ if (visualize)
   f1 <- fitdist(x, "lnorm")
   f2 <- fitdist(x, "exp")
   
-  ppcomp(list(f1, f2), fitpch=2)
+  ppcomp(list(f1, f2), fitpch=3)
+  ppcomp(list(f1, f2), fitlwd=2)
   
   if (requireNamespace ("ggplot2", quietly = TRUE)) {
-    ppcomp(list(f1, f2), fitpch=2, plotstyle = "ggplot")
+    ppcomp(list(f1, f2), fitpch=3, plotstyle = "ggplot")
+    ppcomp(list(f1, f2), fitlwd=2, plotstyle = "ggplot")
   }
   
 }

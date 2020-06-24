@@ -26,7 +26,7 @@
 
 
 cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
-                    datapch, datacol, fitlty, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", 
+                    datapch, datacol, fitlty, fitcol, fitlwd, addlegend = TRUE, legendtext, xlegend = "bottomright", 
                     ylegend = NULL, horizontals = TRUE, verticals = FALSE, do.points = TRUE, 
                     use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, discrete, add = FALSE, 
                     plotstyle = "graphics", fitnbpts = 101, ...)
@@ -56,8 +56,10 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
   if (missing(datacol)) datacol <- "black"
   if (missing(fitcol)) fitcol <- 2:(nft+1)
   if (missing(fitlty)) fitlty <- 1:nft
+  if (missing(fitlwd)) fitlwd <- 1
   fitcol <- rep(fitcol, length.out=nft)
   fitlty <- rep(fitlty, length.out=nft)
+  fitlwd <- rep(fitlwd, length.out=nft)
   
   if (missing(xlab))
     xlab <- ifelse(xlogscale, "data in log scale", "data")
@@ -211,13 +213,13 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
     
     # plot fitted cdfs
     for(i in 1:nft)
-      lines(sfin, fittedprob[,i], lty=fitlty[i], col=fitcol[i], type=ifelse(discrete, "s", "l"), ...)
+      lines(sfin, fittedprob[,i], lty=fitlty[i], col=fitcol[i], lwd=fitlwd[i], type=ifelse(discrete, "s", "l"), ...)
     
     if(lines01)
       abline(h=c(0, 1), lty="dashed", col="grey")
     
     if(addlegend)
-      legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, lty=fitlty, col=fitcol,...)
+      legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, lty=fitlty, col=fitcol, lwd=fitlwd, ...)
     
     invisible()
     
@@ -267,14 +269,16 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
       {if(!largedata && horizontals && verticals) ggplot2::geom_segment(data = verti, ggplot2::aes_(x=quote(x), y=quote(y), xend=quote(xend), yend=quote(yend)), show.legend = FALSE, colour = datacol)} +
       
       {if(discrete) ggplot2::geom_step(data = fittedprob, ggplot2::aes_(linetype = quote(ind), colour = quote(ind)), size = 0.4)} +
-      {if(!discrete) ggplot2::geom_line(data = fittedprob, ggplot2::aes_(linetype = quote(ind), colour = quote(ind)), size = 0.4)} +
+      {if(!discrete) ggplot2::geom_line(data = fittedprob, ggplot2::aes_(linetype = quote(ind), colour = quote(ind), size = quote(ind)))} +
 
       ggplot2::theme_bw() +   
       {if(addlegend) ggplot2::theme(legend.position = c(xlegend, ylegend)) else ggplot2::theme(legend.position = "none")} +
       ggplot2::scale_color_manual(values = fitcol, labels = legendtext) +
       ggplot2::scale_linetype_manual(values = fitlty, labels = legendtext) +
+      ggplot2::scale_size_manual(values = fitlwd, labels = legendtext) +
       ggplot2::guides(colour = ggplot2::guide_legend(title = NULL)) +
       ggplot2::guides(linetype = ggplot2::guide_legend(title = NULL)) +
+      ggplot2::guides(size = ggplot2::guide_legend(title = NULL)) +
       
       {if(lines01) ggplot2::geom_hline(ggplot2::aes(yintercept=0), color="grey", linetype="dashed")} +
       {if(lines01) ggplot2::geom_hline(ggplot2::aes(yintercept=1), color="grey", linetype="dashed")} +
