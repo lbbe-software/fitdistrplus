@@ -55,7 +55,7 @@ if (requireNamespace("ggplot2", quietly = TRUE)) {
 
 if (requireNamespace("ggplot2", quietly = TRUE) & visualize) {
   qqcompcens(fl, plotstyle = "ggplot")
-  qqcompcens(lfn, plotstyle = "ggplot")
+  qqcompcens(fn, plotstyle = "ggplot")
 }
 
 
