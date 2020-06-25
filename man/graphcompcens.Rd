@@ -21,11 +21,11 @@ cdfcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, yl
     NPMLE.method = "Wang", 
     add = FALSE, plotstyle = "graphics", \dots)
 qqcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
-      fillrect, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", 
+      fillrect, fitcol, fitlwd, addlegend = TRUE, legendtext, xlegend = "bottomright", 
       ylegend = NULL, line01 = TRUE, line01col = "black", line01lty = 1, 
       ynoise = TRUE, NPMLE.method = "Wang", plotstyle = "graphics", \dots)
 ppcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
-      fillrect, fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", 
+      fillrect, fitcol, fitlwd, addlegend = TRUE, legendtext, xlegend = "bottomright", 
       ylegend = NULL, line01 = TRUE, line01col = "black", line01lty = 1, 
       ynoise = TRUE, NPMLE.method = "Wang", plotstyle = "graphics", \dots)
 }

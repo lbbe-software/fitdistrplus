@@ -27,7 +27,7 @@
 
 
 qqcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, fillrect,
-                       fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", ylegend = NULL, 
+                       fitcol, fitlwd, addlegend = TRUE, legendtext, xlegend = "bottomright", ylegend = NULL, 
                        line01 = TRUE, line01col = "black", line01lty = 1, ynoise = TRUE, 
                        NPMLE.method = "Wang", plotstyle = "graphics", ...)
 {
@@ -81,7 +81,9 @@ qqcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
   # manage default parameters
   nft <- length(ft)
   if (missing(fitcol)) fitcol <- 2:(nft+1)
+  if (missing(fitlwd)) fitlwd <- 1
   fitcol <- rep(fitcol, length.out=nft)
+  fitlwd <- rep(fitlwd, length.out=nft)
   if (missing(fillrect)) 
     if ((nft == 1) | plotstyle == "ggplot") fillrect <- "lightgrey" else fillrect <- NA
   
@@ -231,7 +233,7 @@ qqcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
           rect(xleft = Qitheo.left4plot, ybottom = Qi.left4plot * noise2mult, 
                xright = Qitheo.right4plot, 
                ytop = Qi.right4plot * noise2mult, 
-               border = fitcol[i], col = fillrect[i])
+               border = fitcol[i], col = fillrect[i], lwd = fitlwd[i])
         }
         else
         {
@@ -239,13 +241,13 @@ qqcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
           rect(xleft = Qitheo.left4plot, ybottom = Qi.left4plot + noise2add, 
                xright = Qitheo.right4plot, 
                ytop = Qi.right4plot + noise2add, 
-               border = fitcol[i], col = fillrect[i])
+               border = fitcol[i], col = fillrect[i], lwd = fitlwd[i])
         }
       } else # ! ynoise
       {
         rect(xleft = Qitheo.left4plot, ybottom = Qi.left4plot, xright = Qitheo.right4plot, 
              ytop = Qi.right4plot, 
-             border = fitcol[i], col = fillrect[i])
+             border = fitcol[i], col = fillrect[i], lwd = fitlwd[i])
       }
     }
     s <- sapply(1:nft, plot.fti, ...)
@@ -256,7 +258,7 @@ qqcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
     
     if (addlegend)
     {
-      legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, col=fitcol, lty = 1, ...)
+      legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, col=fitcol, lty=1, lwd=fitlwd, ...)
     }
     invisible()
     
@@ -269,12 +271,13 @@ qqcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
     drect <-  do.call("rbind", lrect)
     ind <- as.factor(drect$ind)
     fitcol <- rep(fitcol, table(ind))
+    fitlwd <- rep(fitlwd, table(ind))
     fillrect <- if(length(fillrect) > 1) {rep(fillrect, table(ind))} else {fillrect}
     
     ggqqcompcens <- ggplot2::ggplot(drect) + 
       ggplot2::coord_cartesian(xlim = xlim, ylim = ylim)  +
       ggplot2::ggtitle(main) + ggplot2::xlab(xlab) + ggplot2::ylab(ylab) +
-      ggplot2::geom_rect(data=drect, mapping=ggplot2::aes_(xmin=quote(Qitheo.left4plot), xmax=quote(Qitheo.right4plot), ymin=quote(Qi.left4plot), ymax=quote(Qi.right4plot)), colour = fitcol, fill = fillrect, alpha=0.5) +
+      ggplot2::geom_rect(data=drect, mapping=ggplot2::aes_(xmin=quote(Qitheo.left4plot), xmax=quote(Qitheo.right4plot), ymin=quote(Qi.left4plot), ymax=quote(Qi.right4plot)), colour = fitcol, fill = fillrect, size = fitlwd, alpha=0.5) +
       ggplot2::theme_bw() +
       ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
       {if(line01) ggplot2::geom_abline(ggplot2::aes(slope = 1, intercept = 0), color = line01col, linetype = line01lty)} +

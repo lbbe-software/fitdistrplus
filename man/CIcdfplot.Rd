@@ -8,7 +8,7 @@
 \usage{
 CIcdfplot(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.col = "red", 
   CI.lty = 2, CI.fill = NULL, CI.only = FALSE, xlim, ylim, xlogscale = FALSE, 
-  ylogscale = FALSE, main, xlab, ylab, datapch, datacol, fitlty, fitcol, 
+  ylogscale = FALSE, main, xlab, ylab, datapch, datacol, fitlty, fitcol, fitlwd, 
   horizontals = TRUE, verticals = FALSE, do.points = TRUE, use.ppoints = TRUE, 
   a.ppoints = 0.5, lines01 = FALSE, \dots)
 }
@@ -39,7 +39,10 @@ CIcdfplot(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.col = "red",
 \item{fitcol}{A (vector of) color(s) to plot fitted distributions. 
     If there are fewer colors than fits they are recycled in the standard fashion.}
 \item{fitlty}{A (vector of) line type(s) to plot fitted distributions/densities. 
-    If there are fewer colors than fits they are recycled in the standard fashion.
+    If there are fewer values than fits they are recycled in the standard fashion.
+    See also \code{\link{par}}.}
+\item{fitlwd}{A (vector of) line size(s) to plot fitted distributions/densities. 
+    If there are fewer values than fits they are recycled in the standard fashion.
     See also \code{\link{par}}.}
 \item{horizontals}{If \code{TRUE}, draws horizontal lines for the step empirical 
   cdf function (only for non censored data). See also \code{\link{plot.stepfun}}.}

@@ -25,7 +25,7 @@
 
 CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.col = "red", CI.lty = 2, 
                     CI.fill = NULL, CI.only = FALSE, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
-                    xlab, ylab, datapch, datacol, fitlty, fitcol, horizontals = TRUE, verticals = FALSE, 
+                    xlab, ylab, datapch, datacol, fitlty, fitcol, fitlwd, horizontals = TRUE, verticals = FALSE, 
                     do.points = TRUE, use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, ...)
 {
   if(inherits(b, "bootdist"))
@@ -72,6 +72,7 @@ CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.c
   if (missing(datacol)) datacol <- "black"
   if (missing(fitcol)) fitcol <- 2
   if (missing(fitlty)) fitlty <- 1
+  if (missing(fitlwd)) fitlwd <- 1
    if (missing(xlab)) 
   {
      if (!cens)
@@ -204,7 +205,7 @@ CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.c
     if (!cens)
     {
       cdfcomp(b$fitpart, xlim=xlim, ylim=ylim, xlogscale = xlogscale, ylogscale = ylogscale, 
-              main=main, xlab=xlab, ylab=ylab, datapch=datapch, datacol=datacol, fitlty=fitlty, 
+              main=main, xlab=xlab, ylab=ylab, datapch=datapch, datacol=datacol, fitlty=fitlty, fitlwd=fitlwd,
               fitcol=fitcol, horizontals = horizontals, verticals = verticals, do.points = do.points, 
               use.ppoints = use.ppoints, a.ppoints = a.ppoints, lines01 = lines01, addlegend = FALSE,
               add=TRUE)
@@ -212,7 +213,7 @@ CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.c
     } else
     {
       cdfcompcens(b$fitpart, xlim=xlim, ylim=ylim, xlogscale = xlogscale, ylogscale = ylogscale, 
-              main=main, xlab=xlab, ylab=ylab, datacol=datacol, fitlty=fitlty, fillrect = NA, 
+              main=main, xlab=xlab, ylab=ylab, datacol=datacol, fitlty=fitlty, fitlwd=fitlwd, fillrect = NA, 
               fitcol=fitcol, lines01 = lines01, Turnbull.confint = FALSE, addlegend = FALSE, add=TRUE)
       
     }

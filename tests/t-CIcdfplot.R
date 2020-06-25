@@ -39,6 +39,8 @@ CIcdfplot(b1, CI.level=90/100, CI.output = "quantile", CI.col="grey90", CI.type 
 CIcdfplot(b1, CI.level=90/100, CI.output = "probability", CI.col="grey85", CI.type = "less", CI.fill="grey90", 
           CI.only = TRUE)
 
+CIcdfplot(b1, CI.output = "probability", fitlty=3, fitlwd=4)
+
 # (2) an example from ecotoxicology
 # with censored data
 #

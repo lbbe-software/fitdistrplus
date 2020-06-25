@@ -27,7 +27,7 @@
 
 
 ppcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, fillrect,
-                       fitcol, addlegend = TRUE, legendtext, xlegend = "bottomright", ylegend = NULL, 
+                       fitcol, fitlwd, addlegend = TRUE, legendtext, xlegend = "bottomright", ylegend = NULL, 
                        line01 = TRUE, line01col = "black", line01lty = 1, ynoise = TRUE, NPMLE.method = "Wang", 
                        plotstyle = "graphics", ...)
 {
@@ -81,7 +81,9 @@ ppcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
   # manage default parameters
   nft <- length(ft)
   if (missing(fitcol)) fitcol <- 2:(nft+1)
+  if (missing(fitlwd)) fitlwd <- 1
   fitcol <- rep(fitcol, length.out=nft)
+  fitlwd <- rep(fitlwd, length.out=nft)
   if (missing(fillrect)) 
     if ((nft == 1) | plotstyle == "ggplot") fillrect <- "lightgrey" else fillrect <- NA
 
@@ -179,19 +181,19 @@ ppcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
           noise2mult <- runif(nQi, 0.99, 1.01)
           rect(xleft = Pitheo.low, ybottom = Pi.low * noise2mult, 
                xright = Pitheo.up, ytop = Pi.up * noise2mult, 
-               border = fitcol[i], col = fillrect[i])
+               border = fitcol[i], col = fillrect[i], lwd = fitlwd[i])
         }
         else
         {
           noise2add <- runif(nQi, -0.01, 0.01)
           rect(xleft = Pitheo.low, ybottom = Pi.low + noise2add, 
                xright = Pitheo.up, ytop = Pi.up + noise2add, 
-               border = fitcol[i], col = fillrect[i])
+               border = fitcol[i], col = fillrect[i], lwd = fitlwd[i])
         }
       } else # ! ynoise
       {
         rect(xleft = Pitheo.low, ybottom = Pi.low, xright = Pitheo.up, ytop = Pi.up, 
-             border = fitcol[i], col = fillrect[i])
+             border = fitcol[i], col = fillrect[i], lwd = fitlwd[i])
       }
     }
     s <- sapply(1:nft, plot.fti, ...)
@@ -202,7 +204,7 @@ ppcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
     
     if (addlegend)
     {
-      legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, col=fitcol, lty = 1, ...)
+      legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, col=fitcol, lty = 1, lwd = fitlwd, ...)
     }
     invisible()
     
@@ -215,12 +217,13 @@ ppcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
     drect <-  do.call("rbind", lrect)
     ind <- as.factor(drect$ind)
     fitcol <- rep(fitcol, table(ind))
+    fitlwd <- rep(fitlwd, table(ind))
     fillrect <- if(length(fillrect) > 1) {rep(fillrect, table(ind))} else {fillrect}
 
     ggppcompcens <- ggplot2::ggplot(drect) + 
       ggplot2::coord_cartesian(xlim = xlim, ylim = ylim)  +
       ggplot2::ggtitle(main) + ggplot2::xlab(xlab) + ggplot2::ylab(ylab) +
-      ggplot2::geom_rect(data=drect, mapping=ggplot2::aes_(xmin=quote(Pitheo.low), xmax=quote(Pitheo.up), ymin=quote(Pi.low), ymax=quote(Pi.up)), colour = fitcol, fill = fillrect, alpha=0.5) +
+      ggplot2::geom_rect(data=drect, mapping=ggplot2::aes_(xmin=quote(Pitheo.low), xmax=quote(Pitheo.up), ymin=quote(Pi.low), ymax=quote(Pi.up)), colour = fitcol, fill = fillrect, alpha=0.5, size = fitlwd) +
       ggplot2::theme_bw() +
       ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
       {if(line01) ggplot2::geom_abline(ggplot2::aes(slope = 1, intercept = 0), color = line01col, linetype = line01lty)} +

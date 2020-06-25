@@ -48,14 +48,17 @@ plot(fl)
 qqcompcens(fn)
 qqcompcens(fl)
 qqcompcens(list(fn, fl))
+qqcompcens(list(fn, fl), fitlwd = c(5, 2))
 
 if (requireNamespace("ggplot2", quietly = TRUE)) {
   qqcompcens(list(fn, fl), plotstyle = "ggplot")
+  qqcompcens(list(fn, fl), plotstyle = "ggplot", fitlwd = c(5, 2))
 }
 
 if (requireNamespace("ggplot2", quietly = TRUE) & visualize) {
   qqcompcens(fl, plotstyle = "ggplot")
   qqcompcens(fn, plotstyle = "ggplot")
+  
 }
 
 
