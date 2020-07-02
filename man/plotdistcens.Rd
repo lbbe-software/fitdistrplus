@@ -57,7 +57,7 @@ plotdistcens(censdata, distr, para, leftNA = -Inf, rightNA = Inf,
      If \code{NPMLE} is \code{TRUE}, and \code{NPMLE.method} is \code{"Turnbull.intervals"} ,
     empirical are plotted
     in cdf using the EM approach of Turnbull  (Turnbull, 1974).
-    In those tow cases, grey rectangles represent areas
+    In those two cases, grey rectangles represent areas
     where the empirical distribution function is not unique. In cases
     where a theoretical distribution is specified, two goodness-of-fit plots
     are also provided, a Q-Q plot (plot of the quantiles of the theoretical fitted 
