@@ -124,9 +124,26 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
     ############# closed-form formula for uniform distribution ##########
     if(distname == "unif")
     {
+      if(length(fix.arg) >= 2)
+      {  
+        stop("'fix.arg' sets all distribution parameters without any parameter to estimate.")
+      }else if(length(fix.arg) == 1)
+      {
+        if(names(fix.arg) == "min")
+          par <- c(max=max(data))
+        else if(names(fix.arg) == "max") 
+          par <- c(min=min(data))
+        else 
+          stop("'fix.arg' must specify names which are arguments to 'distr'.")
+      }else
         par <- c(min=min(data), max=max(data))
-        res <- list(estimate = par[!names(par) %in% names(fix.arg)], convergence = 0, loglik = NA, 
+      
+        myarg <- c(list(data), as.list(par), as.list(fix.arg))
+        loglikval <- sum(log(do.call(dunif, myarg)))
+        res <- list(estimate = par[!names(par) %in% names(fix.arg)], convergence = 0, 
+                    loglik = loglikval, meth = "closed formula",
                     hessian = NA, optim.function= NA, fix.arg = fix.arg)
+        
         return(res)
     }
     
