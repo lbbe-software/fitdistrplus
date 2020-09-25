@@ -16,9 +16,14 @@ punif2 <- function(q, min, max)
 
 x1 <- runif(n, 3, 5)
 
+L <- function(a, b, obs)
+  prod(dunif(obs, min=a, max=b))
+l <- Vectorize(L, "a")
+curve(l(x, b=5, obs=x1), from=1, to=3)
+
 f1 <- fitdist(x1, "unif")
-f2 <- fitdist(x1, "unif2", start=list(min=0, max=10), lower=c(-Inf, max(x)),
-              upper=c(min(x), Inf))
+f2 <- fitdist(x1, "unif2", start=list(min=0, max=10), lower=c(-Inf, max(x1)),
+              upper=c(min(x1), Inf))
 c(logLik(f1), logLik(f2))
 
 delta <- .2
