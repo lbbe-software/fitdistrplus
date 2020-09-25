@@ -268,6 +268,65 @@ legend("bottomright", lty=1:3, col=c("red", "green", "blue", "black"),
 ```
 
 
+## Can I fit a uniform distribution?
+The uniform distribution $\mathcal U(a,b)$ has only support parameters
+since the density does not have a scale or a shape parameter 
+$f_U(u) = \frac{1}{b-a}1_{[a,b]}(u)$. For this distribution, we should not 
+maximize the log-likelihood but only the likelihood. 
+Let $(x_i)_i$ be i.i.d. observations from $\mathcal U(a,b)$ distribution.
+The likelihood is
+$$
+L(a,b) = \prod_{i=1}^n \frac{1}{b-a} 1_{[a,b]}(x_i)
+= 1_{a\leq x_i \leq b, i=1,\dots,n} \frac{1}{b-a}^n
+= 1_{a\leq \min_i x_i} 1_{\max_i x_i \leq b} \frac{1}{b-a}^n
+$$
+Hence $a\mapsto L(a,b)$ for any fixed $b\in]\max_i x_i, +\infty[$
+is increasing on $]-\infty, \min_i x_i]$, similarly $b\mapsto L(a,b)$ 
+is decreasing for any fixed $a$. This leads to $\min_i x_i$ and
+$\max_i x_i$ to be the MLE of the uniform distribution.
+
+We should notice that the likelihood function $L$ is defined on $\mathbb R^2$ 
+yet it cancels outside$S=]-\infty, \min_i x_i]\times]\max_i x_i, +\infty[$.
+However the log-likelihood is undefined $S$, which is an issue when 
+maximizing the log-likelihood.
+
+For these reasons, `fitdist(data, dist="unif", method="mle")` uses the 
+explicit form of the MLE for this distribution. Here is an example below
+```{r, fig.height=4, fig.width=6}
+trueval <- c("min"=3, "max"=5)
+x <- runif(n=500, trueval[1], trueval[2])
+
+f1 <- fitdist(x, "unif")
+delta <- .01
+llsurface(x, "unif", plot.arg = c("min", "max"), min.arg=c(min(x)-2*delta, max(x)-delta),
+          max.arg=c(min(x)+delta, max(x)+2*delta), main="likelihood surface for uniform",
+        loglik=FALSE)
+abline(v=min(x), h=max(x), col="grey", lty=2)
+points(f1$estimate[1], f1$estimate[2], pch="x", col="red")
+points(trueval[1], trueval[2], pch="+", col="blue")
+legend("bottomright", pch=c("+","x"), col=c("blue","red"), c("true", "fitted"))
+delta <- .2
+llsurface(x, "unif", plot.arg = c("min", "max"), min.arg=c(3-2*delta, 5-delta),
+          max.arg=c(3+delta, 5+2*delta), main="log-likelihood surface for uniform")
+abline(v=min(x), h=max(x), col="grey", lty=2)
+points(f1$estimate[1], f1$estimate[2], pch="x", col="red")
+points(trueval[1], trueval[2], pch="+", col="blue")
+legend("bottomright", pch=c("+","x"), col=c("blue","red"), c("true", "fitted"))
+```
+
+Maximizing the log-likelihood is harder and can be done by defining a new density 
+function. Appropriate starting values and parameters bound must be supplied.
+```{r}
+dunif2 <- function(x, min, max) dunif(x, min, max)
+punif2 <- function(q, min, max) punif(q, min, max)
+f2 <- fitdist(x, "unif2", start=list(min=0, max=10), lower=c(-Inf, max(x)),
+              upper=c(min(x), Inf))
+print(c(logLik(f1), logLik(f2)), digits=7)
+```
+
+
+
+
 ## Can I fit a beta distribution with the same shape parameter?
 Yes, you can wrap the density function of the beta distribution so
 that there is a only one shape parameter.
@@ -286,15 +345,39 @@ x <- rbeta(1000, .3, .3)
 fitdist(x, "beta2", start=list(shape=1/2), optim.method="L-BFGS-B", lower=1e-2)	
 ```
 
+## How to estimate support parameter? an example with four-parameter beta 
+Let us consider the four-parameter beta distribution, also known as the PERT 
+distribution, defined by the following density for $x\in [a,c]$
+$f_X(x) = (x-a)^{\alpha-1} (c-x)^{\beta-1}/C_N$ with $C_N$ a normalizing
+constant and $\alpha=1+d(b-a)/(c-a)$, $\beta=1+d(c-b)/(c-a)$.
+$a,c$ are support parameters, $b\in]a,c[$ is the mode and $d$ the shape parameter.
+As for uniform distribution, one can show that the MLE of $a$ and $c$
+are respectively the sample minimum and maximum.
+It is better to use this fact as demonstrated below
+```{r, message=FALSE, fig.height=4, fig.width=6}
+require(mc2d)
+x2 <- rpert(n=200, min=0, mode=1, max=2, shape=3)
+eps <- 1e-6
+f1 <- fitdist(x2, "pert", start=list(min=-1, mode=0, max=10, shape=1))
+f2 <- fitdist(x2, "pert", start=list(mode=1, shape=1), 
+              fix.arg=list(min=min(x2)-eps, max=max(x2)+eps))
+
+gofstat(list(f1,f2))
+cdfcomp(list(f1,f2))
+```
+
+
 
 
 # Questions regarding goodness-of-fit tests and statistics
 
 ## Where can we find the results of goodness-of-fit tests ?
-Results of goodness-of-fit tests are not printed but are given in the object returned by `gofstat()` and you can 
-have access to them as described in the example below. Nevertheless, p-values are not given for every test. 
+Results of goodness-of-fit tests are not printed but are given in the object 
+returned by `gofstat()` and you can have access to them as described in the 
+example below. Nevertheless, p-values are not given for every test. 
 For Anderson-Darling (ad), Cramer von Mises (cvm) and Kolomogorov (ks), 
-only the decision (rejection of H0 or not) is given, when available (see FAQ 2.3 for more details).
+only the decision (rejection of H0 or not) is given, when available 
+(see FAQ 2.3 for more details).
 
 ```{r, fig.height=3, fig.width=6}
 set.seed(1234)
