@@ -1,5 +1,13 @@
 ==== fitdistrplus : Help to fit of a parametric distribution ===
 
+Version 1.1-2
+=============
+NEW FEATURE
+- take into account fix.arg for uniform distribution
+BUG FIXES
+- add the loglikelihood value for uniform distribution (in mledist())
+- correct usage of triple dots argument in llsurface()
+
 Version 1.1-1
 =============
 NEW FEATURES
