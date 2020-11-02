@@ -167,6 +167,7 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
     returned by the optimizer, or \code{NULL}. To understand exactly the message,
     see the source code.}
     \item{loglik}{the log-likelihood value.}
+    \item{method}{\code{"closed formula"} if appropriate otherwise \code{NULL}.}
 }
 
 
