@@ -7,6 +7,7 @@ NEW FEATURE
 BUG FIXES
 - add the loglikelihood value for uniform distribution (in mledist())
 - correct usage of triple dots argument in llsurface()
+- fix an error in ppcomp() and qqcomp() raised for large dataset 
 
 Version 1.1-1
 =============

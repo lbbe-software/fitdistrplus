@@ -132,7 +132,7 @@ qqcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
                        lty = fitpch[1], xlim=xlim, ylim=ylim, col=fitcol[1], type="l", 
                        lwd = fitlwd[1], ...)
     
-    #plot of fitted quantiles
+    #plot of other fitted quantiles
     if(nft > 1 && !ynoise && !largedata)
       for(i in 2:nft)
         points(fittedquant[,i], sdata, pch=fitpch[i], col=fitcol[i], ...)
@@ -148,7 +148,7 @@ qqcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
           points(fittedquant[,i], sdata+noise2add, pch=fitpch[i], col=fitcol[i], ...)
         }
     
-    if(largedata)
+    if(nft > 1 && largedata)
       for(i in 2:nft)
         lines(fittedquant[,i], sdata, col=fitcol[i], lty = fitpch[i], lwd = fitlwd[i], ...)
     

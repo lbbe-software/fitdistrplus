@@ -147,7 +147,7 @@ ppcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
           points(fittedprob[,i], obsp+noise2add, pch=fitpch[i], col=fitcol[i], ...)
         }
       }
-    if(largedata)
+    if(nft > 1 && largedata)
       for(i in 2:nft)
         lines(fittedprob[,i], obsp, col=fitcol[i], lty = fitpch[i], lwd = fitlwd[i], ...)
     
