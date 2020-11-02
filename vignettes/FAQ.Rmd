@@ -158,8 +158,8 @@ set.seed(1234)
 x <- rnorm(100, mean = 0.5, sd = 0.25)
 (try(fitdist(x, "beta")))
 ```
-It is irrelevant to do such fit. If you really need to use that distribution, you have two
-options: either to remove impossible values (not recommended) or to shift/scale the data.
+It is irrelevant to do such a fit. If you really need to use that distribution, you have two
+ways to tackle this issue: either to remove impossible values (not recommended) or to shift/scale the data.
 ```{r}
 fitdist(x[x > 0 & x < 1], "beta")
 fitdist((x - min(x)*1.01) / (max(x) * 1.01 - min(x) * 1.01), "beta")
@@ -351,16 +351,23 @@ distribution, defined by the following density for $x\in [a,c]$
 $f_X(x) = (x-a)^{\alpha-1} (c-x)^{\beta-1}/C_N$ with $C_N$ a normalizing
 constant and $\alpha=1+d(b-a)/(c-a)$, $\beta=1+d(c-b)/(c-a)$.
 $a,c$ are support parameters, $b\in]a,c[$ is the mode and $d$ the shape parameter.
+
 As for uniform distribution, one can show that the MLE of $a$ and $c$
 are respectively the sample minimum and maximum.
-It is better to use this fact as demonstrated below
+The code below illustrates the strategy using partial closed formula with
+`fix.arg` and the full numerical search of MLE. 
+NB: on small sample size, the latter has generally better 
+goodness-of-fit statistics; a small positive number is added or subtracted
+when fixing the support parameters $a$ and $c$ to sample minimum and maximum. 
 ```{r, message=FALSE, fig.height=4, fig.width=6}
 require(mc2d)
-x2 <- rpert(n=200, min=0, mode=1, max=2, shape=3)
-eps <- 1e-6
-f1 <- fitdist(x2, "pert", start=list(min=-1, mode=0, max=10, shape=1))
+x2 <- rpert(n=2e2, min=0, mode=1, max=2, shape=3/4)
+eps <- sqrt(.Machine$double.eps)
+f1 <- fitdist(x2, "pert", start=list(min=-1, mode=0, max=10, shape=1),
+              lower=c(-Inf, -Inf, -Inf, 0), upper=c(Inf, Inf, Inf, Inf))
 f2 <- fitdist(x2, "pert", start=list(mode=1, shape=1), 
-              fix.arg=list(min=min(x2)-eps, max=max(x2)+eps))
+              fix.arg=list(min=min(x2)-eps, max=max(x2)+eps),
+              lower=c(min(x2), 0), upper=c(max(x2), Inf))
 
 gofstat(list(f1,f2))
 cdfcomp(list(f1,f2))
