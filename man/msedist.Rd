@@ -41,7 +41,7 @@ msedist(data, distr, phidiv="KL", power.phidiv=NULL, start = NULL, fix.arg = NUL
 \item{weights}{an optional vector of weights to be used in the fitting process. 
     Should be \code{NULL} or a numeric vector with strictly positive integers 
     (typically the number of occurences of each observation). If non-\code{NULL}, 
-    weighted MLE is used, otherwise ordinary MLE.}
+    weighted MSE is used, otherwise ordinary MSE.}
 \item{silent}{A logical to remove or show warnings when bootstraping.}    
 \item{gradient}{A function to return the gradient of the gof distance for the \code{"BFGS"}, \code{"CG"} 
     and \code{"L-BFGS-B"} methods. If it is \code{NULL}, a finite-difference approximation will be used.}
