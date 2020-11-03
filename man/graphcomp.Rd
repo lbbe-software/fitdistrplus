@@ -4,7 +4,9 @@
 \alias{denscomp}
 \alias{qqcomp}
 \alias{ppcomp}
+
 \title{Graphical comparison of multiple fitted distributions (for non-censored data)}
+
 \description{   
  \code{cdfcomp} plots the empirical cumulative distribution against fitted distribution functions,
  \code{denscomp} plots the histogram against fitted density functions, 
@@ -102,8 +104,9 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
   object of the list \code{ft} is discrete.}
 \item{add}{If \code{TRUE}, adds to an already existing plot. If \code{FALSE}, starts a new plot.
   This parameter is not available when \code{plotstyle = "ggplot"}.}
-\item{plotstyle}{\code{"graphics"} or \code{"ggplot"}. If \code{"graphics"}, the display is built with \code{\link{graphics}} functions. 
-  If \code{"ggplot"}, a graphic object output is created with \code{ggplot2} functions.}
+\item{plotstyle}{\code{"graphics"} or \code{"ggplot"}. 
+  If \code{"graphics"}, the display is built with \code{\link{graphics}} functions. 
+  If \code{"ggplot"}, a graphic object output is created with \code{\link{ggplot2}} functions (the \code{\link{ggplot2}} package must be installed).}
 \item{\dots}{Further graphical arguments passed to graphical functions used in \code{cdfcomp}, \code{denscomp}, \code{ppcomp} 
   and \code{qqcomp} when \code{plotstyle = "graphics"}. 
   When \code{plotstyle = "ggplot"}, these arguments are only used by the histogram plot (\code{\link{hist}}) in the \code{denscomp} function.
@@ -151,12 +154,10 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
   of fitdistrplus.  
 }
 
-
 \references{
 Delignette-Muller ML and Dutang C (2015), 
 \emph{fitdistrplus: An R Package for Fitting Distributions}.
 Journal of Statistical Software, 64(4), 1-34.
-
 }
 
 \author{ 

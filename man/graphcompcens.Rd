@@ -45,32 +45,32 @@ ppcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, yla
   (only used if \code{NPMLE.method} is equal to \code{"Wang"} in \code{cdfcompcens}).
   Fix it to \code{NA} if you do not want to fill the rectangles.}
 \item{fitcol}{A (vector of) color(s) to plot fitted distributions. 
-    If there are fewer colors than fits they are recycled in the standard fashion.}
+  If there are fewer colors than fits they are recycled in the standard fashion.}
 \item{fitlty}{A (vector of) line type(s) to plot fitted distributions. 
-    If there are fewer values than fits they are recycled in the standard fashion.
-    See also \code{\link{par}}.}
+  If there are fewer values than fits they are recycled in the standard fashion.
+  See also \code{\link{par}}.}
 \item{fitlwd}{A (vector of) line size(s) to plot fitted distributions. 
-    If there are fewer values than fits they are recycled in the standard fashion.
-    See also \code{\link{par}}.}
+  If there are fewer values than fits they are recycled in the standard fashion.
+  See also \code{\link{par}}.}
 \item{addlegend}{If \code{TRUE}, a legend is added to the plot.}
 \item{legendtext}{A character or expression vector of length \eqn{\geq 1} to appear
-    in the legend, see also \code{\link{legend}}.}
+  in the legend, see also \code{\link{legend}}.}
 \item{xlegend, ylegend}{The \eqn{x} and \eqn{y} coordinates to be used to position the legend.
-    They can be specified by keyword.
+  They can be specified by keyword.
   If \code{plotstyle = "graphics"}, see \code{\link{xy.coords}} and \code{\link{legend}}.
   If \code{plotstyle = "ggplot"}, the \code{xlegend} keyword must be one of \code{top}, \code{bottom}, 
   \code{left}, or \code{right}. See also \code{guide_legend} in \code{ggplot2}}
 \item{lines01}{A logical to plot two horizontal lines at \code{h=0} and \code{h=1}
   for \code{cdfcompcens}.}
 \item{Turnbull.confint}{ if TRUE confidence intervals will be added to the Turnbull plot.
-    In that case NPMLE.method is forced to \code{"Turnbull"}}
+  In that case NPMLE.method is forced to \code{"Turnbull"}}
 \item{NPMLE.method}{Three NPMLE techniques are provided, \code{"Wang"}, the default one,
-    rewritten from the package npsurv using function constrOptim from the package stats 
-    for optimisation, \code{"Turnbull.middlepoints"}, an older one which is implemented in 
-    the package survival and \code{"Turnbull.intervals"} that uses the same Turnbull algorithm 
-    from the package survival but associates an interval to each equivalence class instead of the 
-    middlepoint of this interval  (see details). Only \code{"Wang"} and
-    \code{"Turnbull.intervals"} enable the derivation of a Q-Q plot and a P-P plot.}
+  rewritten from the package npsurv using function constrOptim from the package stats 
+  for optimisation, \code{"Turnbull.middlepoints"}, an older one which is implemented in 
+  the package survival and \code{"Turnbull.intervals"} that uses the same Turnbull algorithm 
+  from the package survival but associates an interval to each equivalence class instead of the 
+  middlepoint of this interval  (see details). Only \code{"Wang"} and
+  \code{"Turnbull.intervals"} enable the derivation of a Q-Q plot and a P-P plot.}
 \item{add}{If \code{TRUE}, adds to an already existing plot. If \code{FALSE}, starts a new plot.
   This parameter is not available when \code{plotstyle = "ggplot"}.}
 \item{line01}{A logical to plot an horizontal line \eqn{y=x} for 
@@ -82,8 +82,8 @@ ppcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, yla
   fits are plotted with the \code{"graphics"} \code{plotstyle}. 
   Facets are used instead with the \code{"ggplot"} \code{plotstyle}.}
 \item{plotstyle}{\code{"graphics"} or \code{"ggplot"}. 
-  If \code{"graphics"}, the display is built with \code{\link{graphics}} functions.
-  If \code{"ggplot"}, a graphic object output is created with \code{ggplot2} functions.
+  If \code{"graphics"}, the display is built with \code{\link{graphics}} functions. 
+  If \code{"ggplot"}, a graphic object output is created with \code{\link{ggplot2}} functions (the \code{\link{ggplot2}} package must be installed).
   In \code{"cdfcompcens"}, \code{"ggplot"} graphics are only available with \code{"Wang"} NPMLE technique.}
 \item{\dots}{Further graphical arguments passed to graphical functions used in \code{cdfcompcens}, \code{ppcompcens} 
   and \code{qqcompcens}.}
@@ -94,7 +94,7 @@ ppcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, yla
 }
 
 \seealso{ 
-    \code{\link{plotdistcens}}, \code{\link{survfit.formula}}, \code{\link{legend}} and \code{\link{par}}.
+  \code{\link{plotdistcens}}, \code{\link{survfit.formula}}, \code{\link{legend}} and \code{\link{par}}.
 }
 
 \references{ 
@@ -110,14 +110,11 @@ functions via a hierarchical mixture formulation}. Statistics and Computing, 23,
 
 Delignette-Muller ML and Dutang C (2015), \emph{fitdistrplus: An R Package for Fitting Distributions}.
 Journal of Statistical Software, 64(4), 1-34.
-
 }
-
 
 \author{ 
 Marie-Laure Delignette-Muller and Christophe Dutang.
 }
-
 
 \examples{
 # (1) Plot various distributions fitted to bacterial contamination data
