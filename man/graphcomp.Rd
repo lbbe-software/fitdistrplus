@@ -242,11 +242,11 @@ fitnb <- fitdist(number, "nbinom")
 cdfcomp(list(fitp, fitnb), legendtext = c("Poisson", "negative binomial"))
 denscomp(list(fitp, fitnb),demp = TRUE, legendtext = c("Poisson", "negative binomial"))
 denscomp(list(fitp, fitnb),demp = TRUE, fittype = "l", dempcol = "black",
-        legendtext = c("Poisson", "negative binomial"))
+  legendtext = c("Poisson", "negative binomial"))
 denscomp(list(fitp, fitnb),demp = TRUE, fittype = "p", dempcol = "black",
-        legendtext = c("Poisson", "negative binomial"))
+  legendtext = c("Poisson", "negative binomial"))
 denscomp(list(fitp, fitnb),demp = TRUE, fittype = "o", dempcol = "black",
-        legendtext = c("Poisson", "negative binomial"))
+  legendtext = c("Poisson", "negative binomial"))
 
 
 # (5) Customizing of graphical output and use of ggplot2
@@ -257,10 +257,10 @@ fitW <- fitdist(serving, "weibull")
 fitln <- fitdist(serving, "lnorm")
 fitg <- fitdist(serving, "gamma")
 if (requireNamespace ("ggplot2", quietly = TRUE)) {
-denscomp(list(fitW, fitln, fitg), plotstyle = "ggplot")
-cdfcomp(list(fitW, fitln, fitg), plotstyle = "ggplot")
-qqcomp(list(fitW, fitln, fitg), plotstyle = "ggplot")
-ppcomp(list(fitW, fitln, fitg), plotstyle = "ggplot")
+  denscomp(list(fitW, fitln, fitg), plotstyle = "ggplot")
+  cdfcomp(list(fitW, fitln, fitg), plotstyle = "ggplot")
+  qqcomp(list(fitW, fitln, fitg), plotstyle = "ggplot")
+  ppcomp(list(fitW, fitln, fitg), plotstyle = "ggplot")
 }
 
 # customizing graphical output with graphics

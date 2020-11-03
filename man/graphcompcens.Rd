@@ -140,10 +140,10 @@ summary(fitsfg)
 # CDF plot
 cdfcompcens(list(fitsfn,fitsfl,fitsfg))
 cdfcompcens(list(fitsfn,fitsfl,fitsfg),datacol="orange",fillrect = NA, 
-    legendtext=c("normal","logistic","Gumbel"),
-    main="bacterial contamination fits",
-    xlab="bacterial concentration (CFU/g)",ylab="F",
-    xlegend = "bottom",lines01 = TRUE)
+  legendtext=c("normal","logistic","Gumbel"),
+  main="bacterial contamination fits",
+  xlab="bacterial concentration (CFU/g)",ylab="F",
+  xlegend = "bottom",lines01 = TRUE)
 # alternative Turnbull plot for the empirical cumulative distribution
 # (default plot of the previous versions of the package)
 cdfcompcens(list(fitsfn,fitsfl,fitsfg), NPMLE.method = "Turnbull.middlepoints")
