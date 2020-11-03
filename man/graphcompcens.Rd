@@ -83,7 +83,7 @@ ppcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, yla
   Facets are used instead with the \code{"ggplot"} \code{plotstyle}.}
 \item{plotstyle}{\code{"graphics"} or \code{"ggplot"}. 
   If \code{"graphics"}, the display is built with \code{\link{graphics}} functions. 
-  If \code{"ggplot"}, a graphic object output is created with \code{\link{ggplot2}} functions (the \code{\link{ggplot2}} package must be installed).
+  If \code{"ggplot"}, a graphic object output is created with \code{ggplot2} functions (the \code{ggplot2} package must be installed).
   In \code{"cdfcompcens"}, \code{"ggplot"} graphics are only available with \code{"Wang"} NPMLE technique.}
 \item{\dots}{Further graphical arguments passed to graphical functions used in \code{cdfcompcens}, \code{ppcompcens} 
   and \code{qqcompcens}.}
