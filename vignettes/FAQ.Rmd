@@ -286,7 +286,7 @@ is decreasing for any fixed $a$. This leads to $\min_i x_i$ and
 $\max_i x_i$ to be the MLE of the uniform distribution.
 
 We should notice that the likelihood function $L$ is defined on $\mathbb R^2$ 
-yet it cancels outside$S=]-\infty, \min_i x_i]\times]\max_i x_i, +\infty[$.
+yet it cancels outside $S=]-\infty, \min_i x_i]\times]\max_i x_i, +\infty[$.
 However the log-likelihood is undefined $S$, which is an issue when 
 maximizing the log-likelihood.
 
@@ -316,12 +316,15 @@ legend("bottomright", pch=c("+","x"), col=c("blue","red"), c("true", "fitted"))
 
 Maximizing the log-likelihood is harder and can be done by defining a new density 
 function. Appropriate starting values and parameters bound must be supplied.
+Using the closed-form expression (as in `fitdist()`) or maximizing the 
+log-likelihood (with `unif2`) lead to very similar results.
 ```{r}
 dunif2 <- function(x, min, max) dunif(x, min, max)
 punif2 <- function(q, min, max) punif(q, min, max)
 f2 <- fitdist(x, "unif2", start=list(min=0, max=10), lower=c(-Inf, max(x)),
               upper=c(min(x), Inf))
 print(c(logLik(f1), logLik(f2)), digits=7)
+print(cbind(coef(f1), coef(f2)), digits=7)
 ```
 
 
@@ -371,6 +374,8 @@ f2 <- fitdist(x2, "pert", start=list(mode=1, shape=1),
 
 gofstat(list(f1,f2))
 cdfcomp(list(f1,f2))
+print(cbind(coef(f1), c(f2$fix.arg["min"], coef(f2)["mode"], 
+                        f2$fix.arg["max"], coef(f2)["shape"])), digits=7)
 ```
 
 
