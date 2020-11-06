@@ -287,7 +287,7 @@ $\max_i x_i$ to be the MLE of the uniform distribution.
 
 We should notice that the likelihood function $L$ is defined on $\mathbb R^2$ 
 yet it cancels outside $S=]-\infty, \min_i x_i]\times]\max_i x_i, +\infty[$.
-However the log-likelihood is undefined $S$, which is an issue when 
+Hence, the log-likelihood is undefined outside $S$, which is an issue when 
 maximizing the log-likelihood.
 
 For these reasons, `fitdist(data, dist="unif", method="mle")` uses the 
