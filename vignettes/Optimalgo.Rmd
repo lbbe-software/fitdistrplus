@@ -160,7 +160,7 @@ The density of the beta distribution is given by
 $$
 f(x; \delta_1,\delta_2) = \frac{x^{\delta_1-1}(1-x)^{\delta_2-1}}{\beta(\delta_1,\delta_2)},
 $$
-where $\beta$ denotes the beta function, see the NIST Handbook of mathematical functions http://dlmf.nist.gov/.
+where $\beta$ denotes the beta function, see the NIST Handbook of mathematical functions https://dlmf.nist.gov/.
 We recall that $\beta(a,b)=\Gamma(a)\Gamma(b)/\Gamma(a+b)$.
 There the log-likelihood for a set of observations $(x_1,\dots,x_n)$ is
 $$
@@ -175,7 +175,7 @@ $$
 \end{matrix}\right),
 $$
 where $\psi(x)=\Gamma'(x)/\Gamma(x)$ is the digamma function, 
-see the NIST Handbook of mathematical functions http://dlmf.nist.gov/.
+see the NIST Handbook of mathematical functions https://dlmf.nist.gov/.
 
 ### `R` implementation
 As in the `fitdistrplus` package, we minimize the opposite of the log-likelihood: 
@@ -294,7 +294,7 @@ The p.m.f. of the Negative binomial distribution is given by
 $$
 f(x; m,p) = \frac{\Gamma(x+m)}{\Gamma(m)x!} p^m (1-p)^x,
 $$
-where $\Gamma$ denotes the beta function, see the NIST Handbook of mathematical functions http://dlmf.nist.gov/.
+where $\Gamma$ denotes the beta function, see the NIST Handbook of mathematical functions https://dlmf.nist.gov/.
 There exists an alternative representation where $\mu=m (1-p)/p$ or equivalently $p=m/(m+\mu)$.
 Thus, the log-likelihood for a set of observations $(x_1,\dots,x_n)$ is
 $$
@@ -318,7 +318,7 @@ $$
 \end{matrix}\right),
 $$
 where $\psi(x)=\Gamma'(x)/\Gamma(x)$ is the digamma function, 
-see the NIST Handbook of mathematical functions http://dlmf.nist.gov/.
+see the NIST Handbook of mathematical functions https://dlmf.nist.gov/.
 
 ### `R` implementation
 As in the `fitdistrplus` package, we minimize the opposite of the log-likelihood: we implement the opposite of the gradient in `grlnL`.
