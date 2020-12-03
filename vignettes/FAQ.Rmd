@@ -348,7 +348,7 @@ x <- rbeta(1000, .3, .3)
 fitdist(x, "beta2", start=list(shape=1/2), optim.method="L-BFGS-B", lower=1e-2)	
 ```
 
-## How to estimate support parameter? an example with four-parameter beta 
+## How to estimate support parameter? the case of the four-parameter beta 
 Let us consider the four-parameter beta distribution, also known as the PERT 
 distribution, defined by the following density for $x\in [a,c]$
 $f_X(x) = (x-a)^{\alpha-1} (c-x)^{\beta-1}/C_N$ with $C_N$ a normalizing
