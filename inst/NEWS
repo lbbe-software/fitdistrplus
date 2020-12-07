@@ -1,6 +1,6 @@
 ==== fitdistrplus : Help to fit of a parametric distribution ===
 
-Version 1.1-2
+Version 1.1-3
 =============
 NEW FEATURE
 - take into account fix.arg for uniform distribution
