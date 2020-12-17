@@ -64,9 +64,9 @@ checkparamlist <- function(start.arg, fix.arg, argdistname, hasnodefaultval)
   {
     unsetarg <- theoparam[!theoparam %in% allparname] 
     if(any(hasnodefaultval[unsetarg]))
-      stop(paste0(errtxt$t8, unsetarg, "."))
+      stop(paste0(errtxt$t8, paste(unsetarg, collapse = ", "), "."))
     else
-      warning(paste0(errtxt$t9, unsetarg, "."))
+      warning(paste0(errtxt$t9, paste(unsetarg, collapse = ", "), "."))
   }
   
   list("start.arg"=start.arg, "fix.arg"=fix.arg)
