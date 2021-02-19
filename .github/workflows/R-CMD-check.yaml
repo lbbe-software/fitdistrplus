@@ -41,6 +41,8 @@ jobs:
           r-version: ${{ matrix.config.r }}
 
       - uses: r-lib/actions/setup-pandoc@v1
+      
+      - uses: r-lib/actions/setup-tinytex@master
 
       - name: Install libraries for Linux
         if: runner.os == 'Linux'
