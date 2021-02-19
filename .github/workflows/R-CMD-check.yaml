@@ -41,6 +41,11 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v1
 
+      - name: Install libraries for Linux
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get install texlive
+          
       - name: Query dependencies
         run: |
           install.packages('remotes')
