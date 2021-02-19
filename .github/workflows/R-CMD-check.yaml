@@ -76,6 +76,7 @@ jobs:
         run: |
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
+          tinytex::tlmgr_install("amscls")   
         shell: Rscript {0}
 
       - name: Check
