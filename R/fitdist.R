@@ -71,6 +71,7 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge", "mse"),
     # manage starting/fixed values: may raise errors or return two named list
     arg_startfix <- manageparam(start.arg=start, fix.arg=fix.arg, obs=data, 
                                  distname=distname)
+    print(arg_startfix)
     
     #check inconsistent parameters
     argddistname <- names(formals(ddistname))
