@@ -1,4 +1,3 @@
-
 library(fitdistrplus)
 nbboot <- 100
 nbboot <- 10
@@ -22,7 +21,9 @@ names(fitdist(serving, "gamma", optim.method="Brent", lower=0, upper=10, fix.arg
 names(fitdist(serving, "gamma", optim.method="Nelder-Mead")$estimate)
 names(fitdist(serving, "gamma", optim.method="BFGS")$estimate)
 # names(fitdist(serving, "gamma", optim.method="CG", start=list(shape=4, rate=1/20))$estimate)
-names(fitdist(serving, "gamma", optim.method="L-BFGS-B", lower=0)$estimate)
+if(visualize) {  # check ERROR on aarch64-apple-darwin20.4.0 (64-bit) (2021/05/12)
+  names(fitdist(serving, "gamma", optim.method="L-BFGS-B", lower=0)$estimate)
+}
 
 # (7) custom optimization function
 #

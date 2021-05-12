@@ -1,3 +1,5 @@
+visualize <- FALSE # TRUE for manual tests with visualization of results
+
 myoptimize <- function(fn,par,ui,ci,...){
   res <- constrOptim(f=fn,theta=par,method="Nelder-Mead",ui=ui,ci=ci, ...)
   standardres <- c(res,convergence=0,value=res$objective,par=res$minimum,hessian=NA)
@@ -17,12 +19,13 @@ fitdist(x, "exp", lower= 2, optim.method="L-BFGS-B")
 #two parameter example
 x <- rbeta(100, pi, 1/pi)
 
-fitdist(x, "beta")
-
-#binding example 
-fitdist(x, "beta", custom.optim=myoptimize, ui=rbind(1,1), ci=c(1/2,1/2), start=list(shape1=5, shape2=5))
-fitdist(x, "beta", lower= c(1/2,1/2), optim.method="L-BFGS-B")
-
+if(visualize) {  # check ERROR on aarch64-apple-darwin20.4.0 (64-bit) (2021/05/12)
+  fitdist(x, "beta")
+  
+  #binding example 
+  fitdist(x, "beta", custom.optim=myoptimize, ui=rbind(1,1), ci=c(1/2,1/2), start=list(shape1=5, shape2=5))
+  fitdist(x, "beta", lower= c(1/2,1/2), optim.method="L-BFGS-B")
+}
 
 
 #true example

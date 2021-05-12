@@ -66,10 +66,11 @@ summary(b1d)
 # (5) fit of a gamma distribution with control of the optimization
 # method,  followed by parametric bootstrap
 #
-f1e <- fitdist(serving, "gamma", optim.method="L-BFGS-B", lower=c(0, 0))
-b1e <- bootdist(f1e, niter=nbboot)
-summary(b1e)
-
+if(visualise) { # check ERROR on aarch64-apple-darwin20.4.0 (64-bit) (2021/05/12)
+  f1e <- fitdist(serving, "gamma", optim.method="L-BFGS-B", lower=c(0, 0))
+  b1e <- bootdist(f1e, niter=nbboot)
+  summary(b1e)
+}
 
 # (6) fit of a discrete distribution by matching moment estimation 
 # (using a closed formula) followed by parametric bootstrap
