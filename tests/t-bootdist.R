@@ -111,13 +111,13 @@ quantile(bWqme, probs=c(0.25, 0.75))
 #
 if (visualize) 
 {
-if(any(installed.packages()[, "Package"] == "actuar"))
-{
+  if(any(installed.packages()[, "Package"] == "actuar"))
+  {
     require(actuar)
-#simulate a sample
+    #simulate a sample
     x4 <- rpareto(nsample,  6,  2)
     memp <- function(x,  order)
-    ifelse(order == 1,  mean(x),  sum(x^order)/length(x))
+      ifelse(order == 1,  mean(x),  sum(x^order)/length(x))
     
     f4 <- fitdist(x4,  "pareto",  "mme",  order=1:2,  
                   start=list(shape=10,  scale=10),  
@@ -128,7 +128,7 @@ if(any(installed.packages()[, "Package"] == "actuar"))
     
     b4npar <- bootdist(f4,  niter=nbboot,  bootmethod="nonparam")
     summary(b4npar)
-}
+  }
 }
 
 # (11) Fit of a Burr distribution (3 parameters) using MLE 
@@ -156,17 +156,17 @@ if (visualize)
 # 
 if(any(installed.packages()[, "Package"] == "mc2d"))
 {
-    require(mc2d)
-    set.seed(1234)
-    x4 <- rtriang(100,min=0,mode=4,max=20) # nsample not used : does not converge if the sample is too small
-    fit4t<-fitdist(x4,dtriang,start=list(min=0,mode=4,max=20))
-    summary(fit4t)
-    b4t<-bootdist(fit4t,niter=nbboot) 
-    b4t
-    plot(b4t)
-    summary(b4t)
-    quantile(b4t)
-
+  require(mc2d)
+  set.seed(1234)
+  x4 <- rtriang(100,min=0,mode=4,max=20) # nsample not used : does not converge if the sample is too small
+  fit4t<-fitdist(x4,dtriang,start=list(min=0,mode=4,max=20))
+  summary(fit4t)
+  b4t<-bootdist(fit4t,niter=nbboot) 
+  b4t
+  plot(b4t)
+  summary(b4t)
+  quantile(b4t)
+  
 }
 
 # (13) Fit of a Pareto and a Burr distribution, with bootstrap on the Burr distribution
@@ -269,15 +269,15 @@ if (visualize)
   }
   # not available on Windows
   if(.Platform$OS.type == "unix") 
-  for (cli in 1:4)
-  {
-    cat("\nnb cluster", cli, "\n")
-    #ptm <- proc.time()
-    alltime[cli+5,] <- system.time(res <- bootdist(f1, niter = niter, parallel = "multicore", ncpus = cli))
-    print(summary(res))
-    #print(proc.time() - ptm)
-    
-  }
+    for (cli in 1:4)
+    {
+      cat("\nnb cluster", cli, "\n")
+      #ptm <- proc.time()
+      alltime[cli+5,] <- system.time(res <- bootdist(f1, niter = niter, parallel = "multicore", ncpus = cli))
+      print(summary(res))
+      #print(proc.time() - ptm)
+      
+    }
   
   alltime
 }

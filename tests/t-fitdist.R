@@ -42,18 +42,18 @@ summary(res1)
 #to meet the standard 'fn' argument and specific name arguments, we wrap optimize, 
 myoptimize <- function(fn, par, ...) 
 {
-    res <- optimize(f=fn, ..., maximum=FALSE)  
-#assume the optimization function minimize
-    
-    standardres <- c(res, convergence=0, value=res$objective, 
-                     par=res$minimum, hessian=NA)
-    
-    return(standardres)
+  res <- optimize(f=fn, ..., maximum=FALSE)  
+  #assume the optimization function minimize
+  
+  standardres <- c(res, convergence=0, value=res$objective, 
+                   par=res$minimum, hessian=NA)
+  
+  return(standardres)
 }
 
 #call fitdist with a 'custom' optimization function
 res2 <- fitdist(mysample, dexp, start=mystart, custom.optim=myoptimize, 
-interval=c(0, 100))
+                interval=c(0, 100))
 
 #show the result
 summary(res2)
@@ -63,48 +63,48 @@ summary(res2)
 #
 if(any(installed.packages()[,"Package"] == "rgenoud"))
 {
-
-#set a sample
-    fit1 <- fitdist(serving, "gamma")
-    summary(fit1)
+  
+  #set a sample
+  fit1 <- fitdist(serving, "gamma")
+  summary(fit1)
+  
+  #wrap genoud function rgenoud package
+  mygenoud <- function(fn, par, ...) 
+  {
+    require(rgenoud)
+    res <- genoud(fn, starting.values=par, ...)        
+    standardres <- c(res, convergence=0, counts=NULL)
     
-#wrap genoud function rgenoud package
-    mygenoud <- function(fn, par, ...) 
-    {
-        require(rgenoud)
-        res <- genoud(fn, starting.values=par, ...)        
-        standardres <- c(res, convergence=0, counts=NULL)
-        
-        return(standardres)
-    }
-    
-#call fitdist with a 'custom' optimization function
-    fit2 <- fitdist(serving, "gamma", custom.optim=mygenoud, nvars=2, start=as.list(fit1$estimate),
-                    Domains=cbind(c(0, 0), c(10, 10)), boundary.enforcement=1, 
-                    print.level=0, hessian=TRUE)
-    
-    summary(fit2)
+    return(standardres)
+  }
+  
+  #call fitdist with a 'custom' optimization function
+  fit2 <- fitdist(serving, "gamma", custom.optim=mygenoud, nvars=2, start=as.list(fit1$estimate),
+                  Domains=cbind(c(0, 0), c(10, 10)), boundary.enforcement=1, 
+                  print.level=0, hessian=TRUE)
+  
+  summary(fit2)
 }
 
 # (11) Fit of a Pareto distribution by numerical moment matching estimation
 #
 if(any(installed.packages()[,"Package"] == "actuar"))
 {
-    require(actuar)
-    #simulate a sample
-    set.seed(1234)
-    x4 <- rpareto(nsample, 6, 2)
-    
-    #empirical raw moment
-    memp <- function(x, order)
-        ifelse(order == 1, mean(x), sum(x^order)/length(x))
-    
-    #fit
-    fP <- fitdist(x4, "pareto", method="mme", order=c(1, 2), memp="memp", 
-                  start=list(shape=10, scale=10), lower=1, upper=Inf)
-    summary(fP)
-    plot(fP)
-    
+  require(actuar)
+  #simulate a sample
+  set.seed(1234)
+  x4 <- rpareto(nsample, 6, 2)
+  
+  #empirical raw moment
+  memp <- function(x, order)
+    ifelse(order == 1, mean(x), sum(x^order)/length(x))
+  
+  #fit
+  fP <- fitdist(x4, "pareto", method="mme", order=c(1, 2), memp="memp", 
+                start=list(shape=10, scale=10), lower=1, upper=Inf)
+  summary(fP)
+  plot(fP)
+  
 }
 
 
@@ -202,12 +202,12 @@ quantile(fln, probs = 0.05)
 # 
 if(any(installed.packages()[,"Package"] == "mc2d"))
 {
-set.seed(1234)
-require(mc2d)
-t <- rtriang(100,min=5,mode=6,max=10) # nsample not used : does not converge with a too small sample
-fCvM <- fitdist(t,"triang",method="mge",start = list(min=4, mode=6,max=9),gof="CvM")
-fKS <- fitdist(t,"triang",method="mge",start = list(min=4, mode=6,max=9),gof="KS")
-cdfcomp(list(fCvM,fKS))
+  set.seed(1234)
+  require(mc2d)
+  t <- rtriang(100,min=5,mode=6,max=10) # nsample not used : does not converge with a too small sample
+  fCvM <- fitdist(t,"triang",method="mge",start = list(min=4, mode=6,max=9),gof="CvM")
+  fKS <- fitdist(t,"triang",method="mge",start = list(min=4, mode=6,max=9),gof="KS")
+  cdfcomp(list(fCvM,fKS))
 }
 
 # (18) gumbel distribution
