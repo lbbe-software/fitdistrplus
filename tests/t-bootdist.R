@@ -67,6 +67,7 @@ summary(b1d)
 # method,  followed by parametric bootstrap
 #
 if(visualize) { # check ERROR on aarch64-apple-darwin20.4.0 (64-bit) (2021/05/12)
+  set.seed(1234)
   f1e <- fitdist(serving, "gamma", optim.method="L-BFGS-B", lower=c(0, 0))
   b1e <- bootdist(f1e, niter=nbboot)
   summary(b1e)

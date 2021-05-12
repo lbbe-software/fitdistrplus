@@ -22,6 +22,7 @@ names(fitdist(serving, "gamma", optim.method="Nelder-Mead")$estimate)
 names(fitdist(serving, "gamma", optim.method="BFGS")$estimate)
 # names(fitdist(serving, "gamma", optim.method="CG", start=list(shape=4, rate=1/20))$estimate)
 if(visualize) {  # check ERROR on aarch64-apple-darwin20.4.0 (64-bit) (2021/05/12)
+  set.seed(1234)
   names(fitdist(serving, "gamma", optim.method="L-BFGS-B", lower=0)$estimate)
 }
 

@@ -20,6 +20,7 @@ fitdist(x, "exp", lower= 2, optim.method="L-BFGS-B")
 x <- rbeta(100, pi, 1/pi)
 
 if(visualize) {  # check ERROR on aarch64-apple-darwin20.4.0 (64-bit) (2021/05/12)
+  set.seed(1234)
   fitdist(x, "beta")
   
   #binding example 
