@@ -60,7 +60,7 @@ b1 <- bootdistcens(f1, niter=nbboot)
 plot(b1)
 
 # (6) efficiency of parallel operation
-if (visualize) # too long to run on CRAN and forbiden due to parallel computing
+if (visualize) # too long to run on CRAN and forbidden due to parallel computing
 {
   niter <- 5001
   data(fluazinam)
