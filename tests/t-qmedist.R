@@ -1,10 +1,11 @@
 library(fitdistrplus)
+nsample <- 10
 
 # (1) basic fit of a normal distribution 
 #
 
 set.seed(1234)
-x1 <- rnorm(n=100)
+x1 <- rnorm(n=nsample)
 qmedist(x1, "norm", probs=c(1/3, 2/3))
 
 
@@ -20,14 +21,14 @@ qmedist(x1, "gumbel", probs=c(1/3, 2/3), start=list(a=10,b=5))
 #
 
 set.seed(1234)
-x2 <- rpois(n=30,lambda = 2)
+x2 <- rpois(n=nsample,lambda = 2)
 qmedist(x2, "pois", probs=1/2)
 
 # (4) fit a finite-support distribution (beta)
 #
 
 set.seed(1234)
-x3 <- rbeta(n=100,shape1=5, shape2=10)
+x3 <- rbeta(n=nsample, shape1=5, shape2=10)
 qmedist(x3, "beta", probs=c(1/3, 2/3))
 
 
@@ -58,7 +59,7 @@ pnorm2 <- function(q, poid, m1, s1, m2, s2)
 
 
 #basic normal distribution
-x <- c(rnorm(1000, 5),  rnorm(1000, 10))
+x <- c(rnorm(nsample, 5),  rnorm(nsample, 10))
 #QME
 fit2 <- qmedist(x, "norm2", probs=c(1/6, 1/4, 1/3, 1/2, 2/3), 
 	start=list(poid=1/3, m1=4, s1=2, m2=8, s2=2), 
@@ -71,7 +72,7 @@ fit2 <- qmedist(x, "norm2", probs=c(1/6, 1/4, 1/3, 1/2, 2/3),
 
 dnorm3 <- qnorm3 <- function(x, a)
   "NA"
-x <- rexp(10)
+x <- rexp(nsample)
 
 #should get a one-line error 
 res <- qmedist(x, "norm3", start=list(a=1), probs=1/2)
@@ -82,8 +83,7 @@ attr(try(log("a"), silent=TRUE), "condition")
 # (8) weighted QME
 #
 n <- 1e6
-n <- 1e2
-x <- rpois(n, 10)
+x <- rpois(nsample, 10)
 xtab <- table(x)
 xval <- sort(unique(x))
 f1 <- qmedist(x, "pois", start=list(lambda=mean(x)), lower=0, upper=100, probs=1/2) #, control=list(trace=1, REPORT=1)
@@ -92,9 +92,10 @@ f2 <- qmedist(xval, "pois", weights=xtab, start=list(lambda=mean(x)), probs=1/2)
 f1$estimate
 f2$estimate #should be identical
 
-x <- rexp(n)
+x <- rexp(nsample)
 f3 <- qmedist(x, "exp", probs=1/2)
-f4 <- qmedist(x, "exp", weights=c(rep(1, n/2), round(sqrt(1:(n/2)))), probs=1/2)
+w4 <- c(rep(1, nsample/2), round(sqrt(1:(nsample/2))))
+f4 <- qmedist(x, "exp", weights=w4, probs=1/2)
 f3$estimate
 f4$estimate
 
@@ -109,11 +110,11 @@ median(tail(x, 50))
 try(qmedist(x, "exp", weights=c(rep(1, n/2), sqrt(1:(n/2))), probs=1/2))
 
 # (9) test the component optim.message
-x <- rnorm(1000)
+x <- rnorm(nsample)
 #change parameter to obtain unsuccessful convergence
 qmedist(x, "norm", probs=1:2/3, control=list(maxit=2), start=list(mean=1e5, sd=1), optim.method="L-BFGS-B", lower=0)
 
 # (10) test bounds
-x <- rnorm(1000)
+x <- rnorm(nsample)
 qmedist(x, "norm", probs=1:2/3, optim.method="L-BFGS-B", lower=c(-Inf, 0)) #via optim
 qmedist(x, "norm", probs=1:2/3, optim.method="Nelder", lower=c(-Inf, 0)) #via constrOptim

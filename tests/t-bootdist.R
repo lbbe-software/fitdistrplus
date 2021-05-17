@@ -3,7 +3,7 @@ library(fitdistrplus)
 #For practical application, we recommend to use nbboot=501 or nbboot=1001.
 
 nbboot <- 1001
-nbboot <- 10
+nbboot <- 11
 
 nsample <- 100
 nsample <- 10
@@ -34,7 +34,7 @@ plot(b1, enhance=TRUE)
 plot(b1, enhance=TRUE, trueval = c(2, 3))
 plot(b1, enhance=TRUE, rampcol=c("blue", "green"), nbgrid=15, nbcol=15)
 
-if(any(installed.packages()[, "Package"] == "actuar"))
+if(any(installed.packages()[, "Package"] == "actuar") && visualize)
 {
   require(actuar)
   set.seed(123)
@@ -86,11 +86,14 @@ summary(b2)
 # (7) Fit of a uniform distribution using the Cramer-von Mises distance
 # followed by parametric bootstrap 
 # 
-x3  <-  runif(nsample, min=5, max=10)
-f3  <-  fitdist(x3, "unif", method="mge", gof="CvM")
-b3  <-  bootdist(f3, bootmethod="param", niter=nbboot)
-summary(b3)
-plot(b3)
+if(visualize)
+{
+  x3  <-  runif(nsample, min=5, max=10)
+  f3  <-  fitdist(x3, "unif", method="mge", gof="CvM")
+  b3  <-  bootdist(f3, bootmethod="param", niter=nbboot)
+  summary(b3)
+  plot(b3)
+}
 
 # (9) fit of a Weibull distribution to serving size data by maximum likelihood 
 # estimation or by quantile matching estimation (in this example matching 
@@ -174,41 +177,43 @@ if(any(installed.packages()[, "Package"] == "mc2d"))
 # (13) Fit of a Pareto and a Burr distribution, with bootstrap on the Burr distribution
 #
 #
-data(endosulfan)
-ATV <-endosulfan$ATV
-plotdist(ATV)
-descdist(ATV,boot=nbboot)
-
-fln <- fitdist(ATV, "lnorm")
-summary(fln)
-gofstat(fln)
-
-# use of plotdist to find good reasonable initial values for parameters
-plotdist(ATV, "pareto", para=list(shape=1, scale=500))
-fP <- fitdist(ATV, "pareto", start=list(shape=1, scale=500))
-summary(fP)
-gofstat(fP)
-
-# definition of the initial values from the fit of the Pareto
-# as the Burr distribution is the Pareto when shape2 == 1
-fB <- fitdist(ATV, "burr", start=list(shape1=0.3, shape2=1, rate=1))
-summary(fB)
-gofstat(fB)
-
-cdfcomp(list(fln,fP,fB),xlogscale=TRUE)
-qqcomp(list(fln,fP,fB),xlogscale=TRUE,ylogscale=TRUE)
-ppcomp(list(fln,fP,fB),xlogscale=TRUE,ylogscale=TRUE)
-denscomp(list(fln,fP,fB)) # without great interest as hist does accept argument log="x"
-
-# comparison of HC5 values (5 percent quantiles)
-quantile(fln,probs=0.05)
-quantile(fP,probs=0.05)
-quantile(fB,probs=0.05)
-
-# bootstrap for the Burr distribution
-bfB <- bootdist(fB,niter=nbboot)
-plot(bfB)
-
+if(visualize)
+{
+  data(endosulfan)
+  ATV <-endosulfan$ATV
+  plotdist(ATV)
+  descdist(ATV,boot=nbboot)
+  
+  fln <- fitdist(ATV, "lnorm")
+  summary(fln)
+  gofstat(fln)
+  
+  # use of plotdist to find good reasonable initial values for parameters
+  plotdist(ATV, "pareto", para=list(shape=1, scale=500))
+  fP <- fitdist(ATV, "pareto", start=list(shape=1, scale=500))
+  summary(fP)
+  gofstat(fP)
+  
+  # definition of the initial values from the fit of the Pareto
+  # as the Burr distribution is the Pareto when shape2 == 1
+  fB <- fitdist(ATV, "burr", start=list(shape1=0.3, shape2=1, rate=1))
+  summary(fB)
+  gofstat(fB)
+  
+  cdfcomp(list(fln,fP,fB),xlogscale=TRUE)
+  qqcomp(list(fln,fP,fB),xlogscale=TRUE,ylogscale=TRUE)
+  ppcomp(list(fln,fP,fB),xlogscale=TRUE,ylogscale=TRUE)
+  denscomp(list(fln,fP,fB)) # without great interest as hist does accept argument log="x"
+  
+  # comparison of HC5 values (5 percent quantiles)
+  quantile(fln,probs=0.05)
+  quantile(fP,probs=0.05)
+  quantile(fB,probs=0.05)
+  
+  # bootstrap for the Burr distribution
+  bfB <- bootdist(fB,niter=nbboot)
+  plot(bfB)
+}
 
 # (14) relevant example for zero modified geometric distribution
 #

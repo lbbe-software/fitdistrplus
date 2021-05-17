@@ -63,7 +63,7 @@ summary(res2)
 
 # (8) custom optimization function - another example with the genetic algorithm
 #
-if(any(installed.packages()[,"Package"] == "rgenoud"))
+if(any(installed.packages()[,"Package"] == "rgenoud") && visualize)
 {
   
   #set a sample
@@ -90,7 +90,7 @@ if(any(installed.packages()[,"Package"] == "rgenoud"))
 
 # (11) Fit of a Pareto distribution by numerical moment matching estimation
 #
-if(any(installed.packages()[,"Package"] == "actuar"))
+if(any(installed.packages()[,"Package"] == "actuar") && visualize)
 {
   require(actuar)
   #simulate a sample
@@ -202,7 +202,7 @@ quantile(fln, probs = 0.05)
 # (17) Fit of a triangular distribution using Cramer-von Mises or
 # Kolmogorov-Smirnov distance
 # 
-if(any(installed.packages()[,"Package"] == "mc2d"))
+if(any(installed.packages()[,"Package"] == "mc2d") && visualize)
 {
   set.seed(1234)
   require(mc2d)
@@ -355,20 +355,22 @@ fitdist(x, "pois", method = "qme", probs=c(1/2), optim.method="SANN", control=li
 # that do not yet take weights into account
 # with an example to be used later to see if weights are well taken into account
 #
-
-x3 <- rnorm(100) # this sample size must be fixed here (see next lines, 50+50)
-x3 <- sort(x3)
-(f <- fitdist(x3, "norm", method="mle", weights= c(rep(1, 50), rep(2, 50))))
-try(plot(f))
-try(cdfcomp(f))
-(f2 <- fitdist(x3, "logis", method="mle", weights= c(rep(1, 50), rep(2, 50))))
-try(cdfcomp(list(f,f2)))
-try(denscomp(f))
-try(denscomp(list(f,f2)))
-try(ppcomp(f))
-try(ppcomp(list(f,f2)))
-try(qqcomp(f))
-try(qqcomp(list(f,f2)))
-try(gofstat(f))
-try(gofstat(list(f,f2)))
-try(bootdist(f))
+if(visualize)
+{
+  x3 <- rnorm(100) # this sample size must be fixed here (see next lines, 50+50)
+  x3 <- sort(x3)
+  (f <- fitdist(x3, "norm", method="mle", weights= c(rep(1, 50), rep(2, 50))))
+  try(plot(f))
+  try(cdfcomp(f))
+  (f2 <- fitdist(x3, "logis", method="mle", weights= c(rep(1, 50), rep(2, 50))))
+  try(cdfcomp(list(f,f2)))
+  try(denscomp(f))
+  try(denscomp(list(f,f2)))
+  try(ppcomp(f))
+  try(ppcomp(list(f,f2)))
+  try(qqcomp(f))
+  try(qqcomp(list(f,f2)))
+  try(gofstat(f))
+  try(gofstat(list(f,f2)))
+  try(bootdist(f))
+}

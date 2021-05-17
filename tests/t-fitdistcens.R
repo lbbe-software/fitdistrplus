@@ -1,7 +1,7 @@
 library(fitdistrplus)
 
 nsample <- 500
-nsample <- 50
+nsample <- 10
 visualize <- FALSE # TRUE for manual tests with visualization of results
 set.seed(1234)
 

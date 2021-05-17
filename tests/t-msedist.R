@@ -1,6 +1,7 @@
 library(fitdistrplus)
 nboot <- 1000
 nboot <- 10
+nsample <- 10
 
 set.seed(123)
 
@@ -16,7 +17,7 @@ geomeanspacing <- function(pdist, obs, ...)
 #--------------------------------------------------------
 # exponential sample
 
-x1 <- rexp(1e3)
+x1 <- rexp(nsample)
 lam <- seq(0.1, 2, length=51)
 Sn <- sapply(lam, function(x) geomeanspacing(pexp, obs=x1, rate=x))
 
@@ -58,7 +59,7 @@ legend("bottomright", lty=1:2, col=c("green", "blue"), leg=c("theoretical value"
 # lognormal sample
 
 
-x1 <- rlnorm(1e3, 0, 1)
+x1 <- rlnorm(nsample, 0, 1)
 mu <- seq(-1, 1, length=51)
 Sn <- sapply(mu, 
              function(x) geomeanspacing(plnorm, obs=x1, mean=x, sd=1))
@@ -90,7 +91,7 @@ plot(mse_lnorm_boot, enhance = TRUE, trueval=c(0,1))
 
 library(actuar)
 
-x1 <- rburr(1e4, 2,2,2)
+x1 <- rburr(nsample, 2,2,2)
 
 Dn <- function(theta)
   -geomeanspacing(pburr, obs=x1, shape1=theta[1], shape2=theta[2], rate=theta[3])
@@ -115,7 +116,7 @@ plot(mse_burr_boot, enhance = TRUE, trueval=c(2,2,2))
 #--------------------------------------------------------
 # Poisson sample
 
-x1 <- rpois(1e3, 15)
+x1 <- rpois(nsample, 15)
 
 geomeanSpacingUnique <- function(pdist, obs, ...)
 {

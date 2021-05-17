@@ -1,11 +1,12 @@
 library(fitdistrplus)
+nsample <- 10
 
 # (1) Plot of an empirical distribution with changing 
 # of default line types for CDF and colors
 # and optionally adding a density line
 #
 set.seed(1234)
-x1 <- rnorm(n=30)
+x1 <- rnorm(n=nsample)
 plotdist(x1)
 plotdist(x1, col="blue", type="b", pch=16)
 plotdist(x1, type="s")
@@ -15,14 +16,14 @@ plotdist(x1,demp = TRUE, adjust = 1.5)
 # (2) Plot of a discrete distribution against data
 #
 set.seed(1234)
-x2 <- rpois(n=30, lambda = 2)
+x2 <- rpois(n=nsample, lambda = 2)
 plotdist(x2, discrete=TRUE)
 plotdist(x2, "pois", para=list(lambda = mean(x2)))
 plotdist(x2, "pois", para=list(lambda = mean(x2)), lwd="2")
 
 # (3) Plot of a continuous distribution against data
 #
-xn <- rnorm(n=100, mean=10, sd=5)
+xn <- rnorm(n=nsample, mean=10, sd=5)
 plotdist(xn, "norm", para=list(mean=mean(xn), sd=sd(xn)))
 plotdist(xn, "norm", para=list(mean=mean(xn), sd=sd(xn)), pch=16)
 plotdist(xn, "norm", para=list(mean=mean(xn), sd=sd(xn)), pch=16,

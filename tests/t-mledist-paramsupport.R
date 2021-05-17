@@ -3,7 +3,7 @@ library(fitdistrplus)
 
 
 set.seed(1234)
-n <- 1e2
+nsample <- 10
 
 
 # (1) uniform distribution fit - no fixed value
@@ -14,7 +14,7 @@ dunif2 <- function(x, min, max)
 punif2 <- function(q, min, max)
   punif(q, min, max)
 
-x1 <- runif(n, 3, 5)
+x1 <- runif(nsample, 3, 5)
 
 L <- function(a, b, obs)
   prod(dunif(obs, min=a, max=b))
@@ -47,7 +47,7 @@ logLik(f4)
 # (3) four parameter beta - also known as PERT distribution
 require(mc2d)
 
-x2 <- rpert(n, 0, 1, 2, 3)
+x2 <- rpert(nsample, 0, 1, 2, 3)
 
 f1 <- fitdist(x2, "pert", start=list(min=-1, mode=0, max=10, shape=1),
               lower=c(-Inf, -Inf, max(x2), 0),

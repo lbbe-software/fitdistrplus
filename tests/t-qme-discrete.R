@@ -1,9 +1,10 @@
 library(fitdistrplus)
 set.seed(1234)
+nsample <- 10
 
 #Poisson
 
-x <- rpois(100, lambda=7.5)
+x <- rpois(nsample, lambda=7.5)
 L2 <- function(lam)
   (qpois(1/2, lambda = lam) - median(x))^2
 curve(L2(x), 5, 9, xlab=expression(lambda), ylab=expression(L2(lambda)), main="squared differences", n=201)
@@ -19,7 +20,7 @@ fitdist(x, "pois", method="qme", optim.method="SANN", probs=1/2, start=list(lamb
 
 #Geometric
 
-x <- rgeom(100, 1/3)
+x <- rgeom(nsample, 1/3)
 L2 <- function(p)
   (qgeom(1/2, p) - median(x))^2
 curve(L2(x), 0.10, 0.95, xlab=expression(p), ylab=expression(L2(p)), main="squared differences", n=301)

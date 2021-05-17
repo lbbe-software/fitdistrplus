@@ -1,9 +1,7 @@
-library(fitdistrplus)
-
-
 
 if(FALSE)
 {  
+  library(fitdistrplus)
   
   
   

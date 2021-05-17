@@ -2,11 +2,12 @@ library(fitdistrplus)
 
 set.seed(123)
 
+nsample <- 10
 
 #--------------------------------------------------------
 # exponential sample
 
-x1 <- rexp(1e3)
+x1 <- rexp(nsample)
 
 mseKL_exp <- msedist(x1, "exp")
 mseJ_exp <- msedist(x1, "exp", phidiv = "J")
@@ -60,7 +61,7 @@ try(msedist(x1, "exp", phidiv="H", power.phidiv = 1:10))
 #--------------------------------------------------------
 # Poisson sample
 
-x1 <- rpois(1e3, lambda=15)
+x1 <- rpois(nsample, lambda=15)
 
 #no weight
 mseKL_pois1 <- fitdist(x1, "pois", method="mse", phidiv="KL")

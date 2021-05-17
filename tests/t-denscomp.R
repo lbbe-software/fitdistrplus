@@ -3,7 +3,7 @@ library(fitdistrplus)
 # ?denscomp
 visualize <- FALSE # TRUE for manual test with visualization of plots
 nsample <- 1000
-nsample <- 100
+nsample <- 10
 
 # (1) Plot various distributions fitted to serving size data
 #
@@ -139,40 +139,42 @@ if (visualize)
 
 # (4) normal mixture
 #
-
-#mixture of two normal distributions
-#density
-dnorm2 <- function(x, poid, m1, s1, m2, s2)
-  poid*dnorm(x, m1, s1) + (1-poid)*dnorm(x, m2, s2)
-#numerical approximate quantile function
-qnorm2 <- function(p, poid, m1, s1, m2, s2)
+if (visualize)
 {
-  L2 <- function(x, prob)
-    (prob - pnorm2(x, poid, m1, s1, m2, s2))^2
-  sapply(p, function(pr) optimize(L2, c(-1000, 1000), prob=pr)$minimum)
+  
+  #mixture of two normal distributions
+  #density
+  dnorm2 <- function(x, poid, m1, s1, m2, s2)
+    poid*dnorm(x, m1, s1) + (1-poid)*dnorm(x, m2, s2)
+  #numerical approximate quantile function
+  qnorm2 <- function(p, poid, m1, s1, m2, s2)
+  {
+    L2 <- function(x, prob)
+      (prob - pnorm2(x, poid, m1, s1, m2, s2))^2
+    sapply(p, function(pr) optimize(L2, c(-1000, 1000), prob=pr)$minimum)
+  }
+  #distribution function
+  pnorm2 <- function(q, poid, m1, s1, m2, s2)
+    poid*pnorm(q, m1, s1) + (1-poid)*pnorm(q, m2, s2)
+  
+  
+  #basic normal distribution
+  set.seed(1234)
+  x2 <- c(rnorm(nsample, 5),  rnorm(nsample, 10))
+  #MLE fit
+  fit1 <- fitdist(x2, "norm2", "mle", start=list(poid=1/3, m1=4, s1=2, m2=8, s2=2),
+                  lower=c(0, 0, 0, 0, 0))
+  fit2 <- fitdist(x2, "norm2", "qme", probs=c(1/6, 1/4, 1/3, 1/2, 2/3),
+                  start=list(poid=1/3, m1=4, s1=2, m2=8, s2=2),
+                  lower=c(0, 0, 0, 0, 0), upper=c(1/2, Inf, Inf, Inf, Inf))
+  fit3 <- fitdist(x2, "norm2", "mge", gof="AD",
+                  start=list(poid=1/3, m1=4, s1=2, m2=8, s2=2),
+                  lower=c(0, 0, 0, 0, 0), upper=c(1/2, Inf, Inf, Inf, Inf))
+  
+  denscomp(list(fit1, fit2, fit3))
+  if (requireNamespace ("ggplot2", quietly = TRUE) & visualize)
+    denscomp(list(fit1, fit2, fit3), plotstyle = "ggplot")
 }
-#distribution function
-pnorm2 <- function(q, poid, m1, s1, m2, s2)
-  poid*pnorm(q, m1, s1) + (1-poid)*pnorm(q, m2, s2)
-
-
-#basic normal distribution
-set.seed(1234)
-x2 <- c(rnorm(nsample, 5),  rnorm(nsample, 10))
-#MLE fit
-fit1 <- fitdist(x2, "norm2", "mle", start=list(poid=1/3, m1=4, s1=2, m2=8, s2=2),
-                lower=c(0, 0, 0, 0, 0))
-fit2 <- fitdist(x2, "norm2", "qme", probs=c(1/6, 1/4, 1/3, 1/2, 2/3),
-                start=list(poid=1/3, m1=4, s1=2, m2=8, s2=2),
-                lower=c(0, 0, 0, 0, 0), upper=c(1/2, Inf, Inf, Inf, Inf))
-fit3 <- fitdist(x2, "norm2", "mge", gof="AD",
-                start=list(poid=1/3, m1=4, s1=2, m2=8, s2=2),
-                lower=c(0, 0, 0, 0, 0), upper=c(1/2, Inf, Inf, Inf, Inf))
-
-denscomp(list(fit1, fit2, fit3))
-if (requireNamespace ("ggplot2", quietly = TRUE) & visualize)
-  denscomp(list(fit1, fit2, fit3), plotstyle = "ggplot")
-
 
 # (5) large data
 #

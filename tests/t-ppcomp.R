@@ -4,7 +4,7 @@ library(fitdistrplus)
 
 visualize <- FALSE # TRUE for manual tests with visualization of results
 nsample <- 1000
-nsample <- 100
+nsample <- 10
 
 # (1) Plot various distributions fitted to serving size data
 #

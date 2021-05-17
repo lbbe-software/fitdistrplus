@@ -1,6 +1,7 @@
 library(fitdistrplus)
 nbboot <- 101
-nbboot <- 10
+nbboot <- 5
+nsample <- 10
 visualize <- FALSE # TRUE for manual tests with visualization of results
 
 # (1) Fit of a normal distribution to fluazinam data in log10
@@ -48,7 +49,7 @@ summary(cxx1)
 # (5) fixing parameters
 #
 set.seed(1234)
-x <- rexp(500, 5)
+x <- rexp(nsample, 5)
 x <- data.frame(left=x, right=x+.1)
 
 f1 <- fitdistcens(x, "gamma", fix.arg=list(shape=1.5))
@@ -101,4 +102,4 @@ cbind(salinity.unique, salinity.weights)
 (fa <- fitdistcens(salinity, "lnorm"))
 (fb <- fitdistcens(salinity.unique, "lnorm", weights = salinity.weights)) # should give the same results
 summary(bootdistcens(fa, niter = nbboot))
-try(summary(bootdistcens(fb, niter = nbboot)))
+
