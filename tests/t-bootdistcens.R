@@ -1,6 +1,6 @@
 library(fitdistrplus)
 nbboot <- 101
-nbboot <- 5
+nbboot <- 11
 nsample <- 10
 visualize <- FALSE # TRUE for manual tests with visualization of results
 

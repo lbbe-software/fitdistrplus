@@ -47,7 +47,7 @@ logLik(f4)
 # (3) four parameter beta - also known as PERT distribution
 require(mc2d)
 
-x2 <- rpert(nsample, 0, 1, 2, 3)
+x2 <- rpert(2*nsample, 0, 1, 2, 3)
 
 f1 <- fitdist(x2, "pert", start=list(min=-1, mode=0, max=10, shape=1),
               lower=c(-Inf, -Inf, max(x2), 0),
