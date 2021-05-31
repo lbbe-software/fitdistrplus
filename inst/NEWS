@@ -1,5 +1,10 @@
 ==== fitdistrplus : Help to fit of a parametric distribution ====
 
+Version 1.1-4/5
+=============
+WARNING FIX
+- reduce testing times in test files
+
 Version 1.1-3
 =============
 NEW FEATURE
