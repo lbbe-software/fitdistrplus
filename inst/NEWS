@@ -1,5 +1,10 @@
 ==== fitdistrplus : Help to fit of a parametric distribution ====
 
+Version 1.1-6
+=============
+NEW FEATURES
+- new function data2fitdistcens() to prepare data for fitdistcens()
+
 Version 1.1-4/5
 =============
 WARNING FIX
