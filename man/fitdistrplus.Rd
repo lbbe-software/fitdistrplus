@@ -9,7 +9,7 @@ JB Denis, R Pouillot and ML Delignette who at this time worked in the
 area of quantitative risk assessment. The implementation of this package 
 was a part of a more general project named "Risk assessment with R" 
 gathering different packages and 
-hosted in \href{http://r-forge.r-project.org/projects/riskassessment/}{R-forge}.
+hosted in \href{https://r-forge.r-project.org/projects/riskassessment/}{R-forge}.
 
 The \pkg{fitdistrplus} package was first written by ML Delignette-Muller and made 
 available in \href{https://cran.r-project.org/package=fitdistrplus}{CRAN} on 2009 and presented at the \href{https://www.r-project.org/conferences/useR-2009/}{2009 useR conference} in Rennes.

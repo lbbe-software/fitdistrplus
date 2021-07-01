@@ -193,7 +193,7 @@ This manuscript reviews the various features of version 1.0-2 of \pkg{fitdistrpl
 is available from the Comprehensive \proglang{R} Archive Network at \url{http://cran.r-project.org/package=fitdistrplus}.
 The development version of the package is located at \proglang{R}-forge as one package of the 
 project ``Risk Assessment with \proglang{R}''
-(\url{http://r-forge.r-project.org/projects/riskassessment/}).
+(\url{https://r-forge.r-project.org/projects/riskassessment/}).
 The paper is organized as follows: Section \ref{fitnoncenscont} presents tools for fitting continuous
 distributions to classic non-censored data. Section \ref{advtopic} deals with other
 estimation methods and other types of data, before Section \ref{ccl} concludes.
