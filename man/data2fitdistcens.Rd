@@ -50,7 +50,8 @@ data2fitdistcens(time, time2, event,
 
 \seealso{ 
     See \code{\link{fitdistrplus}} for an overview of the package.
-    \code{\link{fitdistcens}}for fitting of univariate distributions to censored data.
+    See \code{\link{fitdistcens}} for fitting of univariate distributions to censored data
+    and \code{\link{fremale}} for the full dataset used in examples below.
     See \code{\link[survival:Surv]{Surv}} for survival objects which use the same arguments.
     
  
