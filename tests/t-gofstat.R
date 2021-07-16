@@ -62,3 +62,15 @@ print(g4b)
 f1b <- fitdist(serving, "norm", start=list(sd=5), fix.arg=list(mean=10), lower=0)
 gofstat(f1b)
 
+# (5) Use on a small data set (less than 10 observations)
+# no pb identified
+#
+
+set.seed(1234)
+x5a <- rweibull(n=4,shape=2,scale=1)
+f5a <- fitdist(x5a, "weibull")
+(g5a  <- gofstat(f5a))
+
+x5b <- rpois(n = 4, lambda = 1)
+f5b <- fitdist(x5b, "pois")
+(g5b <- gofstat(f5b))
