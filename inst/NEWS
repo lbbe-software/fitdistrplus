@@ -3,8 +3,8 @@
 Version 1.1-6
 =============
 NEW FEATURES
-- new function data2fitdistcens() to prepare data for fitdistcens()
-- new dataset fremale in order to illustrate data2fitdistcens()
+- new function Surv2fitdistcens() to prepare data for fitdistcens()
+- new dataset fremale in order to illustrate Surv2fitdistcens()
 
 Version 1.1-4/5
 =============

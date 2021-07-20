@@ -1,5 +1,5 @@
-\name{data2fitdistcens}
-\alias{data2fitdistcens}
+\name{Surv2fitdistcens}
+\alias{Surv2fitdistcens}
 \title{Data handling based on Surv() to prepare for fitdistcens()}
 
 \description{
@@ -7,7 +7,7 @@
 }
 
 \usage{
-data2fitdistcens(time, time2, event,
+Surv2fitdistcens(time, time2, event,
                              type=c('right', 'left', 'interval'))
     
 }
@@ -31,7 +31,7 @@ data2fitdistcens(time, time2, event,
 }
 
 \details{
-    \code{data2fitdistcens} makes a \code{data.frame} with two columns
+    \code{Surv2fitdistcens} makes a \code{data.frame} with two columns
     respectively named \code{left} and \code{right}, describing each observed 
     value as an interval. The \code{left} column contains either \code{NA} 
     for left-censored observations, the left bound of the interval for 
@@ -88,14 +88,14 @@ c(   68.96920, 79.92608,     1),
 c(   53.19370, 54.80082,     1))
 colnames(origdata) <- c("AgeIn", "AgeOut", "Death")
 
-data2fitdistcens(origdata[,"AgeIn"], origdata[,"AgeOut"], origdata[,"Death"])
+Surv2fitdistcens(origdata[,"AgeIn"], origdata[,"AgeOut"], origdata[,"Death"])
 
 # (2) randomized fictive data for male survival - interval-censored
 #
 origdata[6:7, "Death"] <- 2
 origdata[8:10, "Death"] <- 3
 
-data2fitdistcens(origdata[,"AgeIn"], origdata[,"AgeOut"], origdata[,"Death"],
+Surv2fitdistcens(origdata[,"AgeIn"], origdata[,"AgeOut"], origdata[,"Death"],
   type = "interval")
 }
 

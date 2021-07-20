@@ -34,7 +34,7 @@ S3method(quantile, fitdistcens)
 S3method(logLik, fitdistcens)
 S3method(vcov, fitdistcens)
 S3method(coef, fitdistcens)
-export(data2fitdistcens)
+export(Surv2fitdistcens)
 
 #bootdist class
 export(bootdist)

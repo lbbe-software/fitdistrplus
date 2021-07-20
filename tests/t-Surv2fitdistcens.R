@@ -3,7 +3,7 @@ data("fremale")
 
 # fremale test
 
-fremale.cens <- data2fitdistcens(fremale$AgeIn, fremale$AgeOut, fremale$Death)
+fremale.cens <- Surv2fitdistcens(fremale$AgeIn, fremale$AgeOut, fremale$Death)
 
 
 f1 <- fitdistcens(fremale.cens, "norm")

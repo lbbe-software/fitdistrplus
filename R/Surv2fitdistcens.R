@@ -22,7 +22,7 @@
 ###         R functions
 ### 
 
-data2fitdistcens <- function(time, time2, event,
+Surv2fitdistcens <- function(time, time2, event,
                              type=c('right', 'left', 'interval'))
 {
   type <- match.arg(type,  c('right', 'left', 'interval'))
