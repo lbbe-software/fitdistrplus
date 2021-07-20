@@ -1,5 +1,5 @@
 #############################################################################
-#   Copyright (c) 2021 Christophe Dutang                                                                                                  
+#   Copyright (c) 2021 Christophe Dutang and Marie Laure Delignette-Muller                                                                                             
 #                                                                                                                                                                        
 #   This program is free software; you can redistribute it and/or modify                                               
 #   it under the terms of the GNU General Public License as published by                                         
@@ -23,57 +23,74 @@
 ### 
 
 Surv2fitdistcens <- function(time, time2, event,
-                             type=c('right', 'left', 'interval'))
+                             type=c('right', 'left', 'interval', 'interval2'))
 {
-  type <- match.arg(type,  c('right', 'left', 'interval'))
+  type <- match.arg(type,  c('right', 'left', 'interval', 'interval2'))
   stopifnot(is.numeric(time))
-  stopifnot(is.numeric(time2))
   stopifnot(length(time) >= 1)
-  stopifnot(length(time) == length(time2))
-  stopifnot(length(time) == length(event))
   
-  if(is.logical(event))
-    event <- 1*(event == TRUE)
-  else if(all(event == 1 | event == 2))
+  if (type %in% c('right', 'left'))
   {
-    event <- 1*(event == 2)
-    stopifnot(type %in% c('right', 'left'))
-  }else if(all(event %in% 0:3) && sum(event >= 3) > 0)
+    if (!missing(time2))
+      warning("time2 is not used with type 'right' and 'left' ")
+  } else
   {
-    stopifnot(type %in% 'interval')
-  }else if(is.factor(event))
-  {
-    stopifnot(length(levels(event)) == 2)
-    event <- 1*(event == levels(event)[2])
+    stopifnot(is.numeric(time2))
+    stopifnot(length(time) == length(time2))
+    if (type == 'interval2' & !missing(event))
+      warning("event is not used with type 'interval2' ")
   }
-  if(any(!event %in% 0:1) && type != "interval")
-    stop("wrong 'event' argument")
+  
+  if (type != 'interval2')
+  {
+    stopifnot(length(time) == length(event))
+    if(is.logical(event))
+      event <- 1*(event == TRUE)
+    else if(all(event == 1 | event == 2) & type != 'interval')
+    {
+      event <- 1*(event == 2)
+    }else if(all(event %in% 0:3) && sum(event >= 3) > 0)
+    {
+      stopifnot(type %in% 'interval')
+    }else if(is.factor(event))
+    {
+      stopifnot(length(levels(event)) == 2)
+      event <- 1*(event == levels(event)[2])
+    }
+    if(any(!event %in% 0:1) && type != "interval")
+      stop("wrong 'event' argument")
+  }
   
   #compute data.frame
   if(type == "right")
   {
     out <- cbind.data.frame(left=time,
                             right=NA)
-    out$right[event == 1] <- time2[event == 1]
+    out$right[event == 1] <- time[event == 1]
   }else if(type == "left")
   {
     out <- cbind.data.frame(left=NA,
-                            right=time2)
+                            right=time)
     out$left[event == 1] <- time[event == 1]
-  }else #type == "interval"
+  }else if(type == "interval")
   {
     out <- cbind.data.frame(left=rep(NA, length(time)),
                             right=rep(NA, length(time2)))
     #0=right censored, 
-    out$right[event == 0] <- time2[event == 0]
+    out$left[event == 0] <- time[event == 0]
     #1=event at time, 
     out$left[event == 1] <- time[event == 1]
     out$right[event == 1] <- time[event == 1]
     #2=left censored, 
-    out$left[event == 2] <- time[event == 2]
+    out$right[event == 2] <- time[event == 2]
     #3=interval censored
     out$left[event == 3] <- time[event == 3]
     out$right[event == 3] <- time2[event == 3]
+  } else # type "interval2
+  {
+    out <- cbind.data.frame(left=time,right=time2)
+    out$left[!is.finite(time)] <- NA
+    out$right[!is.finite(time2)] <- NA
   }
   out
 }

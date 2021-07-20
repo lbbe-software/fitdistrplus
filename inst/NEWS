@@ -3,7 +3,8 @@
 Version 1.1-6
 =============
 NEW FEATURES
-- new function Surv2fitdistcens() to prepare data for fitdistcens()
+- new function Surv2fitdistcens() to format data for use in fitdistcens() from a format
+used in the survival package
 - new dataset fremale in order to illustrate Surv2fitdistcens()
 
 Version 1.1-4/5

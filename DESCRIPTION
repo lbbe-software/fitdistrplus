@@ -15,7 +15,7 @@ Description: Extends the fitdistr() function (of the MASS package) with several 
   non-censored data). Weighted versions of MLE, MME, QME and MSE are available. See e.g. 
   Casella & Berger (2002), Statistical inference, Pacific Grove, for a general introduction 
   to parametric estimation.
-Depends: R (>= 3.2.0), MASS, grDevices, survival, methods
+Depends: R (>= 3.5.0), MASS, grDevices, survival, methods
 Imports: stats
 Suggests: actuar, rgenoud, mc2d, gamlss.dist, knitr, ggplot2, GeneralizedHyperbolic, rmarkdown, Hmisc
 VignetteBuilder: knitr

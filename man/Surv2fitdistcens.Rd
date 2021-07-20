@@ -1,14 +1,16 @@
 \name{Surv2fitdistcens}
 \alias{Surv2fitdistcens}
-\title{Data handling based on Surv() to prepare for fitdistcens()}
+\title{Handling of data formated as in the survival package for use in fitdistcens()}
 
 \description{
- Provide a function to prepare a data.frame needed by fitdistcens
+ Provide a function to prepare a data frame needed by fitdistcens() from 
+ data classically coded when using the Surv() function of the survival
+ package
 }
 
 \usage{
 Surv2fitdistcens(time, time2, event,
-                             type=c('right', 'left', 'interval'))
+                      type=c('right', 'left', 'interval', 'interval2'))
     
 }
 
@@ -21,29 +23,29 @@ Surv2fitdistcens(time, time2, event,
   \code{1}=event at time, \code{2}=left censored, \code{3}=interval censored. 
   For factor data, assume that it has only two levels with the second level
   coding death.}
-\item{time2}{ending time of the interval for interval censored or counting 
-  process data only. Intervals are assumed to be open on the left and closed 
-  on the right, (start, end]. For counting process data, event indicates 
-  whether an event occurred at the end of the interval.}
+\item{time2}{ending time of the interval for interval censored. 
+  Intervals are assumed to be open on the left and closed 
+  on the right, (start, end].}
 \item{type}{character string specifying the type of censoring. Possible 
-  values are \code{"right"}, \code{"left"}, \code{"interval"}.}
+  values are \code{"right"}, \code{"left"}, \code{"interval"}, \code{"interval2"}.}
 
 }
 
 \details{
     \code{Surv2fitdistcens} makes a \code{data.frame} with two columns
     respectively named \code{left} and \code{right}, describing each observed 
-    value as an interval. The \code{left} column contains either \code{NA} 
+    value as an interval as required in fitdistcens(): 
+    the \code{left} column contains either \code{NA} 
     for left-censored observations, the left bound of the interval for 
     interval-censored observations, or the observed value for non-censored observations.
     The right column contains either \code{NA} for right-censored observations, 
     the right bound of the interval for interval censored observations, 
-    or the observed value for non-censored observations..
+    or the observed value for non-censored observations.
 
 }
 
 \value{ 
-    \code{fitdistcens} returns a data.frame with two columns 
+    \code{Surv2fitdistcens} returns a data.frame with two columns 
     respectively named \code{left} and \code{right}.
 }
 
@@ -72,31 +74,74 @@ Christophe Dutang and Marie-Laure Delignette-Muller.
 %\note{  }
 
 \examples{
-# (1) randomized fictive data for male survival - right-censored
+# (1) randomized fictive survival data - right-censored
 #
-
-origdata <- rbind(
-c(   43.01164, 55.00890,     0),
-c(   36.37782, 47.17864,     0),
-c(   33.10335, 34.51882,     0),
-c(   71.00890, 81.15537,     1),
-c(   80.89254, 81.91376,     1),
-c(   67.81656, 78.48323,     1),
-c(   73.98494, 76.92539,     1),
-c(   71.21971, 79.21971,     1),
-c(   68.96920, 79.92608,     1),
-c(   53.19370, 54.80082,     1))
+origdata <- data.frame(rbind(
+c(   43.01, 55.00,     0),
+c(   36.37, 47.17,     0),
+c(   33.10, 34.51,     0),
+c(   71.00, 81.15,     1),
+c(   80.89, 81.91,     1),
+c(   67.81, 78.48,     1),
+c(   73.98, 76.92,     1),
+c(   53.19, 54.80,     1)))
 colnames(origdata) <- c("AgeIn", "AgeOut", "Death")
 
-Surv2fitdistcens(origdata[,"AgeIn"], origdata[,"AgeOut"], origdata[,"Death"])
+# add of follow-up time (for type = "right" in Surv())
+origdata$followuptime <- origdata$AgeOut - origdata$AgeIn
+origdata
 
-# (2) randomized fictive data for male survival - interval-censored
+### use of default survival type "right"
+# in Surv()
+survival::Surv(time = origdata$followuptime, event = origdata$Death, type = "right")
+# for fitdistcens()
+Surv2fitdistcens(origdata$followuptime, event = origdata$Death, type = "right")
+
+# use of survival type "interval" 
+# in Surv()
+survival::Surv(time = origdata$followuptime, time2 = origdata$followuptime, 
+          event = origdata$Death, type = "interval")
+# for fitdistcens()
+Surv2fitdistcens(time = origdata$followuptime, time2 = origdata$followuptime, 
+          event = origdata$Death, type = "interval") 
+
+# use of survival type "interval2" 
+origdata$survivalt1 <- origdata$followuptime
+origdata$survivalt2 <- origdata$survivalt1
+origdata$survivalt2[1:3] <- Inf
+origdata
+survival::Surv(time = origdata$survivalt1, time2 = origdata$survivalt2, 
+type = "interval2")
+Surv2fitdistcens(origdata$survivalt1, time2 = origdata$survivalt2, 
+                type = "interval2")
+
+
+# (2) Other examples with various left, right and interval censored values
 #
-origdata[6:7, "Death"] <- 2
-origdata[8:10, "Death"] <- 3
+# with left censored data
+(d1 <- data.frame(time = c(2, 5, 3, 7), ind = c(0, 1, 1, 1)))
+survival::Surv(time = d1$time, event = d1$ind, type = "left")
+Surv2fitdistcens(time = d1$time, event = d1$ind, type = "left")
 
-Surv2fitdistcens(origdata[,"AgeIn"], origdata[,"AgeOut"], origdata[,"Death"],
-  type = "interval")
+(d1bis <- data.frame(t1 = c(2, 5, 3, 7), t2 = c(2, 5, 3, 7), 
+  censtype = c(2, 1, 1, 1)))
+survival::Surv(time = d1bis$t1, time2 = d1bis$t2, 
+  event = d1bis$censtype, type = "interval")
+Surv2fitdistcens(time = d1bis$t1, time2 = d1bis$t2, 
+  event = d1bis$censtype, type = "interval")
+
+# with interval, left and right censored data
+(d2 <- data.frame(t1 = c(-Inf, 2, 3, 4, 3, 7), t2 = c(2, 5, 3, 7, 8, Inf)))
+survival::Surv(time = d2$t1, time2 = d2$t2, type = "interval2")
+Surv2fitdistcens(time = d2$t1, time2 = d2$t2, type = "interval2")
+
+(d2bis <- data.frame(t1 = c(2, 2, 3, 4, 3, 7), t2 = c(2, 5, 3, 7, 8, 7), 
+  censtype = c(2,3,1,3,3,0)))
+survival::Surv(time = d2bis$t1, time2 = d2bis$t2, 
+  event = d2bis$censtype, type = "interval")
+Surv2fitdistcens(time = d2bis$t1, time2 = d2bis$t2, 
+  event = d2bis$censtype, type = "interval")
+
 }
 
 \keyword{ distribution }% at least one, from doc/KEYWORDS
