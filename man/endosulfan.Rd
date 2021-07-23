@@ -1,9 +1,8 @@
 \name{endosulfan}
 \alias{endosulfan}
 \docType{data}
-%- Also NEED an '\alias' for EACH other topic documented here.
 
-\title{ Species Sensitivity Distribution (SSD) for endosulfan }
+\title{Species Sensitivity Distribution (SSD) for endosulfan}
 
 \description{
 Summary of 48- to 96-hour acute toxicity values (LC50 and EC50 values)
@@ -13,24 +12,20 @@ for exposure of Australian an Non-Australian taxa to endosulfan.
 \usage{
 data(endosulfan)
 }
-%- maybe also 'usage' for other objects documented here.
 
 \format{ 
-\code{endosulfan} is a data frame with 3 columns, named ATV for Acute Toxicity Value
+\code{endosulfan} is a data frame with 4 columns, named ATV for Acute Toxicity Value
 (geometric mean of LC50 ou EC50 values in micrograms per liter),
-Australian (coding for Australian or another origin) and group 
-(arthropods, fish or non-arthropod invertebrates).
+Australian (coding for Australian or another origin), group 
+(arthropods, fish or non-arthropod invertebrates) and taxa.
 
 }
 
 \source{ 
-Hose, G.C., Van den Brink, P.J. 2004. Confirming the Species-Sensitivity Distribution Concept
-for Endosulfan Using Laboratory, Mesocosms, and Field Data. \emph{Archives of Environmental 
-Contamination and Toxicology},
- \bold{47}, 511-520.
- }
-
-%\references{  }
+  Hose, G.C., Van den Brink, P.J. 2004. Confirming the Species-Sensitivity Distribution Concept
+  for Endosulfan Using Laboratory, Mesocosms, and Field Data. \emph{Archives of Environmental 
+  Contamination and Toxicology}, \bold{47}, 511-520.
+}
 
 \examples{
 # (1) load of data
@@ -101,7 +96,6 @@ HC5llgreater <- quantile(bllnonpar,probs = 0.05, CI.type="greater")
 fllAD2L <- fitdist(log10ATV,"logis",method="mge",gof="AD2L")
 summary(fllAD2L)
 plot(fllAD2L)
-
 }
 
-\keyword{ datasets }% at least one, from doc/KEYWORDS
+\keyword{datasets}
