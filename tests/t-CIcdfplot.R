@@ -18,6 +18,9 @@ par(mfrow=c(1,2))
 CIcdfplot(b1, CI.level=95/100, CI.output = "probability", CI.fill="grey80", CI.col="black")
 CIcdfplot(b1, CI.level=95/100, CI.output = "quantile", datacol="blue")
 
+par(mfrow=c(1,2))
+CIcdfplot(b1, CI.level=85/100, CI.output = "probability")
+CIcdfplot(b1, CI.level=85/100, CI.output = "quantile")
 
 par(mfrow=c(1,2))
 CIcdfplot(b1, CI.level=90/100, CI.output = "probability")
@@ -62,5 +65,17 @@ CIcdfplot(bln, CI.output = "probability", CI.fill = "lightblue", CI.col = "blue"
           xlab = "log10(LC50)", lines01 = TRUE, xlim = c(0.8, 1.5), ylim = c(0, 0.1))
 abline(h = 0.05, lty = 1)
 
+# (3) An example where the difference between "probability"
+#     and "quantile" is clear on the plot
+#
+
+set.seed(123)
+s3 <- rgamma(5, 3, 10)
+f3 <- fitdist(s3, "norm")
+b3 <- bootdist(f3, niter=nbboot, silent=TRUE)
+
+par(mfrow=c(1,2))
+CIcdfplot(b3, CI.level=90/100, CI.output = "probability")
+CIcdfplot(b3, CI.level=90/100, CI.output = "quantile")
 
 #some ideas from http://edild.github.io/ssd/
