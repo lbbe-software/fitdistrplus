@@ -26,7 +26,7 @@
 CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.col = "red", CI.lty = 2, 
                     CI.fill = NULL, CI.only = FALSE, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
                     xlab, ylab, datapch, datacol, fitlty, fitcol, fitlwd, horizontals = TRUE, verticals = FALSE, 
-                    do.points = TRUE, use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, ...)
+                    do.points = TRUE, use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, plotstyle = "graphics", ...)
 {
   if(inherits(b, "bootdist"))
   {
@@ -66,6 +66,9 @@ CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.c
   
   if(!is.logical(CI.only))
     stop("argument CI.only must be a logical")
+  
+  # check the 'plotstyle' argument
+  plotstyle <- match.arg(plotstyle[1], choices = c("graphics", "ggplot"), several.ok = FALSE)
   
   #default values (same as cdfcomp())
   if (missing(datapch)) datapch <- 16
@@ -128,7 +131,7 @@ CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.c
   }else #CI.output == "quantile"
   {
     qval <- function(p)
-    {  
+    {
       calcp <- function(i)
       {
         parai <- c(as.list(b$estim[i, ]), as.list(b$fitpart$fix.arg))
@@ -165,56 +168,103 @@ CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.c
   logxy <- paste0(ifelse(xlogscale,"x",""), ifelse(ylogscale,"y",""))
   
   ##### plot ####
-  #open graphic window
-  plot(0, 0, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim,
+  if(plotstyle == "graphics") {
+    ######## plot if plotstyle=='graphics' ########
+    
+    #open graphic window
+    plot(0, 0, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim,
          log=logxy, type="n")
-  
-  if (!is.null(CI.fill)) # first fill the band
-  {
+    
+    if (!is.null(CI.fill)) # first fill the band
+    {
+      if(CI.output == "probability")
+      {
+        if(CI.type == "two.sided")
+          polygon(c(x, rev(x)), c(CIband[,2], rev(CIband[,1])), col=CI.fill, border=CI.fill, ...)
+        else if(CI.type == "less")
+          polygon(c(x, uppx, uppx), c(CIband, 1, 0), col=CI.fill, border=CI.fill, ...)
+        else #if(CI.type == "greater")
+          polygon(c(x, lowx, lowx), c(CIband, 1, 0), col=CI.fill, border=CI.fill, ...)
+        
+      }else #CI.output == "quantile"
+      {
+        if(CI.type == "two.sided")
+          polygon(c(CIband[,2], rev(CIband[,1])), c(p, rev(p)), col=CI.fill, border=CI.fill, ...)
+        else if(CI.type == "less")
+          polygon(c(CIband, uppx, uppx), c(p, 1, 0), col=CI.fill, border=CI.fill, ...)
+        else #if(CI.type == "greater")
+          polygon(c(CIband, lowx, lowx), c(p, 1, 0), col=CI.fill, border=CI.fill, ...)
+      }
+    }
+    
+    # add lines for the bounds of the CI
     if(CI.output == "probability")
     {
-      if(CI.type == "two.sided")
-        polygon(c(x, rev(x)), c(CIband[,2], rev(CIband[,1])), col=CI.fill, border=CI.fill, ...)
-      else if(CI.type == "less")
-        polygon(c(x, uppx, uppx), c(CIband, 1, 0), col=CI.fill, border=CI.fill, ...)
-      else #if(CI.type == "greater")
-        polygon(c(x, lowx, lowx), c(CIband, 1, 0), col=CI.fill, border=CI.fill, ...)
-      
+      matlines(x, CIband, col=CI.col, lty=CI.lty, ...) 
     }else #CI.output == "quantile"
     {
-      if(CI.type == "two.sided")
-        polygon(c(CIband[,2], rev(CIband[,1])), c(p, rev(p)), col=CI.fill, border=CI.fill, ...)
-      else if(CI.type == "less")
-        polygon(c(CIband, uppx, uppx), c(p, 1, 0), col=CI.fill, border=CI.fill, ...)
-      else #if(CI.type == "greater")
-        polygon(c(CIband, lowx, lowx), c(p, 1, 0), col=CI.fill, border=CI.fill, ...)
+      matlines(CIband, p, col=CI.col, lty=CI.lty, ...) 
     }
-  }
-
-  # add lines for the bounds of the CI
-  if(CI.output == "probability")
-  {
-    matlines(x, CIband, col=CI.col, lty=CI.lty, ...) 
-  }else #CI.output == "quantile"
-  {
-    matlines(CIband, p, col=CI.col, lty=CI.lty, ...) 
-  }
+    
+    if(!CI.only) # add the empirical and fitted distributions
+    {
+      if (!cens)
+      {
+        cdfcomp(b$fitpart, xlim=xlim, ylim=ylim, xlogscale = xlogscale, ylogscale = ylogscale, 
+                main=main, xlab=xlab, ylab=ylab, datapch=datapch, datacol=datacol, fitlty=fitlty, fitlwd=fitlwd,
+                fitcol=fitcol, horizontals = horizontals, verticals = verticals, do.points = do.points, 
+                use.ppoints = use.ppoints, a.ppoints = a.ppoints, lines01 = lines01, addlegend = FALSE,
+                add=TRUE)
         
-  if(!CI.only) # add the empirical and fitted distributions
-  {
+      } else
+      {
+        cdfcompcens(b$fitpart, xlim=xlim, ylim=ylim, xlogscale = xlogscale, ylogscale = ylogscale, 
+                    main=main, xlab=xlab, ylab=ylab, datacol=datacol, fitlty=fitlty, fitlwd=fitlwd, fillrect = NA, 
+                    fitcol=fitcol, lines01 = lines01, Turnbull.confint = FALSE, addlegend = FALSE, add=TRUE)
+        
+      }
+    }
+  } else if (!requireNamespace("ggplot2", quietly = TRUE)) {
+    stop("ggplot2 needed for this function to work with plotstyle = 'ggplot'. Please install it", call. = FALSE)
+    
+  } else {
+    ######## plot if plotstyle=='ggplot' ########
+    if(CI.output == "probability") {
+      if(CI.type == "less") CIband <- cbind(rep(0, NROW(CIband)), CIband)
+      if(CI.type == "greater") CIband <- cbind(CIband, rep(1, NROW(CIband)))
+      dd <- as.data.frame(cbind(x, x, CIband))
+      colnames(dd) <- c("x1", "x2", "y1", "y2")
+    }
+    if(CI.output == "quantile") {
+      if(CI.type == "less") CIband <- cbind(rep(uppx, NROW(CIband)), CIband)
+      if(CI.type == "greater") CIband <- cbind(rep(lowx, NROW(CIband)), CIband)
+      dd <- as.data.frame(cbind(CIband, p, p))
+      colnames(dd) <- c("x1", "x2", "y1", "y2")
+    }
+    
     if (!cens)
     {
       cdfcomp(b$fitpart, xlim=xlim, ylim=ylim, xlogscale = xlogscale, ylogscale = ylogscale, 
-              main=main, xlab=xlab, ylab=ylab, datapch=datapch, datacol=datacol, fitlty=fitlty, fitlwd=fitlwd,
-              fitcol=fitcol, horizontals = horizontals, verticals = verticals, do.points = do.points, 
+              main=main, xlab=xlab, ylab=ylab, datapch=datapch, datacol=datacol, 
+              fitlty={if(!CI.only) fitlty else 0}, fitlwd=fitlwd, fitcol=fitcol, 
+              horizontals = {if(!CI.only) horizontals else FALSE}, verticals = {if(!CI.only) verticals else FALSE}, do.points = {if(!CI.only) do.points else FALSE}, 
               use.ppoints = use.ppoints, a.ppoints = a.ppoints, lines01 = lines01, addlegend = FALSE,
-              add=TRUE)
+              add=TRUE, plotstyle = "ggplot") +
+        
+        ggplot2::geom_line(data = dd, ggplot2::aes_(x=quote(x1), y=quote(y1)), inherit.aes = FALSE, color = CI.col, lty = 2, alpha = 0.5) +
+        ggplot2::geom_line(data = dd, ggplot2::aes_(x=quote(x2), y=quote(y2)), inherit.aes = FALSE, color = CI.col, lty = 2, alpha = 0.5) +
+        {if(!is.null(CI.fill) & CI.output == "probability") ggplot2::geom_ribbon(data = dd, ggplot2::aes_(x = quote(x1), ymin=quote(y1), ymax=quote(y2)), inherit.aes = FALSE, fill = CI.fill, alpha = 0.5)} + 
+        {if(!is.null(CI.fill) & CI.output == "quantile") ggplot2::geom_ribbon(data = dd, ggplot2::aes_(xmin = quote(x1), xmax = quote(x2), y = quote(y1)), inherit.aes = FALSE, fill = CI.fill, alpha = 0.5)}
       
     } else
     {
       cdfcompcens(b$fitpart, xlim=xlim, ylim=ylim, xlogscale = xlogscale, ylogscale = ylogscale, 
-              main=main, xlab=xlab, ylab=ylab, datacol=datacol, fitlty=fitlty, fitlwd=fitlwd, fillrect = NA, 
-              fitcol=fitcol, lines01 = lines01, Turnbull.confint = FALSE, addlegend = FALSE, add=TRUE)
+                  main=main, xlab=xlab, ylab=ylab, datacol=datacol, fitlty=fitlty, fitlwd=fitlwd, fillrect = NA, 
+                  fitcol=fitcol, lines01 = lines01, Turnbull.confint = FALSE, addlegend = FALSE, add=TRUE, plotstyle = "ggplot") +
+        ggplot2::geom_line(data = dd, ggplot2::aes_(x=quote(x1), y=quote(y1)), inherit.aes = FALSE, color = CI.col, lty = 2, alpha = 0.5) +
+        ggplot2::geom_line(data = dd, ggplot2::aes_(x=quote(x2), y=quote(y2)), inherit.aes = FALSE, color = CI.col, lty = 2, alpha = 0.5) +
+        {if(!is.null(CI.fill) & CI.output == "probability") ggplot2::geom_ribbon(data = dd, ggplot2::aes_(x = quote(x1), ymin=quote(y1), ymax=quote(y2)), inherit.aes = FALSE, fill = CI.fill, alpha = 0.5)} + 
+        {if(!is.null(CI.fill) & CI.output == "quantile") ggplot2::geom_ribbon(data = dd, ggplot2::aes_(xmin = quote(x1), xmax = quote(x2), y = quote(y1)), inherit.aes = FALSE, fill = CI.fill, alpha = 0.5)}
       
     }
   }
