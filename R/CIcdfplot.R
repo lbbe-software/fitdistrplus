@@ -233,39 +233,32 @@ CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.c
       if(CI.type == "less") CIband <- cbind(rep(0, NROW(CIband)), CIband)
       if(CI.type == "greater") CIband <- cbind(CIband, rep(1, NROW(CIband)))
       dd <- as.data.frame(cbind(x, x, CIband))
-      colnames(dd) <- c("x1", "x2", "y1", "y2")
     }
     if(CI.output == "quantile") {
       if(CI.type == "less") CIband <- cbind(rep(uppx, NROW(CIband)), CIband)
       if(CI.type == "greater") CIband <- cbind(rep(lowx, NROW(CIband)), CIband)
       dd <- as.data.frame(cbind(CIband, p, p))
-      colnames(dd) <- c("x1", "x2", "y1", "y2")
     }
+    colnames(dd) <- c("x1", "x2", "y1", "y2")
     
-    if (!cens)
+    {if (!cens)
     {
       cdfcomp(b$fitpart, xlim=xlim, ylim=ylim, xlogscale = xlogscale, ylogscale = ylogscale, 
               main=main, xlab=xlab, ylab=ylab, datapch=datapch, datacol=datacol, 
               fitlty={if(!CI.only) fitlty else 0}, fitlwd=fitlwd, fitcol=fitcol, 
               horizontals = {if(!CI.only) horizontals else FALSE}, verticals = {if(!CI.only) verticals else FALSE}, do.points = {if(!CI.only) do.points else FALSE}, 
               use.ppoints = use.ppoints, a.ppoints = a.ppoints, lines01 = lines01, addlegend = FALSE,
-              add=TRUE, plotstyle = "ggplot") +
+              add=TRUE, plotstyle = "ggplot")
         
-        ggplot2::geom_line(data = dd, ggplot2::aes_(x=quote(x1), y=quote(y1)), inherit.aes = FALSE, color = CI.col, lty = 2, alpha = 0.5) +
-        ggplot2::geom_line(data = dd, ggplot2::aes_(x=quote(x2), y=quote(y2)), inherit.aes = FALSE, color = CI.col, lty = 2, alpha = 0.5) +
-        {if(!is.null(CI.fill) & CI.output == "probability") ggplot2::geom_ribbon(data = dd, ggplot2::aes_(x = quote(x1), ymin=quote(y1), ymax=quote(y2)), inherit.aes = FALSE, fill = CI.fill, alpha = 0.5)} + 
-        {if(!is.null(CI.fill) & CI.output == "quantile") ggplot2::geom_ribbon(data = dd, ggplot2::aes_(xmin = quote(x1), xmax = quote(x2), y = quote(y1)), inherit.aes = FALSE, fill = CI.fill, alpha = 0.5)}
-      
     } else
     {
       cdfcompcens(b$fitpart, xlim=xlim, ylim=ylim, xlogscale = xlogscale, ylogscale = ylogscale, 
                   main=main, xlab=xlab, ylab=ylab, datacol=datacol, fitlty=fitlty, fitlwd=fitlwd, fillrect = NA, 
-                  fitcol=fitcol, lines01 = lines01, Turnbull.confint = FALSE, addlegend = FALSE, add=TRUE, plotstyle = "ggplot") +
-        ggplot2::geom_line(data = dd, ggplot2::aes_(x=quote(x1), y=quote(y1)), inherit.aes = FALSE, color = CI.col, lty = 2, alpha = 0.5) +
-        ggplot2::geom_line(data = dd, ggplot2::aes_(x=quote(x2), y=quote(y2)), inherit.aes = FALSE, color = CI.col, lty = 2, alpha = 0.5) +
-        {if(!is.null(CI.fill) & CI.output == "probability") ggplot2::geom_ribbon(data = dd, ggplot2::aes_(x = quote(x1), ymin=quote(y1), ymax=quote(y2)), inherit.aes = FALSE, fill = CI.fill, alpha = 0.5)} + 
-        {if(!is.null(CI.fill) & CI.output == "quantile") ggplot2::geom_ribbon(data = dd, ggplot2::aes_(xmin = quote(x1), xmax = quote(x2), y = quote(y1)), inherit.aes = FALSE, fill = CI.fill, alpha = 0.5)}
-      
-    }
+                  fitcol=fitcol, lines01 = lines01, Turnbull.confint = FALSE, addlegend = FALSE, add=TRUE, plotstyle = "ggplot")
+    }} +
+    ggplot2::geom_line(data = dd, ggplot2::aes_(x=quote(x1), y=quote(y1)), inherit.aes = FALSE, color = CI.col, lty = 2, alpha = 0.5) +
+      ggplot2::geom_line(data = dd, ggplot2::aes_(x=quote(x2), y=quote(y2)), inherit.aes = FALSE, color = CI.col, lty = 2, alpha = 0.5) +
+      {if(!is.null(CI.fill) & CI.output == "probability") ggplot2::geom_ribbon(data = dd, ggplot2::aes_(x = quote(x1), ymin=quote(y1), ymax=quote(y2)), inherit.aes = FALSE, fill = CI.fill, alpha = 0.5)} + 
+      {if(!is.null(CI.fill) & CI.output == "quantile") ggplot2::geom_ribbon(data = dd, ggplot2::aes_(xmin = quote(x1), xmax = quote(x2), y = quote(y1)), inherit.aes = FALSE, fill = CI.fill, alpha = 0.5)}
   }
 }
