@@ -24,21 +24,21 @@
 
 
 CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.col = "red", CI.lty = 2, 
-                    CI.fill = NULL, CI.only = FALSE, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
-                    xlab, ylab, datapch, datacol, fitlty, fitcol, fitlwd, horizontals = TRUE, verticals = FALSE, 
-                    do.points = TRUE, use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, plotstyle = "graphics", ...)
+                      CI.fill = NULL, CI.only = FALSE, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
+                      xlab, ylab, datapch, datacol, fitlty, fitcol, fitlwd, horizontals = TRUE, verticals = FALSE, 
+                      do.points = TRUE, use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, plotstyle = "graphics", ...)
 {
   if(inherits(b, "bootdist"))
   {
     cens <- FALSE
   } else
-  if(inherits(b, "bootdistcens"))
-  {
-    cens <- TRUE
-  } else
-  {
-    stop("argument b must be a 'bootdist' or a `bootdistcens` object")
-  }
+    if(inherits(b, "bootdistcens"))
+    {
+      cens <- TRUE
+    } else
+    {
+      stop("argument b must be a 'bootdist' or a `bootdistcens` object")
+    }
   if(missing(CI.output))
     stop("argument CI.output must be specified: either 'probability' or 'quantile'.")
   CI.output <- match.arg(CI.output, c("probability", "quantile"))
@@ -61,7 +61,7 @@ CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.c
   if (missing(xlim)) xlim <- c(xmin, xmax)
   lowx <- min(xlim[1], ifelse(xmin < 0, xmin*1.5, xmin*.5))
   uppx <- max(xlim[2], ifelse(xmax < 0, xmax*.5, xmax*1.5))
-
+  
   if(missing(ylim)) ylim <- c(0, 1)
   
   if(!is.logical(CI.only))
@@ -76,16 +76,16 @@ CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.c
   if (missing(fitcol)) fitcol <- 2
   if (missing(fitlty)) fitlty <- 1
   if (missing(fitlwd)) fitlwd <- 1
-   if (missing(xlab)) 
+  if (missing(xlab)) 
   {
-     if (!cens)
-       xlab <- ifelse(xlogscale, "data in log scale", "data")
-     else
-       xlab <- ifelse(xlogscale, "censored data in log scale", "censored data")
+    if (!cens)
+      xlab <- ifelse(xlogscale, "data in log scale", "data")
+    else
+      xlab <- ifelse(xlogscale, "censored data in log scale", "censored data")
   }
   if (missing(ylab)) ylab <- "CDF"
   if (missing(main)) main <- ifelse(CI.only, "Theoretical CDF with CI", "Empirical and theoretical CDF with CI")
-
+  
   #get name and cdf name
   distname <- b$fitpart$distname
   pdistname <- paste("p",distname,sep="")
@@ -144,7 +144,7 @@ CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.c
       res
     }
     #compute lower and upper value for the area
-#    p <- seq(sqrt(.Machine$double.eps), 1- sqrt(.Machine$double.eps), length=101)
+    #    p <- seq(sqrt(.Machine$double.eps), 1- sqrt(.Machine$double.eps), length=101)
     p <- seq(0.0001, 1- 0.0001, length=501)
     
     #compute quantiles on c.d.f. 
@@ -249,14 +249,14 @@ CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.c
               horizontals = {if(!CI.only) horizontals else FALSE}, verticals = {if(!CI.only) verticals else FALSE}, do.points = {if(!CI.only) do.points else FALSE}, 
               use.ppoints = use.ppoints, a.ppoints = a.ppoints, lines01 = lines01, addlegend = FALSE,
               add=TRUE, plotstyle = "ggplot")
-        
+      
     } else
     {
       cdfcompcens(b$fitpart, xlim=xlim, ylim=ylim, xlogscale = xlogscale, ylogscale = ylogscale, 
                   main=main, xlab=xlab, ylab=ylab, datacol=datacol, fitlty=fitlty, fitlwd=fitlwd, fillrect = NA, 
                   fitcol=fitcol, lines01 = lines01, Turnbull.confint = FALSE, addlegend = FALSE, add=TRUE, plotstyle = "ggplot")
     }} +
-    ggplot2::geom_line(data = dd, ggplot2::aes_(x=quote(x1), y=quote(y1)), inherit.aes = FALSE, color = CI.col, lty = 2, alpha = 0.5) +
+      ggplot2::geom_line(data = dd, ggplot2::aes_(x=quote(x1), y=quote(y1)), inherit.aes = FALSE, color = CI.col, lty = 2, alpha = 0.5) +
       ggplot2::geom_line(data = dd, ggplot2::aes_(x=quote(x2), y=quote(y2)), inherit.aes = FALSE, color = CI.col, lty = 2, alpha = 0.5) +
       {if(!is.null(CI.fill) & CI.output == "probability") ggplot2::geom_ribbon(data = dd, ggplot2::aes_(x = quote(x1), ymin=quote(y1), ymax=quote(y2)), inherit.aes = FALSE, fill = CI.fill, alpha = 0.5)} + 
       {if(!is.null(CI.fill) & CI.output == "quantile") ggplot2::geom_ribbon(data = dd, ggplot2::aes_(xmin = quote(x1), xmax = quote(x2), y = quote(y1)), inherit.aes = FALSE, fill = CI.fill, alpha = 0.5)}
