@@ -18,8 +18,8 @@
 \usage{
 cdfcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
     datapch, datacol, fitlty, fitcol, fitlwd, addlegend = TRUE, legendtext, 
-    xlegend = "bottomright", ylegend = NULL, horizontals = TRUE, 
-    verticals = FALSE, do.points = TRUE, use.ppoints = TRUE, a.ppoints = 0.5, 
+    xlegend = "bottomright", ylegend = NULL, horizontals = TRUE, verticals = FALSE, 
+    do.points = TRUE, use.ppoints = TRUE, a.ppoints = 0.5, name.points = NULL,
     lines01 = FALSE, discrete, add = FALSE, plotstyle = "graphics", 
     fitnbpts = 101, \dots)
     
@@ -80,16 +80,16 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
   \code{left}, or \code{right}. See also \code{guide_legend} in \code{ggplot2}}
 \item{horizontals}{If \code{TRUE}, draws horizontal lines for the step empirical 
   cumulative distribution function (ecdf). See also \code{\link{plot.stepfun}}.}
+\item{verticals}{If \code{TRUE}, draws vertical lines for the empirical cumulative distribution 
+  function (ecdf). Only taken into account if \code{horizontals=TRUE}.}
 \item{do.points}{If \code{TRUE} (by default), draws points at the x-locations. 
   For large dataset (n > 1e4), \code{do.points} is ignored and no point is drawn.}
-\item{verticals}{If \code{TRUE}, draws vertical lines for the empirical cumulative distribution 
-  function (ecdf). Only taken into account if \code{horizontals=TRUE}. }
 \item{use.ppoints}{If \code{TRUE}, probability points of the empirical distribution
-  are defined using function \code{\link{ppoints}} as 
-  \code{(1:n - a.ppoints)/(n - 2a.ppoints + 1)}.
-  If \code{FALSE}, probability points are simply defined as \code{1:n / n}. This argument is ignored 
+  are defined using function \code{\link{ppoints}} as \code{(1:n - a.ppoints)/(n - 2a.ppoints + 1)}.
+  If \code{FALSE}, probability points are simply defined as \code{(1:n)/n}. This argument is ignored 
   for discrete data.}
 \item{a.ppoints}{If \code{use.ppoints=TRUE}, this is passed to the \code{\link{ppoints}} function.}
+\item{name.points}{Label vector for points if they are drawn i.e. if do.points = TRUE (only for non censored data).}
 \item{lines01}{A logical to plot two horizontal lines at \code{h=0} and \code{h=1} for \code{cdfcomp}.}
 \item{line01}{A logical to plot an horizontal line \eqn{y=x} for \code{qqcomp} and \code{ppcomp}.}
 \item{line01col, line01lty}{Color and line type for \code{line01}. See also \code{\link{par}}.}
@@ -194,6 +194,7 @@ qqcomp(list(fitW, fitln, fitg), legendtext = c("Weibull", "lognormal", "gamma"),
 #
 data(endosulfan)
 ATV <- subset(endosulfan, group == "NonArthroInvert")$ATV
+taxaATV <- subset(endosulfan, group == "NonArthroInvert")$taxa
 flnMGEKS <- fitdist(ATV, "lnorm", method = "mge", gof = "KS")
 flnMGEAD <- fitdist(ATV, "lnorm", method = "mge", gof = "AD")
 flnMGEADL <- fitdist(ATV, "lnorm", method = "mge", gof = "ADL")
@@ -202,7 +203,7 @@ flnMGEAD2L <- fitdist(ATV, "lnorm", method = "mge", gof = "AD2L")
 cdfcomp(list(flnMGEKS, flnMGEAD, flnMGEADL, flnMGEAD2L),
   xlogscale = TRUE, main = "fits of a lognormal dist. using various GOF dist.",
   legendtext = c("MGE KS", "MGE AD", "MGE ADL", "MGE AD2L"),
-  verticals = TRUE, xlim = c(10, 100000))
+  verticals = TRUE, xlim = c(10, 100000), name.points=taxaATV)
 qqcomp(list(flnMGEKS, flnMGEAD, flnMGEADL, flnMGEAD2L),
   main = "fits of a lognormal dist. using various GOF dist.",
   legendtext = c("MGE KS", "MGE AD", "MGE ADL", "MGE AD2L"),

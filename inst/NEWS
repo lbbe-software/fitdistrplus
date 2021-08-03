@@ -8,6 +8,7 @@ used in the survival package
 - new dataset fremale in order to illustrate Surv2fitdistcens()
 - support the use of ggplot2 for CIcdfplot
 - add the taxon names to the endosulfan dataset
+- new argument name.points in cdfcomp and CIcdfplot to add labels next to points
 
 Version 1.1-4/5
 =============

@@ -26,7 +26,8 @@
 CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.col = "red", CI.lty = 2, 
                       CI.fill = NULL, CI.only = FALSE, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
                       xlab, ylab, datapch, datacol, fitlty, fitcol, fitlwd, horizontals = TRUE, verticals = FALSE, 
-                      do.points = TRUE, use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, plotstyle = "graphics", ...)
+                      do.points = TRUE, use.ppoints = TRUE, a.ppoints = 0.5, name.points = NULL, lines01 = FALSE, 
+                      plotstyle = "graphics", ...)
 {
   if(inherits(b, "bootdist"))
   {
@@ -213,7 +214,7 @@ CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.c
         cdfcomp(b$fitpart, xlim=xlim, ylim=ylim, xlogscale = xlogscale, ylogscale = ylogscale, 
                 main=main, xlab=xlab, ylab=ylab, datapch=datapch, datacol=datacol, fitlty=fitlty, fitlwd=fitlwd,
                 fitcol=fitcol, horizontals = horizontals, verticals = verticals, do.points = do.points, 
-                use.ppoints = use.ppoints, a.ppoints = a.ppoints, lines01 = lines01, addlegend = FALSE,
+                use.ppoints = use.ppoints, a.ppoints = a.ppoints, name.points = name.points, lines01 = lines01, addlegend = FALSE,
                 add=TRUE)
         
       } else
@@ -247,7 +248,7 @@ CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.c
               main=main, xlab=xlab, ylab=ylab, datapch=datapch, datacol=datacol, 
               fitlty={if(!CI.only) fitlty else 0}, fitlwd=fitlwd, fitcol=fitcol, 
               horizontals = {if(!CI.only) horizontals else FALSE}, verticals = {if(!CI.only) verticals else FALSE}, do.points = {if(!CI.only) do.points else FALSE}, 
-              use.ppoints = use.ppoints, a.ppoints = a.ppoints, lines01 = lines01, addlegend = FALSE,
+              use.ppoints = use.ppoints, a.ppoints = a.ppoints, name.points = name.points, lines01 = lines01, addlegend = FALSE,
               add=TRUE, plotstyle = "ggplot")
       
     } else

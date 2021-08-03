@@ -28,7 +28,7 @@
 cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab, 
                     datapch, datacol, fitlty, fitcol, fitlwd, addlegend = TRUE, legendtext, xlegend = "bottomright", 
                     ylegend = NULL, horizontals = TRUE, verticals = FALSE, do.points = TRUE, 
-                    use.ppoints = TRUE, a.ppoints = 0.5, lines01 = FALSE, discrete, add = FALSE, 
+                    use.ppoints = TRUE, a.ppoints = 0.5, name.points = NULL, lines01 = FALSE, discrete, add = FALSE, 
                     plotstyle = "graphics", fitnbpts = 101, ...)
 {
   if(inherits(ft, "fitdist"))
@@ -199,6 +199,9 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
       
     }
     
+    if(!largedata && do.points && !is.null(name.points))
+      text(sdata, obsp, labels = name.points, pos = 2)
+    
     # optional add of horizontal and vertical lines for step function
     if (!largedata && horizontals) {
       segments(xhleft, yh, xhright, yh, col=datacol,...)
@@ -259,6 +262,7 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
       ggplot2::coord_cartesian(xlim = c(xlim[1], xlim[2]), ylim = c(ylim[1], ylim[2])) +
       
       {if(!largedata && do.points) ggplot2::geom_point(data = step, ggplot2::aes_(quote(sfin), quote(values)), show.legend = FALSE, colour = datacol, shape = datapch)} +
+      {if(!largedata && do.points && !is.null(name.points)) ggplot2::geom_text(data = step, ggplot2::aes_(quote(sfin), quote(values), label = name.points), hjust = "right", nudge_x = -0.05, inherit.aes = FALSE, show.legend = FALSE)} +
       {if(largedata) ggplot2::geom_step(data = step, ggplot2::aes_(quote(sfin), quote(values)), show.legend = FALSE, colour = datacol, shape = datapch)} +
       
       {if(!largedata && horizontals && !verticals) ggplot2::geom_segment(data = horiz, ggplot2::aes_(x=quote(x), y=quote(y), xend=quote(xend), yend=quote(yend)), show.legend = FALSE, colour = datacol)} +
