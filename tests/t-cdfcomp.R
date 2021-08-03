@@ -77,6 +77,7 @@ if (requireNamespace ("ggplot2", quietly = TRUE) & visualize) {
 #
 data(endosulfan)
 ATV <-subset(endosulfan, group == "NonArthroInvert")$ATV
+taxaATV <- subset(endosulfan, group == "NonArthroInvert")$taxa
 flnMGEKS <- fitdist(ATV,"lnorm",method="mge",gof="KS")
 flnMGEAD <- fitdist(ATV,"lnorm",method="mge",gof="AD")
 flnMGEADL <- fitdist(ATV,"lnorm",method="mge",gof="ADL")
@@ -99,6 +100,9 @@ cdfcomp(llfit, xlogscale=TRUE, main="fits of a lognormal dist. using various GOF
 cdfcomp(list(flnMGEKS, flnMGEAD, flnMGEADL, flnMGEAD2L),
         xlogscale=TRUE, verticals=TRUE, xlim=c(10,100000), datapch=21)
 cdfcomp(flnMGEKS, xlogscale=TRUE, verticals=TRUE, xlim=c(10,100000))
+cdfcomp(list(flnMGEKS, flnMGEAD, flnMGEADL, flnMGEAD2L),
+        xlogscale=TRUE, verticals=TRUE, xlim=c(1,100000), datapch=21, name.points=taxaATV)
+cdfcomp(flnMGEKS, xlogscale=TRUE, verticals=TRUE, xlim=c(1,100000), name.points=taxaATV)
 
 if (requireNamespace ("ggplot2", quietly = TRUE) & visualize) {
   cdfcomp(list(flnMGEKS, flnMGEAD, flnMGEADL, flnMGEAD2L), xlogscale=TRUE,
@@ -117,6 +121,11 @@ if (requireNamespace ("ggplot2", quietly = TRUE) & visualize) {
   cdfcomp(list(flnMGEKS, flnMGEAD, flnMGEADL, flnMGEAD2L),
           xlogscale=TRUE, verticals=TRUE, xlim=c(10,100000), datapch=21, plotstyle = "ggplot")
   cdfcomp(flnMGEKS, xlogscale=TRUE, verticals=TRUE, xlim=c(10,100000), plotstyle = "ggplot")
+  cdfcomp(list(flnMGEKS, flnMGEAD, flnMGEADL, flnMGEAD2L),
+          xlogscale=TRUE, verticals=TRUE, xlim=c(1,100000), datapch=21, name.points=taxaATV, 
+          plotstyle = "ggplot")
+  cdfcomp(flnMGEKS, xlogscale=TRUE, verticals=TRUE, xlim=c(1,100000), name.points=taxaATV, 
+          plotstyle = "ggplot")
 }
 
 
@@ -130,13 +139,16 @@ if (visualize)
 {
   data(endosulfan)
   log10ATV <-log10(subset(endosulfan, group == "NonArthroInvert")$ATV)
+  taxaATV <- subset(endosulfan, group == "NonArthroInvert")$taxa
   fln <- fitdist(log10ATV, "norm")
   fll <- fitdist(log10ATV, "logis")
   
   # default plot using Hazen plotting position: (1:n - 0.5)/n
-  cdfcomp(list(fln, fll), legendtext = c("normal", "logistic"), xlab = "log10ATV")
+  cdfcomp(list(fln, fll), legendtext = c("normal", "logistic"), xlab = "log10ATV", 
+          name.points=taxaATV, xlim = c(0,5))
   if (requireNamespace ("ggplot2", quietly = TRUE)) {
-    cdfcomp(list(fln, fll), legendtext = c("normal", "logistic"),xlab = "log10ATV", plotstyle = "ggplot")
+    cdfcomp(list(fln, fll), legendtext = c("normal", "logistic"),xlab = "log10ATV", 
+            name.points=taxaATV, xlim=c(0,5), plotstyle = "ggplot")
   }
   
   # plot using mean plotting position (named also Gumbel plotting position)

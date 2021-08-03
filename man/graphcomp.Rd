@@ -203,7 +203,7 @@ flnMGEAD2L <- fitdist(ATV, "lnorm", method = "mge", gof = "AD2L")
 cdfcomp(list(flnMGEKS, flnMGEAD, flnMGEADL, flnMGEAD2L),
   xlogscale = TRUE, main = "fits of a lognormal dist. using various GOF dist.",
   legendtext = c("MGE KS", "MGE AD", "MGE ADL", "MGE AD2L"),
-  verticals = TRUE, xlim = c(10, 100000), name.points=taxaATV)
+  verticals = TRUE, xlim = c(1, 100000), name.points=taxaATV)
 qqcomp(list(flnMGEKS, flnMGEAD, flnMGEADL, flnMGEAD2L),
   main = "fits of a lognormal dist. using various GOF dist.",
   legendtext = c("MGE KS", "MGE AD", "MGE ADL", "MGE AD2L"),
