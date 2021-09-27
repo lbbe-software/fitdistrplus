@@ -1171,6 +1171,26 @@ dcomp + ggplot2::theme_minimal() + ggplot2::ggtitle("Ground beef fits")
 
 <!-- We plan to include the argument `plotstyle` to other functions of the `fitdistrplus` package in a next future. -->
 
+## Is it possible to add the names of the observations in a goodness-of-fit plot,  e.g. the names of the species in the plot of the Species Sensitivity Distribution (SSD) classically used in ecotoxicology ?
+
+An argument named `name.points` can be used in functions `cdfcomp` or 
+`CIcdfcomp` to pass a label vector for observed points so as to add the names
+of the points on the left of each point. This option is available only for 
+ECDF goodness-of-fit plots and only for non censored data. This option can be used 
+as below, for example, to name the species in the classical plot of the
+Species Sensitivity Distributions (SSD) in ecotoxicology.
+
+```{r, fig.height= 6, fig.width= 6, warning = FALSE}
+data(endosulfan)
+ATV <- subset(endosulfan, group == "NonArthroInvert")$ATV
+taxaATV <- subset(endosulfan, group == "NonArthroInvert")$taxa
+f <- fitdist(ATV, "lnorm")
+cdfcomp(f, xlogscale = TRUE, main = "Species Sensitivty Distribution", 
+    xlim = c(1, 100000), name.points = taxaATV, 
+    addlegend = FALSE, plotstyle = "ggplot")
+```
+
+
 
 # Questions regarding (left, right and/or interval) censored data
 
