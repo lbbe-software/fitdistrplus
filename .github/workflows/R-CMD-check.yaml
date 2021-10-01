@@ -47,7 +47,7 @@ jobs:
       - name: Install libraries for Linux
         if: runner.os == 'Linux'
         run: |
-          sudo apt-get install texlive
+          sudo apt-get install texlive libcurl4-openssl-dev
           
       - name: Query dependencies
         run: |
