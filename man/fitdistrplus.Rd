@@ -20,7 +20,7 @@ The package has also been presented at the \href{https://www.r-project.org/confe
 Three vignettes are available within the package:
 \itemize{
 \item a \href{../doc/paper2JSS.pdf}{general overview} of the package published in the 
-\href{https://www.jstatsoft.org/article/view/v064i04}{Journal of Statistical Software},
+\href{https://doi.org/10.18637/jss.v064.i04}{Journal of Statistical Software},
 \item a html document answering the most \href{../doc/FAQ.html}{Frequently Asked Questions},
 \item a html document presenting a \href{../doc/Optimalgo.html}{benchmark of optimization algorithms} when finding parameters.
 }
