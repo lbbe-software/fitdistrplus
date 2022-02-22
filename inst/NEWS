@@ -1,5 +1,17 @@
 ==== fitdistrplus : Help to fit of a parametric distribution ====
 
+Version 1.1-7
+=============
+
+WARNING FIX
+- update an URL in fitdistrplus.Rd from \href{https://doi.org/10.18637/jss.v064.i04} to
+\doi{doi.org/10.18637/jss.v064.i04}
+
+BUG FIX
+- fix an error in t-detectbound.R producing "failure: length > 1 in coercion to logical"
+reported by Brian Ripley
+
+
 Version 1.1-6
 =============
 NEW FEATURES
