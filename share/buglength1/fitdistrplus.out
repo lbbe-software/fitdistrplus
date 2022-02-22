@@ -1,0 +1,199 @@
+* using log directory ‘/data/gannet/ripley/R/packages/tests-ATLAS/fitdistrplus.Rcheck’
+* using R Under development (unstable) (2022-01-22 r81552)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using option ‘--no-stop-on-test-error’
+* checking for file ‘fitdistrplus/DESCRIPTION’ ... OK
+* this is package ‘fitdistrplus’ version ‘1.1-6’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... OK
+* checking if this is a source package ... OK
+* checking if there is a namespace ... OK
+* checking for executable files ... OK
+* checking for hidden files and directories ... OK
+* checking for portable file names ... OK
+* checking for sufficient/correct file permissions ... OK
+* checking whether package ‘fitdistrplus’ can be installed ... [25s/68s] OK
+* checking package directory ... OK
+* checking ‘build’ directory ... OK
+* checking DESCRIPTION meta-information ... OK
+* checking top-level files ... OK
+* checking for left-over files ... OK
+* checking index information ... OK
+* checking package subdirectories ... OK
+* checking R files for non-ASCII characters ... OK
+* checking R files for syntax errors ... OK
+* checking whether the package can be loaded ... OK
+* checking whether the package can be loaded with stated dependencies ... OK
+* checking whether the package can be unloaded cleanly ... OK
+* checking whether the namespace can be loaded with stated dependencies ... OK
+* checking whether the namespace can be unloaded cleanly ... OK
+* checking loading without being on the library search path ... OK
+* checking use of S3 registration ... OK
+* checking dependencies in R code ... OK
+* checking S3 generic/method consistency ... OK
+* checking replacement functions ... OK
+* checking foreign function calls ... OK
+* checking R code for possible problems ... [53s/130s] OK
+* checking Rd files ... OK
+* checking Rd metadata ... OK
+* checking Rd line widths ... OK
+* checking Rd cross-references ... OK
+* checking for missing documentation entries ... OK
+* checking for code/documentation mismatches ... OK
+* checking Rd \usage sections ... OK
+* checking Rd contents ... OK
+* checking for unstated dependencies in examples ... OK
+* checking contents of ‘data’ directory ... OK
+* checking data for non-ASCII characters ... OK
+* checking data for ASCII and uncompressed saves ... OK
+* checking sizes of PDF files under ‘inst/doc’ ... OK
+* checking installed files from ‘inst/doc’ ... OK
+* checking files in ‘vignettes’ ... OK
+* checking examples ... [49s/125s] OK
+* checking for unstated dependencies in ‘tests’ ... OK
+* checking tests ...
+  Running ‘t-CIcdfplot.R’ [25s/65s]
+  Running ‘t-Surv2fitdistcens.R’
+  Running ‘t-bootdist.R’ [19s/45s]
+  Running ‘t-bootdistcens.R’ [4s/12s]
+  Running ‘t-cdfcomp.R’ [6s/16s]
+  Running ‘t-cdfcompcens.R’ [7s/15s]
+  Running ‘t-cvg-algo.R’
+  Running ‘t-denscomp.R’ [7s/19s]
+  Running ‘t-descdist.R’
+  Running ‘t-detectbound.R’
+  Running ‘t-fitbench.R’
+  Running ‘t-fitdist-customoptim.R’
+  Running ‘t-fitdist.R’ [16s/40s]
+  Running ‘t-fitdistcens.R’ [8s/20s]
+  Running ‘t-gen-max-spacing-estim.R’ [4s/10s]
+  Running ‘t-getparam.R’
+  Running ‘t-gofstat.R’
+  Running ‘t-init-actuar.R’
+  Running ‘t-llplot.R’ [14s/36s]
+  Running ‘t-lnL-surf.R’ [4s/11s]
+  Running ‘t-logLik-vcov-coef.R’
+  Running ‘t-manageparam.R’
+  Running ‘t-mgedist.R’ [4s/10s]
+  Running ‘t-mledist-cens.R’
+  Running ‘t-mledist-nocens.R’ [15s/40s]
+  Running ‘t-mledist-paramsupport.R’
+  Running ‘t-mmedist.R’ [18s/54s]
+  Running ‘t-msedist.R’ [5s/13s]
+  Running ‘t-parallel.R’
+  Running ‘t-plotdist.R’
+  Running ‘t-plotdistcens.R’ [4s/11s]
+  Running ‘t-ppcomp.R’ [6s/15s]
+  Running ‘t-ppcompcens.R’ [6s/15s]
+  Running ‘t-prefit.R’
+  Running ‘t-qme-discrete.R’ [15s/42s]
+  Running ‘t-qmedist.R’ [11s/38s]
+  Running ‘t-qqcomp.R’ [8s/26s]
+  Running ‘t-qqcompcens.R’ [7s/16s]
+  Running ‘t-quantiledist.R’ [4s/12s]
+  Running ‘t-startfixarg-overall.R’ [5s/15s]
+  Running ‘t-startingvalues.R’
+  Running ‘t-util-npmle.R’
+  Running ‘t-util-npsurv-mainfunction.R’
+  Running ‘t-util-testdensity.R’
+  Running ‘t-weird-ppcomp-cens.R’
+  Running ‘t-weird-qqcomp-cens.R’ [3s/10s]
+ [5m/12m] ERROR
+Running the tests in ‘tests/t-detectbound.R’ failed.
+Complete output:
+  > require(fitdistrplus)
+  Loading required package: fitdistrplus
+  Loading required package: MASS
+  Loading required package: survival
+  > 
+  > #case where the density returns a Not-an-Numeric value.
+  > detectbound("gamma", c(shape=3, scale=3), 1:10, echo=TRUE)
+  [1] "shape" "scale"
+  shape scale 
+      3     3 
+  shape 
+  1 	tested value -1 3 
+   [1] NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN
+   [1] NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN
+  2 	tested value 1.490116e-08 3 
+   [1] NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN
+   [1] 1.067715e-08 3.825256e-09 1.827277e-09 9.819759e-10 5.628932e-10
+   [6] 3.361088e-10 2.064279e-10 1.294230e-10 8.243168e-11 5.315839e-11
+  3 	tested value 1 3 
+   [1] 0.23884377 0.17113904 0.12262648 0.08786571 0.06295853 0.04511176
+   [7] 0.03232399 0.02316115 0.01659569 0.01189133
+   [1] 0.23884377 0.17113904 0.12262648 0.08786571 0.06295854 0.04511176
+   [7] 0.03232399 0.02316115 0.01659569 0.01189133
+  scale 
+  1 	tested value 3 -1 
+   [1] NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN
+   [1] NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN
+  2 	tested value 3 1.490116e-08 
+   [1] NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN
+   [1] 0 0 0 0 0 0 0 0 0 0
+  3 	tested value 3 1 
+   [1] 0.183939726 0.270670571 0.224041808 0.146525109 0.084224335 0.044617537
+   [7] 0.022341107 0.010734803 0.004998097 0.002269996
+   [1] 0.183939715 0.270670562 0.224041808 0.146525113 0.084224340 0.044617541
+   [7] 0.022341109 0.010734805 0.004998098 0.002269997
+       shape scale
+  lowb     0     0
+  uppb   Inf   Inf
+  > detectbound("logis", c(location=3, scale=3), 1:10)
+       location scale
+  lowb     -Inf     0
+  uppb      Inf   Inf
+  > detectbound("geom", c(prob=1/2), 1:10)
+       prob
+  lowb    0
+  uppb    1
+  > 
+  > #test rate-scale arg
+  > detectbound("gamma", c(shape=1, scale=3), 1:10)
+       shape scale
+  lowb     0     0
+  uppb   Inf   Inf
+  > detectbound("gamma", c(shape=1, rate=1/3), 1:10)
+       shape scale
+  lowb     0     0
+  uppb   Inf   Inf
+  > 
+  > x1 <- c(NaN, 1:3)
+  > x2 <- c(1:4)
+  > x3 <- c(NaN, NaN)
+  > is.nan(x1) && !is.nan(x2)
+   ----------- FAILURE REPORT -------------- 
+   --- failure: length > 1 in coercion to logical ---
+   --- srcref --- 
+  : 
+   --- package (from environment) --- 
+  package:fitdistrplus
+   --- call from context --- 
+  NULL
+   --- call from argument --- 
+  is.nan(x1) && !is.nan(x2)
+   --- R stacktrace ---
+  
+   --- value of length: 4 type: logical ---
+  [1]  TRUE FALSE FALSE FALSE
+   --- function from context --- 
+   --- function search by body ---
+   ----------- END OF FAILURE REPORT -------------- 
+  Fatal error: length > 1 in coercion to logical
+* checking for unstated dependencies in vignettes ... OK
+* checking package vignettes in ‘inst/doc’ ... OK
+* checking re-building of vignette outputs ... [112s/294s] OK
+* checking PDF version of manual ... OK
+* checking for non-standard things in the check directory ... OK
+* checking for detritus in the temp directory ... OK
+* DONE
+
+Status: 1 ERROR
+See
+  ‘/data/gannet/ripley/R/packages/tests-ATLAS/fitdistrplus.Rcheck/00check.log’
+for details.
+
+Command exited with non-zero status 1
+Time 26:53.65, 579.94 + 34.78
