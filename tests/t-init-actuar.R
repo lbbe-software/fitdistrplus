@@ -24,7 +24,7 @@ if(FALSE)
     f <- function(eta)
       (qi[1]^eta-1)^y1*(qi[2]^eta-1)^y2*(qi[3]^eta-1) - 1
     eta <- try(uniroot(f, c(-10, -1e-6))$root, silent=TRUE)
-    if(class(eta) == "try-error")
+    if(inherits(eta, "try-error"))
       eta <- -1
     alpha <- -1/eta
     lambda <- (qi[1]^eta-1)^y*(qi[2]^eta-1)^(-y-1)

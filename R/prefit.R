@@ -255,7 +255,7 @@ prefit <- function(data, distr, method = c("mle", "mme", "qme", "mge"), feasible
   if(method == "mge")
     test1 <- try(fnobj(par=ltrans.par, fix.arg = fix.arg, obs=data, pdistnam=pdistname, gof=gof), silent=silent)
   
-  if(class(test1) == "try-error" || silent == FALSE)
+  if(inherits(test1, "try-error") || silent == FALSE)
     print(test1)
   
   #get old warning value and set it
@@ -277,7 +277,7 @@ prefit <- function(data, distr, method = c("mle", "mme", "qme", "mge"), feasible
   on.exit(options(owarn), add=TRUE)
   
   
-  if(class(opttryerror) == "try-error")
+  if(inherits(opttryerror, "try-error"))
     stop("unsuccessful pre-fitting process")
   if(!silent)
     print(opt)

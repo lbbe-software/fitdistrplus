@@ -82,7 +82,7 @@ detectbound <- function(distname, vstart, obs, fix.arg=NULL, echo=FALSE)
         print(dx2)
       }
       
-      if(class(dx1) == "try-error" && class(dx2) != "try-error")
+      if(inherits(dx1, "try-error") && !inherits(dx2, "try-error"))
       {
         lowb[a] <- aval[i]
       }
@@ -90,7 +90,7 @@ detectbound <- function(distname, vstart, obs, fix.arg=NULL, echo=FALSE)
       {
         lowb[a] <- aval[i]
       }
-      if(class(dx1) != "try-error" && class(dx2) == "try-error")
+      if(!inherits(dx1, "try-error") && inherits(dx2, "try-error"))
       {
         uppb[a] <- aval[i]
       }

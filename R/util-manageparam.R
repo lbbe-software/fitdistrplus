@@ -17,7 +17,7 @@ manageparam <- function(start.arg, fix.arg, obs, distname)
   if(is.null(start.arg))
   {
     trystart <- try(start.arg.default(obs, distname), silent = TRUE)
-    if(class(trystart) == "try-error")
+    if(inherits(trystart, "try-error"))
     {
       cat("Error in computing default starting values.\n")
       stop(trystart)
@@ -37,7 +37,7 @@ manageparam <- function(start.arg, fix.arg, obs, distname)
   }else if(is.function(start.arg))
   {
     trystart <- try(start.arg(obs), silent = TRUE)
-    if(class(trystart) == "try-error")
+    if(inherits(trystart, "try-error"))
     {
       cat("Error in computing starting values with your function.\n")
       stop(trystart)
@@ -63,7 +63,7 @@ manageparam <- function(start.arg, fix.arg, obs, distname)
   }else if(is.function(fix.arg))
   {
     tryfix <- try(fix.arg(obs), silent = TRUE)
-    if(class(tryfix) == "try-error")
+    if(inherits(tryfix, "try-error"))
     {
       cat("Error in computing fixed parameter values with your function.\n")
       stop(tryfix)

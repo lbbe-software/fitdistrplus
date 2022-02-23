@@ -147,7 +147,7 @@ fBFGS <- mledist(mysample, "exp", optim.method="BFGS")
 fLBFGSB <- mledist(mysample, "exp", optim.method="L-BFGS-B", lower=0) 
 fSANN <- mledist(mysample, "exp", optim.method="SANN") 
 fCG <- try(mledist(mysample, "exp", optim.method="CG") )
-if(class(fCG) == "try-error")
+if(inherits(fCG, "try-error"))
 	fCG <- list(estimate=NA)
 
 #the warning tell us to use optimise...
@@ -202,7 +202,7 @@ fBFGS <- mledist(mysample, "gamma", optim.method="BFGS")
 fLBFGSB <- mledist(mysample, "gamma", optim.method="L-BFGS-B", lower=0) 
 fSANN <- mledist(mysample, "gamma", optim.method="SANN") 
 fCG <- try( mledist(mysample, "gamma", optim.method="CG", control=list(maxit=1000)) )
-if(class(fCG) == "try-error")
+if(inherits(fCG, "try-error"))
 	fCG <- list(estimate=NA)
 	
 fgenoud <- mledist(mysample, "gamma", start=mystart, custom.optim= mygenoud, nvars=2,    
@@ -224,7 +224,7 @@ fBFGS <- mledist(groundbeef$serving, "gamma", optim.method="BFGS")
 fLBFGSB <- mledist(groundbeef$serving, "gamma", optim.method="L-BFGS-B", lower=0) 
 fSANN <- mledist(groundbeef$serving, "gamma", optim.method="SANN") 
 fCG <- try( mledist(groundbeef$serving, "gamma", optim.method="CG", control=list(maxit=10000)) )
-if(class(fCG) == "try-error")
+if(inherits(fCG, "try-error"))
 	fCG <- list(estimate=NA)
 
 fgenoud <- mledist(groundbeef$serving, "gamma", start=list(shape=4, rate=1),

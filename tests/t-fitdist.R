@@ -137,7 +137,7 @@ if (visualize) # LONG TO RUN ON CRAN
   {
     cat("\nscaling", 10^i, "\n")
     res <- try(mledist(x2*10^i, "cauchy"), silent=TRUE)
-    if(class(res) == "try-error")
+    if(inherits(res, "try-error"))
       print(res)
     else
     {
@@ -166,7 +166,7 @@ if (visualize) # LONG TO RUN ON CRAN
     cat("\nscaling", 10^(-2*i), "\n")
     res <- mledist(x1*10^(-2*i), "norm")
     Hm1 <- try(solve(res$hessian), silent=TRUE)
-    if(class(Hm1) == "try-error")
+    if(inherits(Hm1, "try-error"))
       print(Hm1)
     else
     {

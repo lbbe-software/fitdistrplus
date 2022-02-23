@@ -1067,7 +1067,7 @@ fBFGS <- fitdist(groundbeef$serving, "gamma", optim.method = "BFGS")
 fSANN <- fitdist(groundbeef$serving, "gamma", optim.method = "SANN")
 fCG <- try(fitdist(groundbeef$serving, "gamma", optim.method = "CG", 
   control = list(maxit = 10000)))
-if(class(fCG) == "try-error")
+if(inherits(fCG, "try-error"))
   fCG <- list(estimate = NA)
 @
 
