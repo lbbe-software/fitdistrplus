@@ -2,7 +2,7 @@ library(fitdistrplus)
 
 nbboot <- 201
 nbboot <- 10
-if (requireNamespace ("ggplot2", quietly = TRUE)) {ggplotEx <- TRUE}
+ggplotEx <- requireNamespace("ggplot2", quietly = TRUE)
 
 # (1) Fit of a gamma distribution 
 #
