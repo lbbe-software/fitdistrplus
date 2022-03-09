@@ -119,6 +119,7 @@ b1 <- bootdist(f1, niter= 11) #voluntarily low to decrease computation time
 CIcdfplot(b1, CI.level= 95/100, CI.output = "probability")
 if (ggplotEx) CIcdfplot(b1, CI.level= 95/100, CI.output = "probability", plotstyle = "ggplot")
 
+\donttest{
 # plot of the previous intervals as a band 
 CIcdfplot(b1, CI.level= 95/100, CI.output = "probability", 
   CI.fill = "pink", CI.col = "red")
@@ -199,5 +200,5 @@ if (ggplotEx) CIcdfplot(bln, CI.output = "quantile", CI.fill = "lightblue", CI.c
     plotstyle = "ggplot") +
   ggplot2::geom_hline(yintercept = 0.05, lty = 2) # line corresponding to a CDF of 5 percent
 }
-
+}
 \keyword{ distribution }
