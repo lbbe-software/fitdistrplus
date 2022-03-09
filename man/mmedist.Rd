@@ -187,7 +187,7 @@ mmedist(x3, "beta")
 # (4) fit a Pareto distribution
 #
 
-\dontrun{
+\donttest{
   require(actuar)
   #simulate a sample
   x4  <-  rpareto(1000, 6, 2)

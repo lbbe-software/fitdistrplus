@@ -157,7 +157,7 @@ mgedist(u,"unif",gof="KS")
 # Kolmogorov-Smirnov distance
 # 
 
-\dontrun{
+\donttest{
 require(mc2d)
 set.seed(1234)
 t <- rtriang(100,min=5,mode=6,max=10)

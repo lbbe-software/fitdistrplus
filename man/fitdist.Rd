@@ -355,7 +355,7 @@ fitdist(serving, "gamma", optim.method="SANN")
 
 # (7) custom optimization function
 #
-\dontrun{
+\donttest{
 #create the sample
 set.seed(1234)
 mysample <- rexp(100, 5)
@@ -391,7 +391,7 @@ summary(res2)
 
 # (8) custom optimization function - another example with the genetic algorithm
 #
-\dontrun{
+\donttest{
     #set a sample
     fit1 <- fitdist(serving, "gamma")
     summary(fit1)
@@ -446,7 +446,7 @@ gofstat(fWqme)
 # (11) Fit of a Pareto distribution by numerical moment matching estimation
 #
 
-\dontrun{
+\donttest{
     require(actuar)
     #simulate a sample
     x4 <- rpareto(1000, 6, 2)
@@ -465,7 +465,7 @@ gofstat(fWqme)
 # (12) Fit of a Weibull distribution to serving size data by maximum 
 # goodness-of-fit estimation using all the distances available
 # 
-\dontrun{
+\donttest{
 data(groundbeef)
 serving <- groundbeef$serving
 (f1 <- fitdist(serving, "weibull", method="mge", gof="CvM"))
@@ -536,7 +536,7 @@ quantile(fln, probs = c(0.05, 0.1, 0.2))
 # Kolmogorov-Smirnov distance
 # 
 
-\dontrun{
+\donttest{
 set.seed(1234)
 require(mc2d)
 t <- rtriang(100, min=5, mode=6, max=10)
@@ -547,7 +547,7 @@ cdfcomp(list(fCvM,fKS))
 
 # (17) fit a non classical discrete distribution (the zero inflated Poisson distribution)
 #
-\dontrun{
+\donttest{
 require(gamlss.dist)
 set.seed(1234)
 x <- rZIP(n = 30, mu = 5, sigma = 0.2)
@@ -565,7 +565,7 @@ gofstat(list(fitzip, fitp))
 
 # (18) examples with distributions in actuar (predefined starting values)
 #
-\dontrun{
+\donttest{
 require(actuar)
 x <- c(2.3,0.1,2.7,2.2,0.4,2.6,0.2,1.,7.3,3.2,0.8,1.2,33.7,14.,
        21.4,7.7,1.,1.9,0.7,12.6,3.2,7.3,4.9,4000.,2.5,6.7,3.,63.,

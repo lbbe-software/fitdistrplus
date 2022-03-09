@@ -83,7 +83,7 @@ data(groundbeef)
 serving <- groundbeef$serving
 fitg <- fitdist(serving, "gamma")
 llplot(fitg)
-\dontrun{
+\donttest{
 llplot(fitg, expansion = 2)
 llplot(fitg, pal.col = heat.colors(100), fit.show = TRUE)
 llplot(fitg, back.col = FALSE, nlev = 25, fit.show = TRUE)
@@ -97,7 +97,7 @@ llplot(fitg2, fit.show = TRUE)
 # (4) a distribution with three parameters
 # 
 
-\dontrun{
+\donttest{
   data(endosulfan)
   ATV <-endosulfan$ATV
   library("actuar")

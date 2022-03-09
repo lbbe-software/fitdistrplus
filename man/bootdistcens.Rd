@@ -150,7 +150,7 @@ quantile(b1b)
 # (3) comparison of sequential and parallel versions of bootstrap
 # to be tried with a greater number of iterations (1001 or more)
 #
-\dontrun{
+\donttest{
 niter <- 1001
 data(fluazinam)
 d1 <-log10(fluazinam)

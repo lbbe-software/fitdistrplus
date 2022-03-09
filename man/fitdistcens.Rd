@@ -245,7 +245,7 @@ fitdistcens(log10EC50,"logis",optim.method="SANN")
 
 # (6) custom optimisation function - example with the genetic algorithm
 #
-\dontrun{
+\donttest{
 
     #wrap genoud function rgenoud package
     mygenoud  <-  function(fn, par, ...) 
