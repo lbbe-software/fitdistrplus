@@ -164,12 +164,12 @@ proc.time() - ptm
 # parallel version using snow
 require(parallel)
 ptm <- proc.time()
-summary(bootdistcens(f1, niter = niter, parallel = "snow", ncpus = 4))
+summary(bootdistcens(f1, niter = niter, parallel = "snow", ncpus = 2))
 proc.time() - ptm
 
 # parallel version using multicore (not available on Windows)
 ptm <- proc.time()
-summary(bootdistcens(f1, niter = niter, parallel = "multicore", ncpus = 4))
+summary(bootdistcens(f1, niter = niter, parallel = "multicore", ncpus = 2))
 proc.time() - ptm
 }
 
