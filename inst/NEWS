@@ -1,11 +1,12 @@
 ==== fitdistrplus : Help to fit of a parametric distribution ====
 
-Version 1.1-7
+Version 1.1-8
 =============
-
 WARNING FIX
 - update an URL in fitdistrplus.Rd from \href{https://doi.org/10.18637/jss.v064.i04}{} to
 \doi{doi.org/10.18637/jss.v064.i04}
+- replace 'if(class(x) == XX)' by 'if(inherits(x, XX))'
+- replace all 'dontrun' tags by 'donttest' in examples in rd files
 
 BUG FIX
 - fix an error in t-detectbound.R producing "failure: length > 1 in coercion to logical"
