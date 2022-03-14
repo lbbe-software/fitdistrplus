@@ -1,6 +1,5 @@
 \name{plotdist}
 \alias{plotdist}
-%- Also NEED an '\alias' for EACH other topic documented here.
 
 \title{ Plot of empirical and theoretical distributions for non-censored data}
 
@@ -77,8 +76,6 @@ Journal of Statistical Software, 64(4), 1-34.
 Marie-Laure Delignette-Muller and Christophe Dutang.
 }
 
-%\note{  }
-
 \examples{
 # (1) Plot of an empirical distribution with changing 
 # of default line types for CDF and colors
@@ -122,4 +119,4 @@ plotdist(number,"pois",para=list(lambda=mean(number)))
 
 }
 
-\keyword{ distribution }% at least one, from doc/KEYWORDS
+\keyword{ distribution }

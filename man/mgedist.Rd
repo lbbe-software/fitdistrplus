@@ -109,7 +109,6 @@ mgedist(data, distr, gof = "CvM", start = NULL, fix.arg = NULL, optim.method = "
 }
 
 \references{
-
 Luceno A (2006), \emph{Fitting the generalized Pareto distribution to data using
 maximum goodness-of-fit estimators}. Computational Statistics and Data Analysis, 51, 904-917.
 
@@ -118,9 +117,7 @@ Stephens MA, eds), Marcel Dekker, New York, pp. 97-194.
 
 Delignette-Muller ML and Dutang C (2015), \emph{fitdistrplus: An R Package for Fitting Distributions}.
 Journal of Statistical Software, 64(4), 1-34.
-
 }
-
 
 \author{ 
 Marie-Laure Delignette-Muller and Christophe Dutang.
@@ -176,4 +173,4 @@ for(i in 6:0)
     cat(i, try(mgedist(x*10^i,"cauchy")$estimate, silent=TRUE), "\n")
 
 }
-\keyword{ distribution }% at least one, from doc/KEYWORDS
+\keyword{ distribution }

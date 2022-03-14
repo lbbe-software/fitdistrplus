@@ -1,7 +1,6 @@
 \name{descdist}
 \alias{descdist}
 \alias{print.descdist}
-%- Also NEED an '\alias' for EACH other topic documented here.
 
 \title{ Description of an empirical distribution for non-censored data}
 
@@ -15,9 +14,7 @@ descdist(data, discrete = FALSE, boot = NULL, method = "unbiased",
 graph = TRUE, obs.col = "darkblue", obs.pch = 16, boot.col = "orange")
 
 \method{print}{descdist}(x, \dots)
-
 }
-%- maybe also 'usage' for other objects documented here.
 
 \arguments{
 \item{data}{ A numeric vector.  }
@@ -97,8 +94,6 @@ Journal of Statistical Software, 64(4), 1-34.
 Marie-Laure Delignette-Muller and Christophe Dutang.
 }
 
-%\note{  }
-
 \examples{
 # (1) Description of a sample from a normal distribution
 # with and without uncertainty on skewness and kurtosis estimated by bootstrap 
@@ -134,4 +129,4 @@ serving <- groundbeef$serving
 descdist(serving, boot=500)
 }
 
-\keyword{ distribution }% at least one, from doc/KEYWORDS
+\keyword{ distribution }

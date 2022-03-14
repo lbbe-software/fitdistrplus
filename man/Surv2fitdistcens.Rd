@@ -10,8 +10,7 @@
 
 \usage{
 Surv2fitdistcens(time, time2, event,
-                      type=c('right', 'left', 'interval', 'interval2'))
-    
+                      type = c('right', 'left', 'interval', 'interval2'))
 }
 
 \arguments{
@@ -28,7 +27,6 @@ Surv2fitdistcens(time, time2, event,
   on the right, (start, end].}
 \item{type}{character string specifying the type of censoring. Possible 
   values are \code{"right"}, \code{"left"}, \code{"interval"}, \code{"interval2"}.}
-
 }
 
 \details{
@@ -41,7 +39,6 @@ Surv2fitdistcens(time, time2, event,
     The right column contains either \code{NA} for right-censored observations, 
     the right bound of the interval for interval censored observations, 
     or the observed value for non-censored observations.
-
 }
 
 \value{ 
@@ -55,23 +52,17 @@ Surv2fitdistcens(time, time2, event,
     See \code{\link{fitdistcens}} for fitting of univariate distributions to censored data
     and \code{\link{fremale}} for the full dataset used in examples below.
     See \code{\link[survival:Surv]{Surv}} for survival objects which use the same arguments.
-    
- 
 }
 
 \references{ 
-
 Delignette-Muller ML and Dutang C (2015), \emph{fitdistrplus: An R Package for Fitting Distributions}.
 Journal of Statistical Software, 64(4), 1-34.
-
 }
 
 
 \author{ 
 Christophe Dutang and Marie-Laure Delignette-Muller.
 }
-
-%\note{  }
 
 \examples{
 # (1) randomized fictive survival data - right-censored
@@ -141,7 +132,6 @@ survival::Surv(time = d2bis$t1, time2 = d2bis$t2,
   event = d2bis$censtype, type = "interval")
 Surv2fitdistcens(time = d2bis$t1, time2 = d2bis$t2, 
   event = d2bis$censtype, type = "interval")
-
 }
 
-\keyword{ distribution }% at least one, from doc/KEYWORDS
+\keyword{distribution}

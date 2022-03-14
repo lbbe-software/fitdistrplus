@@ -155,9 +155,6 @@ blncens <- bootdistcens(flncens, niter = 101)
 quantile(blncens, probs = c(0.05, 0.1, 0.2))
 quantile(blncens, probs = c(0.05, 0.1, 0.2), CI.type = "greater")
 quantile(blncens, probs = c(0.05, 0.1, 0.2), CI.level = 0.9)
-
-
 }
 
-
-\keyword{ distribution }% at least one, from doc/KEYWORDS
+\keyword{ distribution }

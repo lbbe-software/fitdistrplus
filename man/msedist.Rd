@@ -191,4 +191,4 @@ x1 <- rexp(1e3)
 msedist(x1, "exp", control=list(trace=0, REPORT=1))
 
 }
-\keyword{ distribution }% at least one, from doc/KEYWORDS
+\keyword{ distribution }

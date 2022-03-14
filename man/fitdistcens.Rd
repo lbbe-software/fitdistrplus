@@ -30,7 +30,6 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL,
 
     
 }
-%- maybe also 'usage' for other objects documented here.
 
 \arguments{
 \item{censdata}{ A dataframe of two columns respectively named \code{left} 
@@ -168,15 +167,11 @@ Springer, New York, pp. 435-446.
 
 Delignette-Muller ML and Dutang C (2015), \emph{fitdistrplus: An R Package for Fitting Distributions}.
 Journal of Statistical Software, 64(4), 1-34.
-
 }
-
 
 \author{ 
 Marie-Laure Delignette-Muller and Christophe Dutang.
 }
-
-%\note{  }
 
 \examples{
 # (1) Fit of a lognormal distribution to bacterial contamination data
@@ -294,4 +289,4 @@ plot(fln)
 
 }
 
-\keyword{ distribution }% at least one, from doc/KEYWORDS
+\keyword{ distribution }

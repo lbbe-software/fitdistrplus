@@ -114,7 +114,6 @@ Journal of Statistical Software, 64(4), 1-34.
 Marie-Laure Delignette-Muller and Christophe Dutang.
 }
 
-%\note{  }
 
 \examples{
 # We choose a low number of bootstrap replicates in order to satisfy CRAN running times
@@ -175,4 +174,4 @@ proc.time() - ptm
 
 }
 
-\keyword{ distribution }% at least one, from doc/KEYWORDS
+\keyword{ distribution }

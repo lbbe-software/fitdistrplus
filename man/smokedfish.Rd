@@ -1,19 +1,12 @@
 \name{smokedfish}
 \alias{smokedfish}
 \docType{data}
-%- Also NEED an '\alias' for EACH other topic documented here.
 
-\title{ Contamination data of Listeria monocytogenes in smoked fish }
+\title{Contamination data of Listeria monocytogenes in smoked fish}
 
-\description{
-Contamination data of \emph{Listeria monocytogenes} in smoked fish on the Belgian market in the period
-2005 to 2007. 
-}
+\description{Contamination data of \emph{Listeria monocytogenes} in smoked fish on the Belgian market in the period 2005 to 2007.}
 
-\usage{
-data(smokedfish)
-}
-%- maybe also 'usage' for other objects documented here.
+\usage{data(smokedfish)}
 
 \format{ 
 \code{smokedfish} is a data frame with 2 columns named left and right, describing
@@ -30,10 +23,7 @@ observations.
 Busschaert, P., Geereard, A.H., Uyttendaele, M., Van Impe, J.F., 2010. 
 Estimating distributions out of qualitative and (semi) quantitative microbiological 
 contamination data for use in risk assessment. \emph{International Journal of Food Microbiology}. 
-\bold{138}, 260-269.
- }
-
-%\references{  }
+\bold{138}, 260-269.}
 
 \examples{
 # (1) load of data
@@ -51,10 +41,9 @@ plotdistcens(Clog10)
 
 # (4) Fit of a normal distribution to data in log10[CFU/g]
 #
-fitlog10 <- fitdistcens(Clog10,"norm")
+fitlog10 <- fitdistcens(Clog10, "norm")
 summary(fitlog10)
 plot(fitlog10)
-
 }
 
-\keyword{ datasets }% at least one, from doc/KEYWORDS
+\keyword{datasets}

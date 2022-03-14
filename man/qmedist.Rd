@@ -175,4 +175,4 @@ qmedist(x4, "pois", probs=1/2)
 qmedist(x4, "nbinom", probs=c(1/3, 2/3))
 
 }
-\keyword{ distribution }% at least one, from doc/KEYWORDS
+\keyword{ distribution }

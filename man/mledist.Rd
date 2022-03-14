@@ -261,7 +261,6 @@ dzmgeom <- function(x, p1, p2) p1 * (x == 0) + (1-p1)*dgeom(x-1, p2) #pdf
 x2 <- c(2,  4,  0, 40,  4, 21,  0,  0,  0,  2,  5,  0,  0, 13,  2) #simulated dataset
 initp1 <- function(x) list(p1=mean(x == 0)) #init as MLE
 mledist(x2, "zmgeom", fix.arg=initp1, start=list(p2=1/2))
-
 }
 
-\keyword{ distribution }% at least one, from doc/KEYWORDS
+\keyword{ distribution }

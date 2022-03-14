@@ -1,6 +1,5 @@
 \name{plotdistcens}
 \alias{plotdistcens}
-%- Also NEED an '\alias' for EACH other topic documented here.
 
 \title{ Plot of empirical and theoretical distributions for censored data}
 
@@ -122,8 +121,6 @@ Journal of Statistical Software, 64(4), 1-34.
 Marie-Laure Delignette-Muller and Christophe Dutang.
 }
 
-%\note{  }
-
 \examples{
 # (1) Plot of an empirical censored distribution (censored data) as a CDF
 # using the default Wang method
@@ -154,4 +151,4 @@ plotdistcens(d1,leftNA=-3, NPMLE = FALSE)
 
 }
 
-\keyword{ distribution }% at least one, from doc/KEYWORDS
+\keyword{ distribution }

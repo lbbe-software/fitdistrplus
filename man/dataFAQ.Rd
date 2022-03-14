@@ -27,6 +27,4 @@ data(dataFAQscale2)
 Marie-Laure Delignette-Muller and Christophe Dutang.
 }
 
-
-
-\keyword{ datasets }% at least one, from doc/KEYWORDS
+\keyword{ datasets }

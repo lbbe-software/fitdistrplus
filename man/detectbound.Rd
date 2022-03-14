@@ -36,25 +36,19 @@ detectbound(distname, vstart, obs, fix.arg=NULL, echo=FALSE)
 }
 
 \references{ 
-
-
 Delignette-Muller ML and Dutang C (2015), \emph{fitdistrplus: An R Package for Fitting Distributions}.
 Journal of Statistical Software, 64(4), 1-34.
 }
-
 
 \author{ 
 Christophe Dutang and Marie-Laure Delignette-Muller.
 }
 
 \examples{
-
-#case where the density returns a Not-an-Numeric value.
+# case where the density returns a Not-an-Numeric value.
 detectbound("exp", c(rate=3), 1:10)
 detectbound("binom", c(size=3, prob=1/2), 1:10)
 detectbound("nbinom", c(size=3, prob=1/2), 1:10)
-
-
 }
 
-\keyword{ distribution }% at least one, from doc/KEYWORDS
+\keyword{ distribution }
