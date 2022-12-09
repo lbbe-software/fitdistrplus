@@ -30,6 +30,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
+          pak-version: devel
           extra-packages: any::pkgdown, any::XML, local::.
           needs: website
           # See https://github.com/r-lib/actions/issues/559 for the XML issue
