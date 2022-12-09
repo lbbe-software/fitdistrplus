@@ -1,4 +1,4 @@
-# Version 1.1-8
+# fitdistrplus 1.1-8
 
 WARNING FIX
 
@@ -13,7 +13,7 @@ BUG FIX
 reported by Brian Ripley
 
 
-# Version 1.1-6
+# fitdistrplus 1.1-6
 
 NEW FEATURES
 
@@ -25,14 +25,14 @@ used in the survival package
 - new argument name.points in cdfcomp and CIcdfplot to add labels next to points
 
 
-# Version 1.1-5
+# fitdistrplus 1.1-5
 
 WARNING FIX
 
 - reduce testing times in test files
 
 
-# Version 1.1-3
+# fitdistrplus 1.1-3
 
 NEW FEATURE
 
@@ -45,7 +45,7 @@ BUG FIXES
 - fix an error in ppcomp() and qqcomp() raised for large dataset 
 
 
-# Version 1.1-1
+# fitdistrplus 1.1-1
 
 NEW FEATURES
 
@@ -53,21 +53,21 @@ NEW FEATURES
 - remove of the deprecated argument Turnbull of plotdistcens()
 
 
-# Version 1.0-14
+# fitdistrplus 1.0-14
 
 NEW FEATURES
 
 - add a new estimation method called maximum spacing estimation via msedist()
 
 
-# Version 1.0-13
+# fitdistrplus 1.0-13
 
 BUG FIXES
 
 - fix issues coming from the noLD (--disable-long-double) configuration of R
 
 
-# Version 1.0-12
+# fitdistrplus 1.0-12
 
 BUG FIXES
 
@@ -75,7 +75,7 @@ BUG FIXES
 - bug fixed in testdpqfun() which assumes the first argument of d,p,q,r functions are exactly the same as in base R.
 
 
-# Version 1.0-11
+# fitdistrplus 1.0-11
 
 NEW FEATURES
 
@@ -106,12 +106,12 @@ when plotstyle = "ggplot", and prohibit the use of non-equidistant breaks with p
 (adding a stop in this case).
 
 
-# Version 1.0-9
+# fitdistrplus 1.0-9
 
 - update the FAQ with linear inequality constraints.
 
 
-# Version 1.0-8
+# fitdistrplus 1.0-8
 
 NEW FEATURES
 
@@ -126,7 +126,7 @@ BUG FIXES
 - correct the vignette on truncate (inflated) distributions.
 
 
-# Version 1.0-7
+# fitdistrplus 1.0-7
 
 NEW FEATURES
 
@@ -144,7 +144,7 @@ BUG FIXES
 - bug fixed concerning the use of weights on censored data.
 
 
-# Version 1.0-6
+# fitdistrplus 1.0-6
 
 BUG FIXES
 
@@ -152,7 +152,7 @@ BUG FIXES
 is now working.
 
 
-# Version 1.0-5
+# fitdistrplus 1.0-5
 
 NEW FEATURES
 
@@ -169,12 +169,12 @@ BUG FIXES
 - simplify plotting curves in cdfcomp where seq(xmin, xmax, by=1) was used.
 
 
-# Version 1.0-4
+# fitdistrplus 1.0-4
 
 - release for the JSS publication.
 
 
-# Version 1.0-3
+# fitdistrplus 1.0-3
 
 NEW FEATURES
 
@@ -192,7 +192,7 @@ BUG FIXES
 - fitdist can handle non invertible Hessian matrices.
 
 
-# Version 1.0-2
+# fitdistrplus 1.0-2
 
 NEW FEATURES
 
@@ -206,7 +206,7 @@ BUG FIXES
 - bug fixed in bootdistcens : argument fix.arg is now correctly passed to mle.
 
 
-# Version 1.0-1
+# fitdistrplus 1.0-1
 
 NEW FEATURES
 
@@ -214,7 +214,7 @@ NEW FEATURES
 - plotdist for discrete data is slightly enhanced.
 
 
-# Version 1.0-0
+# fitdistrplus 1.0-0
 
 NEW FEATURES
 
@@ -241,7 +241,7 @@ results were only approximates.
 - bug fix in the closed formula in mmedist for lognormal distributions.
 
 
-# Version 0.3-4
+# fitdistrplus 0.3-4
 
 NEW FEATURES
 
@@ -254,7 +254,7 @@ BUG FIXES
 (with the correlation matrix, the loglikelihood and AIC and BIC statistics).
 
 
-# Version 0.3-3
+# fitdistrplus 0.3-3
 
 NEW FEATURES
 
@@ -263,7 +263,7 @@ censored data set.
 - add an example with scaling problem in man pages.
 
 
-# Version 0.3-2
+# fitdistrplus 0.3-2
 
 NEW FEATURES
 
@@ -272,14 +272,14 @@ to function survfit{survival}.
 - new arguments to function "cdfcomp" : verticals, horizontals and xlim.
 
 
-# Version 0.3-1
+# fitdistrplus 0.3-1
 
 NEW FEATURES
 
 - add of a draft of a new version of the vignette.
 
 
-# Version 0.3-0
+# fitdistrplus 0.3-0
 
 NEW FEATURES
 
@@ -288,14 +288,14 @@ non censored data set.
 - add of two data sets : "endosulfan" and "toxocara".
 
 
-# Version 0.2-2
+# fitdistrplus 0.2-2
 
 BUG FIXES
 
 - elimination of NON-ASCII characters in the vignette.
 
 
-# Version 0.2-1
+# fitdistrplus 0.2-1
 
 NEW FEATURES
 
@@ -303,7 +303,7 @@ NEW FEATURES
 estimation (function "mgedist") (for the moment only available for non censored data).
 
 
-# Version 0.1-5
+# fitdistrplus 0.1-5
 
 NEW FEATURES
 
@@ -320,7 +320,7 @@ BUG FIXES
 results of goodness-of-fit tests.
 
 
-# Version 0.1-4
+# fitdistrplus 0.1-4
 
 NEW FEATURES
 
@@ -339,7 +339,7 @@ BUG FIXES
 when there was only one parameter estimated by maximum likelihood.
 
 
-# Version 0.1-3
+# fitdistrplus 0.1-3
 
 NEW FEATURES
 
@@ -367,7 +367,7 @@ BUG FIXES
     (there was a problem with infinite values of theoretical density function).
 
 
-# Version 0.1-2
+# fitdistrplus 0.1-2
 
 NEW FEATURES
 
@@ -399,6 +399,6 @@ differing from "x" (classical name for density distributions defined in R),
 such as the density function dexGAUS from the package gamlss.dist.
 
 
-# Version 0.1-1
+# fitdistrplus 0.1-1
 
 - Initial release.
