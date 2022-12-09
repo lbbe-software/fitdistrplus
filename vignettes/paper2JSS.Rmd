@@ -1,0 +1,15 @@
+---
+title: "PDF Vignettes"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{PDF Vignettes}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+```{r, echo = FALSE}
+system('R CMD Sweave paper2JSS.Rnw')
+system('pdflatex paper2JSS.tex')
+```
+
+
+[Vignette paper2JSS](paper2JSS.pdf){target="_blank"}
