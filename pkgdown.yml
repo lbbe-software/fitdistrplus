@@ -4,5 +4,6 @@ pkgdown_sha: ~
 articles:
   FAQ: FAQ.html
   Optimalgo: Optimalgo.html
-last_built: 2022-12-09T14:56Z
+  paper2JSS: paper2JSS.html
+last_built: 2022-12-09T15:44Z
 
