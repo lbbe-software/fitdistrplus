@@ -1,21 +1,22 @@
-==== fitdistrplus : Help to fit of a parametric distribution ====
+# fitdistrplus 1.1-8
 
-Version 1.1-8
-=============
 WARNING FIX
+
 - update an URL in fitdistrplus.Rd from \href{https://doi.org/10.18637/jss.v064.i04}{} to
 \doi{doi.org/10.18637/jss.v064.i04}
 - replace 'if(class(x) == XX)' by 'if(inherits(x, XX))'
 - replace all 'dontrun' tags by 'donttest' in examples in rd files
 
 BUG FIX
+
 - fix an error in t-detectbound.R producing "failure: length > 1 in coercion to logical"
 reported by Brian Ripley
 
 
-Version 1.1-6
-=============
+# fitdistrplus 1.1-6
+
 NEW FEATURES
+
 - new function Surv2fitdistcens() to format data for use in fitdistcens() from a format
 used in the survival package
 - new dataset fremale in order to illustrate Surv2fitdistcens()
@@ -23,45 +24,61 @@ used in the survival package
 - add the taxon names to the endosulfan dataset
 - new argument name.points in cdfcomp and CIcdfplot to add labels next to points
 
-Version 1.1-4/5
-=============
+
+# fitdistrplus 1.1-5
+
 WARNING FIX
+
 - reduce testing times in test files
 
-Version 1.1-3
-=============
+
+# fitdistrplus 1.1-3
+
 NEW FEATURE
+
 - take into account fix.arg for uniform distribution
+
 BUG FIXES
+
 - add the loglikelihood value for uniform distribution (in mledist())
 - correct usage of triple dots argument in llsurface()
 - fix an error in ppcomp() and qqcomp() raised for large dataset 
 
-Version 1.1-1
-=============
+
+# fitdistrplus 1.1-1
+
 NEW FEATURES
+
 - add of internal functions to cope with problems of lack of maintenance of the package npsurv and remove the dependence to this package
 - remove of the deprecated argument Turnbull of plotdistcens()
 
-Version 1.0-14
-=============
+
+# fitdistrplus 1.0-14
+
 NEW FEATURES
+
 - add a new estimation method called maximum spacing estimation via msedist()
 
-Version 1.0-13
-=============
+
+# fitdistrplus 1.0-13
+
 BUG FIXES
+
 - fix issues coming from the noLD (--disable-long-double) configuration of R
 
-Version 1.0-12
-=============
+
+# fitdistrplus 1.0-12
+
 BUG FIXES
+
 - bug fixed in qmedist() and fitdistcens() which raised an error in checkparamlist().
 - bug fixed in testdpqfun() which assumes the first argument of d,p,q,r functions are exactly the same as in base R.
 
-Version 1.0-11
-=============
+
+# fitdistrplus 1.0-11
+
 NEW FEATURES
+
 - update the FAQ with beta(a,a).
 - improve graphics for discrete distributions in denscomp().
 - improve automatic naming of legends in xxxcomp().
@@ -81,6 +98,7 @@ name for their first argument (resp. x, q, p for d, p, q functions).
 - support the use of ggplot2 for cdfcompcens, qqcompcens, ppcompcens.
 
 BUG FIXES
+
 - bug fixed concerning the use of gofstat with a chi squared df <=0 (error message blocking the other functions)
 - bug fix in mledist() when bounds were set (so not NULL) for censored MLE
 - enable a correct use of non-equidistant breaks in denscomp for the histogram
@@ -88,26 +106,30 @@ when plotstyle = "ggplot", and prohibit the use of non-equidistant breaks with p
 (adding a stop in this case).
 
 
-Version 1.0-9
-=============
+# fitdistrplus 1.0-9
+
 - update the FAQ with linear inequality constraints.
 
-Version 1.0-8
-=============
+
+# fitdistrplus 1.0-8
+
 NEW FEATURES
+
 - support the use of ggplot2 for cdfcomp, denscomp, qqcomp, ppcomp.
 
 BUG FIXES
+
 - correct legend for qqcomp and ppomp on large data.
 - correct weights in mmedist.
 - correct the name Akaike in gofstat.
 - correct the use of trueval in plot.bootdist.
 - correct the vignette on truncate (inflated) distributions.
 
-Version 1.0-7
-=============
+
+# fitdistrplus 1.0-7
 
 NEW FEATURES
+
 - keep the JSS vignette as a pdf.
 - start the FAQ vignette and add datasets (?dataFAQ) for it.
 - provide likelihood plot/surface/curve: llplot, llcurve, llsurface.
@@ -117,20 +139,23 @@ NEW FEATURES
 - add a possible pre-fitting procedure: prefit.
 
 BUG FIXES
+
 - add invisible() for all graphical functions.
 - bug fixed concerning the use of weights on censored data.
 
 
-Version 1.0-6
-=============
+# fitdistrplus 1.0-6
 
 BUG FIXES
+
 - automatic definition of starting values for distributions "llogis" and "invweibull"
 is now working.
 
-Version 1.0-5
-=============
+
+# fitdistrplus 1.0-5
+
 NEW FEATURES
+
 - update starting/fixing values in mledist, mmedist, mgedist, qmedist functions.
 - update graphics for bootstrap procedure.
 - add argument do.points in cdfcomp.
@@ -139,17 +164,20 @@ NEW FEATURES
 - suppress warnings/errors in fitdist(cens), bootdist(cens).
 
 BUG FIXES
+
 - defensive programming in plotdist, cdfcomp,...
 - simplify plotting curves in cdfcomp where seq(xmin, xmax, by=1) was used.
 
-Version 1.0-4
-=============
+
+# fitdistrplus 1.0-4
+
 - release for the JSS publication.
 
-Version 1.0-3
-=============
+
+# fitdistrplus 1.0-3
 
 NEW FEATURES
+
 - new generic functions for fitdist(cens): loglik, vcov and coef.
 - vignette updated to the version of a paper accepted by the 
 Journal of Statistical Software.
@@ -160,33 +188,36 @@ inflate Poisson distribution).
 - add of an S3 class for descdist and a print method.
 
 BUG FIXES
+
 - fitdist can handle non invertible Hessian matrices.
 
 
-Version 1.0-2
-=============
+# fitdistrplus 1.0-2
 
 NEW FEATURES
+
 - plotdist can plot empirical density as an histogram, a density plot 
 or both superimposed.
 - a strong warning was added to the documentation of function descdist
 about the problematic high variance of skewness and kurtosis.
 
 BUG FIXES
+
 - bug fixed in bootdistcens : argument fix.arg is now correctly passed to mle.
 
 
-Version 1.0-1
-=============
+# fitdistrplus 1.0-1
 
 NEW FEATURES
+
 - gofstat can handle multiple 'fitdist' objects.
 - plotdist for discrete data is slightly enhanced.
 
-Version 1.0-0
-=============
+
+# fitdistrplus 1.0-0
 
 NEW FEATURES
+
 - update cdfcomp and add denscomp, ppcomp and qqcomp functions.
 - add of an argument Turnbull.confint to functions plotdistcens and cdfcompcens in order to 
     draw confidence intervals on the empirical distribution only if requested.
@@ -201,6 +232,7 @@ NEW FEATURES
   quantile generic function is available both for "fitdistcens" and "bootdistcens" objects.
 
 BUG FIXES
+
 - correction the formula for the CvM test for Weibull distribution.
 - elimination of CvM and AD tests for normal, lognormal and logistic distributions : 
 formulas previously used (given by Stephens 1986) do not use exactly MLE estimates and thus
@@ -208,66 +240,73 @@ results were only approximates.
 - make arguments xlim and ylim functional in cdfcompcens.
 - bug fix in the closed formula in mmedist for lognormal distributions.
 
-Version 0.3-4
-=============
+
+# fitdistrplus 0.3-4
 
 NEW FEATURES
+
 - posibility to fix xlegend to a keyword (e.g. "bottomright") in "cdfcomp" and "cdfcompdens".
 - improvement of the new vignette.
 
 BUG FIXES
+
 - correction of the NAMESPACE file in order to enable the correct print of a summary of a fitdistcens object
 (with the correlation matrix, the loglikelihood and AIC and BIC statistics).
 
-Version 0.3-3
-=============
+
+# fitdistrplus 0.3-3
 
 NEW FEATURES
+
 - a new function ("cdfcompcens") to plot cumulative distributions corresponding to various fits using a same 
 censored data set.
 - add an example with scaling problem in man pages.
 
-Version 0.3-2
-=============
+
+# fitdistrplus 0.3-2
 
 NEW FEATURES
+
 - new plot of the empirical cdf curve in plotdistcens, using the Turnbull algorithm by a call
 to function survfit{survival}.
 - new arguments to function "cdfcomp" : verticals, horizontals and xlim.
 
 
-Version 0.3-1
-=============
+# fitdistrplus 0.3-1
 
 NEW FEATURES
+
 - add of a draft of a new version of the vignette.
 
-Version 0.3-0
-=============
+
+# fitdistrplus 0.3-0
 
 NEW FEATURES
+
 - a new function ("cdfcomp") to plot cumulative distributions corresponding to various fits using a same 
 non censored data set.
 - add of two data sets : "endosulfan" and "toxocara".
 
-Version 0.2-2
-=============
+
+# fitdistrplus 0.2-2
 
 BUG FIXES
 
 - elimination of NON-ASCII characters in the vignette.
 
-Version 0.2-1
-=============
+
+# fitdistrplus 0.2-1
 
 NEW FEATURES
+
 - a new fitting method was implemented for continuous distributions : the maximum goodness-of-fit
 estimation (function "mgedist") (for the moment only available for non censored data).
 
-Version 0.1-5
-=============
+
+# fitdistrplus 0.1-5
 
 NEW FEATURES
+
 - a new goodness-of-fit statistic was added in gofstat, with corresponding test :
 the Cramer-von Mises distance.
 - a new fitting method has been implemented : the quantile matching estimation (function "qmedist").
@@ -281,10 +320,10 @@ BUG FIXES
 results of goodness-of-fit tests.
 
 
-Version 0.1-4
-=============
+# fitdistrplus 0.1-4
 
 NEW FEATURES
+
 - a component named dots added to the list returned by fitdist and fitdistcens in order to pass optional arguments
 for the control of optimization in mledist to bootdist and bootdistcens. bootdist and bootdistcens
 changed to take into account these optional arguments if they are defined in the call to fitdist or fitdistcens.
@@ -299,10 +338,11 @@ BUG FIXES
 - correction of a bug in the print and the plot of bootstraped samples using bootdist or bootdistcens
 when there was only one parameter estimated by maximum likelihood.
 
-Version 0.1-3
-=============
+
+# fitdistrplus 0.1-3
 
 NEW FEATURES
+
 - new data file "groundbeef" (groundbeef.rda and groundbeef.Rd) and new use of this dataset in some examples.
 - new function gofstat.
     Goodness-of-fit statistics are no more computed by fitdist but may computed and printed
@@ -326,8 +366,8 @@ BUG FIXES
     of the parameter "ylim" for the plot of a histogram with theoretical density function
     (there was a problem with infinite values of theoretical density function).
 
-Version 0.1-2
-=============
+
+# fitdistrplus 0.1-2
 
 NEW FEATURES
 
@@ -359,7 +399,6 @@ differing from "x" (classical name for density distributions defined in R),
 such as the density function dexGAUS from the package gamlss.dist.
 
 
-Version 0.1-1
-=============
+# fitdistrplus 0.1-1
 
 - Initial release.
