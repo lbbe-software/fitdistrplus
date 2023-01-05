@@ -327,14 +327,16 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
         xlegend <- "right"
       
       # the line at right of the rectangles
-      dsegmright <- cbind(dright, Fright)[2:9,]
-      dsegmright <- cbind(dsegmright[-8, ], dsegmright[-1,])
+      dsegmright <- cbind(dright, Fright)
+      dsegmright <- cbind(dsegmright[seq(1, nrow(dsegmright), by = 2), ], 
+                          dsegmright[seq(2, nrow(dsegmright), by = 2), ])
       dsegmright <- as.data.frame(dsegmright)
       colnames(dsegmright) <- c("x1", "y1", "x2", "y2")
       
       # the line at left of the rectangles
-      dsegmleft <- cbind(dleft, Fleft)[2:9,]
-      dsegmleft <- cbind(dsegmleft[-8, ], dsegmleft[-1,])
+      dsegmleft <- cbind(dleft, Fleft)
+      dsegmleft <- cbind(dsegmleft[seq(1, nrow(dsegmleft), by = 2), ],
+                         dsegmleft[seq(2, nrow(dsegmleft), by = 2), ])
       dsegmleft <- as.data.frame(dsegmleft)
       colnames(dsegmleft) <- c("x1", "y1", "x2", "y2")
       
