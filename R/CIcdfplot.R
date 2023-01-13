@@ -257,8 +257,8 @@ CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.c
                   main=main, xlab=xlab, ylab=ylab, datacol=datacol, fitlty=fitlty, fitlwd=fitlwd, fillrect = NA, 
                   fitcol=fitcol, lines01 = lines01, Turnbull.confint = FALSE, addlegend = FALSE, add=TRUE, plotstyle = "ggplot")
     }} +
-      ggplot2::geom_line(data = dd, ggplot2::aes_(x=quote(x1), y=quote(y1)), inherit.aes = FALSE, color = CI.col, lty = 2, alpha = 0.5) +
-      ggplot2::geom_line(data = dd, ggplot2::aes_(x=quote(x2), y=quote(y2)), inherit.aes = FALSE, color = CI.col, lty = 2, alpha = 0.5) +
+      ggplot2::geom_line(data = dd, ggplot2::aes_(x=quote(x1), y=quote(y1)), inherit.aes = FALSE, color = CI.col, lty = CI.lty, alpha = 0.5) +
+      ggplot2::geom_line(data = dd, ggplot2::aes_(x=quote(x2), y=quote(y2)), inherit.aes = FALSE, color = CI.col, lty = CI.lty, alpha = 0.5) +
       {if(!is.null(CI.fill) & CI.output == "probability") ggplot2::geom_ribbon(data = dd, ggplot2::aes_(x = quote(x1), ymin=quote(y1), ymax=quote(y2)), inherit.aes = FALSE, fill = CI.fill, alpha = 0.5)} + 
       {if(!is.null(CI.fill) & CI.output == "quantile") ggplot2::geom_ribbon(data = dd, ggplot2::aes_(xmin = quote(x1), xmax = quote(x2), y = quote(y1)), inherit.aes = FALSE, fill = CI.fill, alpha = 0.5)}
   }
