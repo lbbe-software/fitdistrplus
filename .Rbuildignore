@@ -3,3 +3,4 @@
 share
 revdep
 ^\.github$
+_pkgdown.yml
