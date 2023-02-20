@@ -1,9 +1,8 @@
 citHeader("To cite fitdistrplus in publications use:")
 
-citEntry(entry = "Article",
+bibentry(bibtype = "Article",
   title        = "{fitdistrplus}: An {R} Package for Fitting Distributions",
-  author       = personList(as.person("Marie Laure Delignette-Muller"),
-                   as.person("Christophe Dutang")),
+  author       = c("Marie Laure Delignette-Muller", "Christophe Dutang"),
   journal      = "Journal of Statistical Software",
   year         = "2015",
   volume       = "64",
