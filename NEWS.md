@@ -1,3 +1,16 @@
+# fitdistrplus 1.1-9
+
+BUG FIX
+
+- the use of some deprecated ggplot2 functions is updated
+- the use of some deprecated BibTeX entries is updated
+- bug fixed in drawing CI lines in CIcdfcplot when ggplot2 is called
+- bug fixed in drawing horizontal lines in cdfcompcens
+
+NEW FEATURES
+
+- add a 'print' argument in the 'descdist' function to allow to only plot the skewness-kurtosis graph, without printing the computed parameters
+
 # fitdistrplus 1.1-8
 
 WARNING FIX
