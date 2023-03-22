@@ -11,7 +11,7 @@
 
 \usage{
 descdist(data, discrete = FALSE, boot = NULL, method = "unbiased",
-graph = TRUE, obs.col = "darkblue", obs.pch = 16, boot.col = "orange")
+graph = TRUE, print = TRUE, obs.col = "darkblue", obs.pch = 16, boot.col = "orange")
 
 \method{print}{descdist}(x, \dots)
 }
@@ -23,6 +23,7 @@ graph = TRUE, obs.col = "darkblue", obs.pch = 16, boot.col = "orange")
  samples of \code{data}. \code{boot} must be fixed in this case to an integer above 10. }
 \item{method}{ "unbiased" for unbiased estimated values of statistics or "sample" for sample values. }
 \item{graph}{ If \code{FALSE}, the skewness-kurtosis graph is not plotted. }
+\item{print}{ If \code{FALSE}, the descriptive parameters computed are not printed. }
 \item{obs.col}{ Color used for the observed point on the skewness-kurtosis graph. }
 \item{obs.pch}{ plotting character used for the observed point on the skewness-kurtosis graph. }
 \item{boot.col}{ Color used for bootstrap sample of points on the skewness-kurtosis graph. }

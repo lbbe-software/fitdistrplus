@@ -23,7 +23,7 @@
 ### 
 
 descdist <- function(data, discrete = FALSE, boot = NULL, method = "unbiased", 
-                     graph = TRUE,
+                     graph = TRUE, print = TRUE, 
                      obs.col = "darkblue", obs.pch = 16, boot.col = "orange")
 {
   #if(is.mcnode(data)) data <- as.vector(data)
@@ -207,8 +207,10 @@ descdist <- function(data, discrete = FALSE, boot = NULL, method = "unbiased",
     }
   } # end of is (graph)
   
-  
-  return(structure(res, class = "descdist"))
+  if (!print)
+    invisible(structure(res, class = "descdist"))
+  else
+    structure(res, class = "descdist")
   
 }
 
