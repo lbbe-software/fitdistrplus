@@ -6,7 +6,7 @@ output:
   html_vignette:
     toc: true
     number_sections: yes
-bibliography: jssfitdistrplus.bib
+bibliography: fitdistrplus.bib
 link-citations: true
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
