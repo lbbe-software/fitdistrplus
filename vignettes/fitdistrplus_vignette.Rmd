@@ -68,9 +68,9 @@ Finally, various other packages provide functions to estimate the mode, the mome
 
 The package is available from the Comprehensive R Archive Network at \url{https://cran.r-project.org/package=fitdistrplus}.
 The paper is organized as follows: 
-[Section 1](#fitnoncenscont) presents tools for fitting continuous distributions to classic non-censored data. 
-[Section 2](#advtopic) deals with other estimation methods and other types of data, before 
-[Section 3](#ccl) concludes.
+[Section 2](#fitnoncenscont) presents tools for fitting continuous distributions to classic non-censored data. 
+[Section 3](#advtopic) deals with other estimation methods and other types of data, before 
+[Section 4](#ccl) concludes.
 
 
 # Fitting distributions to continuous non-censored data {#fitnoncenscont}
