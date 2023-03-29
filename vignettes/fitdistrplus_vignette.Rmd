@@ -25,7 +25,6 @@ options(digits = 4)
 set.seed(1234)
 ```
 
-
 <br>
 
 Based on the article *fitdistrplus: an R Package for Fitting Distributions*
@@ -114,15 +113,14 @@ In addition to empirical plots, descriptive statistics may help to choose candid
 Especially the skewness and kurtosis, linked to the third and fourth moments, are useful for this purpose. 
 A non-zero skewness reveals a lack of symmetry of the empirical distribution, while the kurtosis value quantifies the weight of tails in comparison to the normal distribution for which the kurtosis equals 3.
 The skewness and kurtosis and their corresponding unbiased estimator [@casellaberger02] from a sample $(X_i)_i \stackrel{\text{i.i.d.}}{\sim} X$ with observations $(x_i)_i$ are given by:
-$$
-sk(X) = \frac{E[(X-E(X))^3]}{Var(X)^{\frac{3}{2}}}~,~
-\widehat{sk}=\frac{\sqrt{n(n-1)}}{n-2}\times\frac{m_{3}}{m_{2}^{\frac{3}{2}}},
-$$
 
-$$
-kr(X) = \frac{E[(X-E(X))^4]}{Var(X)^{2}}~,~
-\widehat{kr}=\frac{n-1}{(n-2)(n-3)}((n+1) \times \frac{m_{4}}{m_{2}^{2}}-3(n-1)) + 3,
-$$
+\begin{equation}
+sk(X) = \frac{E[(X-E(X))^3]}{Var(X)^{\frac{3}{2}}}~,~\widehat{sk}=\frac{\sqrt{n(n-1)}}{n-2}\times\frac{m_{3}}{m_{2}^{\frac{3}{2}}},(\#eq:eq1)
+\end{equation}
+
+\begin{equation}
+kr(X) = \frac{E[(X-E(X))^4]}{Var(X)^{2}}~,~\widehat{kr}=\frac{n-1}{(n-2)(n-3)}((n+1) \times \frac{m_{4}}{m_{2}^{2}}-3(n-1)) + 3,(\#eq:eq2)
+\end{equation}
 
 where $m_{2}$, $m_{3}$, $m_{4}$ denote empirical moments defined by $m_{k}=\frac{1}{n}\sum_{i=1}^n(x_{i}-\overline{x})^{k}$, with $x_{i}$ the $n$ observations of variable $x$ and $\overline{x}$ their mean value.
 
@@ -165,9 +163,9 @@ descdist(groundbeef$serving, boot = 1000, print = FALSE)
 Once selected, one or more parametric distributions $f(.\vert \theta)$ (with parameter $\theta\in\mathbb{R}^d$) may be fitted to the data set, one at a time, using the `fitdist` function. 
 Under the i.i.d. sample assumption, distribution parameters $\theta$ are by default estimated by maximizing the likelihood function defined as:
 
-$$
-L(\theta)=\prod_{i=1}^n f(x_{i}\vert \theta)
-$$
+\begin{equation}
+L(\theta)=\prod_{i=1}^n f(x_{i}\vert \theta)(\#eq:eq3)
+\end{equation}
 
 with $x_{i}$ the $n$ observations of variable $X$ and $f(.\vert \theta)$ the density function of the parametric distribution.
 The other proposed estimation methods are described in [Section 3.1](#Alternatives). 
@@ -456,19 +454,18 @@ Comparing the 5% percentiles (HC5) calculated using these three fits to the one 
 ```
 
 The moment matching estimation (MME) is another method commonly used to fit parametric distributions [@Vose10]. 
-MME consists in finding the value of the parameter $\theta$  that equalizes the first theoretical raw moments of the parametric distribution to the corresponding empirical raw moments as in Equation~(\ref{moments}):
+MME consists in finding the value of the parameter $\theta$  that equalizes the first theoretical raw moments of the parametric distribution to the corresponding empirical raw moments as in Equation \@ref(eq:eq4):
 
-$$
-E(X^{k}|\theta)=\frac{1}{n}\sum_{i=1}^{n}x_{i}^{k},
-$$
+\begin{equation}
+E(X^{k}|\theta)=\frac{1}{n}\sum_{i=1}^{n}x_{i}^{k},(\#eq:eq4)
+\end{equation}
 for $k=1,\ldots,d$, with $d$ the number of parameters to estimate and $x_{i}$ the $n$ observations of variable $X$.
 For moments of order greater than or equal to 2, it may  also be relevant to match centered moments.
-Therefore, we match the moments given in Equation~(\ref{centmoments}):
+Therefore, we match the moments given in Equation \@ref(eq:eq5):
 
-$$
-E(X\vert \theta) = \overline{x} ~,~
-E\left((X-E(X))^{k}|\theta\right)=m_k, \text{ for }  k=2,\ldots,d,
-$$
+\begin{equation}
+E(X\vert \theta) = \overline{x} ~,~E\left((X-E(X))^{k}|\theta\right)=m_k, \text{ for }  k=2,\ldots,d,(\#eq:eq5)
+\end{equation}
 
 where $m_k$ denotes the empirical centered moments.
 This method can be performed by setting the argument `method` to `"mme"` in the call to `fitdist`.
@@ -539,8 +536,8 @@ We use the implementation of the **actuar** package providing raw and centered m
 Fitting a heavy-tailed distribution for which the first and the second moments do not exist for certain values of the shape parameter requires some cautiousness.
 This is carried out by providing, for the optimization process, a lower and an upper bound for each parameter.
 The code below calls the L-BFGS-B optimization method in `optim`, since this quasi-Newton allows box constraints [^2].
-We choose match moments defined in Equation~(\ref{moments}), and so a function for computing the empirical raw moment (called `memp` in our example) is passed to `fitdist`.
-For two-parameter distributions (i.e., $d=2$), Equations~(\ref{moments}) and (\ref{centmoments}) are equivalent.
+We choose match moments defined in Equation \@ref(eq:eq4), and so a function for computing the empirical raw moment (called `memp` in our example) is passed to `fitdist`.
+For two-parameter distributions (i.e., $d=2$), Equations \@ref(eq:eq4) and \@ref(eq:eq5) are equivalent.
 
 [^2]: That is what the B stands for.
 
@@ -560,11 +557,11 @@ Keeping in mind that these two methods may produce very different results, the u
 This may be seen as an advantage in our example if the objective is to better describe the right tail of the distribution, but it may be seen as a drawback if the objective is different.
 
 Fitting of a parametric distribution may also be done by matching theoretical quantiles of the parametric distributions (for specified probabilities) against the empirical quantiles [@Tse2009].
-The equality of theoretical and empirical quantiles is expressed by Equation~(\ref{quantiles}) below, which is very similar to Equations~(\ref{moments}) and (\ref{centmoments}):
+The equality of theoretical and empirical quantiles is expressed by Equation \@ref(eq:eq6) below, which is very similar to Equations \@ref(eq:eq4) and \@ref(eq:eq5):
 
-$$
-F^{-1}(p_{k}|\theta)=Q_{n,p_{k}} 
-$$
+\begin{equation}
+F^{-1}(p_{k}|\theta)=Q_{n,p_{k}}(\#eq:eq6) 
+\end{equation}
 for $k=1,\ldots,d$, with $d$ the number of parameters to estimate (dimension of $\theta$ if there is no fixed parameters) and $Q_{n,p_{k}}$ the empirical quantiles calculated from data for specified probabilities $p_{k}$.
 
 Quantile matching estimation (QME) is performed by setting the argument `method` to `"qme"` in the call to `fitdist` and adding an argument `probs` defining the probabilities for which the quantile matching is performed.
@@ -709,9 +706,10 @@ plotdistcens(salinity, NPMLE = FALSE)
 As for non censored data, one or more parametric distributions can be fitted to the censored data set, one at a time, but using in this case the `fitdistcens` function. 
 This function estimates the vector of distribution parameters $\theta$ by maximizing the likelihood for censored data defined as:
 
-$$
-L(\theta) = \prod_{i=1}^{N_{nonC}} f(x_{i}|\theta)\times \prod_{j=1}^{N_{leftC}} F(x^{upper}_{j}|\theta) \times \prod_{k=1}^{N_{rightC}} (1- F(x^{lower}_{k}|\theta))\times \prod_{m=1}^{N_{intC}} (F(x^{upper}_{m}|\theta)- F(x^{lower}_{j}|\theta))
-$$
+\begin{equation}
+L(\theta) = \prod_{i=1}^{N_{nonC}} f(x_{i}|\theta)\times \prod_{j=1}^{N_{leftC}} F(x^{upper}_{j}|\theta) \\
+\times \prod_{k=1}^{N_{rightC}} (1- F(x^{lower}_{k}|\theta))\times \prod_{m=1}^{N_{intC}} (F(x^{upper}_{m}|\theta)- F(x^{lower}_{j}|\theta))(\#eq:eq7)
+\end{equation}
 
 with $x_{i}$ the $N_{nonC}$ non-censored observations,
 $x^{upper}_{j}$ upper values defining the $N_{leftC}$ left-censored observations,
