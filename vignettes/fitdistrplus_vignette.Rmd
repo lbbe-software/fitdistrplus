@@ -3,7 +3,9 @@ title: Overview of the fitdistrplus package
 author: Marie Laure Delignette Muller, Christophe Dutang
 date: '`r Sys.Date()`'
 output:
-  html_vignette:
+  bookdown::html_document2:
+    base_format: rmarkdown::html_vignette
+    fig_caption: yes
     toc: true
     number_sections: yes
 bibliography: fitdistrplus.bib
