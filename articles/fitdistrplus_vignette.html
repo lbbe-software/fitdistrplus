@@ -69,15 +69,13 @@
 </nav><div class="container template-article">
 
 
-
-
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Overview of the fitdistrplus package</h1>
                         <h4 data-toc-skip class="author">Marie Laure
 Delignette Muller, Christophe Dutang</h4>
             
-            <h4 data-toc-skip class="date">2023-03-28</h4>
+            <h4 data-toc-skip class="date">2023-03-29</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/aursiber/fitdistrplus/blob/HEAD/vignettes/fitdistrplus_vignette.Rmd" class="external-link"><code>vignettes/fitdistrplus_vignette.Rmd</code></a></small>
       <div class="d-none name"><code>fitdistrplus_vignette.Rmd</code></div>
@@ -94,8 +92,9 @@ Distributions</em> (Marie Laure Delignette-Muller and Christophe Dutang,
 bootstrap, censored data, maximum likelihood, moment matching, quantile
 matching, maximum goodness-of-fit, distributions, R</em></p>
 <p><br></p>
-<div class="section level2">
-<h2 id="Introduction">Introduction<a class="anchor" aria-label="anchor" href="#Introduction"></a>
+<div class="section level2" number="1">
+<h2 id="Introduction">
+<span class="header-section-number">1</span> Introduction<a class="anchor" aria-label="anchor" href="#Introduction"></a>
 </h2>
 <p>Fitting distributions to data is a very common task in statistics and
 consists in choosing a probability distribution modelling the random
@@ -166,11 +165,15 @@ L-moments of a distribution, see the reference manuals of
 non-censored data. <a href="#advtopic">Section 2</a> deals with other
 estimation methods and other types of data, before <a href="#ccl">Section 3</a> concludes.</p>
 </div>
-<div class="section level2">
-<h2 id="fitnoncenscont">Fitting distributions to continuous non-censored data<a class="anchor" aria-label="anchor" href="#fitnoncenscont"></a>
+<div class="section level2" number="2">
+<h2 id="fitnoncenscont">
+<span class="header-section-number">2</span> Fitting distributions
+to continuous non-censored data<a class="anchor" aria-label="anchor" href="#fitnoncenscont"></a>
 </h2>
-<div class="section level3">
-<h3 id="Choice">Choice of candidate distributions<a class="anchor" aria-label="anchor" href="#Choice"></a>
+<div class="section level3" number="2.1">
+<h3 id="Choice">
+<span class="header-section-number">2.1</span> Choice of candidate
+distributions<a class="anchor" aria-label="anchor" href="#Choice"></a>
 </h3>
 <p>For illustrating the use of various functions of the
 <strong>fitdistrplus</strong> package with continuous non-censored data,
@@ -178,7 +181,7 @@ we will first use a data set named <code>groundbeef</code> which is
 included in our package. This data set contains pointwise values of
 serving sizes in grams, collected in a French survey, for ground beef
 patties consumed by children under 5 years old. It was used in a
-quantitative risk assessment published by <span class="citation">Delignette-Muller, Cornu, and AFSSA (<a href="#ref-Delignette08" role="doc-biblioref">2008</a>)</span>.</p>
+quantitative risk assessment published by <span class="citation">Delignette-Muller and Cornu (<a href="#ref-Delignette08" role="doc-biblioref">2008</a>)</span>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://lbbe.univ-lyon1.fr/fr/fitdistrplus" class="external-link">"fitdistrplus"</a></span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Loading required package: MASS</span></span></code></pre>
@@ -209,8 +212,7 @@ distribution function (CDF).</p>
 <div style="text-align:center">
 <p><a name="figgroundbeefplot"></a> <span>Figure 1: Histogram and CDF
 plots of an empirical distribution for a continuous variable (serving
-size from the data set) as provided by the function.</span>
-<img src="fitdistrplus_vignette_files/figure-html/fig-figgroundbeefplot-1.png" width="672"></p>
+size from the data set) as provided by the function.</span> <img src="fitdistrplus_vignette_files/figure-html/fig-figgroundbeefplot-1.png"><!-- --></p>
 </div>
 <p><br></p>
 <p>In addition to empirical plots, descriptive statistics may help to
@@ -285,13 +287,14 @@ distributions.</p>
 <p><a name="figdescgroundbeef"></a> <span>Figure 2: Skewness-kurtosis
 plot for a continuous variable (serving size from the
 <code>groundbeef</code> data set) as provided by the
-<code>descdist</code> function.</span>
-<img src="fitdistrplus_vignette_files/figure-html/figdescgroundbeef-1.png" width="480"></p>
+<code>descdist</code> function.</span> <img src="fitdistrplus_vignette_files/figure-html/figdescgroundbeef-1.png"><!-- --></p>
 </div>
 <p><br></p>
 </div>
-<div class="section level3">
-<h3 id="FIT">Fit of distributions by maximum likelihood estimation<a class="anchor" aria-label="anchor" href="#FIT"></a>
+<div class="section level3" number="2.2">
+<h3 id="FIT">
+<span class="header-section-number">2.2</span> Fit of distributions
+by maximum likelihood estimation<a class="anchor" aria-label="anchor" href="#FIT"></a>
 </h3>
 <p>Once selected, one or more parametric distributions <span class="math inline">\(f(.\vert \theta)\)</span> (with parameter <span class="math inline">\(\theta\in\mathbb{R}^d\)</span>) may be fitted to
 the data set, one at a time, using the <code>fitdist</code> function.
@@ -391,8 +394,7 @@ plots for various distributions fitted to continuous data (Weibull,
 gamma and lognormal distributions fitted to serving sizes from the
 <code>groundbeef</code> data set) as provided by functions
 <code>denscomp</code>, <code>qqcomp</code>, <code>cdfcomp</code> and
-<code>ppcomp</code>.</span>
-<img src="fitdistrplus_vignette_files/figure-html/fitgroundbeef-1.png" width="672"></p>
+<code>ppcomp</code>.</span> <img src="fitdistrplus_vignette_files/figure-html/fitgroundbeef-1.png"><!-- --></p>
 </div>
 <p><br></p>
 <p>The density plot and the CDF plot may be considered as the basic
@@ -455,8 +457,7 @@ defining an HC5 value (<a href="#fitendo">Figure 4</a>).</p>
 four distributions to acute toxicity values of various organisms for the
 organochlorine pesticide endosulfan (<code>endosulfan</code> data set)
 as provided by the <code>cdfcomp</code> function, with CDF values in a
-logscale to emphasize discrepancies on the left tail.</span>
-<img src="fitdistrplus_vignette_files/figure-html/fitendo-1.png" width="672"></p>
+logscale to emphasize discrepancies on the left tail.</span> <img src="fitdistrplus_vignette_files/figure-html/fitendo-1.png"><!-- --></p>
 </div>
 <p><br></p>
 <p>None of the fitted distribution correctly describes the right tail
@@ -580,8 +581,10 @@ distributions (see <a href="#otherdata">Section 3.3</a> and the
 reference manual for examples <span class="citation">(<a href="#ref-fitdistrplus" role="doc-biblioref">Delignette-Muller et al.
 2014</a>)</span>).</p>
 </div>
-<div class="section level3">
-<h3 id="Uncertainty">Uncertainty in parameter estimates<a class="anchor" aria-label="anchor" href="#Uncertainty"></a>
+<div class="section level3" number="2.3">
+<h3 id="Uncertainty">
+<span class="header-section-number">2.3</span> Uncertainty in
+parameter estimates<a class="anchor" aria-label="anchor" href="#Uncertainty"></a>
 </h3>
 <p>The uncertainty in the parameters of the fitted distribution can be
 estimated by parametric or nonparametric bootstraps using the
@@ -613,8 +616,7 @@ distribution to the <code>endosulfan</code> data set <a href="#bootstrap">Figure
 <p><a name="bootstrap"></a> <span>Figure 5: Bootstrappped values of
 parameters for a fit of the Burr distribution characterized by three
 parameters (example on the <code>endosulfan</code> data set) as provided
-by the plot of an object of class <code>bootdist</code>.</span>
-<img src="fitdistrplus_vignette_files/figure-html/bootstrap-1.png" width="672"></p>
+by the plot of an object of class <code>bootdist</code>.</span> <img src="fitdistrplus_vignette_files/figure-html/bootstrap-1.png"><!-- --></p>
 </div>
 <p><br></p>
 <p>Bootstrap samples of parameter estimates are useful especially to
@@ -656,11 +658,14 @@ Burr distribution to the <code>endosulfan</code> data set.</p>
 <span><span class="co">## 97.5 % 0.4999</span></span></code></pre>
 </div>
 </div>
-<div class="section level2">
-<h2 id="advtopic">Advanced topics<a class="anchor" aria-label="anchor" href="#advtopic"></a>
+<div class="section level2" number="3">
+<h2 id="advtopic">
+<span class="header-section-number">3</span> Advanced topics<a class="anchor" aria-label="anchor" href="#advtopic"></a>
 </h2>
-<div class="section level3">
-<h3 id="Alternatives">Alternative methods for parameter estimation<a class="anchor" aria-label="anchor" href="#Alternatives"></a>
+<div class="section level3" number="3.1">
+<h3 id="Alternatives">
+<span class="header-section-number">3.1</span> Alternative methods
+for parameter estimation<a class="anchor" aria-label="anchor" href="#Alternatives"></a>
 </h3>
 <p>This subsection focuses on alternative estimation methods. One of the
 alternative for continuous distributions is the maximum goodness-of-fit
@@ -757,8 +762,7 @@ goodness-of-fit distances: left-tail Anderson-Darling and left-tail
 Anderson Darling of second order (example with the
 <code>endosulfan</code> data set) as provided by the
 <code>cdfcomp</code> function, with CDF values in a logscale to
-emphasize discrepancies on the left tail.</span>
-<img src="fitdistrplus_vignette_files/figure-html/plotfitMGE-1.png" width="672"></p>
+emphasize discrepancies on the left tail.</span> <img src="fitdistrplus_vignette_files/figure-html/plotfitMGE-1.png"><!-- --></p>
 </div>
 <p><br></p>
 <p>Comparing the 5% percentiles (HC5) calculated using these three fits
@@ -855,8 +859,7 @@ claim amounts.</p>
 <div style="text-align:center">
 <p><a name="danishmme"></a> <span>Figure 7: Comparison between MME and
 MLE when fitting a lognormal or a Pareto distribution to loss data from
-the <code>danishuni</code> data set.</span>
-<img src="fitdistrplus_vignette_files/figure-html/danishmme-1.png" width="672"></p>
+the <code>danishuni</code> data set.</span> <img src="fitdistrplus_vignette_files/figure-html/danishmme-1.png"><!-- --></p>
 </div>
 <p><br></p>
 <p>In a second time, a Pareto distribution, which gives more weight to
@@ -942,8 +945,7 @@ of squared differences between observed and theoretical quantiles.</p>
 <div style="text-align:center">
 <p><a name="danish.qme"></a> <span>Figure 8: Comparison between QME and
 MLE when fitting a lognormal distribution to loss data from the
-<code>danishuni</code> data set.</span>
-<img src="fitdistrplus_vignette_files/figure-html/danish.qme-1.png" width="672"></p>
+<code>danishuni</code> data set.</span> <img src="fitdistrplus_vignette_files/figure-html/danish.qme-1.png"><!-- --></p>
 </div>
 <p><br></p>
 <p>Above is an example of fitting of a lognormal distribution to
@@ -957,8 +959,10 @@ quantiles, e.g., <span class="math inline">\(p=99.5\%\)</span> in the
 Solvency II insurance context or <span class="math inline">\(p=5\%\)</span> for the HC5 estimation in the
 ecotoxicology context.</p>
 </div>
-<div class="section level3">
-<h3 id="Customization">Customization of the optimization algorithm<a class="anchor" aria-label="anchor" href="#Customization"></a>
+<div class="section level3" number="3.2">
+<h3 id="Customization">
+<span class="header-section-number">3.2</span> Customization of the
+optimization algorithm<a class="anchor" aria-label="anchor" href="#Customization"></a>
 </h3>
 <p>Each time a numerical minimization is carried out in the
 <code>fitdistrplus</code> package, the <code>optim</code> function of
@@ -1047,8 +1051,10 @@ on this example, roughly 4.00 and 0.05, respectively.</p>
 <span><span class="co">## shape 4.00825 4.22848 3.96743 4.12850 4.00834</span></span>
 <span><span class="co">## rate  0.05442 0.05742 0.05385 0.05606 0.05443</span></span></code></pre>
 </div>
-<div class="section level3">
-<h3 id="otherdata">Fitting distributions to other types of data<a class="anchor" aria-label="anchor" href="#otherdata"></a>
+<div class="section level3" number="3.3">
+<h3 id="otherdata">
+<span class="header-section-number">3.3</span> Fitting distributions
+to other types of data<a class="anchor" aria-label="anchor" href="#otherdata"></a>
 </h3>
 <p><em>This section was modified since the publication of this vignette
 in the Journal of Statistical Software in order to include new
@@ -1123,8 +1129,7 @@ observations.</p>
 <p><a name="plotsalinity2"></a> <span>Figure 9: Simple plot of censored
 raw data (72-hour acute salinity tolerance of riverine
 macro-invertebrates from the <code>salinity</code> data set) as ordered
-points and intervals.</span>
-<img src="fitdistrplus_vignette_files/figure-html/plotsalinity2-1.png" width="672"></p>
+points and intervals.</span> <img src="fitdistrplus_vignette_files/figure-html/plotsalinity2-1.png"><!-- --></p>
 </div>
 <p><br></p>
 <p>As for non censored data, one or more parametric distributions can be
@@ -1213,8 +1218,7 @@ it provides a clearer plot splitted in facets (see
 <div style="text-align:center">
 <p><a name="cdfcompcens"></a> <span>Figure 10: Some goodness-of-fit
 plots for fits of a lognormal and a loglogistic distribution to censored
-data: LC50 values from the <code>salinity</code> data set.</span>
-<img src="fitdistrplus_vignette_files/figure-html/cdfcompcens-1.png" width="672"></p>
+data: LC50 values from the <code>salinity</code> data set.</span> <img src="fitdistrplus_vignette_files/figure-html/cdfcompcens-1.png"><!-- --></p>
 </div>
 <p><br></p>
 <p>Function <code>bootdistcens</code> is the equivalent of
@@ -1277,8 +1281,7 @@ fits (<a href="#fittoxocarapoisnbinom">Figure 11</a>).</p>
 <p><a name="fittoxocarapoisnbinom"></a> <span>Figure 11: Comparison of
 the fits of a negative binomial and a Poisson distribution to numbers of
 <em>Toxocara cati</em> parasites from the <code>toxocara</code> data
-set.</span>
-<img src="fitdistrplus_vignette_files/figure-html/fittoxocarapoisnbinom-1.png" width="672"></p>
+set.</span> <img src="fitdistrplus_vignette_files/figure-html/fittoxocarapoisnbinom-1.png"><!-- --></p>
 </div>
 <p><br></p>
 <p>When fitting discrete distributions, the Chi-squared statistic is
@@ -1319,8 +1322,9 @@ criteria:</p>
 <span><span class="co">## Bayesian Information Criterion    1019             326.6</span></span></code></pre>
 </div>
 </div>
-<div class="section level2">
-<h2 id="ccl">Conclusion<a class="anchor" aria-label="anchor" href="#ccl"></a>
+<div class="section level2" number="4">
+<h2 id="ccl">
+<span class="header-section-number">4</span> Conclusion<a class="anchor" aria-label="anchor" href="#ccl"></a>
 </h2>
 <p>The R package <strong>fitdistrplus</strong> allows to easily fit
 distributions. Our main objective while developing this package was to
@@ -1450,12 +1454,11 @@ in REPFEDs.”</span> <em>International Journal of Food Microbiology</em>
 166 (3): 433–49.
 </div>
 <div id="ref-Delignette08" class="csl-entry">
-Delignette-Muller, M. L., M. Cornu, and STEC Study Group AFSSA. 2008.
-<span>“<span class="nocase">Quantitative Risk Assessment for
-<em>Escherichia coli</em> O157:H7 in Frozen Ground Beef Patties Consumed
-by Young Children in French Households</span>.”</span>
-<em><span>International Journal of Food Microbiology</span></em>
-<span>128</span> (<span>1, SI</span>): 158–64.
+Delignette-Muller, M. L., and M. Cornu. 2008. <span>“Quantitative Risk
+Assessment for Escherichia Coli O157:H7 in Frozen Ground Beef Patties
+Consumed by Young Children in French Households.”</span>
+<em>International Journal of Food Microbiology</em> 128 (1): 158–64.
+https://doi.org/<a href="https://doi.org/10.1016/j.ijfoodmicro.2008.05.040" class="external-link">https://doi.org/10.1016/j.ijfoodmicro.2008.05.040</a>.
 </div>
 <div id="ref-fitdistrplus" class="csl-entry">
 Delignette-Muller, M. L., R. Pouillot, J. B. Denis, and C. Dutang. 2014.
