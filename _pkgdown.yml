@@ -9,3 +9,12 @@ navbar:
 toc:
   number_sections: yes
   depth: 4
+  
+articles:
+- title: Articles
+  navbar: ~
+  contents:
+  - fitdistrplus_vignette
+  - Optimalgo
+  - FAQ
+  
