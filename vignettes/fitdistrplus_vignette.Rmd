@@ -249,7 +249,7 @@ In fact, the value-at-risk $VAR_\alpha$ is defined as the $1-\alpha$-quantile of
 The computation of different goodness-of-fit statistics is proposed in the **fitdistrplus** package in order to further compare fitted distributions.
 The purpose of goodness-of-fit statistics aims to measure the distance between the fitted parametric distribution and the empirical distribution: e.g., the distance between the fitted cumulative distribution function $F$ and the empirical distribution function $F_{n}$.
 When fitting continuous distributions, three  goodness-of-fit statistics are classicaly considered: Cramer-von Mises, Kolmogorov-Smirnov and Anderson-Darling statistics [@Stephens86].
-Naming $x_{i}$ the $n$ observations of a continuous variable $X$ arranged in an ascending order, [Table 1](#tabKSCvMAD) gives the definition and the empirical estimate of the three considered  goodness-of-fit statistics.
+Naming $x_{i}$ the $n$ observations of a continuous variable $X$ arranged in an ascending order, Table \@ref(tab:tabKSCvMAD) gives the definition and the empirical estimate of the three considered  goodness-of-fit statistics.
 They can be computed using the function `gofstat` as defined by Stephens [@Stephens86].
 
 ```{r fendo.gof.print, echo=TRUE, fig=FALSE}
@@ -258,25 +258,24 @@ gofstat(list(fendo.ln, fendo.ll, fendo.P, fendo.B),
 ```
 
 <br>
-<div style="text-align:center">
-<a name="tabKSCvMAD"></a>
-<span>Table 1: Goodness-of-fit statistics as defined by Stephens [@Stephens86].</span>
 
-Statistic               General formula                                                               Computational formula
----------               ------------------------------                                                --------------
-Kolmogorov-Smirnov (KS) $\sup|F_{n}(x) - F(x)|$                                                       $\max(D^{+},D^{-})$ with $D^{+}=\max\limits_{i=1,\dots,n}\left(\frac{i}{n} - F_i\right)$ and $D^{-}=\max\limits_{i=1,\dots,n}\left(F_{i}-\frac{i-1}{n}\right)$
-Cramer-von Mises (CvM)  $n \int_{-\infty}^{\infty}(F_{n}(x) - F(x))^2 dx$                             $\frac{1}{12n} + \sum\limits_{i=1}^n \left(F_i-\frac{2i-1}{2n} \right)^{2}$
-Anderson-Darling (AD)   $n \int_{-\infty}^{\infty}\frac{(F_{n}(x) - F(x))^2}{F(x) (1 - F(x))} dx$     $-n -\frac{1}{n}\sum\limits_{i=1}^n (2i-1)\log(F_i(1-F_{n+1-i}))$
+| Statistic               | General formula                                                               | Computational formula                                                                                                                                          |
+|-------------------------|-------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Kolmogorov-Smirnov (KS) | $\sup|F_{n}(x) - F(x)|$                                                       | $\max(D^{+},D^{-})$ with $D^{+}=\max\limits_{i=1,\dots,n}\left(\frac{i}{n} - F_i\right)$ and $D^{-}=\max\limits_{i=1,\dots,n}\left(F_{i}-\frac{i-1}{n}\right)$ |
+| Cramer-von Mises (CvM)  | $n \int_{-\infty}^{\infty}(F_{n}(x) - F(x))^2 dx$                             | $\frac{1}{12n} + \sum\limits_{i=1}^n \left(F_i-\frac{2i-1}{2n} \right)^{2}$                                                                                    |
+| Anderson-Darling (AD)   | $n \int_{-\infty}^{\infty}\frac{(F_{n}(x) - F(x))^2}{F(x) (1 - F(x))} dx$     | $-n -\frac{1}{n}\sum\limits_{i=1}^n (2i-1)\log(F_i(1-F_{n+1-i}))$                                                                                              |
+
+  Table: (\#tab:tabKSCvMAD) Goodness-of-fit statistics as defined by Stephens [@Stephens86].
 
 where $F_i\stackrel{\triangle}{=} F(x_i)$
-</div>
+
 <br>
 
 As giving  more weight to distribution tails, the Anderson-Darling statistic is of special interest when it matters to equally emphasize the tails as well as the main body of a distribution.
 This is often the case in risk assessment [@Cullen99, @Vose10]. 
 For this reason, this statistics is often used to select the best distribution among those fitted.
 Nevertheless, this statistics should be used cautiously when comparing fits of various distributions. 
-Keeping in mind that the weighting of each CDF quadratic difference depends on the parametric distribution in its definition (see [Table 1](#tabKSCvMAD)), Anderson-Darling statistics computed for several distributions fitted on a same data set are theoretically difficult to compare. 
+Keeping in mind that the weighting of each CDF quadratic difference depends on the parametric distribution in its definition (see Table \@ref(tab:tabKSCvMAD)), Anderson-Darling statistics computed for several distributions fitted on a same data set are theoretically difficult to compare. 
 Moreover, such a statistic, as Cramer-von Mises and Kolmogorov-Smirnov ones, does not take into account the complexity of the model (i.e., parameter number). 
 It is not a problem when compared distributions are characterized by the same number of parameters, but it could systematically promote the selection of the more complex distributions in the other case. 
 Looking at classical penalized criteria based on the loglikehood (AIC, BIC) seems thus also interesting, especially to discourage overfitting. 
@@ -330,26 +329,25 @@ quantile(bendo.B, probs = 0.05)
 
 This subsection focuses on alternative estimation methods.
 One of the alternative for continuous distributions is the maximum goodness-of-fit estimation method also called minimum distance estimation method [@Stephens86, @actuarJSS]. 
-In this package this method is proposed with eight different distances: the three classical distances defined in [Table 1](#tabKSCvMAD),
-or one of the variants of the Anderson-Darling distance proposed by @Luceno06 and defined in [Table 2](#modifiedAD).
+In this package this method is proposed with eight different distances: the three classical distances defined in Table \@ref(tab:tabKSCvMAD),
+or one of the variants of the Anderson-Darling distance proposed by @Luceno06 and defined in Table \@ref(tab:modifiedAD).
 The right-tail AD gives more weight to the right-tail, the left-tail AD gives more weight only to the left tail. Either of the tails, or both of them, can receive even larger weights by using second order Anderson-Darling Statistics.
 
 
 <br>
-<div style="text-align:center">
-<a name="modifiedAD"></a>
-<span>Table 2: Modified Anderson-Darling statistics as defined by @Luceno06.</span>
 
-Statistic                       General formula                                                               Computational formula
----------                       ------------------------------                                                --------------
-Right-tail AD (ADR)             $\int_{-\infty}^{\infty}\frac{(F_{n}(x) - F(x))^2 }{1 - F(x)} dx$             $\frac{n}{2} -2\sum\limits_{i=1}^nF_i -\frac{1}{n}\sum\limits_{i=1}^n(2i-1)ln(\overline F_{n+1-i})$
-Left-tail AD (ADL)              $\int_{-\infty}^{\infty}\frac{(F_{n}(x) - F(x))^2 }{(F(x))} dx$               $-\frac{3n}{2} +2\sum\limits_{i=1}^nF_i -\frac{1}{n}\sum\limits_{i=1}^n(2i-1)ln(F_i)$
-Right-tail AD 2nd order (AD2R)  $ad2r=\int_{-\infty}^{\infty}\frac{(F_{n}(x) - F(x))^2 }{(1 - F(x))^{2}} dx$  $ad2r=2\sum\limits_{i=1}^nln(\overline F_i) +\frac{1}{n}\sum\limits_{i=1}^n \frac{2i-1}{\overline F_{n+1-i}}$
-Left-tail AD 2nd order (AD2L)   $ad2l=\int_{-\infty}^{\infty}\frac{(F_{n}(x) - F(x))^2 }{(F(x))^{2}} dx$      $ad2l=2\sum\limits_{i=1}^nln(F_i) +\frac{1}{n}\sum\limits_{i=1}^n\frac{2i-1}{F_i}$
-AD 2nd order (AD2)              $ad2r+ad2l$                                                                   $ad2r+ad2l$
+| Statistic                       | General formula                                                               | Computational formula                                                                                         | 
+|---------------------------------|-------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------| 
+| Right-tail AD (ADR)             | $\int_{-\infty}^{\infty}\frac{(F_{n}(x) - F(x))^2 }{1 - F(x)} dx$             | $\frac{n}{2} -2\sum\limits_{i=1}^nF_i -\frac{1}{n}\sum\limits_{i=1}^n(2i-1)ln(\overline F_{n+1-i})$           | 
+| Left-tail AD (ADL)              | $\int_{-\infty}^{\infty}\frac{(F_{n}(x) - F(x))^2 }{(F(x))} dx$               | $-\frac{3n}{2} +2\sum\limits_{i=1}^nF_i -\frac{1}{n}\sum\limits_{i=1}^n(2i-1)ln(F_i)$                         | 
+| Right-tail AD 2nd order (AD2R)  | $ad2r=\int_{-\infty}^{\infty}\frac{(F_{n}(x) - F(x))^2 }{(1 - F(x))^{2}} dx$  | $ad2r=2\sum\limits_{i=1}^nln(\overline F_i) +\frac{1}{n}\sum\limits_{i=1}^n \frac{2i-1}{\overline F_{n+1-i}}$ |
+| Left-tail AD 2nd order (AD2L)   | $ad2l=\int_{-\infty}^{\infty}\frac{(F_{n}(x) - F(x))^2 }{(F(x))^{2}} dx$      | $ad2l=2\sum\limits_{i=1}^nln(F_i) +\frac{1}{n}\sum\limits_{i=1}^n\frac{2i-1}{F_i}$                            | 
+| AD 2nd order (AD2)              | $ad2r+ad2l$                                                                   | $ad2r+ad2l$
 
+  Table: (\#tab:modifiedAD) Modified Anderson-Darling statistics as defined by @Luceno06.
+  
 where $F_i\stackrel{\triangle}{=} F(x_{i})$ and $\overline F_i\stackrel{\triangle}{=}1-F(x_{i})$
-</div>
+
 <br>
 
 To fit a distribution by maximum goodness-of-fit estimation, one needs to fix the argument `method` to `mge` in the call to `fitdist` and to specify the argument `gof` coding for the chosen goodness-of-fit distance. 
