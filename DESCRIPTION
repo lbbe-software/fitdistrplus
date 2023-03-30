@@ -17,7 +17,7 @@ Description: Extends the fitdistr() function (of the MASS package) with several 
   to parametric estimation.
 Depends: R (>= 3.5.0), MASS, grDevices, survival, methods
 Imports: stats
-Suggests: actuar, rgenoud, mc2d, gamlss.dist, knitr, ggplot2, GeneralizedHyperbolic, rmarkdown, Hmisc
+Suggests: actuar, rgenoud, mc2d, gamlss.dist, knitr, ggplot2, GeneralizedHyperbolic, rmarkdown, Hmisc, bookdown
 VignetteBuilder: knitr
 BuildVignettes: true
 License: GPL (>= 2)
