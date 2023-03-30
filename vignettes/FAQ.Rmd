@@ -3,15 +3,19 @@ title: Frequently Asked Questions
 author: Marie Laure Delignette Muller, Christophe Dutang
 date: '`r Sys.Date()`'
 output:
-  html_vignette:
-    toc: yes
+  bookdown::html_document2:
+    base_format: rmarkdown::html_vignette
+    fig_caption: yes
+    toc: true
     number_sections: yes
-
+link-citations: true
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{Frequently Asked Questions} 
   %!\VignetteEncoding{UTF-8}
   \usepackage[utf8]{inputenc}
+pkgdown:
+  as_is: true
 ---
 
 ```{r setup, echo=FALSE, message=FALSE, warning=FALSE}
@@ -122,8 +126,10 @@ $$
 c("E(X) by MME"=as.numeric(exp(f2$estimate["meanlog"]+f2$estimate["sdlog"]^2/2)), 
 	"E(X) by MLE"=as.numeric(exp(f1$estimate["meanlog"]+f1$estimate["sdlog"]^2/2)), 
 	"empirical"=mean(x3))
-c("Var(X) by MME"=as.numeric(exp(2*f2$estimate["meanlog"]+f2$estimate["sdlog"]^2)*(exp(f2$estimate["sdlog"]^2)-1)), 
-	"Var(X) by MLE"=as.numeric(exp(2*f1$estimate["meanlog"]+f1$estimate["sdlog"]^2)*(exp(f1$estimate["sdlog"]^2)-1)), 
+c("Var(X) by MME"=as.numeric(exp(2*f2$estimate["meanlog"]+f2$estimate["sdlog"]^2) * 
+                               (exp(f2$estimate["sdlog"]^2)-1)), 
+	"Var(X) by MLE"=as.numeric(exp(2*f1$estimate["meanlog"]+f1$estimate["sdlog"]^2) * 
+	                             (exp(f1$estimate["sdlog"]^2)-1)), 
 	"empirical"=var(x3))
 ```
 From a MLE point of view, a lognormal sample $x_1,\dots,x_n$ is equivalent to handle 

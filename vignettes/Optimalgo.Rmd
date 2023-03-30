@@ -3,14 +3,19 @@ title: Which optimization algorithm to choose?
 author: Marie Laure Delignette Muller, Christophe Dutang
 date: '`r Sys.Date()`'
 output:
-  html_vignette:
+  bookdown::html_document2:
+    base_format: rmarkdown::html_vignette
+    fig_caption: yes
     toc: true
     number_sections: yes
+link-citations: true
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{Which optimization algorithm to choose?} 
   %!\VignetteEncoding{UTF-8}
   \usepackage[utf8]{inputenc}
+pkgdown:
+  as_is: true
 ---
 
 ```{r setup, echo=FALSE, message=FALSE, warning=FALSE}
@@ -139,14 +144,13 @@ To simplify the benchmark of optimization methods, we create a `fitbench` functi
 the desired estimation method for all optimization methods. 
 This function is currently not exported in the package.
 ```{r, echo=TRUE, eval=FALSE}
-fitbench <- function(data, distr, method, grad=NULL, control=list(trace=0, REPORT=1, maxit=1000), lower=-Inf, upper=+Inf, ...) 
+fitbench <- function(data, distr, method, grad = NULL, 
+                     control = list(trace = 0, REPORT = 1, maxit = 1000), 
+                     lower = -Inf, upper = +Inf, ...) 
 ```
 ```{r, echo=FALSE}
 fitbench <- fitdistrplus:::fitbench
 ```
-
-
-
 
 
 
@@ -275,13 +279,12 @@ points(3, 3/4, pch="x", col="green")
 
 We can simulate bootstrap replicates using the `bootdist` function.
 ```{r, fig.width=4, fig.height=4}
-b1 <- bootdist(fitdist(x, "beta", method="mle", optim.method="BFGS"), niter=100, parallel="snow", ncpus=2)
+b1 <- bootdist(fitdist(x, "beta", method = "mle", optim.method = "BFGS"), 
+               niter = 100, parallel = "snow", ncpus = 2)
 summary(b1)
 plot(b1)
-abline(v=3, h=3/4, col="red", lwd=1.5)
+abline(v = 3, h = 3/4, col = "red", lwd = 1.5)
 ```
-
-
 
 
 # Numerical illustration with the negative binomial distribution
@@ -347,17 +350,20 @@ x <- rnbinom(n, trueval["size"], trueval["prob"])
 
 hist(x, prob=TRUE, ylim=c(0, .3))
 lines(density(x), col="red")
-points(min(x):max(x), dnbinom(min(x):max(x), trueval["size"], trueval["prob"]), col="green")
-legend("topleft", lty=1, col=c("red","green"), leg=c("empirical", "theoretical"))
+points(min(x):max(x), dnbinom(min(x):max(x), trueval["size"], trueval["prob"]), 
+       col = "green")
+legend("topleft", lty = 1, col = c("red", "green"), 
+       leg = c("empirical", "theoretical"))
 ```
 
 ## Fit a negative binomial distribution
 
 Define control parameters and make the benchmark.
 ```{r}
-ctr <- list(trace=0, REPORT=1, maxit=1000)
-unconstropt <- fitbench(x, "nbinom", "mle", grad=grlnlNB, lower=0)
-unconstropt <- rbind(unconstropt, "fitted prob"=unconstropt["fitted mu",] / (1+unconstropt["fitted mu",]))
+ctr <- list(trace = 0, REPORT = 1, maxit = 1000)
+unconstropt <- fitbench(x, "nbinom", "mle", grad = grlnlNB, lower = 0)
+unconstropt <- rbind(unconstropt, 
+                     "fitted prob" = unconstropt["fitted mu", ] / (1 + unconstropt["fitted mu", ]))
 ```
 In the case of constrained optimization, `mledist` permits the direct use 
 of `constrOptim` function (still implemented in `stats` package)
@@ -367,21 +373,23 @@ Use a exp/log transformation of the shape parameters $\delta_1$ and $\delta_2$
 to ensure that the shape parameters are strictly positive.
 ```{r}
 dnbinom2 <- function(x, size, prob, log)
-  dnbinom(x, exp(size), 1/(1+exp(-prob)), log=log)
-#transform starting values
+  dnbinom(x, exp(size), 1 / (1 + exp(-prob)), log = log)
+# transform starting values
 startarg <- fitdistrplus:::start.arg.default(x, "nbinom")
-startarg$mu <- startarg$size / (startarg$size+startarg$mu)
-startarg <- list(size=log(startarg[[1]]), prob=log(startarg[[2]]/(1-startarg[[2]])))
+startarg$mu <- startarg$size / (startarg$size + startarg$mu)
+startarg <- list(size = log(startarg[[1]]), 
+                 prob = log(startarg[[2]] / (1 - startarg[[2]])))
 
-#redefine the gradient for the new parametrization
+# redefine the gradient for the new parametrization
 Trans <- function(x)
   c(exp(x[1]), plogis(x[2]))
 grNBexp <- function(par, obs, ...) 
     grlnlNB(Trans(par), obs) * c(exp(par[1]), plogis(x[2])*(1-plogis(x[2])))
 
 expopt <- fitbench(x, distr="nbinom2", method="mle", grad=grNBexp, start=startarg) 
-#get back to original parametrization
-expopt[c("fitted size", "fitted prob"), ] <- apply(expopt[c("fitted size", "fitted prob"), ], 2, Trans)
+# get back to original parametrization
+expopt[c("fitted size", "fitted prob"), ] <- 
+  apply(expopt[c("fitted size", "fitted prob"), ], 2, Trans)
 ```
 Then we extract the values of the fitted parameters, the value of the 
 corresponding log-likelihood and the number of counts to the function
@@ -415,21 +423,22 @@ kable(expopt[, grep("G-", colnames(expopt))], digits=3)
 
 Using `llsurface`, we plot the log-likehood surface around the true value (green) and the fitted parameters (red).
 ```{r, fig.width=4, fig.height=4}
-llsurface(min.arg=c(5, 0.3), max.arg=c(15, 1), 
-          plot.arg=c("size", "prob"), nlev=25,
-          plot.np=50, data=x, distr="nbinom", back.col = FALSE)
-points(unconstropt["fitted size","BFGS"], unconstropt["fitted prob","BFGS"], pch="+", col="red")
-points(trueval["size"], trueval["prob"], pch="x", col="green")
+llsurface(min.arg = c(5, 0.3), max.arg = c(15, 1), 
+          plot.arg = c("size", "prob"), nlev = 25,
+          plot.np = 50, data = x, distr = "nbinom", back.col = FALSE)
+points(unconstropt["fitted size", "BFGS"], unconstropt["fitted prob", "BFGS"], 
+       pch = "+", col = "red")
+points(trueval["size"], trueval["prob"], pch = "x", col = "green")
 ```
 
 We can simulate bootstrap replicates using the `bootdist` function.
 ```{r, fig.width=4, fig.height=4}
-b1 <- bootdist(fitdist(x, "nbinom", method="mle", optim.method="BFGS"), niter=100, parallel="snow", ncpus=2)
+b1 <- bootdist(fitdist(x, "nbinom", method = "mle", optim.method = "BFGS"), 
+               niter = 100, parallel = "snow", ncpus = 2)
 summary(b1)
 plot(b1)
-abline(v=trueval["size"], h=trueval["mu"], col="red", lwd=1.5)
+abline(v = trueval["size"], h = trueval["mu"], col = "red", lwd = 1.5)
 ```
-
 
 
 
