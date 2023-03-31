@@ -74,7 +74,7 @@
       <img src="" class="logo" alt=""><h1>Overview of the fitdistrplus package</h1>
                         <h4 data-toc-skip class="author">Marie Laure Delignette Muller, Christophe Dutang</h4>
             
-            <h4 data-toc-skip class="date">2023-03-30</h4>
+            <h4 data-toc-skip class="date">2023-03-31</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/aursiber/fitdistrplus/blob/HEAD/vignettes/fitdistrplus_vignette.Rmd" class="external-link"><code>vignettes/fitdistrplus_vignette.Rmd</code></a></small>
       <div class="d-none name"><code>fitdistrplus_vignette.Rmd</code></div>
@@ -211,7 +211,7 @@ Under the i.i.d. sample assumption, distribution parameters <span class="math in
 L(\theta)=\prod_{i=1}^n f(x_{i}\vert \theta)\tag{2.3}
 \end{equation}\]</span></p>
 <p>with <span class="math inline">\(x_{i}\)</span> the <span class="math inline">\(n\)</span> observations of variable <span class="math inline">\(X\)</span> and <span class="math inline">\(f(.\vert \theta)\)</span> the density function of the parametric distribution.
-The other proposed estimation methods are described in <a href="#Alternatives">Section 3.1</a>.</p>
+The other proposed estimation methods are described in Section <a href="#Alternatives">3.1</a>.</p>
 <p>The <code>fitdist</code> function returns an S3 object of class <code>fitdist</code> for which <code>print</code>, <code>summary</code> and <code>plot</code> functions are provided.
 The fit of a distribution using <code>fitdist</code> assumes that the corresponding <code>d</code>, <code>p</code>, <code>q</code> functions (standing respectively for the density, the distribution and the quantile functions) are defined.
 Classical distributions are already defined in that way in the <strong>stats</strong> package, e.g., <code>dnorm</code>, <code>pnorm</code> and <code>qnorm</code> for the normal distribution (see <code><a href="https://rdrr.io/r/stats/Distributions.html" class="external-link">?Distributions</a></code>).
@@ -388,7 +388,7 @@ It is not a problem when compared distributions are characterized by the same nu
 Looking at classical penalized criteria based on the loglikehood (AIC, BIC) seems thus also interesting, especially to discourage overfitting.</p>
 <p>In the previous example, all the goodness-of-fit statistics based on the CDF distance are in favor of the Burr distribution, the only one characterized by three parameters, while AIC and BIC values respectively give the preference to the Burr distribution or the Pareto distribution.
 The choice between these two distributions seems thus less obvious and could be discussed.
-Even if specifically recommended for discrete distributions, the Chi-squared statistic may also be used for continuous distributions (see <a href="#otherdata">Section 3.3</a> and the reference manual for examples <span class="citation">(<a href="#ref-fitdistrplus" role="doc-biblioref">Delignette-Muller et al. 2014</a>)</span>).</p>
+Even if specifically recommended for discrete distributions, the Chi-squared statistic may also be used for continuous distributions (see Section <a href="#otherdata">3.3</a> and the reference manual for examples <span class="citation">(<a href="#ref-fitdistrplus" role="doc-biblioref">Delignette-Muller et al. 2014</a>)</span>).</p>
 </div>
 <div class="section level3" number="2.3">
 <h3 id="Uncertainty">
