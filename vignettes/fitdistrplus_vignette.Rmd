@@ -150,7 +150,7 @@ L(\theta)=\prod_{i=1}^n f(x_{i}\vert \theta)(\#eq:eq3)
 \end{equation}
 
 with $x_{i}$ the $n$ observations of variable $X$ and $f(.\vert \theta)$ the density function of the parametric distribution.
-The other proposed estimation methods are described in [Section 3.1](#Alternatives). 
+The other proposed estimation methods are described in Section \@ref(Alternatives). 
 
 The `fitdist` function returns an S3 object of class `fitdist` for which `print`, `summary` and `plot` functions are provided.
 The fit of a distribution using `fitdist` assumes that the corresponding `d`, `p`, `q` functions (standing respectively for the density, the distribution and the quantile functions) are defined.
@@ -282,7 +282,7 @@ Looking at classical penalized criteria based on the loglikehood (AIC, BIC) seem
 
 In the previous example, all the goodness-of-fit statistics based on the CDF distance are in favor of the Burr distribution, the only one characterized by three parameters, while AIC and BIC values respectively give the preference to the Burr distribution or the Pareto distribution.
 The choice between these two distributions seems thus less obvious and could be discussed. 
-Even if specifically recommended for discrete distributions, the Chi-squared statistic may also be used for continuous distributions (see [Section 3.3](#otherdata) and the reference manual for examples [@fitdistrplus]).
+Even if specifically recommended for discrete distributions, the Chi-squared statistic may also be used for continuous distributions (see Section \@ref(otherdata) and the reference manual for examples [@fitdistrplus]).
 
 
 ## Uncertainty in parameter estimates {#Uncertainty}
