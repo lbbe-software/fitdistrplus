@@ -4,7 +4,7 @@ if(FALSE)
   
   x <- rgamma(1e3, shape=3/2, rate= 1/2)
   
-  initval <- unlist(fitdistrplus:::start.arg.default(x, "gamma"))
+  initval <- unlist(fitdistrplus:::startargdefault(x, "gamma"))
   
   fitdistrplus:::fitbench(x, "gamma", "mle")
   

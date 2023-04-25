@@ -33,7 +33,7 @@ checkparam <- function(start.arg, fix.arg, argdistname, errtxt=NULL, data10, dis
   
   if(is.null(start.arg) && is.null(fix.arg)) #1
   { #default case from fitdist, mledist,...
-    start.arg <- start.arg.default(data10, distr=distname)
+    start.arg <- startargdefault(data10, distr=distname)
   }else if(is.null(start.arg) && !is.null(fix.arg)) #2
   { #fix.arg should be a function or a named list
     if(!is.list(fix.arg) && !is.function(fix.arg))
@@ -44,7 +44,7 @@ checkparam <- function(start.arg, fix.arg, argdistname, errtxt=NULL, data10, dis
       namarg <- names(fix.arg(data10))
     else 
       namarg <- names(fix.arg)
-    start.arg <- start.arg.default(data10, distr=distname) #could return "Unknown starting values..."
+    start.arg <- startargdefault(data10, distr=distname) #could return "Unknown starting values..."
     start.arg <- start.arg[!names(start.arg) %in% namarg]
     
   }else if(!is.null(start.arg) && is.null(fix.arg)) #3
@@ -63,7 +63,7 @@ checkparam <- function(start.arg, fix.arg, argdistname, errtxt=NULL, data10, dis
   
   #check start 
   #start.arg : function() | list()
-  #start.arg cannot be null because set to a named list (by start.arg.default) when NULL 
+  #start.arg cannot be null because set to a named list (by startargdefault) when NULL 
   if(is.function(start.arg)) #a function
   {
     start2 <- start.arg(data10)
@@ -99,10 +99,10 @@ checkparam <- function(start.arg, fix.arg, argdistname, errtxt=NULL, data10, dis
     return(list(ok=FALSE, txt=errtxt$t5))
   
   #prepare the starg.arg for outputs, i.e. when start.arg=NULL, 
-  # returns start.arg.default if not fixed param
-  # returns a subset of start.arg.default if fixed param
+  # returns startargdefault if not fixed param
+  # returns a subset of startargdefault if fixed param
   if(start.arg.was.null && is.null(fix.arg))
-    start.arg <- function(x) start.arg.default(x, distr=distname) #could return "Unknown starting values..."
+    start.arg <- function(x) startargdefault(x, distr=distname) #could return "Unknown starting values..."
   else if(start.arg.was.null && !is.null(fix.arg))
   {
     if(is.function(fix.arg))
@@ -110,7 +110,7 @@ checkparam <- function(start.arg, fix.arg, argdistname, errtxt=NULL, data10, dis
     else 
       namarg <- names(fix.arg)
     start.arg <- function(x){
-      start.arg <- start.arg.default(x, distr=distname) #could return "Unknown starting values..."
+      start.arg <- startargdefault(x, distr=distname) #could return "Unknown starting values..."
       start.arg[!names(start.arg) %in% namarg]
     }
   }

@@ -6,7 +6,7 @@ if(FALSE)
   
   #test actuar initialization
   
-  start.arg.default <- fitdistrplus:::start.arg.default
+  startargdefault <- fitdistrplus:::startargdefault
   
   #burr
   library(actuar)
@@ -40,7 +40,7 @@ if(FALSE)
   #transformed gamma
   x <- rtrgamma(1000, 3, 2, .1)
   
-  start1 <- start.arg.default(x, "trgamma")
+  start1 <- startargdefault(x, "trgamma")
   
   plot(ecdf(x))
   curve(ptrgamma(x, start1$shape1, start1$shape2, start1$rate), add=TRUE, lty=2)
@@ -50,7 +50,7 @@ if(FALSE)
   #inverse transformed gamma
   y <- rinvtrgamma(1000, 3, 2, .1)
   
-  start1 <- start.arg.default(y, "invtrgamma")
+  start1 <- startargdefault(y, "invtrgamma")
   
   plot(ecdf(y))
   curve(pinvtrgamma(x, start1$shape1, start1$shape2, start1$rate), add=TRUE, lty=2)

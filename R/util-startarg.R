@@ -1,4 +1,4 @@
-# start.arg.default function returns initial values of parameters generally using moments or quantiles
+# startargdefault function returns initial values of parameters generally using moments or quantiles
 
 # INPUTS 
 #x : data vector or matrix
@@ -6,7 +6,7 @@
 
 # OUTPUTS
 # a named list or raises an error 
-start.arg.default <- function(x, distr)
+startargdefault <- function(x, distr)
 {
   if (distr == "norm") {
     n <- length(x)

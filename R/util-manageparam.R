@@ -16,7 +16,7 @@ manageparam <- function(start.arg, fix.arg, obs, distname)
   
   if(is.null(start.arg))
   {
-    trystart <- try(start.arg.default(obs, distname), silent = TRUE)
+    trystart <- try(startargdefault(obs, distname), silent = TRUE)
     if(inherits(trystart, "try-error"))
     {
       cat("Error in computing default starting values.\n")

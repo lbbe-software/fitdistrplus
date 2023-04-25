@@ -228,7 +228,7 @@ to ensure that the shape parameters are strictly positive.
 dbeta2 <- function(x, shape1, shape2, log)
   dbeta(x, exp(shape1), exp(shape2), log=log)
 #take the log of the starting values
-startarg <- lapply(fitdistrplus:::start.arg.default(x, "beta"), log)
+startarg <- lapply(fitdistrplus:::startargdefault(x, "beta"), log)
 #redefine the gradient for the new parametrization
 grbetaexp <- function(par, obs, ...) 
     grlnlbeta(exp(par), obs) * exp(par)
@@ -375,7 +375,7 @@ to ensure that the shape parameters are strictly positive.
 dnbinom2 <- function(x, size, prob, log)
   dnbinom(x, exp(size), 1 / (1 + exp(-prob)), log = log)
 # transform starting values
-startarg <- fitdistrplus:::start.arg.default(x, "nbinom")
+startarg <- fitdistrplus:::startargdefault(x, "nbinom")
 startarg$mu <- startarg$size / (startarg$size + startarg$mu)
 startarg <- list(size = log(startarg[[1]]), 
                  prob = log(startarg[[2]] / (1 - startarg[[2]])))
