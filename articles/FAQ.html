@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">fitdistrplus</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1-10</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1-11</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -241,13 +241,13 @@ when data contains negative values.</p>
 <span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"exp"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Error in computing default starting values.</span></span>
 <span><span class="co">## Error in manageparam(start.arg = start, fix.arg = fix.arg, obs = data,  : </span></span>
-<span><span class="co">##   Error in start.arg.default(obs, distname) : </span></span>
+<span><span class="co">##   Error in startargdefault(obs, distname) : </span></span>
 <span><span class="co">##   values must be positive to fit an exponential  distribution</span></span></code></pre>
-<pre><code><span><span class="co">## [1] "Error in manageparam(start.arg = start, fix.arg = fix.arg, obs = data,  : \n  Error in start.arg.default(obs, distname) : \n  values must be positive to fit an exponential  distribution\n\n"</span></span>
+<pre><code><span><span class="co">## [1] "Error in manageparam(start.arg = start, fix.arg = fix.arg, obs = data,  : \n  Error in startargdefault(obs, distname) : \n  values must be positive to fit an exponential  distribution\n\n"</span></span>
 <span><span class="co">## attr(,"class")</span></span>
 <span><span class="co">## [1] "try-error"</span></span>
 <span><span class="co">## attr(,"condition")</span></span>
-<span><span class="co">## &lt;simpleError in manageparam(start.arg = start, fix.arg = fix.arg, obs = data,     distname = distname): Error in start.arg.default(obs, distname) : </span></span>
+<span><span class="co">## &lt;simpleError in manageparam(start.arg = start, fix.arg = fix.arg, obs = data,     distname = distname): Error in startargdefault(obs, distname) : </span></span>
 <span><span class="co">##   values must be positive to fit an exponential  distribution</span></span>
 <span><span class="co">## &gt;</span></span></code></pre>
 <p>It is irrelevant to do such fit. If you really need to use that distribution, you have two
@@ -277,13 +277,13 @@ when data is outside <span class="math inline">\([0,1]\)</span>.</p>
 <span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"beta"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Error in computing default starting values.</span></span>
 <span><span class="co">## Error in manageparam(start.arg = start, fix.arg = fix.arg, obs = data,  : </span></span>
-<span><span class="co">##   Error in start.arg.default(obs, distname) : </span></span>
+<span><span class="co">##   Error in startargdefault(obs, distname) : </span></span>
 <span><span class="co">##   values must be in [0-1] to fit a beta distribution</span></span></code></pre>
-<pre><code><span><span class="co">## [1] "Error in manageparam(start.arg = start, fix.arg = fix.arg, obs = data,  : \n  Error in start.arg.default(obs, distname) : \n  values must be in [0-1] to fit a beta distribution\n\n"</span></span>
+<pre><code><span><span class="co">## [1] "Error in manageparam(start.arg = start, fix.arg = fix.arg, obs = data,  : \n  Error in startargdefault(obs, distname) : \n  values must be in [0-1] to fit a beta distribution\n\n"</span></span>
 <span><span class="co">## attr(,"class")</span></span>
 <span><span class="co">## [1] "try-error"</span></span>
 <span><span class="co">## attr(,"condition")</span></span>
-<span><span class="co">## &lt;simpleError in manageparam(start.arg = start, fix.arg = fix.arg, obs = data,     distname = distname): Error in start.arg.default(obs, distname) : </span></span>
+<span><span class="co">## &lt;simpleError in manageparam(start.arg = start, fix.arg = fix.arg, obs = data,     distname = distname): Error in startargdefault(obs, distname) : </span></span>
 <span><span class="co">##   values must be in [0-1] to fit a beta distribution</span></span>
 <span><span class="co">## &gt;</span></span></code></pre>
 <p>It is irrelevant to do such a fit. If you really need to use that distribution, you have two

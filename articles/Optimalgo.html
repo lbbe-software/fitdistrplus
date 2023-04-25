@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">fitdistrplus</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1-10</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1-11</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -326,7 +326,7 @@ to ensure that the shape parameters are strictly positive.</p>
 <code class="sourceCode R"><span><span class="va">dbeta2</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">shape1</span>, <span class="va">shape2</span>, <span class="va">log</span><span class="op">)</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">dbeta</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">shape1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">shape2</span><span class="op">)</span>, log<span class="op">=</span><span class="va">log</span><span class="op">)</span></span>
 <span><span class="co">#take the log of the starting values</span></span>
-<span><span class="va">startarg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu">fitdistrplus</span><span class="fu">:::</span><span class="fu">start.arg.default</span><span class="op">(</span><span class="va">x</span>, <span class="st">"beta"</span><span class="op">)</span>, <span class="va">log</span><span class="op">)</span></span>
+<span><span class="va">startarg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu">fitdistrplus</span><span class="fu">:::</span><span class="fu">startargdefault</span><span class="op">(</span><span class="va">x</span>, <span class="st">"beta"</span><span class="op">)</span>, <span class="va">log</span><span class="op">)</span></span>
 <span><span class="co">#redefine the gradient for the new parametrization</span></span>
 <span><span class="va">grbetaexp</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">par</span>, <span class="va">obs</span>, <span class="va">...</span><span class="op">)</span> </span>
 <span>    <span class="fu">grlnlbeta</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">par</span><span class="op">)</span>, <span class="va">obs</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">par</span><span class="op">)</span></span>
@@ -426,13 +426,13 @@ numerically approximated one).</p>
 </tr>
 <tr class="even">
 <td align="left">time (sec)</td>
-<td align="right">0.008</td>
-<td align="right">0.006</td>
-<td align="right">0.038</td>
-<td align="right">0.048</td>
-<td align="right">0.033</td>
 <td align="right">0.007</td>
-<td align="right">0.010</td>
+<td align="right">0.005</td>
+<td align="right">0.032</td>
+<td align="right">0.042</td>
+<td align="right">0.028</td>
+<td align="right">0.006</td>
+<td align="right">0.009</td>
 </tr>
 </tbody>
 </table>
@@ -524,15 +524,15 @@ numerically approximated one).</p>
 </tr>
 <tr class="even">
 <td align="left">time (sec)</td>
-<td align="right">0.014</td>
-<td align="right">0.117</td>
-<td align="right">0.110</td>
-<td align="right">0.071</td>
-<td align="right">0.022</td>
-<td align="right">0.020</td>
-<td align="right">0.133</td>
-<td align="right">0.118</td>
+<td align="right">0.012</td>
+<td align="right">0.098</td>
+<td align="right">0.094</td>
+<td align="right">0.059</td>
+<td align="right">0.019</td>
+<td align="right">0.017</td>
+<td align="right">0.112</td>
 <td align="right">0.099</td>
+<td align="right">0.084</td>
 </tr>
 </tbody>
 </table>
@@ -588,11 +588,11 @@ numerically approximated one).</p>
 </tr>
 <tr class="even">
 <td align="left">time (sec)</td>
-<td align="right">0.024</td>
-<td align="right">0.006</td>
-<td align="right">0.023</td>
+<td align="right">0.020</td>
+<td align="right">0.005</td>
+<td align="right">0.019</td>
+<td align="right">0.018</td>
 <td align="right">0.022</td>
-<td align="right">0.026</td>
 </tr>
 </tbody>
 </table>
@@ -642,10 +642,10 @@ numerically approximated one).</p>
 </tr>
 <tr class="even">
 <td align="left">time (sec)</td>
-<td align="right">0.017</td>
-<td align="right">0.069</td>
-<td align="right">0.067</td>
-<td align="right">0.059</td>
+<td align="right">0.013</td>
+<td align="right">0.058</td>
+<td align="right">0.060</td>
+<td align="right">0.049</td>
 </tr>
 </tbody>
 </table>
@@ -781,7 +781,7 @@ to ensure that the shape parameters are strictly positive.</p>
 <code class="sourceCode R"><span><span class="va">dnbinom2</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">size</span>, <span class="va">prob</span>, <span class="va">log</span><span class="op">)</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/NegBinomial.html" class="external-link">dnbinom</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">size</span><span class="op">)</span>, <span class="fl">1</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="op">-</span><span class="va">prob</span><span class="op">)</span><span class="op">)</span>, log <span class="op">=</span> <span class="va">log</span><span class="op">)</span></span>
 <span><span class="co"># transform starting values</span></span>
-<span><span class="va">startarg</span> <span class="op">&lt;-</span> <span class="fu">fitdistrplus</span><span class="fu">:::</span><span class="fu">start.arg.default</span><span class="op">(</span><span class="va">x</span>, <span class="st">"nbinom"</span><span class="op">)</span></span>
+<span><span class="va">startarg</span> <span class="op">&lt;-</span> <span class="fu">fitdistrplus</span><span class="fu">:::</span><span class="fu">startargdefault</span><span class="op">(</span><span class="va">x</span>, <span class="st">"nbinom"</span><span class="op">)</span></span>
 <span><span class="va">startarg</span><span class="op">$</span><span class="va">mu</span> <span class="op">&lt;-</span> <span class="va">startarg</span><span class="op">$</span><span class="va">size</span> <span class="op">/</span> <span class="op">(</span><span class="va">startarg</span><span class="op">$</span><span class="va">size</span> <span class="op">+</span> <span class="va">startarg</span><span class="op">$</span><span class="va">mu</span><span class="op">)</span></span>
 <span><span class="va">startarg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">startarg</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>, </span>
 <span>                 prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">startarg</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">startarg</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
@@ -889,11 +889,11 @@ numerically approximated one).</p>
 <td align="left">time (sec)</td>
 <td align="right">0.002</td>
 <td align="right">0.003</td>
-<td align="right">0.376</td>
-<td align="right">0.364</td>
-<td align="right">0.362</td>
+<td align="right">0.316</td>
+<td align="right">0.308</td>
+<td align="right">0.303</td>
 <td align="right">0.002</td>
-<td align="right">0.003</td>
+<td align="right">0.002</td>
 </tr>
 <tr class="odd">
 <td align="left">fitted prob</td>
@@ -995,15 +995,15 @@ numerically approximated one).</p>
 </tr>
 <tr class="even">
 <td align="left">time (sec)</td>
-<td align="right">0.014</td>
-<td align="right">0.016</td>
-<td align="right">0.012</td>
-<td align="right">0.016</td>
-<td align="right">0.003</td>
-<td align="right">0.003</td>
-<td align="right">0.015</td>
 <td align="right">0.011</td>
-<td align="right">0.015</td>
+<td align="right">0.013</td>
+<td align="right">0.010</td>
+<td align="right">0.013</td>
+<td align="right">0.002</td>
+<td align="right">0.003</td>
+<td align="right">0.012</td>
+<td align="right">0.009</td>
+<td align="right">0.012</td>
 </tr>
 <tr class="odd">
 <td align="left">fitted prob</td>
@@ -1071,11 +1071,11 @@ numerically approximated one).</p>
 </tr>
 <tr class="even">
 <td align="left">time (sec)</td>
-<td align="right">0.007</td>
+<td align="right">0.006</td>
 <td align="right">0.003</td>
-<td align="right">0.454</td>
-<td align="right">0.349</td>
-<td align="right">0.033</td>
+<td align="right">0.382</td>
+<td align="right">0.295</td>
+<td align="right">0.027</td>
 </tr>
 </tbody>
 </table>
@@ -1125,8 +1125,8 @@ numerically approximated one).</p>
 </tr>
 <tr class="even">
 <td align="left">time (sec)</td>
-<td align="right">0.010</td>
-<td align="right">0.004</td>
+<td align="right">0.008</td>
+<td align="right">0.003</td>
 <td align="right">0.003</td>
 <td align="right">0.003</td>
 </tr>
