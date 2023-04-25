@@ -105,7 +105,7 @@ gofstat <- function (f, chisqbreaks, meancount, discrete,
 	
 
 	
-	Chi2 <- compute.gofstat.Chi2(sdata, n, distname, pdistname, estimate, fix.arg, 
+	Chi2 <- computegofstatChi2(sdata, n, distname, pdistname, estimate, fix.arg, 
 								 chisqbreaks)
 	if(length(f) > 1)
 	{
@@ -116,7 +116,7 @@ gofstat <- function (f, chisqbreaks, meancount, discrete,
 		#computation and storing
 		for(i in 2:nbfit)
 		{
-			Chi2temp <- compute.gofstat.Chi2(sdata, n, f[[i]]$distname, paste("p", f[[i]]$distname, sep=""), 
+			Chi2temp <- computegofstatChi2(sdata, n, f[[i]]$distname, paste("p", f[[i]]$distname, sep=""), 
 											 f[[i]]$estimate, f[[i]]$fix.arg, chisqbreaks)
 			
 			names(Chi2temp$chisq) <- names(Chi2temp$chisqpvalue) <- names(Chi2temp$chisqdf) <- fitnames[i]
@@ -135,7 +135,7 @@ gofstat <- function (f, chisqbreaks, meancount, discrete,
 		
 	}else
 	{
-		KSCvMAD <- compute.gofstat.KSCvMAD(sdata, n, distname, pdistname, estimate, 
+		KSCvMAD <- computegofstatKSCvMAD(sdata, n, distname, pdistname, estimate, 
 										   fix.arg, f[[1]]$method)
 		#renaming
 		names(KSCvMAD$cvm) <- names(KSCvMAD$ad) <- names(KSCvMAD$ks) <- fitnames[1]
@@ -148,7 +148,7 @@ gofstat <- function (f, chisqbreaks, meancount, discrete,
 			#computation and storing
 			for(i in 2:nbfit)
 			{
-				KSCvMADtemp <- compute.gofstat.KSCvMAD(sdata, n, f[[i]]$distname, paste("p", f[[i]]$distname, sep=""), 
+				KSCvMADtemp <- computegofstatKSCvMAD(sdata, n, f[[i]]$distname, paste("p", f[[i]]$distname, sep=""), 
 													   f[[i]]$estimate, f[[i]]$fix.arg, f[[i]]$method)
 
 				names(KSCvMADtemp$cvm) <- names(KSCvMADtemp$ad) <- names(KSCvMADtemp$ks) <- fitnames[i]
@@ -182,7 +182,7 @@ gofstat <- function (f, chisqbreaks, meancount, discrete,
 
 #----------------------------------------------------------------------
 #KS, CvM, AD statistics : only for continuous distributions
-compute.gofstat.KSCvMAD <- function(sdata, n, distname, pdistname, estimate, 
+computegofstatKSCvMAD <- function(sdata, n, distname, pdistname, estimate, 
 	fix.arg, method)
 {
 	
@@ -280,7 +280,7 @@ compute.gofstat.KSCvMAD <- function(sdata, n, distname, pdistname, estimate,
 
 #----------------------------------------------------------------------
 #chi-squared statistic : both for continuous and discrete distributions
-compute.gofstat.Chi2 <- function(sdata, n, distname, pdistname, estimate, fix.arg, chisqbreaks)
+computegofstatChi2 <- function(sdata, n, distname, pdistname, estimate, fix.arg, chisqbreaks)
 {
 	# chi-squared statistic and pvalues
 	if (!is.null(chisqbreaks)) {

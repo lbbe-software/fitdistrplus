@@ -17,7 +17,7 @@ npmle <- function(censdata, method = "Wang")
     db$left[is.na(db$left)] <- -Inf
     db$right[is.na(db$right)] <- Inf
     
-    r <- npsurv.minimal(db, pkg="stats")
+    r <- npsurvminimal(db, pkg="stats")
     if (r$convergence)
     {
       f <- as.data.frame(r$f)

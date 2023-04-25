@@ -78,7 +78,7 @@ to the number of parameters to estimate.}
     By default (when \code{weigths=NULL}), ordinary MME is carried out, otherwise 
     the specified weights are used to compute (raw or centered) weighted moments.
     For closed-form estimators, weighted mean and variance are computed by 
-    \code{\link[Hmisc:wtd.stats]{wtd.mean}} and \code{\link[Hmisc:wtd.stats]{wtd.var}}
+    \code{\link[Hmisc:wtd.stats]{wtdmean}} and \code{\link[Hmisc:wtd.stats]{wtdvar}}
     from the \code{Hmisc} package. When a numerical minimization
     is used, weighted are expected to be computed by the \code{memp} function.
     It is not yet possible to take into account weighths in functions \code{plotdist}, 

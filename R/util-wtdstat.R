@@ -20,7 +20,7 @@
 #some functions from Hmisc also under GPL
 
 #From wtd.stats.s (line 1) of the Hmisc package
-wtd.mean <- function(x, weights=NULL, normwt='ignored', na.rm=TRUE)
+wtdmean <- function(x, weights=NULL, normwt='ignored', na.rm=TRUE)
 {
   if(!length(weights)) return(mean(x, na.rm=na.rm))
   if(na.rm) {
@@ -34,7 +34,7 @@ wtd.mean <- function(x, weights=NULL, normwt='ignored', na.rm=TRUE)
 
 
 #From wtd.stats.s (line 15) of the Hmisc package
-wtd.var <- function(x, weights=NULL, normwt=FALSE, na.rm=TRUE,
+wtdvar <- function(x, weights=NULL, normwt=FALSE, na.rm=TRUE,
                     method = c('unbiased', 'ML'))
 {
   method <- match.arg(method)
@@ -62,7 +62,7 @@ wtd.var <- function(x, weights=NULL, normwt=FALSE, na.rm=TRUE,
 }
 
 #From wtd.stats.s (line 43) of the Hmisc package
-wtd.quantile <- function(x, weights=NULL, probs=c(0, .25, .5, .75, 1), 
+wtdquantile <- function(x, weights=NULL, probs=c(0, .25, .5, .75, 1), 
                          type='quantile', normwt=FALSE, na.rm=TRUE)
 {
   if(!length(weights))
@@ -76,7 +76,7 @@ wtd.quantile <- function(x, weights=NULL, probs=c(0, .25, .5, .75, 1),
     2 - log10(diff(range(probs))) else 2)), 
     "%", sep = "")
   
-  w <- wtd.table(x, weights, na.rm=na.rm, normwt=normwt, type='list')
+  w <- wtdtable(x, weights, na.rm=na.rm, normwt=normwt, type='list')
   x     <- w$x
   wts   <- w$sum.of.weights
   n     <- sum(wts)
@@ -96,7 +96,7 @@ wtd.quantile <- function(x, weights=NULL, probs=c(0, .25, .5, .75, 1),
 }
 
 #From wtd.stats.s (line 119) of the Hmisc package
-wtd.table <- function(x, weights=NULL, type=c('list','table'), 
+wtdtable <- function(x, weights=NULL, type=c('list','table'), 
                       normwt=FALSE, na.rm=TRUE)
 {
   type <- match.arg(type)
@@ -144,7 +144,7 @@ wtd.table <- function(x, weights=NULL, type=c('list','table'),
     if(type=='table')
       return(weights)
     
-    x <- all.is.numeric(names(weights), 'vector')
+    x <- allisnumeric(names(weights), 'vector')
     #if(isdate)
     #  attributes(x) <- c(attributes(x),ax)
     
@@ -168,7 +168,7 @@ wtd.table <- function(x, weights=NULL, type=c('list','table'),
 }
 
 #From Misc.s (line 241) of the Hmisc package
-all.is.numeric <- function(x, what=c('test','vector'),
+allisnumeric <- function(x, what=c('test','vector'),
                            extras=c('.','NA'))
 {
   what <- match.arg(what)

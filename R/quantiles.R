@@ -28,7 +28,7 @@ quantile.fitdist <- function(x, probs = seq(0.1, 0.9, by=0.1), ...)
 {
     if (!inherits(x, "fitdist"))
         stop("Use only with 'fitdist' objects")
-    myquantiles.fitdist(f = x, probs = probs, cens = FALSE)
+    myquantilesfitdist(f = x, probs = probs, cens = FALSE)
 }
 
 #quantile function for fitdistcens objects
@@ -36,11 +36,11 @@ quantile.fitdistcens <- function(x, probs = seq(0.1, 0.9, by=0.1), ...)
 {
     if (!inherits(x, "fitdistcens"))
         stop("Use only with 'fitdistcens' objects")
-    myquantiles.fitdist(f = x, probs = probs, cens = TRUE)
+    myquantilesfitdist(f = x, probs = probs, cens = TRUE)
 }
 
 #internal quantile function for fitdist
-myquantiles.fitdist <- function(f, probs, cens)
+myquantilesfitdist <- function(f, probs, cens)
 {    
     qdistname<-paste("q", f$distname, sep="")
     if (!exists(qdistname, mode="function"))
@@ -105,7 +105,7 @@ quantile.bootdist <- function(x, probs = seq(0.1, 0.9, by=0.1),
 {
     if (!inherits(x, "bootdist"))
         stop("Use only with 'bootdist' objects")
-    myquantiles.bootdist(b = x, probs = probs, CI.type = CI.type, 
+    myquantilesbootdist(b = x, probs = probs, CI.type = CI.type, 
                          CI.level = CI.level, cens = FALSE)
 }
 
@@ -115,12 +115,12 @@ quantile.bootdistcens <- function(x, probs = seq(0.1, 0.9, by=0.1),
 {
     if (!inherits(x, "bootdistcens"))
         stop("Use only with 'bootdistcens' objects")
-    myquantiles.bootdist(b = x, probs = probs, CI.type = CI.type, 
+    myquantilesbootdist(b = x, probs = probs, CI.type = CI.type, 
                          CI.level = CI.level, cens = TRUE)
 }
 
 #internal quantile function for bootdist
-myquantiles.bootdist <- function(b, probs, CI.type, CI.level, cens)
+myquantilesbootdist <- function(b, probs, CI.type, CI.level, cens)
 {    
     CI.type <- match.arg(CI.type, c("two.sided", "less", "greater"))
     if(!is.logical(cens))
@@ -155,15 +155,15 @@ myquantiles.bootdist <- function(b, probs, CI.type, CI.level, cens)
         quantCI <- rbind(
                          apply(bootquant, MARGIN=2, quantile, alpha, na.rm=TRUE), 
                          apply(bootquant, MARGIN=2, quantile, 1-alpha, na.rm=TRUE))
-        rownames(quantCI) <- format.perc(c(alpha, 1-alpha), 3)
+        rownames(quantCI) <- formatperc(c(alpha, 1-alpha), 3)
     }else if (CI.type == "less")
     {
         quantCI <- t(apply(bootquant, MARGIN=2, quantile, CI.level, na.rm=TRUE))
-        rownames(quantCI) <- format.perc(CI.level, 3)
+        rownames(quantCI) <- formatperc(CI.level, 3)
     }else
     {
         quantCI <- t(apply(bootquant, MARGIN=2, quantile, 1-CI.level, na.rm=TRUE))
-        rownames(quantCI) <- format.perc(1-CI.level, 3)
+        rownames(quantCI) <- formatperc(1-CI.level, 3)
     }
     
     
@@ -199,15 +199,15 @@ print.quantile.bootdist <- function(x, ...)
 
     if (x$CI.type == "two.sided")
     {
-        cat("two-sided ", format.perc(x$CI.level, 3)," CI of each quantile\n", sep="")
+        cat("two-sided ", formatperc(x$CI.level, 3)," CI of each quantile\n", sep="")
         print(x$quantCI)
     }else if (x$CI.type == "less")
     {
-        cat("right bound of one-sided ", format.perc(x$CI.level, 3)," CI of each quantile\n")
+        cat("right bound of one-sided ", formatperc(x$CI.level, 3)," CI of each quantile\n")
         print(x$quantCI)
     }else
     {
-        cat("left bound of one-sided ", format.perc(x$CI.level, 3)," CI of each quantile\n")
+        cat("left bound of one-sided ", formatperc(x$CI.level, 3)," CI of each quantile\n")
         print(x$quantCI)
     }   
     
@@ -237,15 +237,15 @@ print.quantile.bootdistcens <- function(x, ...)
     
     if (x$CI.type == "two.sided")
     {
-        cat("two-sided ", format.perc(x$CI.level, 3)," CI of each quantile\n", sep="")
+        cat("two-sided ", formatperc(x$CI.level, 3)," CI of each quantile\n", sep="")
         print(x$quantCI)
     }else if (x$CI.type == "less")
     {
-        cat("right bound of one-sided ", format.perc(x$CI.level, 3)," CI of each quantile\n")
+        cat("right bound of one-sided ", formatperc(x$CI.level, 3)," CI of each quantile\n")
         print(x$quantCI)
     }else
     {
-        cat("left bound of one-sided ", format.perc(x$CI.level, 3)," CI of each quantile\n")
+        cat("left bound of one-sided ", formatperc(x$CI.level, 3)," CI of each quantile\n")
         print(x$quantCI)
     }   
     
@@ -259,7 +259,7 @@ print.quantile.bootdistcens <- function(x, ...)
 }
 
 #from the stat package (not exported in fitdistrplus)
-format.perc <- function(probs, digits)
+formatperc <- function(probs, digits)
     ## Not yet exported, maybe useful in other contexts:
     ## quantile.default() sometimes uses a version of it
     paste(format(100 * probs, trim = TRUE, scientific = FALSE, digits = digits), "%")

@@ -62,7 +62,7 @@ qmedist(data, distr, probs, start = NULL, fix.arg = NULL, qtype = 7,
     Optionally, a vector of \code{weights} can be used in the fitting process. 
     By default (when \code{weigths=NULL}), ordinary QME is carried out, otherwise 
     the specified weights are used to compute weighted quantiles used in the squared differences.
-    Weigthed quantiles are computed by \code{\link[Hmisc:wtd.stats]{wtd.quantile}} from the \code{Hmisc} package.
+    Weigthed quantiles are computed by \code{\link[Hmisc:wtd.stats]{wtdquantile}} from the \code{Hmisc} package.
     It is not yet possible to take into account weighths in functions \code{plotdist}, 
     \code{plotdistcens}, \code{plot.fitdist}, \code{plot.fitdistcens}, \code{cdfcomp}, 
     \code{cdfcompcens}, \code{denscomp}, \code{ppcomp}, \code{qqcomp}, \code{gofstat} 

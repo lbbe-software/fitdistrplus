@@ -1,6 +1,6 @@
 library(fitdistrplus)
 
-compare.plotdistcens <- function(d)
+compareplotdistcens <- function(d)
 {
   par(mfrow = c(2,2))
   plotdistcens(d, NPMLE.method = "Turnbull.middlepoints")
@@ -9,7 +9,7 @@ compare.plotdistcens <- function(d)
   
 }
 
-compare.npmle <- function(d)
+comparenpmle <- function(d)
 {
   npmleT <- fitdistrplus:::npmle(d, method = "Turnbull.intervals")
   npmleW <- fitdistrplus:::npmle(d, method = "Wang")
@@ -33,8 +33,8 @@ if(FALSE)
   d1 <- data.frame(left = c(1, 2, 3, 4, 3, 7), right = c(2, 5, 3, 7, 8, 9))
   d <- d1
   par(mfrow = c(2,2))
-  compare.plotdistcens(d)
-  compare.npmle(d)
+  compareplotdistcens(d)
+  comparenpmle(d)
   fa <- fitdistcens(d, "norm")
   fb <- fitdistcens(d, "logis")
   par(mfrow = c(2,2))
@@ -52,8 +52,8 @@ if(FALSE)
   data(smokedfish)
   d2 <- smokedfish
   d <- d2
-  compare.plotdistcens(d)
-  compare.npmle(d)
+  compareplotdistcens(d)
+  comparenpmle(d)
   fa <- fitdistcens(d, "lnorm")
   fb <- fitdistcens(d, "gamma")
   par(mfrow = c(2,2))
@@ -70,8 +70,8 @@ if(FALSE)
   d3 <- data.frame(left = c(-1.4, 1.18, -1.4, 2, -1.4, 0),
                    right = c(1, 1.18, 2, NA, 0, 2))
   d <- d3
-  compare.plotdistcens(d)
-  compare.npmle(d)
+  compareplotdistcens(d)
+  comparenpmle(d)
   fa <- fitdistcens(d, "norm")
   fb <- fitdistcens(d, "logis")
   par(mfrow = c(1,2))
@@ -87,8 +87,8 @@ if(FALSE)
   data(fluazinam)
   d4 <- fluazinam
   d <- d4
-  compare.plotdistcens(d)
-  compare.npmle(d)
+  compareplotdistcens(d)
+  comparenpmle(d)
   fa <- fitdistcens(d, "lnorm")
   fb <- fitdistcens(d, "llogis")
   par(mfrow = c(1,2))
@@ -105,8 +105,8 @@ if(FALSE)
   r <- rnorm(10)
   d5 <- data.frame(left = r, right = r)
   d <- d5
-  compare.plotdistcens(d)
-  compare.npmle(d)
+  compareplotdistcens(d)
+  comparenpmle(d)
   fa <- fitdistcens(d, "norm")
   fb <- fitdistcens(d, "logis")
   par(mfrow = c(1,2))
@@ -119,8 +119,8 @@ if(FALSE)
   data(salinity) 
   d7 <- log10(salinity)
   d <- d7
-  compare.plotdistcens(d)
-  compare.npmle(d)
+  compareplotdistcens(d)
+  comparenpmle(d)
   fa <- fitdistcens(d, "logis")
   fb <- fitdistcens(d, "norm")
   par(mfrow = c(1,2))
@@ -149,8 +149,8 @@ if(FALSE)
   d8$left[d8$left == -1000] <- NA
   d8
   d <- d8
-  compare.plotdistcens(d)
-  compare.npmle(d)
+  compareplotdistcens(d)
+  comparenpmle(d)
   fa <- fitdistcens(d, "logis")
   fb <- fitdistcens(d, "norm")
   par(mfrow = c(1,2))
@@ -185,4 +185,3 @@ if(FALSE)
   system.time(plotdistcens(d, NPMLE.method = "Wang")) 
   
 }
-

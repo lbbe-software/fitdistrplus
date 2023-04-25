@@ -67,7 +67,7 @@ idf = function(left, right, p) {
   f
 }
 
-idf2data.frame <- function(object)
+idf2dataframe <- function(object)
 {
   if(inherits(object, "idf"))
      data.frame(left=object$left, right=object$right, p=object$p)

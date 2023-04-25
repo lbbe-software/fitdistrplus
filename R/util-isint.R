@@ -23,11 +23,11 @@
 ### 
 
 #test if the weight vector contains integer values
-is.int.w <- function(x)
+isintw <- function(x)
 {
   x <- x - floor(x)
   abs(x) < .Machine$double.eps
 }
 #test if the weight vector contains only integer values
-is.allint.w <- function(x)
-  all(is.int.w(x))
+isallintw <- function(x)
+  all(isintw(x))

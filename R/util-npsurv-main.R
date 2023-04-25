@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------------- #
 # Nonparametric maximum likelihood estimation from interval-censored data #
 # ----------------------------------------------------------------------- #
-# Main function :       npsurv.minimal                                    #
+# Main function :       npsurvminimal                                    #
 # ----------------------------------------------------------------------- #
 # Original code from Yong Wang, 2020                                      #
 # ----------------------------------------------------------------------- #
@@ -16,7 +16,7 @@
 ##   probtol: Tolerance for keeping output probabilities (default value has
 ##   been chosen so that the output is similar to original npsurv())
   
-npsurv.minimal <- function(data, w=1, maxit=100, tol=1e-6, verb=0,
+npsurvminimal <- function(data, w=1, maxit=100, tol=1e-6, verb=0,
                            pkg="stats", probtol=2e-4, ...) 
 {
   #sanity checks
@@ -97,7 +97,7 @@ npsurv.minimal <- function(data, w=1, maxit=100, tol=1e-6, verb=0,
   
   # interval censored and small dataset
   if(verb > 0)
-    cat("body of npsurv.minimal()\n\n")
+    cat("body of npsurvminimal()\n\n")
   P = drop(D %*% p)
   ll = sum( w * log(P) )
   converge = FALSE

@@ -12,7 +12,7 @@ ap <- cbind(L=c(1:15, 1:15),
                     133, 102,  68,  64,  45,  53,  33,  27,  23,  30))
 dim(ap)
 
-resap <- fitdistrplus:::npsurv.minimal(ap, w=1, maxit=100, tol=1e-6, verb=mytrace, pkg="stats") 
+resap <- fitdistrplus:::npsurvminimal(ap, w=1, maxit=100, tol=1e-6, verb=mytrace, pkg="stats") 
 
 #------------------------------------------------
 # example with left censoring from package npsurv 
@@ -23,7 +23,7 @@ ap <- cbind(L=c(1:15, rep(-Inf, 15)),
                     133, 102,  68,  64,  45,  53,  33,  27,  23,  30))
 dim(ap)
 
-resap <- fitdistrplus:::npsurv.minimal(ap, w=1, maxit=100, tol=1e-6, verb=mytrace, pkg="stats") 
+resap <- fitdistrplus:::npsurvminimal(ap, w=1, maxit=100, tol=1e-6, verb=mytrace, pkg="stats") 
 
 if(vizualise)
 {
@@ -41,7 +41,7 @@ if(vizualise)
   ap.Delta <- fitdistrplus:::Deltamatrix(ap.x)
   #cbind(ap.Delta$left, unique(ap.x[,"L"]))
   
-  resap <- fitdistrplus:::npsurv.minimal(ap, w=1, maxit=100, tol=1e-6, verb=mytrace, pkg="stats") 
+  resap <- fitdistrplus:::npsurvminimal(ap, w=1, maxit=100, tol=1e-6, verb=mytrace, pkg="stats") 
   
   # if(FALSE)
   # {
@@ -69,7 +69,7 @@ if(vizualise)
   fakedata.x2.Delta <- fitdistrplus:::Deltamatrix(fakedata.x2.x) # a single vector
   
   
-  resfk <- fitdistrplus:::npsurv.minimal(fakedata, w=1, maxit=100, tol=1e-6, verb=mytrace, pkg="stats") 
+  resfk <- fitdistrplus:::npsurvminimal(fakedata, w=1, maxit=100, tol=1e-6, verb=mytrace, pkg="stats") 
   
   #---------------------------------------------------------------------------------------
   # geometric example with interval censoring leading to 50 maximal intersection intervals
@@ -84,7 +84,7 @@ if(vizualise)
   fakedata.x2.Delta <- fitdistrplus:::Deltamatrix(fakedata.x2.x) #is diagonal
   
   
-  resfk <- fitdistrplus:::npsurv.minimal(fakedata, w=1, maxit=100, tol=1e-6, verb=mytrace, pkg="stats") 
+  resfk <- fitdistrplus:::npsurvminimal(fakedata, w=1, maxit=100, tol=1e-6, verb=mytrace, pkg="stats") 
   
   head(cbind(optimized=resfk$f$p, theoretical=theop))
   
@@ -102,7 +102,7 @@ if(vizualise)
   fakedata.x2.Delta <- fitdistrplus:::Deltamatrix(fakedata.x2.x) #is diagonal
   
   
-  resfk <- fitdistrplus:::npsurv.minimal(fakedata, w=1, maxit=100, tol=1e-6, verb=mytrace, pkg="stats") 
+  resfk <- fitdistrplus:::npsurvminimal(fakedata, w=1, maxit=100, tol=1e-6, verb=mytrace, pkg="stats") 
   
   head(cbind(optimized=resfk$f$p, theoretical=theop[1:resfk$m]))
   
@@ -124,7 +124,7 @@ if(vizualise)
   fakedata.x2.Delta <- fitdistrplus:::Deltamatrix(fakedata.x2.x)
   str(fakedata.x2.Delta)
   
-  resfk <- fitdistrplus:::npsurv.minimal(fakedata, w=1, maxit=100, tol=1e-6, verb=mytrace, pkg="stats") 
+  resfk <- fitdistrplus:::npsurvminimal(fakedata, w=1, maxit=100, tol=1e-6, verb=mytrace, pkg="stats") 
   
   
   # if(FALSE)
@@ -166,7 +166,7 @@ if(vizualise)
   str(d8.x2.Delta)
   
   system.time(
-    resd8 <- fitdistrplus:::npsurv.minimal(d8, w=1, maxit=100, tol=1e-6, verb=mytrace, pkg="stats") 
+    resd8 <- fitdistrplus:::npsurvminimal(d8, w=1, maxit=100, tol=1e-6, verb=mytrace, pkg="stats") 
   )
   
   # if(FALSE)
@@ -204,6 +204,6 @@ if(vizualise)
   d8$right[d8$right == 1000] <- -Inf
   d8$left[d8$left == -1000] <- +Inf
   
-  try(resd8 <- fitdistrplus:::npsurv.minimal(d8, w=1, maxit=100, tol=1e-6, verb=2, pkg="stats"))
+  try(resd8 <- fitdistrplus:::npsurvminimal(d8, w=1, maxit=100, tol=1e-6, verb=2, pkg="stats"))
   
 }

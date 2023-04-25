@@ -164,7 +164,7 @@ prefit <- function(data, distr, method = c("mle", "mme", "qme", "mge"), feasible
         par <- as.list(par)
       lpar <- lapply(1:length(par), function(i) translist[[i]](par[[i]]))
       qtheo <- do.call(qdistnam, c(list(prob), lpar, as.list(fix.arg)) )
-      qemp <- as.numeric(wtd.quantile(x=obs, weights=weights, probs=prob))
+      qemp <- as.numeric(wtdquantile(x=obs, weights=weights, probs=prob))
       (qemp - qtheo)^2
     }
     fnobj <- function(par, fix.arg, obs, ddistnam, qdistnam, pdistnam, 

@@ -110,9 +110,9 @@ mmedist(x1, "norm", weights=w)$estimate
 
 #check
 sum(w*x1)/sum(w)
-fitdistrplus:::wtd.mean(x1, w)
+fitdistrplus:::wtdmean(x1, w)
 sum(w*(x1-sum(w*x1)/sum(w))^2)/sum(w)
-fitdistrplus:::wtd.var(x1, w)
+fitdistrplus:::wtdvar(x1, w)
 
 
 mmedist(exp(x1), "lnorm", weights=w)$estimate

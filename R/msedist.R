@@ -71,7 +71,7 @@ msedist <- function (data, distr, phidiv="KL", power.phidiv=NULL, start=NULL, fi
     {
       if(any(weights < 0))
         stop("weights should be a vector of integers greater than 0")
-      if(!is.allint.w(weights))
+      if(!isallintw(weights))
         stop("weights should be a vector of (strictly) positive integers")
       if(length(weights) != NROW(data))
         stop("weights should be a vector with a length equal to the observation number")

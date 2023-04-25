@@ -57,7 +57,7 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
     {
       if(any(weights < 0))
         stop("weights should be a vector of integers greater than 0")
-      if(!is.allint.w(weights))
+      if(!isallintw(weights))
         stop("weights should be a vector of (strictly) positive integers")
       if(length(weights) != NROW(data))
         stop("weights should be a vector with a length equal to the observation number")
@@ -139,7 +139,7 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
       DIFF2Q <- function(par, fix.arg, prob, obs, qdistnam, qtype)
       {
         qtheo <- do.call(qdistnam, c(as.list(prob), as.list(par), as.list(fix.arg)) )
-        qemp <- as.numeric(wtd.quantile(x=obs, weights=weights, probs=prob))
+        qemp <- as.numeric(wtdquantile(x=obs, weights=weights, probs=prob))
         (qemp - qtheo)^2
       }
       fnobj <- function(par, fix.arg, obs, qdistnam, qtype)

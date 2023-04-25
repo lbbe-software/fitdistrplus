@@ -119,15 +119,15 @@ CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.c
     {
       alpha <- (1-CI.level)/2
       CIband <- t(apply(cdfval(x), MARGIN=2, quantile, probs=c(alpha, 1-alpha), na.rm=TRUE))
-      colnames(CIband) <- format.perc(c(alpha, 1-alpha), 3)
+      colnames(CIband) <- formatperc(c(alpha, 1-alpha), 3)
     }else if (CI.type == "less")
     {
       CIband <- as.matrix(apply(cdfval(x), MARGIN=2, quantile, probs=CI.level, na.rm=TRUE))
-      colnames(CIband) <- format.perc(CI.level, 3)
+      colnames(CIband) <- formatperc(CI.level, 3)
     }else
     {
       CIband <- as.matrix(apply(cdfval(x), MARGIN=2, quantile, probs=1-CI.level, na.rm=TRUE))
-      colnames(CIband) <- format.perc(1-CI.level, 3)
+      colnames(CIband) <- formatperc(1-CI.level, 3)
     }
   }else #CI.output == "quantile"
   {
@@ -153,15 +153,15 @@ CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.c
     {
       alpha <- (1-CI.level)/2
       CIband <- t(apply(qval(p), MARGIN=2, quantile, probs=c(alpha, 1-alpha), na.rm=TRUE))
-      colnames(CIband) <- format.perc(c(alpha, 1-alpha), 3)
+      colnames(CIband) <- formatperc(c(alpha, 1-alpha), 3)
     }else if (CI.type == "less")
     {
       CIband <- as.matrix(apply(qval(p), MARGIN=2, quantile, probs=1-CI.level, na.rm=TRUE))
-      colnames(CIband) <- format.perc(CI.level, 3)
+      colnames(CIband) <- formatperc(CI.level, 3)
     }else
     {
       CIband <- as.matrix(apply(qval(p), MARGIN=2, quantile, probs=CI.level, na.rm=TRUE))
-      colnames(CIband) <- format.perc(1-CI.level, 3)
+      colnames(CIband) <- formatperc(1-CI.level, 3)
     }
   }
   

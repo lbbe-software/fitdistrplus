@@ -48,7 +48,7 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
     {
       if(any(weights < 0))
         stop("weights should be a vector of integers greater than 0")
-      if(!is.allint.w(weights))
+      if(!isallintw(weights))
         stop("weights should be a vector of (strictly) positive integers")
       if(length(weights) != NROW(data))
         stop("weights should be a vector with a length equal to the observation number")
@@ -83,8 +83,8 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
         v <- (n - 1)/n*var(data)
       }else #weighted version from util-wtdstat.R
       {
-        m <- wtd.mean(data, weights=weights)
-        v <- wtd.var(data, weights=weights)
+        m <- wtdmean(data, weights=weights)
+        v <- wtdvar(data, weights=weights)
       }
 		  
         if (!is.null(fix.arg))
