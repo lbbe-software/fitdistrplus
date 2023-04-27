@@ -1,4 +1,4 @@
-# fitdistrplus 1.1-9
+# fitdistrplus 1.1-11
 
 BUG FIX
 
