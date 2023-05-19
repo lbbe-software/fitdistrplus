@@ -1,5 +1,6 @@
 #############################################################################
-#   Copyright (c) 2009 Marie Laure Delignette-Muller, Regis Pouillot                                                                                                 
+#   Copyright (c) 2022 Marie Laure Delignette-Muller, Regis Pouillot, 
+#   Christophe Dutang (sanity check)                                                                                                 
 #                                                                                                                                                                        
 #   This program is free software; you can redistribute it and/or modify                                               
 #   it under the terms of the GNU General Public License as published by                                         
@@ -27,10 +28,14 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf, rightNA = Inf, NP
                          NPMLE.method = "Wang",
                          ...)
 {
-    if (missing(censdata) ||
-      !(is.vector(censdata$left) & is.vector(censdata$right) & length(censdata[,1])>1))
-    stop("datacens must be a dataframe with two columns named left 
-         and right and more than one line")
+  if(missing(censdata) || !is.data.frame(censdata))
+    stop("datacens must be a dataframe with two columns named 'left' and 'right' and more than one line")
+  if(!(NCOL(censdata) == 2 && all(colnames(censdata) %in% c("left", "right"))))
+    stop("datacens must be a dataframe with two columns named 'left' and 'right' and more than one line")
+  censdata <- censdata[, c("left", "right")]
+  if(any(censdata$left > censdata$right, na.rm = TRUE))
+    stop("some rows in censdata have left values strictly greater than right values")
+  
   if ((missing(distr) & !missing(para)) || 
       (!missing(distr) & missing(para)))
     stop("distr and para must defined")
@@ -73,7 +78,7 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf, rightNA = Inf, NP
   #definition of ylim or lim for ECDF
   ylim <- c(0,1)
 
-  # Supression of the deprecated argument Turnbull
+  # Deletion of the deprecated argument Turnbull
   ###############################################
   # if (!missing(Turnbull))
   # {

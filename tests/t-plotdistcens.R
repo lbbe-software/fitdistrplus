@@ -5,9 +5,15 @@ library(fitdistrplus)
 #
 data(smokedfish)
 plotdistcens(smokedfish)
+plotdistcens(data.frame(right=smokedfish$right, left=smokedfish$left))
 d1 <- as.data.frame(log10(smokedfish))
 plotdistcens(d1)
 
+#test on first arg
+try(plotdistcens(list(left=smokedfish$left, right=smokedfish$right)))
+try(plotdistcens(cbind(left=smokedfish$left, right=smokedfish$right)))
+d2 <- data.frame(left=smokedfish$right, right=smokedfish$left)
+try(plotdistcens(d2))
 
 # (2) Add the CDF of a normal distribution and QQ and PP plots
 #

@@ -1,3 +1,9 @@
+# fitdistrplus 1.1-12
+
+BUG FIX
+
+- add further sanity check in plotdistcens: the following code plotdistcens(data.frame(right=smokedfish$right, left=smokedfish$left)) raised an error via npsurv(), thanks to R Pouillot
+
 # fitdistrplus 1.1-11
 
 BUG FIX
