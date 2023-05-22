@@ -19,6 +19,8 @@
 1. [ ] add a cheatsheet (refcard) for fitdistrplus (possibly in pptx?), think about sections
 1. [ ] make a flow chart on how functions are interrelated (see techdoc/)
 1. [X] Make a markdown TODO list
+1. [ ] delete the R forge project https://r-forge.r-project.org/projects/riskassessment/ ?
+1. [ ] should we return the points/lines/rectanges drawn in invisible()? as in hist.default() called by hist() ou plot.stepfun called by plot(ecdf())? 
 
 
 # Of less priority
