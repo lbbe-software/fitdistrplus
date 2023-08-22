@@ -367,10 +367,10 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
         ggplot2::ggtitle(main) + ggplot2::xlab(xlab) + ggplot2::ylab(ylab) +
         {if(lines01) ggplot2::geom_hline(ggplot2::aes(yintercept=0), color="grey", linetype="dashed")} +
         {if(lines01) ggplot2::geom_hline(ggplot2::aes(yintercept=1), color="grey", linetype="dashed")} +
-        ggplot2::geom_rect(data=drect, mapping=ggplot2::aes_(xmin=quote(x1), xmax=quote(x2), ymin=quote(y1), ymax=quote(y2)), colour = datacol, fill = fillrect, alpha=0.5) +
-        ggplot2::geom_segment(data=dsegmright, mapping=ggplot2::aes_(x=quote(x1), y=quote(y1), xend=quote(x2), yend=quote(y2)), colour = datacol) +
-        ggplot2::geom_segment(data=dsegmleft, mapping=ggplot2::aes_(x=quote(x1), y=quote(y1), xend=quote(x2), yend=quote(y2)), colour = datacol) +
-        ggplot2::geom_line(data=dline, ggplot2::aes_(quote(x), quote(y), group = quote(ind), colour = quote(ind), linetype = quote(ind), size = quote(ind))) +
+        ggplot2::geom_rect(data=drect, mapping=ggplot2::aes(xmin=.data$x1, xmax=.data$x2, ymin=.data$y1, ymax=.data$y2), colour = datacol, fill = fillrect, alpha=0.5) +
+        ggplot2::geom_segment(data=dsegmright, mapping=ggplot2::aes(x=.data$x1, y=.data$y1, xend=.data$x2, yend=.data$y2), colour = datacol) +
+        ggplot2::geom_segment(data=dsegmleft, mapping=ggplot2::aes(x=.data$x1, y=.data$y1, xend=.data$x2, yend=.data$y2), colour = datacol) +
+        ggplot2::geom_line(data=dline, ggplot2::aes(.data$x, .data$y, group = .data$ind, colour = .data$ind, linetype = .data$ind, size = .data$ind)) +
         ggplot2::theme_bw() +
         {if(addlegend) ggplot2::theme(legend.position = c(xlegend, ylegend), plot.title = ggplot2::element_text(hjust = 0.5)) else ggplot2::theme(legend.position = "none", plot.title = ggplot2::element_text(hjust = 0.5))} +
         ggplot2::scale_color_manual(values = fitcol, labels = legendtext) +

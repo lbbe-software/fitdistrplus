@@ -285,14 +285,14 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
       histdata <- data.frame(values = mydata, ind = "hist", sfin = mydata) # the added data must have the same column names as the main data to be compatible with ggplot
       
         ggdenscomp <-
-        ggplot2::ggplot(fitteddens, ggplot2::aes_(quote(sfin), quote(values), group = quote(ind), colour = quote(ind))) +
+        ggplot2::ggplot(fitteddens, ggplot2::aes(.data$sfin, .data$values, group = .data$ind, colour = .data$ind)) +
         ggplot2::xlab(xlab) +
         ggplot2::ylab(ylab) +
         ggplot2::ggtitle(main) +
         ggplot2::coord_cartesian(xlim = c(xlim[1], xlim[2]), ylim = c(ylim[1], ylim[2])) +
-          {if(probability) ggplot2::geom_histogram(data = histdata, ggplot2::aes_(quote(values), quote(ggplot2::after_stat(density))), breaks = reshist$breaks, boundary = 0, show.legend = FALSE, col = "black", alpha = 1, fill = datacol)
-            else ggplot2::geom_histogram(data = histdata, ggplot2::aes_(quote(values), quote(..count..)), breaks = reshist$breaks, boundary = 0, show.legend = FALSE, col = "black", alpha = 1, fill = datacol)} +
-        ggplot2::geom_line(data = fitteddens, ggplot2::aes_(linetype = quote(ind), colour = quote(ind), size = quote(ind))) +
+          {if(probability) ggplot2::geom_histogram(data = histdata, ggplot2::aes(.data$values, ggplot2::after_stat(density)), breaks = reshist$breaks, boundary = 0, show.legend = FALSE, col = "black", alpha = 1, fill = datacol)
+            else ggplot2::geom_histogram(data = histdata, ggplot2::aes(.data$values, .data$..count..), breaks = reshist$breaks, boundary = 0, show.legend = FALSE, col = "black", alpha = 1, fill = datacol)} +
+        ggplot2::geom_line(data = fitteddens, ggplot2::aes(linetype = .data$ind, colour = .data$ind, size = .data$ind)) +
         ggplot2::guides(colour = ggplot2::guide_legend(title = NULL)) +
         ggplot2::guides(linetype = ggplot2::guide_legend(title = NULL)) +
         ggplot2::guides(size = ggplot2::guide_legend(title = NULL)) +
@@ -320,13 +320,13 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
                                                    sfin = as.numeric(names(table(mydata)))))
       
       ggdenscomp <-
-        ggplot2::ggplot(fitteddens, ggplot2::aes_(quote(sfin), quote(values), group = quote(ind), colour = quote(ind))) +
+        ggplot2::ggplot(fitteddens, ggplot2::aes(.data$sfin, .data$values, group = .data$ind, colour = .data$ind)) +
         ggplot2::xlab(xlab) +
         ggplot2::ylab(ylab) +
         ggplot2::ggtitle(main) +
         ggplot2::coord_cartesian(xlim = c(xlim[1], xlim[2]), ylim = c(ylim[1], ylim[2])) +
-        {if(fittype %in% c("l", "o")) ggplot2::geom_segment(data = fitteddens, ggplot2::aes_(x = quote(sfin), xend = quote(sfin), y = 0, yend = quote(values), linetype = quote(ind), size = quote(ind)))} +
-        {if(fittype %in% c("p", "o")) ggplot2::geom_point(data = fitteddens, ggplot2::aes_(x = quote(sfin), y = quote(values), colour = quote(ind)), shape = 1)} +
+        {if(fittype %in% c("l", "o")) ggplot2::geom_segment(data = fitteddens, ggplot2::aes(x = .data$sfin, xend = .data$sfin, y = 0, yend = .data$values, linetype = .data$ind, size = .data$ind))} +
+        {if(fittype %in% c("p", "o")) ggplot2::geom_point(data = fitteddens, ggplot2::aes(x = .data$sfin, y = .data$values, colour = .data$ind), shape = 1)} +
         ggplot2::guides(colour = ggplot2::guide_legend(title = NULL)) +
         ggplot2::guides(linetype = ggplot2::guide_legend(title = NULL)) +
         ggplot2::guides(size = ggplot2::guide_legend(title = NULL)) +
