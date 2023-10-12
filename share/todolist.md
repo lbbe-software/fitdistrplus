@@ -22,6 +22,7 @@
 1. [ ] delete the R forge project https://r-forge.r-project.org/projects/riskassessment/ ?
 1. [ ] should we return the points/lines/rectanges drawn in invisible()? as in hist.default() called by hist() ou plot.stepfun called by plot(ecdf())? 
 1. [ ] add a new question to the FAQ, following https://github.com/aursiber/fitdistrplus/issues/21
+1. [ ] add a new question to the FAQ, following https://github.com/aursiber/fitdistrplus/issues/23
 
 
 # Of less priority
