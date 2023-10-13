@@ -2,7 +2,7 @@
 
 [![CRAN_Release_Badge](http://www.r-pkg.org/badges/version-ago/fitdistrplus)](https://cran.r-project.org/package=fitdistrplus)
 [![CRAN Downloads](https://cranlogs.r-pkg.org/badges/fitdistrplus)](https://cran.r-project.org/package=fitdistrplus)
-[![R-CMD-check](https://github.com/aursiber/fitdistrplus/workflows/R-CMD-check/badge.svg)](https://github.com/aursiber/fitdistrplus/actions)
+[![R-CMD-check](https://github.com/aursiber/fitdistrplus/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/aursiber/fitdistrplus/actions/workflows/R-CMD-check.yaml)
 
 `fitdistrplus` extends the `fitdistr()` function (of the `MASS` package) with several functions to help the fit of a parametric distribution to non-censored or censored data. Censored data may contain left censored, right censored and interval censored values, with several lower and upper bounds. In addition to maximum likelihood estimation (MLE), the package provides moment matching (MME), quantile matching (QME) and maximum goodness-of-fit estimation (MGE) methods (available only for non-censored data). Weighted versions of MLE, MME and QME are available.
 
