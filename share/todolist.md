@@ -23,7 +23,7 @@
 1. [ ] should we return the points/lines/rectanges drawn in invisible()? as in hist.default() called by hist() ou plot.stepfun called by plot(ecdf())? 
 1. [ ] add a new question to the FAQ, following https://github.com/aursiber/fitdistrplus/issues/21
 1. [ ] add a new question to the FAQ, following https://github.com/aursiber/fitdistrplus/issues/23
-
+1. [ ] add a generic function `AIC` and `BIC` for `fitdist(cens)` objects
 
 # Of less priority
 
