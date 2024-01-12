@@ -22,6 +22,6 @@ VignetteBuilder: knitr
 BuildVignettes: true
 License: GPL (>= 2)
 Encoding: UTF-8
-URL: https://lbbe.univ-lyon1.fr/fr/fitdistrplus, https://github.com/aursiber/fitdistrplus
+URL: https://lbbe.univ-lyon1.fr/fr/fitdistrplus, https://github.com/aursiber/fitdistrplus, https://aursiber.github.io/fitdistrplus/
 BugReports: https://github.com/aursiber/fitdistrplus/issues
 Contact: Marie-Laure Delignette-Muller <marielaure.delignettemuller@vetagro-sup.fr> or Christophe Dutang <christophe.dutang@ensimag.fr>
