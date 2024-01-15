@@ -18,6 +18,7 @@ Description: Extends the fitdistr() function (of the MASS package) with several 
 Depends: R (>= 3.5.0), MASS, grDevices, survival, methods
 Imports: stats, rlang
 Suggests: actuar, rgenoud, mc2d, gamlss.dist, knitr, ggplot2, GeneralizedHyperbolic, rmarkdown, Hmisc, bookdown
+Config/Needs/website: XML
 VignetteBuilder: knitr
 BuildVignettes: true
 License: GPL (>= 2)
