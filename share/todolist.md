@@ -21,9 +21,12 @@
 1. [X] Make a markdown TODO list
 1. [ ] delete the R forge project https://r-forge.r-project.org/projects/riskassessment/ ?
 1. [ ] should we return the points/lines/rectanges drawn in invisible()? as in hist.default() called by hist() ou plot.stepfun called by plot(ecdf())? 
-1. [ ] add a new question to the FAQ, following https://github.com/aursiber/fitdistrplus/issues/21
+1. [ ] add a new question to the FAQ, following https://github.com/aursiber/fitdistrplus/issues/21 
 1. [ ] add a new question to the FAQ, following https://github.com/aursiber/fitdistrplus/issues/23
 1. [ ] add a generic function `AIC` and `BIC` for `fitdist(cens)` objects
+1. [ ] close following open issues 2, 21, 23, 25 appropriately
+1. [ ] improve Cullen-Frey graph following https://github.com/aursiber/fitdistrplus/issues/24
+1. [ ] add defensive programming in `plotdist()` to deal with https://github.com/aursiber/fitdistrplus/issues/27
 
 # Of less priority
 
