@@ -2,7 +2,7 @@
 
 [![CRAN_Release_Badge](http://www.r-pkg.org/badges/version-ago/fitdistrplus)](https://cran.r-project.org/package=fitdistrplus)
 [![CRAN Downloads](https://cranlogs.r-pkg.org/badges/fitdistrplus)](https://cran.r-project.org/package=fitdistrplus)
-[![R-CMD-check](https://github.com/aursiber/fitdistrplus/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/aursiber/fitdistrplus/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/lbbe-software/fitdistrplus/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/lbbe-software/fitdistrplus/actions/workflows/R-CMD-check.yaml)
 
 `fitdistrplus` extends the `fitdistr()` function (of the `MASS` package) with several functions to help the fit of a parametric distribution to non-censored or censored data. Censored data may contain left censored, right censored and interval censored values, with several lower and upper bounds. In addition to maximum likelihood estimation (MLE), the package provides moment matching (MME), quantile matching (QME) and maximum goodness-of-fit estimation (MGE) methods (available only for non-censored data). Weighted versions of MLE, MME and QME are available.
 
@@ -19,7 +19,7 @@ The development version of `fitdistrplus` can be installed from GitHub (`remotes
 if (!requireNamespace("remotes", quietly = TRUE))
    install.packages("remotes")
    
-remotes::install_github("aursiber/fitdistrplus")
+remotes::install_github("lbbe-software/fitdistrplus")
 ``` 
 
 Finally load the package in your current R session with the following R command:
@@ -31,14 +31,14 @@ library(fitdistrplus)
 
 Three **vignettes** are attached to the `fitdistrplus` package:
 
-- <a href="https://aursiber.github.io/fitdistrplus/articles/fitdistrplus_vignette.html" target="_blank">Overview of the fitdistrplus package</a>
-- <a href="https://aursiber.github.io/fitdistrplus/articles/Optimalgo.html" target="_blank">Which optimization algorithm to choose?</a>
-- <a href="https://aursiber.github.io/fitdistrplus/articles/FAQ.html" target="_blank">Frequently Asked Questions</a>
+- <a href="https://lbbe-software.github.io/fitdistrplus/articles/fitdistrplus_vignette.html" target="_blank">Overview of the fitdistrplus package</a>
+- <a href="https://lbbe-software.github.io/fitdistrplus/articles/Optimalgo.html" target="_blank">Which optimization algorithm to choose?</a>
+- <a href="https://lbbe-software.github.io/fitdistrplus/articles/FAQ.html" target="_blank">Frequently Asked Questions</a>
 
 
 ## Authors & Contacts
 
-Issues can be reported on https://github.com/aursiber/fitdistrplus/issues.
+Issues can be reported on https://github.com/lbbe-software/fitdistrplus/issues.
 
 - Marie-Laure Delignette-Muller: marielaure.delignettemuller@vetagro-sup.fr
 - Christophe Dutang: dutangc@gmail.com
