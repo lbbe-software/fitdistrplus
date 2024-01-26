@@ -24,7 +24,7 @@
 
 descdist <- function(data, discrete = FALSE, boot = NULL, method = "unbiased", 
                      graph = TRUE, print = TRUE, 
-                     obs.col = "darkblue", obs.pch = 16, boot.col = "orange")
+                     obs.col = "red", obs.pch = 16, boot.col = "orange")
 {
   #if(is.mcnode(data)) data <- as.vector(data)
   if (missing(data) || !is.vector(data,mode="numeric"))
@@ -194,7 +194,7 @@ descdist <- function(data, discrete = FALSE, boot = NULL, method = "unbiased",
       points(s2boot,kurtmax-kurtboot,pch=1,col=boot.col,cex=0.5)
     } 
     # observed distribution
-    points(skewness(data)^2,kurtmax-kurtosis(data),pch=obs.pch,cex=2,col=obs.col)
+    points(skewness(data)^2,kurtmax-kurtosis(data),pch=obs.pch,cex=2,col=alpha(obs.col, 0.7))
     # norm dist
     points(0,kurtmax-3,pch=8,cex=1.5,lwd=2)
     if (!discrete) {
