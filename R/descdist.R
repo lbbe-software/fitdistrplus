@@ -141,23 +141,24 @@ descdist <- function(data, discrete = FALSE, boot = NULL, method = "unbiased",
       y<-kurtmax-(es2^4+2*es2^3+3*es2^2-3)
       lines(s2,y,lty=3)
       
-      legend(xmax*0.2,ymax*1.03,pch=obs.pch,legend="Observation",bty="n",cex=0.8,pt.cex=1.2,col=obs.col)
+      
+      legend(xmax*0.55, ymax*1.03,legend="Theoretical",bty="n",cex=0.8)
+      legend(xmax*0.6,  ymax*0.98,pch=8,legend="normal",bty="n",cex=0.8)
+      legend(xmax*0.6,  ymax*0.94,pch=2,legend="uniform",bty="n",cex=0.8)
+      legend(xmax*0.6,  ymax*0.90,pch=7,legend="exponential",bty="n",cex=0.8)
+      legend(xmax*0.6,  ymax*0.86,pch=3,legend="logistic",bty="n",cex=0.8)
+      legend(xmax*0.6,  ymax*0.82,fill="grey80",legend="beta",bty="n",cex=0.8)
+      legend(xmax*0.6,  ymax*0.78,lty=3,legend="lognormal",bty="n",cex=0.8)
+      legend(xmax*0.6,  ymax*0.74,lty=2,legend="gamma",bty="n",cex=0.8)
+      legend(xmax*0.6,  ymax*0.69,legend=c("(Weibull is close to gamma and lognormal)"), bty="n",cex=0.6)
+      
+      legend(xmax*0.55, ymax*0.64,legend="Empirical",bty="n",cex=0.8)
+      legend(xmax*0.6,  ymax*0.60,pch=obs.pch,legend="data",bty="n",cex=0.8,pt.cex=1.2,col=obs.col)
       if (!is.null(boot)) {
-        legend(xmax*0.2,ymax*0.98,pch=1,legend="bootstrapped values",
-               bty="n",cex=0.8,col=boot.col)        
+          legend(xmax*0.6, ymax*0.56,pch=1,legend="bootstrap", bty="n",cex=0.8,col=boot.col)        
       }
-      legend(xmax*0.55,ymax*1.03,legend="Theoretical distributions",bty="n",cex=0.8)
-      legend(xmax*0.6,0.98*ymax,pch=8,legend="normal",bty="n",cex=0.8)
-      legend(xmax*0.6,0.94*ymax,pch=2,legend="uniform",bty="n",cex=0.8)
-      legend(xmax*0.6,0.90*ymax,pch=7,legend="exponential",bty="n",cex=0.8)
-      legend(xmax*0.6,0.86*ymax,pch=3,legend="logistic",bty="n",cex=0.8)
-      legend(xmax*0.6,0.82*ymax,fill="grey80",legend="beta",bty="n",cex=0.8)
-      legend(xmax*0.6,0.78*ymax,lty=3,legend="lognormal",bty="n",cex=0.8)
-      legend(xmax*0.6,0.74*ymax,lty=2,legend="gamma",bty="n",cex=0.8)
-      legend(xmax*0.58,0.69*ymax,legend=c("(Weibull is close to gamma and lognormal)"),
-             bty="n",cex=0.6)
     }
-    else {         
+    else {
       # negbin dist
       p<-exp(-10)
       lr<-seq(-100,100,0.1)
@@ -172,16 +173,18 @@ descdist <- function(data, discrete = FALSE, boot = NULL, method = "unbiased",
       s2<-c(s2a,s2b)
       y<-c(ya,yb)
       polygon(s2,y,col="grey80",border="grey80")
-      legend(xmax*0.2,ymax*1.03,pch=obs.pch,legend="Observation",bty="n",cex=0.8,pt.cex=1.2, col = obs.col)
+      
+      legend(xmax*0.55,ymax*1.03,legend="Theoretical",bty="n",cex=0.8)
+      legend(xmax*0.6, ymax*0.98,pch=8,legend="normal",bty="n",cex=0.8)
+      legend(xmax*0.6, ymax*0.94,fill="grey80",legend="negative binomial",bty="n",cex=0.8)
+      legend(xmax*0.6, ymax*0.90,lty=2,legend="Poisson",bty="n",cex=0.8)
+      
+      legend(xmax*0.55,ymax*0.85,legend="Empirical",bty="n",cex=0.8)
+      legend(xmax*0.6, ymax*0.81,pch=obs.pch,legend="data",bty="n",cex=0.8,pt.cex=1.2, col = obs.col)
       if (!is.null(boot)) {
-        legend(xmax*0.2,ymax*0.98,pch=1,legend="bootstrapped values",
-               bty="n",cex=0.8,col=boot.col)        
+          legend(xmax*0.6, ymax*0.77,pch=1,legend="bootstrap",bty="n",cex=0.8,col=boot.col)        
       }
-      legend(xmax*0.55,ymax*1.03,legend="Theoretical distributions",bty="n",cex=0.8)
-      legend(xmax*0.6,0.98*ymax,pch=8,legend="normal",bty="n",cex=0.8)
-      legend(xmax*0.6,0.94*ymax,fill="grey80",legend="negative binomial",
-             bty="n",cex=0.8)
-      legend(xmax*0.6,0.90*ymax,lty=2,legend="Poisson",bty="n",cex=0.8)
+      
       # poisson dist
       llambda<-seq(-100,100,0.1)
       lambda<-exp(llambda)

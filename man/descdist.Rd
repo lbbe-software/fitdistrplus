@@ -109,7 +109,7 @@ descdist(x1,boot=500)
 # with changing of default colors and plotting character for observed point
 #
 descdist(rbeta(100,shape1=0.05,shape2=1),boot=500,
-obs.col="blue", obs.pch = 15, boot.col="yellow")
+obs.col="blue", obs.pch = 15, boot.col="darkgreen")
 
 # (3) Description of a sample from a gamma distribution
 # with uncertainty on skewness and kurtosis estimated by bootstrap
