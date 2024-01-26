@@ -11,7 +11,7 @@
 
 \usage{
 descdist(data, discrete = FALSE, boot = NULL, method = "unbiased",
-graph = TRUE, print = TRUE, obs.col = "darkblue", obs.pch = 16, boot.col = "orange")
+graph = TRUE, print = TRUE, obs.col = "red", obs.pch = 16, boot.col = "orange")
 
 \method{print}{descdist}(x, \dots)
 }
