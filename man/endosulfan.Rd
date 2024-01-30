@@ -36,7 +36,7 @@ data(endosulfan)
 #
 log10ATV <-log10(subset(endosulfan,(Australian == "no") & (group == "Fish"))$ATV)
 plotdist(log10ATV)
-descdist(log10ATV,boot=1000)
+# descdist(log10ATV,boot=1000)
 
 # (3) fit of a normal and a logistic distribution to data in log10
 # (classical distributions used for SSD)

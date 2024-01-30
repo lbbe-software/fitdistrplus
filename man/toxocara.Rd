@@ -22,7 +22,7 @@ data(toxocara)
 # (2) description and plot of data
 #
 number <- toxocara$number
-descdist(number, discrete = TRUE, boot = 1000)
+# descdist(number, discrete = TRUE, boot = 1000)
 plotdist(number, discrete = TRUE)
 
 # (3) fit of a Poisson distribution to data
