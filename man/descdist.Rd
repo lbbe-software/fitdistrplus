@@ -102,32 +102,32 @@ Marie-Laure Delignette-Muller and Christophe Dutang.
 set.seed(1234)
 x1 <- rnorm(100)
 descdist(x1)
-descdist(x1,boot=51)
+descdist(x1,boot=11)
 
 # (2) Description of a sample from a beta distribution
 # with uncertainty on skewness and kurtosis estimated by bootstrap
 # with changing of default colors and plotting character for observed point
 #
-descdist(rbeta(100,shape1=0.05,shape2=1),boot=51,
+descdist(rbeta(100,shape1=0.05,shape2=1),boot=11,
  obs.col="blue", obs.pch = 15, boot.col="darkgreen")
 
 # (3) Description of a sample from a gamma distribution
 # with uncertainty on skewness and kurtosis estimated by bootstrap
 # without plotting 
 #
-descdist(rgamma(100,shape=2,rate=1),boot=51,graph=FALSE)
+descdist(rgamma(100,shape=2,rate=1),boot=11,graph=FALSE)
 
 # (3) Description of a sample from a Poisson distribution
 # with uncertainty on skewness and kurtosis estimated by bootstrap 
 #
-descdist(rpois(100,lambda=2),discrete=TRUE,boot=51)
+descdist(rpois(100,lambda=2),discrete=TRUE,boot=11)
 
 # (4) Description of serving size data
 # with uncertainty on skewness and kurtosis estimated by bootstrap 
 #
 data(groundbeef)
 serving <- groundbeef$serving
-descdist(serving, boot=51)
+descdist(serving, boot=11)
 }
 
 \keyword{ distribution }
