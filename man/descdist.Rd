@@ -102,9 +102,9 @@ Marie-Laure Delignette-Muller and Christophe Dutang.
 set.seed(1234)
 x1 <- rnorm(100)
 descdist(x1)
+\donttest{
 descdist(x1,boot=51)
 
-\donttest{
 # (2) Description of a sample from a beta distribution
 # with uncertainty on skewness and kurtosis estimated by bootstrap
 # with changing of default colors and plotting character for observed point
