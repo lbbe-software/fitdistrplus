@@ -67,7 +67,7 @@ gofstat(list(fln,fll), fitnames = c("lognormal", "loglogistic"))
 # For practical applications, we recommend to use at least niter=501 or niter=1001.
 #
 # in log10(ATV)
-bll <- bootdist(fll,niter=101)
+bll <- bootdist(fll,niter=51)
 HC5ll <- quantile(bll,probs = 0.05)
 # in ATV
 10^(HC5ll$quantiles)
@@ -82,7 +82,7 @@ HC5ll <- quantile(bll,probs = 0.05)
 # For practical applications, we recommend to use at least niter=501 or niter=1001.
 # 
 # in log10(ATV)
-bllnonpar <- bootdist(fll,niter=101,bootmethod = "nonparam")
+bllnonpar <- bootdist(fll,niter=51,bootmethod = "nonparam")
 HC5llgreater <- quantile(bllnonpar,probs = 0.05, CI.type="greater")
 # in ATV
 10^(HC5llgreater$quantiles)
