@@ -115,7 +115,7 @@ descdist(rbeta(100,shape1=0.05,shape2=1),boot=51,
 # with uncertainty on skewness and kurtosis estimated by bootstrap
 # without plotting 
 #
-descdist(rgamma(100,shape=2,rate=1),51=100,graph=FALSE)
+descdist(rgamma(100,shape=2,rate=1),boot=51,graph=FALSE)
 
 # (3) Description of a sample from a Poisson distribution
 # with uncertainty on skewness and kurtosis estimated by bootstrap 
