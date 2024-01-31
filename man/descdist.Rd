@@ -101,8 +101,8 @@ Marie-Laure Delignette-Muller and Christophe Dutang.
 #
 set.seed(1234)
 x1 <- rnorm(100)
-descdist(x1)
 \donttest{
+descdist(x1)
 descdist(x1,boot=51)
 
 # (2) Description of a sample from a beta distribution
