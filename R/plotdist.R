@@ -51,7 +51,7 @@ plotdist <- function(data, distr, para, histo = TRUE, breaks="default", demp = F
             {
                 if(demp)
                 {
-                    if (breaks=="default") 
+                    if (identical(breaks, "default"))
                         h <- hist(data, freq=FALSE, xlab="Data", main="Empirical density", ...)
                     else 
                         h <- hist(data, freq=FALSE, xlab="Data", main="Empirical density", 
@@ -60,7 +60,7 @@ plotdist <- function(data, distr, para, histo = TRUE, breaks="default", demp = F
                 }
                 else
                 {
-                    if (breaks=="default") 
+                    if (identical(breaks, "default"))
                         h <- hist(data, freq=FALSE, xlab="Data", main="Histogram", ...)
                     else 
                         h <- hist(data, freq=FALSE, xlab="Data", main="Histogram", 
@@ -81,7 +81,7 @@ plotdist <- function(data, distr, para, histo = TRUE, breaks="default", demp = F
         else 
         {
             # plot for discrete data alone
-            if (breaks!="default") 
+            if (!identical(breaks, "default"))
                 warning("Breaks are	not taken into account for discrete data")
             # plot of empirical distribution
             t <- table(data)
@@ -140,7 +140,7 @@ plotdist <- function(data, distr, para, histo = TRUE, breaks="default", demp = F
             
             # plot of empirical and theoretical density
             # computes densities in order to define limits for y-axis
-            if (breaks=="default")
+            if (identical(breaks, "default"))
                 h <- hist(data, plot=FALSE)
             else
                 h <- hist(data, breaks=breaks, plot=FALSE, ...)           
@@ -207,7 +207,7 @@ plotdist <- function(data, distr, para, histo = TRUE, breaks="default", demp = F
         {
             # plot of discrete data with theoretical distribution
             par(mfrow=c(1, 2))
-            if (breaks!="default") 
+            if (!identical(breaks, "default"))
                 warning("Breaks are not taken into account for discrete distributions")
             # plot of empirical and theoretical distributions
             t <- table(data)
