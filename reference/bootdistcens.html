@@ -216,116 +216,66 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 13 1.9138139 1.9138139</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 14 2.1903317 2.1903317</span>
 <span class="r-in"><span><span class="va">f1</span> <span class="op">&lt;-</span> <span class="fu"><a href="fitdistcens.html">fitdistcens</a></span><span class="op">(</span><span class="va">d1</span>, <span class="st">"norm"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">b1</span> <span class="op">&lt;-</span> <span class="fu">bootdistcens</span><span class="op">(</span><span class="va">f1</span>, niter <span class="op">=</span> <span class="fl">101</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">b1</span> <span class="op">&lt;-</span> <span class="fu">bootdistcens</span><span class="op">(</span><span class="va">f1</span>, niter <span class="op">=</span> <span class="fl">51</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">b1</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Parameter values obtained with nonparametric bootstrap </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         mean        sd</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   2.104373 0.8011452</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   1.827939 0.9791907</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   1.871762 0.8528084</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4   2.411908 1.0142973</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   1.782310 1.1273019</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6   2.509049 0.6880053</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7   1.704418 0.9699948</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8   2.606075 1.1660792</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9   2.941808 1.1157003</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10  2.231877 1.1017733</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11  2.682579 1.1476808</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12  1.984422 0.7122974</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13  1.723983 0.8993250</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14  1.999360 0.9817665</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15  2.669429 1.6600525</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16  2.898469 1.5279211</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17  1.582416 0.9359165</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18  2.178033 1.1995537</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19  2.003538 1.1566358</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20  1.879440 1.0062671</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21  2.333518 0.7699497</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22  1.855065 0.9874890</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23  2.346411 1.2127306</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24  2.397407 0.8314052</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25  1.326142 0.9759481</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26  3.021706 1.4475932</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27  2.264466 1.1085857</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28  1.921749 1.1388313</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 29  1.910922 0.9837209</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 30  2.086434 1.2335237</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 31  2.411974 0.4965413</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 32  1.990909 0.9671171</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 33  1.931977 1.2832681</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 34  2.384072 1.6244618</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 35  2.195497 1.0420811</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 36  1.644256 1.4075790</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 37  2.055487 0.9390871</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 38  2.035667 1.0696940</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 39  2.173101 0.8975275</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 40  2.040708 1.0119072</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 41  2.035684 0.5725137</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 42  2.373612 1.0284816</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 43  2.302714 0.7277560</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 44  2.162861 1.2185241</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 45  2.203433 1.0184642</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 46  1.689780 1.2993709</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 47  2.293574 0.9676946</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 48  2.140197 0.9452644</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 49  2.163444 1.1747026</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 50  1.840321 0.8876763</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 51  2.060102 1.1529077</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 52  2.225603 1.1851334</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 53  2.820691 1.3933067</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 54  1.568309 1.0382368</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 55  2.155010 1.0216854</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 56  1.831985 1.0625193</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 57  1.972493 1.0643425</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 58  2.607875 0.9282669</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 59  2.712564 1.5342620</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 60  2.087550 0.7328691</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 61  2.381770 1.2257341</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 62  2.057502 1.0217602</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 63  2.421050 0.8641171</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 64  1.929541 0.9070230</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 65  2.375900 1.2099442</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 66  2.392099 1.4621332</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 67  2.484751 1.0697713</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 68  2.261974 1.3663315</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 69  2.147743 1.1900655</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 70  2.316351 1.2748707</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 71  2.711930 1.2047078</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 72  1.635479 0.8576718</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 73  2.692741 1.6490558</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 74  2.620308 1.2734889</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 75  2.384942 1.1893527</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 76  2.090905 0.9658673</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 77  2.128818 1.3184355</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 78  2.482209 0.6416328</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 79  2.324134 1.0404308</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 80  2.469030 1.1058754</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 81  1.747785 0.9336277</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 82  2.234080 0.8346364</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 83  2.470668 0.6779969</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 84  2.155877 1.0864677</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 85  1.972647 1.1667543</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 86  2.352844 1.2022925</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 87  1.981765 0.6892737</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 88  1.992155 0.8466576</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 89  2.196309 0.7285818</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 90  1.812786 1.0007463</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 91  1.910164 1.2661837</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 92  1.745572 0.9875275</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 93  2.488235 1.5071127</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 94  2.618640 1.3608417</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 95  2.399248 1.3900690</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 96  2.055134 0.9477736</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 97  2.144544 0.9933457</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 98  2.752790 1.6378830</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 99  2.067043 1.0279684</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 100 2.090719 1.2341538</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 101 2.481621 1.2204674</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        mean        sd</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  2.104373 0.8011452</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  1.827939 0.9791907</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  1.871762 0.8528084</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  2.411908 1.0142973</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  1.782310 1.1273019</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  2.509049 0.6880053</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  1.704418 0.9699948</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  2.606075 1.1660792</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  2.941808 1.1157003</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 2.231877 1.1017733</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 2.682579 1.1476808</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 1.984422 0.7122974</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 1.723983 0.8993250</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 1.999360 0.9817665</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 2.669429 1.6600525</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16 2.898469 1.5279211</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 1.582416 0.9359165</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18 2.178033 1.1995537</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 2.003538 1.1566358</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20 1.879440 1.0062671</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21 2.333518 0.7699497</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22 1.855065 0.9874890</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23 2.346411 1.2127306</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24 2.397407 0.8314052</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25 1.326142 0.9759481</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26 3.021706 1.4475932</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27 2.264466 1.1085857</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28 1.921749 1.1388313</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29 1.910922 0.9837209</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30 2.086434 1.2335237</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31 2.411974 0.4965413</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32 1.990909 0.9671171</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33 1.931977 1.2832681</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 34 2.384072 1.6244618</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 35 2.195497 1.0420811</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36 1.644256 1.4075790</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37 2.055487 0.9390871</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 38 2.035667 1.0696940</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 39 2.173101 0.8975275</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40 2.040708 1.0119072</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 41 2.035684 0.5725137</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 42 2.373612 1.0284816</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 43 2.302714 0.7277560</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 44 2.162861 1.2185241</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 45 2.203433 1.0184642</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 46 1.689780 1.2993709</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 47 2.293574 0.9676946</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 48 2.140197 0.9452644</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 49 2.163444 1.1747026</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 50 1.840321 0.8876763</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 51 2.060102 1.1529077</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">b1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Nonparametric bootstrap medians and 95% percentile CI </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        Median      2.5%    97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> mean 2.162861 1.6089475 2.859580</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sd   1.042081 0.6598148 1.631172</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mean 2.104373 1.5978763 2.930973</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sd   1.014297 0.6013866 1.600327</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">b1</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="bootdistcens-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="fu"><a href="quantile.html">quantile</a></span><span class="op">(</span><span class="va">b1</span><span class="op">)</span></span></span>
@@ -336,17 +286,17 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> estimate 3.143865 3.657392</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Median of bootstrap estimates</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              p=0.1    p=0.2    p=0.3    p=0.4    p=0.5    p=0.6    p=0.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> estimate 0.7671442 1.272294 1.620309 1.900717 2.162861 2.445532 2.725622</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            p=0.8    p=0.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> estimate 3.02222 3.467902</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimate 0.7514985 1.189065 1.548986 1.865836 2.104373 2.379677 2.643764</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             p=0.8    p=0.9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimate 2.935944 3.390763</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> two-sided 95 % CI of each quantile</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           p=0.1     p=0.2    p=0.3    p=0.4    p=0.5    p=0.6    p=0.7    p=0.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2.5 %  0.156585 0.6453546 1.016123 1.325290 1.608948 1.842055 2.099002 2.406107</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 97.5 % 1.614557 1.9361028 2.149923 2.489538 2.859580 3.199075 3.584602 4.105944</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           p=0.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2.5 %  2.775615</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 97.5 % 4.828956</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             p=0.1     p=0.2     p=0.3    p=0.4    p=0.5    p=0.6    p=0.7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2.5 %  0.03728076 0.5276234 0.9316883 1.302064 1.597876 1.852187 2.103806</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 97.5 % 1.59849593 1.9780580 2.2348376 2.619066 2.930973 3.270289 3.659774</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           p=0.8    p=0.9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2.5 %  2.397796 2.772502</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 97.5 % 4.154941 4.841652</span>
 <span class="r-in"><span><span class="fu"><a href="CIcdfplot.html">CIcdfplot</a></span><span class="op">(</span><span class="va">b1</span>, CI.output <span class="op">=</span> <span class="st">"quantile"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="bootdistcens-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
@@ -357,11 +307,11 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-in"><span><span class="co"># and calculation of quantiles with 95 percent confidence intervals</span></span></span>
 <span class="r-in"><span><span class="co">#</span></span></span>
 <span class="r-in"><span><span class="va">f1b</span> <span class="op">&lt;-</span> <span class="fu"><a href="fitdistcens.html">fitdistcens</a></span><span class="op">(</span><span class="va">d1</span>, <span class="st">"norm"</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,fix.arg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">b1b</span> <span class="op">&lt;-</span> <span class="fu">bootdistcens</span><span class="op">(</span><span class="va">f1b</span>, niter <span class="op">=</span> <span class="fl">101</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">b1b</span> <span class="op">&lt;-</span> <span class="fu">bootdistcens</span><span class="op">(</span><span class="va">f1b</span>, niter <span class="op">=</span> <span class="fl">51</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">b1b</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Nonparametric bootstrap medians and 95% percentile CI </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Median     2.5%    97.5% </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2.008746 1.591709 2.847039 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2.184059 1.667982 2.642790 </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">b1b</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="bootdistcens-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="fu"><a href="quantile.html">quantile</a></span><span class="op">(</span><span class="va">b1b</span><span class="op">)</span></span></span>
@@ -371,18 +321,18 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             p=0.8    p=0.9</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> estimate 2.975905 3.415836</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Median of bootstrap estimates</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>              p=0.1    p=0.2    p=0.3    p=0.4    p=0.5    p=0.6    p=0.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> estimate 0.7271949 1.167125 1.484346 1.755399 2.008746 2.262094 2.533147</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             p=0.8    p=0.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> estimate 2.850368 3.290298</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              p=0.1    p=0.2    p=0.3    p=0.4    p=0.5    p=0.6   p=0.7   p=0.8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimate 0.9025076 1.342438 1.659659 1.930712 2.184059 2.437406 2.70846 3.02568</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             p=0.9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimate 3.465611</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> two-sided 95 % CI of each quantile</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            p=0.1     p=0.2    p=0.3    p=0.4    p=0.5    p=0.6   p=0.7    p=0.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2.5 %  0.3101575 0.7500878 1.067309 1.338362 1.591709 1.845056 2.11611 2.433330</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 97.5 % 1.5654879 2.0054182 2.322639 2.593692 2.847039 3.100387 3.37144 3.688661</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            p=0.1    p=0.2    p=0.3    p=0.4    p=0.5    p=0.6    p=0.7    p=0.8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2.5 %  0.3864307 0.826361 1.143582 1.414635 1.667982 1.921329 2.192383 2.509603</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 97.5 % 1.3612386 1.801169 2.118390 2.389443 2.642790 2.896137 3.167191 3.484411</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           p=0.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2.5 %  2.873261</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 97.5 % 4.128591</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2.5 %  2.949534</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 97.5 % 3.924342</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># (3) comparison of sequential and parallel versions of bootstrap</span></span></span>
 <span class="r-in"><span><span class="co"># to be tried with a greater number of iterations (1001 or more)</span></span></span>
@@ -398,11 +348,11 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu">bootdistcens</span><span class="op">(</span><span class="va">f1</span>, niter <span class="op">=</span> <span class="va">niter</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Nonparametric bootstrap medians and 95% percentile CI </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        Median      2.5%    97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> mean 2.168613 1.5718518 2.890090</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sd   1.125228 0.6756937 1.719141</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mean 2.145156 1.5964992 2.844631</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sd   1.117072 0.6816713 1.697460</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/proc.time.html" class="external-link">proc.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">ptm</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   4.125   0.088   4.104 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   4.159   0.091   4.142 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># parallel version using snow</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va">parallel</span><span class="op">)</span></span></span>
@@ -410,22 +360,22 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu">bootdistcens</span><span class="op">(</span><span class="va">f1</span>, niter <span class="op">=</span> <span class="va">niter</span>, parallel <span class="op">=</span> <span class="st">"snow"</span>, ncpus <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Nonparametric bootstrap medians and 95% percentile CI </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        Median      2.5%    97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> mean 2.165209 1.5830608 2.884637</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sd   1.113548 0.7115237 1.651210</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mean 2.159412 1.5838844 2.934762</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sd   1.104905 0.6965932 1.694740</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/proc.time.html" class="external-link">proc.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">ptm</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.010   0.000   3.258 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.006   0.004   3.312 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># parallel version using multicore (not available on Windows)</span></span></span>
 <span class="r-in"><span><span class="va">ptm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/proc.time.html" class="external-link">proc.time</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu">bootdistcens</span><span class="op">(</span><span class="va">f1</span>, niter <span class="op">=</span> <span class="va">niter</span>, parallel <span class="op">=</span> <span class="st">"multicore"</span>, ncpus <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Nonparametric bootstrap medians and 95% percentile CI </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        Median      2.5%    97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> mean 2.185237 1.5559493 2.896582</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sd   1.120511 0.7197914 1.710465</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mean 2.177209 1.5581958 2.891438</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sd   1.119132 0.7057377 1.653962</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/proc.time.html" class="external-link">proc.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">ptm</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.008   0.020   2.279 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.005   0.024   2.389 </span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

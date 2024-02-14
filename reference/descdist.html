@@ -190,32 +190,32 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">x1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># descdist(x1)</span></span></span>
-<span class="r-in"><span><span class="co"># descdist(x1,boot=100)</span></span></span>
+<span class="r-in"><span><span class="co"># descdist(x1,boot=11)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># (2) Description of a sample from a beta distribution</span></span></span>
 <span class="r-in"><span><span class="co"># with uncertainty on skewness and kurtosis estimated by bootstrap</span></span></span>
 <span class="r-in"><span><span class="co"># with changing of default colors and plotting character for observed point</span></span></span>
 <span class="r-in"><span><span class="co">#</span></span></span>
-<span class="r-in"><span><span class="co"># descdist(rbeta(100,shape1=0.05,shape2=1),boot=100,</span></span></span>
-<span class="r-in"><span><span class="co"># obs.col="blue", obs.pch = 15, boot.col="darkgreen")</span></span></span>
+<span class="r-in"><span><span class="co"># descdist(rbeta(100,shape1=0.05,shape2=1),boot=11,</span></span></span>
+<span class="r-in"><span><span class="co">#  obs.col="blue", obs.pch = 15, boot.col="darkgreen")</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># (3) Description of a sample from a gamma distribution</span></span></span>
 <span class="r-in"><span><span class="co"># with uncertainty on skewness and kurtosis estimated by bootstrap</span></span></span>
 <span class="r-in"><span><span class="co"># without plotting </span></span></span>
 <span class="r-in"><span><span class="co">#</span></span></span>
-<span class="r-in"><span><span class="co"># descdist(rgamma(100,shape=2,rate=1),boot=100,graph=FALSE)</span></span></span>
+<span class="r-in"><span><span class="co"># descdist(rgamma(100,shape=2,rate=1),boot=11,graph=FALSE)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># (3) Description of a sample from a Poisson distribution</span></span></span>
+<span class="r-in"><span><span class="co"># (4) Description of a sample from a Poisson distribution</span></span></span>
 <span class="r-in"><span><span class="co"># with uncertainty on skewness and kurtosis estimated by bootstrap </span></span></span>
 <span class="r-in"><span><span class="co">#</span></span></span>
-<span class="r-in"><span><span class="co"># descdist(rpois(100,lambda=2),discrete=TRUE,boot=100)</span></span></span>
+<span class="r-in"><span><span class="co"># descdist(rpois(100,lambda=2),discrete=TRUE,boot=11)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># (4) Description of serving size data</span></span></span>
+<span class="r-in"><span><span class="co"># (5) Description of serving size data</span></span></span>
 <span class="r-in"><span><span class="co"># with uncertainty on skewness and kurtosis estimated by bootstrap </span></span></span>
 <span class="r-in"><span><span class="co">#</span></span></span>
 <span class="r-in"><span><span class="co"># data(groundbeef)</span></span></span>
 <span class="r-in"><span><span class="co"># serving &lt;- groundbeef$serving</span></span></span>
-<span class="r-in"><span><span class="co"># descdist(serving, boot=100)</span></span></span>
+<span class="r-in"><span><span class="co"># descdist(serving, boot=11)</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
