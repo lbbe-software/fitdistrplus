@@ -260,7 +260,6 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf, rightNA = Inf, NP
         nnoricens<-length(noricens$left)
         n<-length(censdata$left)
         
-        
         if (specifytitle) {
             plot(c(0,0),c(0,0),type="n",xlim=xlim,ylim=ylim,xlab="Censored data",
                  ylab="CDF",main=titleCDF, ...) 
@@ -275,7 +274,8 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf, rightNA = Inf, NP
             lines(c(xmininf, lcens[ordlcens[i]]), c(y, y), ...) 
         }
         if (nlcens>=1)
-            toto<-sapply(1:nlcens,plotlcens)
+            invisible(sapply(1:nlcens,plotlcens))
+        
         plotnoricens<-function(i) {
             y<-(i+nlcens)/n
             if (noricens[ordmid[i],]$left!=noricens[ordmid[i],]$right)
@@ -284,13 +284,14 @@ plotdistcens <- function(censdata, distr, para, leftNA = -Inf, rightNA = Inf, NP
                 points(noricens[ordmid[i],]$left,y,pch=4, ...)
         }
         if (nnoricens>=1)
-            toto<-sapply(1:nnoricens,plotnoricens)
+            invisible(sapply(1:nnoricens,plotnoricens))
+        
         plotrcens<-function(i) {
             y<-(i+nlcens+nnoricens)/n
             lines(c(rcens[ordrcens[i]],xmaxinf),c(y,y), ...) 
         }
         if (nrcens>=1)
-            toto <- sapply(1:nrcens,plotrcens)
+            invisible(sapply(1:nrcens,plotrcens))
     } # en of else if NPMLE
     
     if (!missing(distr)){ # plot of the theoretical cumulative function
