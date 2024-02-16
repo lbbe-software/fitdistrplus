@@ -90,7 +90,16 @@ Australian (coding for Australian or another origin), group
 <span class="r-in"><span><span class="va">log10ATV</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log10</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">endosulfan</span>,<span class="op">(</span><span class="va">Australian</span> <span class="op">==</span> <span class="st">"no"</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">(</span><span class="va">group</span> <span class="op">==</span> <span class="st">"Fish"</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">ATV</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="plotdist.html">plotdist</a></span><span class="op">(</span><span class="va">log10ATV</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="endosulfan-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span><span class="co"># descdist(log10ATV,boot=11)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="descdist.html">descdist</a></span><span class="op">(</span><span class="va">log10ATV</span>,boot<span class="op">=</span><span class="fl">11</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="endosulfan-2.png" alt="" width="700" height="433"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> summary statistics</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> min:  -0.69897   max:  3.60206 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> median:  0.4911356 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mean:  0.5657595 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimated sd:  0.7034928 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimated skewness:  1.764601 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimated kurtosis:  9.759505 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># (3) fit of a normal and a logistic distribution to data in log10</span></span></span>
 <span class="r-in"><span><span class="co"># (classical distributions used for SSD)</span></span></span>
@@ -126,16 +135,16 @@ Australian (coding for Australian or another origin), group
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="graphcomp.html">cdfcomp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fln</span>,<span class="va">fll</span><span class="op">)</span>,legendtext<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"normal"</span>,<span class="st">"logistic"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>xlab<span class="op">=</span><span class="st">"log10ATV"</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="endosulfan-2.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="endosulfan-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="graphcomp.html">denscomp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fln</span>,<span class="va">fll</span><span class="op">)</span>,legendtext<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"normal"</span>,<span class="st">"logistic"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>xlab<span class="op">=</span><span class="st">"log10ATV"</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="endosulfan-3.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="endosulfan-4.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="graphcomp.html">qqcomp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fln</span>,<span class="va">fll</span><span class="op">)</span>,legendtext<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"normal"</span>,<span class="st">"logistic"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="endosulfan-4.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span><span class="fu"><a href="graphcomp.html">ppcomp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fln</span>,<span class="va">fll</span><span class="op">)</span>,legendtext<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"normal"</span>,<span class="st">"logistic"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="endosulfan-5.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="fu"><a href="graphcomp.html">ppcomp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fln</span>,<span class="va">fll</span><span class="op">)</span>,legendtext<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"normal"</span>,<span class="st">"logistic"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="endosulfan-6.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="gofstat.html">gofstat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fln</span>,<span class="va">fll</span><span class="op">)</span>, fitnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lognormal"</span>, <span class="st">"loglogistic"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Goodness-of-fit statistics</span>
@@ -165,8 +174,8 @@ Australian (coding for Australian or another origin), group
 <span class="r-out co"><span class="r-pr">#&gt;</span> estimate 0.309253</span>
 <span class="r-in"><span><span class="fl">10</span><span class="op">^</span><span class="op">(</span><span class="va">HC5ll</span><span class="op">$</span><span class="va">quantCI</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           p=0.05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2.5 %  0.1363366</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 97.5 % 0.5691704</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2.5 %  0.1891451</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 97.5 % 0.5457214</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># (5) estimation of the 5 percent quantile value of </span></span></span>
 <span class="r-in"><span><span class="co"># the fitted logistic distribution (5 percent hazardous concentration  : HC5)</span></span></span>
@@ -185,7 +194,7 @@ Australian (coding for Australian or another origin), group
 <span class="r-out co"><span class="r-pr">#&gt;</span> estimate 0.309253</span>
 <span class="r-in"><span><span class="fl">10</span><span class="op">^</span><span class="op">(</span><span class="va">HC5llgreater</span><span class="op">$</span><span class="va">quantCI</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        p=0.05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 % 0.2169085</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 % 0.1860103</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># (6) fit of a logistic distribution </span></span></span>
 <span class="r-in"><span><span class="co"># by minimizing the modified Anderson-Darling AD2L distance</span></span></span>
@@ -201,7 +210,7 @@ Australian (coding for Australian or another origin), group
 <span class="r-out co"><span class="r-pr">#&gt;</span> scale    0.3013154</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Loglikelihood:  -44.96884   AIC:  93.93767   BIC:  97.59496 </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fllAD2L</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="endosulfan-6.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="endosulfan-7.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

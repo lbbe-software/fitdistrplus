@@ -81,9 +81,18 @@ and mainland feral cats. <em>Parasitology</em>, <b>123</b>, 143-151.</p>
 <span class="r-in"><span><span class="co"># (2) description and plot of data</span></span></span>
 <span class="r-in"><span><span class="co">#</span></span></span>
 <span class="r-in"><span><span class="va">number</span> <span class="op">&lt;-</span> <span class="va">toxocara</span><span class="op">$</span><span class="va">number</span></span></span>
-<span class="r-in"><span><span class="co"># descdist(number, discrete = TRUE, boot = 11)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="plotdist.html">plotdist</a></span><span class="op">(</span><span class="va">number</span>, discrete <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="descdist.html">descdist</a></span><span class="op">(</span><span class="va">number</span>, discrete <span class="op">=</span> <span class="cn">TRUE</span>, boot <span class="op">=</span> <span class="fl">11</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="toxocara-1.png" alt="" width="700" height="433"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> summary statistics</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> min:  0   max:  75 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> median:  2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mean:  8.679245 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimated sd:  14.29332 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimated skewness:  2.630609 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimated kurtosis:  11.4078 </span>
+<span class="r-in"><span><span class="fu"><a href="plotdist.html">plotdist</a></span><span class="op">(</span><span class="va">number</span>, discrete <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="toxocara-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># (3) fit of a Poisson distribution to data</span></span></span>
 <span class="r-in"><span><span class="co">#</span></span></span>
@@ -95,7 +104,7 @@ and mainland feral cats. <em>Parasitology</em>, <b>123</b>, 143-151.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> lambda 8.679245  0.4046719</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Loglikelihood:  -507.5334   AIC:  1017.067   BIC:  1019.037 </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fitp</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="toxocara-2.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="toxocara-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># (4) fit of a negative binomial distribution to data</span></span></span>
 <span class="r-in"><span><span class="co">#</span></span></span>
@@ -113,7 +122,7 @@ and mainland feral cats. <em>Parasitology</em>, <b>123</b>, 143-151.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mu   -0.0001038553  1.0000000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fitnb</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="toxocara-3.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="toxocara-4.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

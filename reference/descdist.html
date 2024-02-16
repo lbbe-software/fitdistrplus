@@ -189,33 +189,86 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-in"><span><span class="co">#</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">x1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># descdist(x1)</span></span></span>
-<span class="r-in"><span><span class="co"># descdist(x1,boot=11)</span></span></span>
+<span class="r-in"><span><span class="fu">descdist</span><span class="op">(</span><span class="va">x1</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="descdist-1.png" alt="" width="700" height="433"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> summary statistics</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> min:  -2.345698   max:  2.548991 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> median:  -0.384628 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mean:  -0.1567617 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimated sd:  1.004405 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimated skewness:  0.6052442 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimated kurtosis:  3.102441 </span>
+<span class="r-in"><span><span class="fu">descdist</span><span class="op">(</span><span class="va">x1</span>,boot<span class="op">=</span><span class="fl">11</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="descdist-2.png" alt="" width="700" height="433"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> summary statistics</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> min:  -2.345698   max:  2.548991 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> median:  -0.384628 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mean:  -0.1567617 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimated sd:  1.004405 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimated skewness:  0.6052442 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimated kurtosis:  3.102441 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># (2) Description of a sample from a beta distribution</span></span></span>
 <span class="r-in"><span><span class="co"># with uncertainty on skewness and kurtosis estimated by bootstrap</span></span></span>
 <span class="r-in"><span><span class="co"># with changing of default colors and plotting character for observed point</span></span></span>
 <span class="r-in"><span><span class="co">#</span></span></span>
-<span class="r-in"><span><span class="co"># descdist(rbeta(100,shape1=0.05,shape2=1),boot=11,</span></span></span>
-<span class="r-in"><span><span class="co">#  obs.col="blue", obs.pch = 15, boot.col="darkgreen")</span></span></span>
+<span class="r-in"><span><span class="fu">descdist</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">rbeta</a></span><span class="op">(</span><span class="fl">100</span>,shape1<span class="op">=</span><span class="fl">0.05</span>,shape2<span class="op">=</span><span class="fl">1</span><span class="op">)</span>,boot<span class="op">=</span><span class="fl">11</span>,</span></span>
+<span class="r-in"><span> obs.col<span class="op">=</span><span class="st">"blue"</span>, obs.pch <span class="op">=</span> <span class="fl">15</span>, boot.col<span class="op">=</span><span class="st">"darkgreen"</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="descdist-3.png" alt="" width="700" height="433"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> summary statistics</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> min:  3.937372e-36   max:  0.8890347 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> median:  5.660314e-06 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mean:  0.04094397 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimated sd:  0.1281058 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimated skewness:  4.368522 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimated kurtosis:  25.02241 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># (3) Description of a sample from a gamma distribution</span></span></span>
 <span class="r-in"><span><span class="co"># with uncertainty on skewness and kurtosis estimated by bootstrap</span></span></span>
 <span class="r-in"><span><span class="co"># without plotting </span></span></span>
 <span class="r-in"><span><span class="co">#</span></span></span>
-<span class="r-in"><span><span class="co"># descdist(rgamma(100,shape=2,rate=1),boot=11,graph=FALSE)</span></span></span>
+<span class="r-in"><span><span class="fu">descdist</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">rgamma</a></span><span class="op">(</span><span class="fl">100</span>,shape<span class="op">=</span><span class="fl">2</span>,rate<span class="op">=</span><span class="fl">1</span><span class="op">)</span>,boot<span class="op">=</span><span class="fl">11</span>,graph<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> summary statistics</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> min:  0.0753002   max:  8.631328 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> median:  1.627968 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mean:  1.989657 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimated sd:  1.443636 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimated skewness:  1.509842 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimated kurtosis:  6.691933 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># (4) Description of a sample from a Poisson distribution</span></span></span>
 <span class="r-in"><span><span class="co"># with uncertainty on skewness and kurtosis estimated by bootstrap </span></span></span>
 <span class="r-in"><span><span class="co">#</span></span></span>
-<span class="r-in"><span><span class="co"># descdist(rpois(100,lambda=2),discrete=TRUE,boot=11)</span></span></span>
+<span class="r-in"><span><span class="fu">descdist</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html" class="external-link">rpois</a></span><span class="op">(</span><span class="fl">100</span>,lambda<span class="op">=</span><span class="fl">2</span><span class="op">)</span>,discrete<span class="op">=</span><span class="cn">TRUE</span>,boot<span class="op">=</span><span class="fl">11</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="descdist-4.png" alt="" width="700" height="433"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> summary statistics</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> min:  0   max:  6 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> median:  2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mean:  1.98 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimated sd:  1.377892 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimated skewness:  0.5802731 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimated kurtosis:  3.037067 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># (5) Description of serving size data</span></span></span>
 <span class="r-in"><span><span class="co"># with uncertainty on skewness and kurtosis estimated by bootstrap </span></span></span>
 <span class="r-in"><span><span class="co">#</span></span></span>
-<span class="r-in"><span><span class="co"># data(groundbeef)</span></span></span>
-<span class="r-in"><span><span class="co"># serving &lt;- groundbeef$serving</span></span></span>
-<span class="r-in"><span><span class="co"># descdist(serving, boot=11)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">groundbeef</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">serving</span> <span class="op">&lt;-</span> <span class="va">groundbeef</span><span class="op">$</span><span class="va">serving</span></span></span>
+<span class="r-in"><span><span class="fu">descdist</span><span class="op">(</span><span class="va">serving</span>, boot<span class="op">=</span><span class="fl">11</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="descdist-5.png" alt="" width="700" height="433"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> summary statistics</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> min:  10   max:  200 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> median:  79 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mean:  73.64567 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimated sd:  35.88487 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimated skewness:  0.7352745 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimated kurtosis:  3.551384 </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

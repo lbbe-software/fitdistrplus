@@ -82,9 +82,18 @@ of Food Microbiology</em>, <b>128</b>, 158-164.</p>
 <span class="r-in"><span><span class="co"># (2) description and plot of data</span></span></span>
 <span class="r-in"><span><span class="co">#</span></span></span>
 <span class="r-in"><span><span class="va">serving</span> <span class="op">&lt;-</span> <span class="va">groundbeef</span><span class="op">$</span><span class="va">serving</span></span></span>
-<span class="r-in"><span><span class="co"># descdist(serving)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="plotdist.html">plotdist</a></span><span class="op">(</span><span class="va">serving</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="descdist.html">descdist</a></span><span class="op">(</span><span class="va">serving</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="groundbeef-1.png" alt="" width="700" height="433"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> summary statistics</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> min:  10   max:  200 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> median:  79 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mean:  73.64567 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimated sd:  35.88487 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimated skewness:  0.7352745 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimated kurtosis:  3.551384 </span>
+<span class="r-in"><span><span class="fu"><a href="plotdist.html">plotdist</a></span><span class="op">(</span><span class="va">serving</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="groundbeef-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># (3) fit of a Weibull distribution to data</span></span></span>
 <span class="r-in"><span><span class="co">#</span></span></span>
@@ -102,7 +111,7 @@ of Food Microbiology</em>, <b>128</b>, 158-164.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> scale 0.321821 1.000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fitW</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="groundbeef-2.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="groundbeef-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="fu"><a href="gofstat.html">gofstat</a></span><span class="op">(</span><span class="va">fitW</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Goodness-of-fit statistics</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                              1-mle-weibull</span>
