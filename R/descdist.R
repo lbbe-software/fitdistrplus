@@ -9,7 +9,7 @@
 #   This program is distributed in the hope that it will be useful,                                                             
 #   but WITHOUT ANY WARRANTY; without even the implied warranty of                                          
 #   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                                 
-#   GNU General Public License for more details.                                                                                    
+#   GNU General Public License for more details.                                                
 #                                                                                                                                                                         
 #   You should have received a copy of the GNU General Public License                                           
 #   along with this program; if not, write to the                                                                                           
@@ -132,15 +132,14 @@ descdist <- function(data, discrete = FALSE, boot = NULL, method = "unbiased",
       shape<-exp(lshape)
       s2<-4/shape
       y<-kurtmax-(3+6/shape)
-      lines(s2,y,lty=2)
+      lines(s2,y,lty=2, xlim=c(0,xmax),ylim=c(0,ymax))
       # lnorm dist
       lshape<-seq(-100,100,0.1)
       shape<-exp(lshape)
       es2<-exp(shape^2)
       s2<-(es2+2)^2*(es2-1)
       y<-kurtmax-(es2^4+2*es2^3+3*es2^2-3)
-      lines(s2,y,lty=3)
-      
+      lines(s2,y,lty=3,xlim=c(0,xmax),ylim=c(0,ymax))
       
       legend(xmax*0.55, ymax*1.03,legend="Theoretical",bty="n",cex=0.8)
       legend(xmax*0.6,  ymax*0.98,pch=8,legend="normal",bty="n",cex=0.8)
@@ -190,7 +189,7 @@ descdist <- function(data, discrete = FALSE, boot = NULL, method = "unbiased",
       lambda<-exp(llambda)
       s2<-1/lambda
       y<-kurtmax-(3+1/lambda)
-      lines(s2,y,lty=2)
+      lines(s2,y,lty=2, xlim=c(0,xmax),ylim=c(0,ymax))
     }
     # bootstrap sample for observed distribution
     if (!is.null(boot)) {

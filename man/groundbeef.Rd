@@ -23,7 +23,7 @@ data(groundbeef)
 # (2) description and plot of data
 #
 serving <- groundbeef$serving
-# descdist(serving)
+descdist(serving)
 plotdist(serving)
 
 # (3) fit of a Weibull distribution to data
