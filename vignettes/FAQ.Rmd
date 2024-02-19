@@ -187,7 +187,7 @@ f_Y(y) =
 \end{array}\right.
 $$
 
-```{r, message=FALSE, fig.height=4, fig.width=8}
+```{r, message=FALSE, fig.height=4, fig.width=7}
 dtexp <- function(x, rate, low, upp)
 {
   PU <- pexp(upp, rate=rate)
@@ -205,6 +205,7 @@ x <- rexp(n); x <- x[x > .5 & x < 3]
 f1 <- fitdist(x, "texp", method="mle", start=list(rate=3), fix.arg=list(low=min(x), upp=max(x)))
 f2 <- fitdist(x, "texp", method="mle", start=list(rate=3), fix.arg=list(low=.5, upp=3))
 gofstat(list(f1, f2))
+par(mfrow=c(1,1), mar=c(4,4,2,1))
 cdfcomp(list(f1, f2), do.points = FALSE, xlim=c(0, 3.5))
 ```
 
@@ -243,7 +244,7 @@ with $u=\max_i Y_i$ and $l=\min_i Y_i$.
 
 Let us illustrate truncated distribution with the truncated exponential distribution.
 The log-likelihood is particularly bad-shaped.
-```{r, message=FALSE, fig.height=4, fig.width=8}
+```{r, message=FALSE, fig.height=3.5, fig.width=7}
 dtiexp <- function(x, rate, low, upp)
 {
   PU <- pexp(upp, rate=rate, lower.tail = FALSE)
@@ -263,10 +264,11 @@ The first method directly maximizes the log-likelihood $L(l, \theta, u)$; the se
 method maximizes the log-likelihood $L(\theta)$ assuming that $u=\hat u$ and $l=\hat l$ are known.
 Inside $[0.5,3]$, the CDF are correctly estimated in both methods but the first method
 does not succeed to estimate the true value of the bounds $l,u$.
-```{r, fig.height=4, fig.width=6}
+```{r, fig.height=3.5, fig.width=7}
 (f1 <- fitdist(x, "tiexp", method="mle", start=list(rate=3, low=0, upp=20)))
 (f2 <- fitdist(x, "tiexp", method="mle", start=list(rate=3), fix.arg=list(low=min(x), upp=max(x))))
 gofstat(list(f1, f2))
+par(mfrow=c(1,1), mar=c(4,4,2,1))
 cdfcomp(list(f1, f2), do.points = FALSE, addlegend=FALSE, xlim=c(0, 3.5))
 curve(ptiexp(x, 1, .5, 3), add=TRUE, col="blue", lty=3)
 legend("bottomright", lty=1:3, col=c("red", "green", "blue", "black"), 
@@ -298,12 +300,13 @@ maximizing the log-likelihood.
 
 For these reasons, `fitdist(data, dist="unif", method="mle")` uses the 
 explicit form of the MLE for this distribution. Here is an example below
-```{r, fig.height=4, fig.width=6}
+```{r, fig.height=4, fig.width=7}
 trueval <- c("min"=3, "max"=5)
 x <- runif(n=500, trueval[1], trueval[2])
 
 f1 <- fitdist(x, "unif")
 delta <- .01
+par(mfrow=c(1,1), mar=c(4,4,2,1))
 llsurface(x, "unif", plot.arg = c("min", "max"), min.arg=c(min(x)-2*delta, max(x)-delta),
           max.arg=c(min(x)+delta, max(x)+2*delta), main="likelihood surface for uniform",
         loglik=FALSE)
@@ -377,11 +380,12 @@ f1 <- fitdist(x2, "pert", start=list(min=-1, mode=0, max=10, shape=1),
 f2 <- fitdist(x2, "pert", start=list(mode=1, shape=1), 
               fix.arg=list(min=min(x2)-eps, max=max(x2)+eps),
               lower=c(min(x2), 0), upper=c(max(x2), Inf))
-
+print(cbind(coef(f1), 
+            c(f2$fix.arg["min"], coef(f2)["mode"], f2$fix.arg["max"], coef(f2)["shape"])), 
+      digits=7)
 gofstat(list(f1,f2))
+par(mfrow=c(1,1), mar=c(4,4,2,1))
 cdfcomp(list(f1,f2))
-print(cbind(coef(f1), c(f2$fix.arg["min"], coef(f2)["mode"], 
-                        f2$fix.arg["max"], coef(f2)["shape"])), digits=7)
 ```
 
 
@@ -405,6 +409,7 @@ fgamma <- fitdist(x, "gamma")
 # fit of a bad distribution
 fexp <- fitdist(x, "exp")
 g <- gofstat(list(fgamma, fexp), fitnames = c("gamma", "exp"))
+par(mfrow=c(1,1), mar=c(4,4,2,1))
 denscomp(list(fgamma, fexp), legendtext = c("gamma", "exp"))
 # results of the tests
 ## chi square test (with corresponding table with theoretical and observed counts)
@@ -464,7 +469,7 @@ approximated by a normal distribution. Testing the fit (here using a Kolmogorov-
 of 100 observations would not reject the normal fit, while testing it on a sample of 10000
 observations would reject it, while both samples come from the same distribution.
 
-```{r, fig.height=3, fig.width=6}
+```{r, fig.height=3.5, fig.width=7}
 set.seed(1234)
 x1 <- rpois(n = 100, lambda = 100)
 f1 <- fitdist(x1, "norm")
@@ -476,10 +481,9 @@ f2 <- fitdist(x2, "norm")
 g2 <- gofstat(f2)
 g2$kstest
 
-par(mfrow=1:2)
+par(mfrow=c(1,2), mar=c(4,4,2,1))
 denscomp(f1, demp = TRUE, addlegend = FALSE, main = "small sample")
 denscomp(f2, demp = TRUE, addlegend = FALSE, main = "big sample")
-
 ```
 
 
@@ -505,7 +509,7 @@ test, for the small sample the normal fit is  rejected only for the bigger sampl
 visual confrontation of the distributions. In that particular case, the chi square test with
 classes defined by default would have rejected te normal fit for both samples.
 
-```{r, fig.height=3, fig.width=6}
+```{r, fig.height=3.5, fig.width=7}
 set.seed(1234)
 x3 <- rpois(n = 500, lambda = 1)
 f3 <- fitdist(x3, "norm")
@@ -517,7 +521,7 @@ f4 <- fitdist(x4, "norm")
 g4 <- gofstat(f4)
 g4$kstest
 
-par(mfrow=1:2)
+par(mfrow=c(1,2), mar=c(4,4,2,1))
 denscomp(f3, addlegend = FALSE, main = "big sample") 
 denscomp(f4, addlegend = FALSE, main = "small sample")
 ```
@@ -648,7 +652,7 @@ n <- 1e3
 x <- rlnorm(n)
 descdist(x)
 ```
-```{r, echo=FALSE}
+```{r, echo=FALSE, fig.width=5, fig.height=5}
 n <- 1e3
 x <- rlnorm(n)
 par(mar=c(4,4,2,1), mfrow=c(1,1))
@@ -670,7 +674,7 @@ kurtosis.th <- function(sigma)
 ```
 
 The convergence to theoretical standardized moments (skewness and kurtosis) is slow
-```{r, echo=FALSE, fig.width=6, fig.height=3}
+```{r, echo=FALSE, fig.width=7, fig.height=3.5}
 moment <- function(obs, k) 
   mean(scale(obs)^k)
 skewness <- function(obs) 
@@ -979,7 +983,7 @@ F_X^{-1}(q) = \left\lfloor\frac{\log(1-q)}{\log(1-p)}\right\rfloor.
 $$
 Due to the integer part (floor function), both the distribution function and the
 quantile function are step functions.
-```{r, fig.height=3, fig.width=6}
+```{r, fig.height=3.5, fig.width=7}
 pgeom(0:3, prob=1/2)
 qgeom(c(0.3, 0.6, 0.9), prob=1/2)
 par(mar=c(4,4,2,1), mfrow=1:2)
@@ -1020,11 +1024,12 @@ $$
 q_{n,1/2} \leq \frac{\log(1/2)}{\log(1-p)} < q_{n,1/2} +1.
 $$
 Let us plot the squared differences $(F_X^{-1}(1/2) - q_{n,1/2})^2$.
-```{r, fig.height=4, fig.width=6}
+```{r, fig.height=4, fig.width=7}
 x <- rgeom(100, 1/3)
 L2 <- function(p)
   (qgeom(1/2, p) - median(x))^2
 L2(1/3) #theoretical value
+par(mfrow=c(1,1), mar=c(4,4,2,1))
 curve(L2(x), 0.10, 0.95, xlab=expression(p), ylab=expression(L2(p)), main="squared differences", n=301)
 ```
 
@@ -1065,11 +1070,11 @@ i & \text{if } \sum_{k=0}^{i-1} P(X=k) \leq p < \sum_{k=0}^{i} P(X=k) \\
 $$
 
 Again,  the squared differences is a step function $(F_X^{-1}(1/2) - q_{n,1/2})^2$.
-```{r, fig.height=4, fig.width=6}
-par(mar=c(4,4,2,1))
+```{r, fig.height=4, fig.width=7}
 x <- rpois(100, lambda=7.5)
 L2 <- function(lam)
   (qpois(1/2, lambda = lam) - median(x))^2
+par(mfrow=c(1,1), mar=c(4,4,2,1))
 curve(L2(x), 6, 9, xlab=expression(lambda), ylab=expression(L2(lambda)), main="squared differences", n=201)
 ```
 
@@ -1162,7 +1167,7 @@ matpar <- cbind(
 showpar(matpar)
 ```
 However the fitted cumulative distributions are indistinguable. See figure below.
-```{r, fig.height=4, fig.width=6, echo=FALSE}
+```{r, fig.height=4, fig.width=7, echo=FALSE}
 par(mar=c(4,4,2,1), mfrow=c(1,1))
 cdfcomp(list(fit.NM.2P, fit.NM.3P), do.points = FALSE, addlegend = FALSE)
 curve(ptgamma(x, shape=shape, rate=rate, low=x0, upp=Inf), add=TRUE, col="blue", lty=3)
@@ -1175,7 +1180,7 @@ Changing the optimization method is useless. The graph below display the likelih
 contours as well as optimization iterates (grey crosses), the final estimate (black cross)
 and the true value (red dot).
 Iterates get stuck far from the true value.
-```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=6}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.height=3.5, fig.width=7}
 #make trace in dtgamma
 dtgamma <- function(x, shape, rate, low, upp)
 {
@@ -1339,6 +1344,7 @@ fn <- fitdist(n, "norm")
 bn <- bootdist(fn)
 bn$CI
 fn$estimate + cbind("estimate"= 0, "2.5%"= -1.96*fn$sd, "97.5%"= 1.96*fn$sd)
+par(mfrow=c(1,1), mar=c(4,4,2,1))
 llplot(fn, back.col = FALSE)
 ```
 
@@ -1349,6 +1355,7 @@ fg <- fitdist(g, "gamma")
 bg <- bootdist(fg)
 bg$CI
 fg$estimate + cbind("estimate"= 0, "2.5%"= -1.96*fg$sd, "97.5%"= 1.96*fg$sd)
+par(mfrow=c(1,1), mar=c(4,4,2,1))
 llplot(fg, back.col = FALSE)
 ```
 
@@ -1363,7 +1370,7 @@ as a CDF curve surrounded by a band corresponding to  pointwise intervals on the
 See an example below on censored data corresponding to 72-hour acute salinity tolerance (LC50values)
 of rivermarine invertebrates.
 
-```{r, fig.height=3, fig.width=4, warning = FALSE}
+```{r, fig.height=4, fig.width=7, warning = FALSE}
 data(salinity)
 log10LC50 <-log10(salinity)
 fit <- fitdistcens(log10LC50, "norm")
@@ -1374,6 +1381,7 @@ bootsample <- bootdistcens(fit, niter = 101)
 # Calculation of the quantile of interest (here the 5 percent hazard concentration)
 (HC5 <- quantile(bootsample, probs = 0.05))
 # visualizing pointwise confidence intervals on other quantiles
+par(mfrow=c(1,1), mar=c(4,4,2,1))
 CIcdfplot(bootsample, CI.output = "quantile", CI.fill = "pink", xlim = c(0.5,2), main = "")
 ```
 
@@ -1416,7 +1424,7 @@ functions, `denscomp`, `cdfcomp`, `ppcomp`, `qqcomp` or `cdfcompcens` (see how i
 The default plot of an object of class `fitdist` can be easily reproduced and personalized 
 using `denscomp`, `cdfcomp`, `ppcomp` and `qqcomp`.
 
-```{r, fig.height=6, fig.width=6, warning = FALSE}
+```{r, fig.height=7, fig.width=7, warning = FALSE}
 data(groundbeef)
 serving <- groundbeef$serving
 fit <- fitdist(serving, "gamma")
@@ -1434,7 +1442,7 @@ using `cdfcompcens`.
 
 An argument `plotstyle` was added to functions `denscomp`, `cdfcomp`, `ppcomp`, `qqcomp`and `cdfcompcens`, `ppcompcens`, `qqcompcens` to enable the generation of plots using the `ggplot2` package. This argument by default fixed at `graphics` must simply be fixed at `ggplot` for this purpose, as in the following example. In that latter case the graphical functions return a graphic object that can be further personalized using `ggplot2` functions.
 
-```{r, fig.height= 4, fig.width= 6, warning = FALSE}
+```{r, fig.height= 4, fig.width= 7, warning = FALSE}
 library(ggplot2)
 fitW <- fitdist(serving, "weibull")
 fitln <- fitdist(serving, "lnorm")
@@ -1457,7 +1465,7 @@ ECDF goodness-of-fit plots and only for non censored data. This option can be us
 as below, for example, to name the species in the classical plot of the
 Species Sensitivity Distributions (SSD) in ecotoxicology.
 
-```{r, fig.height= 6, fig.width= 6, warning = FALSE}
+```{r, fig.height= 6, fig.width= 7, warning = FALSE}
 data(endosulfan)
 ATV <- subset(endosulfan, group == "NonArthroInvert")$ATV
 taxaATV <- subset(endosulfan, group == "NonArthroInvert")$taxa
@@ -1501,9 +1509,10 @@ has been implemented with arguments similar to the ones of `Surv()`.
 svdata <- Surv2fitdistcens(exitage, event=death)
 ```
 Let us now fit two simple distributions.
-```{r, fig.height= 4, fig.width= 6}
+```{r, fig.height= 4, fig.width= 7}
 flnormc <- fitdistcens(svdata, "lnorm")
 fweic <- fitdistcens(svdata, "weibull")
+par(mfrow=c(1,1), mar=c(4,4,2,1))
 cdfcompcens(list(fweic, flnormc), xlim=range(exitage), xlegend = "topleft")
 ```
 
@@ -1516,7 +1525,7 @@ y-value defined by the rank of the observation as done below using function
 but it remains difficult to correctly order the observations
 in any case (see the example below on the right using data `smokedfish`).
 
-```{r, fig.height= 4, fig.width= 8}
+```{r, fig.height= 3.5, fig.width= 7}
 par(mfrow = c(1,2), mar = c(3, 4, 3, 0.5))
 plotdistcens(dtoy, NPMLE = FALSE)
 data(smokedfish)
@@ -1539,7 +1548,7 @@ rewrite their main functions in our package, using another
 optimization function. The same
 ECDF plot was also implemented in our using the Turnbull algorithm of survival (see below).
 
-```{r, fig.height= 6, fig.width= 6}
+```{r, fig.height= 7, fig.width= 7}
 par(mfrow = c(2, 2),  mar = c(3, 4, 3, 0.5))
 # Turnbull algorithm with representation of middle points of equivalence classes
 plotdistcens(dsmo, NPMLE.method = "Turnbull.middlepoints", xlim = c(-1.8, 2.4))
@@ -1565,7 +1574,7 @@ class, which may be zero on some classes. The NPMLE is unique only up to these e
 Various NPMLE algorithms are implemented in the packages **Icens**, **interval** and **npsurv**. They are more or less performant and all of them do not enable the handling
 of other data than survival data, especially with left censored observations.
 
-```{r, echo = FALSE, fig.height= 4, fig.width= 8}
+```{r, echo = FALSE, fig.height= 6, fig.width= 7}
 d <- data.frame(left = c(NA, 2, 4, 6, 9.5, 10), right = c(1, 3, 7, 8, 9.5, NA))
 addbounds <- function(d)
 {
@@ -1625,7 +1634,7 @@ Considering goodness-of-fit plots, the generic `plot` function of an object of c
 using the Wang prepresentation, see previous part for details), a Q-Q plot and a P-P plot
 simply derived from the Wang plot of the ECDF, with filled rectangles indicating non uniqueness of the NPMLE ECDF. 
 
-```{r, fig.height= 6, fig.width= 6}
+```{r, fig.height= 7, fig.width= 7}
 par(mar = c(2, 4, 3, 0.5))
 plot(fnorm)
 ```
@@ -1636,6 +1645,7 @@ CDF, Q-Q and P-P goodness-of-fit plots and/or to compare the fit of various dist
 on a same dataset.
 
 ```{r, fig.height= 4, fig.width= 4}
+par(mfrow=c(1,1), mar=c(4,4,2,1))
 cdfcompcens(list(fnorm, flogis), fitlty = 1)
 qqcompcens(list(fnorm, flogis))
 ppcompcens(list(fnorm, flogis))
@@ -1645,7 +1655,7 @@ Considering Q-Q plots and P-P plots, it may be easier to compare various fits by
 splitting the plots as below which is done automatically using the `plotstyle` `ggplot` in `qqcompens()` and `ppcompcens()` but can also be done manually
 with the `plotstyle` `graphics`.
 
-```{r, fig.height= 4, fig.width= 8}
+```{r, fig.height= 4, fig.width= 7}
 qqcompcens(list(fnorm, flogis), lwd = 2, plotstyle = "ggplot",
   fitcol = c("red", "green"), fillrect = c("pink", "lightgreen"),
   legendtext = c("normal distribution", "logistic distribution"))
