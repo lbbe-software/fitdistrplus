@@ -74,7 +74,7 @@
       <img src="" class="logo" alt=""><h1>Frequently Asked Questions</h1>
                         <h4 data-toc-skip class="author">Marie Laure Delignette Muller, Christophe Dutang</h4>
             
-            <h4 data-toc-skip class="date">2024-02-16</h4>
+            <h4 data-toc-skip class="date">2024-02-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/lbbe-software/fitdistrplus/blob/HEAD/vignettes/FAQ.Rmd" class="external-link"><code>vignettes/FAQ.Rmd</code></a></small>
       <div class="d-none name"><code>FAQ.Rmd</code></div>
@@ -199,7 +199,7 @@ Let us fit a sample by MLE and MME. The fit looks particularly good in both case
 <code class="sourceCode R"><span><span class="va">x3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Lognormal.html" class="external-link">rlnorm</a></span><span class="op">(</span><span class="fl">1000</span><span class="op">)</span></span>
 <span><span class="va">f1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">x3</span>, <span class="st">"lnorm"</span>, method<span class="op">=</span><span class="st">"mle"</span><span class="op">)</span> </span>
 <span><span class="va">f2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">x3</span>, <span class="st">"lnorm"</span>, method<span class="op">=</span><span class="st">"mme"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/graphcomp.html">cdfcomp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">f1</span>, <span class="va">f2</span><span class="op">)</span>, do.points<span class="op">=</span><span class="cn">FALSE</span>, xlogscale <span class="op">=</span> <span class="cn">TRUE</span>, main <span class="op">=</span> <span class="st">"CDF plot"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/graphcomp.html">denscomp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">f1</span>, <span class="va">f2</span><span class="op">)</span>, demp<span class="op">=</span><span class="cn">TRUE</span>, main <span class="op">=</span> <span class="st">"Density plot"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="FAQ_files/figure-html/unnamed-chunk-4-1.png"><!-- --></p>
@@ -349,7 +349,8 @@ f_Y(y) =
 <span><span class="co">## Akaike's Information Criterion        127        132</span></span>
 <span><span class="co">## Bayesian Information Criterion        130        135</span></span></code></pre>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/graphcomp.html">cdfcomp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">f1</span>, <span class="va">f2</span><span class="op">)</span>, do.points <span class="op">=</span> <span class="cn">FALSE</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">3.5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/graphcomp.html">cdfcomp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">f1</span>, <span class="va">f2</span><span class="op">)</span>, do.points <span class="op">=</span> <span class="cn">FALSE</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">3.5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="FAQ_files/figure-html/unnamed-chunk-10-1.png"><!-- --></p>
 </div>
 <div class="section level3" number="1.9">
@@ -439,7 +440,8 @@ does not succeed to estimate the true value of the bounds <span class="math inli
 <span><span class="co">## Akaike's Information Criterion         216         162</span></span>
 <span><span class="co">## Bayesian Information Criterion         224         165</span></span></code></pre>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/graphcomp.html">cdfcomp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">f1</span>, <span class="va">f2</span><span class="op">)</span>, do.points <span class="op">=</span> <span class="cn">FALSE</span>, addlegend<span class="op">=</span><span class="cn">FALSE</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">3.5</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/graphcomp.html">cdfcomp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">f1</span>, <span class="va">f2</span><span class="op">)</span>, do.points <span class="op">=</span> <span class="cn">FALSE</span>, addlegend<span class="op">=</span><span class="cn">FALSE</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">3.5</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html" class="external-link">curve</a></span><span class="op">(</span><span class="fu">ptiexp</span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span>, <span class="fl">.5</span>, <span class="fl">3</span><span class="op">)</span>, add<span class="op">=</span><span class="cn">TRUE</span>, col<span class="op">=</span><span class="st">"blue"</span>, lty<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"bottomright"</span>, lty<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>, <span class="st">"green"</span>, <span class="st">"blue"</span>, <span class="st">"black"</span><span class="op">)</span>, </span>
 <span>        leg<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"full MLE"</span>, <span class="st">"MLE fixed arg"</span>, <span class="st">"true CDF"</span>, <span class="st">"emp. CDF"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -476,6 +478,7 @@ explicit form of the MLE for this distribution. Here is an example below</p>
 <span></span>
 <span><span class="va">f1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"unif"</span><span class="op">)</span></span>
 <span><span class="va">delta</span> <span class="op">&lt;-</span> <span class="fl">.01</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/logLik-surface.html">llsurface</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"unif"</span>, plot.arg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"min"</span>, <span class="st">"max"</span><span class="op">)</span>, min.arg<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">-</span><span class="fl">2</span><span class="op">*</span><span class="va">delta</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">-</span><span class="va">delta</span><span class="op">)</span>,</span>
 <span>          max.arg<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">+</span><span class="va">delta</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">+</span><span class="fl">2</span><span class="op">*</span><span class="va">delta</span><span class="op">)</span>, main<span class="op">=</span><span class="st">"likelihood surface for uniform"</span>,</span>
 <span>        loglik<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
@@ -568,6 +571,15 @@ when fixing the support parameters <span class="math inline">\(a\)</span> and <s
 <pre><code><span><span class="co">## Warning in checkparamlist(arg_startfix$start.arg, arg_startfix$fix.arg, : Some</span></span>
 <span><span class="co">## parameter names have no starting/fixed value but have a default value: mean.</span></span></code></pre>
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">f1</span><span class="op">)</span>, </span>
+<span>            <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">f2</span><span class="op">$</span><span class="va">fix.arg</span><span class="op">[</span><span class="st">"min"</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">f2</span><span class="op">)</span><span class="op">[</span><span class="st">"mode"</span><span class="op">]</span>, <span class="va">f2</span><span class="op">$</span><span class="va">fix.arg</span><span class="op">[</span><span class="st">"max"</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">f2</span><span class="op">)</span><span class="op">[</span><span class="st">"shape"</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>      digits<span class="op">=</span><span class="fl">7</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##       [,1]       [,2]       </span></span>
+<span><span class="co">## min   0.03106317 0.03395487 </span></span>
+<span><span class="co">## mode  1.120283   1.956149   </span></span>
+<span><span class="co">## max   1.9595     1.956234   </span></span>
+<span><span class="co">## shape 0.3056077  0.008646087</span></span></code></pre>
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gofstat.html">gofstat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">f1</span>,<span class="va">f2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Goodness-of-fit statistics</span></span>
 <span><span class="co">##                              1-mle-pert 2-mle-pert</span></span>
@@ -579,22 +591,15 @@ when fixing the support parameters <span class="math inline">\(a\)</span> and <s
 <span><span class="co">##                                1-mle-pert 2-mle-pert</span></span>
 <span><span class="co">## Akaike's Information Criterion        268        265</span></span>
 <span><span class="co">## Bayesian Information Criterion        281        272</span></span></code></pre>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/graphcomp.html">cdfcomp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">f1</span>,<span class="va">f2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/graphcomp.html">cdfcomp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">f1</span>,<span class="va">f2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="FAQ_files/figure-html/unnamed-chunk-17-1.png"><!-- --></p>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">f1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">f2</span><span class="op">$</span><span class="va">fix.arg</span><span class="op">[</span><span class="st">"min"</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">f2</span><span class="op">)</span><span class="op">[</span><span class="st">"mode"</span><span class="op">]</span>, </span>
-<span>                        <span class="va">f2</span><span class="op">$</span><span class="va">fix.arg</span><span class="op">[</span><span class="st">"max"</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">f2</span><span class="op">)</span><span class="op">[</span><span class="st">"shape"</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>, digits<span class="op">=</span><span class="fl">7</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##       [,1]       [,2]       </span></span>
-<span><span class="co">## min   0.03106317 0.03395487 </span></span>
-<span><span class="co">## mode  1.120283   1.956149   </span></span>
-<span><span class="co">## max   1.9595     1.956234   </span></span>
-<span><span class="co">## shape 0.3056077  0.008646087</span></span></code></pre>
 </div>
 </div>
 <div class="section level2" number="2">
-<h2 id="questions-regarding-goodness-of-fit-tests-and-statistics">
-<span class="header-section-number">2</span> Questions regarding goodness-of-fit tests and statistics<a class="anchor" aria-label="anchor" href="#questions-regarding-goodness-of-fit-tests-and-statistics"></a>
+<h2 id="questions-regarding-goodness-of-fit-tests-and-statistics-cullen-frey-graph">
+<span class="header-section-number">2</span> Questions regarding goodness-of-fit tests and statistics, Cullen-Frey graph<a class="anchor" aria-label="anchor" href="#questions-regarding-goodness-of-fit-tests-and-statistics-cullen-frey-graph"></a>
 </h2>
 <div class="section level3" number="2.1">
 <h3 id="where-can-we-find-the-results-of-goodness-of-fit-tests">
@@ -614,6 +619,7 @@ only the decision (rejection of H0 or not) is given, when available
 <span><span class="co"># fit of a bad distribution</span></span>
 <span><span class="va">fexp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"exp"</span><span class="op">)</span></span>
 <span><span class="va">g</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gofstat.html">gofstat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fgamma</span>, <span class="va">fexp</span><span class="op">)</span>, fitnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gamma"</span>, <span class="st">"exp"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/graphcomp.html">denscomp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fgamma</span>, <span class="va">fexp</span><span class="op">)</span>, legendtext <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gamma"</span>, <span class="st">"exp"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="FAQ_files/figure-html/unnamed-chunk-18-1.png"><!-- --></p>
 <div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
@@ -718,7 +724,7 @@ observations would reject it, while both samples come from the same distribution
 <pre><code><span><span class="co">## 1-mle-norm </span></span>
 <span><span class="co">## "rejected"</span></span></code></pre>
 <div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/graphcomp.html">denscomp</a></span><span class="op">(</span><span class="va">f1</span>, demp <span class="op">=</span> <span class="cn">TRUE</span>, addlegend <span class="op">=</span> <span class="cn">FALSE</span>, main <span class="op">=</span> <span class="st">"small sample"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/graphcomp.html">denscomp</a></span><span class="op">(</span><span class="va">f2</span>, demp <span class="op">=</span> <span class="cn">TRUE</span>, addlegend <span class="op">=</span> <span class="cn">FALSE</span>, main <span class="op">=</span> <span class="st">"big sample"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="FAQ_files/figure-html/unnamed-chunk-19-1.png"><!-- --></p>
@@ -761,7 +767,7 @@ classes defined by default would have rejected te normal fit for both samples.</
 <pre><code><span><span class="co">##     1-mle-norm </span></span>
 <span><span class="co">## "not rejected"</span></span></code></pre>
 <div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/graphcomp.html">denscomp</a></span><span class="op">(</span><span class="va">f3</span>, addlegend <span class="op">=</span> <span class="cn">FALSE</span>, main <span class="op">=</span> <span class="st">"big sample"</span><span class="op">)</span> </span>
 <span><span class="fu"><a href="../reference/graphcomp.html">denscomp</a></span><span class="op">(</span><span class="va">f4</span>, addlegend <span class="op">=</span> <span class="cn">FALSE</span>, main <span class="op">=</span> <span class="st">"small sample"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="FAQ_files/figure-html/unnamed-chunk-20-1.png"><!-- --></p>
@@ -908,6 +914,37 @@ to use information criteria (AIC and BIC given in the summary
 of an object of class <code>fitdistcens</code>) to compare the fits of
 various distributions to a same data set.</p>
 </div>
+<div class="section level3" number="2.7">
+<h3 id="why-cullen-frey-graph-may-be-misleading">
+<span class="header-section-number">2.7</span> Why Cullen-Frey graph may be misleading?<a class="anchor" aria-label="anchor" href="#why-cullen-frey-graph-may-be-misleading"></a>
+</h3>
+<p>When considering distribution with large theoretical moments or infinite moments,
+using the Cullen-Frey may not be appropriate.
+A typical is the log-normal distribution <span class="math inline">\(\mathcal L\mathcal N(\mu,\sigma^2)\)</span>.</p>
+<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">1e3</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Lognormal.html" class="external-link">rlnorm</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/descdist.html">descdist</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<p><img src="FAQ_files/figure-html/unnamed-chunk-24-1.png"><!-- --></p>
+<pre><code><span><span class="co">## summary statistics</span></span>
+<span><span class="co">## ------</span></span>
+<span><span class="co">## min:  0.0436   max:  20.3 </span></span>
+<span><span class="co">## median:  1.02 </span></span>
+<span><span class="co">## mean:  1.61 </span></span>
+<span><span class="co">## estimated sd:  1.89 </span></span>
+<span><span class="co">## estimated skewness:  3.49 </span></span>
+<span><span class="co">## estimated kurtosis:  21.9</span></span></code></pre>
+<p>Indeed for that distribution, the skewness and the kurtosis are functions of
+the exponential of <span class="math inline">\(\sigma^2\)</span>. With large values, even for small <span class="math inline">\(\sigma\)</span>.
+<span class="math display">\[
+sk(X) = (e^{\sigma^2}+2)\sqrt{e^{\sigma^2}-1},
+kr(X) = e^{4\sigma^2} + 2e^{3\sigma^2} + 3e^{2\sigma^2}-3.
+\]</span></p>
+<p>The convergence to theoretical standardized moments (skewness and kurtosis) is slow
+<img src="FAQ_files/figure-html/unnamed-chunk-26-1.png"><!-- --></p>
+<p>In the future, we plan to use trimmed linear moments to deal with this issue. Those moments
+always exist even for distribution with infinite mean, e.g. the Cauchy distribution.</p>
+</div>
 </div>
 <div class="section level2" number="3">
 <h2 id="questions-regarding-optimization-procedures">
@@ -945,14 +982,14 @@ for <span class="math inline">\(x&gt;-\delta\)</span> where <span class="math in
 <span class="math inline">\(\delta\)</span> a boundary parameter.
 Let us fit this distribution on the dataset <code>y</code> by MLE.
 We define two functions for the densities with and without a <code>log</code> argument.</p>
-<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb95"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dshiftlnorm</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">mean</span>, <span class="va">sigma</span>, <span class="va">shift</span>, <span class="va">log</span> <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/Lognormal.html" class="external-link">dlnorm</a></span><span class="op">(</span><span class="va">x</span><span class="op">+</span><span class="va">shift</span>, <span class="va">mean</span>, <span class="va">sigma</span>, log<span class="op">=</span><span class="va">log</span><span class="op">)</span></span>
 <span><span class="va">pshiftlnorm</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">q</span>, <span class="va">mean</span>, <span class="va">sigma</span>, <span class="va">shift</span>, <span class="va">log.p</span> <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/Lognormal.html" class="external-link">plnorm</a></span><span class="op">(</span><span class="va">q</span><span class="op">+</span><span class="va">shift</span>, <span class="va">mean</span>, <span class="va">sigma</span>, log.p<span class="op">=</span><span class="va">log.p</span><span class="op">)</span></span>
 <span><span class="va">qshiftlnorm</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">p</span>, <span class="va">mean</span>, <span class="va">sigma</span>, <span class="va">shift</span>, <span class="va">log.p</span> <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/Lognormal.html" class="external-link">qlnorm</a></span><span class="op">(</span><span class="va">p</span>, <span class="va">mean</span>, <span class="va">sigma</span>, log.p<span class="op">=</span><span class="va">log.p</span><span class="op">)</span><span class="op">-</span><span class="va">shift</span></span>
 <span><span class="va">dshiftlnorm_no</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">mean</span>, <span class="va">sigma</span>, <span class="va">shift</span><span class="op">)</span> <span class="fu">dshiftlnorm</span><span class="op">(</span><span class="va">x</span>, <span class="va">mean</span>, <span class="va">sigma</span>, <span class="va">shift</span><span class="op">)</span></span>
 <span><span class="va">pshiftlnorm_no</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">q</span>, <span class="va">mean</span>, <span class="va">sigma</span>, <span class="va">shift</span><span class="op">)</span> <span class="fu">pshiftlnorm</span><span class="op">(</span><span class="va">q</span>, <span class="va">mean</span>, <span class="va">sigma</span>, <span class="va">shift</span><span class="op">)</span></span></code></pre></div>
 <p>We now optimize the minus log-likelihood.</p>
-<div class="sourceCode" id="cb94"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb96"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">dataFAQlog1</span><span class="op">)</span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">dataFAQlog1</span></span>
 <span><span class="va">D</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span>
@@ -975,26 +1012,26 @@ We define two functions for the densities with and without a <code>log</code> ar
 <span><span class="co">## sigma -0.885  1.000 -0.886</span></span>
 <span><span class="co">## shift  0.999 -0.886  1.000</span></span></code></pre>
 <p>If we don’t use the <code>log</code> argument, the algorithms stalls.</p>
-<div class="sourceCode" id="cb96"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">f2</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">y</span>, <span class="st">"shiftlnorm_no"</span>, start<span class="op">=</span><span class="va">start</span>, optim.method<span class="op">=</span><span class="st">"BFGS"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## &lt;simpleError in optim(par = vstart, fn = fnobj, fix.arg = fix.arg, obs = data,     gr = gradient, ddistnam = ddistname, hessian = TRUE, method = meth,     lower = lower, upper = upper, ...): non-finite finite-difference value [2]&gt;</span></span>
 <span><span class="co">## Error in fitdist(y, "shiftlnorm_no", start = start, optim.method = "BFGS") : </span></span>
 <span><span class="co">##   the function mle failed to estimate the parameters, </span></span>
 <span><span class="co">##                 with the error code 100</span></span></code></pre>
-<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">f2</span>, <span class="st">"condition"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## &lt;simpleError in fitdist(y, "shiftlnorm_no", start = start, optim.method = "BFGS"): the function mle failed to estimate the parameters, </span></span>
 <span><span class="co">##                 with the error code 100</span></span>
 <span><span class="co">## &gt;</span></span></code></pre>
 <p>Indeed the algorithm stops because at the following value, the log-likelihood
 is infinite.</p>
-<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fu">dshiftlnorm_no</span><span class="op">(</span><span class="va">y</span>, <span class="fl">0.16383978</span>, <span class="fl">0.01679231</span>, <span class="fl">1.17586600</span> <span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] -Inf</span></span></code></pre>
-<div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/prod.html" class="external-link">prod</a></span><span class="op">(</span><span class="fu">dshiftlnorm_no</span><span class="op">(</span><span class="va">y</span>, <span class="fl">0.16383978</span>, <span class="fl">0.01679231</span>, <span class="fl">1.17586600</span> <span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] -Inf</span></span></code></pre>
-<div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu">dshiftlnorm</span><span class="op">(</span><span class="va">y</span>, <span class="fl">0.16383978</span>, <span class="fl">0.01679231</span>, <span class="fl">1.17586600</span>, <span class="cn">TRUE</span> <span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 7761</span></span></code></pre>
 <p>There is something wrong in the computation.</p>
@@ -1002,45 +1039,45 @@ is infinite.</p>
 This happens the C-base implementation of <code>dlnorm</code> takes care of the log value.
 In the file <code>../src/nmath/dlnorm.c</code> in the R sources, we find the C code for
 <code>dlnorm</code></p>
-<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a>double <span class="fu">dlnorm</span>(double x, double meanlog, double sdlog, int give_log)</span>
-<span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb106-3"><a href="#cb106-3" aria-hidden="true" tabindex="-1"></a>    double y;</span>
-<span id="cb106-4"><a href="#cb106-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb106-5"><a href="#cb106-5" aria-hidden="true" tabindex="-1"></a><span class="co">#ifdef IEEE_754</span></span>
-<span id="cb106-6"><a href="#cb106-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">ISNAN</span>(x) <span class="sc">||</span> <span class="fu">ISNAN</span>(meanlog) <span class="sc">||</span> <span class="fu">ISNAN</span>(sdlog))</span>
-<span id="cb106-7"><a href="#cb106-7" aria-hidden="true" tabindex="-1"></a>    return x <span class="sc">+</span> meanlog <span class="sc">+</span> sdlog;</span>
-<span id="cb106-8"><a href="#cb106-8" aria-hidden="true" tabindex="-1"></a><span class="co">#endif</span></span>
-<span id="cb106-9"><a href="#cb106-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(sdlog <span class="sc">&lt;=</span> <span class="dv">0</span>) {</span>
-<span id="cb106-10"><a href="#cb106-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(sdlog <span class="sc">&lt;</span> <span class="dv">0</span>) ML_ERR_return_NAN;</span>
-<span id="cb106-11"><a href="#cb106-11" aria-hidden="true" tabindex="-1"></a>    <span class="sc">/</span><span class="er">/</span> sdlog <span class="sc">==</span> <span class="dv">0</span> <span class="sc">:</span></span>
-<span id="cb106-12"><a href="#cb106-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> (<span class="fu">log</span>(x) <span class="sc">==</span> meanlog) ? ML_POSINF <span class="sc">:</span> R_D__0;</span>
-<span id="cb106-13"><a href="#cb106-13" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb106-14"><a href="#cb106-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(x <span class="sc">&lt;=</span> <span class="dv">0</span>) return R_D__0;</span>
-<span id="cb106-15"><a href="#cb106-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb106-16"><a href="#cb106-16" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">=</span> (<span class="fu">log</span>(x) <span class="sc">-</span> meanlog) <span class="sc">/</span> sdlog;</span>
-<span id="cb106-17"><a href="#cb106-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> (give_log ?</span>
-<span id="cb106-18"><a href="#cb106-18" aria-hidden="true" tabindex="-1"></a>        <span class="sc">-</span>(M_LN_SQRT_2PI   <span class="sc">+</span> <span class="fl">0.5</span> <span class="sc">*</span> y <span class="sc">*</span> y <span class="sc">+</span> <span class="fu">log</span>(x <span class="sc">*</span> sdlog)) <span class="sc">:</span></span>
-<span id="cb106-19"><a href="#cb106-19" aria-hidden="true" tabindex="-1"></a>        M_1_SQRT_2PI <span class="sc">*</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span> <span class="sc">*</span> y <span class="sc">*</span> y)  <span class="sc">/</span>  (x <span class="sc">*</span> sdlog));</span>
-<span id="cb106-20"><a href="#cb106-20" aria-hidden="true" tabindex="-1"></a>    <span class="sc">/</span><span class="er">*</span> M_1_SQRT_2PI <span class="ot">=</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">2</span> <span class="sc">*</span> pi) <span class="sc">*</span><span class="er">/</span></span>
-<span id="cb106-21"><a href="#cb106-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb106-22"><a href="#cb106-22" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>double <span class="fu">dlnorm</span>(double x, double meanlog, double sdlog, int give_log)</span>
+<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb108-3"><a href="#cb108-3" aria-hidden="true" tabindex="-1"></a>    double y;</span>
+<span id="cb108-4"><a href="#cb108-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb108-5"><a href="#cb108-5" aria-hidden="true" tabindex="-1"></a><span class="co">#ifdef IEEE_754</span></span>
+<span id="cb108-6"><a href="#cb108-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">ISNAN</span>(x) <span class="sc">||</span> <span class="fu">ISNAN</span>(meanlog) <span class="sc">||</span> <span class="fu">ISNAN</span>(sdlog))</span>
+<span id="cb108-7"><a href="#cb108-7" aria-hidden="true" tabindex="-1"></a>    return x <span class="sc">+</span> meanlog <span class="sc">+</span> sdlog;</span>
+<span id="cb108-8"><a href="#cb108-8" aria-hidden="true" tabindex="-1"></a><span class="co">#endif</span></span>
+<span id="cb108-9"><a href="#cb108-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(sdlog <span class="sc">&lt;=</span> <span class="dv">0</span>) {</span>
+<span id="cb108-10"><a href="#cb108-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(sdlog <span class="sc">&lt;</span> <span class="dv">0</span>) ML_ERR_return_NAN;</span>
+<span id="cb108-11"><a href="#cb108-11" aria-hidden="true" tabindex="-1"></a>    <span class="sc">/</span><span class="er">/</span> sdlog <span class="sc">==</span> <span class="dv">0</span> <span class="sc">:</span></span>
+<span id="cb108-12"><a href="#cb108-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> (<span class="fu">log</span>(x) <span class="sc">==</span> meanlog) ? ML_POSINF <span class="sc">:</span> R_D__0;</span>
+<span id="cb108-13"><a href="#cb108-13" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb108-14"><a href="#cb108-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(x <span class="sc">&lt;=</span> <span class="dv">0</span>) return R_D__0;</span>
+<span id="cb108-15"><a href="#cb108-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb108-16"><a href="#cb108-16" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">=</span> (<span class="fu">log</span>(x) <span class="sc">-</span> meanlog) <span class="sc">/</span> sdlog;</span>
+<span id="cb108-17"><a href="#cb108-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> (give_log ?</span>
+<span id="cb108-18"><a href="#cb108-18" aria-hidden="true" tabindex="-1"></a>        <span class="sc">-</span>(M_LN_SQRT_2PI   <span class="sc">+</span> <span class="fl">0.5</span> <span class="sc">*</span> y <span class="sc">*</span> y <span class="sc">+</span> <span class="fu">log</span>(x <span class="sc">*</span> sdlog)) <span class="sc">:</span></span>
+<span id="cb108-19"><a href="#cb108-19" aria-hidden="true" tabindex="-1"></a>        M_1_SQRT_2PI <span class="sc">*</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span> <span class="sc">*</span> y <span class="sc">*</span> y)  <span class="sc">/</span>  (x <span class="sc">*</span> sdlog));</span>
+<span id="cb108-20"><a href="#cb108-20" aria-hidden="true" tabindex="-1"></a>    <span class="sc">/</span><span class="er">*</span> M_1_SQRT_2PI <span class="ot">=</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">2</span> <span class="sc">*</span> pi) <span class="sc">*</span><span class="er">/</span></span>
+<span id="cb108-21"><a href="#cb108-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb108-22"><a href="#cb108-22" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>In the last four lines with the logical condtion <code>give_log?</code>, we see how the <code>log</code> argument is handled:</p>
 <ul>
 <li>when log=TRUE, we use <span class="math inline">\(-(\log(\sqrt{2\pi}) + y^2/2+\log(x\sigma))\)</span>
 </li>
 </ul>
-<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">-</span><span class="op">(</span><span class="va">M_LN_SQRT_2PI</span>   <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="va">y</span> <span class="op">*</span> <span class="va">y</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">x</span> <span class="op">*</span> <span class="va">sdlog</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <ul>
 <li>when log=FALSE, we use <span class="math inline">\(\sqrt{2\pi} *\exp( y^2/2)/(x\sigma))\)</span> (and then the logarithm outside <code>dlnorm</code>)</li>
 </ul>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>M_1_SQRT_2PI <span class="sc">*</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span> <span class="sc">*</span> y <span class="sc">*</span> y)  <span class="sc">/</span>  (x <span class="sc">*</span> sdlog)<span class="er">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>M_1_SQRT_2PI <span class="sc">*</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span> <span class="sc">*</span> y <span class="sc">*</span> y)  <span class="sc">/</span>  (x <span class="sc">*</span> sdlog)<span class="er">)</span></span></code></pre></div>
 <p>Note that the constant <span class="math inline">\(\log(\sqrt{2\pi})\)</span> is pre-computed in the C macro <code>M_LN_SQRT_2PI</code>.</p>
 <p>In order to sort out this problem,
 we use the <code>constrOptim</code> wrapping <code>optim</code> to take into account linear constraints.
 This allows also to use other optimization methods than L-BFGS-B
 (low-memory BFGS bounded) used in optim.</p>
-<div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">f2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">y</span>, <span class="st">"shiftlnorm"</span>, start<span class="op">=</span><span class="va">start</span>, lower<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="fl">0</span>, <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">)</span>, optim.method<span class="op">=</span><span class="st">"Nelder-Mead"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">f2</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Fitting of the distribution ' shiftlnorm ' by maximum likelihood </span></span>
@@ -1052,7 +1089,7 @@ This allows also to use other optimization methods than L-BFGS-B
 <span><span class="co">## Loglikelihood:  8299   AIC:  -16591   BIC:  -16573 </span></span>
 <span><span class="co">## Correlation matrix:</span></span>
 <span><span class="co">## [1] NA</span></span></code></pre>
-<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span>BFGS<span class="op">=</span><span class="va">f</span><span class="op">$</span><span class="va">estimate</span>, NelderMead<span class="op">=</span><span class="va">f2</span><span class="op">$</span><span class="va">estimate</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##         BFGS NelderMead</span></span>
 <span><span class="co">## mean  -1.386    -1.3873</span></span>
@@ -1066,16 +1103,16 @@ implemented in the package <code>Rmpfr</code> using the MPFR library.</p>
 <span class="header-section-number">3.4</span> What to do when there is a scaling issue?<a class="anchor" aria-label="anchor" href="#what-to-do-when-there-is-a-scaling-issue"></a>
 </h3>
 <p>Let us consider a dataset which has particular small values.</p>
-<div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">dataFAQscale1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">dataFAQscale1</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] -0.007077 -0.000947 -0.001898 -0.000475 -0.001902 -0.000476</span></span></code></pre>
-<div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb117"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">dataFAQscale1</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. </span></span>
 <span><span class="co">## -0.00708 -0.00143 -0.00047 -0.00031  0.00096  0.00428</span></span></code></pre>
 <p>The only way to sort out is to multiply the dataset by a large value.</p>
-<div class="sourceCode" id="cb117"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb119"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">6</span><span class="op">:</span><span class="fl">0</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fl">10</span><span class="op">^</span><span class="va">i</span>, <span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu"><a href="../reference/mledist.html">mledist</a></span><span class="op">(</span><span class="va">dataFAQscale1</span><span class="op">*</span><span class="fl">10</span><span class="op">^</span><span class="va">i</span>, <span class="st">"cauchy"</span><span class="op">)</span><span class="op">$</span><span class="va">estimate</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## 1e+06 -290 1194 </span></span>
@@ -1087,16 +1124,16 @@ implemented in the package <code>Rmpfr</code> using the MPFR library.</p>
 <span><span class="co">## &lt;simpleError in optim(par = vstart, fn = fnobj, fix.arg = fix.arg, obs = data,     gr = gradient, ddistnam = ddistname, hessian = TRUE, method = meth,     lower = lower, upper = upper, ...): non-finite finite-difference value [2]&gt;</span></span>
 <span><span class="co">## 1 NA NA</span></span></code></pre>
 <p>Let us consider a dataset which has particular large values.</p>
-<div class="sourceCode" id="cb119"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb121"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">dataFAQscale2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">dataFAQscale2</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 1.40e+09 1.41e+09 1.43e+09 1.44e+09 1.49e+09 1.57e+09</span></span></code></pre>
-<div class="sourceCode" id="cb121"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb123"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">dataFAQscale2</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. </span></span>
 <span><span class="co">## 1.40e+09 1.58e+09 2.24e+09 2.55e+09 3.39e+09 4.49e+09</span></span></code></pre>
 <p>The only way to sort out is to multiply the dataset by a small value.</p>
-<div class="sourceCode" id="cb123"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">0</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fl">10</span><span class="op">^</span><span class="op">(</span><span class="op">-</span><span class="fl">2</span><span class="op">*</span><span class="va">i</span><span class="op">)</span>, <span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu"><a href="../reference/mledist.html">mledist</a></span><span class="op">(</span><span class="va">dataFAQscale2</span><span class="op">*</span><span class="fl">10</span><span class="op">^</span><span class="op">(</span><span class="op">-</span><span class="fl">2</span><span class="op">*</span><span class="va">i</span><span class="op">)</span>, <span class="st">"cauchy"</span><span class="op">)</span><span class="op">$</span><span class="va">estimate</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## 1 2.03e+09 6.59e+08 </span></span>
@@ -1126,7 +1163,7 @@ Therefore when optimizing the log-likelihood or the squared differences or
 the GoF statistics.
 Setting a lower bound for the scale parameter is easy with <code>fitdist</code>: just use
 the <code>lower</code> argument.</p>
-<div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb127"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1000</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"norm"</span>, lower<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -1148,7 +1185,7 @@ x\in\mathbb{R},
 \]</span>
 where <span class="math inline">\(a,b\)</span> are shape parameters such that <span class="math inline">\(a,b&gt;0\)</span>,
 <span class="math inline">\(s\)</span> is a scale parameter such that <span class="math inline">\(s&gt;0\)</span>.</p>
-<div class="sourceCode" id="cb127"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb129"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/actuar/man/Burr.html" class="external-link">rburr</a></span><span class="op">(</span><span class="fl">1000</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"burr"</span>, lower<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, start<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>shape1 <span class="op">=</span> <span class="fl">1</span>, shape2 <span class="op">=</span> <span class="fl">1</span>, </span>
 <span>  rate <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -1170,7 +1207,7 @@ f(x) = p(1-p)^x,
 x\in\mathbb{N},
 \]</span>
 where <span class="math inline">\(p\)</span> is a probability parameter such that <span class="math inline">\(p\in[0,1]\)</span>.</p>
-<div class="sourceCode" id="cb129"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb131"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Geometric.html" class="external-link">rgeom</a></span><span class="op">(</span><span class="fl">1000</span>, <span class="fl">1</span><span class="op">/</span><span class="fl">4</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"geom"</span>, lower<span class="op">=</span><span class="fl">0</span>, upper<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Fitting of the distribution ' geom ' by maximum likelihood </span></span>
@@ -1201,7 +1238,7 @@ When optimizing the log-likelihood, the boundary constraint is
 Note that when optimizing the squared differences or the GoF statistics,
 this constraint may not be necessary.
 Let us do it in R.</p>
-<div class="sourceCode" id="cb131"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb133"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dsexp</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">rate</span>, <span class="va">shift</span><span class="op">)</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html" class="external-link">dexp</a></span><span class="op">(</span><span class="va">x</span><span class="op">-</span><span class="va">shift</span>, rate<span class="op">=</span><span class="va">rate</span><span class="op">)</span></span>
 <span><span class="va">psexp</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">rate</span>, <span class="va">shift</span><span class="op">)</span></span>
@@ -1253,7 +1290,7 @@ has the following parameter constraints, which can be reformulated as a linear i
 \]</span>
 These constraints can be carried out via <code><a href="https://rdrr.io/r/stats/constrOptim.html" class="external-link">constrOptim()</a></code> and the arguments <code>ci</code> and <code>ui</code>.
 Here is an example</p>
-<div class="sourceCode" id="cb133"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb135"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-forge.r-project.org/projects/rmetrics/" class="external-link">GeneralizedHyperbolic</a></span><span class="op">)</span></span>
 <span><span class="va">myoptim</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">fn</span>, <span class="va">par</span>, <span class="va">ui</span>, <span class="va">ci</span>, <span class="va">...</span><span class="op">)</span></span>
 <span><span class="op">{</span></span>
@@ -1292,17 +1329,17 @@ F_X^{-1}(q) = \left\lfloor\frac{\log(1-q)}{\log(1-p)}\right\rfloor.
 \]</span>
 Due to the integer part (floor function), both the distribution function and the
 quantile function are step functions.</p>
-<div class="sourceCode" id="cb137"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb139"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Geometric.html" class="external-link">pgeom</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">3</span>, prob<span class="op">=</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 0.500 0.750 0.875 0.938</span></span></code></pre>
-<div class="sourceCode" id="cb139"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb141"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Geometric.html" class="external-link">qgeom</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">0.6</span>, <span class="fl">0.9</span><span class="op">)</span>, prob<span class="op">=</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 0 1 3</span></span></code></pre>
-<div class="sourceCode" id="cb141"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb143"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span>, mfrow<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html" class="external-link">curve</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Geometric.html" class="external-link">pgeom</a></span><span class="op">(</span><span class="va">x</span>, prob<span class="op">=</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span>, <span class="fl">0</span>, <span class="fl">10</span>, n<span class="op">=</span><span class="fl">301</span>, main<span class="op">=</span><span class="st">"c.d.f."</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html" class="external-link">curve</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Geometric.html" class="external-link">qgeom</a></span><span class="op">(</span><span class="va">x</span>, prob<span class="op">=</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span>, <span class="fl">0</span>, <span class="fl">1</span>, n<span class="op">=</span><span class="fl">301</span>, main<span class="op">=</span><span class="st">"q.f."</span><span class="op">)</span></span></code></pre></div>
-<p><img src="FAQ_files/figure-html/unnamed-chunk-36-1.png"><!-- --></p>
+<p><img src="FAQ_files/figure-html/unnamed-chunk-40-1.png"><!-- --></p>
 <p>Now we study the QME for the geometric distribution. Since we have only one parameter,
 we choose one probabiliy, <span class="math inline">\(p=1/2\)</span>.
 The theoretical median is the following integer
@@ -1319,11 +1356,11 @@ where <span class="math inline">\(x_{1}^\star&lt;\dots&lt;x_{n}^\star\)</span> i
 if <span class="math inline">\(x_{n/2}^\star + x_{n/2+1}^\star\)</span> is not an even number.
 However for an odd length dataset, the empirical median is an integer
 <span class="math inline">\(q_{n,1/2}=x_{(n+1)/2}^\star\)</span>.</p>
-<div class="sourceCode" id="cb142"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb144"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="co">#sample size 10</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 0.5</span></span></code></pre>
-<div class="sourceCode" id="cb144"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb146"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="co">#sample size 11</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 0</span></span></code></pre>
 <p>Therefore, a first issue arises:
@@ -1337,18 +1374,19 @@ Admitting matching <span class="math inline">\(q_{n,1/2}\)</span> is an integer,
 q_{n,1/2} \leq \frac{\log(1/2)}{\log(1-p)} &lt; q_{n,1/2} +1.
 \]</span>
 Let us plot the squared differences <span class="math inline">\((F_X^{-1}(1/2) - q_{n,1/2})^2\)</span>.</p>
-<div class="sourceCode" id="cb146"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb148"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Geometric.html" class="external-link">rgeom</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">1</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span></span>
 <span><span class="va">L2</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span>
 <span>  <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Geometric.html" class="external-link">qgeom</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span>, <span class="va">p</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span></span>
 <span><span class="fu">L2</span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span> <span class="co">#theoretical value</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 0</span></span></code></pre>
-<div class="sourceCode" id="cb148"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html" class="external-link">curve</a></span><span class="op">(</span><span class="fu">L2</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="fl">0.10</span>, <span class="fl">0.95</span>, xlab<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span>, ylab<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu">L2</span><span class="op">(</span><span class="va">p</span><span class="op">)</span><span class="op">)</span>, main<span class="op">=</span><span class="st">"squared differences"</span>, n<span class="op">=</span><span class="fl">301</span><span class="op">)</span></span></code></pre></div>
-<p><img src="FAQ_files/figure-html/unnamed-chunk-38-1.png"><!-- --></p>
+<div class="sourceCode" id="cb150"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html" class="external-link">curve</a></span><span class="op">(</span><span class="fu">L2</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="fl">0.10</span>, <span class="fl">0.95</span>, xlab<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span>, ylab<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu">L2</span><span class="op">(</span><span class="va">p</span><span class="op">)</span><span class="op">)</span>, main<span class="op">=</span><span class="st">"squared differences"</span>, n<span class="op">=</span><span class="fl">301</span><span class="op">)</span></span></code></pre></div>
+<p><img src="FAQ_files/figure-html/unnamed-chunk-42-1.png"><!-- --></p>
 <p>Any value between [1/3, 5/9] minimizes the squared differences.
 Therefore, <code><a href="../reference/fitdist.html">fitdist()</a></code> may be sensitive to the chosen initial value with deterministic optimization algorithm.</p>
-<div class="sourceCode" id="cb149"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb151"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"geom"</span>, method<span class="op">=</span><span class="st">"qme"</span>, probs<span class="op">=</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span>, start<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>prob<span class="op">=</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span>, control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>trace<span class="op">=</span><span class="fl">1</span>, REPORT<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## initial  value 1.000000 </span></span>
 <span><span class="co">## iter   2 value 0.000000</span></span>
@@ -1360,7 +1398,7 @@ Therefore, <code><a href="../reference/fitdist.html">fitdist()</a></code> may be
 <span><span class="co">## Parameters:</span></span>
 <span><span class="co">##      estimate</span></span>
 <span><span class="co">## prob     0.34</span></span></code></pre>
-<div class="sourceCode" id="cb152"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb154"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"geom"</span>, method<span class="op">=</span><span class="st">"qme"</span>, probs<span class="op">=</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span>, start<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>prob<span class="op">=</span><span class="fl">1</span><span class="op">/</span><span class="fl">20</span><span class="op">)</span>, control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>trace<span class="op">=</span><span class="fl">1</span>, REPORT<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## initial  value 144.000000 </span></span>
 <span><span class="co">## iter   1 value 144.000000</span></span>
@@ -1371,13 +1409,13 @@ Therefore, <code><a href="../reference/fitdist.html">fitdist()</a></code> may be
 <span><span class="co">##      estimate</span></span>
 <span><span class="co">## prob     0.05</span></span></code></pre>
 <p>The solution is to use a stochastic algorithm such as simulated annealing (SANN).</p>
-<div class="sourceCode" id="cb155"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb157"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"geom"</span>, method<span class="op">=</span><span class="st">"qme"</span>, probs<span class="op">=</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span>, optim.method<span class="op">=</span><span class="st">"SANN"</span>, start<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>prob<span class="op">=</span><span class="fl">1</span><span class="op">/</span><span class="fl">20</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Fitting of the distribution ' geom ' by matching quantiles </span></span>
 <span><span class="co">## Parameters:</span></span>
 <span><span class="co">##      estimate</span></span>
 <span><span class="co">## prob    0.497</span></span></code></pre>
-<div class="sourceCode" id="cb157"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb159"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"geom"</span>, method<span class="op">=</span><span class="st">"qme"</span>, probs<span class="op">=</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span>, optim.method<span class="op">=</span><span class="st">"SANN"</span>, start<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>prob<span class="op">=</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Fitting of the distribution ' geom ' by matching quantiles </span></span>
 <span><span class="co">## Parameters:</span></span>
@@ -1408,26 +1446,128 @@ i &amp; \text{if } \sum_{k=0}^{i-1} P(X=k) \leq p &lt; \sum_{k=0}^{i} P(X=k) \\
 \end{array} \right.
 \]</span></p>
 <p>Again, the squared differences is a step function <span class="math inline">\((F_X^{-1}(1/2) - q_{n,1/2})^2\)</span>.</p>
-<div class="sourceCode" id="cb159"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html" class="external-link">rpois</a></span><span class="op">(</span><span class="fl">100</span>, lambda<span class="op">=</span><span class="fl">7.5</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb161"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html" class="external-link">rpois</a></span><span class="op">(</span><span class="fl">100</span>, lambda<span class="op">=</span><span class="fl">7.5</span><span class="op">)</span></span>
 <span><span class="va">L2</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">lam</span><span class="op">)</span></span>
 <span>  <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html" class="external-link">qpois</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span>, lambda <span class="op">=</span> <span class="va">lam</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html" class="external-link">curve</a></span><span class="op">(</span><span class="fu">L2</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="fl">6</span>, <span class="fl">9</span>, xlab<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">lambda</span><span class="op">)</span>, ylab<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu">L2</span><span class="op">(</span><span class="va">lambda</span><span class="op">)</span><span class="op">)</span>, main<span class="op">=</span><span class="st">"squared differences"</span>, n<span class="op">=</span><span class="fl">201</span><span class="op">)</span></span></code></pre></div>
-<p><img src="FAQ_files/figure-html/unnamed-chunk-41-1.png"><!-- --></p>
+<p><img src="FAQ_files/figure-html/unnamed-chunk-45-1.png"><!-- --></p>
 <p>Therefore, using <code><a href="../reference/fitdist.html">fitdist()</a></code> may be sensitive to the chosen initial value.</p>
-<div class="sourceCode" id="cb160"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb162"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"pois"</span>, method<span class="op">=</span><span class="st">"qme"</span>, probs<span class="op">=</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span>, start<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>lambda<span class="op">=</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Fitting of the distribution ' pois ' by matching quantiles </span></span>
 <span><span class="co">## Parameters:</span></span>
 <span><span class="co">##        estimate</span></span>
 <span><span class="co">## lambda        2</span></span></code></pre>
-<div class="sourceCode" id="cb162"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb164"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"pois"</span>, method<span class="op">=</span><span class="st">"qme"</span>, probs<span class="op">=</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span>, optim.method<span class="op">=</span><span class="st">"SANN"</span>, start<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>lambda<span class="op">=</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Fitting of the distribution ' pois ' by matching quantiles </span></span>
 <span><span class="co">## Parameters:</span></span>
 <span><span class="co">##        estimate</span></span>
 <span><span class="co">## lambda     6.73</span></span></code></pre>
+</div>
+<div class="section level3" number="3.7">
+<h3 id="why-setting-a-parameter-to-the-true-value-does-not-lead-to-the-expected-result-for-other-parameters">
+<span class="header-section-number">3.7</span> Why setting a parameter to the true value does not lead to the expected result for other parameters?<a class="anchor" aria-label="anchor" href="#why-setting-a-parameter-to-the-true-value-does-not-lead-to-the-expected-result-for-other-parameters"></a>
+</h3>
+<p>Consider the gamma truncated distribution defined by the following density and cumulative distribution functions</p>
+<div class="sourceCode" id="cb166"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#NB: using the logical vector condition is the optimal way to compute pdf and cdf</span></span>
+<span><span class="va">dtgamma</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">shape</span>, <span class="va">rate</span>, <span class="va">low</span>, <span class="va">upp</span><span class="op">)</span></span>
+<span><span class="op">{</span></span>
+<span>  <span class="va">PU</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">pgamma</a></span><span class="op">(</span><span class="va">upp</span>, shape <span class="op">=</span> <span class="va">shape</span>, rate <span class="op">=</span> <span class="va">rate</span><span class="op">)</span></span>
+<span>  <span class="va">PL</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">pgamma</a></span><span class="op">(</span><span class="va">low</span>, shape <span class="op">=</span> <span class="va">shape</span>, rate <span class="op">=</span> <span class="va">rate</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">dgamma</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">shape</span>, <span class="va">rate</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="va">PU</span> <span class="op">-</span> <span class="va">PL</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="va">x</span> <span class="op">&gt;=</span> <span class="va">low</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="va">x</span> <span class="op">&lt;=</span> <span class="va">upp</span><span class="op">)</span> </span>
+<span><span class="op">}</span></span>
+<span><span class="va">ptgamma</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">q</span>, <span class="va">shape</span>, <span class="va">rate</span>, <span class="va">low</span>, <span class="va">upp</span><span class="op">)</span></span>
+<span><span class="op">{</span></span>
+<span>  <span class="va">PU</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">pgamma</a></span><span class="op">(</span><span class="va">upp</span>, shape <span class="op">=</span> <span class="va">shape</span>, rate <span class="op">=</span> <span class="va">rate</span><span class="op">)</span></span>
+<span>  <span class="va">PL</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">pgamma</a></span><span class="op">(</span><span class="va">low</span>, shape <span class="op">=</span> <span class="va">shape</span>, rate <span class="op">=</span> <span class="va">rate</span><span class="op">)</span></span>
+<span>  <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">pgamma</a></span><span class="op">(</span><span class="va">q</span>, <span class="va">shape</span>, <span class="va">rate</span><span class="op">)</span> <span class="op">-</span> <span class="va">PL</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="va">PU</span> <span class="op">-</span> <span class="va">PL</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="va">q</span> <span class="op">&gt;=</span> <span class="va">low</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="va">q</span> <span class="op">&lt;=</span> <span class="va">upp</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span> <span class="op">*</span> <span class="op">(</span><span class="va">q</span> <span class="op">&gt;</span> <span class="va">upp</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<p>Simulating from a truncated distribution is done by rejection outside <code>[low, upp]</code> interval.</p>
+<div class="sourceCode" id="cb167"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">rtgamma</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">n</span>, <span class="va">shape</span>, <span class="va">rate</span>, <span class="va">low</span><span class="op">=</span><span class="fl">0</span>, <span class="va">upp</span><span class="op">=</span><span class="cn">Inf</span>, <span class="va">maxit</span><span class="op">=</span><span class="fl">10</span><span class="op">)</span></span>
+<span><span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="va">n</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
+<span>  <span class="kw">if</span><span class="op">(</span><span class="va">low</span> <span class="op">&gt;</span> <span class="va">upp</span><span class="op">)</span></span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">NaN</span>, <span class="va">n</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">PU</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">pgamma</a></span><span class="op">(</span><span class="va">upp</span>, shape <span class="op">=</span> <span class="va">shape</span>, rate <span class="op">=</span> <span class="va">rate</span><span class="op">)</span></span>
+<span>  <span class="va">PL</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">pgamma</a></span><span class="op">(</span><span class="va">low</span>, shape <span class="op">=</span> <span class="va">shape</span>, rate <span class="op">=</span> <span class="va">rate</span><span class="op">)</span></span>
+<span>  <span class="co">#simulate directly expected number of random variate</span></span>
+<span>  <span class="va">n2</span> <span class="op">&lt;-</span> <span class="va">n</span><span class="op">/</span><span class="op">(</span><span class="va">PU</span><span class="op">-</span><span class="va">PL</span><span class="op">)</span></span>
+<span>  <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">rgamma</a></span><span class="op">(</span><span class="va">n</span>, shape<span class="op">=</span><span class="va">shape</span>, rate<span class="op">=</span><span class="va">rate</span><span class="op">)</span></span>
+<span>  <span class="va">x</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">[</span><span class="va">x</span> <span class="op">&gt;=</span> <span class="va">low</span> <span class="op">&amp;</span> <span class="va">x</span> <span class="op">&lt;=</span> <span class="va">upp</span><span class="op">]</span></span>
+<span>  <span class="va">i</span> <span class="op">&lt;-</span> <span class="fl">0</span> </span>
+<span>  <span class="kw">while</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;</span> <span class="va">n</span> <span class="op">&amp;&amp;</span> <span class="va">i</span> <span class="op">&lt;</span> <span class="va">maxit</span><span class="op">)</span></span>
+<span>  <span class="op">{</span></span>
+<span>    <span class="va">n2</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">n</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="op">(</span><span class="va">PU</span><span class="op">-</span><span class="va">PL</span><span class="op">)</span></span>
+<span>    <span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">rgamma</a></span><span class="op">(</span><span class="va">n2</span>, shape<span class="op">=</span><span class="va">shape</span>, rate<span class="op">=</span><span class="va">rate</span><span class="op">)</span></span>
+<span>    <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">[</span><span class="va">y</span> <span class="op">&gt;=</span> <span class="va">low</span> <span class="op">&amp;</span> <span class="va">y</span> <span class="op">&lt;=</span> <span class="va">upp</span><span class="op">]</span><span class="op">)</span></span>
+<span>    <span class="va">i</span> <span class="op">&lt;-</span> <span class="va">i</span><span class="op">+</span><span class="fl">1</span></span>
+<span>  <span class="op">}</span></span>
+<span>  <span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">n</span><span class="op">]</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<p>Consider a sample of lower-truncated gamma distribution.</p>
+<div class="sourceCode" id="cb168"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">100</span> ; <span class="va">shape</span> <span class="op">&lt;-</span> <span class="fl">11</span> ; <span class="va">rate</span> <span class="op">&lt;-</span> <span class="fl">3</span> ; <span class="va">x0</span> <span class="op">&lt;-</span> <span class="fl">5</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">rtgamma</span><span class="op">(</span><span class="va">n</span>, shape <span class="op">=</span> <span class="va">shape</span>, rate <span class="op">=</span> <span class="va">rate</span>, low<span class="op">=</span><span class="va">x0</span><span class="op">)</span></span></code></pre></div>
+<p>Fitting two parameters (and setting <code>low</code> parameter) or fitting all three parameters
+lead a poorer result both in terms of mean squared error or relative error. Notably the
+shape parameter is badly estimated.</p>
+<div class="sourceCode" id="cb169"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fit.NM.2P</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">x</span>,</span>
+<span>  distr <span class="op">=</span> <span class="st">"tgamma"</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"mle"</span>,</span>
+<span>  start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>shape <span class="op">=</span> <span class="fl">10</span>, rate <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,</span>
+<span>  fix.arg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>upp <span class="op">=</span> <span class="cn">Inf</span>, low<span class="op">=</span><span class="va">x0</span><span class="op">)</span>,</span>
+<span>  lower <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, upper<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">Inf</span>, <span class="cn">Inf</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">fit.NM.3P</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">x</span>,</span>
+<span>  distr <span class="op">=</span> <span class="st">"tgamma"</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"mle"</span>,</span>
+<span>  start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>shape <span class="op">=</span> <span class="fl">10</span>, rate <span class="op">=</span> <span class="fl">10</span>, low<span class="op">=</span><span class="fl">1</span><span class="op">)</span>,</span>
+<span>  fix.arg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>upp <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span>,</span>
+<span>  lower <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="op">-</span><span class="cn">Inf</span><span class="op">)</span>, upper<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">Inf</span>, <span class="cn">Inf</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##                  fit3P  fit2P true value</span></span>
+<span><span class="co">## shape          11.8503  57.13         11</span></span>
+<span><span class="co">## rate            3.2982  10.92          3</span></span>
+<span><span class="co">## low             5.0094   5.00          5</span></span>
+<span><span class="co">## mean sq. error  0.2707 730.30          0</span></span>
+<span><span class="co">## rel. error      0.0595   2.28          0</span></span></code></pre>
+<p>However the fitted cumulative distributions are indistinguable. See figure below.
+<img src="FAQ_files/figure-html/unnamed-chunk-52-1.png"><!-- --></p>
+<p>The reason is that the log-likelihood is not the same between the two cases.
+Changing the optimization method is useless. The graph below display the likelihood
+contours as well as optimization iterates (grey crosses), the final estimate (black cross)
+and the true value (red dot).
+Iterates get stuck far from the true value.
+<img src="FAQ_files/figure-html/unnamed-chunk-53-1.png"><!-- --></p>
+<p>In fact the log-likelihood as a function of the shape parameter may be monotone.
+<img src="FAQ_files/figure-html/unnamed-chunk-54-1.png"><!-- --></p>
+<p>Fitting a two-parameter distribution (i.e. gamma) on the shifted dataset is worse.</p>
+<div class="sourceCode" id="cb171"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fit.gamma</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">x</span><span class="op">-</span><span class="va">x0</span>,</span>
+<span>  distr <span class="op">=</span> <span class="st">"gamma"</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"mle"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##                  fit3P fit2P orig. data fit2P shift data true value</span></span>
+<span><span class="co">## shape          11.8503            57.13            1.498         11</span></span>
+<span><span class="co">## rate            3.2982            10.92            2.288          3</span></span>
+<span><span class="co">## low             5.0094             5.00            5.000          5</span></span>
+<span><span class="co">## mean sq. error  0.2707           730.30           30.267          0</span></span>
+<span><span class="co">## rel. error      0.0595             2.28            0.367          0</span></span></code></pre>
+<p>Changing the sample size improves the two-parameter fit very slowly even as the MLE of the <code>low</code> parameter
+is in fact the minimum of the dataset: the fitted <code>low</code> converges quickly to the true
+value. Below an example with 1000 variates.</p>
+<pre><code><span><span class="co">##                  fit3P fit2P orig. data true value</span></span>
+<span><span class="co">## shape          11.7976           15.489         11</span></span>
+<span><span class="co">## rate            3.0813            3.679          3</span></span>
+<span><span class="co">## low             5.0001            5.000          5</span></span>
+<span><span class="co">## mean sq. error  0.2143            6.871          0</span></span>
+<span><span class="co">## rel. error      0.0332            0.212          0</span></span></code></pre>
 </div>
 </div>
 <div class="section level2" number="4">
@@ -1462,7 +1602,7 @@ on parameters or on any function of those parameters.</strong></p>
 <p>Below you will find two examples, one for which Wald confidence intervals seem correct and one for which
 they give wrong results, with parameter values even outside their possible range
 (negative rate bound for the gamma distribution).</p>
-<div class="sourceCode" id="cb164"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb174"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
 <span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">30</span>, mean <span class="op">=</span> <span class="fl">10</span>, sd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">n</span>, <span class="st">"norm"</span><span class="op">)</span></span>
@@ -1471,15 +1611,16 @@ they give wrong results, with parameter values even outside their possible range
 <pre><code><span><span class="co">##      Median 2.5% 97.5%</span></span>
 <span><span class="co">## mean   9.41 8.78 10.02</span></span>
 <span><span class="co">## sd     1.73 1.33  2.15</span></span></code></pre>
-<div class="sourceCode" id="cb166"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb176"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fn</span><span class="op">$</span><span class="va">estimate</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="st">"estimate"</span><span class="op">=</span> <span class="fl">0</span>, <span class="st">"2.5%"</span><span class="op">=</span> <span class="op">-</span><span class="fl">1.96</span><span class="op">*</span><span class="va">fn</span><span class="op">$</span><span class="va">sd</span>, <span class="st">"97.5%"</span><span class="op">=</span> <span class="fl">1.96</span><span class="op">*</span><span class="va">fn</span><span class="op">$</span><span class="va">sd</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##      estimate 2.5% 97.5%</span></span>
 <span><span class="co">## mean     9.41 8.77 10.04</span></span>
 <span><span class="co">## sd       1.78 1.33  2.22</span></span></code></pre>
-<div class="sourceCode" id="cb168"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/logLik-plot.html">llplot</a></span><span class="op">(</span><span class="va">fn</span>, back.col <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="FAQ_files/figure-html/unnamed-chunk-43-1.png"><!-- --></p>
-<div class="sourceCode" id="cb169"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb178"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/logLik-plot.html">llplot</a></span><span class="op">(</span><span class="va">fn</span>, back.col <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="FAQ_files/figure-html/unnamed-chunk-58-1.png"><!-- --></p>
+<div class="sourceCode" id="cb179"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
 <span><span class="va">g</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">rgamma</a></span><span class="op">(</span><span class="fl">30</span>, shape <span class="op">=</span> <span class="fl">0.1</span>, rate <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="va">fg</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">g</span>, <span class="st">"gamma"</span><span class="op">)</span></span>
@@ -1488,14 +1629,15 @@ they give wrong results, with parameter values even outside their possible range
 <pre><code><span><span class="co">##        Median   2.5%   97.5%</span></span>
 <span><span class="co">## shape  0.0923 0.0636   0.145</span></span>
 <span><span class="co">## rate  30.0782 9.6306 146.660</span></span></code></pre>
-<div class="sourceCode" id="cb171"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb181"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fg</span><span class="op">$</span><span class="va">estimate</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="st">"estimate"</span><span class="op">=</span> <span class="fl">0</span>, <span class="st">"2.5%"</span><span class="op">=</span> <span class="op">-</span><span class="fl">1.96</span><span class="op">*</span><span class="va">fg</span><span class="op">$</span><span class="va">sd</span>, <span class="st">"97.5%"</span><span class="op">=</span> <span class="fl">1.96</span><span class="op">*</span><span class="va">fg</span><span class="op">$</span><span class="va">sd</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##       estimate    2.5%  97.5%</span></span>
 <span><span class="co">## shape   0.0882  0.0553  0.121</span></span>
 <span><span class="co">## rate   24.2965 -6.3504 54.943</span></span></code></pre>
-<div class="sourceCode" id="cb173"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/logLik-plot.html">llplot</a></span><span class="op">(</span><span class="va">fg</span>, back.col <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="FAQ_files/figure-html/unnamed-chunk-44-1.png"><!-- --></p>
+<div class="sourceCode" id="cb183"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/logLik-plot.html">llplot</a></span><span class="op">(</span><span class="va">fg</span>, back.col <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="FAQ_files/figure-html/unnamed-chunk-59-1.png"><!-- --></p>
 </div>
 <div class="section level3" number="4.2">
 <h3 id="how-can-we-compute-confidence-intervals-on-quantiles-from-the-fit-of-a-distribution">
@@ -1509,7 +1651,7 @@ sample of parameters. Moreover, you can use the <code><a href="../reference/CIcd
 as a CDF curve surrounded by a band corresponding to pointwise intervals on the quantiles.
 See an example below on censored data corresponding to 72-hour acute salinity tolerance (LC50values)
 of rivermarine invertebrates.</p>
-<div class="sourceCode" id="cb174"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb184"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">salinity</span><span class="op">)</span></span>
 <span><span class="va">log10LC50</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log10</a></span><span class="op">(</span><span class="va">salinity</span><span class="op">)</span></span>
 <span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdistcens.html">fitdistcens</a></span><span class="op">(</span><span class="va">log10LC50</span>, <span class="st">"norm"</span><span class="op">)</span></span>
@@ -1530,10 +1672,11 @@ of rivermarine invertebrates.</p>
 <span><span class="co">##        p=0.05</span></span>
 <span><span class="co">## 2.5 %    1.05</span></span>
 <span><span class="co">## 97.5 %   1.20</span></span></code></pre>
-<div class="sourceCode" id="cb176"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb186"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># visualizing pointwise confidence intervals on other quantiles</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/CIcdfplot.html">CIcdfplot</a></span><span class="op">(</span><span class="va">bootsample</span>, CI.output <span class="op">=</span> <span class="st">"quantile"</span>, CI.fill <span class="op">=</span> <span class="st">"pink"</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>,<span class="fl">2</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code></pre></div>
-<p><img src="FAQ_files/figure-html/unnamed-chunk-45-1.png"><!-- --></p>
+<p><img src="FAQ_files/figure-html/unnamed-chunk-60-1.png"><!-- --></p>
 </div>
 <div class="section level3" number="4.3">
 <h3 id="how-can-we-compute-confidence-intervals-on-any-function-of-the-parameters-of-the-fitted-distribution">
@@ -1546,7 +1689,7 @@ percentiles. Below is an example that uses the bootstrap sample of parameters
 from the previous example (FAQ 4.2) to calculate a 95 percent confidence interval
 on the Potentially Affected Portion (PAF) of species at a given exposure to salinity
 (fixed to 1.2 in log10 in this example).</p>
-<div class="sourceCode" id="cb177"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb187"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">exposure</span> <span class="op">&lt;-</span> <span class="fl">1.2</span></span>
 <span><span class="co"># Bootstrap sample of the PAF at this exposure</span></span>
 <span><span class="va">PAF</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">pnorm</a></span><span class="op">(</span><span class="va">exposure</span>, mean <span class="op">=</span> <span class="va">bootsample</span><span class="op">$</span><span class="va">estim</span><span class="op">$</span><span class="va">mean</span>, sd <span class="op">=</span> <span class="va">bootsample</span><span class="op">$</span><span class="va">estim</span><span class="op">$</span><span class="va">sd</span><span class="op">)</span></span>
@@ -1580,7 +1723,7 @@ functions, <code>denscomp</code>, <code>cdfcomp</code>, <code>ppcomp</code>, <co
 </h3>
 <p>The default plot of an object of class <code>fitdist</code> can be easily reproduced and personalized
 using <code>denscomp</code>, <code>cdfcomp</code>, <code>ppcomp</code> and <code>qqcomp</code>.</p>
-<div class="sourceCode" id="cb179"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb189"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">groundbeef</span><span class="op">)</span></span>
 <span><span class="va">serving</span> <span class="op">&lt;-</span> <span class="va">groundbeef</span><span class="op">$</span><span class="va">serving</span></span>
 <span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">serving</span>, <span class="st">"gamma"</span><span class="op">)</span></span>
@@ -1589,7 +1732,7 @@ using <code>denscomp</code>, <code>cdfcomp</code>, <code>ppcomp</code> and <code
 <span><span class="fu"><a href="../reference/graphcomp.html">qqcomp</a></span><span class="op">(</span><span class="va">fit</span>, addlegend <span class="op">=</span> <span class="cn">FALSE</span>, main <span class="op">=</span> <span class="st">""</span>, fitpch <span class="op">=</span> <span class="fl">16</span>, fitcol <span class="op">=</span> <span class="st">"grey"</span>, line01lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/graphcomp.html">cdfcomp</a></span><span class="op">(</span><span class="va">fit</span>, addlegend <span class="op">=</span> <span class="cn">FALSE</span>, main <span class="op">=</span> <span class="st">""</span>, xlab <span class="op">=</span> <span class="st">"serving sizes (g)"</span>, fitcol <span class="op">=</span> <span class="st">"orange"</span>, lines01 <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/graphcomp.html">ppcomp</a></span><span class="op">(</span><span class="va">fit</span>, addlegend <span class="op">=</span> <span class="cn">FALSE</span>, main <span class="op">=</span> <span class="st">""</span>, fitpch <span class="op">=</span> <span class="fl">16</span>, fitcol <span class="op">=</span> <span class="st">"grey"</span>, line01lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="FAQ_files/figure-html/unnamed-chunk-47-1.png"><!-- --></p>
+<p><img src="FAQ_files/figure-html/unnamed-chunk-62-1.png"><!-- --></p>
 <p>In a similar way, the default plot of an object of class <code>fitdistcens</code> can be easily personalized
 using <code>cdfcompcens</code>.</p>
 </div>
@@ -1598,7 +1741,7 @@ using <code>cdfcompcens</code>.</p>
 <span class="header-section-number">5.3</span> Is it possible to obtain <code>ggplot2</code> plots ?<a class="anchor" aria-label="anchor" href="#is-it-possible-to-obtain-ggplot2-plots"></a>
 </h3>
 <p>An argument <code>plotstyle</code> was added to functions <code>denscomp</code>, <code>cdfcomp</code>, <code>ppcomp</code>, <code>qqcomp</code>and <code>cdfcompcens</code>, <code>ppcompcens</code>, <code>qqcompcens</code> to enable the generation of plots using the <code>ggplot2</code> package. This argument by default fixed at <code>graphics</code> must simply be fixed at <code>ggplot</code> for this purpose, as in the following example. In that latter case the graphical functions return a graphic object that can be further personalized using <code>ggplot2</code> functions.</p>
-<div class="sourceCode" id="cb180"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb190"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="va">fitW</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">serving</span>, <span class="st">"weibull"</span><span class="op">)</span></span>
 <span><span class="va">fitln</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">serving</span>, <span class="st">"lnorm"</span><span class="op">)</span></span>
@@ -1608,7 +1751,7 @@ using <code>cdfcompcens</code>.</p>
 <span>    fitcol <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>, <span class="st">"green"</span>, <span class="st">"orange"</span><span class="op">)</span>, fitlty <span class="op">=</span> <span class="fl">1</span>, fitlwd <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, </span>
 <span>    xlegend <span class="op">=</span> <span class="st">"topright"</span>, plotstyle <span class="op">=</span> <span class="st">"ggplot"</span>, addlegend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">dcomp</span> <span class="op">+</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Ground beef fits"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="FAQ_files/figure-html/unnamed-chunk-48-1.png"><!-- --></p>
+<p><img src="FAQ_files/figure-html/unnamed-chunk-63-1.png"><!-- --></p>
 <!-- We plan to include the argument `plotstyle` to other functions of the `fitdistrplus` package in a next future. -->
 </div>
 <div class="section level3" number="5.4">
@@ -1621,7 +1764,7 @@ of the points on the left of each point. This option is available only for
 ECDF goodness-of-fit plots and only for non censored data. This option can be used
 as below, for example, to name the species in the classical plot of the
 Species Sensitivity Distributions (SSD) in ecotoxicology.</p>
-<div class="sourceCode" id="cb181"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb191"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">endosulfan</span><span class="op">)</span></span>
 <span><span class="va">ATV</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">endosulfan</span>, <span class="va">group</span> <span class="op">==</span> <span class="st">"NonArthroInvert"</span><span class="op">)</span><span class="op">$</span><span class="va">ATV</span></span>
 <span><span class="va">taxaATV</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">endosulfan</span>, <span class="va">group</span> <span class="op">==</span> <span class="st">"NonArthroInvert"</span><span class="op">)</span><span class="op">$</span><span class="va">taxa</span></span>
@@ -1629,7 +1772,7 @@ Species Sensitivity Distributions (SSD) in ecotoxicology.</p>
 <span><span class="fu"><a href="../reference/graphcomp.html">cdfcomp</a></span><span class="op">(</span><span class="va">f</span>, xlogscale <span class="op">=</span> <span class="cn">TRUE</span>, main <span class="op">=</span> <span class="st">"Species Sensitivty Distribution"</span>, </span>
 <span>    xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">100000</span><span class="op">)</span>, name.points <span class="op">=</span> <span class="va">taxaATV</span>, </span>
 <span>    addlegend <span class="op">=</span> <span class="cn">FALSE</span>, plotstyle <span class="op">=</span> <span class="st">"ggplot"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="FAQ_files/figure-html/unnamed-chunk-49-1.png"><!-- --></p>
+<p><img src="FAQ_files/figure-html/unnamed-chunk-64-1.png"><!-- --></p>
 </div>
 </div>
 <div class="section level2" number="6">
@@ -1645,7 +1788,7 @@ corresponds to the coding names <code>"interval2"</code> in function <code>Surv<
 <code>survival</code>. There is no other way to represent censored data in <code>fitdistrplus</code> but the function Surv2fitdistcens() can be used to help you
 to format data for use in fitdistcens() from one of the format
 used in the survival package (see the help page of Surv2fitdistcens()). You have a toy example below.</p>
-<div class="sourceCode" id="cb182"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb192"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dtoy</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>left <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">6</span>, <span class="fl">9.7</span>, <span class="fl">10</span><span class="op">)</span>, right <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">7</span>, <span class="fl">8</span>, <span class="fl">9.7</span>, <span class="cn">NA</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">dtoy</span></span></code></pre></div>
 <pre><code><span><span class="co">##   left right</span></span>
@@ -1663,7 +1806,7 @@ used in the survival package (see the help page of Surv2fitdistcens()). You have
 <p>Let us consider a classical right-censored dataset for human life:
 twenty values randomly chosen from the <code>canlifins</code> dataset of <code>CASdatasets</code> package.
 We refer to the help of <code><a href="../reference/Surv2fitdistcens.html">Surv2fitdistcens()</a></code> for other censoring types.</p>
-<div class="sourceCode" id="cb184"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb194"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">exitage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">81.1</span>,<span class="fl">78.9</span>,<span class="fl">72.6</span>,<span class="fl">67.9</span>,<span class="fl">60.1</span>,<span class="fl">78.3</span>,<span class="fl">83.4</span>,<span class="fl">66.9</span>,<span class="fl">74.8</span>,<span class="fl">80.5</span>,<span class="fl">75.6</span>,<span class="fl">67.1</span>,</span>
 <span>             <span class="fl">75.3</span>,<span class="fl">82.8</span>,<span class="fl">70.1</span>,<span class="fl">85.4</span>,<span class="fl">74</span>,<span class="fl">70</span>,<span class="fl">71.6</span>,<span class="fl">76.5</span><span class="op">)</span></span>
 <span><span class="va">death</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span></span></code></pre></div>
@@ -1671,14 +1814,15 @@ We refer to the help of <code><a href="../reference/Surv2fitdistcens.html">Surv2
 from package <code>survival</code> to handle different types of censoring.
 In order to ease the use of <code><a href="../reference/fitdistcens.html">fitdistcens()</a></code>, a dedicated function <code><a href="../reference/Surv2fitdistcens.html">Surv2fitdistcens()</a></code>
 has been implemented with arguments similar to the ones of <code><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv()</a></code>.</p>
-<div class="sourceCode" id="cb185"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb195"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">svdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Surv2fitdistcens.html">Surv2fitdistcens</a></span><span class="op">(</span><span class="va">exitage</span>, event<span class="op">=</span><span class="va">death</span><span class="op">)</span></span></code></pre></div>
 <p>Let us now fit two simple distributions.</p>
-<div class="sourceCode" id="cb186"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb196"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">flnormc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdistcens.html">fitdistcens</a></span><span class="op">(</span><span class="va">svdata</span>, <span class="st">"lnorm"</span><span class="op">)</span></span>
 <span><span class="va">fweic</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdistcens.html">fitdistcens</a></span><span class="op">(</span><span class="va">svdata</span>, <span class="st">"weibull"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/graphcompcens.html">cdfcompcens</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fweic</span>, <span class="va">flnormc</span><span class="op">)</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">exitage</span><span class="op">)</span>, xlegend <span class="op">=</span> <span class="st">"topleft"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="FAQ_files/figure-html/unnamed-chunk-53-1.png"><!-- --></p>
+<p><img src="FAQ_files/figure-html/unnamed-chunk-68-1.png"><!-- --></p>
 </div>
 <div class="section level3" number="6.3">
 <h3 id="how-to-represent-an-empirical-distribution-from-censored-data">
@@ -1690,13 +1834,13 @@ y-value defined by the rank of the observation as done below using function
 <code>plotdistcens</code>. This representation can be interesting to visualize the raw data,
 but it remains difficult to correctly order the observations
 in any case (see the example below on the right using data <code>smokedfish</code>).</p>
-<div class="sourceCode" id="cb187"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb197"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>, mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">3</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plotdistcens.html">plotdistcens</a></span><span class="op">(</span><span class="va">dtoy</span>, NPMLE <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">smokedfish</span><span class="op">)</span></span>
 <span><span class="va">dsmo</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log10</a></span><span class="op">(</span><span class="va">smokedfish</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plotdistcens.html">plotdistcens</a></span><span class="op">(</span><span class="va">dsmo</span>, NPMLE <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="FAQ_files/figure-html/unnamed-chunk-54-1.png"><!-- --></p>
+<p><img src="FAQ_files/figure-html/unnamed-chunk-69-1.png"><!-- --></p>
 <p>Many authors worked on the development of algorithms for
 <strong>non parametric maximum likelihood estimation (NPMLE)</strong> of the
 <strong>empirical cumulative distribution function (ECDF)</strong> from interval censored data (including
@@ -1711,7 +1855,7 @@ page of <code>plotdistcens</code>). Due to lack of maintenance of this package w
 rewrite their main functions in our package, using another
 optimization function. The same
 ECDF plot was also implemented in our using the Turnbull algorithm of survival (see below).</p>
-<div class="sourceCode" id="cb188"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb198"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>,  mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">3</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co"># Turnbull algorithm with representation of middle points of equivalence classes</span></span>
 <span><span class="fu"><a href="../reference/plotdistcens.html">plotdistcens</a></span><span class="op">(</span><span class="va">dsmo</span>, NPMLE.method <span class="op">=</span> <span class="st">"Turnbull.middlepoints"</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.8</span>, <span class="fl">2.4</span><span class="op">)</span><span class="op">)</span></span>
@@ -1719,7 +1863,7 @@ ECDF plot was also implemented in our using the Turnbull algorithm of survival (
 <span><span class="fu"><a href="../reference/plotdistcens.html">plotdistcens</a></span><span class="op">(</span><span class="va">dsmo</span>, NPMLE.method <span class="op">=</span> <span class="st">"Turnbull.intervals"</span><span class="op">)</span></span>
 <span><span class="co"># Wang algorithm with representation of equivalence classes as intervals</span></span>
 <span><span class="fu"><a href="../reference/plotdistcens.html">plotdistcens</a></span><span class="op">(</span><span class="va">dsmo</span>, NPMLE.method <span class="op">=</span> <span class="st">"Wang"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="FAQ_files/figure-html/unnamed-chunk-55-1.png"><!-- --></p>
+<p><img src="FAQ_files/figure-html/unnamed-chunk-70-1.png"><!-- --></p>
 <p>As you can see in the above example, the new implementation of NPMLE
 provides a different type of plot
 for the ECDF, representing by filled rectangles the zones of non-uniqueness
@@ -1734,7 +1878,7 @@ class, which may be zero on some classes. The NPMLE is unique only up to these e
 </ol>
 <p>Various NPMLE algorithms are implemented in the packages <strong>Icens</strong>, <strong>interval</strong> and <strong>npsurv</strong>. They are more or less performant and all of them do not enable the handling
 of other data than survival data, especially with left censored observations.</p>
-<p><img src="FAQ_files/figure-html/unnamed-chunk-56-1.png"><!-- --></p>
+<p><img src="FAQ_files/figure-html/unnamed-chunk-71-1.png"><!-- --></p>
 </div>
 <div class="section level3" number="6.4">
 <h3 id="how-to-assess-the-goodness-of-fit-of-a-distribution-fitted-on-censored-data">
@@ -1748,44 +1892,45 @@ compare the fit of various distributions on a same dataset.
 Function <code>gofstat</code> is not yet proposed in our package for fits on censored
 data but we plan to develop it in the future with the calculation of other
 goodness-of-fit statistics for censored data.</p>
-<div class="sourceCode" id="cb189"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb199"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fnorm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdistcens.html">fitdistcens</a></span><span class="op">(</span><span class="va">dsmo</span>,<span class="st">"norm"</span><span class="op">)</span></span>
 <span><span class="va">flogis</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdistcens.html">fitdistcens</a></span><span class="op">(</span><span class="va">dsmo</span>,<span class="st">"logis"</span><span class="op">)</span></span>
 <span><span class="co"># comparison of AIC values</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fnorm</span><span class="op">)</span><span class="op">$</span><span class="va">aic</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 178</span></span></code></pre>
-<div class="sourceCode" id="cb191"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb201"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">flogis</span><span class="op">)</span><span class="op">$</span><span class="va">aic</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 177</span></span></code></pre>
 <p>Considering goodness-of-fit plots, the generic <code>plot</code> function of an object of class
 <code>fitdistcens</code>provides three plots, one in CDF using the NPMLE ECDF plot (by default
 using the Wang prepresentation, see previous part for details), a Q-Q plot and a P-P plot
 simply derived from the Wang plot of the ECDF, with filled rectangles indicating non uniqueness of the NPMLE ECDF.</p>
-<div class="sourceCode" id="cb193"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb203"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">3</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fnorm</span><span class="op">)</span></span></code></pre></div>
-<p><img src="FAQ_files/figure-html/unnamed-chunk-58-1.png"><!-- --></p>
+<p><img src="FAQ_files/figure-html/unnamed-chunk-73-1.png"><!-- --></p>
 <p>Functions <code><a href="../reference/graphcompcens.html">cdfcompcens()</a></code>, <code>qqcompens()</code> and <code><a href="../reference/graphcompcens.html">ppcompcens()</a></code> can be used to
 individualize and personnalize
 CDF, Q-Q and P-P goodness-of-fit plots and/or to compare the fit of various distributions
 on a same dataset.</p>
-<div class="sourceCode" id="cb194"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/graphcompcens.html">cdfcompcens</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fnorm</span>, <span class="va">flogis</span><span class="op">)</span>, fitlty <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="FAQ_files/figure-html/unnamed-chunk-59-1.png"><!-- --></p>
-<div class="sourceCode" id="cb195"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb204"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/graphcompcens.html">cdfcompcens</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fnorm</span>, <span class="va">flogis</span><span class="op">)</span>, fitlty <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<p><img src="FAQ_files/figure-html/unnamed-chunk-74-1.png"><!-- --></p>
+<div class="sourceCode" id="cb205"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/graphcompcens.html">qqcompcens</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fnorm</span>, <span class="va">flogis</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="FAQ_files/figure-html/unnamed-chunk-59-2.png"><!-- --></p>
-<div class="sourceCode" id="cb196"><pre class="downlit sourceCode r">
+<p><img src="FAQ_files/figure-html/unnamed-chunk-74-2.png"><!-- --></p>
+<div class="sourceCode" id="cb206"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/graphcompcens.html">ppcompcens</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fnorm</span>, <span class="va">flogis</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="FAQ_files/figure-html/unnamed-chunk-59-3.png"><!-- --></p>
+<p><img src="FAQ_files/figure-html/unnamed-chunk-74-3.png"><!-- --></p>
 <p>Considering Q-Q plots and P-P plots, it may be easier to compare various fits by
 splitting the plots as below which is done automatically using the <code>plotstyle</code> <code>ggplot</code> in <code>qqcompens()</code> and <code><a href="../reference/graphcompcens.html">ppcompcens()</a></code> but can also be done manually
 with the <code>plotstyle</code> <code>graphics</code>.</p>
-<div class="sourceCode" id="cb197"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb207"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/graphcompcens.html">qqcompcens</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fnorm</span>, <span class="va">flogis</span><span class="op">)</span>, lwd <span class="op">=</span> <span class="fl">2</span>, plotstyle <span class="op">=</span> <span class="st">"ggplot"</span>,</span>
 <span>  fitcol <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>, <span class="st">"green"</span><span class="op">)</span>, fillrect <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pink"</span>, <span class="st">"lightgreen"</span><span class="op">)</span>,</span>
 <span>  legendtext <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"normal distribution"</span>, <span class="st">"logistic distribution"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="FAQ_files/figure-html/unnamed-chunk-60-1.png"><!-- --></p>
+<p><img src="FAQ_files/figure-html/unnamed-chunk-75-1.png"><!-- --></p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
