@@ -9,7 +9,7 @@
 1. [ ] Traiter dans la FAQ la question du choix du nombre d'itérations bootstrap - compléter avec un 4.4 en donnant un exemple où on fait varier le nb d'itérations (faut que ça se stabilise)
 1. [ ] Add stats for fits on censored data and the corresponding  gofstat function : look at recent papers
 1. [ ] MSE for censored data ?
-1. [ ] explore Cullen and Frey for various dist with trimmed linear moments
+1. [ ] explore Cullen and Frey for various dist with trimmed linear moments as well as other common distributions
 1. [ ] look in scholar google : fitdistrplus "survival data" and fitdistrplus dependencies to appreciate the use of fitdistrplus on survival data and the needs utiliser le package Rwsearch
 1. [ ] biblio sur critères d'information (AICc dans le cas général ou autres critères) pour voir si on peut élargir les stat données
 1. [ ] faire un script automatisé pour analyser les résumés et les revues des articles citant fitdistrplus
@@ -21,10 +21,10 @@
 1. [X] Make a markdown TODO list
 1. [ ] delete the R forge project https://r-forge.r-project.org/projects/riskassessment/ ?
 1. [ ] should we return the points/lines/rectanges drawn in invisible()? as in hist.default() called by hist() ou plot.stepfun called by plot(ecdf())? 
-1. [ ] add a new question to the FAQ, following https://github.com/lbbe-software/fitdistrplus/issues/21 
-1. [ ] add a new question to the FAQ, following https://github.com/lbbe-software/fitdistrplus/issues/23
+1. [X] add a new question to the FAQ, following https://github.com/lbbe-software/fitdistrplus/issues/21 
+1. [X] add a new question to the FAQ, following https://github.com/lbbe-software/fitdistrplus/issues/23
 1. [ ] add a generic function `AIC` and `BIC` for `fitdist(cens)` objects
-1. [ ] close following open issues 2, 21, 23, 25 appropriately
+1. [X] close following open issues 2, 21, 23, 25 appropriately
 1. [X] improve Cullen-Frey graph following https://github.com/lbbe-software/fitdistrplus/issues/24
 1. [ ] add defensive programming in `plotdist()` to deal with https://github.com/lbbe-software/fitdistrplus/issues/27
 
