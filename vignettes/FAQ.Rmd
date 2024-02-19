@@ -107,11 +107,11 @@ $$
 $$
 Let us fit a sample by MLE and MME. The fit looks particularly good in both cases.
 
-```{r, fig.height=3, fig.width=6}
+```{r, fig.height=3.5, fig.width=7}
 x3 <- rlnorm(1000)
 f1 <- fitdist(x3, "lnorm", method="mle") 
 f2 <- fitdist(x3, "lnorm", method="mme")
-par(mfrow=1:2)
+par(mfrow=1:2, mar=c(4,4,2,1))
 cdfcomp(list(f1, f2), do.points=FALSE, xlogscale = TRUE, main = "CDF plot")
 denscomp(list(f1, f2), demp=TRUE, main = "Density plot")
 ```
@@ -387,7 +387,7 @@ print(cbind(coef(f1), c(f2$fix.arg["min"], coef(f2)["mode"],
 
 
 
-# Questions regarding goodness-of-fit tests and statistics
+# Questions regarding goodness-of-fit tests and statistics, Cullen-Frey graph
 
 ## Where can we find the results of goodness-of-fit tests ?
 Results of goodness-of-fit tests are not printed but are given in the object 
@@ -637,6 +637,60 @@ Nevertheless, it is possible for any type of censored data,
 to use information criteria (AIC and BIC given in the summary
 of an object of class `fitdistcens`) to compare the fits of
 various distributions to a same data set.
+
+## Why Cullen-Frey graph may be misleading?
+
+When considering distribution with large theoretical moments or infinite moments,
+using the Cullen-Frey may not be appropriate.
+A typical is the log-normal distribution $\mathcal L\mathcal N(\mu,\sigma^2)$.
+```{r, eval=FALSE}
+n <- 1e3
+x <- rlnorm(n)
+descdist(x)
+```
+```{r, echo=FALSE}
+n <- 1e3
+x <- rlnorm(n)
+par(mar=c(4,4,2,1), mfrow=c(1,1))
+descdist(x)
+```
+
+Indeed for that distribution, the skewness and the kurtosis are functions of
+the exponential of $\sigma^2$. With large values, even for small $\sigma$.
+$$
+sk(X) = (e^{\sigma^2}+2)\sqrt{e^{\sigma^2}-1},
+kr(X) = e^{4\sigma^2} + 2e^{3\sigma^2} + 3e^{2\sigma^2}-3.
+$$
+
+```{r, echo=FALSE}
+skewness.th <- function(sigma)
+  (exp(sigma^2)+2)*sqrt(exp(sigma^2)-1)
+kurtosis.th <- function(sigma)
+  crossprod(1:3, exp(4:2*sigma^2))-3
+```
+
+The convergence to theoretical standardized moments (skewness and kurtosis) is slow
+```{r, echo=FALSE, fig.width=6, fig.height=3}
+moment <- function(obs, k) 
+  mean(scale(obs)^k)
+skewness <- function(obs) 
+  moment(obs, 3)
+kurtosis <- function(obs) 
+  moment(obs, 4)
+
+n <- 5e6
+somen <- rep(c(1, 2, 5), length=18) * rep(10^(1:6), each=3)
+x <- rlnorm(n)
+
+par(mar=c(4,4,2,1), mfrow=1:2)
+plot(somen, sapply(somen, function(n) skewness(x[1:n])), type="b", ylab="skewness")
+abline(a=skewness.th(1), b=0, col="grey")
+plot(somen, sapply(somen, function(n) kurtosis(x[1:n])), type="b", ylab="skewness")
+abline(a=kurtosis.th(1), b=0, col="grey")
+```
+
+In the future, we plan to use trimmed linear moments to deal with this issue. Those moments
+always exist even for distribution with infinite mean, e.g. the Cauchy distribution.
 
 # Questions regarding optimization procedures
 
@@ -1024,6 +1078,223 @@ Therefore, using `fitdist()` may be sensitive to the chosen initial value.
 fitdist(x, "pois", method="qme", probs=1/2, start=list(lambda=2))
 fitdist(x, "pois", method="qme", probs=1/2, optim.method="SANN", start=list(lambda=2))
 ```
+
+## Why setting a parameter to the true value does not lead to the expected result for other parameters?
+
+Consider the gamma truncated distribution defined by the following density and cumulative distribution functions
+```{r}
+#NB: using the logical vector condition is the optimal way to compute pdf and cdf
+dtgamma <- function(x, shape, rate, low, upp)
+{
+  PU <- pgamma(upp, shape = shape, rate = rate)
+  PL <- pgamma(low, shape = shape, rate = rate)
+  dgamma(x, shape, rate) / (PU - PL) * (x >= low) * (x <= upp) 
+}
+ptgamma <- function(q, shape, rate, low, upp)
+{
+  PU <- pgamma(upp, shape = shape, rate = rate)
+  PL <- pgamma(low, shape = shape, rate = rate)
+  (pgamma(q, shape, rate) - PL) / (PU - PL) * (q >= low) * (q <= upp) + 1 * (q > upp)
+}
+```
+Simulating from a truncated distribution is done by rejection outside `[low, upp]` interval.
+```{r}
+rtgamma <- function(n, shape, rate, low=0, upp=Inf, maxit=10)
+{
+  stopifnot(n > 0)
+  if(low > upp)
+    return(rep(NaN, n))
+  PU <- pgamma(upp, shape = shape, rate = rate)
+  PL <- pgamma(low, shape = shape, rate = rate)
+  #simulate directly expected number of random variate
+  n2 <- n/(PU-PL)
+  x <- rgamma(n, shape=shape, rate=rate)
+  x <- x[x >= low & x <= upp]
+  i <- 0 
+  while(length(x) < n && i < maxit)
+  {
+    n2 <- (n-length(x))/(PU-PL)
+    y <- rgamma(n2, shape=shape, rate=rate)
+    x <- c(x, y[y >= low & y <= upp])
+    i <- i+1
+  }
+  x[1:n]
+}
+```
+Consider a sample of lower-truncated gamma distribution.
+```{r}
+n <- 100 ; shape <- 11 ; rate <- 3 ; x0 <- 5
+x <- rtgamma(n, shape = shape, rate = rate, low=x0)
+```
+
+Fitting two parameters (and setting `low` parameter) or fitting all three parameters 
+lead a poorer result both in terms of mean squared error or relative error. Notably the
+shape parameter is badly estimated.
+```{r}
+fit.NM.2P <- fitdist(
+  data = x,
+  distr = "tgamma",
+  method = "mle",
+  start = list(shape = 10, rate = 10),
+  fix.arg = list(upp = Inf, low=x0),
+  lower = c(0, 0), upper=c(Inf, Inf))
+fit.NM.3P <- fitdist(
+  data = x,
+  distr = "tgamma",
+  method = "mle",
+  start = list(shape = 10, rate = 10, low=1),
+  fix.arg = list(upp = Inf),
+  lower = c(0, 0, -Inf), upper=c(Inf, Inf, min(x)))
+```
+```{r, echo=FALSE}
+showpar <- function(matpar)
+{
+  matpar <- rbind(matpar,
+                  "mean sq. error"= apply(matpar, 2, function(x) mean( (x - matpar[, "true value"])^2 )),
+                  "rel. error"= apply(matpar, 2, function(x) mean( abs(x - matpar[, "true value"])/matpar[, "true value"] ))
+  )
+  matpar
+}
+matpar <- cbind(
+    "fit3P" = coef(fit.NM.3P),
+    "fit2P" = c(coef(fit.NM.2P), x0),
+    "true value" = c(shape, rate, x0))
+showpar(matpar)
+```
+However the fitted cumulative distributions are indistinguable. See figure below.
+```{r, fig.height=4, fig.width=6, echo=FALSE}
+par(mar=c(4,4,2,1), mfrow=c(1,1))
+cdfcomp(list(fit.NM.2P, fit.NM.3P), do.points = FALSE, addlegend = FALSE)
+curve(ptgamma(x, shape=shape, rate=rate, low=x0, upp=Inf), add=TRUE, col="blue", lty=3)
+legend("bottomright", lty=c(1,1,2,3), col=1:4, bty="n",
+       c("empirical", "2-param optimization", "3-param optimization", "theoretical"))
+```
+
+The reason is that the log-likelihood is not the same between the two cases.
+Changing the optimization method is useless. The graph below display the likelihood
+contours as well as optimization iterates (grey crosses), the final estimate (black cross)
+and the true value (red dot).
+Iterates get stuck far from the true value.
+```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.height=3, fig.width=6}
+#make trace in dtgamma
+dtgamma <- function(x, shape, rate, low, upp)
+{
+  PU <- pgamma(upp, shape = shape, rate = rate)
+  PL <- pgamma(low, shape = shape, rate = rate)
+  if(myfile != "")
+    cat(shape, rate, "\n", file=myfile, append = TRUE)
+  dgamma(x, shape, rate) / (PU - PL) * (x >= low) * (x <= upp) 
+}
+myfile <- "MLE-NelderMead-dataset.txt"
+fit.NM.2P <- fitdist(
+  data = x,
+  distr = "tgamma",
+  method = "mle",
+  start = list(shape = 10, rate = 10),
+  fix.arg = list(low = x0, upp = Inf),
+  #control=list(trace=1, REPORT=1),
+  optim.method="Nelder-Mead",
+  lower = c(0, 0), upper=c(Inf, Inf))
+
+myfile <- "MLE-BFGS-dataset.txt"
+fit.BFGS.2P <- fitdist(
+  data = x,
+  distr = "tgamma",
+  method = "mle",
+  start = list(shape = 10, rate = 10),
+  fix.arg = list(low = x0, upp = Inf),
+  optim.method="L-BFGS-B",
+  lower = c(1e-2, 1e-2))
+
+myfile <- "" #stop put traces in txt files
+MLE.BFGS.dataset.z.iter <- read.table("MLE-BFGS-dataset.txt", sep =" ")[, 1:2]
+MLE.NM.dataset.z.iter <- read.table("MLE-NelderMead-dataset.txt", sep =" ")[, 1:2]
+maxarg <- rbind(apply(MLE.BFGS.dataset.z.iter, 2, max), apply(MLE.NM.dataset.z.iter, 2, max))
+maxarg <- apply(maxarg, 2, max)
+
+par(mar=c(4,4,2,1), mfrow=1:2)
+#BFGS
+llsurface(x, "tgamma", fix.arg = list(low = x0, upp = Inf), plot.arg=c("shape", "rate"),
+          min.arg=c(0, 0), max.arg=maxarg, main="BFGS iterates")
+points(shape, rate, pch="O", col="red")
+#add BFGS iterates
+points(MLE.BFGS.dataset.z.iter, col="grey", pch="+")
+points(coef(fit.BFGS.2P)["shape"], coef(fit.BFGS.2P)["rate"], col="black", pch="+")
+
+#Nelder Mead
+llsurface(x, "tgamma", fix.arg = list(low = x0, upp = Inf), plot.arg=c("shape", "rate"),
+          min.arg=c(0, 0), max.arg=maxarg, main="Nelder-Mead iterates")
+points(shape, rate, pch="O", col="red")
+#add NM iterates
+points(MLE.NM.dataset.z.iter, col="grey", pch="+")
+points(coef(fit.NM.2P)["shape"], coef(fit.NM.2P)["rate"], col="black", pch="+")
+
+#remove traces
+invisible(file.remove("MLE-NelderMead-dataset.txt"))
+invisible(file.remove("MLE-BFGS-dataset.txt"))
+```
+
+In fact the log-likelihood as a function of the shape parameter may be monotone.
+```{r, echo=FALSE, fig.width=4, fig.height=4}
+getrate <- function(shape)
+{
+  myfit <- mledist(data = x,
+    distr = "tgamma",
+    start = list(rate = 1),
+    fix.arg = list(low = x0, upp = Inf, shape = shape))
+  c("rate"=myfit$estimate, "loglik"=myfit$loglik)
+}
+shapehat <- seq(.1, 15, by= .1)
+ratellhat <- t(sapply(shapehat, getrate))
+par(mar=c(4,4,2,1), mfrow=c(1,1))
+plot(shapehat, ratellhat[, "loglik"], type="l", ylab="fitted log-likelihood", xlab="shape")
+points(shape, ratellhat[which(shapehat == shape), "loglik"], col="red", pch="O")
+legend("bottom", lty=c(1, NA), col=c("black", "red"), c("fitted log-lik", "true value"),
+       pch=c(NA, "O"), bty="n")
+```
+
+Fitting a two-parameter distribution (i.e. gamma) on the shifted dataset is worse.
+```{r}
+fit.gamma <- fitdist(
+  data = x-x0,
+  distr = "gamma",
+  method = "mle")
+```
+```{r, echo=FALSE}
+matpar <- cbind(
+    "fit3P" = coef(fit.NM.3P),
+    "fit2P orig. data" = c(coef(fit.NM.2P), x0),
+    "fit2P shift data" = c(coef(fit.gamma), x0),
+    "true value" = c(shape, rate, x0))
+showpar(matpar)
+```
+
+Changing the sample size improves the two-parameter fit very slowly even as the MLE of the `low` parameter 
+is in fact the minimum of the dataset: the fitted `low` converges quickly to the true
+value. Below an example with 1000 variates.
+```{r, echo=FALSE}
+x <- rtgamma(n*10, shape = shape, rate = rate, low=x0)
+fit.NM.2P <- fitdist(
+  data = x,
+  distr = "tgamma",
+  method = "mle",
+  start = list(shape = 10, rate = 10),
+  fix.arg = list(upp = Inf, low=x0),
+  lower = c(0, 0), upper=c(Inf, Inf))
+fit.NM.3P <- fitdist(
+  data = x,
+  distr = "tgamma",
+  method = "mle",
+  start = list(shape = 10, rate = 10, low=1),
+  fix.arg = list(upp = Inf),
+  lower = c(0, 0, -Inf), upper=c(Inf, Inf, min(x)))
+matpar <- cbind(
+    "fit3P" = coef(fit.NM.3P),
+    "fit2P orig. data" = c(coef(fit.NM.2P), x0),
+    "true value" = c(shape, rate, x0))
+showpar(matpar)
+```
+
 
 
 
