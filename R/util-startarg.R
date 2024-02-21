@@ -8,7 +8,18 @@
 # a named list or raises an error 
 startargdefault <- function(x, distr)
 {
-  if (distr == "norm") {
+  if(distr %in% c("fpareto", "pareto4", "pareto3", "pareto2", "pareto1", "pareto",
+                  "genpareto", "trbeta", "burr", "llogis", "paralogis", "invburr",
+                  "invpareto",  "invparalogis"))
+  {
+    start <- startarg_fellerpareto_family(x, distr)
+  }else if(distr %in% c("trgamma", "gamma", "weibull", "exp"))
+  {
+    start <- startarg_transgamma_family(x, distr)
+  }else if(distr %in% c("invtrgamma", "invgamma", "invweibull", "invexp"))
+  {
+    start <- startarg_invtransgamma_family(x, distr)
+  }else if (distr == "norm") {
     n <- length(x)
     sd0 <- sqrt((n - 1)/n) * sd(x)
     mx <- mean(x)
@@ -23,17 +34,6 @@ startargdefault <- function(x, distr)
     start <- list(meanlog=ml, sdlog=sd0)
   }else if (distr == "pois") {
     start <- list(lambda=mean(x))
-  }else if (distr == "exp") {
-    if (any(x < 0)) 
-      stop("values must be positive to fit an exponential  distribution")
-    start <- list(rate=1/mean(x))
-  }else if (distr == "gamma") {
-    if (any(x < 0)) 
-      stop("values must be positive to fit an gamma  distribution")
-    n <- length(x)
-    m <- mean(x)
-    v <- (n - 1)/n*var(x)
-    start <- list(shape=m^2/v, rate=m/v)
   }else if (distr == "nbinom") {
     n <- length(x)
     m <- mean(x)
@@ -52,14 +52,6 @@ startargdefault <- function(x, distr)
     v <- (n - 1)/n*var(x)
     aux <- m*(1-m)/v - 1
     start <- list(shape1=m*aux, shape2=(1-m)*aux)
-  }else if (distr == "weibull") {
-    if (any(x < 0)) 
-      stop("values must be positive to fit an Weibull  distribution")
-    m <- mean(log(x))
-    v <- var(log(x))
-    shape <- 1.2/sqrt(v)
-    scale <- exp(m + 0.572/shape)
-    start <- list(shape = shape, scale = scale)
   }else if (distr == "logis") {
     n <- length(x)
     m <- mean(x)
@@ -69,55 +61,6 @@ startargdefault <- function(x, distr)
     start <- list(location=median(x), scale=IQR(x)/2)
   }else if (distr == "unif"){
     start <- list(min=0, max=1)
-  }else if (distr == "invgamma")
-  {
-    if (any(x < 0)) 
-      stop("values must be positive to fit an inverse gamma  distribution")
-    #http://en.wikipedia.org/wiki/Inverse-gamma_distribution
-    m1 <- mean(x)
-    m2 <- mean(x^2)
-    shape <- (2*m2-m1^2)/(m2-m1^2)
-    scale <- m1*m2/(m2-m1^2)
-    start <- list(shape=shape, scale=scale)
-  }else if (distr == "llogis")
-  {
-    if (any(x < 0)) 
-      stop("values must be positive to fit a log-logistic  distribution")
-    p25 <- as.numeric(quantile(x, 0.25))
-    p75 <- as.numeric(quantile(x, 0.75))
-    shape <- 2*log(3)/(log(p75)-log(p25))
-    scale <- exp(log(p75)+log(p25))/2
-    start <- list(shape=shape, scale=scale)
-  }else if (distr == "invweibull")
-  {
-    if (any(x < 0)) 
-      stop("values must be positive to fit an inverse Weibull distribution")
-    g <- log(log(4))/(log(log(4/3)))
-    p25 <- as.numeric(quantile(x, 0.25))
-    p75 <- as.numeric(quantile(x, 0.75))
-    shape <- exp((g*log(p75)-log(p25))/(g-1))
-    scale <-log(log(4))/(log(shape)-log(p25))
-    start <- list(shape=shape, scale=max(scale, 1e-9))
-  }else if (distr == "pareto1")
-  {
-    if (any(x < 0)) 
-      stop("values must be positive to fit a Pareto distribution")
-    #http://www.math.umt.edu/gideon/pareto.pdf
-    x1 <- min(x)
-    m1 <- mean(x)
-    n <- length(x)
-    shape <- (n*m1-x1)/(n*(m1-x1))
-    min <- x1*(n*shape - 1)/(n*shape)
-    start <- list(shape=shape, min=min)
-  }else if (distr == "pareto")
-  {
-    if (any(x < 0)) 
-      stop("values must be positive to fit a Pareto distribution")
-    m1 <- mean(x)
-    m2 <- mean(x^2)
-    scale <- (m1*m2)/(m2-2*m1^2)
-    shape <- 2*(m2-m1^2)/(m2-2*m1^2)
-    start <- list(shape=shape, scale=scale)
   }else if (distr == "lgamma")
   {
     if (any(x < 0)) 
@@ -174,7 +117,7 @@ startarg_fellerpareto_family <- function(x, distr)
     alphahat <- alpharel(x, muhat, thetahat, gammahat)
     
     start <- list(min=muhat, shape1=alphahat, shape2=gammahat, scale=thetahat)
-  }else if(distr = "pareto3")
+  }else if(distr == "pareto3")
   {
     muhat <- min(x, na.rm=TRUE)
     if(muhat < 0)
@@ -231,9 +174,18 @@ startarg_fellerpareto_family <- function(x, distr)
     alphahat <- alpharel(x, mustar, thetahat, gammastar)
     
     start <- list(shape=alphahat, scale=thetahat)
+  }else if (distr == "llogis")
+  {
+    if (any(x < 0)) 
+      stop("values must be positive to fit a log-logistic  distribution")
+    q25 <- as.numeric(quantile(x, 0.25, na.rm=TRUE))
+    q75 <- as.numeric(quantile(x, 0.75, na.rm=TRUE))
+    shape <- 2*log(3)/(log(q75)-log(q25))
+    scale <- exp(log(q75)+log(q25))/2
+    start <- list(shape=shape, scale=scale)
   }else
     stop("wrong distr")
-  
+  return(start)
 }
 
 startarg_transgamma_family <- function(x, distr)
@@ -268,11 +220,22 @@ startarg_transgamma_family <- function(x, distr)
   {
     if (any(x < 0)) 
       stop("values must be positive to fit a Weibull distribution")
-    m <- mean(log(x))
-    v <- var(log(x))
-    shape <- 1.2/sqrt(v)
-    scale <- exp(m + 0.572/shape)
-    start <- list(shape = shape, scale = scale)
+    q25 <- as.numeric(quantile(x, 0.25, na.rm = TRUE))
+    q75 <- as.numeric(quantile(x, 0.75, na.rm = TRUE))
+    if(q25 < q75) #check to avoid division by zero
+    {
+      q50 <- median(x, na.rm = TRUE)
+      tauhat <- (log(-log(1-1/4)) - log(-log(1-3/4))) / (log(q25) - log(q75))
+      thetahat <- q50/(-log(1-1/2))^(tauhat)
+    }else
+    {
+      m <- mean(log(x), na.rm = TRUE)
+      v <- var(log(x), na.rm = TRUE)
+      tauhat <- 1.2/sqrt(v)
+      thetahat <- exp(m + 0.572/tauhat)
+    }
+    
+    start <- list(shape = tauhat, scale = thetahat)
   }else if (distr == "exp") 
   {
     if (any(x < 0)) 
@@ -280,7 +243,7 @@ startarg_transgamma_family <- function(x, distr)
     start <- list(rate=1/mean(x))
   }else
     stop("wrong distr")
-  
+  return(start)
 }
 
 startarg_invtransgamma_family <- function(x, distr)
@@ -293,11 +256,33 @@ startarg_invtransgamma_family <- function(x, distr)
  if (distr == "invtrgamma") {
     if (any(x < 0)) 
       stop("values must be positive to fit an inverse trans-gamma distribution")
-    #same as gamma with shape2=tau=1
-    n <- length(1/x)
-    m <- mean(1/x)
-    v <- (n - 1)/n*var(1/x)
-    start <- list(shape1=m^2/v, shape2=1, rate=m/v)
-  }
-  
+    start <- startarg_transgamma_family(1/x, "trgamma")
+  }else if (distr == "invgamma")
+  {
+    if (any(x < 0)) 
+      stop("values must be positive to fit an inverse gamma  distribution")
+    #http://en.wikipedia.org/wiki/Inverse-gamma_distribution
+    m1 <- mean(x, na.rm = TRUE)
+    m2 <- mean(x^2, na.rm = TRUE)
+    shape <- (2*m2-m1^2)/(m2-m1^2)
+    scale <- m1*m2/(m2-m1^2)
+    start <- list(shape=shape, scale=scale)
+  }else if (distr == "invweibull")
+  {
+    if (any(x < 0)) 
+      stop("values must be positive to fit an inverse Weibull distribution")
+    g <- log(log(4))/(log(log(4/3)))
+    p25 <- as.numeric(quantile(x, 0.25))
+    p75 <- as.numeric(quantile(x, 0.75))
+    shape <- exp((g*log(p75)-log(p25))/(g-1))
+    scale <-log(log(4))/(log(shape)-log(p25))
+    start <- list(shape=shape, scale=max(scale, 1e-9))
+  }else if(distr == "invexp")
+  {
+    if (any(x < 0)) 
+      stop("values must be positive to fit an inverse exponential distribution")
+    start <- startarg_transgamma_family(1/x, "exp")
+  }else
+    stop("wrong distr")
+  return(start)
 }
