@@ -128,24 +128,176 @@ startargdefault <- function(x, distr)
     alpha <- m1^2/(m2-m1^2)
     lambda <- m1/(m2-m1^2)
     start <- list(shapelog=alpha, ratelog=lambda)
-  }else if (distr == "trgamma") {
-    if (any(x < 0)) 
-      stop("values must be positive to fit an trans-gamma  distribution")
-    #same as gamma with shape2=tau=1
-    n <- length(x)
-    m <- mean(x)
-    v <- (n - 1)/n*var(x)
-    start <- list(shape1=m^2/v, shape2=1, rate=m/v)
-  }else if (distr == "invtrgamma") {
-    if (any(x < 0)) 
-      stop("values must be positive to fit an inverse trans-gamma  distribution")
-    #same as gamma with shape2=tau=1
-    n <- length(1/x)
-    m <- mean(1/x)
-    v <- (n - 1)/n*var(1/x)
-    start <- list(shape1=m^2/v, shape2=1, rate=m/v)
   }else
     stop(paste0("Unknown starting values for distribution ", distr, "."))
   
   return(start)
 } 
+
+startarg_fellerpareto_family <- function(x, distr)
+{
+  distlist <- c("fpareto", "pareto4", "pareto3", "pareto2", "pareto1", "pareto",
+                "genpareto", "trbeta", "burr", "llogis", "paralogis", "invburr",
+                "invpareto",  "invparalogis")
+  stopifnot(length(distr) == 1)
+  stopifnot(distr %in% distlist)
+  
+  gammarel <- function(alpha, q1, q3)
+  {
+    T1 <- ((4/3)^(1/alpha) - 1) / (4^(1/alpha) - 1)
+    T2 <- (q1 - muhat)/(q3 - muhat)
+    log(T1)/log(T2)
+  }
+  thetarel <- function(alpha, gamma, q1, q3)
+  {
+    (q1 - q3)/( ((4/3)^(1/alpha) - 1)^(1/gamma) - (4^(1/alpha) - 1)^(1/gamma) )
+  }  
+  alpharel <- function(x, mu, theta, gamma)
+  {
+    y <- ((x-mu)/theta)^(gamma)
+    1/mean(log(1+y))
+  }
+  eps <- 5/100
+  
+  if(distr == "pareto4")
+  {
+    muhat <- min(x, na.rm=TRUE)
+    if(muhat < 0)
+      muhat <- muhat*(1+eps)
+    else
+      muhat <- muhat*(1-eps)
+    alphastar <- 2
+    q1 <- quantile(x, probs=1/4, na.rm=TRUE)
+    q3 <- quantile(x, probs=3/4, na.rm=TRUE)
+    gammahat <- as.numeric(gammarel(alphastar, q1, q3))
+    thetahat <- as.numeric(thetarel(alphastar, gammahat, q1, q3))
+    alphahat <- alpharel(x, muhat, thetahat, gammahat)
+    
+    start <- list(min=muhat, shape1=alphahat, shape2=gammahat, scale=thetahat)
+  }else if(distr = "pareto3")
+  {
+    muhat <- min(x, na.rm=TRUE)
+    if(muhat < 0)
+      muhat <- muhat*(1+eps)
+    else
+      muhat <- muhat*(1-eps)
+    alphastar <- 1 #true value in that case
+    q1 <- quantile(x, probs=1/4, na.rm=TRUE)
+    q3 <- quantile(x, probs=3/4, na.rm=TRUE)
+    gammahat <- as.numeric(gammarel(alphastar, q1, q3))
+    thetahat <- as.numeric(thetarel(alphastar, gammahat, q1, q3))
+    
+    start <- list(min=muhat, shape=gammahat, scale=thetahat)
+    
+  }else if(distr == "pareto2")
+  {
+    muhat <- min(x, na.rm=TRUE)
+    if(muhat < 0)
+      muhat <- muhat*(1+eps)
+    else
+      muhat <- muhat*(1-eps)
+    gammastar <- 1 #true value
+    alphastar <- 2
+    q1 <- quantile(x, probs=1/4, na.rm=TRUE)
+    q3 <- quantile(x, probs=3/4, na.rm=TRUE)
+    thetahat <- as.numeric(thetarel(alphastar, gammastar, q1, q3))
+    alphahat <- alpharel(x, muhat, thetahat, gammastar)
+    
+    start <- list(min=muhat, shape=alphahat, scale=thetahat)
+  }else if (distr == "pareto1")
+  {
+    if (any(x < 0)) 
+      stop("values must be positive to fit a Pareto distribution")
+    muhat <- min(x, na.rm=TRUE)
+    if(muhat < 0)
+      muhat <- muhat*(1+eps)
+    else
+      muhat <- muhat*(1-eps)
+    alphat <- 1/mean(log(x/muhat), na.rm = TRUE)
+    
+    start <- list(shape=alphat, min=muhat)
+  }else if(distr == "pareto")
+  {
+    if (any(x < 0)) 
+      stop("values must be positive to fit a Pareto distribution")
+    m1 <- mean(x, na.rm = TRUE)
+    m2 <- mean(x^2, na.rm = TRUE)
+    alphastar <- max(2*(m2-m1^2)/(m2-2*m1^2), 2)
+    mustar <- 0 #true value
+    gammastar <- 1 #true value
+    q1 <- quantile(x, probs=1/4, na.rm=TRUE)
+    q3 <- quantile(x, probs=3/4, na.rm=TRUE)
+    thetahat <- as.numeric(thetarel(alphastar, gammastar, q1, q3))
+    alphahat <- alpharel(x, mustar, thetahat, gammastar)
+    
+    start <- list(shape=alphahat, scale=thetahat)
+  }else
+    stop("wrong distr")
+  
+}
+
+startarg_transgamma_family <- function(x, distr)
+{
+  distlist <- c("trgamma", "gamma", "weibull", "exp")
+  stopifnot(length(distr) == 1)
+  stopifnot(distr %in% distlist)
+  
+  if (distr == "trgamma") {
+    if (any(x < 0)) 
+      stop("values must be positive to fit a trans-gamma distribution")
+    #same as gamma with shape2=tau=1
+    m <- mean(x, na.rm = TRUE)
+    v <- var(x, na.rm = TRUE)
+    alphahat <- m^2/v
+    thetahat <- v/m
+    tauhat <- digamma(alphahat) / mean(log(x/thetahat))
+    
+    start <- list(shape1=alphahat, shape2=tauhat, scale=thetahat)
+  }else if (distr == "gamma") 
+  {
+    if (any(x < 0)) 
+      stop("values must be positive to fit a gamma distribution")
+    #same as gamma with shape2=tau=1
+    m <- mean(x, na.rm = TRUE)
+    v <- var(x, na.rm = TRUE)
+    alphahat <- m^2/v
+    thetahat <- v/m
+    
+    start <- list(shape=alphahat, scale=thetahat)
+  }else if (distr == "weibull") 
+  {
+    if (any(x < 0)) 
+      stop("values must be positive to fit a Weibull distribution")
+    m <- mean(log(x))
+    v <- var(log(x))
+    shape <- 1.2/sqrt(v)
+    scale <- exp(m + 0.572/shape)
+    start <- list(shape = shape, scale = scale)
+  }else if (distr == "exp") 
+  {
+    if (any(x < 0)) 
+      stop("values must be positive to fit an exponential distribution")
+    start <- list(rate=1/mean(x))
+  }else
+    stop("wrong distr")
+  
+}
+
+startarg_invtransgamma_family <- function(x, distr)
+{
+  distlist <- c("invtrgamma", "invgamma", "invweibull", "invexp")
+  stopifnot(length(distr) == 1)
+  stopifnot(distr %in% distlist)
+  
+  
+ if (distr == "invtrgamma") {
+    if (any(x < 0)) 
+      stop("values must be positive to fit an inverse trans-gamma distribution")
+    #same as gamma with shape2=tau=1
+    n <- length(1/x)
+    m <- mean(1/x)
+    v <- (n - 1)/n*var(1/x)
+    start <- list(shape1=m^2/v, shape2=1, rate=m/v)
+  }
+  
+}
