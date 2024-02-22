@@ -20,5 +20,3 @@ fitdist(x, "weibull")
 fitdist(x, "exp")
 
 
-data(groundbeef)
-fitdist(groundbeef$serving, "gamma", fix.arg = list(rate = 0.5))

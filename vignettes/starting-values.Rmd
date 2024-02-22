@@ -1,0 +1,835 @@
+---
+title: Starting values used in fitdistrplus
+author: Marie Laure Delignette Muller, Christophe Dutang
+date: '`r Sys.Date()`'
+output:
+  bookdown::html_document2:
+    base_format: rmarkdown::html_vignette
+    fig_caption: yes
+    toc: true
+    number_sections: yes
+link-citations: true
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Starting values used in fitdistrplus} 
+  %!\VignetteEncoding{UTF-8}
+  \usepackage[utf8]{inputenc}
+pkgdown:
+  as_is: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+We denote by the raw empirical moment by 
+$$
+m_j = \frac1n \sum_{i=1}^n x_i^j
+$$
+by the centered empirical moment by 
+$$
+\mu_j = \frac1n \sum_{i=1}^n (x_i^j-m_1)
+$$
+
+
+# Discrete distributions
+
+## Base R distribution
+
+### Geometric distribution
+
+The MME is used $\hat p=1/(1+m_1)$.
+
+
+### Negative binomial distribution
+
+The MME is used $\hat n = m_1^2/(\mu_2-m_1)$.
+
+
+### Poisson distribution
+
+Both the MME and the MLE is $\hat \lambda = m_1$.
+
+### Binomial distribution
+
+The MME is used 
+$$
+Var[X]/E[X] = 1-p
+\Rightarrow
+\hat p = 1- \mu_2/m_1.
+$$
+the size parameter is 
+$$
+\hat n = \lceil\max(\max_i x_i, m_1/\hat p)\rceil.
+$$
+
+
+
+
+## logarithmic distribution
+
+The expectation simplifies for small values of $p$
+$$
+E[X] = -\frac{1}{\log(1-p)}\frac{p}{1-p}
+\approx
+-\frac{1}{-p}\frac{p}{1-p}
+=\frac{1}{1-p}
+$$
+So the initial estimate is 
+$$
+\hat p = 1-1/m_1
+$$
+
+## Zero truncated distributions
+
+This distribution are the distribution of $X\vert X>0$ when $X$ follows a particular discrete distributions.
+Hence the initial estimate are the one used for base R on sample $x-1$.
+
+## Zero modified distributions
+
+The MLE of the probability parameter is the empirical mass at 0 $\hat p_0=\frac1n \sum_i 1_{x_i=0}$.
+For other estimators we use the classical estimator with probability
+parameter $1-\hat p_0$.
+
+## Poisson inverse Gaussian distribution
+
+The first two moments are
+$$
+E[X]=\mu,
+Var[X] = \mu+\phi\mu^3.
+$$
+So the initial estimate are
+$$
+\hat\mu=m_1,
+\hat\phi = (\mu_2 - m_1)/m_1^3.
+$$
+
+
+# Continuous distributions
+
+## Normal distribution
+
+The MLE is the MME so we use empirical mean and empirical variance.
+
+## Lognormal distribution
+
+The log sample follows a normal distribution, so same as normal on the log sample.
+
+## Beta distribution (of the first kind)
+
+The density function for a beta $\mathcal Be(a,b)$ is
+$$
+f_X(x) = \frac{\Gamma(a)\Gamma(b)}{\Gamma(a+b)} x^{a-1}(1-x)^{b-1}.
+$$
+The initial estimate is the MME
+\begin{equation}
+\hat a = m_1 \delta, \hat b = (1-m_1)\delta,
+\delta = \frac{m_1(1-m_1)}{\mu_2}-1,
+(\#eq:betaguessestimator)
+\end{equation}
+
+## Other continuous distribution in `actuar`
+
+### Log-gamma
+
+Use the gamma initial values on the sample $\log(x)$
+
+### Gumbel
+
+The distribution function is
+$$
+F(x) = \exp(-\exp(-\frac{x-\alpha}{\theta}))
+$$
+Let $q_1$ and $q_3$ the first and the third quartiles.
+$$
+\left\{\begin{array}
+-\theta\log(-\log(p_1)) = q_1-\alpha \\
+-\theta\log(-\log(p_3)) = q_3-\alpha
+\end{array}\right.
+\Leftrightarrow
+\left\{\begin{array}
+-\theta\log(-\log(p_1))+\theta\log(-\log(p_3)) = q_1-q_3 \\
+\alpha= \theta\log(-\log(p_3)) + q_3
+\end{array}\right.
+\Leftrightarrow
+\left\{\begin{array}
+\theta= \frac{q_1-q_3}{\log(-\log(p_3)) - \log(-\log(p_1))} \\
+\alpha= \theta\log(-\log(p_3)) + q_3
+\end{array}\right.
+$$
+Using the median for the location parameter $\alpha$ yields to
+initial estimate 
+$$
+\hat\theta= \frac{q_1-q_3}{\log(\log(4/3)) - \log(\log(4))},
+\hat\alpha = \hat\theta\log(\log(2)) + q_2
+$$
+
+### Inverse Gaussian distribution
+
+The moments of this distribution are
+$$
+E[X] = \mu,
+Var[X] = \mu^3\phi
+$$
+Hence the initial estimate are $\hat\mu=m_1$, $\hat\phi=\mu_2/m_1^3$.
+
+### Generalized beta
+
+This is the distribution of $\theta X^{1/\tau}$ when $X$ is beta distributed $\mathcal Be(a,b)$
+The moments are
+$$
+E[X] = \theta \beta(a+1/\tau, b)/\beta(a,b)
+= \theta \frac{\Gamma(a+1/\tau)}{\Gamma(a)}\frac{\Gamma(a+b)}{\Gamma(a+b+1/\tau)}
+$$
+$$
+E[X^2] 
+= \theta^2 \frac{\Gamma(a+2/\tau)}{\Gamma(a)}\frac{\Gamma(a+b)}{\Gamma(a+b+2/\tau)}
+$$
+Hence for large value of $\tau$, we have
+$$
+E[X^2] /E[X] = \theta \frac{\Gamma(a+2/\tau)}{\Gamma(a+b+2/\tau)}
+\frac{\Gamma(a+b+1/\tau)}{\Gamma(a+1/\tau)}
+\approx
+\theta
+$$
+Note that the MLE of $\theta$ is the maximum
+We use 
+$$
+\hat\tau=3,
+\hat\theta = \frac{m_2}{m_1}\max_i x_i 1_{m_2>m_1}
++\frac{m_1}{m_2}\max_i x_i 1_{m_2\geq m_1}
+$$
+then we use beta initial estimate on sample 
+$(\frac{x_i}{\hat\theta})^{\hat\tau}$.
+
+
+## Feller-Pareto family
+
+
+The Feller-Pareto distribution is the distribution $X=\mu+\theta(1/B-1)^{1/\gamma}$ when
+$B$ follows a beta distribution with shape parameters $\alpha$ and  $\tau$.
+See details at <https://doi.org/10.18637/jss.v103.i06>
+Hence let $Y = (X-\mu)/\theta$, we have
+$$
+\frac{Y}{1+Y} = 
+\frac{X-\mu}{\theta+X-\mu} = (1-B)^{1/\gamma}.
+$$
+For $\gamma$ close to 1, $\frac{Y}{1+Y}$ is approximately beta distributed $\tau$ and  $\alpha$.
+
+The log-likelihood is
+\begin{equation}
+\mathcal L(\mu, \theta, \alpha, \gamma, \tau)
+= (\tau \gamma - 1) \sum_{i} \log(\frac{x_i-\mu}\theta) 
+- (\alpha+\tau)\sum_i \log(1+(\frac{x_i-\mu}\theta)^\gamma)
++ n\log(\gamma) - n\log(\theta) -n \log(\beta(\alpha,\tau)).
+(\#eq:fellerparetologlik)
+\end{equation}
+The MLE of $\mu$ is the minimum.
+
+The gradient with respect to $\theta, \alpha, \gamma, \tau$ is
+\begin{equation}
+\nabla
+\mathcal L(\mu, \theta, \alpha, \gamma, \tau)
+=
+\begin{pmatrix}
+-(\tau \gamma - 1) \sum_{i} \frac{x_i}{\theta(x_i-\mu)} 
++ (\alpha+\tau)\sum_i \frac{x_i\gamma(\frac{x_i-\mu}\theta)^{\gamma-1}}{\theta^2(1+(\frac{x_i-\mu}\theta)^\gamma)}
+- n/\theta
+\\
+- \sum_i \log(1+(\frac{x_i-\mu}\theta)^\gamma)
+-n(\psi(\tau) - \psi(\alpha+\tau))
+\\
+(\tau  - 1) \sum_{i} \log(\frac{x_i-\mu}\theta) 
+- (\alpha+\tau)\sum_i \frac{(\frac{x_i-\mu}\theta)^\gamma}{ 1+(\frac{x_i-\mu}\theta)^\gamma}\log(\frac{x_i-\mu}\theta)
++ n/\gamma
+\\
+ (\gamma - 1) \sum_{i} \log(\frac{x_i-\mu}\theta) 
+- \sum_i \log(1+(\frac{x_i-\mu}\theta)^\gamma)
+-n (\psi(\tau) - \psi(\alpha+\tau))
+\end{pmatrix}
+(\#eq:fellerparetogradient)
+\end{equation}
+Cancelling the first component of score for $\gamma=\alpha=2$, we get
+$$
+-(2\tau  - 1) \sum_{i} \frac{x_i}{\theta(x_i-\mu)} 
++ (2+\tau)\sum_i \frac{x_i 2(x_i-\mu)}{\theta^3(1+(\frac{x_i-\mu}\theta)^2)}
+= \frac{n}{\theta}
+\Leftrightarrow
+-(2\tau  - 1)\theta^2\frac1n \sum_{i} \frac{x_i}{x_i-\mu} 
++ (2+\tau) \frac1n\sum_i \frac{x_i 2(x_i-\mu)}{(1+(\frac{x_i-\mu}\theta)^2)}
+= \theta^2
+$$
+$$
+\Leftrightarrow
+(2+\tau) \frac1n\sum_i \frac{x_i 2(x_i-\mu)}{1+(\frac{x_i-\mu}\theta)^2}
+= (2\tau  - 1)\theta^2\left(\frac1n \sum_{i} \frac{x_i}{x_i-\mu} -1\right)
+\Leftrightarrow
+\sqrt{
+\frac{(2+\tau) \frac1n\sum_i \frac{x_i 2(x_i-\mu)}{1+(\frac{x_i-\mu}\theta)^2}
+}{(2\tau  - 1)\left(\frac1n \sum_{i} \frac{x_i}{x_i-\mu} -1\right)}
+}
+= \theta
+$$
+Neglecting unknown value of $\tau$ and the denominator in $\theta$, we get
+with $\hat\mu$ set with (\@ref(eq:pareto4muinit))
+\begin{equation}
+\hat\theta = \sqrt{
+\frac{ \frac1n\sum_i \frac{x_i 2(x_i-\hat\mu)}{1+(x_i-\hat\mu)^2}
+}{\left(\frac1n \sum_{i} \frac{x_i}{x_i-\hat\mu} -1\right)}
+}
+(\#eq:fellerparetothetahat)
+\end{equation}
+Initial value of $\tau,\alpha$ are obtained on the sample $(z_i)_i$
+$$
+z_i = y_i/(1+y_i),
+y_i = (x_i - \hat\mu)/\hat\theta
+$$
+with initial values of a beta distribution which is based on MME
+(\@ref(eq:betaguessestimator)).
+
+Cancelling the last component of the gradient leads to
+$$
+(\gamma - 1) \frac1n\sum_{i} \log(\frac{x_i-\mu}\theta) 
+- \frac1n\sum_i \log(1+(\frac{x_i-\mu}\theta)^\gamma)
+= \psi(\tau) - \psi(\alpha+\tau)
+\Leftrightarrow
+(\gamma - 1) \frac1n\sum_{i} \log(\frac{x_i-\mu}\theta) 
+=
+\psi(\tau) - \psi(\alpha+\tau)
++\frac1n\sum_i \log(1+(\frac{x_i-\mu}\theta)^\gamma) 
+$$
+Neglecting the value $\gamma$ on the right-hand side we obtain
+\begin{equation}
+\hat\gamma = 
+1+
+\frac{
+\psi(\tau) - \psi(\alpha+\tau)
++\frac1n\sum_i \log(1+(\frac{x_i-\mu}\theta)) 
+}{
+\frac1n\sum_{i} \log(\frac{x_i-\mu}\theta) 
+}
+(\#eq:fellerparetogammahat)
+\end{equation}
+
+
+### Transformed beta
+
+This is the Feller-Pareto with $\mu=0$. 
+So the first component of \@ref(eq:fellerparetogradient) simplifies to with
+$\gamma=\alpha=2$
+$$
+-(2\tau  - 1) \sum_{i} \frac{x_i}{\theta(x_i)} 
++ (2+\tau)\sum_i \frac{2x_i^2}{\theta^3(1+(\frac{x_i}\theta)^2)}
+= \frac{n}{\theta}
+\Leftrightarrow
+-(2\tau  - 1) \theta^2
++ (2+\tau)\frac1n\sum_i \frac{2x_i^2}{1+(\frac{x_i}\theta)^2}
+= \theta^2
+$$
+$$
+\theta^2=\frac{2+\tau}{2\tau}\frac1n\sum_i \frac{2x_i^2}{1+(\frac{x_i}\theta)^2}
+$$
+Neglecting unknown value of $\tau$ in the denominator in $\theta$, we get
+\begin{equation}
+\hat\theta = \sqrt{
+\frac1n\sum_i \frac{2x_i^2}{1+x_i^2}
+}
+(\#eq:trbetathetahat)
+\end{equation}
+
+Initial value of $\tau,\alpha$ are obtained on the sample $(z_i)_i$
+$$
+z_i = y_i/(1+y_i),
+y_i = x_i/\hat\theta
+$$
+with initial values of a beta distribution which is based on MME
+(\@ref(eq:betaguessestimator)).
+Similar to Feller-Pareto, we set
+\begin{equation}
+\hat\gamma = 
+1+
+\frac{
+\psi(\tau) - \psi(\alpha+\tau)
++\frac1n\sum_i \log(1+\frac{x_i}\theta) 
+}{
+\frac1n\sum_{i} \log(\frac{x_i}\theta) 
+}
+(\#eq:fellerparetogammahat)
+\end{equation}
+
+### Generalized Pareto
+
+This is the Feller-Pareto with $\mu=0$ $\gamma=1$. 
+So the first component of \@ref(eq:fellerparetogradient) simplifies to with
+$\gamma=2$
+$$
+-(\tau - 1) \frac{n}{\theta} 
++ (2+\tau)\sum_i \frac{x_i}{\theta^2(1+\frac{x_i}\theta}
+= n/\theta
+\Leftrightarrow
+-(\tau - 1) \theta
++ (2+\tau)\frac1n\sum_i \frac{x_i}{(1+\frac{x_i}\theta}
+= \theta
+$$
+Neglecting unknown value of $\tau$ leads to
+\begin{equation}
+\hat\theta = 
+\frac1n\sum_i \frac{x_i}{1+x_i}
+(\#eq:generalizedparetotheta)
+\end{equation}
+
+Initial value of $\tau,\alpha$ are obtained on the sample $(z_i)_i$
+$$
+z_i = y_i/(1+y_i),
+y_i = x_i/\hat\theta
+$$
+with initial values of a beta distribution which is based on MME
+(\@ref(eq:betaguessestimator)).
+
+### Burr
+
+Burr is a Feller-Pareto distribution with $\mu=0$, $\tau=1$.
+
+The survival function is
+$$
+1-F(x) = (1+(x/\theta)^\gamma)^{-\alpha}.
+$$
+Using the median $q_2$, we have
+$$
+\log(1/2) = - \alpha \log(1+(q_2/\theta)^\gamma)
+$$
+The initial value is
+\begin{equation}
+\alpha
+=
+\frac{\log(2)}{\log(1+(q_2/\theta)^\gamma)},
+(\#eq:burralpharelation)
+\end{equation}
+
+So the first component of \@ref(eq:fellerparetogradient) simplifies to with
+$\gamma=\alpha=2$, $\tau=1$, $\mu=0$.
+$$
+- n/\theta
++ 3\sum_i \frac{2x_i(\frac{x_i}\theta)}{\theta^2(1+(\frac{x_i}\theta)^2)}
+= n/\theta
+\Leftrightarrow
+\theta^2\frac1n\sum_i \frac{2x_i(\frac{x_i}\theta)}{(1+(\frac{x_i}\theta)^2)}
+= 2/3
+$$
+Neglecting unknown value in the denominator in $\theta$, we get
+\begin{equation}
+\hat\theta = \sqrt{
+\frac{2}{3
+\frac1n\sum_i \frac{2x_i^2}{1+(x_i)^2}
+}
+}
+(\#eq:trbetathetahat)
+\end{equation}
+We use for $\hat\gamma$ \@ref(eq:fellerparetogammahat) with $\tau=1$ and $\alpha=2$ and previous $\hat\theta$.
+
+
+
+### Loglogistic
+
+Loglogistic is a Feller-Pareto distribution with $\mu=0$, $\tau=1$, $\alpha=1$.
+The survival function is
+$$
+1-F(x) = (1+(x/\theta)^\gamma)^{-1}.
+$$
+So
+$$
+\frac1{1-F(x)}-1 = (x/\theta)^\gamma
+\Leftrightarrow
+\log(\frac{F(x)}{1-F(x)}) = \gamma\log(x/\theta)
+$$
+Let $q_1$ and $q_3$ be the first and the third quartile.
+$$
+\log(\frac{1/3}{2/3})= \gamma\log(q_1/\theta),
+\log(\frac{2/3}{1/3})= \gamma\log(q_3/\theta)
+\Leftrightarrow
+-\log(2)= \gamma\log(q_1/\theta),
+\log(2)= \gamma\log(q_3/\theta)
+$$
+The difference of previous equations simplifies to
+$$
+\hat\gamma=\frac{2\log(2)}{\log(q_3/q_1)}. 
+$$
+The sum of previous equations
+$$
+0 = \gamma\log(q_1)+\gamma\log(q_3) - 2\gamma\log(\theta).
+$$
+\begin{equation}
+\hat\theta = \frac12 e^{\log(q_1q_3)}
+(\#eq:llogisthetahat)
+\end{equation}
+
+### Paralogistic
+
+Paralogistic is a Feller-Pareto distribution with $\mu=0$, $\tau=1$, $\alpha=\gamma$.
+The survival function is
+$$
+1-F(x) = (1+(x/\theta)^\alpha)^{-\alpha}.
+$$
+So
+$$
+\log(1-F(x)) = -\alpha \log(1+(x/\theta)^\alpha)
+$$
+
+
+The log-likelihood is
+\begin{equation}
+\mathcal L(\theta, \alpha)
+= ( \alpha - 1) \sum_{i} \log(\frac{x_i}\theta) 
+- (\alpha+1)\sum_i \log(1+(\frac{x_i}\theta)^\alpha)
++ 2n\log(\alpha) - n\log(\theta).
+(\#eq:paralogisloglik)
+\end{equation}
+The gradient with respect to $\theta$, $\alpha$ is
+$$
+\begin{pmatrix}
+( \alpha - 1)\frac{-n}{\theta}
+- (\alpha+1)\sum_i \frac{-x_i\alpha(x_i/\theta)^{\alpha-1}}{1+(\frac{x_i}\theta)^\alpha}
+- n/\theta
+\\
+\sum_{i} \log(\frac{ \frac{x_i}\theta}{1+(\frac{x_i}\theta)^\alpha }) 
+- (\alpha+1)\sum_i \frac{(\frac{x_i}\theta)^\alpha \log(x_i/\theta)}{1+(\frac{x_i}\theta)^\alpha}
++ 2n/\alpha
+\\
+\end{pmatrix}
+$$
+The first component cancels when
+$$
+- (\alpha+1)\sum_i \frac{-x_i\alpha(x_i/\theta)^{\alpha-1}}{1+(\frac{x_i}\theta)^\alpha}
+= \alpha n/\theta
+\Leftrightarrow
+(\alpha+1)\frac1n\sum_i \frac{ (x_i)^{\alpha+1}}{1+(\frac{x_i}\theta)^\alpha}
+= \theta^\alpha
+$$
+The second component cancels when
+$$
+\frac1n\sum_{i} \log(\frac{ \frac{x_i}\theta}{1+(\frac{x_i}\theta)^\alpha }) 
+= -2/\alpha
++(\alpha+1)\frac1n\sum_i \frac{(\frac{x_i}\theta)^\alpha \log(x_i/\theta)}{1+(\frac{x_i}\theta)^\alpha}
+$$
+Choosing $\theta=1$, $\alpha=2$ in sums leads to 
+$$
+\frac1n\sum_{i} \log(\frac{ \frac{x_i}\theta}{1+x_i^2 }) 
+- \frac1n\sum_i \frac{x_i^2\log(x_i)}{1+x_i^2}
+= -2/\alpha
++(\alpha)\frac1n\sum_i \frac{x_i^2\log(x_i)}{1+x_i^2}
+$$
+Initial estimators are
+\begin{equation}
+\hat\alpha = \frac{
+\frac1n\sum_{i} \log(\frac{ x_i}{1+x_i^2 }) 
+- \frac1n\sum_i \frac{x_i^2\log(x_i)}{1+x_i^2}
+}{
+\frac1n\sum_i \frac{x_i^2\log(x_i)}{1+x_i^2} - 2
+}
+(\#eq:paralogisalphahat)
+\end{equation}
+\begin{equation}
+\hat\theta = (\hat\alpha+1)\frac1n\sum_i \frac{ (x_i)^{\hat\alpha+1}}{1+(x_i)^{\hat\alpha}}
+(\#eq:paralogisthetahat)
+\end{equation}
+
+
+### Inverse Burr
+
+Use Burr estimate on the sample $1/x$
+
+### Inverse paralogistic
+
+Use paralogistic estimate on the sample $1/x$
+
+### Inverse pareto
+
+Use pareto estimate on the sample $1/x$
+
+### Pareto IV
+
+The survival function is 
+$$
+1-F(x) = \left(1+
+\left(\frac{x-\mu}{\theta}\right)^{\gamma}
+\right)^{-\alpha},
+$$ 
+see `?Pareto4` in `actuar`. 
+
+The first and third quartiles $q_1$ and $q_3$ verify 
+$$
+((\frac34)^{-1/\alpha}-1)^{1/\gamma} = \frac{q_1-\mu}{\theta},
+((\frac14)^{-1/\alpha}-1)^{1/\gamma} = \frac{q_3-\mu}{\theta}.
+$$ 
+Hence we get two useful relations 
+\begin{equation}
+\gamma
+=
+\frac{
+\log\left(
+\frac{
+(\frac43)^{1/\alpha}-1
+}{
+(4)^{1/\alpha}-1
+}
+\right)
+}{
+\log\left(\frac{q_1-\mu}{q_3-\mu}\right)
+},
+(\#eq:pareto4gammarelation)
+\end{equation}
+\begin{equation}
+\theta
+= 
+\frac{q_1- q_3
+}{
+((\frac43)^{1/\alpha}-1)^{1/\gamma}
+- ((4)^{1/\alpha}-1)^{1/\gamma}
+}.
+(\#eq:pareto4thetarelation)
+\end{equation}
+
+The log-likelihood of a Pareto 4 sample (see Equation (5.2.94) of Arnold (2015)
+updated with Goulet et al. notation) is
+$$
+\mathcal L(\mu,\theta,\gamma,\alpha)
+= (\gamma -1) \sum_i \log(\frac{x_i-\mu}{\theta})
+-(\alpha+1)\sum_i \log(1+ (\frac{x_i-\mu}{\theta})^{\gamma})
++n\log(\gamma) -n\log(\theta)+n\log(\alpha).
+$$
+Cancelling the derivate of $\mathcal L(\mu,\theta,\gamma,\alpha)$ with respect to $\alpha$
+leads to 
+\begin{equation}
+\alpha
+=n/\sum_i \log(1+ (\frac{x_i-\mu}{\theta})^{\gamma}).
+(\#eq:pareto4alpharelation)
+\end{equation}
+
+The MLE of the threshold parameter $\mu$
+is the minimum. So the initial estimate is slightly under the minimum in
+order that all observations are strictly above it 
+\begin{equation}
+\hat\mu = 
+\left\{ \begin{array}{ll}
+(1-\epsilon) \min_i x_i & \text{if } \min_i x_i <0 \\
+(1+\epsilon)\min_i x_i & \text{if } \min_i x_i \geq 0 \\
+\end{array} \right.
+(\#eq:pareto4muinit)
+\end{equation}
+where $\epsilon=0.05$.
+
+Initial parameter estimation is $\hat\mu$, 
+$\alpha^\star = 2$ ,
+$\hat\gamma$ from \@ref(eq:pareto4gammarelation) with $\alpha^\star$,
+$\hat\theta$ from \@ref(eq:pareto4thetarelation) with $\alpha^\star$ and $\hat\gamma$,
+$\hat\alpha$ from \@ref(eq:pareto4alpharelation) with $\hat\mu$, $\hat\theta$ and $\hat\gamma$,
+
+
+
+### Pareto III
+
+Pareto III corresponds to Pareto IV with $\alpha=1$. 
+\begin{equation}
+\gamma
+=
+\frac{
+\log\left(
+\frac{
+\frac43-1
+}{
+4-1
+}
+\right)
+}{
+\log\left(\frac{q_1-\mu}{q_3-\mu}\right)
+},
+\label{eq:pareto3:gamma:relation}
+\end{equation}
+
+\begin{equation}
+\theta
+= 
+\frac{
+(\frac13)^{1/\gamma}
+- (3)^{1/\gamma}
+}{q_1- q_3
+}.
+\label{eq:pareto3:theta:relation}
+\end{equation}
+
+Initial parameter estimation is $\hat\mu$,
+$\hat\gamma$ from \eqref{eq:pareto3:gamma:relation},
+$\hat\theta$ from \eqref{eq:pareto3:theta:relation} with $\hat\gamma$.
+
+
+### Pareto II
+
+Pareto II corresponds to Pareto IV with $\gamma=1$. 
+
+\begin{equation}
+\theta
+= 
+\frac{
+(\frac43)^{1/\alpha}
+- 4^{1/\alpha}
+}{q_1- q_3
+}.
+\label{eq:pareto2:theta:relation}
+\end{equation}
+
+Initial parameter estimation is $\hat\mu$, 
+$\alpha^\star = 2$ ,
+$\hat\theta$ from \eqref{eq:pareto4:theta:relation} with $\alpha^\star$ and $\gamma=1$,
+$\hat\alpha$ from \eqref{eq:pareto4:alpha:relation} with $\hat\mu$, $\hat\theta$ and $\gamma=1$,
+
+
+### Pareto I
+
+Pareto I corresponds to Pareto IV with $\gamma=1$, $\mu=\theta$. 
+
+
+The MLE is 
+\begin{equation}
+\hat\mu = \min_i X_i,
+\hat\alpha = \left(\frac1n \sum_{i=1}^n \log(X_i/\hat\mu) \right)^{-1}
+\label{eq:pareto1:alpha:mu:relation}
+\end{equation}
+
+This can be rewritten with the geometric mean of the sample
+$G_n = (\prod_{i=1}^n X_i)^{1/n}$ as
+$$
+\hat\alpha = \log(G_n/\hat\mu).
+$$
+
+
+Initial parameter estimation is $\hat\mu$, 
+$\hat\alpha$ from \eqref{eq:pareto1:alpha:mu:relation}.
+
+
+
+### Pareto
+
+Pareto corresponds to Pareto IV with $\gamma=1$, $\mu=0$. 
+
+\begin{equation}
+\theta
+= 
+\frac{
+(\frac43)^{1/\alpha}
+- 4^{1/\alpha}
+}{q_1- q_3
+}.
+\label{eq:pareto:theta:relation}
+\end{equation}
+
+Initial parameter estimation is 
+$$
+\alpha^\star = \max(2,  2(m_2-m_1^2)/(m_2-2m_1^2)),
+$$
+with $m_i$ are empirical raw moment of order $i$,
+$\hat\theta$ from \eqref{eq:pareto4:theta:relation} with $\alpha^\star$ and $\gamma=1$,
+$\hat\alpha$ from \eqref{eq:pareto4:alpha:relation} with $\mu=0$, $\hat\theta$ and $\gamma=1$.
+
+## Transformed gamma family
+
+### Transformed gamma distribution
+
+The log-likelihood is given by
+$$
+\mathcal L(\alpha,\tau,\theta)
+= n\log(\tau) + \alpha\tau\sum_i \log(x_i/\theta)
+-\sum_i (x_i/\theta)^\tau
+- \sum_i\log(x_i) - n\log(Gamma(\alpha)).
+$$
+The gradient with respect to $\alpha,\tau,\theta$ is given by 
+$$
+\begin{pmatrix}
+\tau- n\psi(\alpha)) 
+\\
+n/\tau + \alpha\sum_i \log(x_i/\theta)
+-\sum_i (x_i/\theta)^{\tau} \log(x_i/\theta)
+\\
+-\alpha\tau /\theta
++\sum_i \tau \frac{x_i}{\theta^2}(x_i/\theta)^{\tau-1}
+\end{pmatrix}.
+$$
+We compute moment-estimator as in gamma
+$$
+\hat\alpha = m_2^2/\mu_2, 
+\hat\theta= \mu_2/m_1.
+$$
+Then cancelling the first component of the gradient we set
+$$
+\hat\tau =  \frac{\psi(\hat\alpha)}{\frac1n\sum_i \log(x_i/\hat\theta) }
+$$
+
+### gamma distribution
+
+Transformed gamma with $\tau=1$
+
+We compute moment-estimator as in gamma
+$$
+\hat\alpha = m_2^2/\mu_2, 
+\hat\theta= \mu_2/m_1.
+$$
+
+
+### Weibull distribution
+
+Transformed gamma with $\alpha=1$
+
+Let $\tilde m=\frac1n\sum_i \log(x_i)$ and  $\tilde v=\frac1n\sum_i (\log(x_i) - \tilde m)^2$.
+We can use
+$$
+\hat\tau =  1.2/sqrt(\tilde v),
+\hat\theta =  exp(\tilde m + 0.572/\hat \tau)
+$$
+As the distribution function is
+$$
+F(x) = 1 - e^{-(x/\sigma)^\tau}
+\Rightarrow
+\log(-\log(1-F(x))) = \tau\log(x) - \tau\log(\theta),
+$$
+Hence
+$$
+\tilde\tau = \frac{
+\log(-\log(1-p_1))
+- \log(-\log(1-p_2))
+}{
+\log(x_1) - \log(x_2)
+},
+\tilde\tau
+= x_3/(-\log(1-p_3))^{1/\tilde\tau}
+$$
+with $p_1=1/4$, $p_2=3/4$, $p_3=1/2$, $x_i$ corresponding empirical quantiles.
+
+Initial parameters are $\tilde\tau$ and $\tilde\theta$ unless the empirical quantiles $x_1=x_2$, in that case we use $\hat\tau$, $\hat\theta$.
+
+### Exponential distribution
+
+The MLE is 
+$$
+\hat\lambda = 1/m_1.
+$$
+
+## Inverse transformed gamma family
+
+### Inverse transformed gamma distribution
+
+same as transformed gamma distribution with $(1/x_i)_i$
+
+### Inverse gamma distribution
+
+
+We compute moment-estimator as 
+$$
+\hat\alpha = (2m_2-m_1^2)/(m_2-m_1^2), 
+\hat\theta= m_1m_2/(m_2-m_1^2).
+$$
+
+### Inverse Weibull distribution
+
+QME
+
+### Inverse exponential 
+

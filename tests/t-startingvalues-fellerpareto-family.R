@@ -25,3 +25,29 @@ fitdist(x, "pareto1", lower=0)
 fitdist(x, "pareto", lower=0)
 
 fitdist(x, "llogis", lower=0)
+
+
+fitdistrplus:::startarg_fellerpareto_family(x, "fpareto")
+
+fitdist(x, "fpareto", lower=0)
+
+fitdistrplus:::startarg_fellerpareto_family(x-1, "trbeta")
+
+fitdist(x-1, "trbeta", lower=0)
+
+
+fitdistrplus:::startarg_fellerpareto_family(x-1, "genpareto")
+
+fitdist(x-1, "genpareto", lower=0)
+
+fitdistrplus:::startarg_fellerpareto_family(x-1, "paralogis")
+
+fitdist(x-1, "paralogis", lower=0)
+
+
+x <- rfpareto(n, 0, 1, 2, 2, scale=2)
+
+fitdistrplus:::startarg_fellerpareto_family(x, "invburr")
+fitdistrplus:::startarg_fellerpareto_family(x, "invpareto")
+fitdistrplus:::startarg_fellerpareto_family(x, "invparalogis")
+
