@@ -11,6 +11,9 @@
 # two named list with untested components
 manageparam <- function(start.arg, fix.arg, obs, distname)
 {
+  ddistname <- paste("d", distname, sep="")
+  argddistname <- names(formals(ddistname))
+  
   #if clause with 3 different cases:
   #start.arg : NULL | named list | a function
   
@@ -79,6 +82,20 @@ manageparam <- function(start.arg, fix.arg, obs, distname)
   if(is.null(start.arg) && !is.null(lfix))
   {
     lstart <- lstart[!names(lstart) %in% names(lfix)]
+    if(length(lstart) == 0)
+      stop("Don't need to use fitdist() if all parameters have fixed values")
+  }
+  
+  #check if distname has both rate and scale parameter
+  if("rate" %in% argddistname && "scale" %in% argddistname)
+  {
+    if("rate" %in% names(lfix) && "scale" %in% names(lstart))
+    {
+      lstart <- lstart[names(lstart) != "scale"]
+    }else if("scale" %in% names(lfix) && "rate" %in% names(lstart))
+    {
+      lstart <- lstart[names(lstart) != "rate"]
+    }
     if(length(lstart) == 0)
       stop("Don't need to use fitdist() if all parameters have fixed values")
   }
