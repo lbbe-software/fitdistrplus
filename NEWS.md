@@ -3,12 +3,15 @@
 BUG FIX
 
 - when a `scale` parameter was fixed, the `startarg` function also set a `rate` parameter. this leads to an error when calling the density.
-- add further sanity check in plotdistcens: the following code `plotdistcens(data.frame(right=smokedfish$right, left=smokedfish$left))` raised an error via `npsurv()`, thanks to R Pouillot
+- add further sanity check in `plotdistcens`: the following code `plotdistcens(data.frame(right=smokedfish$right, left=smokedfish$left))` raised an error via `npsurv()`, thanks to R Pouillot
+- bug fixed in using `breaks` in `plotdist`
+- solve the extremely long time taking by `lines` in `descdist`
 
 
 NEW FEATURES
 
 - modify or add a initial value for all univariate distributions provided in `actuar`.
+- the `fitdistrplus` git repo now belongs to the `lbbe-software` organization
 
 # fitdistrplus 1.1-11
 

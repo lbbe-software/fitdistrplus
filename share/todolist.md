@@ -25,7 +25,7 @@
 21. [ ] add a generic function `AIC` and `BIC` for `fitdist(cens)` objects
 22. [x] close following open issues 2, 21, 23, 25 appropriately
 23. [x] improve Cullen-Frey graph following <https://github.com/lbbe-software/fitdistrplus/issues/24>
-24. [ ] add defensive programming in `plotdist()` to deal with <https://github.com/lbbe-software/fitdistrplus/issues/27>
+24. [ ] manage differential graphical parameters in `plotdist` see <https://github.com/lbbe-software/fitdistrplus/issues/27>
 
 # Of less priority
 
