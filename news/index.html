@@ -57,9 +57,14 @@
 <h2 class="pkg-version" data-toc-text="1.1-12" id="fitdistrplus-11-12">fitdistrplus 1.1-12<a class="anchor" aria-label="anchor" href="#fitdistrplus-11-12"></a></h2>
 <p>BUG FIX</p>
 <ul><li>when a <code>scale</code> parameter was fixed, the <code>startarg</code> function also set a <code>rate</code> parameter. this leads to an error when calling the density.</li>
-<li>add further sanity check in plotdistcens: the following code <code>plotdistcens(data.frame(right=smokedfish$right, left=smokedfish$left))</code> raised an error via <code>npsurv()</code>, thanks to R Pouillot</li>
+<li>add further sanity check in <code>plotdistcens</code>: the following code <code>plotdistcens(data.frame(right=smokedfish$right, left=smokedfish$left))</code> raised an error via <code>npsurv()</code>, thanks to R Pouillot</li>
+<li>bug fixed in using <code>breaks</code> in <code>plotdist</code>
+</li>
+<li>solve the extremely long time taking by <code>lines</code> in <code>descdist</code>
+</li>
 </ul><p>NEW FEATURES</p>
 <ul><li>modify or add a initial value for all univariate distributions provided in <code>actuar</code>.</li>
+<li>the <code>fitdistrplus</code> git repo now belongs to the <code>lbbe-software</code> organization</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1-11" id="fitdistrplus-11-11">fitdistrplus 1.1-11<a class="anchor" aria-label="anchor" href="#fitdistrplus-11-11"></a></h2><p class="text-muted">CRAN release: 2023-04-25</p>
