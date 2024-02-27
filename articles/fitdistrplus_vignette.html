@@ -43,6 +43,7 @@
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/fitdistrplus_vignette.html">Overview of the fitdistrplus package</a>
     <a class="dropdown-item" href="../articles/Optimalgo.html">Which optimization algorithm to choose?</a>
+    <a class="dropdown-item" href="../articles/starting-values.html">Starting values used in fitdistrplus</a>
     <a class="dropdown-item" href="../articles/FAQ.html">Frequently Asked Questions</a>
   </div>
 </li>
@@ -74,7 +75,7 @@
       <img src="" class="logo" alt=""><h1>Overview of the fitdistrplus package</h1>
                         <h4 data-toc-skip class="author">Marie Laure Delignette Muller, Christophe Dutang</h4>
             
-            <h4 data-toc-skip class="date">2024-02-19</h4>
+            <h4 data-toc-skip class="date">2024-02-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/lbbe-software/fitdistrplus/blob/HEAD/vignettes/fitdistrplus_vignette.Rmd" class="external-link"><code>vignettes/fitdistrplus_vignette.Rmd</code></a></small>
       <div class="d-none name"><code>fitdistrplus_vignette.Rmd</code></div>
@@ -230,13 +231,13 @@ Below is a call to the <code>fitdist</code> function to fit a Weibull distributi
 <pre><code><span><span class="co">## Fitting of the distribution ' weibull ' by maximum likelihood </span></span>
 <span><span class="co">## Parameters : </span></span>
 <span><span class="co">##       estimate Std. Error</span></span>
-<span><span class="co">## shape    2.186     0.1046</span></span>
-<span><span class="co">## scale   83.348     2.5269</span></span>
+<span><span class="co">## shape    2.185     0.1046</span></span>
+<span><span class="co">## scale   83.348     2.5273</span></span>
 <span><span class="co">## Loglikelihood:  -1255   AIC:  2514   BIC:  2522 </span></span>
 <span><span class="co">## Correlation matrix:</span></span>
 <span><span class="co">##        shape  scale</span></span>
-<span><span class="co">## shape 1.0000 0.3218</span></span>
-<span><span class="co">## scale 0.3218 1.0000</span></span></code></pre>
+<span><span class="co">## shape 1.0000 0.3216</span></span>
+<span><span class="co">## scale 0.3216 1.0000</span></span></code></pre>
 <p>The plot of an object of class <code>fitdist</code> provides four classical goodness-of-fit plots <span class="citation">(<a href="#ref-Cullen99" role="doc-biblioref">Cullen and Frey 1999</a>)</span> presented on Figure <a href="#fig:groundbeefcomp">2.3</a>:</p>
 <ul>
 <li>a density plot representing the density function of the fitted distribution along with the histogram of the empirical distribution,</li>
@@ -696,9 +697,9 @@ The code below compares all the parameter estimates (<span class="math inline">\
 <div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span>NM <span class="op">=</span> <span class="va">fNM</span><span class="op">$</span><span class="va">estimate</span>, BFGS <span class="op">=</span> <span class="va">fBFGS</span><span class="op">$</span><span class="va">estimate</span>, SANN <span class="op">=</span> <span class="va">fSANN</span><span class="op">$</span><span class="va">estimate</span>, CG <span class="op">=</span> <span class="va">fCG</span><span class="op">$</span><span class="va">estimate</span>, </span>
 <span>      fgenoud <span class="op">=</span> <span class="va">fgenoud</span><span class="op">$</span><span class="va">estimate</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##            NM    BFGS    SANN      CG fgenoud</span></span>
-<span><span class="co">## shape 4.00825 4.22848 3.96743 4.12850 4.00834</span></span>
-<span><span class="co">## rate  0.05442 0.05742 0.05385 0.05606 0.05443</span></span></code></pre>
+<pre><code><span><span class="co">##           NM   BFGS  SANN     CG fgenoud</span></span>
+<span><span class="co">## shape  4.009  4.008  4.01  4.008 4.00834</span></span>
+<span><span class="co">## scale 18.369 18.373 18.36 18.373 0.05443</span></span></code></pre>
 </div>
 <div class="section level3" number="3.3">
 <h3 id="otherdata">

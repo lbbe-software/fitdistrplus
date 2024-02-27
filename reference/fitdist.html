@@ -36,6 +36,7 @@ summary, quantile, logLik, vcov and coef."><!-- mathjax --><script src="https://
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/fitdistrplus_vignette.html">Overview of the fitdistrplus package</a>
     <a class="dropdown-item" href="../articles/Optimalgo.html">Which optimization algorithm to choose?</a>
+    <a class="dropdown-item" href="../articles/starting-values.html">Starting values used in fitdistrplus</a>
     <a class="dropdown-item" href="../articles/FAQ.html">Frequently Asked Questions</a>
   </div>
 </li>
@@ -397,14 +398,14 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fitg</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fitting of the distribution ' gamma ' by maximum likelihood </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Parameters : </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         estimate  Std. Error</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> shape 4.00825257 0.341336046</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rate  0.05441911 0.004935468</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        estimate Std. Error</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> shape  4.009212  0.3420423</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale 18.369492  1.6696165</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Loglikelihood:  -1253.625   AIC:  2511.25   BIC:  2518.325 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Correlation matrix:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           shape      rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> shape 1.0000000 0.9384381</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rate  0.9384381 1.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            shape      scale</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> shape  1.0000000 -0.9386832</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale -0.9386832  1.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fitg</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="fitdist-1.png" alt="" width="700" height="433"></span>
@@ -444,25 +445,25 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fitting of the distribution ' weibull ' by maximum likelihood </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Parameters : </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        estimate Std. Error</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> shape  2.185885  0.1045755</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> scale 83.347679  2.5268626</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> shape  2.185487  0.1045621</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale 83.348049  2.5273258</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Loglikelihood:  -1255.225   AIC:  2514.449   BIC:  2521.524 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Correlation matrix:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          shape    scale</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> shape 1.000000 0.321821</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> scale 0.321821 1.000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           shape     scale</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> shape 1.0000000 0.3216267</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale 0.3216267 1.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fitg</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fitting of the distribution ' gamma ' by maximum likelihood </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Parameters : </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         estimate  Std. Error</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> shape 4.00825257 0.341336046</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rate  0.05441911 0.004935468</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        estimate Std. Error</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> shape  4.009212  0.3420423</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale 18.369492  1.6696165</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Loglikelihood:  -1253.625   AIC:  2511.25   BIC:  2518.325 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Correlation matrix:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           shape      rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> shape 1.0000000 0.9384381</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rate  0.9384381 1.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            shape      scale</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> shape  1.0000000 -0.9386832</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale -0.9386832  1.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fitln</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fitting of the distribution ' lnorm ' by maximum likelihood </span>
@@ -487,9 +488,9 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-in"><span><span class="fu"><a href="gofstat.html">gofstat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fitW</span>, <span class="va">fitg</span>, <span class="va">fitln</span><span class="op">)</span>, fitnames<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Weibull"</span>, <span class="st">"gamma"</span>, <span class="st">"lognormal"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Goodness-of-fit statistics</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                Weibull     gamma lognormal</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Kolmogorov-Smirnov statistic 0.1396646 0.1281246 0.1493090</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cramer-von Mises statistic   0.6840994 0.6934112 0.8277358</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Anderson-Darling statistic   3.5736460 3.5660192 4.5436542</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Kolmogorov-Smirnov statistic 0.1396194 0.1280934 0.1493090</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Cramer-von Mises statistic   0.6839428 0.6937261 0.8277358</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Anderson-Darling statistic   3.5729448 3.5675483 4.5436542</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Goodness-of-fit criteria</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                 Weibull    gamma lognormal</span>
@@ -572,21 +573,21 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-in"><span><span class="fu">fitdist</span><span class="op">(</span><span class="va">serving</span>, <span class="st">"gamma"</span>, optim.method<span class="op">=</span><span class="st">"Nelder-Mead"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fitting of the distribution ' gamma ' by maximum likelihood </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Parameters:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         estimate  Std. Error</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> shape 4.00825257 0.341336046</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rate  0.05441911 0.004935468</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        estimate Std. Error</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> shape  4.009212  0.3420423</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale 18.369492  1.6696165</span>
 <span class="r-in"><span><span class="fu">fitdist</span><span class="op">(</span><span class="va">serving</span>, <span class="st">"gamma"</span>, optim.method<span class="op">=</span><span class="st">"BFGS"</span><span class="op">)</span> </span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fitting of the distribution ' gamma ' by maximum likelihood </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Parameters:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         estimate  Std. Error</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> shape 4.22848161 0.360818429</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rate  0.05742147 0.005201142</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        estimate Std. Error</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> shape  4.008381  0.3419114</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale 18.372884  1.6696162</span>
 <span class="r-in"><span><span class="fu">fitdist</span><span class="op">(</span><span class="va">serving</span>, <span class="st">"gamma"</span>, optim.method<span class="op">=</span><span class="st">"SANN"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fitting of the distribution ' gamma ' by maximum likelihood </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Parameters:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         estimate  Std. Error</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> shape 3.97310977 0.338232649</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rate  0.05417208 0.004914217</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       estimate Std. Error</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> shape  4.01234   0.341034</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale 18.34582   1.660326</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># (7) custom optimization function</span></span></span>
 <span class="r-in"><span><span class="co">#</span></span></span>
@@ -642,14 +643,14 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fit1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fitting of the distribution ' gamma ' by maximum likelihood </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Parameters : </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         estimate  Std. Error</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> shape 4.00825257 0.341336046</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rate  0.05441911 0.004935468</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        estimate Std. Error</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> shape  4.009212  0.3420423</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale 18.369492  1.6696165</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Loglikelihood:  -1253.625   AIC:  2511.25   BIC:  2518.325 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Correlation matrix:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           shape      rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> shape 1.0000000 0.9384381</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rate  0.9384381 1.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            shape      scale</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> shape  1.0000000 -0.9386832</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale -0.9386832  1.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>    <span class="co">#wrap genoud function rgenoud package</span></span></span>
@@ -676,7 +677,7 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ##</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mon Feb 19 12:26:02 2024</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Tue Feb 27 09:23:47 2024</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Domains:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  0.000000e+00   &lt;=  X1   &lt;=    1.000000e+01 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  0.000000e+00   &lt;=  X2   &lt;=    1.000000e+01 </span>
@@ -707,31 +708,47 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Generation#	    Solution Value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0 	1.253825e+03</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0 	1.258660e+03</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       1 	1.253625e+03</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 'wait.generations' limit reached.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> No significant improvement in 10 generations.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Doubling 'wait.generations' limit to 20 (from 10) because at least one gradient is too large.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> G[1]: 2.412395e-02	 Solution Tolerance: 1.000000e-03</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Doubling 'wait.generations' limit to 40 (from 20) because at least one gradient is too large.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> G[1]: 2.631079e-02	 Solution Tolerance: 1.000000e-03</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Doubling 'wait.generations' limit to 80 (from 40) because at least one gradient is too large.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> G[1]: -1.363246e-03	 Solution Tolerance: 1.000000e-03</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Doubling 'wait.generations' limit to 160 (from 80) because at least one gradient is too large.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> G[2]: 3.134842e-03	 Solution Tolerance: 1.000000e-03</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NOTE: HARD MAXIMUM GENERATION LIMIT HIT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         At least one gradient is too large</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Solution Fitness Value: 1.253625e+03</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Parameters at the Solution (parameter, gradient):</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  X[ 1] :	4.008336e+00	G[ 1] :	-2.506981e-05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  X[ 2] :	5.442732e-02	G[ 2] :	1.390304e-04</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  X[ 1] :	4.008337e+00	G[ 1] :	-2.464680e-05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  X[ 2] :	5.442733e-02	G[ 2] :	6.781599e-04</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Solution Found Generation 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Number of Generations Run 12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of Generations Run 100</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mon Feb 19 12:26:03 2024</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Total run time : 0 hours 0 minutes and 1 seconds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Tue Feb 27 09:23:59 2024</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Total run time : 0 hours 0 minutes and 12 seconds</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fit2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fitting of the distribution ' gamma ' by maximum likelihood </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Parameters : </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         estimate  Std. Error</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> shape 4.00833633 0.341343600</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rate  0.05442732 0.004936212</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> shape 4.00833723 0.341343681</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale 0.05442733 0.004936213</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Loglikelihood:  -1253.625   AIC:  2511.25   BIC:  2518.325 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Correlation matrix:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]      [,2]</span>
@@ -772,22 +789,22 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fitting of the distribution ' weibull ' by maximum likelihood </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Parameters : </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        estimate Std. Error</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> shape  2.185885  0.1045755</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> scale 83.347679  2.5268626</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> shape  2.185487  0.1045621</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale 83.348049  2.5273258</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Loglikelihood:  -1255.225   AIC:  2514.449   BIC:  2521.524 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Correlation matrix:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          shape    scale</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> shape 1.000000 0.321821</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> scale 0.321821 1.000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           shape     scale</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> shape 1.0000000 0.3216267</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale 0.3216267 1.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fWmle</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="fitdist-16.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="fu"><a href="gofstat.html">gofstat</a></span><span class="op">(</span><span class="va">fWmle</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Goodness-of-fit statistics</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                              1-mle-weibull</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Kolmogorov-Smirnov statistic     0.1396646</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cramer-von Mises statistic       0.6840994</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Anderson-Darling statistic       3.5736460</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Kolmogorov-Smirnov statistic     0.1396194</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Cramer-von Mises statistic       0.6839428</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Anderson-Darling statistic       3.5729448</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Goodness-of-fit criteria</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                1-mle-weibull</span>
@@ -799,22 +816,22 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fitting of the distribution ' weibull ' by matching quantiles </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Parameters : </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        estimate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> shape  2.268699</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> scale 86.590853</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Loglikelihood:  -1256.129   AIC:  2516.258   BIC:  2523.332 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> shape  2.267902</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale 86.592340</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Loglikelihood:  -1256.126   AIC:  2516.252   BIC:  2523.327 </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fWqme</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="fitdist-17.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="fu"><a href="gofstat.html">gofstat</a></span><span class="op">(</span><span class="va">fWqme</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Goodness-of-fit statistics</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                              1-qme-weibull</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Kolmogorov-Smirnov statistic     0.1692858</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cramer-von Mises statistic       0.9664709</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Anderson-Darling statistic       4.8479858</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Kolmogorov-Smirnov statistic     0.1692005</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Cramer-von Mises statistic       0.9657979</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Anderson-Darling statistic       4.8445844</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Goodness-of-fit criteria</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                1-qme-weibull</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Akaike's Information Criterion      2516.258</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bayesian Information Criterion      2523.332</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Akaike's Information Criterion      2516.252</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bayesian Information Criterion      2523.327</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># (11) Fit of a Pareto distribution by numerical moment matching estimation</span></span></span>
@@ -858,50 +875,50 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fitting of the distribution ' weibull ' by maximum goodness-of-fit </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Parameters:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        estimate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> shape  2.093204</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> scale 82.660014</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> shape  2.093681</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale 82.655261</span>
 <span class="r-in"><span><span class="op">(</span><span class="va">f2</span> <span class="op">&lt;-</span> <span class="fu">fitdist</span><span class="op">(</span><span class="va">serving</span>, <span class="st">"weibull"</span>, method<span class="op">=</span><span class="st">"mge"</span>, gof<span class="op">=</span><span class="st">"KS"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fitting of the distribution ' weibull ' by maximum goodness-of-fit </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Parameters:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        estimate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> shape  2.065634</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> scale 81.450487</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> shape  2.065642</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale 81.450333</span>
 <span class="r-in"><span><span class="op">(</span><span class="va">f3</span> <span class="op">&lt;-</span> <span class="fu">fitdist</span><span class="op">(</span><span class="va">serving</span>, <span class="st">"weibull"</span>, method<span class="op">=</span><span class="st">"mge"</span>, gof<span class="op">=</span><span class="st">"AD"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fitting of the distribution ' weibull ' by maximum goodness-of-fit </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Parameters:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        estimate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> shape  2.125473</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> scale 82.890260</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> shape  2.125685</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale 82.890296</span>
 <span class="r-in"><span><span class="op">(</span><span class="va">f4</span> <span class="op">&lt;-</span> <span class="fu">fitdist</span><span class="op">(</span><span class="va">serving</span>, <span class="st">"weibull"</span>, method<span class="op">=</span><span class="st">"mge"</span>, gof<span class="op">=</span><span class="st">"ADR"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fitting of the distribution ' weibull ' by maximum goodness-of-fit </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Parameters:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        estimate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> shape  2.072087</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> scale 82.761868</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> shape  2.072016</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale 82.764844</span>
 <span class="r-in"><span><span class="op">(</span><span class="va">f5</span> <span class="op">&lt;-</span> <span class="fu">fitdist</span><span class="op">(</span><span class="va">serving</span>, <span class="st">"weibull"</span>, method<span class="op">=</span><span class="st">"mge"</span>, gof<span class="op">=</span><span class="st">"ADL"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fitting of the distribution ' weibull ' by maximum goodness-of-fit </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Parameters:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        estimate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> shape  2.197498</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> scale 82.016005</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> shape  2.197232</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale 82.015202</span>
 <span class="r-in"><span><span class="op">(</span><span class="va">f6</span> <span class="op">&lt;-</span> <span class="fu">fitdist</span><span class="op">(</span><span class="va">serving</span>, <span class="st">"weibull"</span>, method<span class="op">=</span><span class="st">"mge"</span>, gof<span class="op">=</span><span class="st">"AD2R"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fitting of the distribution ' weibull ' by maximum goodness-of-fit </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Parameters:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       estimate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> shape  1.90328</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> scale 81.33464</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        estimate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> shape  1.903196</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale 81.332023</span>
 <span class="r-in"><span><span class="op">(</span><span class="va">f7</span> <span class="op">&lt;-</span> <span class="fu">fitdist</span><span class="op">(</span><span class="va">serving</span>, <span class="st">"weibull"</span>, method<span class="op">=</span><span class="st">"mge"</span>, gof<span class="op">=</span><span class="st">"AD2L"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fitting of the distribution ' weibull ' by maximum goodness-of-fit </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Parameters:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        estimate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> shape  2.483836</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> scale 78.252113</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       estimate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> shape  2.48330</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale 78.26215</span>
 <span class="r-in"><span><span class="op">(</span><span class="va">f8</span> <span class="op">&lt;-</span> <span class="fu">fitdist</span><span class="op">(</span><span class="va">serving</span>, <span class="st">"weibull"</span>, method<span class="op">=</span><span class="st">"mge"</span>, gof<span class="op">=</span><span class="st">"AD2"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fitting of the distribution ' weibull ' by maximum goodness-of-fit </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Parameters:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        estimate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> shape  2.081168</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> scale 85.281194</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> shape  2.081305</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale 85.283908</span>
 <span class="r-in"><span><span class="fu"><a href="graphcomp.html">cdfcomp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">f1</span>, <span class="va">f2</span>, <span class="va">f3</span>, <span class="va">f4</span>, <span class="va">f5</span>, <span class="va">f6</span>, <span class="va">f7</span>, <span class="va">f8</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="fitdist-18.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="fu"><a href="graphcomp.html">cdfcomp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">f1</span>, <span class="va">f2</span>, <span class="va">f3</span>, <span class="va">f4</span>, <span class="va">f5</span>, <span class="va">f6</span>, <span class="va">f7</span>, <span class="va">f8</span><span class="op">)</span>, </span></span>
@@ -949,16 +966,16 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fitting of the distribution ' unif ' by maximum goodness-of-fit </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Parameters : </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     estimate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> min        0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> max        1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> min 5.110497</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> max 9.552878</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Loglikelihood:  -Inf   AIC:  Inf   BIC:  Inf </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fuCvM</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="fitdist-22.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="fu"><a href="gofstat.html">gofstat</a></span><span class="op">(</span><span class="va">fuCvM</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Goodness-of-fit statistics</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                              1-mge-unif</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Kolmogorov-Smirnov statistic    1.00000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cramer-von Mises statistic     16.66667</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Kolmogorov-Smirnov statistic 0.11370966</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Cramer-von Mises statistic   0.07791651</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Anderson-Darling statistic          Inf</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Goodness-of-fit criteria</span>
@@ -971,15 +988,16 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fitting of the distribution ' unif ' by maximum goodness-of-fit </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Parameters : </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     estimate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> min        0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> max        1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> min 5.092357</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> max 9.323818</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Loglikelihood:  -Inf   AIC:  Inf   BIC:  Inf </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fuKS</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="fitdist-23.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="fu"><a href="gofstat.html">gofstat</a></span><span class="op">(</span><span class="va">fuKS</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Goodness-of-fit statistics</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                              1-mge-unif</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Kolmogorov-Smirnov statistic    1.00000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cramer-von Mises statistic     16.66667</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Kolmogorov-Smirnov statistic 0.09216159</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Cramer-von Mises statistic   0.12241830</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Anderson-Darling statistic          Inf</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Goodness-of-fit criteria</span>
@@ -1057,7 +1075,7 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-in"><span><span class="va">fKS</span> <span class="op">&lt;-</span> <span class="fu">fitdist</span><span class="op">(</span><span class="va">t</span>, <span class="st">"triang"</span>, method<span class="op">=</span><span class="st">"mge"</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>min<span class="op">=</span><span class="fl">4</span>, mode<span class="op">=</span><span class="fl">6</span>,max<span class="op">=</span><span class="fl">9</span><span class="op">)</span>, gof<span class="op">=</span><span class="st">"KS"</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Some parameter names have no starting/fixed value but have a default value: mean.</span>
 <span class="r-in"><span><span class="fu"><a href="graphcomp.html">cdfcomp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fCvM</span>,<span class="va">fKS</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="fitdist-23.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="fitdist-24.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># (17) fit a non classical discrete distribution (the zero inflated Poisson distribution)</span></span></span>
@@ -1068,7 +1086,7 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/gamlss.dist/man/ZIP.html" class="external-link">rZIP</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">30</span>, mu <span class="op">=</span> <span class="fl">5</span>, sigma <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="plotdist.html">plotdist</a></span><span class="op">(</span><span class="va">x</span>, discrete <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="fitdist-24.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="fitdist-25.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="va">fitzip</span> <span class="op">&lt;-</span> <span class="fu">fitdist</span><span class="op">(</span><span class="va">x</span>, <span class="st">"ZIP"</span>, start <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>mu <span class="op">=</span> <span class="fl">4</span>, sigma <span class="op">=</span> <span class="fl">0.15</span><span class="op">)</span>, discrete <span class="op">=</span> <span class="cn">TRUE</span>, </span></span>
 <span class="r-in"><span>  optim.method <span class="op">=</span> <span class="st">"L-BFGS-B"</span>, lower <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, upper <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">Inf</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The dZIP function should return a zero-length vector when input has length zero</span>
@@ -1086,10 +1104,10 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sigma 0.06418863 1.00000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fitzip</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="fitdist-25.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="fitdist-26.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="va">fitp</span> <span class="op">&lt;-</span> <span class="fu">fitdist</span><span class="op">(</span><span class="va">x</span>, <span class="st">"pois"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="graphcomp.html">cdfcomp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fitzip</span>, <span class="va">fitp</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="fitdist-26.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="fitdist-27.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="fu"><a href="gofstat.html">gofstat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fitzip</span>, <span class="va">fitp</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Chi-squared statistic:  3.579721 35.91516 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Degree of freedom of the Chi-squared distribution:  3 4 </span>

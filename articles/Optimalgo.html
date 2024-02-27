@@ -43,6 +43,7 @@
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/fitdistrplus_vignette.html">Overview of the fitdistrplus package</a>
     <a class="dropdown-item" href="../articles/Optimalgo.html">Which optimization algorithm to choose?</a>
+    <a class="dropdown-item" href="../articles/starting-values.html">Starting values used in fitdistrplus</a>
     <a class="dropdown-item" href="../articles/FAQ.html">Frequently Asked Questions</a>
   </div>
 </li>
@@ -74,7 +75,7 @@
       <img src="" class="logo" alt=""><h1>Which optimization algorithm to choose?</h1>
                         <h4 data-toc-skip class="author">Marie Laure Delignette Muller, Christophe Dutang</h4>
             
-            <h4 data-toc-skip class="date">2024-02-19</h4>
+            <h4 data-toc-skip class="date">2024-02-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/lbbe-software/fitdistrplus/blob/HEAD/vignettes/Optimalgo.Rmd" class="external-link"><code>vignettes/Optimalgo.Rmd</code></a></small>
       <div class="d-none name"><code>Optimalgo.Rmd</code></div>
@@ -298,7 +299,7 @@ are not exported.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">x</span>, prob<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, col<span class="op">=</span><span class="st">"red"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html" class="external-link">curve</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">dbeta</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">3</span>, <span class="fl">3</span><span class="op">/</span><span class="fl">4</span><span class="op">)</span>, col<span class="op">=</span><span class="st">"green"</span>, add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"topleft"</span>, lty<span class="op">=</span><span class="fl">1</span>, col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>,<span class="st">"green"</span><span class="op">)</span>, leg<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"empirical"</span>, <span class="st">"theoretical"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"topleft"</span>, lty<span class="op">=</span><span class="fl">1</span>, col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>,<span class="st">"green"</span><span class="op">)</span>, legend<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"empirical"</span>, <span class="st">"theoretical"</span><span class="op">)</span>, bty<span class="op">=</span><span class="st">"n"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Optimalgo_files/figure-html/unnamed-chunk-4-1.png"><!-- --></p>
 </div>
 <div class="section level3" number="2.3">
@@ -353,6 +354,8 @@ numerically approximated one).</p>
 (3) the log-transformed parametrization without specifying the gradient,
 (4) the log-transformed parametrization with the (true) gradient (<code>-G</code> stands for gradient).</p>
 <table class="table">
+<caption>
+<span id="tab:unnamed-chunk-8">Table 2.1: </span>Unconstrained optimization with approximated gradient</caption>
 <colgroup>
 <col width="21%">
 <col width="10%">
@@ -428,8 +431,8 @@ numerically approximated one).</p>
 <td align="left">time (sec)</td>
 <td align="right">0.005</td>
 <td align="right">0.004</td>
-<td align="right">0.026</td>
-<td align="right">0.029</td>
+<td align="right">0.023</td>
+<td align="right">0.028</td>
 <td align="right">0.020</td>
 <td align="right">0.004</td>
 <td align="right">0.006</td>
@@ -437,6 +440,8 @@ numerically approximated one).</p>
 </tbody>
 </table>
 <table class="table">
+<caption>
+<span id="tab:unnamed-chunk-9">Table 2.2: </span>Unconstrained optimization with true gradient</caption>
 <colgroup>
 <col width="17%">
 <col width="8%">
@@ -528,15 +533,17 @@ numerically approximated one).</p>
 <td align="right">0.075</td>
 <td align="right">0.072</td>
 <td align="right">0.046</td>
-<td align="right">0.015</td>
-<td align="right">0.013</td>
-<td align="right">0.087</td>
+<td align="right">0.014</td>
+<td align="right">0.014</td>
+<td align="right">0.086</td>
 <td align="right">0.077</td>
-<td align="right">0.066</td>
+<td align="right">0.065</td>
 </tr>
 </tbody>
 </table>
 <table class="table">
+<caption>
+<span id="tab:unnamed-chunk-10">Table 2.3: </span>Exponential trick optimization with approximated gradient</caption>
 <thead><tr class="header">
 <th align="left"></th>
 <th align="right">BFGS</th>
@@ -588,15 +595,17 @@ numerically approximated one).</p>
 </tr>
 <tr class="even">
 <td align="left">time (sec)</td>
-<td align="right">0.015</td>
-<td align="right">0.004</td>
-<td align="right">0.014</td>
+<td align="right">0.016</td>
+<td align="right">0.003</td>
+<td align="right">0.013</td>
 <td align="right">0.013</td>
 <td align="right">0.015</td>
 </tr>
 </tbody>
 </table>
 <table class="table">
+<caption>
+<span id="tab:unnamed-chunk-11">Table 2.4: </span>Exponential trick optimization with true gradient</caption>
 <thead><tr class="header">
 <th align="left"></th>
 <th align="right">G-BFGS</th>
@@ -642,8 +651,8 @@ numerically approximated one).</p>
 </tr>
 <tr class="even">
 <td align="left">time (sec)</td>
-<td align="right">0.011</td>
-<td align="right">0.045</td>
+<td align="right">0.010</td>
+<td align="right">0.050</td>
 <td align="right">0.043</td>
 <td align="right">0.038</td>
 </tr>
@@ -744,7 +753,7 @@ see the NIST Handbook of mathematical functions <a href="https://dlmf.nist.gov/"
 <span class="header-section-number">3.2</span> Random generation of a sample<a class="anchor" aria-label="anchor" href="#random-generation-of-a-sample-1"></a>
 </h3>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#(1) beta distribution</span></span>
+<code class="sourceCode R"><span><span class="co">#(2) negative binomial distribution</span></span>
 <span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">200</span></span>
 <span><span class="va">trueval</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"size"</span><span class="op">=</span><span class="fl">10</span>, <span class="st">"prob"</span><span class="op">=</span><span class="fl">3</span><span class="op">/</span><span class="fl">4</span>, <span class="st">"mu"</span><span class="op">=</span><span class="fl">10</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/NegBinomial.html" class="external-link">rnbinom</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">trueval</span><span class="op">[</span><span class="st">"size"</span><span class="op">]</span>, <span class="va">trueval</span><span class="op">[</span><span class="st">"prob"</span><span class="op">]</span><span class="op">)</span></span>
@@ -753,8 +762,8 @@ see the NIST Handbook of mathematical functions <a href="https://dlmf.nist.gov/"
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, col<span class="op">=</span><span class="st">"red"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/NegBinomial.html" class="external-link">dnbinom</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="va">trueval</span><span class="op">[</span><span class="st">"size"</span><span class="op">]</span>, <span class="va">trueval</span><span class="op">[</span><span class="st">"prob"</span><span class="op">]</span><span class="op">)</span>, </span>
 <span>       col <span class="op">=</span> <span class="st">"green"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"topleft"</span>, lty <span class="op">=</span> <span class="fl">1</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>, <span class="st">"green"</span><span class="op">)</span>, </span>
-<span>       leg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"empirical"</span>, <span class="st">"theoretical"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"topright"</span>, lty <span class="op">=</span> <span class="fl">1</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>, <span class="st">"green"</span><span class="op">)</span>, </span>
+<span>       legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"empirical"</span>, <span class="st">"theoretical"</span><span class="op">)</span>, bty<span class="op">=</span><span class="st">"n"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Optimalgo_files/figure-html/unnamed-chunk-15-1.png"><!-- --></p>
 </div>
 <div class="section level3" number="3.3">
@@ -814,6 +823,8 @@ numerically approximated one).</p>
 (3) the log-transformed parametrization without specifying the gradient,
 (4) the log-transformed parametrization with the (true) gradient (<code>-G</code> stands for gradient).</p>
 <table style="width:100%;" class="table">
+<caption>
+<span id="tab:unnamed-chunk-18">Table 3.1: </span>Unconstrained optimization with approximated gradient</caption>
 <colgroup>
 <col width="20%">
 <col width="11%">
@@ -887,11 +898,11 @@ numerically approximated one).</p>
 </tr>
 <tr class="even">
 <td align="left">time (sec)</td>
-<td align="right">0.001</td>
-<td align="right">0.003</td>
+<td align="right">0.002</td>
+<td align="right">0.002</td>
 <td align="right">0.241</td>
 <td align="right">0.227</td>
-<td align="right">0.225</td>
+<td align="right">0.229</td>
 <td align="right">0.001</td>
 <td align="right">0.002</td>
 </tr>
@@ -908,6 +919,8 @@ numerically approximated one).</p>
 </tbody>
 </table>
 <table class="table">
+<caption>
+<span id="tab:unnamed-chunk-19">Table 3.2: </span>Unconstrained optimization with true gradient</caption>
 <colgroup>
 <col width="16%">
 <col width="9%">
@@ -995,10 +1008,10 @@ numerically approximated one).</p>
 </tr>
 <tr class="even">
 <td align="left">time (sec)</td>
-<td align="right">0.008</td>
-<td align="right">0.010</td>
+<td align="right">0.009</td>
+<td align="right">0.009</td>
 <td align="right">0.007</td>
-<td align="right">0.010</td>
+<td align="right">0.009</td>
 <td align="right">0.002</td>
 <td align="right">0.002</td>
 <td align="right">0.009</td>
@@ -1020,6 +1033,8 @@ numerically approximated one).</p>
 </tbody>
 </table>
 <table class="table">
+<caption>
+<span id="tab:unnamed-chunk-20">Table 3.3: </span>Exponential trick optimization with approximated gradient</caption>
 <thead><tr class="header">
 <th align="left"></th>
 <th align="right">BFGS</th>
@@ -1072,14 +1087,16 @@ numerically approximated one).</p>
 <tr class="even">
 <td align="left">time (sec)</td>
 <td align="right">0.004</td>
-<td align="right">0.002</td>
-<td align="right">0.285</td>
-<td align="right">0.228</td>
-<td align="right">0.021</td>
+<td align="right">0.003</td>
+<td align="right">0.292</td>
+<td align="right">0.229</td>
+<td align="right">0.022</td>
 </tr>
 </tbody>
 </table>
 <table class="table">
+<caption>
+<span id="tab:unnamed-chunk-21">Table 3.4: </span>Exponential trick optimization with true gradient</caption>
 <thead><tr class="header">
 <th align="left"></th>
 <th align="right">G-BFGS</th>
@@ -1125,7 +1142,7 @@ numerically approximated one).</p>
 </tr>
 <tr class="even">
 <td align="left">time (sec)</td>
-<td align="right">0.007</td>
+<td align="right">0.006</td>
 <td align="right">0.002</td>
 <td align="right">0.002</td>
 <td align="right">0.002</td>
@@ -1162,8 +1179,9 @@ numerically approximated one).</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## The estimation method converged only for 76 among 100 iterations</span></span></code></pre>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">b1</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="va">trueval</span><span class="op">[</span><span class="st">"size"</span><span class="op">]</span>, h <span class="op">=</span> <span class="va">trueval</span><span class="op">[</span><span class="st">"mu"</span><span class="op">]</span>, col <span class="op">=</span> <span class="st">"red"</span>, lwd <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">b1</span>, trueval<span class="op">=</span><span class="va">trueval</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning in rbind(deparse.level, ...): number of columns of result, 2, is not a</span></span>
+<span><span class="co">## multiple of vector length 3 of arg 2</span></span></code></pre>
 <p><img src="Optimalgo_files/figure-html/unnamed-chunk-23-1.png"><!-- --></p>
 </div>
 </div>
@@ -1172,7 +1190,7 @@ numerically approximated one).</p>
 <span class="header-section-number">4</span> Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
 </h2>
 <p>Based on the two previous examples, we observe that all methods converge to the same
-point. This is rassuring.<br>
+point. This is reassuring.<br>
 However, the number of function evaluations (and the gradient evaluations) is
 very different from a method to another.
 Furthermore, specifying the true gradient of the log-likelihood does not

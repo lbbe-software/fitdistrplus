@@ -26,6 +26,7 @@
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/fitdistrplus_vignette.html">Overview of the fitdistrplus package</a>
     <a class="dropdown-item" href="../articles/Optimalgo.html">Which optimization algorithm to choose?</a>
+    <a class="dropdown-item" href="../articles/starting-values.html">Starting values used in fitdistrplus</a>
     <a class="dropdown-item" href="../articles/FAQ.html">Frequently Asked Questions</a>
   </div>
 </li>
@@ -231,18 +232,18 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-in"><span><span class="fu">mgedist</span><span class="op">(</span><span class="va">serving</span>, <span class="st">"weibull"</span>, gof<span class="op">=</span><span class="st">"CvM"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $estimate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     shape     scale </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  2.093204 82.660014 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  2.093681 82.655261 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $convergence</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6556672</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6556678</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hessian</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            shape      scale</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> shape 4.05295367 0.09244476</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> scale 0.09244476 0.02418777</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> shape 4.05025016 0.09239672</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale 0.09239672 0.02419664</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $optim.function</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "optim"</span>
@@ -261,13 +262,13 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $counts</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function gradient </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       65       NA </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       97       NA </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $optim.message</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $loglik</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -1255.623</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -1255.619</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $gof</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "CvM"</span>
@@ -275,7 +276,7 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-in"><span><span class="fu">mgedist</span><span class="op">(</span><span class="va">serving</span>, <span class="st">"weibull"</span>, gof<span class="op">=</span><span class="st">"KS"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $estimate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     shape     scale </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  2.065634 81.450487 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  2.065642 81.450333 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $convergence</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
@@ -285,8 +286,8 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hessian</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            shape    scale</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> shape 122.668263 6.509057</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> scale   6.509057 7.599584</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> shape 122.667113 6.509095</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale   6.509095 7.940176</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $optim.function</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "optim"</span>
@@ -305,7 +306,7 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $counts</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function gradient </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      127       NA </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      219       NA </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $optim.message</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
@@ -319,18 +320,18 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-in"><span><span class="fu">mgedist</span><span class="op">(</span><span class="va">serving</span>, <span class="st">"weibull"</span>, gof<span class="op">=</span><span class="st">"AD"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $estimate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     shape     scale </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  2.125473 82.890260 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  2.125685 82.890296 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $convergence</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3.501035</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3.501036</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hessian</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            shape     scale</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> shape 29.4165108 0.1823375</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> scale  0.1823375 0.1354409</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> shape 29.4131044 0.1822754</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale  0.1822754 0.1354633</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $optim.function</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "optim"</span>
@@ -349,13 +350,13 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $counts</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function gradient </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       63       NA </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      107       NA </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $optim.message</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $loglik</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -1255.392</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -1255.391</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $gof</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "AD"</span>
@@ -363,7 +364,7 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-in"><span><span class="fu">mgedist</span><span class="op">(</span><span class="va">serving</span>, <span class="st">"weibull"</span>, gof<span class="op">=</span><span class="st">"ADR"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $estimate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     shape     scale </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  2.072087 82.761868 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  2.072016 82.764844 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $convergence</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
@@ -373,8 +374,8 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hessian</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            shape       scale</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> shape 13.5240921 -0.33242262</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> scale -0.3324226  0.07977375</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> shape 13.5224886 -0.33215009</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale -0.3321501  0.07975081</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $optim.function</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "optim"</span>
@@ -393,13 +394,13 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $counts</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function gradient </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       65       NA </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      101       NA </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $optim.message</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $loglik</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -1255.836</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -1255.837</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $gof</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "ADR"</span>
@@ -407,7 +408,7 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-in"><span><span class="fu">mgedist</span><span class="op">(</span><span class="va">serving</span>, <span class="st">"weibull"</span>, gof<span class="op">=</span><span class="st">"ADL"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $estimate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     shape     scale </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  2.197498 82.016005 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  2.197232 82.015202 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $convergence</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
@@ -417,8 +418,8 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hessian</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            shape      scale</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> shape 15.3272022 0.54407116</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> scale  0.5440712 0.05549883</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> shape 15.3293005 0.54394584</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale  0.5439458 0.05549168</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $optim.function</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "optim"</span>
@@ -437,21 +438,21 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $counts</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function gradient </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       65       NA </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      107       NA </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $optim.message</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $loglik</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -1255.415</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -1255.414</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $gof</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "ADL"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">mgedist</span><span class="op">(</span><span class="va">serving</span>, <span class="st">"weibull"</span>, gof<span class="op">=</span><span class="st">"AD2R"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $estimate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    shape    scale </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1.90328 81.33464 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     shape     scale </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1.903196 81.332023 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $convergence</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
@@ -461,8 +462,8 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hessian</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           shape       scale</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> shape 334.61081 -10.4227495</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> scale -10.42275   0.5223167</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> shape 334.62366 -10.4232919</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale -10.42329   0.5223511</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $optim.function</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "optim"</span>
@@ -481,32 +482,32 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $counts</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function gradient </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       67       NA </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      113       NA </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $optim.message</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $loglik</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -1259.112</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -1259.114</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $gof</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "AD2R"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">mgedist</span><span class="op">(</span><span class="va">serving</span>, <span class="st">"weibull"</span>, gof<span class="op">=</span><span class="st">"AD2L"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $estimate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     shape     scale </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  2.483836 78.252113 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    shape    scale </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  2.48330 78.26215 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $convergence</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9.786977</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9.786983</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hessian</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            shape     scale</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> shape 113.511932 4.1108355</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> scale   4.110836 0.2341312</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> shape 113.518008 4.1096741</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale   4.109674 0.2340082</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $optim.function</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "optim"</span>
@@ -525,13 +526,13 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $counts</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function gradient </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       69       NA </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      101       NA </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $optim.message</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $loglik</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -1265.933</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -1265.888</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $gof</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "AD2L"</span>
@@ -539,7 +540,7 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-in"><span><span class="fu">mgedist</span><span class="op">(</span><span class="va">serving</span>, <span class="st">"weibull"</span>, gof<span class="op">=</span><span class="st">"AD2"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $estimate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     shape     scale </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  2.081168 85.281194 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  2.081305 85.283908 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $convergence</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
@@ -548,9 +549,9 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 26.95166</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hessian</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          shape       scale</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> shape 534.9606 -10.5940982</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> scale -10.5941   0.7606462</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           shape       scale</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> shape 535.10413 -10.5967451</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale -10.59675   0.7608009</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $optim.function</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "optim"</span>
@@ -569,13 +570,13 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $counts</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function gradient </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       67       NA </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      161       NA </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $optim.message</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $loglik</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -1256.313</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -1256.312</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $gof</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "AD2"</span>
@@ -590,19 +591,19 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-in"><span><span class="va">u</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">100</span>,min<span class="op">=</span><span class="fl">5</span>,max<span class="op">=</span><span class="fl">10</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">mgedist</span><span class="op">(</span><span class="va">u</span>,<span class="st">"unif"</span>,gof<span class="op">=</span><span class="st">"CvM"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $estimate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> min max </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0   1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      min      max </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4.788260 9.568912 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $convergence</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 33.33333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1142423</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hessian</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     min max</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> min   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> max   0   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          min      max</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> min 2.906956 1.461523</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> max 1.461523 2.570923</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $optim.function</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "optim"</span>
@@ -621,7 +622,7 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $counts</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function gradient </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        3       NA </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       59       NA </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $optim.message</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
@@ -634,19 +635,19 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">mgedist</span><span class="op">(</span><span class="va">u</span>,<span class="st">"unif"</span>,gof<span class="op">=</span><span class="st">"KS"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $estimate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> min max </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0   1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      min      max </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4.664535 9.463995 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $convergence</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.08</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hessian</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     min max</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> min   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> max   0   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           min       max</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> min  43.06566 -33.35097</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> max -33.35097 -61.06933</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $optim.function</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "optim"</span>
@@ -665,7 +666,7 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $counts</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function gradient </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        3       NA </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       29       NA </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $optim.message</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
