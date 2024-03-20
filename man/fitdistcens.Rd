@@ -4,6 +4,8 @@
 \alias{print.fitdistcens}
 \alias{summary.fitdistcens}
 \alias{logLik.fitdistcens}
+\alias{AIC.fitdistcens}
+\alias{BIC.fitdistcens}
 \alias{vcov.fitdistcens}
 \alias{coef.fitdistcens}
 \title{Fitting of univariate distributions to censored data}
@@ -23,6 +25,10 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL,
 \method{summary}{fitdistcens}(object, \dots)
 
 \method{logLik}{fitdistcens}(object, \dots)
+
+\method{AIC}{fitdistcens}(object, \dots, k = 2)
+
+\method{BIC}{fitdistcens}(object, \dots)
 
 \method{vcov}{fitdistcens}(object, \dots)
 
@@ -55,6 +61,7 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL,
 otherwise only a sample subset is returned.}
 \item{keepdata.nb}{When \code{keepdata=FALSE}, the length of the subset returned.}
 
+\item{k}{penalty per parameter to be passed to the AIC generic function (2 by default).}
 \item{\dots}{ further arguments to be passed to generic functions,
     to the function \code{plotdistcens} in order to control the type of ecdf-plot used for censored data, 
     or to the function \code{mledist} 
@@ -144,6 +151,10 @@ otherwise only a sample subset is returned.}
     function \code{\link{plotdistcens}}.
     }
     \item{\code{logLik}}{ Extracts the estimated log-likelihood from the \code{"fitdistcens"} object.
+    }
+    \item{\code{AIC}}{ Extracts the AIC from the \code{"fitdistcens"} object.
+    }
+    \item{\code{BIC}}{ Extracts the BIC from the \code{"fitdistcens"} object.
     }
     \item{\code{vcov}}{ Extracts the estimated var-covariance matrix from the \code{"fitdistcens"} object
     (only available When \code{method = "mle"}).

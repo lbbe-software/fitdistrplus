@@ -4,6 +4,8 @@
 \alias{print.fitdist}
 \alias{summary.fitdist}
 \alias{logLik.fitdist}
+\alias{AIC.fitdist}
+\alias{BIC.fitdist}
 \alias{vcov.fitdist}
 \alias{coef.fitdist}
 \title{ Fit of univariate distributions to non-censored data}
@@ -14,7 +16,8 @@
  maximizing goodness-of-fit estimation (mge).
  The latter is also known as minimizing distance estimation.
  Generic methods are \code{print}, \code{plot}, 
-\code{summary}, \code{quantile}, \code{logLik}, \code{vcov} and \code{coef}.
+\code{summary}, \code{quantile}, \code{logLik}, \code{AIC}, 
+\code{BIC}, \code{vcov} and \code{coef}.
 }
 
 \usage{
@@ -28,6 +31,10 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge", "mse"),
 \method{summary}{fitdist}(object, \dots)
 
 \method{logLik}{fitdist}(object, \dots)
+
+\method{AIC}{fitdist}(object, \dots, k = 2)
+
+\method{BIC}{fitdist}(object, \dots)
 
 \method{vcov}{fitdist}(object, \dots)
 
@@ -71,6 +78,7 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge", "mse"),
     with its default breaks definition. Else \code{breaks} is passed to the function \code{hist}.
     This argument is not taken into account with discrete distributions: \code{"binom"}, 
     \code{"nbinom"}, \code{"geom"}, \code{"hyper"} and \code{"pois"}. }
+\item{k}{penalty per parameter to be passed to the AIC generic function (2 by default).}
 \item{\dots}{Further arguments to be passed to generic functions, or to one of the functions
     \code{"mledist"},  \code{"mmedist"}, \code{"qmedist"} or \code{"mgedist"}
     depending of the chosen method. See \code{\link{mledist}}, \code{\link{mmedist}}, \code{\link{qmedist}}, 
@@ -230,6 +238,10 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge", "mse"),
     or a P-P plot (function \code{\link{ppcomp}}).
     }
     \item{\code{logLik}}{ Extracts the estimated log-likelihood from the \code{"fitdist"} object.
+    }
+    \item{\code{AIC}}{ Extracts the AIC from the \code{"fitdist"} object.
+    }
+    \item{\code{BIC}}{ Extracts the estimated BIC from the \code{"fitdist"} object.
     }
     \item{\code{vcov}}{ Extracts the estimated var-covariance matrix from the \code{"fitdist"} object
     (only available When \code{method = "mle"}).

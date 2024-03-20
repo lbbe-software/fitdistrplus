@@ -12,6 +12,7 @@ NEW FEATURES
 
 - modify or add a initial value for all univariate distributions provided in `actuar`.
 - the `fitdistrplus` git repo now belongs to the `lbbe-software` organization
+- add of generic functions AIC() and BIC() for fitdist and fitdistcens objects.
 
 # fitdistrplus 1.1-11
 
