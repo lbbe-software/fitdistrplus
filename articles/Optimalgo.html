@@ -75,7 +75,7 @@
       <img src="" class="logo" alt=""><h1>Which optimization algorithm to choose?</h1>
                         <h4 data-toc-skip class="author">Marie Laure Delignette Muller, Christophe Dutang</h4>
             
-            <h4 data-toc-skip class="date">2024-02-27</h4>
+            <h4 data-toc-skip class="date">2024-03-20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/lbbe-software/fitdistrplus/blob/HEAD/vignettes/Optimalgo.Rmd" class="external-link"><code>vignettes/Optimalgo.Rmd</code></a></small>
       <div class="d-none name"><code>Optimalgo.Rmd</code></div>
@@ -164,7 +164,7 @@ a local method combined with line search work on the scheme <span class="math in
 Newton methods are such that <span class="math inline">\(d_k\)</span> minimizes a local quadratic approximation of <span class="math inline">\(f\)</span> based on a Taylor expansion, that is <span class="math inline">\(q_f(d) = f(x_k) + g(x_k)^Td +\frac{1}{2} d^T H(x_k) d\)</span> where <span class="math inline">\(g\)</span> denotes the gradient and <span class="math inline">\(H\)</span> denotes the Hessian.</p>
 <p>The consists in using the exact solution of local minimization problem <span class="math inline">\(d_k = - H(x_k)^{-1} g(x_k)\)</span>.<br>
 In practice, other methods are preferred (at least to ensure positive definiteness).
-The method approximates the Hessian by a matrix <span class="math inline">\(H_k\)</span> as a function of <span class="math inline">\(H_{k-1}\)</span>, <span class="math inline">\(x_k\)</span>, <span class="math inline">\(f(x_k)\)</span> and then <span class="math inline">\(d_k\)</span> solves the system <span class="math inline">\(H_k d = - g(x_k)\)</span>.
+The method approximates the Hessian by a matrix <span class="math inline">\(H_k\)</span> as a function of <span class="math inline">\(H_{k-1}\)</span>, <span class="math inline">\(x_k\)</span>, <span class="math inline">\(f(x_k)\)</span> and then <span class="math inline">\(d_k\)</span> solves the system <span class="math inline">\(H_k d = -  g(x_k)\)</span>.
 Some implementation may also directly approximate the inverse of the Hessian <span class="math inline">\(W_k\)</span> in order to compute <span class="math inline">\(d_k = -W_k g(x_k)\)</span>. Using the Sherman-Morrison-Woodbury formula, we can switch between <span class="math inline">\(W_k\)</span> and <span class="math inline">\(H_k\)</span>.</p>
 <p>To determine <span class="math inline">\(W_k\)</span>, first it must verify the secant equation <span class="math inline">\(H_k y_k =s_k\)</span> or <span class="math inline">\(y_k=W_k s_k\)</span> where <span class="math inline">\(y_k = g_{k+1}-g_k\)</span> and <span class="math inline">\(s_k=x_{k+1}-x_k\)</span>. To define the <span class="math inline">\(n(n-1)\)</span> terms, we generally impose a symmetry and a minimum distance conditions. We say we have a rank 2 update if <span class="math inline">\(H_k = H_{k-1} + a u u^T + b v v^T\)</span> and a rank 1 update if $H_k = H_{k-1} + a u u^T $. Rank <span class="math inline">\(n\)</span> update is justified by the spectral decomposition theorem.</p>
 <p>There are two rank-2 updates which are symmetric and preserve positive definiteness</p>
@@ -219,7 +219,7 @@ Nocedal &amp; Wright (2006) presents a backtracking (or geometric) approach sati
 <strong>Repeat</strong> until Armijo satisfied,
 <ul>
 <li>
-<span class="math inline">\(t_{k,i+1} = \alpha \times t_{k,i}\)</span>.</li>
+<span class="math inline">\(t_{k,i+1} =  \alpha \times t_{k,i}\)</span>.</li>
 </ul>
 </li>
 <li><strong>end Repeat</strong></li>
@@ -234,9 +234,9 @@ Nocedal &amp; Wright (2006) presents a backtracking (or geometric) approach sati
 <p>To simplify the benchmark of optimization methods, we create a <code>fitbench</code> function that computes
 the desired estimation method for all optimization methods.
 This function is currently not exported in the package.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>fitbench <span class="ot">&lt;-</span> <span class="cf">function</span>(data, distr, method, <span class="at">grad =</span> <span class="cn">NULL</span>, </span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">control =</span> <span class="fu">list</span>(<span class="at">trace =</span> <span class="dv">0</span>, <span class="at">REPORT =</span> <span class="dv">1</span>, <span class="at">maxit =</span> <span class="dv">1000</span>), </span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">lower =</span> <span class="sc">-</span><span class="cn">Inf</span>, <span class="at">upper =</span> <span class="sc">+</span><span class="cn">Inf</span>, ...) </span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>fitbench <span class="ot">&lt;-</span> <span class="cf">function</span>(data, distr, method, <span class="at">grad =</span> <span class="cn">NULL</span>, </span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>                     <span class="at">control =</span> <span class="fu">list</span>(<span class="at">trace =</span> <span class="dv">0</span>, <span class="at">REPORT =</span> <span class="dv">1</span>, <span class="at">maxit =</span> <span class="dv">1000</span>), </span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>                     <span class="at">lower =</span> <span class="sc">-</span><span class="cn">Inf</span>, <span class="at">upper =</span> <span class="sc">+</span><span class="cn">Inf</span>, ...) </span></code></pre></div>
 </div>
 </div>
 <div class="section level2" number="2">
@@ -429,10 +429,10 @@ numerically approximated one).</p>
 </tr>
 <tr class="even">
 <td align="left">time (sec)</td>
-<td align="right">0.006</td>
-<td align="right">0.004</td>
-<td align="right">0.022</td>
-<td align="right">0.028</td>
+<td align="right">0.005</td>
+<td align="right">0.003</td>
+<td align="right">0.023</td>
+<td align="right">0.029</td>
 <td align="right">0.020</td>
 <td align="right">0.004</td>
 <td align="right">0.006</td>
@@ -529,15 +529,15 @@ numerically approximated one).</p>
 </tr>
 <tr class="even">
 <td align="left">time (sec)</td>
-<td align="right">0.011</td>
+<td align="right">0.008</td>
 <td align="right">0.076</td>
-<td align="right">0.073</td>
-<td align="right">0.046</td>
-<td align="right">0.015</td>
+<td align="right">0.077</td>
+<td align="right">0.045</td>
+<td align="right">0.014</td>
 <td align="right">0.013</td>
-<td align="right">0.087</td>
-<td align="right">0.078</td>
-<td align="right">0.066</td>
+<td align="right">0.086</td>
+<td align="right">0.077</td>
+<td align="right">0.065</td>
 </tr>
 </tbody>
 </table>
@@ -596,9 +596,9 @@ numerically approximated one).</p>
 <tr class="even">
 <td align="left">time (sec)</td>
 <td align="right">0.016</td>
-<td align="right">0.003</td>
-<td align="right">0.013</td>
-<td align="right">0.013</td>
+<td align="right">0.004</td>
+<td align="right">0.014</td>
+<td align="right">0.014</td>
 <td align="right">0.016</td>
 </tr>
 </tbody>
@@ -653,8 +653,8 @@ numerically approximated one).</p>
 <td align="left">time (sec)</td>
 <td align="right">0.011</td>
 <td align="right">0.045</td>
-<td align="right">0.045</td>
-<td align="right">0.039</td>
+<td align="right">0.044</td>
+<td align="right">0.038</td>
 </tr>
 </tbody>
 </table>
@@ -900,10 +900,10 @@ numerically approximated one).</p>
 <td align="left">time (sec)</td>
 <td align="right">0.002</td>
 <td align="right">0.002</td>
-<td align="right">0.242</td>
+<td align="right">0.233</td>
 <td align="right">0.229</td>
-<td align="right">0.227</td>
-<td align="right">0.001</td>
+<td align="right">0.226</td>
+<td align="right">0.002</td>
 <td align="right">0.002</td>
 </tr>
 <tr class="odd">
@@ -1009,9 +1009,9 @@ numerically approximated one).</p>
 <tr class="even">
 <td align="left">time (sec)</td>
 <td align="right">0.009</td>
-<td align="right">0.009</td>
-<td align="right">0.007</td>
 <td align="right">0.010</td>
+<td align="right">0.008</td>
+<td align="right">0.009</td>
 <td align="right">0.002</td>
 <td align="right">0.002</td>
 <td align="right">0.009</td>
@@ -1088,9 +1088,9 @@ numerically approximated one).</p>
 <td align="left">time (sec)</td>
 <td align="right">0.004</td>
 <td align="right">0.003</td>
-<td align="right">0.287</td>
-<td align="right">0.228</td>
-<td align="right">0.021</td>
+<td align="right">0.295</td>
+<td align="right">0.227</td>
+<td align="right">0.022</td>
 </tr>
 </tbody>
 </table>
@@ -1143,7 +1143,7 @@ numerically approximated one).</p>
 <tr class="even">
 <td align="left">time (sec)</td>
 <td align="right">0.007</td>
-<td align="right">0.002</td>
+<td align="right">0.003</td>
 <td align="right">0.002</td>
 <td align="right">0.002</td>
 </tr>

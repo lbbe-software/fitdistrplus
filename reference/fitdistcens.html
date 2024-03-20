@@ -76,6 +76,12 @@
 <span><span class="fu"><a href="https://rdrr.io/r/stats/logLik.html" class="external-link">logLik</a></span><span class="op">(</span><span class="va">object</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for fitdistcens</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/AIC.html" class="external-link">AIC</a></span><span class="op">(</span><span class="va">object</span>, <span class="va">...</span>, k <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for fitdistcens</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/AIC.html" class="external-link">BIC</a></span><span class="op">(</span><span class="va">object</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for fitdistcens</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/vcov.html" class="external-link">vcov</a></span><span class="op">(</span><span class="va">object</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for fitdistcens</span></span>
@@ -122,6 +128,9 @@ otherwise only a sample subset is returned.</p></dd>
 <dt>keepdata.nb</dt>
 <dd><p>When <code>keepdata=FALSE</code>, the length of the subset returned.</p></dd>
 
+
+<dt>k</dt>
+<dd><p>penalty per parameter to be passed to the AIC generic function (2 by default).</p></dd>
 
 <dt>...</dt>
 <dd><p>further arguments to be passed to generic functions,
@@ -242,6 +251,12 @@ otherwise only a sample subset is returned.</p></dd>
 
     <dt><code>logLik</code></dt>
 <dd><p>Extracts the estimated log-likelihood from the <code>"fitdistcens"</code> object.</p></dd>
+
+    <dt><code>AIC</code></dt>
+<dd><p>Extracts the AIC from the <code>"fitdistcens"</code> object.</p></dd>
+
+    <dt><code>BIC</code></dt>
+<dd><p>Extracts the BIC from the <code>"fitdistcens"</code> object.</p></dd>
 
     <dt><code>vcov</code></dt>
 <dd><p>Extracts the estimated var-covariance matrix from the <code>"fitdistcens"</code> object
@@ -428,7 +443,7 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-in"><span>        print.level<span class="op">=</span><span class="fl">1</span>, hessian<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Tue Feb 27 09:38:48 2024</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Wed Mar 20 10:35:35 2024</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Domains:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  0.000000e+00   &lt;=  X1   &lt;=    5.000000e+00 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  0.000000e+00   &lt;=  X2   &lt;=    5.000000e+00 </span>
@@ -475,7 +490,7 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Solution Found Generation 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of Generations Run 12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Tue Feb 27 09:38:49 2024</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Wed Mar 20 10:35:36 2024</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Total run time : 0 hours 0 minutes and 1 seconds</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fit.with.genoud</span><span class="op">)</span></span></span>

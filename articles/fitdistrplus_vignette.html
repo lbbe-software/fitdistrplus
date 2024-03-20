@@ -75,7 +75,7 @@
       <img src="" class="logo" alt=""><h1>Overview of the fitdistrplus package</h1>
                         <h4 data-toc-skip class="author">Marie Laure Delignette Muller, Christophe Dutang</h4>
             
-            <h4 data-toc-skip class="date">2024-02-27</h4>
+            <h4 data-toc-skip class="date">2024-03-20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/lbbe-software/fitdistrplus/blob/HEAD/vignettes/fitdistrplus_vignette.Rmd" class="external-link"><code>vignettes/fitdistrplus_vignette.Rmd</code></a></small>
       <div class="d-none name"><code>fitdistrplus_vignette.Rmd</code></div>
@@ -97,21 +97,21 @@ quantile matching, maximum goodness-of-fit, distributions, R</em></p>
 </h2>
 <p>Fitting distributions to data is a very common task in statistics and consists in choosing a probability distribution modelling the random variable, as well as finding parameter estimates for that distribution.
 This requires judgment and expertise and generally needs an iterative process of distribution choice, parameter estimation, and quality of fit assessment.
-In the R <span class="citation">(<a href="#ref-R13" role="doc-biblioref">R Development Core Team 2013</a>)</span> package <strong>MASS</strong> <span class="citation">(<a href="#ref-MASS" role="doc-biblioref">Venables and Ripley 2010</a>)</span>, maximum likelihood estimation is available via the <code>fitdistr</code> function; other steps of the fitting process can be done using other R functions <span class="citation">(<a href="#ref-Ricci05" role="doc-biblioref">Ricci 2005</a>)</span>.
-In this paper, we present the R package <strong>fitdistrplus</strong> <span class="citation">(<a href="#ref-fitdistrplus" role="doc-biblioref">Delignette-Muller et al. 2014</a>)</span> implementing several methods for fitting univariate parametric distribution.
+In the R <span class="citation">(<a href="#ref-R13">R Development Core Team 2013</a>)</span> package <strong>MASS</strong> <span class="citation">(<a href="#ref-MASS">Venables and Ripley 2010</a>)</span>, maximum likelihood estimation is available via the <code>fitdistr</code> function; other steps of the fitting process can be done using other R functions <span class="citation">(<a href="#ref-Ricci05">Ricci 2005</a>)</span>.
+In this paper, we present the R package <strong>fitdistrplus</strong> <span class="citation">(<a href="#ref-fitdistrplus">Delignette-Muller et al. 2014</a>)</span> implementing several methods for fitting univariate parametric distribution.
 A first objective in developing this package was to provide R users a set of functions dedicated to help this overall process.</p>
 <p>The <code>fitdistr</code> function estimates distribution parameters by maximizing the likelihood function using the <code>optim</code> function.
 No distinction between parameters with different roles (e.g., main parameter and nuisance parameter) is made, as this paper focuses on parameter estimation from a general point-of-view.
-In some cases, other estimation methods could be prefered, such as maximum goodness-of-fit estimation (also called minimum distance estimation), as proposed in the R package <strong>actuar</strong> with three different goodness-of-fit distances <span class="citation">(<a href="#ref-actuarJSS" role="doc-biblioref">Dutang, Goulet, and Pigeon 2008</a>)</span>.
+In some cases, other estimation methods could be prefered, such as maximum goodness-of-fit estimation (also called minimum distance estimation), as proposed in the R package <strong>actuar</strong> with three different goodness-of-fit distances <span class="citation">(<a href="#ref-actuarJSS">Dutang, Goulet, and Pigeon 2008</a>)</span>.
 While developping the <strong>fitdistrplus</strong> package, a second objective was to consider various estimation methods in addition to maximum likelihood estimation (MLE).
 Functions were developped to enable moment matching estimation (MME), quantile matching estimation (QME), and maximum goodness-of-fit estimation (MGE) using eight different distances.
 Moreover, the <strong>fitdistrplus</strong> package offers the possibility to specify a user-supplied function for optimization, useful in cases where classical optimization techniques, not included in <code>optim</code>, are more adequate.</p>
-<p>In applied statistics, it is frequent to have to fit distributions to censored data <span class="citation">Commeau et al. (<a href="#ref-commeauetal12" role="doc-biblioref">2012</a>)</span>.
+<p>In applied statistics, it is frequent to have to fit distributions to censored data <span class="citation">Commeau et al. (<a href="#ref-commeauetal12">2012</a>)</span>.
 The <strong>MASS</strong> <code>fitdistr</code> function does not enable maximum likelihood estimation with this type of data.
-Some packages can be used to work with censored data, especially survival data <span class="citation">Jordan (<a href="#ref-jordan05" role="doc-biblioref">2005</a>)</span>, but those packages generally focus on specific models, enabling the fit of a restricted set of distributions.
+Some packages can be used to work with censored data, especially survival data <span class="citation">Jordan (<a href="#ref-jordan05">2005</a>)</span>, but those packages generally focus on specific models, enabling the fit of a restricted set of distributions.
 A third objective is thus to provide R users a function to estimate univariate distribution parameters from right-, left- and interval-censored data.</p>
 <p>Few packages on CRAN provide estimation procedures for any user-supplied parametric distribution and support different types of data.
-The <strong>distrMod</strong> package <span class="citation">(<a href="#ref-distrModJSS" role="doc-biblioref">Kohl and Ruckdeschel 2010</a>)</span> provides an object-oriented (S4) implementation of probability models and includes distribution fitting procedures for a given minimization criterion.
+The <strong>distrMod</strong> package <span class="citation">(<a href="#ref-distrModJSS">Kohl and Ruckdeschel 2010</a>)</span> provides an object-oriented (S4) implementation of probability models and includes distribution fitting procedures for a given minimization criterion.
 This criterion is a user-supplied function which is sufficiently flexible to handle censored data, yet not in a trivial way, see Example M4 of the <strong>distrMod</strong> vignette.
 The fitting functions <code>MLEstimator</code> and <code>MDEstimator</code> return an S4 class for which a coercion method to class <code>mle</code> is provided so that the respective functionalities (e.g., <code>confint</code> and <code>logLik</code>) from package <strong>stats4</strong> are available, too.
 In <strong>fitdistrplus</strong>, we chose to use the standard S3 class system for its understanding by most R users.
@@ -134,7 +134,7 @@ Section <a href="#ccl">4</a> concludes.</p>
 </h3>
 <p>For illustrating the use of various functions of the <strong>fitdistrplus</strong> package with continuous non-censored data, we will first use a data set named <code>groundbeef</code> which is included in our package.
 This data set contains pointwise values of serving sizes in grams, collected in a French survey, for ground beef patties consumed by children under 5 years old.
-It was used in a quantitative risk assessment published by <span class="citation">Delignette-Muller and Cornu (<a href="#ref-Delignette08" role="doc-biblioref">2008</a>)</span>.</p>
+It was used in a quantitative risk assessment published by <span class="citation">Delignette-Muller and Cornu (<a href="#ref-Delignette08">2008</a>)</span>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://lbbe.univ-lyon1.fr/fr/fitdistrplus" class="external-link">"fitdistrplus"</a></span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Loading required package: MASS</span></span></code></pre>
@@ -161,7 +161,7 @@ Figure 2.1: Histogram and CDF plots of an empirical distribution for a continuou
 <p>In addition to empirical plots, descriptive statistics may help to choose candidates to describe a distribution among a set of parametric distributions.
 Especially the skewness and kurtosis, linked to the third and fourth moments, are useful for this purpose.
 A non-zero skewness reveals a lack of symmetry of the empirical distribution, while the kurtosis value quantifies the weight of tails in comparison to the normal distribution for which the kurtosis equals 3.
-The skewness and kurtosis and their corresponding unbiased estimator <span class="citation">(<a href="#ref-casellaberger02" role="doc-biblioref">Casella and Berger 2002</a>)</span> from a sample <span class="math inline">\((X_i)_i \stackrel{\text{i.i.d.}}{\sim} X\)</span> with observations <span class="math inline">\((x_i)_i\)</span> are given by:</p>
+The skewness and kurtosis and their corresponding unbiased estimator <span class="citation">(<a href="#ref-casellaberger02">Casella and Berger 2002</a>)</span> from a sample <span class="math inline">\((X_i)_i \stackrel{\text{i.i.d.}}{\sim} X\)</span> with observations <span class="math inline">\((x_i)_i\)</span> are given by:</p>
 <p><span class="math display" id="eq:eq1">\[\begin{equation}
 sk(X) = \frac{E[(X-E(X))^3]}{Var(X)^{\frac{3}{2}}}~,~\widehat{sk}=\frac{\sqrt{n(n-1)}}{n-2}\times\frac{m_{3}}{m_{2}^{\frac{3}{2}}},\tag{2.1}
 \end{equation}\]</span></p>
@@ -172,12 +172,12 @@ kr(X) = \frac{E[(X-E(X))^4]}{Var(X)^{2}}~,~\widehat{kr}=\frac{n-1}{(n-2)(n-3)}((
 <p>The <code>descdist</code> function provides classical descriptive statistics (minimum, maximum, median, mean, standard deviation), skewness and kurtosis.
 By default, unbiased estimations of the three last statistics are provided.
 Nevertheless, the argument <code>method</code> can be changed from <code>"unbiased"</code> (default) to <code>"sample"</code> to obtain them without correction for bias.
-A skewness-kurtosis plot such as the one proposed by <span class="citation">Cullen and Frey (<a href="#ref-Cullen99" role="doc-biblioref">1999</a>)</span> is provided by the <code>descdist</code> function for the empirical distribution (see Figure <a href="#fig:descgroundbeefplot">2.2</a> for the <code>groundbeef</code> data set).
+A skewness-kurtosis plot such as the one proposed by <span class="citation">Cullen and Frey (<a href="#ref-Cullen99">1999</a>)</span> is provided by the <code>descdist</code> function for the empirical distribution (see Figure <a href="#fig:descgroundbeefplot">2.2</a> for the <code>groundbeef</code> data set).
 On this plot, values for common distributions are displayed in order to help the choice of distributions to fit to data.
 For some distributions (normal, uniform, logistic, exponential), there is only one possible value for the skewness and the kurtosis.
 Thus, the distribution is represented by a single point on the plot. For other distributions, areas of possible values are represented, consisting in lines (as for gamma and lognormal distributions), or larger areas (as for beta distribution).</p>
 <p>Skewness and kurtosis are known not to be robust.
-In order to take into account the uncertainty of the estimated values of kurtosis and skewness from data, a nonparametric bootstrap procedure <span class="citation">(<a href="#ref-efrontibshirani94" role="doc-biblioref">Efron and Tibshirani 1994</a>)</span> can be performed by using the argument <code>boot</code>.
+In order to take into account the uncertainty of the estimated values of kurtosis and skewness from data, a nonparametric bootstrap procedure <span class="citation">(<a href="#ref-efrontibshirani94">Efron and Tibshirani 1994</a>)</span> can be performed by using the argument <code>boot</code>.
 Values of skewness and kurtosis are computed on bootstrap samples (constructed by random sampling with replacement from the original data set) and reported on the skewness-kurtosis plot.
 Nevertheless, the user needs to know that skewness and kurtosis, like all higher moments, have a very high variance.
 This is a problem which cannot be completely solved by the use of bootstrap.
@@ -238,17 +238,17 @@ Below is a call to the <code>fitdist</code> function to fit a Weibull distributi
 <span><span class="co">##        shape  scale</span></span>
 <span><span class="co">## shape 1.0000 0.3216</span></span>
 <span><span class="co">## scale 0.3216 1.0000</span></span></code></pre>
-<p>The plot of an object of class <code>fitdist</code> provides four classical goodness-of-fit plots <span class="citation">(<a href="#ref-Cullen99" role="doc-biblioref">Cullen and Frey 1999</a>)</span> presented on Figure <a href="#fig:groundbeefcomp">2.3</a>:</p>
+<p>The plot of an object of class <code>fitdist</code> provides four classical goodness-of-fit plots <span class="citation">(<a href="#ref-Cullen99">Cullen and Frey 1999</a>)</span> presented on Figure <a href="#fig:groundbeefcomp">2.3</a>:</p>
 <ul>
 <li>a density plot representing the density function of the fitted distribution along with the histogram of the empirical distribution,</li>
 <li>a CDF plot of both the empirical distribution and the fitted distribution,</li>
 <li>a Q-Q plot representing the empirical quantiles (y-axis) against the theoretical quantiles (x-axis),</li>
 <li>a P-P plot representing the empirical distribution function evaluated at each data point (y-axis) against the fitted distribution function (x-axis).</li>
 </ul>
-<p>For CDF, Q-Q and P-P plots, the probability plotting position is defined by default using Hazen’s rule, with probability points of the empirical distribution calculated as <code>(1:n - 0.5)/n</code>, as recommended by <span class="citation">Blom (<a href="#ref-Blom" role="doc-biblioref">1959</a>)</span>.
-This plotting position can be easily changed (see the reference manual for details <span class="citation">(<a href="#ref-fitdistrplus" role="doc-biblioref">Delignette-Muller et al. 2014</a>)</span>).</p>
+<p>For CDF, Q-Q and P-P plots, the probability plotting position is defined by default using Hazen’s rule, with probability points of the empirical distribution calculated as <code>(1:n - 0.5)/n</code>, as recommended by <span class="citation">Blom (<a href="#ref-Blom">1959</a>)</span>.
+This plotting position can be easily changed (see the reference manual for details <span class="citation">(<a href="#ref-fitdistrplus">Delignette-Muller et al. 2014</a>)</span>).</p>
 <p>Unlike the generic <code>plot</code> function, the <code>denscomp</code>, <code>cdfcomp</code>, <code>qqcomp</code> and <code>ppcomp</code> functions enable to draw separately each of these four plots, in order to compare the empirical distribution and multiple parametric distributions fitted on a same data set.
-These functions must be called with a first argument corresponding to a list of objects of class <code>fitdist</code>, and optionally further arguments to customize the plot (see the reference manual for lists of arguments that may be specific to each plot <span class="citation">(<a href="#ref-fitdistrplus" role="doc-biblioref">Delignette-Muller et al. 2014</a>)</span>).
+These functions must be called with a first argument corresponding to a list of objects of class <code>fitdist</code>, and optionally further arguments to customize the plot (see the reference manual for lists of arguments that may be specific to each plot <span class="citation">(<a href="#ref-fitdistrplus">Delignette-Muller et al. 2014</a>)</span>).
 In the following example, we compare the fit of a Weibull, a lognormal and a gamma distributions to the <code>groundbeef</code> data set (Figure <a href="#fig:groundbeefcomp">2.3</a>).</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">4</span>, <span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
@@ -272,17 +272,17 @@ The Q-Q plot emphasizes the lack-of-fit at the distribution tails while the P-P 
 In the present example (in Figure <a href="#fig:groundbeefcomp">2.3</a>), none of the three fitted distributions correctly describes the center of the distribution, but the Weibull and gamma distributions
 could be prefered for their better description of the right tail of the empirical distribution, especially if this tail is important in the use of the fitted distribution, as it is in the context of food risk assessment.</p>
 <p>The data set named <code>endosulfan</code> will now be used to illustrate other features of the <strong>fitdistrplus</strong> package.
-This data set contains acute toxicity values for the organochlorine pesticide endosulfan (geometric mean of LC50 ou EC50 values in <span class="math inline">\(\mu g.L^{-1}\)</span>), tested on Australian and non-Australian laboratory-species <span class="citation">(<a href="#ref-Hose04" role="doc-biblioref">Hose and Van den Brink 2004</a>)</span>.
+This data set contains acute toxicity values for the organochlorine pesticide endosulfan (geometric mean of LC50 ou EC50 values in <span class="math inline">\(\mu g.L^{-1}\)</span>), tested on Australian and non-Australian laboratory-species <span class="citation">(<a href="#ref-Hose04">Hose and Van den Brink 2004</a>)</span>.
 In ecotoxicology, a lognormal or a loglogistic distribution is often fitted to such a data set in order to characterize the species sensitivity distribution (SSD) for a pollutant.
 A low percentile of the fitted distribution, generally the 5% percentile, is then calculated and named the hazardous concentration 5% (HC5).
-It is interpreted as the value of the pollutant concentration protecting 95% of the species <span class="citation">(<a href="#ref-Posthuma2010" role="doc-biblioref">Posthuma, Suter, and Traas 2010</a>)</span>.
+It is interpreted as the value of the pollutant concentration protecting 95% of the species <span class="citation">(<a href="#ref-Posthuma2010">Posthuma, Suter, and Traas 2010</a>)</span>.
 But the fit of a lognormal or a loglogistic distribution to the whole <code>endosulfan</code> data set is rather bad (Figure <a href="#fig:fitendo">2.4</a>), especially due to a minority of very high values.
 The two-parameter Pareto distribution and the three-parameter Burr distribution (which is an extension of both the loglogistic and the Pareto distributions) have been fitted.
 Pareto and Burr distributions are provided in the package <strong>actuar</strong>.
 Until here, we did not have to define starting values (in the optimization process) as reasonable starting values are implicity defined within the <code>fitdist</code> function for most of the distributions defined in R (see <code><a href="../reference/fitdist.html">?fitdist</a></code> for details).
 For other distributions like the Pareto and the Burr distribution, initial values for the distribution parameters have to be supplied in the argument <code>start</code>, as a named list with initial values for each parameter (as they appear in the <code>d</code>, <code>p</code>, <code>q</code> functions).
 Having defined reasonable starting values<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;The &lt;code&gt;plotdist&lt;/code&gt; function can plot any parametric distribution with specified parameter values in argument &lt;code&gt;para&lt;/code&gt;. It can thus help to find correct initial values for the distribution parameters in non trivial cases, by iterative calls if necessary (see the reference
-manual for examples &lt;span class="citation"&gt;(&lt;a href="#ref-fitdistrplus" role="doc-biblioref"&gt;Delignette-Muller et al. 2014&lt;/a&gt;)&lt;/span&gt;).&lt;/p&gt;'><sup>1</sup></a> various distributions can be fitted and graphically compared.
+manual for examples &lt;span class="citation"&gt;(&lt;a href="#ref-fitdistrplus"&gt;Delignette-Muller et al. 2014&lt;/a&gt;)&lt;/span&gt;).&lt;/p&gt;'><sup>1</sup></a> various distributions can be fitted and graphically compared.
 On this example, the function <code>cdfcomp</code> can be used to report CDF values in a logscale so as to emphasize discrepancies on the tail of interest while defining an HC5 value (Figure <a href="#fig:fitendo">2.4</a>).</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://gitlab.com/vigou3/actuar" class="external-link">actuar</a></span><span class="op">)</span></span></code></pre></div>
@@ -327,9 +327,9 @@ Below is this calculation together with the calculation of the empirical quantil
 In fact, the value-at-risk <span class="math inline">\(VAR_\alpha\)</span> is defined as the <span class="math inline">\(1-\alpha\)</span>-quantile of the loss distribution and can be computed with <code>quantile</code> on a <code>fitdist</code> object.</p>
 <p>The computation of different goodness-of-fit statistics is proposed in the <strong>fitdistrplus</strong> package in order to further compare fitted distributions.
 The purpose of goodness-of-fit statistics aims to measure the distance between the fitted parametric distribution and the empirical distribution: e.g., the distance between the fitted cumulative distribution function <span class="math inline">\(F\)</span> and the empirical distribution function <span class="math inline">\(F_{n}\)</span>.
-When fitting continuous distributions, three goodness-of-fit statistics are classicaly considered: Cramer-von Mises, Kolmogorov-Smirnov and Anderson-Darling statistics <span class="citation">(<a href="#ref-Stephens86" role="doc-biblioref">D’Agostino and Stephens 1986</a>)</span>.
+When fitting continuous distributions, three goodness-of-fit statistics are classicaly considered: Cramer-von Mises, Kolmogorov-Smirnov and Anderson-Darling statistics <span class="citation">(<a href="#ref-Stephens86">D’Agostino and Stephens 1986</a>)</span>.
 Naming <span class="math inline">\(x_{i}\)</span> the <span class="math inline">\(n\)</span> observations of a continuous variable <span class="math inline">\(X\)</span> arranged in an ascending order, Table <a href="#tab:tabKSCvMAD">2.1</a> gives the definition and the empirical estimate of the three considered goodness-of-fit statistics.
-They can be computed using the function <code>gofstat</code> as defined by Stephens <span class="citation">(<a href="#ref-Stephens86" role="doc-biblioref">D’Agostino and Stephens 1986</a>)</span>.</p>
+They can be computed using the function <code>gofstat</code> as defined by Stephens <span class="citation">(<a href="#ref-Stephens86">D’Agostino and Stephens 1986</a>)</span>.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gofstat.html">gofstat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fendo.ln</span>, <span class="va">fendo.ll</span>, <span class="va">fendo.P</span>, <span class="va">fendo.B</span><span class="op">)</span>, </span>
 <span>        fitnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lnorm"</span>, <span class="st">"llogis"</span>, <span class="st">"Pareto"</span>, <span class="st">"Burr"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -346,7 +346,7 @@ They can be computed using the function <code>gofstat</code> as defined by Steph
 <p><br></p>
 <table class="table">
 <caption>
-<span id="tab:tabKSCvMAD">Table 2.1: </span> Goodness-of-fit statistics as defined by Stephens <span class="citation">(<a href="#ref-Stephens86" role="doc-biblioref">D’Agostino and Stephens 1986</a>)</span>.</caption>
+<span id="tab:tabKSCvMAD">Table 2.1: </span> Goodness-of-fit statistics as defined by Stephens <span class="citation">(<a href="#ref-Stephens86">D’Agostino and Stephens 1986</a>)</span>.</caption>
 <colgroup>
 <col width="9%">
 <col width="29%">
@@ -380,7 +380,7 @@ They can be computed using the function <code>gofstat</code> as defined by Steph
 <p>where <span class="math inline">\(F_i\stackrel{\triangle}{=} F(x_i)\)</span></p>
 <p><br></p>
 <p>As giving more weight to distribution tails, the Anderson-Darling statistic is of special interest when it matters to equally emphasize the tails as well as the main body of a distribution.
-This is often the case in risk assessment <span class="citation">Vose (<a href="#ref-Vose10" role="doc-biblioref">2010</a>)</span>.
+This is often the case in risk assessment <span class="citation">Vose (<a href="#ref-Vose10">2010</a>)</span>.
 For this reason, this statistics is often used to select the best distribution among those fitted.
 Nevertheless, this statistics should be used cautiously when comparing fits of various distributions.
 Keeping in mind that the weighting of each CDF quadratic difference depends on the parametric distribution in its definition (see Table <a href="#tab:tabKSCvMAD">2.1</a>), Anderson-Darling statistics computed for several distributions fitted on a same data set are theoretically difficult to compare.
@@ -389,13 +389,13 @@ It is not a problem when compared distributions are characterized by the same nu
 Looking at classical penalized criteria based on the loglikehood (AIC, BIC) seems thus also interesting, especially to discourage overfitting.</p>
 <p>In the previous example, all the goodness-of-fit statistics based on the CDF distance are in favor of the Burr distribution, the only one characterized by three parameters, while AIC and BIC values respectively give the preference to the Burr distribution or the Pareto distribution.
 The choice between these two distributions seems thus less obvious and could be discussed.
-Even if specifically recommended for discrete distributions, the Chi-squared statistic may also be used for continuous distributions (see Section <a href="#otherdata">3.3</a> and the reference manual for examples <span class="citation">(<a href="#ref-fitdistrplus" role="doc-biblioref">Delignette-Muller et al. 2014</a>)</span>).</p>
+Even if specifically recommended for discrete distributions, the Chi-squared statistic may also be used for continuous distributions (see Section <a href="#otherdata">3.3</a> and the reference manual for examples <span class="citation">(<a href="#ref-fitdistrplus">Delignette-Muller et al. 2014</a>)</span>).</p>
 </div>
 <div class="section level3" number="2.3">
 <h3 id="Uncertainty">
 <span class="header-section-number">2.3</span> Uncertainty in parameter estimates<a class="anchor" aria-label="anchor" href="#Uncertainty"></a>
 </h3>
-<p>The uncertainty in the parameters of the fitted distribution can be estimated by parametric or nonparametric bootstraps using the <code>boodist</code> function for non-censored data <span class="citation">(<a href="#ref-efrontibshirani94" role="doc-biblioref">Efron and Tibshirani 1994</a>)</span>.
+<p>The uncertainty in the parameters of the fitted distribution can be estimated by parametric or nonparametric bootstraps using the <code>boodist</code> function for non-censored data <span class="citation">(<a href="#ref-efrontibshirani94">Efron and Tibshirani 1994</a>)</span>.
 This function returns the bootstrapped values of parameters in an S3 class object which can be plotted to visualize the bootstrap region.
 The medians and the 95% confidence intervals of parameters (2.5 and 97.5 percentiles) are printed in the summary.
 When inferior to the whole number of iterations (due to lack of convergence of the optimization algorithm for some bootstrapped data sets), the number of iterations for which the estimation converges is also printed in the summary.</p>
@@ -422,8 +422,8 @@ Figure 2.5: Bootstrappped values of parameters for a fit of the Burr distributio
 It is also interesting to look at the joint distribution of the bootstraped values in a scatterplot (or a matrix of scatterplots if the number of parameters exceeds two) in order to understand the potential structural correlation between parameters (see Figure <a href="#fig:bootstrap">2.5</a>).</p>
 <p>The use of the whole bootstrap sample is also of interest in the risk assessment field.
 Its use enables the characterization of uncertainty in distribution parameters.
-It can be directly used within a second-order Monte Carlo simulation framework, especially within the package <strong>mc2d</strong> <span class="citation">(<a href="#ref-mc2d" role="doc-biblioref">Pouillot, Delignette-Muller, and Denis 2011</a>)</span>.
-One could refer to <span class="citation">Pouillot and Delignette-Muller (<a href="#ref-Pouillot10" role="doc-biblioref">2010</a>)</span> for an introduction to the use of <strong>mc2d</strong> and <strong>fitdistrplus</strong> packages in the context of quantitative risk assessment.</p>
+It can be directly used within a second-order Monte Carlo simulation framework, especially within the package <strong>mc2d</strong> <span class="citation">(<a href="#ref-mc2d">Pouillot, Delignette-Muller, and Denis 2011</a>)</span>.
+One could refer to <span class="citation">Pouillot and Delignette-Muller (<a href="#ref-Pouillot10">2010</a>)</span> for an introduction to the use of <strong>mc2d</strong> and <strong>fitdistrplus</strong> packages in the context of quantitative risk assessment.</p>
 <p>The bootstrap method can also be used to calculate confidence intervals on quantiles of the fitted distribution.
 For this purpose, a generic <code>quantile</code> function is provided for class <code>bootdist</code>.
 By default, 95% percentiles bootstrap confidence intervals of quantiles are provided.
@@ -452,14 +452,14 @@ Going back to the previous example from ecotoxicolgy, this function can be used 
 <span class="header-section-number">3.1</span> Alternative methods for parameter estimation<a class="anchor" aria-label="anchor" href="#Alternatives"></a>
 </h3>
 <p>This subsection focuses on alternative estimation methods.
-One of the alternative for continuous distributions is the maximum goodness-of-fit estimation method also called minimum distance estimation method <span class="citation">Dutang, Goulet, and Pigeon (<a href="#ref-actuarJSS" role="doc-biblioref">2008</a>)</span>.
+One of the alternative for continuous distributions is the maximum goodness-of-fit estimation method also called minimum distance estimation method <span class="citation">Dutang, Goulet, and Pigeon (<a href="#ref-actuarJSS">2008</a>)</span>.
 In this package this method is proposed with eight different distances: the three classical distances defined in Table <a href="#tab:tabKSCvMAD">2.1</a>,
-or one of the variants of the Anderson-Darling distance proposed by <span class="citation">Luceno (<a href="#ref-Luceno06" role="doc-biblioref">2006</a>)</span> and defined in Table <a href="#tab:modifiedAD">3.1</a>.
+or one of the variants of the Anderson-Darling distance proposed by <span class="citation">Luceno (<a href="#ref-Luceno06">2006</a>)</span> and defined in Table <a href="#tab:modifiedAD">3.1</a>.
 The right-tail AD gives more weight to the right-tail, the left-tail AD gives more weight only to the left tail. Either of the tails, or both of them, can receive even larger weights by using second order Anderson-Darling Statistics.</p>
 <p><br></p>
 <table class="table">
 <caption>
-<span id="tab:modifiedAD">Table 3.1: </span> Modified Anderson-Darling statistics as defined by <span class="citation">Luceno (<a href="#ref-Luceno06" role="doc-biblioref">2006</a>)</span>.</caption>
+<span id="tab:modifiedAD">Table 3.1: </span> Modified Anderson-Darling statistics as defined by <span class="citation">Luceno (<a href="#ref-Luceno06">2006</a>)</span>.</caption>
 <colgroup>
 <col width="14%">
 <col width="35%">
@@ -531,7 +531,7 @@ Figure 3.1: Comparison of a lognormal distribution fitted by MLE and by MGE usin
 <span>  lognormal_AD2L <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="../reference/quantile.html">quantile</a></span><span class="op">(</span><span class="va">fendo.ln.AD2L</span>, probs <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span><span class="op">$</span><span class="va">quantiles</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##      empirical           Burr  lognormal_MLE  lognormal_AD2 lognormal_AD2L </span></span>
 <span><span class="co">##        0.20000        0.29393        0.07259        0.19591        0.25877</span></span></code></pre>
-<p>The moment matching estimation (MME) is another method commonly used to fit parametric distributions <span class="citation">(<a href="#ref-Vose10" role="doc-biblioref">Vose 2010</a>)</span>.
+<p>The moment matching estimation (MME) is another method commonly used to fit parametric distributions <span class="citation">(<a href="#ref-Vose10">Vose 2010</a>)</span>.
 MME consists in finding the value of the parameter <span class="math inline">\(\theta\)</span> that equalizes the first theoretical raw moments of the parametric distribution to the corresponding empirical raw moments as in Equation <a href="#eq:eq4">(3.1)</a>:</p>
 <p><span class="math display" id="eq:eq4">\[\begin{equation}
 E(X^{k}|\theta)=\frac{1}{n}\sum_{i=1}^{n}x_{i}^{k},\tag{3.1}
@@ -545,12 +545,12 @@ E(X\vert \theta) = \overline{x} ~,~E\left((X-E(X))^{k}|\theta\right)=m_k, \text{
 <p>where <span class="math inline">\(m_k\)</span> denotes the empirical centered moments.
 This method can be performed by setting the argument <code>method</code> to <code>"mme"</code> in the call to <code>fitdist</code>.
 The estimate is computed by a closed-form formula for the following distributions: normal, lognormal, exponential, Poisson, gamma, logistic, negative binomial, geometric, beta and uniform distributions.
-In this case, for distributions characterized by one parameter (geometric, Poisson and exponential), this parameter is simply estimated by matching theoretical and observed means, and for distributions characterized by two parameters, these parameters are estimated by matching theoretical and observed means and variances <span class="citation">(<a href="#ref-Vose10" role="doc-biblioref">Vose 2010</a>)</span>.
-For other distributions, the equation of moments is solved numerically using the <code>optim</code> function by minimizing the sum of squared differences between observed and theoretical moments (see the <strong>fitdistrplus</strong> reference manual for technical details <span class="citation">(<a href="#ref-fitdistrplus" role="doc-biblioref">Delignette-Muller et al. 2014</a>)</span>).</p>
-<p>A classical data set from the Danish insurance industry published in <span class="citation">McNeil (<a href="#ref-mcneil97" role="doc-biblioref">1997</a>)</span> will be used to illustrate this method.
+In this case, for distributions characterized by one parameter (geometric, Poisson and exponential), this parameter is simply estimated by matching theoretical and observed means, and for distributions characterized by two parameters, these parameters are estimated by matching theoretical and observed means and variances <span class="citation">(<a href="#ref-Vose10">Vose 2010</a>)</span>.
+For other distributions, the equation of moments is solved numerically using the <code>optim</code> function by minimizing the sum of squared differences between observed and theoretical moments (see the <strong>fitdistrplus</strong> reference manual for technical details <span class="citation">(<a href="#ref-fitdistrplus">Delignette-Muller et al. 2014</a>)</span>).</p>
+<p>A classical data set from the Danish insurance industry published in <span class="citation">McNeil (<a href="#ref-mcneil97">1997</a>)</span> will be used to illustrate this method.
 In <strong>fitdistrplus</strong>, the data set is stored in <code>danishuni</code> for the univariate version and contains the loss amounts collected at Copenhagen Reinsurance between 1980 and 1990.
 In actuarial science, it is standard to consider positive heavy-tailed distributions and have a special focus on the right-tail of the distributions.
-In this numerical experiment, we choose classic actuarial distributions for loss modelling: the lognormal distribution and the Pareto type II distribution <span class="citation">(<a href="#ref-Klugmanetal09" role="doc-biblioref">Klugman, Panjer, and Willmot 2009</a>)</span>.</p>
+In this numerical experiment, we choose classic actuarial distributions for loss modelling: the lognormal distribution and the Pareto type II distribution <span class="citation">(<a href="#ref-Klugmanetal09">Klugman, Panjer, and Willmot 2009</a>)</span>.</p>
 <p>The lognormal distribution is fitted to <code>danishuni</code> data set by matching moments implemented as a closed-form formula.
 On the left-hand graph of Figure <a href="#fig:danishmme">3.2</a>, the fitted distribution functions obtained using the moment matching estimation (MME) and maximum likelihood estimation (MLE) methods are compared.
 The MME method provides a more cautious estimation of the insurance risk as the MME-fitted distribution function (resp. MLE-fitted) underestimates (overestimates) the empirical distribution function for large values of claim amounts.</p>
@@ -586,7 +586,7 @@ Figure 3.2: Comparison between MME and MLE when fitting a lognormal or a Pareto 
 <p><br></p>
 <p>In a second time, a Pareto distribution, which gives more weight to the right-tail of the distribution, is fitted.
 As the lognormal distribution, the Pareto has two parameters, which allows a fair comparison.</p>
-<p>We use the implementation of the <strong>actuar</strong> package providing raw and centered moments for that distribution (in addition to <code>d</code>, <code>p</code>, <code>q</code> and <code>r</code> functions <span class="citation">(<a href="#ref-actuar12" role="doc-biblioref">Goulet 2012</a>)</span>.
+<p>We use the implementation of the <strong>actuar</strong> package providing raw and centered moments for that distribution (in addition to <code>d</code>, <code>p</code>, <code>q</code> and <code>r</code> functions <span class="citation">(<a href="#ref-actuar12">Goulet 2012</a>)</span>.
 Fitting a heavy-tailed distribution for which the first and the second moments do not exist for certain values of the shape parameter requires some cautiousness.
 This is carried out by providing, for the optimization process, a lower and an upper bound for each parameter.
 The code below calls the L-BFGS-B optimization method in <code>optim</code>, since this quasi-Newton allows box constraints <a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;That is what the B stands for.&lt;/p&gt;"><sup>2</sup></a>.
@@ -610,10 +610,10 @@ Furthermore, for these two distributions, the MME method better fits the right-t
 This seems logical since empirical moments are influenced by large observed values.
 In the previous traces, we gave the values of goodness-of-fit statistics.
 Whatever the statistic considered, the MLE-fitted lognormal always provides the best fit to the observed data.</p>
-<p>Maximum likelihood and moment matching estimations are certainly the most commonly used method for fitting distributions <span class="citation">(<a href="#ref-Cullen99" role="doc-biblioref">Cullen and Frey 1999</a>)</span>.
+<p>Maximum likelihood and moment matching estimations are certainly the most commonly used method for fitting distributions <span class="citation">(<a href="#ref-Cullen99">Cullen and Frey 1999</a>)</span>.
 Keeping in mind that these two methods may produce very different results, the user should be aware of its great sensitivity to outliers when choosing the moment matching estimation.
 This may be seen as an advantage in our example if the objective is to better describe the right tail of the distribution, but it may be seen as a drawback if the objective is different.</p>
-<p>Fitting of a parametric distribution may also be done by matching theoretical quantiles of the parametric distributions (for specified probabilities) against the empirical quantiles <span class="citation">(<a href="#ref-Tse2009" role="doc-biblioref">Tse 2009</a>)</span>.
+<p>Fitting of a parametric distribution may also be done by matching theoretical quantiles of the parametric distributions (for specified probabilities) against the empirical quantiles <span class="citation">(<a href="#ref-Tse2009">Tse 2009</a>)</span>.
 The equality of theoretical and empirical quantiles is expressed by Equation <a href="#eq:eq6">(3.3)</a> below, which is very similar to Equations <a href="#eq:eq4">(3.1)</a> and <a href="#eq:eq5">(3.2)</a>:</p>
 <p><span class="math display" id="eq:eq6">\[\begin{equation}
 F^{-1}(p_{k}|\theta)=Q_{n,p_{k}}\tag{3.3}
@@ -621,7 +621,7 @@ F^{-1}(p_{k}|\theta)=Q_{n,p_{k}}\tag{3.3}
 for <span class="math inline">\(k=1,\ldots,d\)</span>, with <span class="math inline">\(d\)</span> the number of parameters to estimate (dimension of <span class="math inline">\(\theta\)</span> if there is no fixed parameters) and <span class="math inline">\(Q_{n,p_{k}}\)</span> the empirical quantiles calculated from data for specified probabilities <span class="math inline">\(p_{k}\)</span>.</p>
 <p>Quantile matching estimation (QME) is performed by setting the argument <code>method</code> to <code>"qme"</code> in the call to <code>fitdist</code> and adding an argument <code>probs</code> defining the probabilities for which the quantile matching is performed (see Figure <a href="#fig:danishqme">3.3</a>).
 The length of this vector must be equal to the number of parameters to estimate (as the vector of moment orders for MME).
-Empirical quantiles are computed using the <code>quantile</code> function of the <strong>stats</strong> package using <code>type=7</code> by default (see <code><a href="../reference/quantile.html">?quantile</a></code> and <span class="citation">Hyndman and Fan (<a href="#ref-hyndmanfan96" role="doc-biblioref">1996</a>)</span>).
+Empirical quantiles are computed using the <code>quantile</code> function of the <strong>stats</strong> package using <code>type=7</code> by default (see <code><a href="../reference/quantile.html">?quantile</a></code> and <span class="citation">Hyndman and Fan (<a href="#ref-hyndmanfan96">1996</a>)</span>).
 But the type of quantile can be easily changed by using the <code>qty</code> argument in the call to the <code>qme</code> function.<br>
 The quantile matching is carried out numerically, by minimizing the sum of squared differences between observed and theoretical quantiles.</p>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
@@ -711,16 +711,16 @@ Observations only known to be under a limit of detection are left-censored data.
 Observations only known to be above a limit of quantification are right-censored data.
 Results known to lie between two bounds are interval-censored data.
 These two bounds may correspond to a limit of detection and a limit of quantification, or more generally to uncertainty bounds around the observation.
-Right-censored data are also commonly encountered with survival data <span class="citation">(<a href="#ref-kleinmoeschberger03" role="doc-biblioref">Klein and Moeschberger 2003</a>)</span>.
+Right-censored data are also commonly encountered with survival data <span class="citation">(<a href="#ref-kleinmoeschberger03">Klein and Moeschberger 2003</a>)</span>.
 A data set may thus contain right-, left-, or interval-censored data, or may be a mixture of these categories, possibly with different upper and lower bounds.
 Censored data are sometimes excluded from the data analysis or replaced by a fixed value, which in both cases may lead to biased results.
-A more recommended approach to correctly model such data is based upon maximum likelihood <span class="citation">Helsel (<a href="#ref-helsel05" role="doc-biblioref">2005</a>)</span>.</p>
+A more recommended approach to correctly model such data is based upon maximum likelihood <span class="citation">Helsel (<a href="#ref-helsel05">2005</a>)</span>.</p>
 <p>Censored data may thus contain left-censored, right-censored and interval-censored values, with several lower and upper bounds.
 Before their use in package <strong>fitdistrplus</strong>, such data must be coded into a dataframe with two columns, respectively named <code>left</code> and <code>right</code>, describing each observed value as an interval.
 The <code>left</code> column contains either <code>NA</code> for left censored observations, the left bound of the interval for interval censored observations, or the observed value for non-censored observations.
 The <code>right</code> column contains either <code>NA</code> for right censored observations, the right bound of the interval for interval censored observations, or the observed value for non-censored observations.
 To illustrate the use of package <strong>fitdistrplus</strong> to fit distributions to censored continous data, we will use another data set from ecotoxicology, included in our package and named <code>salinity</code>.
-This data set contains acute salinity tolerance (LC50 values in electrical conductivity, <span class="math inline">\(mS\)</span>.<span class="math inline">\(cm^{-1}\)</span>) of riverine macro-invertebrates taxa from the southern Murray-Darling Basin in Central Victoria, Australia <span class="citation">(<a href="#ref-kefford07" role="doc-biblioref">Kefford et al. 2007</a>)</span>.</p>
+This data set contains acute salinity tolerance (LC50 values in electrical conductivity, <span class="math inline">\(mS\)</span>.<span class="math inline">\(cm^{-1}\)</span>) of riverine macro-invertebrates taxa from the southern Murray-Darling Basin in Central Victoria, Australia <span class="citation">(<a href="#ref-kefford07">Kefford et al. 2007</a>)</span>.</p>
 <div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"salinity"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">salinity</span><span class="op">)</span></span></code></pre></div>
@@ -728,9 +728,9 @@ This data set contains acute salinity tolerance (LC50 values in electrical condu
 <span><span class="co">##  $ left : num  20 20 20 20 20 21.5 15 20 23.7 25 ...</span></span>
 <span><span class="co">##  $ right: num  NA NA NA NA NA 21.5 30 25 23.7 NA ...</span></span></code></pre>
 <p>Using censored data such as those coded in the <code>salinity} data set, the empirical distribution can be plotted using the</code>plotdistcens} function.
-In older versions of the package, by default this function used the Expectation-Maximization approach of <span class="citation">Turnbull (<a href="#ref-Turnbull74" role="doc-biblioref">1974</a>)</span> to compute the overall empirical cdf curve with optional confidence intervals, by calls to <code>survfit</code> and <code>plot.survfit</code> functions from the <strong>survival</strong> package.
+In older versions of the package, by default this function used the Expectation-Maximization approach of <span class="citation">Turnbull (<a href="#ref-Turnbull74">1974</a>)</span> to compute the overall empirical cdf curve with optional confidence intervals, by calls to <code>survfit</code> and <code>plot.survfit</code> functions from the <strong>survival</strong> package.
 Even if this representation is always available (by fixing the argument <code>NPMLE.method</code> to <code>"Turnbull.middlepoints"</code>), now the default plot of the empirical cumulative distribution function (ECDF) explicitly represents the regions of non uniqueness of the NPMLE ECDF.
-The default computation of those regions of non uniqueness and their associated masses uses the non parametric maximum likelihood estimation (NPMLE) approach developped by Wang <span class="citation">Wang and Fani (<a href="#ref-Wang2018" role="doc-biblioref">2018</a>)</span>.<br>
+The default computation of those regions of non uniqueness and their associated masses uses the non parametric maximum likelihood estimation (NPMLE) approach developped by Wang <span class="citation">Wang and Fani (<a href="#ref-Wang2018">2018</a>)</span>.<br>
 Figure <a href="#fig:cdfcompcens">3.5</a> shows on the top left the new plot of data together with two fitted distributions.
 Grey filled rectangles in such a plot represent the regions of non uniqueness of the NPMLE ECDF.</p>
 <p>A less rigorous but sometimes more illustrative plot can be obtained by fixing the argument <code>NPMLE</code> to <code>FALSE</code> in the call to <code>plotdistcens</code>
@@ -754,10 +754,10 @@ L(\theta) = \prod_{i=1}^{N_{nonC}} f(x_{i}|\theta)\times \prod_{j=1}^{N_{leftC}}
 <p>with <span class="math inline">\(x_{i}\)</span> the <span class="math inline">\(N_{nonC}\)</span> non-censored observations,
 <span class="math inline">\(x^{upper}_{j}\)</span> upper values defining the <span class="math inline">\(N_{leftC}\)</span> left-censored observations,
 <span class="math inline">\(x^{lower}_{k}\)</span> lower values defining the <span class="math inline">\(N_{rightC}\)</span> right-censored observations,
-<span class="math inline">\([x^{lower}_{m} ; x^{upper}_{m}]\)</span> the intervals defining the <span class="math inline">\(N_{intC}\)</span> interval-censored observations, and F the cumulative distribution function of the parametric distribution <span class="citation">Helsel (<a href="#ref-helsel05" role="doc-biblioref">2005</a>)</span>.</p>
+<span class="math inline">\([x^{lower}_{m} ; x^{upper}_{m}]\)</span> the intervals defining the <span class="math inline">\(N_{intC}\)</span> interval-censored observations, and F the cumulative distribution function of the parametric distribution <span class="citation">Helsel (<a href="#ref-helsel05">2005</a>)</span>.</p>
 <p>As <code>fitdist</code>, <code>fitdistcens</code> returns the results of the fit of any parametric distribution to a data set as an S3 class object that can be easily printed, summarized or plotted.
 For the <code>salinity</code> data set, a lognormal distribution or a loglogistic can be fitted as commonly done in ecotoxicology for such data.
-As with <code>fitdist</code>, for some distributions (see <span class="citation">Delignette-Muller et al. (<a href="#ref-fitdistrplus" role="doc-biblioref">2014</a>)</span> for details), it is necessary to specify initial values for the distribution parameters in the argument <code>start</code>.
+As with <code>fitdist</code>, for some distributions (see <span class="citation">Delignette-Muller et al. (<a href="#ref-fitdistrplus">2014</a>)</span> for details), it is necessary to specify initial values for the distribution parameters in the argument <code>start</code>.
 The <code>plotdistcens</code> function can help to find correct initial values for the distribution parameters in non trivial cases, by a manual iterative use if necessary.</p>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fsal.ln</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdistcens.html">fitdistcens</a></span><span class="op">(</span><span class="va">salinity</span>, <span class="st">"lnorm"</span><span class="op">)</span></span>
@@ -812,7 +812,7 @@ The generic function <code>quantile</code> can also be applied to an object of c
 These functions will provide somewhat different graphs and statistics, taking into account the discrete nature of the modeled variable.
 The discrete nature of the variable is automatically recognized when a classical distribution is fitted to data (binomial, negative binomial, geometric, hypergeometric and Poisson distributions) but must be indicated by fixing argument <code>discrete</code> to <code>TRUE</code> in the call to functions in other cases.
 The <code>toxocara</code> data set included in the package corresponds to the observation of such a discrete variable.
-Numbers of <em>Toxocara cati</em> parasites present in digestive tract are reported from a random sampling of feral cats living on Kerguelen island <span class="citation">(<a href="#ref-Fromont01" role="doc-biblioref">Fromont et al. 2001</a>)</span>.
+Numbers of <em>Toxocara cati</em> parasites present in digestive tract are reported from a random sampling of feral cats living on Kerguelen island <span class="citation">(<a href="#ref-Fromont01">Fromont et al. 2001</a>)</span>.
 We will use it to illustrate the case of discrete data.</p>
 <div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"toxocara"</span><span class="op">)</span></span>
@@ -850,7 +850,7 @@ Figure 3.6: Comparison of the fits of a negative binomial and a Poisson distribu
 <p>When fitting discrete distributions, the Chi-squared statistic is computed by the <code>gofstat</code> function using cells defined by the argument <code>chisqbreaks</code> or cells automatically defined from the data in order to reach roughly the same number of observations per cell.
 This number is roughly equal to the argument <code>meancount</code>, or sligthly greater if there are some ties.
 The choice to define cells from the empirical distribution (data), and not from the theoretical distribution, was done to enable the comparison of Chi-squared values obtained with different distributions fitted on a same data set.
-If arguments <code>chisqbreaks</code> and <code>meancount</code> are both omitted, <code>meancount</code> is fixed in order to obtain roughly <span class="math inline">\((4n)^{2/5}\)</span> cells, with <span class="math inline">\(n\)</span> the length of the data set <span class="citation">(<a href="#ref-Vose10" role="doc-biblioref">Vose 2010</a>)</span>.
+If arguments <code>chisqbreaks</code> and <code>meancount</code> are both omitted, <code>meancount</code> is fixed in order to obtain roughly <span class="math inline">\((4n)^{2/5}\)</span> cells, with <span class="math inline">\(n\)</span> the length of the data set <span class="citation">(<a href="#ref-Vose10">Vose 2010</a>)</span>.
 Using this default option the two previous fits are compared as follows, giving the preference to the negative binomial distribution, from both Chi-squared statistics and information criteria:</p>
 <div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gofstat.html">gofstat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">ftoxo.P</span>, <span class="va">ftoxo.nb</span><span class="op">)</span>, fitnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Poisson"</span>, <span class="st">"negative binomial"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -882,16 +882,16 @@ Using this default option the two previous fits are compared as follows, giving 
 Our main objective while developing this package was to provide tools for helping R users to fit distributions to data.
 We have been encouraged to pursue our work by feedbacks from users of our package in various areas as food or environmental risk assessment, epidemiology, ecology, molecular biology, genomics, bioinformatics, hydraulics, mechanics, financial and actuarial mathematics or operations research.
 Indeed, this package is already used by a lot of practionners and academics
-for simple MLE fits <span class="citation">Voigt et al. (<a href="#ref-voigtetal14" role="doc-biblioref">2014</a>)</span>,
-for MLE fits and goodness-of-fit statistics <span class="citation">Vaninsky (<a href="#ref-vaninsky13" role="doc-biblioref">2013</a>)</span>,
-for MLE fits and bootstrap <span class="citation">Rigaux et al. (<a href="#ref-Rigaux2014" role="doc-biblioref">2014</a>)</span>,
-for MLE fits, bootstrap and goodness-of-fit statistics <span class="citation">(<a href="#ref-larrasetal13" role="doc-biblioref">Larras, Montuelle, and Bouchez 2013</a>)</span>,
-for MME fit <span class="citation">Sato et al. (<a href="#ref-satoetal13" role="doc-biblioref">2013</a>)</span>,
-for censored MLE and bootstrap <span class="citation">Contreras, Huerta, and Arnold (<a href="#ref-contrerasetal2013" role="doc-biblioref">2013</a>)</span>,
-for graphic analysing in <span class="citation">(<a href="#ref-anandetal12" role="doc-biblioref">Anand, Yeturu, and Chandra 2012</a>)</span>,
-for grouped-data fitting methods <span class="citation">(<a href="#ref-fusteinercostafreda12" role="doc-biblioref">Fu, Steiner, and Costafreda 2012</a>)</span>
-or more generally <span class="citation">Drake, Chalabi, and Coker (<a href="#ref-drakeetal2014" role="doc-biblioref">2014</a>)</span>.</p>
-<p>The <strong>fitdistrplus</strong> package is complementary with the <strong>distrMod</strong> package <span class="citation">(<a href="#ref-distrModJSS" role="doc-biblioref">Kohl and Ruckdeschel 2010</a>)</span>.
+for simple MLE fits <span class="citation">Voigt et al. (<a href="#ref-voigtetal14">2014</a>)</span>,
+for MLE fits and goodness-of-fit statistics <span class="citation">Vaninsky (<a href="#ref-vaninsky13">2013</a>)</span>,
+for MLE fits and bootstrap <span class="citation">Rigaux et al. (<a href="#ref-Rigaux2014">2014</a>)</span>,
+for MLE fits, bootstrap and goodness-of-fit statistics <span class="citation">(<a href="#ref-larrasetal13">Larras, Montuelle, and Bouchez 2013</a>)</span>,
+for MME fit <span class="citation">Sato et al. (<a href="#ref-satoetal13">2013</a>)</span>,
+for censored MLE and bootstrap <span class="citation">Contreras, Huerta, and Arnold (<a href="#ref-contrerasetal2013">2013</a>)</span>,
+for graphic analysing in <span class="citation">(<a href="#ref-anandetal12">Anand, Yeturu, and Chandra 2012</a>)</span>,
+for grouped-data fitting methods <span class="citation">(<a href="#ref-fusteinercostafreda12">Fu, Steiner, and Costafreda 2012</a>)</span>
+or more generally <span class="citation">Drake, Chalabi, and Coker (<a href="#ref-drakeetal2014">2014</a>)</span>.</p>
+<p>The <strong>fitdistrplus</strong> package is complementary with the <strong>distrMod</strong> package <span class="citation">(<a href="#ref-distrModJSS">Kohl and Ruckdeschel 2010</a>)</span>.
 <strong>distrMod</strong> provides an even more flexible way to estimate distribution parameters but its use requires a greater initial investment to learn how to manipulate the S4 classes and methods developed in the <code>distr</code>-family packages.</p>
 <p>Many extensions of the <strong>fitdistrplus</strong> package are planned in the future: we target to extend to censored data some methods for the moment only available for non-censored data, especially concerning goodness-of-fit evaluation and fitting methods.
 We will also enlarge the choice of fitting methods for non-censored data, by proposing new goodness-of-fit distances (e.g., distances based on quantiles) for maximum goodness-of-fit estimation and new types of moments (e.g., limited expected values) for moment matching estimation.
@@ -910,7 +910,7 @@ The remaining errors, of course, should be attributed to the authors alone.</p>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-anandetal12" class="csl-entry">
 Anand, P., K. Yeturu, and N. Chandra. 2012. <span>“PocketAnnotate: Towards Site-Based Function Annotation.”</span> <em>Nucleic Acids Research</em> 40: 1–9.
 </div>

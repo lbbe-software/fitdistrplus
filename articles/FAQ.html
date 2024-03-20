@@ -75,7 +75,7 @@
       <img src="" class="logo" alt=""><h1>Frequently Asked Questions</h1>
                         <h4 data-toc-skip class="author">Marie Laure Delignette Muller, Christophe Dutang</h4>
             
-            <h4 data-toc-skip class="date">2024-02-27</h4>
+            <h4 data-toc-skip class="date">2024-03-20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/lbbe-software/fitdistrplus/blob/HEAD/vignettes/FAQ.Rmd" class="external-link"><code>vignettes/FAQ.Rmd</code></a></small>
       <div class="d-none name"><code>FAQ.Rmd</code></div>
@@ -1040,28 +1040,28 @@ is infinite.</p>
 This happens the C-base implementation of <code>dlnorm</code> takes care of the log value.
 In the file <code>../src/nmath/dlnorm.c</code> in the R sources, we find the C code for
 <code>dlnorm</code></p>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>double <span class="fu">dlnorm</span>(double x, double meanlog, double sdlog, int give_log)</span>
-<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb108-3"><a href="#cb108-3" aria-hidden="true" tabindex="-1"></a>    double y;</span>
-<span id="cb108-4"><a href="#cb108-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb108-5"><a href="#cb108-5" aria-hidden="true" tabindex="-1"></a><span class="co">#ifdef IEEE_754</span></span>
-<span id="cb108-6"><a href="#cb108-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">ISNAN</span>(x) <span class="sc">||</span> <span class="fu">ISNAN</span>(meanlog) <span class="sc">||</span> <span class="fu">ISNAN</span>(sdlog))</span>
-<span id="cb108-7"><a href="#cb108-7" aria-hidden="true" tabindex="-1"></a>    return x <span class="sc">+</span> meanlog <span class="sc">+</span> sdlog;</span>
-<span id="cb108-8"><a href="#cb108-8" aria-hidden="true" tabindex="-1"></a><span class="co">#endif</span></span>
-<span id="cb108-9"><a href="#cb108-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(sdlog <span class="sc">&lt;=</span> <span class="dv">0</span>) {</span>
-<span id="cb108-10"><a href="#cb108-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(sdlog <span class="sc">&lt;</span> <span class="dv">0</span>) ML_ERR_return_NAN;</span>
-<span id="cb108-11"><a href="#cb108-11" aria-hidden="true" tabindex="-1"></a>    <span class="sc">/</span><span class="er">/</span> sdlog <span class="sc">==</span> <span class="dv">0</span> <span class="sc">:</span></span>
-<span id="cb108-12"><a href="#cb108-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> (<span class="fu">log</span>(x) <span class="sc">==</span> meanlog) ? ML_POSINF <span class="sc">:</span> R_D__0;</span>
-<span id="cb108-13"><a href="#cb108-13" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb108-14"><a href="#cb108-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(x <span class="sc">&lt;=</span> <span class="dv">0</span>) return R_D__0;</span>
-<span id="cb108-15"><a href="#cb108-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb108-16"><a href="#cb108-16" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">=</span> (<span class="fu">log</span>(x) <span class="sc">-</span> meanlog) <span class="sc">/</span> sdlog;</span>
-<span id="cb108-17"><a href="#cb108-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> (give_log ?</span>
-<span id="cb108-18"><a href="#cb108-18" aria-hidden="true" tabindex="-1"></a>        <span class="sc">-</span>(M_LN_SQRT_2PI   <span class="sc">+</span> <span class="fl">0.5</span> <span class="sc">*</span> y <span class="sc">*</span> y <span class="sc">+</span> <span class="fu">log</span>(x <span class="sc">*</span> sdlog)) <span class="sc">:</span></span>
-<span id="cb108-19"><a href="#cb108-19" aria-hidden="true" tabindex="-1"></a>        M_1_SQRT_2PI <span class="sc">*</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span> <span class="sc">*</span> y <span class="sc">*</span> y)  <span class="sc">/</span>  (x <span class="sc">*</span> sdlog));</span>
-<span id="cb108-20"><a href="#cb108-20" aria-hidden="true" tabindex="-1"></a>    <span class="sc">/</span><span class="er">*</span> M_1_SQRT_2PI <span class="ot">=</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">2</span> <span class="sc">*</span> pi) <span class="sc">*</span><span class="er">/</span></span>
-<span id="cb108-21"><a href="#cb108-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb108-22"><a href="#cb108-22" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" tabindex="-1"></a>double <span class="fu">dlnorm</span>(double x, double meanlog, double sdlog, int give_log)</span>
+<span id="cb108-2"><a href="#cb108-2" tabindex="-1"></a>{</span>
+<span id="cb108-3"><a href="#cb108-3" tabindex="-1"></a>    double y;</span>
+<span id="cb108-4"><a href="#cb108-4" tabindex="-1"></a></span>
+<span id="cb108-5"><a href="#cb108-5" tabindex="-1"></a><span class="co">#ifdef IEEE_754</span></span>
+<span id="cb108-6"><a href="#cb108-6" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">ISNAN</span>(x) <span class="sc">||</span> <span class="fu">ISNAN</span>(meanlog) <span class="sc">||</span> <span class="fu">ISNAN</span>(sdlog))</span>
+<span id="cb108-7"><a href="#cb108-7" tabindex="-1"></a>    return x <span class="sc">+</span> meanlog <span class="sc">+</span> sdlog;</span>
+<span id="cb108-8"><a href="#cb108-8" tabindex="-1"></a><span class="co">#endif</span></span>
+<span id="cb108-9"><a href="#cb108-9" tabindex="-1"></a>    <span class="cf">if</span>(sdlog <span class="sc">&lt;=</span> <span class="dv">0</span>) {</span>
+<span id="cb108-10"><a href="#cb108-10" tabindex="-1"></a>    <span class="cf">if</span>(sdlog <span class="sc">&lt;</span> <span class="dv">0</span>) ML_ERR_return_NAN;</span>
+<span id="cb108-11"><a href="#cb108-11" tabindex="-1"></a>    <span class="sc">/</span><span class="er">/</span> sdlog <span class="sc">==</span> <span class="dv">0</span> <span class="sc">:</span></span>
+<span id="cb108-12"><a href="#cb108-12" tabindex="-1"></a>    <span class="fu">return</span> (<span class="fu">log</span>(x) <span class="sc">==</span> meanlog) ? ML_POSINF <span class="sc">:</span> R_D__0;</span>
+<span id="cb108-13"><a href="#cb108-13" tabindex="-1"></a>    }</span>
+<span id="cb108-14"><a href="#cb108-14" tabindex="-1"></a>    <span class="cf">if</span>(x <span class="sc">&lt;=</span> <span class="dv">0</span>) return R_D__0;</span>
+<span id="cb108-15"><a href="#cb108-15" tabindex="-1"></a></span>
+<span id="cb108-16"><a href="#cb108-16" tabindex="-1"></a>    y <span class="ot">=</span> (<span class="fu">log</span>(x) <span class="sc">-</span> meanlog) <span class="sc">/</span> sdlog;</span>
+<span id="cb108-17"><a href="#cb108-17" tabindex="-1"></a>    <span class="fu">return</span> (give_log ?</span>
+<span id="cb108-18"><a href="#cb108-18" tabindex="-1"></a>        <span class="sc">-</span>(M_LN_SQRT_2PI   <span class="sc">+</span> <span class="fl">0.5</span> <span class="sc">*</span> y <span class="sc">*</span> y <span class="sc">+</span> <span class="fu">log</span>(x <span class="sc">*</span> sdlog)) <span class="sc">:</span></span>
+<span id="cb108-19"><a href="#cb108-19" tabindex="-1"></a>        M_1_SQRT_2PI <span class="sc">*</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span> <span class="sc">*</span> y <span class="sc">*</span> y)  <span class="sc">/</span>  (x <span class="sc">*</span> sdlog));</span>
+<span id="cb108-20"><a href="#cb108-20" tabindex="-1"></a>    <span class="sc">/</span><span class="er">*</span> M_1_SQRT_2PI <span class="ot">=</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">2</span> <span class="sc">*</span> pi) <span class="sc">*</span><span class="er">/</span></span>
+<span id="cb108-21"><a href="#cb108-21" tabindex="-1"></a></span>
+<span id="cb108-22"><a href="#cb108-22" tabindex="-1"></a>}</span></code></pre></div>
 <p>In the last four lines with the logical condtion <code>give_log?</code>, we see how the <code>log</code> argument is handled:</p>
 <ul>
 <li>when log=TRUE, we use <span class="math inline">\(-(\log(\sqrt{2\pi}) + y^2/2+\log(x\sigma))\)</span>
@@ -1072,7 +1072,7 @@ In the file <code>../src/nmath/dlnorm.c</code> in the R sources, we find the C c
 <ul>
 <li>when log=FALSE, we use <span class="math inline">\(\sqrt{2\pi} *\exp( y^2/2)/(x\sigma))\)</span> (and then the logarithm outside <code>dlnorm</code>)</li>
 </ul>
-<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>M_1_SQRT_2PI <span class="sc">*</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span> <span class="sc">*</span> y <span class="sc">*</span> y)  <span class="sc">/</span>  (x <span class="sc">*</span> sdlog)<span class="er">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" tabindex="-1"></a>M_1_SQRT_2PI <span class="sc">*</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span> <span class="sc">*</span> y <span class="sc">*</span> y)  <span class="sc">/</span>  (x <span class="sc">*</span> sdlog)<span class="er">)</span></span></code></pre></div>
 <p>Note that the constant <span class="math inline">\(\log(\sqrt{2\pi})\)</span> is pre-computed in the C macro <code>M_LN_SQRT_2PI</code>.</p>
 <p>In order to sort out this problem,
 we use the <code>constrOptim</code> wrapping <code>optim</code> to take into account linear constraints.
