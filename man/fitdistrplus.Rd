@@ -17,12 +17,13 @@ A few months after, C Dutang joined the project by
 starting to participate to the implementation of the \pkg{fitdistrplus} package.
 The package has also been presented at the \href{https://www.r-project.org/conferences/useR-2011/}{2011 useR conference} and at the 2eme rencontres R in 2013 (https://r2013-lyon.sciencesconf.org/).
 
-Three vignettes are available within the package:
+Four vignettes are available within the package:
 \itemize{
-\item a \href{../doc/paper2JSS.pdf}{general overview} of the package published in the 
+\item a \href{https://lbbe-software.github.io/fitdistrplus/articles/fitdistrplus_vignette.html}{general overview} of the package published in the 
 Journal of Statistical Software (\doi{10.18637/jss.v064.i04}),
-\item a html document answering the most \href{../doc/FAQ.html}{Frequently Asked Questions},
-\item a html document presenting a \href{../doc/Optimalgo.html}{benchmark of optimization algorithms} when finding parameters.
+\item a document answering the most \href{https://lbbe-software.github.io/fitdistrplus/articles/FAQ.html}{Frequently Asked Questions},
+\item a document presenting a \href{https://lbbe-software.github.io/fitdistrplus/articles/Optimalgo.html}{benchmark of optimization algorithms} when finding parameters,
+\item a document about \href{https://lbbe-software.github.io/fitdistrplus/articles/fitdistrplus_vignette.html}{starting values}.
 }
 
 The \pkg{fitdistrplus} package is a general package that aims at helping the fit of univariate parametric 

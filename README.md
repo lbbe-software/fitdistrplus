@@ -44,10 +44,11 @@ library(fitdistrplus)
 
 ## Documentation
 
-Three **vignettes** are attached to the `fitdistrplus` package:
+Four **vignettes** are attached to the `fitdistrplus` package:
 
 - <a href="https://lbbe-software.github.io/fitdistrplus/articles/fitdistrplus_vignette.html" target="_blank">Overview of the fitdistrplus package</a>
 - <a href="https://lbbe-software.github.io/fitdistrplus/articles/Optimalgo.html" target="_blank">Which optimization algorithm to choose?</a>
+- <a href="https://lbbe-software.github.io/fitdistrplus/articles/starting-values.html" target="_blank">Starting values used in fitdistrplus</a>
 - <a href="https://lbbe-software.github.io/fitdistrplus/articles/FAQ.html" target="_blank">Frequently Asked Questions</a>
 
 
