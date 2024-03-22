@@ -19,19 +19,20 @@
 15. [ ] make a flow chart on how functions are interrelated (see techdoc/)
 16. [x] Make a markdown TODO list
 17. [ ] delete the R forge project <https://r-forge.r-project.org/projects/riskassessment/> ?
-18. [ ] should we return the points/lines/rectangles drawn in invisible()? as in hist.default() called by hist() ou plot.stepfun called by plot(ecdf())?
+18. [ ] should we return the points/lines/rectangles drawn in `invisible()`? as in `hist.default()` called by `hist()` ou `plot.stepfun` called by `plot(ecdf())`?
 19. [x] add a new question to the FAQ, following <https://github.com/lbbe-software/fitdistrplus/issues/21>
 20. [x] add a new question to the FAQ, following <https://github.com/lbbe-software/fitdistrplus/issues/23>
 21. [x] add a generic function `AIC` and `BIC` for `fitdist(cens)` objects
 22. [x] close following open issues 2, 21, 23, 25 appropriately
 23. [x] improve Cullen-Frey graph following <https://github.com/lbbe-software/fitdistrplus/issues/24>
-24. [ ] manage differential graphical parameters in `plotdist` see <https://github.com/lbbe-software/fitdistrplus/issues/27>
+24. [ ] manage differential graphical parameters in `plotdist` see <https://github.com/lbbe-software/fitdistrplus/issues/27>, link FAQ 5.2
 25. [ ] make a `gofstat` for `fitdistcens` objects
-26. [ ] make introduction for vignette `starting values` and update layout
+26. [ ] make introduction for vignette `starting values` and update layout, update README on `github.io`
 27. [ ] update `mledist.Rd` with new starting value list (all distribution in `actuar` except phase-type), link with vignette
 28. [ ] check that all base R distribution have starting values
 29. [ ] add defensive programming for infinite / NaN / NA values for `fitdist` objects
 29. [ ] add defensive programming for NaN values for `fitdistcens` objects, convert `Inf` to `NA` (raise error for inconsistent values), raise error for double `NA`
+
 
 # Of less priority
 
