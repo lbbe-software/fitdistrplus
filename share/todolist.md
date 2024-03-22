@@ -25,7 +25,7 @@
 21. [x] add a generic function `AIC` and `BIC` for `fitdist(cens)` objects
 22. [x] close following open issues 2, 21, 23, 25 appropriately
 23. [x] improve Cullen-Frey graph following <https://github.com/lbbe-software/fitdistrplus/issues/24>
-24. [ ] manage differential graphical parameters in `plotdist` see <https://github.com/lbbe-software/fitdistrplus/issues/27>, link FAQ 5.2 *AS*
+24. [x] manage differential graphical parameters in `plotdist` see <https://github.com/lbbe-software/fitdistrplus/issues/27>, link FAQ 5.2
 25. [ ] make a `gofstat` for `fitdistcens` objects *MLDM*
 26. [ ] make introduction for vignette `starting values` and update layout, update README on `github.io` *CD*
 27. [ ] update `mledist.Rd` with new starting value list (all distribution in `actuar` except phase-type), link with vignette *CD*
