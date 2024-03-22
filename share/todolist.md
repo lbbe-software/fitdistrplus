@@ -12,7 +12,7 @@
 8.  [ ] look in scholar google : fitdistrplus "survival data" and fitdistrplus dependencies to appreciate the use of fitdistrplus on survival data and the needs utiliser le package Rwsearch
 9.  [ ] biblio sur critères d'information (AICc dans le cas général ou autres critères) pour voir si on peut élargir les stat données
 10. [ ] faire un script automatisé pour analyser les résumés et les revues des articles citant fitdistrplus
-11. [ ] add calculation of the hessian using `optimHess` within `fitdist` or `mledist` in cases where it is not given by optim
+11. [ ] add calculation of the hessian using `optimHess` within `fitdist` or `mledist` in cases where it is not given by optim *CD*
 12. [ ] better compute the hessian matrix for MLE (add one step after the final estimate to compute correctly hessian, see example for gamma distribution)
 13. [ ] think about a hexa-logo (histogram with fitted densities on a simulated example from two asymetric distribution (lnorm, weibull) without axis)
 14. [ ] add a cheatsheet (refcard) for fitdistrplus (possibly in pptx?), think about sections
@@ -25,13 +25,13 @@
 21. [x] add a generic function `AIC` and `BIC` for `fitdist(cens)` objects
 22. [x] close following open issues 2, 21, 23, 25 appropriately
 23. [x] improve Cullen-Frey graph following <https://github.com/lbbe-software/fitdistrplus/issues/24>
-24. [ ] manage differential graphical parameters in `plotdist` see <https://github.com/lbbe-software/fitdistrplus/issues/27>, link FAQ 5.2
-25. [ ] make a `gofstat` for `fitdistcens` objects
-26. [ ] make introduction for vignette `starting values` and update layout, update README on `github.io`
-27. [ ] update `mledist.Rd` with new starting value list (all distribution in `actuar` except phase-type), link with vignette
-28. [ ] check that all base R distribution have starting values
-29. [ ] add defensive programming for infinite / NaN / NA values for `fitdist` objects
-29. [ ] add defensive programming for NaN values for `fitdistcens` objects, convert `Inf` to `NA` (raise error for inconsistent values), raise error for double `NA`
+24. [ ] manage differential graphical parameters in `plotdist` see <https://github.com/lbbe-software/fitdistrplus/issues/27>, link FAQ 5.2 *AS*
+25. [ ] make a `gofstat` for `fitdistcens` objects *MLDM*
+26. [ ] make introduction for vignette `starting values` and update layout, update README on `github.io` *CD*
+27. [ ] update `mledist.Rd` with new starting value list (all distribution in `actuar` except phase-type), link with vignette *CD*
+28. [ ] check that all base R distribution have starting values *CD*
+29. [ ] add defensive programming for infinite / NaN / NA values for `fitdist` objects *MLDM*
+30. [ ] add defensive programming for NaN values for `fitdistcens` objects, convert `Inf` to `NA` (raise error for inconsistent values), raise error for double `NA` *MLDM*
 
 
 # Of less priority
