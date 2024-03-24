@@ -12,7 +12,7 @@
 8.  [ ] look in scholar google : fitdistrplus "survival data" and fitdistrplus dependencies to appreciate the use of fitdistrplus on survival data and the needs utiliser le package Rwsearch
 9.  [ ] biblio sur critères d'information (AICc dans le cas général ou autres critères) pour voir si on peut élargir les stat données
 10. [ ] faire un script automatisé pour analyser les résumés et les revues des articles citant fitdistrplus
-11. [ ] add calculation of the hessian using `optimHess` within `fitdist` or `mledist` in cases where it is not given by optim *CD*
+11. [x] add calculation of the hessian using `optimHess` within `fitdist` or `mledist` in cases where it is not given by optim *CD*
 12. [ ] better compute the hessian matrix for MLE (add one step after the final estimate to compute correctly hessian, see example for gamma distribution)
 13. [ ] think about a hexa-logo (histogram with fitted densities on a simulated example from two asymetric distribution (lnorm, weibull) without axis)
 14. [ ] add a cheatsheet (refcard) for fitdistrplus (possibly in pptx?), think about sections
