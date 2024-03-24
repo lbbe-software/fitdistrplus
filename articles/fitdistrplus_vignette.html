@@ -75,7 +75,7 @@
       <img src="" class="logo" alt=""><h1>Overview of the fitdistrplus package</h1>
                         <h4 data-toc-skip class="author">Marie Laure Delignette Muller, Christophe Dutang</h4>
             
-            <h4 data-toc-skip class="date">2024-03-22</h4>
+            <h4 data-toc-skip class="date">2024-03-24</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/lbbe-software/fitdistrplus/blob/HEAD/vignettes/fitdistrplus_vignette.Rmd" class="external-link"><code>vignettes/fitdistrplus_vignette.Rmd</code></a></small>
       <div class="d-none name"><code>fitdistrplus_vignette.Rmd</code></div>
@@ -566,8 +566,12 @@ The MME method provides a more cautious estimation of the insurance risk as the 
 <span><span class="va">fdanish.ln.MME</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">danishuni</span><span class="op">$</span><span class="va">Loss</span>, <span class="st">"lnorm"</span>, method <span class="op">=</span> <span class="st">"mme"</span>, order <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://gitlab.com/vigou3/actuar" class="external-link">actuar</a></span><span class="op">)</span></span>
 <span><span class="va">fdanish.P.MLE</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">danishuni</span><span class="op">$</span><span class="va">Loss</span>, <span class="st">"pareto"</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>shape <span class="op">=</span> <span class="fl">10</span>, scale <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>, </span>
-<span>                         lower <span class="op">=</span> <span class="fl">2</span><span class="op">+</span><span class="fl">1e-6</span>, upper <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span>
-<span><span class="va">memp</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">order</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">x</span><span class="op">^</span><span class="va">order</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span>                         lower <span class="op">=</span> <span class="fl">2</span><span class="op">+</span><span class="fl">1e-6</span>, upper <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning in sqrt(diag(varcovar)): NaNs produced</span></span></code></pre>
+<pre><code><span><span class="co">## Warning in cov2cor(varcovar): diag(V) had non-positive or NA entries; the</span></span>
+<span><span class="co">## non-finite result may be dubious</span></span></code></pre>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">memp</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">order</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">x</span><span class="op">^</span><span class="va">order</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="va">fdanish.P.MME</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">danishuni</span><span class="op">$</span><span class="va">Loss</span>, <span class="st">"pareto"</span>, method <span class="op">=</span> <span class="st">"mme"</span>, order <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, memp <span class="op">=</span> <span class="st">"memp"</span>, </span>
 <span>                         start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>shape <span class="op">=</span> <span class="fl">10</span>, scale <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>, lower <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span><span class="op">+</span><span class="fl">1e-6</span>, <span class="fl">2</span><span class="op">+</span><span class="fl">1e-6</span><span class="op">)</span>, </span>
 <span>                         upper <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">Inf</span>, <span class="cn">Inf</span><span class="op">)</span><span class="op">)</span></span>
@@ -592,7 +596,7 @@ This is carried out by providing, for the optimization process, a lower and an u
 The code below calls the L-BFGS-B optimization method in <code>optim</code>, since this quasi-Newton allows box constraints <a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;That is what the B stands for.&lt;/p&gt;"><sup>2</sup></a>.
 We choose match moments defined in Equation <a href="#eq:eq4">(3.1)</a>, and so a function for computing the empirical raw moment (called <code>memp</code> in our example) is passed to <code>fitdist</code>.
 For two-parameter distributions (i.e., <span class="math inline">\(d=2\)</span>), Equations <a href="#eq:eq4">(3.1)</a> and <a href="#eq:eq5">(3.2)</a> are equivalent.</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gofstat.html">gofstat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fdanish.ln.MLE</span>, <span class="va">fdanish.P.MLE</span>, <span class="va">fdanish.ln.MME</span>, <span class="va">fdanish.P.MME</span><span class="op">)</span>, </span>
 <span>        fitnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lnorm.mle"</span>, <span class="st">"Pareto.mle"</span>, <span class="st">"lnorm.mme"</span>, <span class="st">"Pareto.mme"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Goodness-of-fit statistics</span></span>
@@ -624,7 +628,7 @@ The length of this vector must be equal to the number of parameters to estimate 
 Empirical quantiles are computed using the <code>quantile</code> function of the <strong>stats</strong> package using <code>type=7</code> by default (see <code><a href="../reference/quantile.html">?quantile</a></code> and <span class="citation">Hyndman and Fan (<a href="#ref-hyndmanfan96">1996</a>)</span>).
 But the type of quantile can be easily changed by using the <code>qty</code> argument in the call to the <code>qme</code> function.<br>
 The quantile matching is carried out numerically, by minimizing the sum of squared differences between observed and theoretical quantiles.</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fdanish.ln.QME1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">danishuni</span><span class="op">$</span><span class="va">Loss</span>, <span class="st">"lnorm"</span>, method <span class="op">=</span> <span class="st">"qme"</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="fl">3</span>, <span class="fl">2</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">fdanish.ln.QME2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">danishuni</span><span class="op">$</span><span class="va">Loss</span>, <span class="st">"lnorm"</span>, method <span class="op">=</span> <span class="st">"qme"</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">8</span><span class="op">/</span><span class="fl">10</span>, <span class="fl">9</span><span class="op">/</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/graphcomp.html">cdfcomp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fdanish.ln.MLE</span>, <span class="va">fdanish.ln.QME1</span>, <span class="va">fdanish.ln.QME2</span><span class="op">)</span>, </span>
@@ -656,7 +660,7 @@ For instance, a volatility parameter <span class="math inline">\(\sigma\)</span>
 This is possible by using arguments <code>lower</code> and/or <code>upper</code>, for which their use automatically forces <code>optim.method="L-BFGS-B"</code>.</p>
 <p>Below are examples of fits of a gamma distribution <span class="math inline">\(\mathcal{G}(\alpha, \lambda)\)</span> to the <code>groundbeef</code> data set with various algorithms.
 Note that the conjugate gradient algorithm (<code>CG</code>) needs far more iterations to converge (around 2500 iterations) compared to other algorithms (converging in less than 100 iterations).</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"groundbeef"</span><span class="op">)</span></span>
 <span><span class="va">fNM</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">groundbeef</span><span class="op">$</span><span class="va">serving</span>, <span class="st">"gamma"</span>, optim.method <span class="op">=</span> <span class="st">"Nelder-Mead"</span><span class="op">)</span></span>
 <span><span class="va">fBFGS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">groundbeef</span><span class="op">$</span><span class="va">serving</span>, <span class="st">"gamma"</span>, optim.method <span class="op">=</span> <span class="st">"BFGS"</span><span class="op">)</span> </span>
@@ -670,7 +674,7 @@ It may be necessary to customize this optimization function to meet the followin
 (2) <code>custom.optim</code> should carry out a MINIMIZATION and must return the following components: <code>par</code> for the estimate, <code>convergence</code> for the convergence code, <code>value=fn(par)</code> and <code>hessian</code>.
 Below is an example of code written to wrap the <code>genoud</code> function from the <strong>rgenoud</strong> package in order to respect our optimization ``template’’.
 The <strong>rgenoud</strong> package implements the genetic (stochastic) algorithm.</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mygenoud</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">fn</span>, <span class="va">par</span>, <span class="va">...</span><span class="op">)</span> </span>
 <span><span class="op">{</span></span>
 <span>   <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JasjeetSekhon/rgenoud" class="external-link">rgenoud</a></span><span class="op">)</span></span>
@@ -682,7 +686,7 @@ The <strong>rgenoud</strong> package implements the genetic (stochastic) algorit
 The following code can for example be used to fit a gamma distribution to the <code>groundbeef</code> data set.
 Note that in this example various arguments are also passed from <code>fitdist</code> to <code>genoud</code>: <code>nvars</code>, <code>Domains</code>, <code>boundary.enforcement</code>, <code>print.level</code> and <code>hessian</code>.
 The code below compares all the parameter estimates (<span class="math inline">\(\hat\alpha\)</span>, <span class="math inline">\(\hat\lambda\)</span>) by the different algorithms: shape <span class="math inline">\(\alpha\)</span> and rate <span class="math inline">\(\lambda\)</span> parameters are relatively similar on this example, roughly 4.00 and 0.05, respectively.</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fgenoud</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mledist.html">mledist</a></span><span class="op">(</span><span class="va">groundbeef</span><span class="op">$</span><span class="va">serving</span>, <span class="st">"gamma"</span>, custom.optim <span class="op">=</span> <span class="va">mygenoud</span>, nvars <span class="op">=</span> <span class="fl">2</span>, </span>
 <span>                   max.generations <span class="op">=</span> <span class="fl">10</span>, Domains <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span>, </span>
 <span>                   boundary.enforcement <span class="op">=</span> <span class="fl">1</span>, hessian <span class="op">=</span> <span class="cn">TRUE</span>, print.level <span class="op">=</span> <span class="fl">0</span>, P9 <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
@@ -694,7 +698,7 @@ The code below compares all the parameter estimates (<span class="math inline">\
 <span><span class="co">## ##   ``Genetic Optimization Using Derivatives: The rgenoud package for R.''</span></span>
 <span><span class="co">## ##   Journal of Statistical Software, 42(11): 1-26. </span></span>
 <span><span class="co">## ##</span></span></code></pre>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span>NM <span class="op">=</span> <span class="va">fNM</span><span class="op">$</span><span class="va">estimate</span>, BFGS <span class="op">=</span> <span class="va">fBFGS</span><span class="op">$</span><span class="va">estimate</span>, SANN <span class="op">=</span> <span class="va">fSANN</span><span class="op">$</span><span class="va">estimate</span>, CG <span class="op">=</span> <span class="va">fCG</span><span class="op">$</span><span class="va">estimate</span>, </span>
 <span>      fgenoud <span class="op">=</span> <span class="va">fgenoud</span><span class="op">$</span><span class="va">estimate</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##           NM   BFGS  SANN     CG fgenoud</span></span>
@@ -721,7 +725,7 @@ The <code>left</code> column contains either <code>NA</code> for left censored o
 The <code>right</code> column contains either <code>NA</code> for right censored observations, the right bound of the interval for interval censored observations, or the observed value for non-censored observations.
 To illustrate the use of package <strong>fitdistrplus</strong> to fit distributions to censored continous data, we will use another data set from ecotoxicology, included in our package and named <code>salinity</code>.
 This data set contains acute salinity tolerance (LC50 values in electrical conductivity, <span class="math inline">\(mS\)</span>.<span class="math inline">\(cm^{-1}\)</span>) of riverine macro-invertebrates taxa from the southern Murray-Darling Basin in Central Victoria, Australia <span class="citation">(<a href="#ref-kefford07">Kefford et al. 2007</a>)</span>.</p>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"salinity"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">salinity</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## 'data.frame':    108 obs. of  2 variables:</span></span>
@@ -736,7 +740,7 @@ Grey filled rectangles in such a plot represent the regions of non uniqueness of
 <p>A less rigorous but sometimes more illustrative plot can be obtained by fixing the argument <code>NPMLE</code> to <code>FALSE</code> in the call to <code>plotdistcens</code>
 (see Figure <a href="#fig:plotsalinity2">3.4</a> for an example and the help page of Function <code>plotdistcens</code> for details).
 This plot enables to see the real nature of censored data, as points and intervals, but the difficulty in building such a plot is to define a relevant ordering of observations.</p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotdistcens.html">plotdistcens</a></span><span class="op">(</span><span class="va">salinity</span>, NPMLE <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:plotsalinity2"></span>
@@ -759,7 +763,7 @@ L(\theta) = \prod_{i=1}^{N_{nonC}} f(x_{i}|\theta)\times \prod_{j=1}^{N_{leftC}}
 For the <code>salinity</code> data set, a lognormal distribution or a loglogistic can be fitted as commonly done in ecotoxicology for such data.
 As with <code>fitdist</code>, for some distributions (see <span class="citation">Delignette-Muller et al. (<a href="#ref-fitdistrplus">2014</a>)</span> for details), it is necessary to specify initial values for the distribution parameters in the argument <code>start</code>.
 The <code>plotdistcens</code> function can help to find correct initial values for the distribution parameters in non trivial cases, by a manual iterative use if necessary.</p>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fsal.ln</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdistcens.html">fitdistcens</a></span><span class="op">(</span><span class="va">salinity</span>, <span class="st">"lnorm"</span><span class="op">)</span></span>
 <span><span class="va">fsal.ll</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdistcens.html">fitdistcens</a></span><span class="op">(</span><span class="va">salinity</span>, <span class="st">"llogis"</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>shape <span class="op">=</span> <span class="fl">5</span>, scale <span class="op">=</span> <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fsal.ln</span><span class="op">)</span></span></code></pre></div>
@@ -773,7 +777,7 @@ The <code>plotdistcens</code> function can help to find correct initial values f
 <span><span class="co">##         meanlog  sdlog</span></span>
 <span><span class="co">## meanlog  1.0000 0.2938</span></span>
 <span><span class="co">## sdlog    0.2938 1.0000</span></span></code></pre>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fsal.ll</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Fitting of the distribution ' llogis ' By maximum likelihood on censored data </span></span>
 <span><span class="co">## Parameters</span></span>
@@ -791,7 +795,7 @@ Their calls are similar to the ones of <code>cdfcomp</code>, <code>qqcomp</code>
 Below are examples of use of those functions with the two fitted distributions to the <code>salinity</code> data set (see Figure <a href="#fig:cdfcompcens">3.5</a>).
 When <code>qqcompcens</code> and <code>ppcompcens</code> are used with more than one fitted distribution, the non uniqueness rectangles are not filled and a small noise is added on the y-axis in order to help the visualization of various fits.
 But we rather recommend the use of the <code>plotstyle</code> <code>ggplot</code> of <code>qqcompcens</code> and <code>ppcompcens</code> to compare the fits of various distributions as it provides a clearer plot splitted in facets (see <code><a href="../reference/graphcompcens.html">?graphcompcens</a></code>).</p>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/graphcompcens.html">cdfcompcens</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fsal.ln</span>, <span class="va">fsal.ll</span><span class="op">)</span>, legendtext <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lognormal"</span>, <span class="st">"loglogistic "</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/graphcompcens.html">qqcompcens</a></span><span class="op">(</span><span class="va">fsal.ln</span>, legendtext <span class="op">=</span> <span class="st">"lognormal"</span><span class="op">)</span></span>
@@ -814,20 +818,20 @@ The discrete nature of the variable is automatically recognized when a classical
 The <code>toxocara</code> data set included in the package corresponds to the observation of such a discrete variable.
 Numbers of <em>Toxocara cati</em> parasites present in digestive tract are reported from a random sampling of feral cats living on Kerguelen island <span class="citation">(<a href="#ref-Fromont01">Fromont et al. 2001</a>)</span>.
 We will use it to illustrate the case of discrete data.</p>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"toxocara"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">toxocara</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## 'data.frame':    53 obs. of  1 variable:</span></span>
 <span><span class="co">##  $ number: int  0 0 0 0 0 0 0 0 0 0 ...</span></span></code></pre>
 <p>The fit of a discrete distribution to discrete data by maximum likelihood estimation requires the same procedure as for continuous non-censored data.
 As an example, using the <code>toxocara</code> data set, Poisson and negative binomial distributions can be easily fitted.</p>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">ftoxo.P</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">toxocara</span><span class="op">$</span><span class="va">number</span>, <span class="st">"pois"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Fitting of the distribution ' pois ' by maximum likelihood </span></span>
 <span><span class="co">## Parameters:</span></span>
 <span><span class="co">##        estimate Std. Error</span></span>
 <span><span class="co">## lambda    8.679     0.4047</span></span></code></pre>
-<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">ftoxo.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">toxocara</span><span class="op">$</span><span class="va">number</span>, <span class="st">"nbinom"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Fitting of the distribution ' nbinom ' by maximum likelihood </span></span>
 <span><span class="co">## Parameters:</span></span>
@@ -836,7 +840,7 @@ As an example, using the <code>toxocara</code> data set, Poisson and negative bi
 <span><span class="co">## mu     8.6803    1.93501</span></span></code></pre>
 <p>For discrete distributions, the plot of an object of class <code>fitdist</code> simply provides two goodness-of-fit plots comparing empirical and theoretical distributions in density and in CDF.
 Functions <code>cdfcomp</code> and <code>denscomp</code> can also be used to compare several plots to the same data set, as follows for the previous fits (Figure <a href="#fig:fittoxocarapoisnbinom">3.6</a>).</p>
-<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/graphcomp.html">denscomp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">ftoxo.P</span>, <span class="va">ftoxo.nb</span><span class="op">)</span>, legendtext <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Poisson"</span>, <span class="st">"negative binomial"</span><span class="op">)</span>, fitlty <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/graphcomp.html">cdfcomp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">ftoxo.P</span>, <span class="va">ftoxo.nb</span><span class="op">)</span>, legendtext <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Poisson"</span>, <span class="st">"negative binomial"</span><span class="op">)</span>, fitlty <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
@@ -852,7 +856,7 @@ This number is roughly equal to the argument <code>meancount</code>, or sligthly
 The choice to define cells from the empirical distribution (data), and not from the theoretical distribution, was done to enable the comparison of Chi-squared values obtained with different distributions fitted on a same data set.
 If arguments <code>chisqbreaks</code> and <code>meancount</code> are both omitted, <code>meancount</code> is fixed in order to obtain roughly <span class="math inline">\((4n)^{2/5}\)</span> cells, with <span class="math inline">\(n\)</span> the length of the data set <span class="citation">(<a href="#ref-Vose10">Vose 2010</a>)</span>.
 Using this default option the two previous fits are compared as follows, giving the preference to the negative binomial distribution, from both Chi-squared statistics and information criteria:</p>
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gofstat.html">gofstat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">ftoxo.P</span>, <span class="va">ftoxo.nb</span><span class="op">)</span>, fitnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Poisson"</span>, <span class="st">"negative binomial"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Chi-squared statistic:  31257 7.486 </span></span>
 <span><span class="co">## Degree of freedom of the Chi-squared distribution:  5 4 </span></span>
