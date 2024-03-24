@@ -223,4 +223,6 @@ print.summary.fitdistcens <- function(x, ...){
 #see logLik.R for loglik.fitdistcens
 #see vcov.R for vcov.fitdistcens
 #see coef.R for coef.fitdistcens
+#see AIC.R for AIC.fitdistcens
+#see BIC.R for BIC.fitdistcens
 
