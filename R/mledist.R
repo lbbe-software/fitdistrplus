@@ -200,7 +200,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
         p3 <- log(1-do.call(pdistnam, c(list(rcens), as.list(par), as.list(fix.arg))))
         p4 <- log(do.call(pdistnam, c(list(icens$right), as.list(par), as.list(fix.arg))) - 
                     do.call(pdistnam, c(list(icens$left), as.list(par), as.list(fix.arg))) )
-        -sum(weights[irow.ncens] * p1) - 
+        - sum(weights[irow.ncens] * p1) - 
           sum(weights[irow.lcens] * p2) - 
           sum(weights[irow.rcens] * p3) - 
           sum(weights[irow.icens] * p4) 
@@ -292,6 +292,16 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
               if(length(opt$counts) == 1) #appears when the initial point is a solution
                 opt$counts <- c(opt$counts, NA)
             
+            #recompute Hessian if Hessian matrix has NA values
+            if(!inherits(opttryerror, "try-error"))
+            {
+              if(any(is.na(opt$hessian)) || is.null(opt$hessian)) 
+              {
+                opthessian <- try(optimHess(par=vstart, fn=fnobj, fix.arg=fix.arg, obs=data, gr=gradient, ddistnam=ddistname), silent=TRUE)
+                if(!inherits(opthessian, "try-error"))
+                  opt$hessian <- opthessian
+              }
+            }
             
           }else #opt.fun == "optim"
           {
@@ -304,6 +314,18 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
                                               rcens=rcens, lcens=lcens, icens=icens, ncens=ncens, ddistnam=ddistname, 
                                               pdistnam=pdistname, hessian=TRUE, method=meth, lower=lower, upper=upper, 
                                               ...), silent=TRUE)   
+            #recompute Hessian if Hessian matrix has NA values
+            if(!inherits(opttryerror, "try-error"))
+            {
+              if(any(is.na(opt$hessian)) || is.null(opt$hessian)) 
+              {
+                opthessian <- try(optimHess(par=vstart, fn=fnobj, fix.arg=fix.arg, obs=data, gr=gradient, ddistnam=ddistname), 
+                                  silent=TRUE)
+                if(!inherits(opthessian, "try-error"))
+                  opt$hessian <- opthessian
+              }
+            }
+            
           }
           
         }else #hasbound == FALSE
@@ -318,6 +340,17 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
                                             rcens=rcens, lcens=lcens, icens=icens, ncens=ncens, ddistnam=ddistname, 
                                             pdistnam=pdistname, hessian=TRUE, method=meth, lower=lower, upper=upper, 
                                             ...), silent=TRUE) 
+          #recompute Hessian if Hessian matrix has NA values
+          if(!inherits(opttryerror, "try-error"))
+          {
+            if(any(is.na(opt$hessian)) || is.null(opt$hessian)) 
+            {
+              opthessian <- try(optimHess(par=vstart, fn=fnobj, fix.arg=fix.arg, obs=data, gr=gradient, ddistnam=ddistname),
+                                silent=TRUE)
+              if(!inherits(opthessian, "try-error"))
+                opt$hessian <- opthessian
+            }
+          }
         }
         options(warn=owarn)
         
