@@ -27,6 +27,7 @@ vcov(fitdist(serving, "gamma", start=as.list(f1$estimate)))
 #an example with lower bounds for ztbinom
 
 library(actuar)
+n <- 1e3
 x <- rztbinom(n, 30, 1/2)
 lnl(c(35, 1/2), obs=x, dfun=dztbinom)
 
