@@ -11,7 +11,7 @@
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Which optimization algorithm to choose?">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Which optimization algorithm to choose?">
 <meta property="og:description" content="fitdistrplus">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -22,7 +22,7 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
+    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light" data-bs-theme="light"><div class="container">
     
     <a class="navbar-brand me-2" href="../index.html">fitdistrplus</a>
 
@@ -75,7 +75,7 @@
       <img src="" class="logo" alt=""><h1>Which optimization algorithm to choose?</h1>
                         <h4 data-toc-skip class="author">Marie Laure Delignette Muller, Christophe Dutang</h4>
             
-            <h4 data-toc-skip class="date">2024-03-24</h4>
+            <h4 data-toc-skip class="date">2024-04-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/lbbe-software/fitdistrplus/blob/HEAD/vignettes/Optimalgo.Rmd" class="external-link"><code>vignettes/Optimalgo.Rmd</code></a></small>
       <div class="d-none name"><code>Optimalgo.Rmd</code></div>
@@ -430,12 +430,12 @@ numerically approximated one).</p>
 <tr class="even">
 <td align="left">time (sec)</td>
 <td align="right">0.006</td>
-<td align="right">0.004</td>
+<td align="right">0.003</td>
 <td align="right">0.023</td>
 <td align="right">0.029</td>
-<td align="right">0.020</td>
+<td align="right">0.021</td>
 <td align="right">0.004</td>
-<td align="right">0.008</td>
+<td align="right">0.007</td>
 </tr>
 </tbody>
 </table>
@@ -532,11 +532,11 @@ numerically approximated one).</p>
 <td align="right">0.009</td>
 <td align="right">0.075</td>
 <td align="right">0.072</td>
-<td align="right">0.046</td>
+<td align="right">0.047</td>
 <td align="right">0.015</td>
 <td align="right">0.013</td>
-<td align="right">0.086</td>
-<td align="right">0.077</td>
+<td align="right">0.087</td>
+<td align="right">0.078</td>
 <td align="right">0.065</td>
 </tr>
 </tbody>
@@ -595,11 +595,11 @@ numerically approximated one).</p>
 </tr>
 <tr class="even">
 <td align="left">time (sec)</td>
-<td align="right">0.016</td>
-<td align="right">0.003</td>
-<td align="right">0.014</td>
+<td align="right">0.017</td>
+<td align="right">0.004</td>
 <td align="right">0.013</td>
-<td align="right">0.015</td>
+<td align="right">0.014</td>
+<td align="right">0.016</td>
 </tr>
 </tbody>
 </table>
@@ -651,10 +651,10 @@ numerically approximated one).</p>
 </tr>
 <tr class="even">
 <td align="left">time (sec)</td>
-<td align="right">0.010</td>
-<td align="right">0.045</td>
+<td align="right">0.011</td>
 <td align="right">0.044</td>
-<td align="right">0.038</td>
+<td align="right">0.043</td>
+<td align="right">0.039</td>
 </tr>
 </tbody>
 </table>
@@ -667,7 +667,6 @@ numerically approximated one).</p>
 <pre><code><span><span class="co">## Warning in title(...): "plot.np" is not a graphical parameter</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in axis(side = side, at = at, labels = labels, ...): "plot.np" is not a</span></span>
 <span><span class="co">## graphical parameter</span></span>
-<span></span>
 <span><span class="co">## Warning in axis(side = side, at = at, labels = labels, ...): "plot.np" is not a</span></span>
 <span><span class="co">## graphical parameter</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in box(...): "plot.np" is not a graphical parameter</span></span></code></pre>
@@ -898,11 +897,11 @@ numerically approximated one).</p>
 </tr>
 <tr class="even">
 <td align="left">time (sec)</td>
-<td align="right">0.002</td>
+<td align="right">0.001</td>
 <td align="right">0.003</td>
-<td align="right">0.233</td>
-<td align="right">0.228</td>
-<td align="right">0.226</td>
+<td align="right">0.238</td>
+<td align="right">0.230</td>
+<td align="right">0.232</td>
 <td align="right">0.001</td>
 <td align="right">0.003</td>
 </tr>
@@ -1008,10 +1007,10 @@ numerically approximated one).</p>
 </tr>
 <tr class="even">
 <td align="left">time (sec)</td>
-<td align="right">0.009</td>
+<td align="right">0.008</td>
 <td align="right">0.010</td>
 <td align="right">0.007</td>
-<td align="right">0.009</td>
+<td align="right">0.010</td>
 <td align="right">0.002</td>
 <td align="right">0.002</td>
 <td align="right">0.010</td>
@@ -1089,7 +1088,7 @@ numerically approximated one).</p>
 <td align="right">0.004</td>
 <td align="right">0.002</td>
 <td align="right">0.295</td>
-<td align="right">0.225</td>
+<td align="right">0.231</td>
 <td align="right">0.021</td>
 </tr>
 </tbody>
@@ -1143,7 +1142,7 @@ numerically approximated one).</p>
 <tr class="even">
 <td align="left">time (sec)</td>
 <td align="right">0.007</td>
-<td align="right">0.002</td>
+<td align="right">0.003</td>
 <td align="right">0.002</td>
 <td align="right">0.002</td>
 </tr>
@@ -1158,7 +1157,6 @@ numerically approximated one).</p>
 <pre><code><span><span class="co">## Warning in title(...): "plot.np" is not a graphical parameter</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in axis(side = side, at = at, labels = labels, ...): "plot.np" is not a</span></span>
 <span><span class="co">## graphical parameter</span></span>
-<span></span>
 <span><span class="co">## Warning in axis(side = side, at = at, labels = labels, ...): "plot.np" is not a</span></span>
 <span><span class="co">## graphical parameter</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in box(...): "plot.np" is not a graphical parameter</span></span></code></pre>
@@ -1207,13 +1205,11 @@ still preserved (by the Delta method) but for finite-sample this may produce a s
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p>
-<p>Developed by Marie-Laure Delignette-Muller, Christophe Dutang, Aurelie Siberchicot.</p>
+  <p>Developed by Marie-Laure Delignette-Muller, Christophe Dutang, Aurelie Siberchicot.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
     </footer>
