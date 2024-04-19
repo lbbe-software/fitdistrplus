@@ -17,7 +17,7 @@ fitdist(x, "ztnbinom")
 fitdistrplus:::startarg_discrete_actuar_family(x, "ztgeom")
 fitdist(x, "ztgeom")
 
-
+library(actuar)
 x <- rztbinom(n, 30, 1/2)
 
 fitdistrplus:::startarg_discrete_actuar_family(x, "ztbinom")
