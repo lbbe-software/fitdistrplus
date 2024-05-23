@@ -105,8 +105,9 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge", "mse"),
         mme <- mmedist(data, distname, start=arg_startfix$start.arg, 
                        fix.arg=arg_startfix$fix.arg, checkstartfix=TRUE, ...)
                 
-        sd <- NULL
-        correl <- varcovar <- NULL
+        varcovar <- mme$vcov
+        correl <- cov2cor(varcovar)
+        sd <- sqrt(diag(varcovar))
         
         estimate <- mme$estimate
         loglik <- mme$loglik
@@ -126,11 +127,13 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge", "mse"),
         estimate <- mle$estimate
         if(!is.null(mle$hessian)){
             #check for NA values and invertible Hessian
-            if(all(!is.na(mle$hessian)) && qr(mle$hessian)$rank == NCOL(mle$hessian)){
+            if(all(!is.na(mle$hessian)) && qr(mle$hessian)$rank == NCOL(mle$hessian))
+            {
                 varcovar <- solve(mle$hessian)
                 sd <- sqrt(diag(varcovar))
                 correl <- cov2cor(varcovar)
-            }else{
+            }else
+            {
                 varcovar <- NA
                 sd <- NA
                 correl <- NA                            
@@ -251,7 +254,7 @@ print.fitdist <- function(x, ...)
         cat("Fitting of the distribution '", x$distname, "' by maximum goodness-of-fit \n")
     
     cat("Parameters:\n")
-    if (x$method=="mle") 
+    if (!is.null(x$sd)) 
         print(cbind.data.frame("estimate" = x$estimate, "Std. Error" = x$sd), ...)
      else 
         print(cbind.data.frame("estimate" = x$estimate), ...)
@@ -313,7 +316,7 @@ print.summary.fitdist <- function(x, ...)
         cat("Fitting of the distribution '", x$distname, "' by maximum goodness-of-fit \n")
     
     cat("Parameters : \n")
-    if (x$method == "mle")
+    if (!is.null(x$sd)) 
         print(cbind.data.frame("estimate" = x$estimate, "Std. Error" = x$sd), ...)
     else
         print(cbind.data.frame("estimate" = x$estimate), ...)
@@ -334,7 +337,7 @@ print.summary.fitdist <- function(x, ...)
     cat("AIC: ", x$aic, "  ")
     cat("BIC: ", x$bic, "\n")
     
-    if (x$method=="mle") {
+    if (!is.null(x$cor))  {
         if (length(x$estimate) > 1) {
             cat("Correlation matrix:\n")
             print(x$cor)
@@ -349,4 +352,6 @@ print.summary.fitdist <- function(x, ...)
 #see logLik.R for loglik.fitdist
 #see vcov.R for vcov.fitdist
 #see coef.R for coef.fitdist
+#see AIC.R for AIC.fitdist
+#see BIC.R for BIC.fitdist
 
