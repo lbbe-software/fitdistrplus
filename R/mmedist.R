@@ -94,9 +94,8 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             stop("data must be a numeric vector of length greater than 1")
         if (distname == "norm") {
             estimate <- c(mean=m, sd=sqrt(v))
-            mdistname <- function(order, theta1, theta2)
+            mdistname <- function(order, mean, sd)
             {
-              mean <- theta1 ; sd <- theta2
               if(order == 1)
                 return(mean)
               if(order == 2)
@@ -113,27 +112,24 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
                 stop("values must be positive to fit a lognormal distribution")
             sd2 <- log(1+v/m^2)
             estimate <- c(meanlog=log(m) - sd2/2, sdlog=sqrt(sd2))
-            mdistname <- function(order, theta1, theta2)
+            mdistname <- function(order, meanlog, sdlog)
             {
-              meanlog <- theta1 ; sdlog <- theta2
               exp(order*meanlog + order^2*sdlog^2/2)
             }
             order <- 1:2            
         }
         if (distname == "pois") {
             estimate <- c(lambda=m)
-            mdistname <- function(order, theta1, theta2) 
+            mdistname <- function(order, lambda) 
             {
-              lambda <- theta1 
               ifelse(order == 1, lambda, lambda+lambda^2)
             }
             order <- 1          
         }
         if (distname == "exp") {
             estimate <- c(rate=1/m)
-            mdistname <- function(order, theta1, theta2)
+            mdistname <- function(order, rate)
             {
-              rate <- theta1 
               ifelse(order == 1, 1/rate, 2/rate^2)
             }
             order <- 1          
@@ -142,9 +138,8 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             shape <- m^2/v
             rate <- m/v
             estimate <- c(shape=shape, rate=rate)
-            mdistname <- function(order, theta1, theta2)
+            mdistname <- function(order, shape, rate)
             {
-              shape <- theta1 ; rate <- theta2
               res <- shape/rate
               if(order == 1)
                 return(res)
@@ -163,9 +158,8 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             size <- if (v > m) m^2/(v - m)
                     else NaN
             estimate <- c(size=size, mu=m)
-            mdistname <- function(order, theta1, theta2)
+            mdistname <- function(order, size, mu)
             {
-              size <- theta1 ; mu <- theta2
               if(order == 1)
                 return(mu)
               if(order == 2)
@@ -193,9 +187,8 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             {
               (1-prob)^order * factorial(order) / prob^order
             }
-            mdistname <- function(order, theta1, theta2)
+            mdistname <- function(order, prob)
             {
-              prob <- theta1
               if(order == 0)
                 return(1)
               m1 <- mcumulgeom(1, prob)
@@ -222,9 +215,8 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             shape1 <- m*aux
             shape2 <- (1-m)*aux
             estimate <- c(shape1=shape1, shape2=shape2)
-            mdistname <- function(order, theta1, theta2)
+            mdistname <- function(order, shape1, shape2)
             {
-              shape1 <- theta1 ; shape2 <- theta2
               stot <- shape1+shape2
               ifelse(order == 1, shape1/stot,
                      (shape1^3+2*shape1*shape2+shape1^2)/stot^2/(stot+1))
@@ -235,9 +227,8 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             min1 <- m-sqrt(3*v)
             max1 <- m+sqrt(3*v)
             estimate <- c(min1,max1)
-            mdistname <- function(order, theta1, theta2)
+            mdistname <- function(order, min, max)
             {
-              min <- theta1 ; shape2 <- max
               ifelse(order == 1, (min+max)/2, (max^2 + min^2 + max*min)/3)
             }
             order <- 1:2            
@@ -245,9 +236,8 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
         if (distname == "logis" ) {
             scale <- sqrt(3*v)/pi
             estimate <- c(location=m, scale=scale)
-            mdistname <- function(order, theta1, theta2)
+            mdistname <- function(order, location, scale)
             {
-              location <- theta1 ; scale <- theta2
               ifelse(order == 1, location, scale^2*pi^2/3 + location^2)
             }
             order <- 1:2            
