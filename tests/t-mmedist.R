@@ -70,7 +70,7 @@ if(any(installed.packages()[, "Package"] == "actuar"))
 
 # (5) fit a lognormal distribution
 #
-
+x3 <- rlnorm(n=nsample)
 f1 <- mledist(x3, "lnorm") #previously mmedist was the same as mledist
 f2 <- mmedist(x3, "lnorm")
 n <- length(x3)
@@ -136,6 +136,11 @@ mmedist(x4, "nbinom", weights=NULL)$estimate
 
 # (9) relevant example for zero modified geometric distribution
 #
+
+memp1 <- function(x, order) mean(x^order)
+memp2 <- function(x, order, weights) sum(x^order * weights)/sum(weights)
+
+
 rzmgeom <- function(n, p1, p2)
 {
   u <- rbinom(n, 1, 1-p1) #prob to get zero is p1
@@ -146,38 +151,48 @@ dzmgeom <- function(x, p1, p2)
 {
   p1 * (x == 0) + (1-p1)*dgeom(x-1, p2)
 }
+mcumulgeom <- function(order, prob) #E[N(N-1)..(N-o+1)]
+{
+  (1-prob)^order * factorial(order) / prob^order
+}
 mgeom <- function(order, prob)
 {
+  if(order == 0)
+    return(1)
+  m1 <- mcumulgeom(1, prob)
   if(order == 1)
-    (1-prob)/(prob)
-  else if(order == 2)
-    (2-3*prob+prob^2)/prob^2
+    return(m1)
+  m2 <- mcumulgeom(2, prob) + m1
+  if(order == 2)
+    return(m2)
+  m3 <- mcumulgeom(3, prob) + 3*m2 + 2*m1
+  if(order == 3)
+    return(m3)
+  m4 <- mcumulgeom(4, prob) + 6*m3 + 11*m2 - 6*m1
+  if(order == 4)
+    return(m4)
   else
     stop("not yet implemented")
 }
 if(FALSE)
 {
-  c(mean(rgeom(1e4, 1/6)), mgeom(1, 1/6))
-  c(mean(rgeom(1e4, 1/6)^2), mgeom(2, 1/6))
+  for(j in 1:4)
+    print(c(memp1(rgeom(1e4, 1/6), j), mgeom(j, 1/6)))
 }
 
 mzmgeom <- function(order, p1, p2) #raw moment
 {
-  if(order == 1)
-    (1-p1)*( mgeom(1, p2) + 1 ) + p1*0 #mean
-  else if(order == 2)
-    (1-p1)*( mgeom(2, p2)+ 2*mgeom(1, p2)+1) + p1*0 #E(X^2)
-  else
-    stop("not yet implemented")
+  momj <- sapply(0:order, function(j) mgeom(j, p2))
+  cj <- choose(order, 0:order)
+  (1-p1) * sum( cj * momj )
 }
 if(FALSE)
 {
-  c(mean(rzmgeom(1e4, 1/3, 1/6)), mzmgeom(1, 1/3, 1/6))
-  c(mean(rzmgeom(1e4, 1/3, 1/6)^2), mzmgeom(2, 1/3, 1/6))
+  for(j in 1:4)
+    print(c(memp1(rzmgeom(1e4, 1/3, 1/6), j), mzmgeom(j, 1/3, 1/6)))
+  
 }
 
-memp1 <- function(x, order) mean(x^order)
-memp2 <- function(x, order, weights) sum(x^order * weights)/sum(weights)
 
 x5 <- rzmgeom(nsample, 1/3, 1/6)
 w <- rep(1, length(x5))
