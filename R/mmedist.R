@@ -94,6 +94,18 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             stop("data must be a numeric vector of length greater than 1")
         if (distname == "norm") {
             estimate <- c(mean=m, sd=sqrt(v))
+            mdistname <- function(order, theta1, theta2)
+            {
+              mean <- theta1 ; sd <- theta2
+              if(order == 1)
+                return(mean)
+              if(order == 2)
+                return(sd^2+mean^2)
+              if(order == 3)
+                return(3*mean*sd^2+mean^3)
+              if(order == 4)
+                return(3*sd^4+6*mean^2*sd^2+mean^4)
+            }
             order <- 1:2
         }
         if (distname == "lnorm") {
@@ -101,52 +113,143 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
                 stop("values must be positive to fit a lognormal distribution")
             sd2 <- log(1+v/m^2)
             estimate <- c(meanlog=log(m) - sd2/2, sdlog=sqrt(sd2))
+            mdistname <- function(order, theta1, theta2)
+            {
+              meanlog <- theta1 ; sdlog <- theta2
+              exp(order*meanlog + order^2*sdlog^2/2)
+            }
             order <- 1:2            
         }
         if (distname == "pois") {
             estimate <- c(lambda=m)
+            mdistname <- function(order, theta1, theta2) 
+            {
+              lambda <- theta1 
+              ifelse(order == 1, lambda, lambda+lambda^2)
+            }
             order <- 1          
         }
         if (distname == "exp") {
             estimate <- c(rate=1/m)
+            mdistname <- function(order, theta1, theta2)
+            {
+              rate <- theta1 
+              ifelse(order == 1, 1/rate, 2/rate^2)
+            }
             order <- 1          
         }
         if (distname == "gamma" ) {
             shape <- m^2/v
             rate <- m/v
-            estimate<-c(shape=shape, rate=rate)
+            estimate <- c(shape=shape, rate=rate)
+            mdistname <- function(order, theta1, theta2)
+            {
+              shape <- theta1 ; rate <- theta2
+              res <- shape/rate
+              if(order == 1)
+                return(res)
+              res <- res * (shape+1)/rate
+              if(order == 2)
+                return(res)
+              res <- res * (shape+2)/rate
+              if(order == 3)
+                return(res)
+              res <- res * (shape+3)/rate
+              res
+            }
             order <- 1:2            
        }
        if (distname == "nbinom" ) {
             size <- if (v > m) m^2/(v - m)
                     else NaN
-            estimate<-c(size=size, mu=m)
+            estimate <- c(size=size, mu=m)
+            mdistname <- function(order, theta1, theta2)
+            {
+              size <- theta1 ; mu <- theta2
+              if(order == 1)
+                return(mu)
+              if(order == 2)
+                return(mu+mu^2/size+mu^2)
+              prob <- size/(size+mu)
+              if(order == 3)
+              {
+                res <- size*prob^2 + 3*prob*(1-prob)*(size) + (1-prob)^2*(size+size^2)
+                res <- res * (1-prob)/prob^3
+              }else if(order == 4)
+              {
+                res <- size*prob^3 + 7*prob^2*(1-prob)*(size) + 6*prob*(1-prob)^2*(size+size^2) + (1-prob)^3*(2*size+3*size^2+size^3)
+                res <- res * (1-prob)/prob^4
+              }else
+                stop("not implemented")
+              res
+            }
             order <- 1:2           
        }
        if (distname == "geom" ) {
-            prob<-if (m>0) 1/(1+m)
+            prob <- if (m>0) 1/(1+m)
                     else NaN
-            estimate<-c(prob=prob)
+            estimate <- c(prob=prob)
+            mcumulgeom <- function(order, prob) #E[N(N-1)..(N-j+1)] = (1-p)^j j! / p^j
+            {
+              (1-prob)^order * factorial(order) / prob^order
+            }
+            mdistname <- function(order, theta1, theta2)
+            {
+              prob <- theta1
+              if(order == 0)
+                return(1)
+              m1 <- mcumulgeom(1, prob)
+              if(order == 1)
+                return(m1)
+              m2 <- mcumulgeom(2, prob) + m1
+              if(order == 2)
+                return(m2)
+              m3 <- mcumulgeom(3, prob) + 3*m2 + 2*m1
+              if(order == 3)
+                return(m3)
+              m4 <- mcumulgeom(4, prob) + 6*m3 + 11*m2 - 6*m1
+              if(order == 4)
+                return(m4)
+              else
+                stop("not yet implemented")
+            }
             order <- 1         
        }
         if (distname == "beta" ) {
             if (any(data < 0) | any(data > 1)) 
                 stop("values must be in [0-1] to fit a beta distribution")
-            aux<-m*(1-m)/v - 1
+            aux <- m*(1-m)/v - 1
             shape1 <- m*aux
             shape2 <- (1-m)*aux
-            estimate<-c(shape1=shape1, shape2=shape2)
+            estimate <- c(shape1=shape1, shape2=shape2)
+            mdistname <- function(order, theta1, theta2)
+            {
+              shape1 <- theta1 ; shape2 <- theta2
+              stot <- shape1+shape2
+              ifelse(order == 1, shape1/stot,
+                     (shape1^3+2*shape1*shape2+shape1^2)/stot^2/(stot+1))
+            }
             order <- 1:2            
        }
         if (distname == "unif" ) {
             min1 <- m-sqrt(3*v)
             max1 <- m+sqrt(3*v)
-            estimate<-c(min1,max1)
+            estimate <- c(min1,max1)
+            mdistname <- function(order, theta1, theta2)
+            {
+              min <- theta1 ; shape2 <- max
+              ifelse(order == 1, (min+max)/2, (max^2 + min^2 + max*min)/3)
+            }
             order <- 1:2            
        }
         if (distname == "logis" ) {
             scale <- sqrt(3*v)/pi
-            estimate<-c(location=m, scale=scale)
+            estimate <- c(location=m, scale=scale)
+            mdistname <- function(order, theta1, theta2)
+            {
+              location <- theta1 ; scale <- theta2
+              ifelse(order == 1, location, scale^2*pi^2/3 + location^2)
+            }
             order <- 1:2            
         }
 		    if (exists(ddistname)) loglikval <- loglik(estimate, fix.arg, data, ddistname)  else loglikval <- NULL
@@ -154,6 +257,19 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
                     optim.function=NULL, opt.meth=NULL, fix.arg=NULL, fix.arg.fun=NULL,
                     weights=weights, counts=NULL, optim.message=NULL, 
                     loglik= loglikval, method=meth, order=order, memp=NULL)
+        
+        #create memp() for closed formula solution
+        if(res$method == "closed formula")
+        {
+          if(is.null(weights))
+            memp <- function(x, order, weights) mean(x^order)
+          else
+            memp <- function(x, order, weights) sum(x^order * weights)/sum(weights)
+        }
+        #compute asymptotic covariance matrix proposed by
+        #I. Ibragimov and R. Has'minskii. Statistical Estimation - Asymptotic Theory. Springer-Verlag, 1981, p368
+        #see R/util-mmedist-vcov.R
+        res$vcov <- mme.vcov(res$estimate, res$fix.arg, res$order, data, mdistname, memp, weights)
 		    
     }else #an optimimisation has to be done, where fix.arg and start can be a function
     {
@@ -403,7 +519,13 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
                     method=meth, order=order, memp=memp)  
         }   
         
+        
+        #compute asymptotic covariance matrix proposed by
+        #I. Ibragimov and R. Has'minskii. Statistical Estimation - Asymptotic Theory. Springer-Verlag, 1981, p368
+        #see R/util-mmedist-vcov.R
+        res$vcov <- mme.vcov(res$estimate, res$fix.arg, res$order, data, mdistname, memp, weights)
     }
+      
     return(res)
 }
 
