@@ -26,157 +26,223 @@
 gofstat <- function (f, chisqbreaks, meancount, discrete, 
 	fitnames=NULL) 
 {
+  # Check of the first argument
 	if(inherits(f, "fitdist"))
     {
+	      type <- "fitdist"
         f <- list(f)
-    }else if(length(f) == 1)
+	  }else if(inherits(f, "fitdistcens"))
+	  {
+	    type <- "fitdistcens"
+	    f <- list(f)
+	  }else if(length(f) == 1 & !inherits(f, "fitdist") & !inherits(f, "fitdistcens"))
     {
-        if(!inherits(f, "fitdist"))
-		stop("argument f must a 'fitdist' object or a list of 'fitdist' objects.")
+		  stop("argument f must a 'fitdist' or 'fitdistcens' object or a list of 'fitdist' or 'fitdistcens' objects.")
     }else if(!is.list(f))
     {
-        stop("argument f must be a list of 'fitdist' objects")
-    }else
+        stop("argument f must be a list of 'fitdist' or 'fitdistcens' objects")
+    }else if (inherits(f[[1]], "fitdist"))
     {
+          type <- "fitdist"  
         if(any(sapply(f, function(x) !inherits(x, "fitdist"))))        
-		stop("argument f must be a list of 'fitdist' objects")
+          stop("argument f must be a list of 'fitdist' or 'fitdistcens' objects") 
+    } else if (inherits(f[[1]], "fitdistcens"))
+    {
+        type <- "fitdistcens"  
+        if(any(sapply(f, function(x) !inherits(x, "fitdistcens"))))        
+          stop("argument f must be a list of 'fitdist' or 'fitdistcens' objects") 
+    } else
+    {
+      stop("argument f must a 'fitdist' or 'fitdistcens' object or a list of 'fitdist' or 'fitdistcens' objects.")
     }
-  
+
   # In the future developments, it will be necessary to check that all the fits share the same weights
   if(!is.null(f[[1]]$weights))
     stop("gofstat is not yet available when using weights")
   
-	odata <- f[[1]]$data
-	sdata <- sort(odata)
-	n <- f[[1]]$n
-	distname <- f[[1]]$distname
-	pdistname <- paste("p", distname, sep="")
-	estimate <- f[[1]]$estimate
-	fix.arg <- f[[1]]$fix.arg
-	
+  if (type == "fitdist") 
+  {
+    odata <- f[[1]]$data
+    sdata <- sort(odata)
+    n <- f[[1]]$n
+    distname <- f[[1]]$distname
+    pdistname <- paste("p", distname, sep="")
+    estimate <- f[[1]]$estimate
+    fix.arg <- f[[1]]$fix.arg
+    
     verif.ftidata <- function(fti)
     {
-        if (any(fti$data != odata))
-			stop("All compared fits must have been obtained with the same dataset")
-        invisible()
+      if (any(fti$data != odata))
+        stop("All compared fits must have been obtained with the same dataset")
+      invisible()
     }
     lapply(f, verif.ftidata)	
-	
-
+    
+    
     # initiate discrete if not given 
-	if(missing(discrete))
-	{
+    if(missing(discrete))
+    {
       discrete <- f[[1]]$discrete
-	}
-	if(!is.logical(discrete))
-		stop("wrong argument 'discrete'.")
+    }
+    if(!is.logical(discrete))
+      stop("wrong argument 'discrete'.")
+    
+    #define chisqbreaks if not defined
+    if (missing(chisqbreaks)) { 
+      if (missing(meancount))
+        meancount <- round( n / ((4*n)^(2/5)) )
+      if (length(sdata)>ceiling(1.5*meancount)) {
+        limit <- sdata[meancount]
+        sdata <- sdata[sdata>limit]
+        chisqbreaks <- limit
+      }else {
+        warnings("The sample is too small to automatically define chisqbreaks")
+        chisq <- NULL
+        chisqbreaks <- NULL
+        chisqpvalue <- NULL
+        chisqtable <- NULL
+        chisqdf <- NULL
         
-	#define chisqbreaks if not defined
-	if (missing(chisqbreaks)) { 
-		if (missing(meancount))
-		meancount <- round( n / ((4*n)^(2/5)) )
-		if (length(sdata)>ceiling(1.5*meancount)) {
-			limit <- sdata[meancount]
-			sdata <- sdata[sdata>limit]
-			chisqbreaks <- limit
-		}else {
-			warnings("The sample is too small to automatically define chisqbreaks")
-			chisq <- NULL
-			chisqbreaks <- NULL
-			chisqpvalue <- NULL
-			chisqtable <- NULL
-			chisqdf <- NULL
-			
-		}
-		while (length(sdata)>ceiling(1.5*meancount)) {
-			limit <- sdata[meancount]
-			sdata <- sdata[sdata>limit]
-			chisqbreaks <- c(chisqbreaks,limit)
-		} 
-		sdata <- sort(odata)
-	}
-	
-	nbfit <- length(f)
-
-	
-	if(is.null(fitnames))
-		fitnames <- paste(1:nbfit, sapply(f, function(x) x$method), 
-						  sapply(f, function(x) x$distname), sep="-")
-	
-
-	
-	Chi2 <- computegofstatChi2(sdata, n, distname, pdistname, estimate, fix.arg, 
-								 chisqbreaks)
-	if(length(f) > 1)
-	{
-		#renaming
-		names(Chi2$chisq) <- names(Chi2$chisqpvalue) <- names(Chi2$chisqdf) <- fitnames[1]
-		colnames(Chi2$chisqtable)[2] <- paste("theo", fitnames[1], sep=" ")
-		
-		#computation and storing
-		for(i in 2:nbfit)
-		{
-			Chi2temp <- computegofstatChi2(sdata, n, f[[i]]$distname, paste("p", f[[i]]$distname, sep=""), 
-											 f[[i]]$estimate, f[[i]]$fix.arg, chisqbreaks)
-			
-			names(Chi2temp$chisq) <- names(Chi2temp$chisqpvalue) <- names(Chi2temp$chisqdf) <- fitnames[i]
-			Chi2$chisq <- c(Chi2$chisq, Chi2temp$chisq)
-			Chi2$chisqpvalue <- c(Chi2$chisqpvalue, Chi2temp$chisqpvalue)
-			Chi2$chisqdf <- c(Chi2$chisqdf, Chi2temp$chisqdf)
-			
-			Chi2$chisqtable <- cbind(Chi2$chisqtable, Chi2temp$chisqtable[,2])
-			colnames(Chi2$chisqtable)[NCOL(Chi2$chisqtable)] <- paste("theo", fitnames[i], sep=" ")
-		}
-	}
- 
-	if(discrete)
-	{	
-		addres <- Chi2
-		
-	}else
-	{
-		KSCvMAD <- computegofstatKSCvMAD(sdata, n, distname, pdistname, estimate, 
-										   fix.arg, f[[1]]$method)
-		#renaming
-		names(KSCvMAD$cvm) <- names(KSCvMAD$ad) <- names(KSCvMAD$ks) <- fitnames[1]
-		
-		if(!is.null(KSCvMAD$cvmtest))
-		names(KSCvMAD$cvmtest) <- names(KSCvMAD$adtest) <- names(KSCvMAD$kstest) <- fitnames[1]
-		
-		if(length(f) > 1)
-		{			
-			#computation and storing
-			for(i in 2:nbfit)
-			{
-				KSCvMADtemp <- computegofstatKSCvMAD(sdata, n, f[[i]]$distname, paste("p", f[[i]]$distname, sep=""), 
-													   f[[i]]$estimate, f[[i]]$fix.arg, f[[i]]$method)
-
-				names(KSCvMADtemp$cvm) <- names(KSCvMADtemp$ad) <- names(KSCvMADtemp$ks) <- fitnames[i]
-
-				if(!is.null(KSCvMADtemp$cvmtest))
-					names(KSCvMADtemp$cvmtest) <- names(KSCvMADtemp$adtest) <- names(KSCvMADtemp$kstest) <- fitnames[i]
-
-				KSCvMAD$cvm <- c(KSCvMAD$cvm, KSCvMADtemp$cvm)
-				KSCvMAD$cvmtest <- c(KSCvMAD$cvmtest, KSCvMADtemp$cvmtest)
-				KSCvMAD$ad <- c(KSCvMAD$ad, KSCvMADtemp$ad)
-				KSCvMAD$adtest <- c(KSCvMAD$adtest, KSCvMADtemp$adtest)
-				KSCvMAD$ks <- c(KSCvMAD$ks, KSCvMADtemp$ks)
-				KSCvMAD$kstest <- c(KSCvMAD$kstest, KSCvMADtemp$kstest)
-
-			}
-		}
-		
-		addres <- c(Chi2, KSCvMAD)
-	}
-	
-	aics <- sapply(f, function(x) x$aic)
-	names(aics) <- fitnames
-	bics <- sapply(f, function(x) x$bic)
-	names(bics) <- fitnames
-
+      }
+      while (length(sdata)>ceiling(1.5*meancount)) {
+        limit <- sdata[meancount]
+        sdata <- sdata[sdata>limit]
+        chisqbreaks <- c(chisqbreaks,limit)
+      } 
+      sdata <- sort(odata)
+    }
+    
+    nbfit <- length(f)
+    
+    
+    if(is.null(fitnames))
+      fitnames <- paste(1:nbfit, sapply(f, function(x) x$method), 
+                        sapply(f, function(x) x$distname), sep="-")
+    
+    
+    
+    Chi2 <- computegofstatChi2(sdata, n, distname, pdistname, estimate, fix.arg, 
+                               chisqbreaks)
+    if(length(f) > 1)
+    {
+      #renaming
+      names(Chi2$chisq) <- names(Chi2$chisqpvalue) <- names(Chi2$chisqdf) <- fitnames[1]
+      colnames(Chi2$chisqtable)[2] <- paste("theo", fitnames[1], sep=" ")
+      
+      #computation and storing
+      for(i in 2:nbfit)
+      {
+        Chi2temp <- computegofstatChi2(sdata, n, f[[i]]$distname, paste("p", f[[i]]$distname, sep=""), 
+                                       f[[i]]$estimate, f[[i]]$fix.arg, chisqbreaks)
+        
+        names(Chi2temp$chisq) <- names(Chi2temp$chisqpvalue) <- names(Chi2temp$chisqdf) <- fitnames[i]
+        Chi2$chisq <- c(Chi2$chisq, Chi2temp$chisq)
+        Chi2$chisqpvalue <- c(Chi2$chisqpvalue, Chi2temp$chisqpvalue)
+        Chi2$chisqdf <- c(Chi2$chisqdf, Chi2temp$chisqdf)
+        
+        Chi2$chisqtable <- cbind(Chi2$chisqtable, Chi2temp$chisqtable[,2])
+        colnames(Chi2$chisqtable)[NCOL(Chi2$chisqtable)] <- paste("theo", fitnames[i], sep=" ")
+      }
+    }
+    
+    if(discrete)
+    {	
+      addres <- Chi2
+      
+    }else
+    {
+      KSCvMAD <- computegofstatKSCvMAD(sdata, n, distname, pdistname, estimate, 
+                                       fix.arg, f[[1]]$method)
+      #renaming
+      names(KSCvMAD$cvm) <- names(KSCvMAD$ad) <- names(KSCvMAD$ks) <- fitnames[1]
+      
+      if(!is.null(KSCvMAD$cvmtest))
+        names(KSCvMAD$cvmtest) <- names(KSCvMAD$adtest) <- names(KSCvMAD$kstest) <- fitnames[1]
+      
+      if(length(f) > 1)
+      {			
+        #computation and storing
+        for(i in 2:nbfit)
+        {
+          KSCvMADtemp <- computegofstatKSCvMAD(sdata, n, f[[i]]$distname, paste("p", f[[i]]$distname, sep=""), 
+                                               f[[i]]$estimate, f[[i]]$fix.arg, f[[i]]$method)
+          
+          names(KSCvMADtemp$cvm) <- names(KSCvMADtemp$ad) <- names(KSCvMADtemp$ks) <- fitnames[i]
+          
+          if(!is.null(KSCvMADtemp$cvmtest))
+            names(KSCvMADtemp$cvmtest) <- names(KSCvMADtemp$adtest) <- names(KSCvMADtemp$kstest) <- fitnames[i]
+          
+          KSCvMAD$cvm <- c(KSCvMAD$cvm, KSCvMADtemp$cvm)
+          KSCvMAD$cvmtest <- c(KSCvMAD$cvmtest, KSCvMADtemp$cvmtest)
+          KSCvMAD$ad <- c(KSCvMAD$ad, KSCvMADtemp$ad)
+          KSCvMAD$adtest <- c(KSCvMAD$adtest, KSCvMADtemp$adtest)
+          KSCvMAD$ks <- c(KSCvMAD$ks, KSCvMADtemp$ks)
+          KSCvMAD$kstest <- c(KSCvMAD$kstest, KSCvMADtemp$kstest)
+          
+        }
+      }
+      
+      addres <- c(Chi2, KSCvMAD)
+    }
+    
+    aics <- sapply(f, function(x) x$aic)
+    names(aics) <- fitnames
+    bics <- sapply(f, function(x) x$bic)
+    names(bics) <- fitnames
+    
     res <- c(addres, aic=list(aics), bic=list(bics), discrete=discrete, nbfit=nbfit)
-	class(res) <- c("gofstat.fitdist", "fitdist")
-	res
+    class(res) <- c("gofstat.fitdist", "fitdist")
+    res
+    
+  } else # so if if type == "fitdistcens"
+    ############# for censored data ########################
+  {
+    censdata <- f[[1]]$censdata
+
+    verif.ftidata <- function(fti)
+    {
+      if (any(!identical(fti$censdata, censdata)))
+        stop("All compared fits must have been obtained with the same dataset")
+      invisible()
+    }
+    lapply(f, verif.ftidata)	
+    
+    
+    # check discrete 
+    if(!missing(discrete))
+    {
+      if(!is.logical(discrete))
+      {
+        stop("wrong argument 'discrete'.")
+      } else if (discrete)
+      {
+        warning("Censored data cannot be considered as discrete data")
+      }
+    }
+    
+    # warning about absence of chisq
+    if (!missing(chisqbreaks) | !missing(meancount)) 
+    { 
+      warning("The chi-squared statistic is not calculated for fits using censored data")
+    }
+    
+    nbfit <- length(f)
+    
+    
+    if(is.null(fitnames))
+      fitnames <- paste(1:nbfit, sapply(f, function(x) x$method), 
+                        sapply(f, function(x) x$distname), sep="-")
+    
+    
+    aics <- sapply(f, function(x) x$aic)
+    names(aics) <- fitnames
+    bics <- sapply(f, function(x) x$bic)
+    names(bics) <- fitnames
+    
+    res <- c(aic=list(aics), bic=list(bics), nbfit=nbfit)
+    class(res) <- c("gofstat.fitdistcens", "fitdistcens")
+    res
+  }
 }
 
 
@@ -382,4 +448,18 @@ print.gofstat.fitdist <- function(x, ...)
     }
 	
 	invisible(x)
+}
+
+print.gofstat.fitdistcens <- function(x, ...)
+{
+  if (!inherits(x, "gofstat.fitdistcens"))
+    stop("Use only with 'gofstat.fitdistcens' objects")
+  
+  cat("\nGoodness-of-fit criteria\n")
+  mm <- rbind(AIC=x$aic, BIC=x$bic)
+  rownames(mm) <- c("Akaike's Information Criterion",
+                      "Bayesian Information Criterion")
+  print(mm)
+
+  invisible(x)
 }

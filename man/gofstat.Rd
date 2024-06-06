@@ -1,42 +1,48 @@
 \name{gofstat}
 \alias{gofstat}
 \alias{print.gofstat.fitdist}
+\alias{print.gofstat.fitdistcens}
 \title{ Goodness-of-fit statistics}
 
 \description{
  Computes goodness-of-fit statistics for parametric distributions fitted to a same  
- non-censored data set.  
+ censored or non-censored data set.  
 }
 
 \usage{
 gofstat(f, chisqbreaks, meancount, discrete, fitnames=NULL) 
 	
 \method{print}{gofstat.fitdist}(x, \dots)
+\method{print}{gofstat.fitdistcens}(x, \dots)
 	
 }
 
 \arguments{
-\item{f}{ An object of class \code{"fitdist"}, output of the function \code{fitdist}, or
-	a list of \code{"fitdist"} objects.}
-\item{chisqbreaks}{ A numeric vector defining the breaks of the cells used to compute the chi-squared
+\item{f}{ An object of class \code{"fitdist"} (or \code{"fitdistcens"} ), 
+output of the function \code{fitdist()} (resp. \code{"fitdist()"}), or
+	a list of \code{"fitdist"} objects, or a list of \code{"fitdistcens"} objects.}
+\item{chisqbreaks}{Only usable for non censored data, a numeric vector defining the breaks of the cells used to compute the chi-squared
     statistic. If omitted, these breaks are automatically computed from the data 
     in order to reach roughly the same number of observations per cell, roughly equal to the argument
     \code{meancount}, or sligthly more if there are some ties. }
-\item{meancount}{ The mean number of observations per cell expected for the definition of the breaks 
+\item{meancount}{Only usable for non censored data, the mean number of observations per cell expected for the definition of the breaks 
     of the cells used to compute the chi-squared statistic. This argument will not be taken into 
     account if the breaks are directly defined in the argument \code{chisqbreaks}. If \code{chisqbreaks} 
     and \code{meancount} are both omitted, \code{meancount} is fixed in order to obtain roughly 
     \eqn{(4n)^{2/5}} cells with \eqn{n} the length of the dataset. }
 \item{discrete}{If \code{TRUE}, only the Chi-squared statistic and information criteria are computed.
-	If missing, \code{discrete} is passed from the first object of class \code{"fitdist"} of the list \code{f}.}
+	If missing, \code{discrete} is passed from the first object of class \code{"fitdist"} of the list \code{f}.
+	For censored data this argument is ignored, as censored data are considered continuous.}
 \item{fitnames}{A vector defining the names of the fits.}
-\item{x}{An object of class \code{"fitdist"}.  }
+\item{x}{An object of class \code{"gofstat.fitdist"} or \code{"gofstat.fitdistcens"}.  }
 \item{\dots}{Further arguments to be passed to generic functions.}
 }
 
 \details{
-     
-    Goodness-of-fit statistics are computed. The Chi-squared statistic is computed using cells defined 
+    For any type of data (censored or not), information criteria are calculated.
+    For non censored data, added Goodness-of-fit statistics are computed as described below. 
+    
+    The Chi-squared statistic is computed using cells defined 
     by the argument 
     \code{chisqbreaks} or cells automatically defined from data, in order 
     to reach roughly the same number of observations per cell, roughly equal to the argument
@@ -82,7 +88,7 @@ gofstat(f, chisqbreaks, meancount, discrete, fitnames=NULL)
 }
 
 \value{ 
-    \code{gof.stat} returns an object of class \code{"gofstat.fitdist"} with following components,
+    \code{gofstat()} returns an object of class \code{"gofstat.fitdist"} or \code{"gofstat.fitdistcens"} with following components or a sublist of them (only aic, bic and nbfit for censored data) ,
     \item{ chisq }{ a named vector with the Chi-squared statistics or \code{NULL} if not computed}
     \item{ chisqbreaks }{ common breaks used to define cells in the Chi-squared statistic }
     \item{ chisqpvalue }{ a named vector with the p-values of the Chi-squared statistic 
@@ -170,7 +176,7 @@ plot(fitnb)
 
 gofstat(list(fitp, fitnb),fitnames = c("Poisson","negbin"))
 
-# (3) Use of Chi-squared results in addition to
+# (3) Get Chi-squared results in addition to
 #     recommended statistics for continuous distributions
 #
 
@@ -178,11 +184,43 @@ set.seed(1234)
 x4 <- rweibull(n=1000,shape=2,scale=1)
 # fit of the good distribution
 f4 <- fitdist(x4,"weibull")
+plot(f4)
 
 # fit of a bad distribution
 f4b <- fitdist(x4,"cauchy")
+plot(f4b)
 
-gofstat(list(f4,f4b),fitnames=c("Weibull", "Cauchy"))
+(g <- gofstat(list(f4,f4b),fitnames=c("Weibull", "Cauchy")))
+g$chisq
+g$chisqdf
+g$chisqpvalue
+g$chisqtable
+
+# and by defining the breaks
+(g <- gofstat(list(f4,f4b), 
+chisqbreaks = seq(from = min(x4), to = max(x4), length.out = 10), fitnames=c("Weibull", "Cauchy")))
+g$chisq
+g$chisqdf
+g$chisqpvalue
+g$chisqtable
+
+# (4) fit of two distributions on acute toxicity values 
+# of fluazinam (in decimal logarithm) for
+# macroinvertebrates and zooplancton
+# and comparison of goodness-of-fit statistics
+#
+
+data(fluazinam)
+log10EC50 <-log10(fluazinam)
+(fln <- fitdistcens(log10EC50,"norm"))
+plot(fln)
+gofstat(fln)
+(fll <- fitdistcens(log10EC50,"logis"))
+plot(fll)
+gofstat(fll)
+
+gofstat(list(fll, fln), fitnames = c("loglogistic", "lognormal"))
+
 
 }
 \keyword{ distribution }
