@@ -26,20 +26,24 @@
 22. [x] close following open issues 2, 21, 23, 25 appropriately
 23. [x] improve Cullen-Frey graph following <https://github.com/lbbe-software/fitdistrplus/issues/24>
 24. [x] manage differential graphical parameters in `plotdist` see <https://github.com/lbbe-software/fitdistrplus/issues/27>, link FAQ 5.2
-25. [ ] make a `gofstat` for `fitdistcens` objects *MLDM*
-26. [ ] make introduction for vignette `starting values` and update layout, update README on `github.io` *CD*
-27. [ ] update `mledist.Rd` with new starting value list (all distribution in `actuar` except phase-type), link with vignette *CD*
-28. [ ] check that all base R distribution have starting values *CD*
-29. [ ] add defensive programming for infinite / NaN / NA values for `fitdist` objects *MLDM*
-30. [ ] add defensive programming for NaN values for `fitdistcens` objects, convert `Inf` to `NA` (raise error for inconsistent values), raise error for double `NA` *MLDM*
-
+25. [ ] make a `gofstat` for `fitdistcens` objects *MLDM* et *CD* : demander à AS s'il est préférable de faire une nouvelle fonction générique ou de faire manuellement `gofstat.fitdistcens`
+26. [X] make introduction for vignette `starting values` and update layout, update README on `github.io` *CD*
+27. [X] update `mledist.Rd` with new starting value list (all distribution in `actuar` except phase-type), link with vignette *CD*
+28. [X] check that all base R distribution have starting values *CD*
+29. [ ] add defensive programming for infinite / NaN / NA values for `fitdist` objects *MLDM* et *CD*
+30. [ ] add defensive programming for NaN values for `fitdistcens` objects, convert `Inf` to `NA` (raise error for inconsistent values), raise error for double `NA` *MLDM* et *CD* 
+31. [ ] add a link to `Surv2fitdistcens` in `fitdistcens`, add `Surv2fitdistcens` when infinite values
+32. [ ] check link of `Surv2fitdistcens` in the FAQ
+33. [ ] add exploratory tools for assessing the role of covariates and for choosing the appropriate distribution in modelling (survival parametric model), e.g. dose-response
+34. [ ] allow the computation of vcov for MME, remove NOTE when checking the package *CD*
 
 # Of less priority
 
-1.  [ ] add the Wasserstein-Kantorovich distance in mge and gofstat (see Del Barrio 1999 and 2000 and Gibbs 2002)
+1.  [ ] add the Wasserstein-Kantorovich distance in `mge` and `gofstat` (see Del Barrio 1999 and 2000 and Gibbs 2002)
 2.  [ ] offer a function to do prior elicitation from quantiles (look before at package expert)
 3.  [ ] multivariate distribution fitting, in particular copula fitting
 4.  [ ] build a function to fit a same distribution to a variable (coded on one column) on different subsets defined by a factor (coded on another column) : tools for exploration before modeling the effect of the factor on distribution parameters (dans un autre package ? est-ce déjà fait ailleurs?) gfitdistrplus : a new package to build
-5.  [ ] bibliométrie de l'utilisation du package dans les publis récentes (données censurées, graphes d'ajustement….) depuis la soumission JSS
+5.  [ ] bibliométrie de l'utilisation du package dans les publis récentes (données censurées, graphes d'ajustement.) depuis la soumission JSS
+
 
 # Longer term
