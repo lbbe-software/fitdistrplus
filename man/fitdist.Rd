@@ -167,6 +167,9 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge", "mse"),
     \code{plot.fitdist}, \code{cdfcomp}, \code{denscomp}, \code{ppcomp}, 
     \code{qqcomp}, \code{gofstat} and \code{descdist} (developments planned in the future).
 
+    Once the parameter(s) is(are) estimated, \code{\link{gofstat}} allows to compute 
+    goodness-of-fit statistics.
+
     NB: if your data values are particularly small or large, a scaling may be needed 
     before the optimization process. See example (14) in this man page and 
     examples (14,15) in the test file of the package.

@@ -101,6 +101,9 @@ otherwise only a sample subset is returned.}
     It is not yet possible to take into account weighths in functions plotdistcens, 
     plot.fitdistcens and cdfcompcens 
     (developments planned in the future).
+    
+    Once the parameter(s) is(are) estimated, \code{\link{gofstat}} allows to compute 
+    goodness-of-fit statistics.
 
 }
 
@@ -166,10 +169,12 @@ otherwise only a sample subset is returned.}
 
 
 \seealso{ 
+    See \code{\link{Surv2fitdistcens}} to convert \code{Surv} outputs to a
+    data frame appropriate for \code{fitdistcens}.
+    See \code{\link{plotdistcens}}, \code{\link{optim}} and 
+    \code{\link{quantile.fitdistcens}} for generic functions.
+    See \code{\link{gofstat}} for goodness-of-fit statistics.
     See \code{\link{fitdistrplus}} for an overview of the package.
-    \code{\link{plotdistcens}}, \code{\link{optim}}, \code{\link{mledist}}, 
-    \code{\link{fitdist}} and \code{\link{quantile.fitdistcens}} for another generic function to calculate 
-    quantiles from the fitted distribution.
 }
 
 \references{ 
