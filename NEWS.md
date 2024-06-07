@@ -1,21 +1,28 @@
 # fitdistrplus 1.1-12
 
+NEW FEATURES
+
+- the `fitdistrplus` git repo now belongs to the `lbbe-software` organization
+- modify or add a initial value for all univariate distributions provided in `actuar`.
+- create a new vignette regarding default initial values.
+- add of generic functions `AIC()` and `BIC()` for `fitdist` and `fitdistcens` objects.
+- make `gofstat()` work with `fitdistcens` objects (giving only AIC and BIC values).
+- add calculation of the hessian using `optimHess` within `fitdist` when it is not given by `optim`.
+- compute the asymptotic covariance matrix with MME.
+
 BUG FIX
 
 - when a `scale` parameter was fixed, the `startarg` function also set a `rate` parameter. this leads to an error when calling the density.
-- add further sanity check in `plotdistcens`: the following code `plotdistcens(data.frame(right=smokedfish$right, left=smokedfish$left))` raised an error via `npsurv()`, thanks to R Pouillot
+- add further sanity check in `plotdistcens`: the following code `plotdistcens(data.frame(right=smokedfish$right, left=smokedfish$left))` raised an error via `npsurv()`, thanks to R. Pouillot
 - bug fixed in using `breaks` in `plotdist`
 - solve the extremely long time taking by `lines` in `descdist`
 
 
+# fitdistrplus 1.1-11
+
 NEW FEATURES
 
-- modify or add a initial value for all univariate distributions provided in `actuar`.
-- the `fitdistrplus` git repo now belongs to the `lbbe-software` organization
-- add of generic functions AIC() and BIC() for fitdist and fitdistcens objects.
-- make gofstat() work with fitdistcens objects (giving only AIC and BIC values).
-
-# fitdistrplus 1.1-11
+- add a `print` argument in the `descdist` function to allow to only plot the skewness-kurtosis graph, without printing the computed parameters
 
 BUG FIX
 
@@ -23,10 +30,6 @@ BUG FIX
 - the use of some deprecated BibTeX entries is updated
 - bug fixed in drawing CI lines in `CIcdfcplot` when `ggplot2` is called
 - bug fixed in drawing horizontal lines in `cdfcompcens`
-
-NEW FEATURES
-
-- add a `print` argument in the `descdist` function to allow to only plot the skewness-kurtosis graph, without printing the computed parameters
 
 # fitdistrplus 1.1-8
 

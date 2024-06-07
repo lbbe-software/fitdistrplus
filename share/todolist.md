@@ -26,14 +26,14 @@
 22. [x] close following open issues 2, 21, 23, 25 appropriately
 23. [x] improve Cullen-Frey graph following <https://github.com/lbbe-software/fitdistrplus/issues/24>
 24. [x] manage differential graphical parameters in `plotdist` see <https://github.com/lbbe-software/fitdistrplus/issues/27>, link FAQ 5.2
-25. [ ] make a `gofstat` for `fitdistcens` objects *MLDM* et *CD* : demander à AS s'il est préférable de faire une nouvelle fonction générique ou de faire manuellement `gofstat.fitdistcens`
-26. [X] make introduction for vignette `starting values` and update layout, update README on `github.io` *CD*
-27. [X] update `mledist.Rd` with new starting value list (all distribution in `actuar` except phase-type), link with vignette *CD*
-28. [X] check that all base R distribution have starting values *CD*
+25. [x] make a `gofstat` for `fitdistcens` objects *MLDM* et *CD* : create `gofstat.fitdistcens`
+26. [x] make introduction for vignette `starting values` and update layout, update README on `github.io` *CD*
+27. [x] update `mledist.Rd` with new starting value list (all distribution in `actuar` except phase-type), link with vignette *CD*
+28. [x] check that all base R distribution have starting values *CD*
 29. [ ] add defensive programming for infinite / NaN / NA values for `fitdist` objects *MLDM* et *CD*
 30. [ ] add defensive programming for NaN values for `fitdistcens` objects, convert `Inf` to `NA` (raise error for inconsistent values), raise error for double `NA` *MLDM* et *CD* 
-31. [ ] add a link to `Surv2fitdistcens` in `fitdistcens`, add `Surv2fitdistcens` when infinite values
-32. [ ] check link of `Surv2fitdistcens` in the FAQ
+31. [x] add a link to `Surv2fitdistcens` in `fitdistcens`, add `Surv2fitdistcens` when infinite values
+32. [x] check link of `Surv2fitdistcens` in the FAQ
 33. [ ] add exploratory tools for assessing the role of covariates and for choosing the appropriate distribution in modelling (survival parametric model), e.g. dose-response
 34. [ ] allow the computation of vcov for MME, remove NOTE when checking the package *CD*
 

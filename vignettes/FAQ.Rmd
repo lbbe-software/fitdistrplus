@@ -1483,9 +1483,9 @@ cdfcomp(f, xlogscale = TRUE, main = "Species Sensitivty Distribution",
 
 Censored data must be rpresented in the package by a dataframe of two columns respectively named left and right, describing each observed value as an interval. The left column contains either `NA` for left censored observations, the left bound of the interval for interval censored observations, or the observed value for non-censored observations. The right column contains either `NA` for right censored observations, the right bound of the interval for interval censored observations, or the observed value for non-censored observations. This type of representation
 corresponds to the coding names `"interval2"` in function `Surv` of the package 
-`survival`. There is no other way to represent censored data in `fitdistrplus` but the function Surv2fitdistcens() can be used to help you
-to format data for use in fitdistcens() from one of the format
-used in the survival package (see the help page of Surv2fitdistcens()). You have a toy example below.
+`survival`. There is no other way to represent censored data in `fitdistrplus` but the function `Surv2fitdistcens()` can be used to help you
+to format data for use in `fitdistcens()` from one of the format
+used in the survival package (see the help page of `Surv2fitdistcens()`). You have a toy example below.
 ```{r}
 dtoy <- data.frame(left = c(NA, 2, 4, 6, 9.7, 10), right = c(1, 3, 7, 8, 9.7, NA))
 dtoy
