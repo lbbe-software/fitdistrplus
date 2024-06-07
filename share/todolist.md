@@ -13,7 +13,7 @@
 9.  [ ] biblio sur critères d'information (AICc dans le cas général ou autres critères) pour voir si on peut élargir les stat données
 10. [ ] faire un script automatisé pour analyser les résumés et les revues des articles citant fitdistrplus
 11. [x] add calculation of the hessian using `optimHess` within `fitdist` or `mledist` in cases where it is not given by optim *CD*
-12. [ ] better compute the hessian matrix for MLE (add one step after the final estimate to compute correctly hessian, see example for gamma distribution)
+12. [x] better compute the hessian matrix for MLE (add one step after the final estimate to compute correctly hessian, see example for gamma distribution)
 13. [ ] think about a hexa-logo (histogram with fitted densities on a simulated example from two asymetric distribution (lnorm, weibull) without axis)
 14. [ ] add a cheatsheet (refcard) for fitdistrplus (possibly in pptx?), think about sections, update the website github.io for the Reference page
 15. [ ] make a flow chart on how functions are interrelated (see techdoc/)
