@@ -75,7 +75,7 @@
       <img src="" class="logo" alt=""><h1>Frequently Asked Questions</h1>
                         <h4 data-toc-skip class="author">Marie Laure Delignette Muller, Christophe Dutang</h4>
             
-            <h4 data-toc-skip class="date">2024-06-06</h4>
+            <h4 data-toc-skip class="date">2024-06-07</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/lbbe-software/fitdistrplus/blob/HEAD/vignettes/FAQ.Rmd" class="external-link"><code>vignettes/FAQ.Rmd</code></a></small>
       <div class="d-none name"><code>FAQ.Rmd</code></div>
@@ -1809,9 +1809,9 @@ Species Sensitivity Distributions (SSD) in ecotoxicology.</p>
 </h3>
 <p>Censored data must be rpresented in the package by a dataframe of two columns respectively named left and right, describing each observed value as an interval. The left column contains either <code>NA</code> for left censored observations, the left bound of the interval for interval censored observations, or the observed value for non-censored observations. The right column contains either <code>NA</code> for right censored observations, the right bound of the interval for interval censored observations, or the observed value for non-censored observations. This type of representation
 corresponds to the coding names <code>"interval2"</code> in function <code>Surv</code> of the package
-<code>survival</code>. There is no other way to represent censored data in <code>fitdistrplus</code> but the function Surv2fitdistcens() can be used to help you
-to format data for use in fitdistcens() from one of the format
-used in the survival package (see the help page of Surv2fitdistcens()). You have a toy example below.</p>
+<code>survival</code>. There is no other way to represent censored data in <code>fitdistrplus</code> but the function <code><a href="../reference/Surv2fitdistcens.html">Surv2fitdistcens()</a></code> can be used to help you
+to format data for use in <code><a href="../reference/fitdistcens.html">fitdistcens()</a></code> from one of the format
+used in the survival package (see the help page of <code><a href="../reference/Surv2fitdistcens.html">Surv2fitdistcens()</a></code>). You have a toy example below.</p>
 <div class="sourceCode" id="cb205"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dtoy</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>left <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">6</span>, <span class="fl">9.7</span>, <span class="fl">10</span><span class="op">)</span>, right <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">7</span>, <span class="fl">8</span>, <span class="fl">9.7</span>, <span class="cn">NA</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">dtoy</span></span></code></pre></div>

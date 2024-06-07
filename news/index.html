@@ -55,29 +55,32 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1-12" id="fitdistrplus-11-12">fitdistrplus 1.1-12<a class="anchor" aria-label="anchor" href="#fitdistrplus-11-12"></a></h2>
-<p>BUG FIX</p>
+<p>NEW FEATURES</p>
+<ul><li>the <code>fitdistrplus</code> git repo now belongs to the <code>lbbe-software</code> organization</li>
+<li>modify or add a initial value for all univariate distributions provided in <code>actuar</code>.</li>
+<li>create a new vignette regarding default initial values.</li>
+<li>add of generic functions <code><a href="https://rdrr.io/r/stats/AIC.html" class="external-link">AIC()</a></code> and <code><a href="https://rdrr.io/r/stats/AIC.html" class="external-link">BIC()</a></code> for <code>fitdist</code> and <code>fitdistcens</code> objects.</li>
+<li>make <code><a href="../reference/gofstat.html">gofstat()</a></code> work with <code>fitdistcens</code> objects (giving only AIC and BIC values).</li>
+<li>add calculation of the hessian using <code>optimHess</code> within <code>fitdist</code> when it is not given by <code>optim</code>.</li>
+<li>compute the asymptotic covariance matrix with MME.</li>
+</ul><p>BUG FIX</p>
 <ul><li>when a <code>scale</code> parameter was fixed, the <code>startarg</code> function also set a <code>rate</code> parameter. this leads to an error when calling the density.</li>
-<li>add further sanity check in <code>plotdistcens</code>: the following code <code>plotdistcens(data.frame(right=smokedfish$right, left=smokedfish$left))</code> raised an error via <code>npsurv()</code>, thanks to R Pouillot</li>
+<li>add further sanity check in <code>plotdistcens</code>: the following code <code>plotdistcens(data.frame(right=smokedfish$right, left=smokedfish$left))</code> raised an error via <code>npsurv()</code>, thanks to R. Pouillot</li>
 <li>bug fixed in using <code>breaks</code> in <code>plotdist</code>
 </li>
 <li>solve the extremely long time taking by <code>lines</code> in <code>descdist</code>
 </li>
-</ul><p>NEW FEATURES</p>
-<ul><li>modify or add a initial value for all univariate distributions provided in <code>actuar</code>.</li>
-<li>the <code>fitdistrplus</code> git repo now belongs to the <code>lbbe-software</code> organization</li>
-<li>add of generic functions AIC() and BIC() for fitdist and fitdistcens objects.</li>
-<li>make gofstat() work with fitdistcens objects (giving only AIC and BIC values).</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1-11" id="fitdistrplus-11-11">fitdistrplus 1.1-11<a class="anchor" aria-label="anchor" href="#fitdistrplus-11-11"></a></h2><p class="text-muted">CRAN release: 2023-04-25</p>
-<p>BUG FIX</p>
+<p>NEW FEATURES</p>
+<ul><li>add a <code>print</code> argument in the <code>descdist</code> function to allow to only plot the skewness-kurtosis graph, without printing the computed parameters</li>
+</ul><p>BUG FIX</p>
 <ul><li>the use of some deprecated <code>ggplot2</code> functions is updated</li>
 <li>the use of some deprecated BibTeX entries is updated</li>
 <li>bug fixed in drawing CI lines in <code>CIcdfcplot</code> when <code>ggplot2</code> is called</li>
 <li>bug fixed in drawing horizontal lines in <code>cdfcompcens</code>
 </li>
-</ul><p>NEW FEATURES</p>
-<ul><li>add a <code>print</code> argument in the <code>descdist</code> function to allow to only plot the skewness-kurtosis graph, without printing the computed parameters</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1-8" id="fitdistrplus-11-8">fitdistrplus 1.1-8<a class="anchor" aria-label="anchor" href="#fitdistrplus-11-8"></a></h2><p class="text-muted">CRAN release: 2022-03-10</p>
