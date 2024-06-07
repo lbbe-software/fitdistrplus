@@ -24,42 +24,43 @@
 ### 
 
 gofstat <- function (f, chisqbreaks, meancount, discrete, 
-	fitnames=NULL) 
+                     fitnames=NULL) 
 {
   # Check of the first argument
-	if(inherits(f, "fitdist"))
-    {
-	      type <- "fitdist"
-        f <- list(f)
-	  }else if(inherits(f, "fitdistcens"))
-	  {
-	    type <- "fitdistcens"
-	    f <- list(f)
-	  }else if(length(f) == 1 & !inherits(f, "fitdist") & !inherits(f, "fitdistcens"))
-    {
-		  stop("argument f must a 'fitdist' or 'fitdistcens' object or a list of 'fitdist' or 'fitdistcens' objects.")
-    }else if(!is.list(f))
-    {
-        stop("argument f must be a list of 'fitdist' or 'fitdistcens' objects")
-    }else if (inherits(f[[1]], "fitdist"))
-    {
-          type <- "fitdist"  
-        if(any(sapply(f, function(x) !inherits(x, "fitdist"))))        
-          stop("argument f must be a list of 'fitdist' or 'fitdistcens' objects") 
-    } else if (inherits(f[[1]], "fitdistcens"))
-    {
-        type <- "fitdistcens"  
-        if(any(sapply(f, function(x) !inherits(x, "fitdistcens"))))        
-          stop("argument f must be a list of 'fitdist' or 'fitdistcens' objects") 
-    } else
-    {
-      stop("argument f must a 'fitdist' or 'fitdistcens' object or a list of 'fitdist' or 'fitdistcens' objects.")
-    }
-
+  if(inherits(f, "fitdist"))
+  {
+    type <- "fitdist"
+    f <- list(f)
+  }else if(inherits(f, "fitdistcens"))
+  {
+    type <- "fitdistcens"
+    f <- list(f)
+  }else if(length(f) == 1 & !inherits(f, "fitdist") & !inherits(f, "fitdistcens"))
+  {
+    stop("argument f must a 'fitdist' or 'fitdistcens' object or a list of 'fitdist' or 'fitdistcens' objects.")
+  }else if(!is.list(f))
+  {
+    stop("argument f must be a list of 'fitdist' or 'fitdistcens' objects")
+  }else if (inherits(f[[1]], "fitdist"))
+  {
+    type <- "fitdist"  
+    if(any(sapply(f, function(x) !inherits(x, "fitdist"))))        
+      stop("argument f must be a list of 'fitdist' or 'fitdistcens' objects") 
+  } else if (inherits(f[[1]], "fitdistcens"))
+  {
+    type <- "fitdistcens"  
+    if(any(sapply(f, function(x) !inherits(x, "fitdistcens"))))        
+      stop("argument f must be a list of 'fitdist' or 'fitdistcens' objects") 
+  } else
+  {
+    stop("argument f must a 'fitdist' or 'fitdistcens' object or a list of 'fitdist' or 'fitdistcens' objects.")
+  }
+  
   # In the future developments, it will be necessary to check that all the fits share the same weights
   if(!is.null(f[[1]]$weights))
     stop("gofstat is not yet available when using weights")
   
+  ############# for uncensored data ########################
   if (type == "fitdist") 
   {
     odata <- f[[1]]$data
@@ -88,14 +89,17 @@ gofstat <- function (f, chisqbreaks, meancount, discrete,
       stop("wrong argument 'discrete'.")
     
     #define chisqbreaks if not defined
-    if (missing(chisqbreaks)) { 
+    if (missing(chisqbreaks)) 
+    { 
       if (missing(meancount))
         meancount <- round( n / ((4*n)^(2/5)) )
-      if (length(sdata)>ceiling(1.5*meancount)) {
+      if (length(sdata)>ceiling(1.5*meancount)) 
+      {
         limit <- sdata[meancount]
         sdata <- sdata[sdata>limit]
         chisqbreaks <- limit
-      }else {
+      }else 
+      {
         warnings("The sample is too small to automatically define chisqbreaks")
         chisq <- NULL
         chisqbreaks <- NULL
@@ -104,7 +108,8 @@ gofstat <- function (f, chisqbreaks, meancount, discrete,
         chisqdf <- NULL
         
       }
-      while (length(sdata)>ceiling(1.5*meancount)) {
+      while (length(sdata)>ceiling(1.5*meancount)) 
+      {
         limit <- sdata[meancount]
         sdata <- sdata[sdata>limit]
         chisqbreaks <- c(chisqbreaks,limit)
@@ -114,12 +119,11 @@ gofstat <- function (f, chisqbreaks, meancount, discrete,
     
     nbfit <- length(f)
     
-    
     if(is.null(fitnames))
       fitnames <- paste(1:nbfit, sapply(f, function(x) x$method), 
                         sapply(f, function(x) x$distname), sep="-")
-    
-    
+    else
+      fitnames <- rep(fitnames, length.out=nbfit)
     
     Chi2 <- computegofstatChi2(sdata, n, distname, pdistname, estimate, fix.arg, 
                                chisqbreaks)
@@ -198,7 +202,7 @@ gofstat <- function (f, chisqbreaks, meancount, discrete,
     ############# for censored data ########################
   {
     censdata <- f[[1]]$censdata
-
+    
     verif.ftidata <- function(fti)
     {
       if (any(!identical(fti$censdata, censdata)))
@@ -206,7 +210,6 @@ gofstat <- function (f, chisqbreaks, meancount, discrete,
       invisible()
     }
     lapply(f, verif.ftidata)	
-    
     
     # check discrete 
     if(!missing(discrete))
@@ -228,11 +231,11 @@ gofstat <- function (f, chisqbreaks, meancount, discrete,
     
     nbfit <- length(f)
     
-    
     if(is.null(fitnames))
       fitnames <- paste(1:nbfit, sapply(f, function(x) x$method), 
                         sapply(f, function(x) x$distname), sep="-")
-    
+    else
+      fitnames <- rep(fitnames, length.out=nbfit)
     
     aics <- sapply(f, function(x) x$aic)
     names(aics) <- fitnames
@@ -249,98 +252,99 @@ gofstat <- function (f, chisqbreaks, meancount, discrete,
 #----------------------------------------------------------------------
 #KS, CvM, AD statistics : only for continuous distributions
 computegofstatKSCvMAD <- function(sdata, n, distname, pdistname, estimate, 
-	fix.arg, method)
+                                  fix.arg, method)
 {
-	
-	obspu <- seq(1,n)/n
-    obspl <- seq(0,n-1)/n
-    theop <- do.call(pdistname, c(list(sdata), as.list(estimate), fix.arg))
-	
-	# Kolmogorov-Smirnov statistic
-	ks <- max(pmax(abs(theop-obspu), abs(theop-obspl)))
-	Dmod <- ks*(sqrt(n)+0.12+0.11/sqrt(n))
-	# Kolmogorov-Smirnov test
-	if (n>=30)
-		kstest <- ifelse(Dmod>1.358,"rejected","not rejected")
-	else
-		kstest <- "not computed"
-        
-	# Anderson-Darling statistic
-	ad <- - n - mean( (2 * 1:n - 1) * (log(theop) + log(1 - rev(theop))) ) 
-	
-		# ad <-  -n-sum((2*(1:n)-1)*log(theop) + (2*n+1-2*(1:n))*log(1-theop))/n 
-
-	# Anderson-Darling test        
-	if (is.null(fix.arg) & method == "mle")
-	{
-		# the following test does not correspond to MLE estimate but to unbiased 
-		# estimate of the variance
-		#if ((distname == "norm" | distname == "lnorm") & n>=5) {
-		#  a2mod <- ad*(1+0.75/n+2.25/n^2)
-		#  adtest <- ifelse(a2mod>0.752,"rejected","not rejected")
-		#} 
-		#else
-		if (distname == "exp" & n>=5) {
-			a2mod <- ad*(1+0.6/n)
-			adtest <- ifelse(a2mod>1.321, "rejected", "not rejected")
-		}else
-		if (distname == "gamma" & n>=5) {
-			m <- as.list(estimate)$shape
-			interp <- approxfun(c(1,2,3,4,5,6,8,10,12,15,20),
-								c(0.786,0.768,0.762,0.759,0.758,0.757,0.755,0.754,0.754,0.754,0.753),
-								yright=0.752)
-			adtest <- ifelse(ad>interp(m), "rejected", "not rejected")
-		}else
-		if (distname == "weibull" & n>=5) {
-			a2mod <- ad*(1+0.2/sqrt(n))
-			adtest <- ifelse(a2mod>0.757, "rejected", "not rejected")
-		}else
-		if (distname == "logis" & n>=5) {
-		   a2mod <- ad*(1+0.25/n)
-		   adtest <- ifelse(a2mod>0.66,"rejected","not rejected")
-		}else adtest <- "not computed"
-	}  else # if (is.null(fix.arg)...)
-		adtest <- "not computed"
-	
-	# Cramer-von Mises statistic
-	cvm <- 1/(12*n) + sum( ( theop - (2 * 1:n - 1)/(2 * n) )^2 )
-
-	# Cramer-von Mises test
-	if (is.null(fix.arg) & method == "mle")
-	{
-		# the following test does not correspond to MLE estimate but to unbiased 
-		# estimate of the variance
-		# if ((distname == "norm" | distname == "lnorm") & n>=5) {
-		#  w2mod <- cvm*(1+0.5/n)
-		#  cvmtest <- ifelse(w2mod>0.126,"rejected","not rejected")
-		# } 
-		# else
-		if (distname == "exp" & n>=5) {
-			w2mod <- cvm*(1+0.16/n)
-			cvmtest <- ifelse(w2mod>0.222,"rejected","not rejected")
-		}else
-		if (distname == "gamma" & n>=5) {
-			m <- as.list(estimate)$shape
-			interp <- approxfun(c(1,2,3,4,5,6,8,10,12,15,20),
-								c(0.136,0.131,0.129,0.128,0.128,0.128,0.127,0.127,0.127,0.127,0.126),
-								yright=0.126)
-			cvmtest <- ifelse(cvm>interp(m),"rejected","not rejected")
-		}else
-		if (distname == "weibull" & n>=5) {
-			w2mod <- cvm*(1+0.2/sqrt(n))
-			cvmtest <- ifelse(w2mod>0.124,"rejected","not rejected")
-		}else
-		if (distname == "logis" & n>=5) {
-		    w2mod <- (n*cvm - 0.08)/(n - 1)
-		    cvmtest <- ifelse(w2mod>0.098,"rejected","not rejected")
-		}else cvmtest <- "not computed"
-	} else # if (is.null(fix.arg))
-	 cvmtest <- "not computed"
-	
-	if (length(table(sdata)) != length(sdata))
-		warnings("Kolmogorov-Smirnov, Cramer-von Mises and Anderson-Darling statistics may not be correct with ties")
-
-	list(cvm = cvm, cvmtest = cvmtest, ad = ad,adtest = adtest, ks = ks, kstest=kstest)
+  
+  obspu <- seq(1,n)/n
+  obspl <- seq(0,n-1)/n
+  theop <- do.call(pdistname, c(list(sdata), as.list(estimate), fix.arg))
+  
+  # Kolmogorov-Smirnov statistic
+  ks <- max(pmax(abs(theop-obspu), abs(theop-obspl)))
+  Dmod <- ks*(sqrt(n)+0.12+0.11/sqrt(n))
+  # Kolmogorov-Smirnov test
+  if (n>=30)
+    kstest <- ifelse(Dmod>1.358,"rejected","not rejected")
+  else
+    kstest <- "not computed"
+  
+  # Anderson-Darling statistic
+  ad <- - n - mean( (2 * 1:n - 1) * (log(theop) + log(1 - rev(theop))) ) 
+  # ad <-  -n-sum((2*(1:n)-1)*log(theop) + (2*n+1-2*(1:n))*log(1-theop))/n 
+  
+  # Anderson-Darling test        
+  if (is.null(fix.arg) & method == "mle")
+  {
+    # the following test does not correspond to MLE estimate but to unbiased 
+    # estimate of the variance
+    #if ((distname == "norm" | distname == "lnorm") & n>=5) {
+    #  a2mod <- ad*(1+0.75/n+2.25/n^2)
+    #  adtest <- ifelse(a2mod>0.752,"rejected","not rejected")
+    #} 
+    #else
+    if (distname == "exp" & n>=5) 
+    {
+      a2mod <- ad*(1+0.6/n)
+      adtest <- ifelse(a2mod>1.321, "rejected", "not rejected")
+    }else if (distname == "gamma" & n>=5) 
+    {
+      m <- as.list(estimate)$shape
+      interp <- approxfun(c(1,2,3,4,5,6,8,10,12,15,20),
+                          c(0.786,0.768,0.762,0.759,0.758,0.757,0.755,0.754,0.754,0.754,0.753),
+                          yright=0.752)
+      adtest <- ifelse(ad>interp(m), "rejected", "not rejected")
+    }else if (distname == "weibull" & n>=5) 
+    {
+      a2mod <- ad*(1+0.2/sqrt(n))
+      adtest <- ifelse(a2mod>0.757, "rejected", "not rejected")
+    }else if (distname == "logis" & n>=5) 
+    {
+      a2mod <- ad*(1+0.25/n)
+      adtest <- ifelse(a2mod>0.66,"rejected","not rejected")
+    }else adtest <- "not computed"
+  }else # if (is.null(fix.arg)...)
+    adtest <- "not computed"
+  
+  # Cramer-von Mises statistic
+  cvm <- 1/(12*n) + sum( ( theop - (2 * 1:n - 1)/(2 * n) )^2 )
+  
+  # Cramer-von Mises test
+  if (is.null(fix.arg) & method == "mle")
+  {
+    # the following test does not correspond to MLE estimate but to unbiased 
+    # estimate of the variance
+    # if ((distname == "norm" | distname == "lnorm") & n>=5) {
+    #  w2mod <- cvm*(1+0.5/n)
+    #  cvmtest <- ifelse(w2mod>0.126,"rejected","not rejected")
+    # } 
+    # else
+    if (distname == "exp" & n>=5) 
+    {
+      w2mod <- cvm*(1+0.16/n)
+      cvmtest <- ifelse(w2mod>0.222,"rejected","not rejected")
+    }else if (distname == "gamma" & n>=5) 
+    {
+      m <- as.list(estimate)$shape
+      interp <- approxfun(c(1,2,3,4,5,6,8,10,12,15,20),
+                          c(0.136,0.131,0.129,0.128,0.128,0.128,0.127,0.127,0.127,0.127,0.126),
+                          yright=0.126)
+      cvmtest <- ifelse(cvm>interp(m),"rejected","not rejected")
+    }else if (distname == "weibull" & n>=5) 
+    {
+      w2mod <- cvm*(1+0.2/sqrt(n))
+      cvmtest <- ifelse(w2mod>0.124,"rejected","not rejected")
+    }else if (distname == "logis" & n>=5) 
+    {
+      w2mod <- (n*cvm - 0.08)/(n - 1)
+      cvmtest <- ifelse(w2mod>0.098,"rejected","not rejected")
+    }else cvmtest <- "not computed"
+  } else # if (is.null(fix.arg))
+    cvmtest <- "not computed"
+  
+  if (length(table(sdata)) != length(sdata))
+    warnings("Kolmogorov-Smirnov, Cramer-von Mises and Anderson-Darling statistics may not be correct with ties")
+  
+  list(cvm = cvm, cvmtest = cvmtest, ad = ad,adtest = adtest, ks = ks, kstest=kstest)
 }
 
 
@@ -348,106 +352,103 @@ computegofstatKSCvMAD <- function(sdata, n, distname, pdistname, estimate,
 #chi-squared statistic : both for continuous and discrete distributions
 computegofstatChi2 <- function(sdata, n, distname, pdistname, estimate, fix.arg, chisqbreaks)
 {
-	# chi-squared statistic and pvalues
-	if (!is.null(chisqbreaks)) {
-		if(!is.numeric(chisqbreaks))
-			stop("chisqbreaks must be a numeric vector defining the cell boundaries")
-
-		nbreaks <- length(chisqbreaks)  
-		pbreaks <- do.call(pdistname, c(list(chisqbreaks), as.list(estimate), fix.arg))
-		Fobsbreaks <- ecdf(sdata)(chisqbreaks)
-		
-		Fobsunder <- c(0, Fobsbreaks[1:nbreaks-1]) 
-		punder <- c(0, pbreaks[1:nbreaks-1])
-		if (pbreaks[nbreaks]==1 & Fobsbreaks[nbreaks]==1) 
-		{
-			p <- pbreaks-punder
-			Fobs <- Fobsbreaks-Fobsunder
-		}else 
-		{
-			p <- c(pbreaks-punder, 1-pbreaks[nbreaks])
-			Fobs <- c(Fobsbreaks-Fobsunder, 1-Fobsbreaks[nbreaks])            
-		}
-		
-		obscounts <- round(Fobs*n)
-		theocounts <- p*n
-		
-		chisq <- sum(((obscounts-theocounts)^2)/theocounts)
-		chisqdf <- length(obscounts)-1-length(estimate)
-		
-		
-# replacing of the line below which causes an error message for chisqdf <=0
-#		chisqpvalue <- ifelse(chisqdf>0, pchisq(chisq, df=chisqdf, lower.tail=FALSE), NULL)
-		if (chisqdf>0)
-		{
-		  chisqpvalue <- pchisq(chisq, df=chisqdf, lower.tail=FALSE) 
+  # chi-squared statistic and pvalues
+  if (!is.null(chisqbreaks)) 
+  {
+    if(!is.numeric(chisqbreaks))
+      stop("chisqbreaks must be a numeric vector defining the cell boundaries")
+    
+    nbreaks <- length(chisqbreaks)  
+    pbreaks <- do.call(pdistname, c(list(chisqbreaks), as.list(estimate), fix.arg))
+    Fobsbreaks <- ecdf(sdata)(chisqbreaks)
+    
+    Fobsunder <- c(0, Fobsbreaks[1:nbreaks-1]) 
+    punder <- c(0, pbreaks[1:nbreaks-1])
+    if (pbreaks[nbreaks]==1 & Fobsbreaks[nbreaks]==1) 
+    {
+      p <- pbreaks-punder
+      Fobs <- Fobsbreaks-Fobsunder
+    }else 
+    {
+      p <- c(pbreaks-punder, 1-pbreaks[nbreaks])
+      Fobs <- c(Fobsbreaks-Fobsunder, 1-Fobsbreaks[nbreaks])            
+    }
+    
+    obscounts <- round(Fobs*n)
+    theocounts <- p*n
+    
+    chisq <- sum(((obscounts-theocounts)^2)/theocounts)
+    chisqdf <- length(obscounts)-1-length(estimate)
+    
+    # replacing of the line below which causes an error message for chisqdf <=0
+    #		chisqpvalue <- ifelse(chisqdf>0, pchisq(chisq, df=chisqdf, lower.tail=FALSE), NULL)
+    if (chisqdf>0)
+    {
+      chisqpvalue <- pchisq(chisq, df=chisqdf, lower.tail=FALSE) 
     } else
     {
       chisqpvalue <- NULL
     }
-		
-		chisqtable <- as.table(cbind(obscounts, theocounts))
-		for (i in 1:length(obscounts)-1)
-			rownames(chisqtable)[i] <- paste("<=", signif(chisqbreaks[i], digits=4))
-		rownames(chisqtable)[length(obscounts)] <- paste(">", signif(chisqbreaks[i], digits=4))
-		
-		return( list(chisq = chisq, chisqbreaks=chisqbreaks, chisqpvalue = chisqpvalue,
-					 chisqdf = chisqdf, chisqtable = chisqtable) )
-	}else
-		return(NULL)
+    
+    chisqtable <- as.table(cbind(obscounts, theocounts))
+    for (i in 1:length(obscounts)-1)
+      rownames(chisqtable)[i] <- paste("<=", signif(chisqbreaks[i], digits=4))
+    rownames(chisqtable)[length(obscounts)] <- paste(">", signif(chisqbreaks[i], digits=4))
+    
+    return( list(chisq = chisq, chisqbreaks=chisqbreaks, chisqpvalue = chisqpvalue,
+                 chisqdf = chisqdf, chisqtable = chisqtable) )
+  }else
+    return(NULL)
 }
 
 
 print.gofstat.fitdist <- function(x, ...)
 {
-    if (!inherits(x, "gofstat.fitdist"))
-		stop("Use only with 'gofstat.fitdist' objects")
-	
-	if (x$discrete) #discrete distribution
+  if (!inherits(x, "gofstat.fitdist"))
+    stop("Use only with 'gofstat.fitdist' objects")
+  
+  if (x$discrete) #discrete distribution
+  {
+    if(!is.null(x$chisq)) 
     {
-        if(!is.null(x$chisq)) 
-        {
-            cat("Chi-squared statistic: ",x$chisq,"\n")
-			cat("Degree of freedom of the Chi-squared distribution: ",x$chisqdf,"\n")
-			if (any(x$chisqdf <= 0))
-			{
-				cat("  The degree of freedom of the chi-squared distribution is less than 1  \n") 
-				cat("  The number of cells is insufficient to calculate the p-value.  \n") 
-			}else
-			{ 
-				cat("Chi-squared p-value: ",x$chisqpvalue,"\n")
-				if (any(x$chisqtable[,-1] < 5)) 
-					cat("   the p-value may be wrong with some theoretical counts < 5  \n")
-			}
-
-			cat("Chi-squared table:\n")
-			print(x$chisqtable)	
-
-			cat("\nGoodness-of-fit criteria\n")
-			mm <- rbind(AIC=x$aic, BIC=x$bic)
-			rownames(mm) <- c("Akaike's Information Criterion",
-							  "Bayesian Information Criterion")
-			print(mm)
-        }else 
-			cat("The sample is too small to automatically define cells for Chi-squared test \n")
-    }else # continuous distribution
-    { 
-			cat("Goodness-of-fit statistics\n")
-			mm <- rbind(KS=x$ks, CvM=x$cvm, AD=x$ad)
-			rownames(mm) <- c("Kolmogorov-Smirnov statistic", "Cramer-von Mises statistic",
-							  "Anderson-Darling statistic")
-			print(mm)
-
-			cat("\nGoodness-of-fit criteria\n")
-			mm <- rbind(AIC=x$aic, BIC=x$bic)
-			rownames(mm) <- c("Akaike's Information Criterion",
-							  "Bayesian Information Criterion")
-			print(mm)
-#		}
-
-    }
-	
-	invisible(x)
+      cat("Chi-squared statistic: ",x$chisq,"\n")
+      cat("Degree of freedom of the Chi-squared distribution: ",x$chisqdf,"\n")
+      if (any(x$chisqdf <= 0))
+      {
+        cat("  The degree of freedom of the chi-squared distribution is less than 1  \n") 
+        cat("  The number of cells is insufficient to calculate the p-value.  \n") 
+      }else
+      { 
+        cat("Chi-squared p-value: ",x$chisqpvalue,"\n")
+        if (any(x$chisqtable[,-1] < 5)) 
+          cat("   the p-value may be wrong with some theoretical counts < 5  \n")
+      }
+      
+      cat("Chi-squared table:\n")
+      print(x$chisqtable)	
+      
+      cat("\nGoodness-of-fit criteria\n")
+      mm <- rbind(AIC=x$aic, BIC=x$bic)
+      rownames(mm) <- c("Akaike's Information Criterion",
+                        "Bayesian Information Criterion")
+      print(mm)
+    }else 
+      cat("The sample is too small to automatically define cells for Chi-squared test \n")
+  }else # continuous distribution
+  { 
+    cat("Goodness-of-fit statistics\n")
+    mm <- rbind(KS=x$ks, CvM=x$cvm, AD=x$ad)
+    rownames(mm) <- c("Kolmogorov-Smirnov statistic", "Cramer-von Mises statistic",
+                      "Anderson-Darling statistic")
+    print(mm)
+    cat("\nGoodness-of-fit criteria\n")
+    mm <- rbind(AIC=x$aic, BIC=x$bic)
+    rownames(mm) <- c("Akaike's Information Criterion",
+                      "Bayesian Information Criterion")
+    print(mm)
+  }
+  
+  invisible(x)
 }
 
 print.gofstat.fitdistcens <- function(x, ...)
@@ -458,8 +459,8 @@ print.gofstat.fitdistcens <- function(x, ...)
   cat("\nGoodness-of-fit criteria\n")
   mm <- rbind(AIC=x$aic, BIC=x$bic)
   rownames(mm) <- c("Akaike's Information Criterion",
-                      "Bayesian Information Criterion")
+                    "Bayesian Information Criterion")
   print(mm)
-
+  
   invisible(x)
 }

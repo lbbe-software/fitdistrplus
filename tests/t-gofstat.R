@@ -74,3 +74,20 @@ f5a <- fitdist(x5a, "weibull")
 x5b <- rpois(n = 4, lambda = 1)
 f5b <- fitdist(x5b, "pois")
 (g5b <- gofstat(f5b))
+
+nsample <- 500
+nsample <- 10
+visualize <- FALSE # TRUE for manual tests with visualization of results
+set.seed(1234)
+
+# (6) censored dataset
+#
+data(fluazinam)
+log10EC50 <-log10(fluazinam)
+
+# call fitdistcens with a 'custom' optimization function
+fit.1 <- fitdistcens(log10EC50, "logis")
+fit.2 <- fitdistcens(log10EC50, "norm")
+
+gofstat(fit.1, fitnames = "logistic")
+gofstat(list(fit.1, fit.2), fitnames = c("logistic", "normal"))
