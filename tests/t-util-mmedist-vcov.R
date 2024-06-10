@@ -36,7 +36,7 @@ if(FALSE)
 #### Gamma example ####
 if(FALSE)
 {
-  
+  memp  <-  function(x, order) mean(x^order)
   
   #true value, see Ibragimov & Has'minskii (1981)
   J <- function(alpha, beta)

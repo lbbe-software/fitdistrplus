@@ -93,9 +93,10 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
         # Fitting by matching moments
         if (!(is.vector(data) & is.numeric(data) & length(data)>1))
             stop("data must be a numeric vector of length greater than 1")
-        if (distname == "norm") {
+        if (distname == "norm") 
+        {
             estimate <- c(mean=m, sd=sqrt(v))
-            mdistname <- function(order, mean, sd)
+            mnorm <- function(order, mean, sd)
             {
               if(order == 1)
                 return(mean)
@@ -113,7 +114,7 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
                 stop("values must be positive to fit a lognormal distribution")
             sd2 <- log(1+v/m^2)
             estimate <- c(meanlog=log(m) - sd2/2, sdlog=sqrt(sd2))
-            mdistname <- function(order, meanlog, sdlog)
+            mlnorm <- function(order, meanlog, sdlog)
             {
               exp(order*meanlog + order^2*sdlog^2/2)
             }
@@ -121,7 +122,7 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
         }
         if (distname == "pois") {
             estimate <- c(lambda=m)
-            mdistname <- function(order, lambda) 
+            mpois <- function(order, lambda) 
             {
               ifelse(order == 1, lambda, lambda+lambda^2)
             }
@@ -129,7 +130,7 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
         }
         if (distname == "exp") {
             estimate <- c(rate=1/m)
-            mdistname <- function(order, rate)
+            mexp <- function(order, rate)
             {
               ifelse(order == 1, 1/rate, 2/rate^2)
             }
@@ -139,7 +140,7 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             shape <- m^2/v
             rate <- m/v
             estimate <- c(shape=shape, rate=rate)
-            mdistname <- function(order, shape, rate)
+            mgamma <- function(order, shape, rate)
             {
               res <- shape/rate
               if(order == 1)
@@ -159,7 +160,7 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             size <- if (v > m) m^2/(v - m)
                     else NaN
             estimate <- c(size=size, mu=m)
-            mdistname <- function(order, size, mu)
+            mnbinom <- function(order, size, mu)
             {
               if(order == 1)
                 return(mu)
@@ -188,7 +189,7 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             {
               (1-prob)^order * factorial(order) / prob^order
             }
-            mdistname <- function(order, prob)
+            mgeom <- function(order, prob)
             {
               if(order == 0)
                 return(1)
@@ -216,7 +217,7 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             shape1 <- m*aux
             shape2 <- (1-m)*aux
             estimate <- c(shape1=shape1, shape2=shape2)
-            mdistname <- function(order, shape1, shape2)
+            mbeta <- function(order, shape1, shape2)
             {
               stot <- shape1+shape2
               ifelse(order == 1, shape1/stot,
@@ -228,7 +229,7 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
             min1 <- m-sqrt(3*v)
             max1 <- m+sqrt(3*v)
             estimate <- c(min1,max1)
-            mdistname <- function(order, min, max)
+            munif <- function(order, min, max)
             {
               ifelse(order == 1, (min+max)/2, (max^2 + min^2 + max*min)/3)
             }
@@ -237,13 +238,16 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
         if (distname == "logis" ) {
             scale <- sqrt(3*v)/pi
             estimate <- c(location=m, scale=scale)
-            mdistname <- function(order, location, scale)
+            mlogis <- function(order, location, scale)
             {
               ifelse(order == 1, location, scale^2*pi^2/3 + location^2)
             }
             order <- 1:2            
         }
-		    if (exists(ddistname)) loglikval <- loglik(estimate, fix.arg, data, ddistname)  else loglikval <- NULL
+		    if (exists(ddistname)) 
+		      loglikval <- loglik(estimate, fix.arg, data, ddistname)  
+		    else 
+		      loglikval <- NULL
         res <- list(estimate=estimate, convergence=0, value=NULL, hessian=NULL,
                     optim.function=NULL, opt.meth=NULL, fix.arg=NULL, fix.arg.fun=NULL,
                     weights=weights, counts=NULL, optim.message=NULL, 
@@ -260,7 +264,40 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
         #compute asymptotic covariance matrix proposed by
         #I. Ibragimov and R. Has'minskii. Statistical Estimation - Asymptotic Theory. Springer-Verlag, 1981, p368
         #see R/util-mmedist-vcov.R
-        res$vcov <- mme.vcov(res$estimate, res$fix.arg, res$order, data, mdistname, memp, weights)
+        
+        #manually look for the appropriate theoretical raw moment function
+        if (distname == "norm") 
+        {
+          res$vcov <- mme.vcov(res$estimate, res$fix.arg, res$order, data, mnorm, memp, weights)
+        }else if (distname == "lnorm") 
+        {
+          res$vcov <- mme.vcov(res$estimate, res$fix.arg, res$order, data, mlnorm, memp, weights)          
+        }else if (distname == "pois") 
+        {
+          res$vcov <- mme.vcov(res$estimate, res$fix.arg, res$order, data, mpois, memp, weights)                  
+        }else if (distname == "exp") 
+        {
+          res$vcov <- mme.vcov(res$estimate, res$fix.arg, res$order, data, mexp, memp, weights)
+        }else if (distname == "gamma" ) 
+        {
+          res$vcov <- mme.vcov(res$estimate, res$fix.arg, res$order, data, mgamma, memp, weights)
+        }else if (distname == "nbinom" ) 
+        {
+          res$vcov <- mme.vcov(res$estimate, res$fix.arg, res$order, data, mnbinom, memp, weights)          
+        }else if (distname == "geom" ) 
+        {
+          res$vcov <- mme.vcov(res$estimate, res$fix.arg, res$order, data, mgeom, memp, weights)    
+        }else if (distname == "beta" ) 
+        {
+          res$vcov <- mme.vcov(res$estimate, res$fix.arg, res$order, data, mbeta, memp, weights)
+        }else if (distname == "unif" ) 
+        {
+          res$vcov <- mme.vcov(res$estimate, res$fix.arg, res$order, data, munif, memp, weights)      
+        }else if (distname == "logis" ) 
+        {
+          res$vcov <- mme.vcov(res$estimate, res$fix.arg, res$order, data, mlogis, memp, weights)                 
+        }else
+          res$vcov <- NULL
 		    
     }else #an optimimisation has to be done, where fix.arg and start can be a function
     {
@@ -269,7 +306,7 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
         
         if(!checkstartfix) #pre-check has not been done by fitdist() or bootdist()
         {
-          cat("checkstartfix is carried out\n")
+          #cat("checkstartfix is carried out\n")
           # manage starting/fixed values: may raise errors or return two named list
           arg_startfix <- manageparam(start.arg=start, fix.arg=fix.arg, obs=data, 
                                       distname=distname)

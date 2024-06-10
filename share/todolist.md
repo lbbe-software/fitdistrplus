@@ -35,7 +35,7 @@
 31. [x] add a link to `Surv2fitdistcens` in `fitdistcens`, add `Surv2fitdistcens` when infinite values
 32. [x] check link of `Surv2fitdistcens` in the FAQ
 33. [ ] add exploratory tools for assessing the role of covariates and for choosing the appropriate distribution in modelling (survival parametric model), e.g. dose-response
-34. [ ] allow the computation of vcov for MME, remove NOTE when checking the package *CD*
+34. [x] allow the computation of vcov for MME, remove NOTE when checking the package *CD*
 
 # Of less priority
 

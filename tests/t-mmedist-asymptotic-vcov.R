@@ -1,19 +1,22 @@
 require(fitdistrplus)
+nsample <- 1e6
 nsample <- 10
 
 #### (1) Gamma example ####
 
-require(actuar)
+#require(actuar)
 
 truetheta <- c("alpha"=3, "beta"=1/2)
 x <- rgamma(nsample, truetheta["alpha"], truetheta["beta"])
-f1 <- fitdist(x, "gamma", method="mme", order=1:2)
-summary(f1)
+f1 <- mmedist(x, "gamma", order=1:2)
+f1$vcov
+#fitdistrplus:::mme.vcov(as.numeric(truetheta), fix.arg=NULL, order=1:2, obs=x, mdistnam=mgamma, memp, weights=NULL)
+
 
 # (4) fit a Pareto distribution
 #
 
-#if(any(installed.packages()[, "Package"] == "actuar"))
+if(any(installed.packages()[, "Package"] == "actuar"))
 {
   require(actuar)
   #simulate a sample
