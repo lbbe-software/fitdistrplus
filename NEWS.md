@@ -9,14 +9,15 @@ NEW FEATURES
 - make `gofstat()` work with `fitdistcens` objects (giving only AIC and BIC values).
 - add calculation of the hessian using `optimHess` within `fitdist` when it is not given by `optim`.
 - compute the asymptotic covariance matrix with MME.
+- graphics function `*comp()` now return a list of drawn points and/or lines when `plotstyle == "graphics"`.
 
-BUG FIX
+BUG FIXES
 
 - when a `scale` parameter was fixed, the `startarg` function also set a `rate` parameter. this leads to an error when calling the density.
-- add further sanity check in `plotdistcens`: the following code `plotdistcens(data.frame(right=smokedfish$right, left=smokedfish$left))` raised an error via `npsurv()`, thanks to R. Pouillot
-- bug fixed in using `breaks` in `plotdist`
-- solve the extremely long time taking by `lines` in `descdist`
-- add defensive programming for input data (check NA, NaN, Inf values)
+- add further sanity check in `plotdistcens`: the following code `plotdistcens(data.frame(right=smokedfish$right, left=smokedfish$left))` raised an error via `npsurv()`, thanks to R. Pouillot.
+- bug fixed in using `breaks` in `plotdist`.
+- solve the extremely long time taking by `lines` in `descdist`.
+- add defensive programming for input data (check `NA`, `NaN`, `Inf` values).
 
 
 # fitdistrplus 1.1-11

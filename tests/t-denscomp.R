@@ -18,10 +18,16 @@ try(denscomp("list(fitW, fitln, fitg)",horizontals = FALSE), silent=TRUE)
 try(denscomp(list(fitW, fitln, fitg, a=1),horizontals = FALSE), silent=TRUE)
 
 #real call
-denscomp(list(fitW, fitln, fitg), probability = TRUE)
+res <- denscomp(list(fitW, fitln, fitg), probability = TRUE)
+str(res)
+
 denscomp(list(fitW, fitln, fitg), probability = FALSE)
 if (requireNamespace ("ggplot2", quietly = TRUE)) {
-  denscomp(list(fitW, fitln, fitg), probability=TRUE, plotstyle = "ggplot")
+  
+  res <- denscomp(list(fitW, fitln, fitg), probability=TRUE, plotstyle = "ggplot")
+  str(res)
+  
+  
   denscomp(list(fitW, fitln, fitg), probability=FALSE, plotstyle = "ggplot")
 }
 

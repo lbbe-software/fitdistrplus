@@ -185,7 +185,6 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
   if(plotstyle == "graphics") {
     ######## plot if plotstyle=='graphics' ########
     
-    
     if (NPMLE.method == "Turnbull.middlepoints")
       # Turnbull plot
     {
@@ -307,9 +306,7 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
     {
       legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, lty=fitlty, col=fitcol, lwd=fitlwd, ...)
     }
-    
     invisible()
-    
     
   } else if (!requireNamespace("ggplot2", quietly = TRUE)) {
     stop("ggplot2 needed for this function to work with plotstyle = 'ggplot'. Please install it", call. = FALSE)

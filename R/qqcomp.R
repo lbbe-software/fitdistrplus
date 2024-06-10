@@ -162,7 +162,7 @@ qqcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
       else
         legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, col=fitcol, lty = fitpch, lwd = fitlwd, ...)  
     }
-    invisible()
+    return(invisible(list(obs = sdata, quantiles = fittedquant)))
     
   } else if (!requireNamespace("ggplot2", quietly = TRUE)) {
     stop("ggplot2 needed for this function to work with plotstyle = 'ggplot'. Please install it", call. = FALSE)

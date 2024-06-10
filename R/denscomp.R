@@ -252,8 +252,7 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
       if (addlegend && fittype == "p")
         legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, pch=1, col=fitcol, ...)
     }
-    invisible()
-    
+    return(invisible(list(hist = reshist, densities = fitteddens)))
     
   } else if (!requireNamespace("ggplot2", quietly = TRUE)) {
     stop("ggplot2 needed for this function to work with plotstyle = 'ggplot'. Please install it", call. = FALSE)

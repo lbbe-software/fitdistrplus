@@ -19,7 +19,7 @@
 15. [ ] make a flow chart on how functions are interrelated (see techdoc/)
 16. [x] Make a markdown TODO list
 17. [ ] delete the R forge project <https://r-forge.r-project.org/projects/riskassessment/> ?
-18. [ ] should we return the points/lines/rectangles drawn in `invisible()`? as in `hist.default()` called by `hist()` ou `plot.stepfun` called by `plot(ecdf())`?
+18. [x] should we return the points/lines/rectangles drawn in `invisible()`? as in `hist.default()` called by `hist()` ou `plot.stepfun` called by `plot(ecdf())`? : only when `plotstyle == "graphics"`
 19. [x] add a new question to the FAQ, following <https://github.com/lbbe-software/fitdistrplus/issues/21>
 20. [x] add a new question to the FAQ, following <https://github.com/lbbe-software/fitdistrplus/issues/23>
 21. [x] add a generic function `AIC` and `BIC` for `fitdist(cens)` objects

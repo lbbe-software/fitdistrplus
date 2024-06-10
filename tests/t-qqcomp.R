@@ -19,7 +19,8 @@ try(qqcomp("list(fitW, fitln, fitg)"), silent = TRUE)
 try(qqcomp(list(fitW, fitln, fitg, a = 1)), silent = TRUE)
 
 #real call
-qqcomp(list(fitW, fitln, fitg))
+res <- qqcomp(list(fitW, fitln, fitg))
+str(res)
 
 qqcomp(list(fitW, fitln, fitg), legendtext = c("Weibull", "lognormal", "gamma"),
        main = "ground beef fits", xlab = "Theo.",

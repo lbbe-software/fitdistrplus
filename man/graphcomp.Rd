@@ -147,6 +147,11 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
   dedicated to personalize the plots, and fixed to default values if omitted.
 }
 
+\value{ 
+  \code{*comp} returns a list of drawn points and/or lines when \code{plotstyle == "graphics"}
+  or an object of class \code{"ggplot"} when \code{plotstyle == "ggplot"}.
+}
+
 \seealso{ 
   See \code{\link{plot}}, \code{\link{legend}}, \code{\link{ppoints}}, 
   \code{\link{plot.stepfun}} for classic plotting functions.

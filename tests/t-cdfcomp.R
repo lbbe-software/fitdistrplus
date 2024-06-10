@@ -19,7 +19,9 @@ try(cdfcomp("list(fitW, fitln, fitg)",horizontals = FALSE), silent=TRUE)
 try(cdfcomp(list(fitW, fitln, fitg, a=1),horizontals = FALSE), silent=TRUE)
 
 #real call
-cdfcomp(list(fitW, fitln, fitg), horizontals = FALSE)
+res <- cdfcomp(list(fitW, fitln, fitg), horizontals = FALSE)
+str(res)
+
 cdfcomp(list(fitW, fitln, fitg), horizontals = TRUE)
 cdfcomp(list(fitW, fitln, fitg), horizontals = TRUE, lines01 = TRUE)
 cdfcomp(list(fitW, fitln, fitg), horizontals = TRUE, verticals = TRUE, datacol = "grey")

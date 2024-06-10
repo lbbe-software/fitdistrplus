@@ -19,7 +19,8 @@ try(ppcomp("list(fitW, fitln, fitg)"), silent = TRUE)
 try(ppcomp(list(fitW, fitln, fitg, a = 1)), silent = TRUE)
 
 # real call
-ppcomp(list(fitW, fitln, fitg))
+res <- ppcomp(list(fitW, fitln, fitg))
+str(res)
 
 ppcomp(list(fitW, fitln, fitg), legendtext = c("Weibull", "lognormal", "gamma"),
        main="ground beef fits", xlab="Theo.",
