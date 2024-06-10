@@ -80,6 +80,16 @@ res <- qmedist(x, "norm3", start=list(a=1), probs=1/2)
 attr(try(log("a"), silent=TRUE), "condition")
 
 
+
+
+
+try(qmedist(c(x1, "a"), "gamma", probs=1/2))
+try(qmedist(c(x1, NA), "gamma", probs=1/2))
+try(qmedist(c(x1, Inf), "gamma", probs=1/2))
+try(qmedist(c(x1, -Inf), "gamma", probs=1/2))
+try(qmedist(c(x1, NaN), "gamma", probs=1/2))
+
+
 # (8) weighted QME
 #
 n <- 1e6

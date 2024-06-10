@@ -30,8 +30,8 @@
 26. [x] make introduction for vignette `starting values` and update layout, update README on `github.io` *CD*
 27. [x] update `mledist.Rd` with new starting value list (all distribution in `actuar` except phase-type), link with vignette *CD*
 28. [x] check that all base R distribution have starting values *CD*
-29. [ ] add defensive programming for infinite / NaN / NA values for `fitdist` objects *MLDM* et *CD*
-30. [ ] add defensive programming for NaN values for `fitdistcens` objects, convert `Inf` to `NA` (raise error for inconsistent values), raise error for double `NA` *MLDM* et *CD* 
+29. [x] add defensive programming for infinite / NaN / NA values for `fitdist` objects *MLDM* et *CD*
+30. [x] add defensive programming for NaN values for `fitdistcens` objects, convert `Inf` to `NA` (raise error for inconsistent values), raise error for double `NA` *MLDM* et *CD* 
 31. [x] add a link to `Surv2fitdistcens` in `fitdistcens`, add `Surv2fitdistcens` when infinite values
 32. [x] check link of `Surv2fitdistcens` in the FAQ
 33. [ ] add exploratory tools for assessing the role of covariates and for choosing the appropriate distribution in modelling (survival parametric model), e.g. dose-response

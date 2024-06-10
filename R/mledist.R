@@ -63,6 +63,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
         cens <- FALSE
         if (!(is.numeric(data) & length(data)>1)) 
             stop(paste(txt1, txt2))
+        checkUncensoredNAInfNan(data)
     }
     else {
         cens <- TRUE

@@ -92,6 +92,13 @@ res <- mgedist(x, "norm2", start=list(a=1))
 attr(try(log("a"), silent=TRUE), "condition")
 
 
+try(mgedist(c(serving, "a"), "gamma"))
+try(mgedist(c(serving, NA), "gamma"))
+try(mgedist(c(serving, Inf), "gamma"))
+try(mgedist(c(serving, -Inf), "gamma"))
+try(mgedist(c(serving, NaN), "gamma"))
+
+
 # (7) test the component optim.message
 x <- rnorm(1000)
 #change parameter to obtain unsuccessful convergence

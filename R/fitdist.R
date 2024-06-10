@@ -61,6 +61,7 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge", "mse"),
     #check argument data
     if (!(is.vector(data) & is.numeric(data) & length(data)>1))
         stop("data must be a numeric vector of length greater than 1")
+    checkUncensoredNAInfNan(data)
  
     #encapsulate three dots arguments
     my3dots <- list(...)    

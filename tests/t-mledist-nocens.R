@@ -1,7 +1,8 @@
 library(fitdistrplus)
 
 
-
+data("groundbeef")
+serving <- groundbeef$serving 
 
 # (1) basic fit of a normal distribution with maximum likelihood estimation
 #
@@ -255,6 +256,13 @@ x <- rexp(10)
 res <- mledist(x, "norm2", start=list(a=1))
 #as in 
 attr(try(log("a"), silent=TRUE), "condition")
+
+
+try(mledist(c(serving, "a"), "gamma"))
+try(mledist(c(serving, NA), "gamma"))
+try(mledist(c(serving, Inf), "gamma"))
+try(mledist(c(serving, -Inf), "gamma"))
+try(mledist(c(serving, NaN), "gamma"))
 
 
 

@@ -55,6 +55,18 @@ legend("bottomright", lty=1:2, col=c("green", "blue"), leg=c("theoretical value"
 #         upper=c(1,1,0, Inf))
 # pBMT(x, p3=1/2, p4=1/2, p1=-1/2, p2=1/2)
 
+
+
+
+
+try(msedist(c(x1, "a"), "gamma"))
+try(msedist(c(x1, NA), "gamma"))
+try(msedist(c(x1, Inf), "gamma"))
+try(msedist(c(x1, -Inf), "gamma"))
+try(msedist(c(x1, NaN), "gamma"))
+
+
+
 #--------------------------------------------------------
 # lognormal sample
 

@@ -101,6 +101,13 @@ res <- mmedist(x, "norm3", start=list(a=1), order=1, memp=function(x, order) mea
 attr(try(log("a"), silent=TRUE), "condition")
 
 
+try(mmedist(c(serving, "a"), "gamma"))
+try(mmedist(c(serving, NA), "gamma"))
+try(mmedist(c(serving, Inf), "gamma"))
+try(mmedist(c(serving, -Inf), "gamma"))
+try(mmedist(c(serving, NaN), "gamma"))
+
+
 # (7) fit of a normal distribution with weighted moment matching estimation
 #
 

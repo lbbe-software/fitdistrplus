@@ -63,6 +63,7 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
     }
     if (!(is.numeric(data) & length(data)>1)) 
         stop("data must be a numeric vector of length greater than 1")
+    checkUncensoredNAInfNan(data)
     
     if(is.null(weights))
     {  

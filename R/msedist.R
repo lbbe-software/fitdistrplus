@@ -83,6 +83,7 @@ msedist <- function (data, distr, phidiv="KL", power.phidiv=NULL, start=NULL, fi
         if (!(is.numeric(data) & length(data)>1)) 
             stop("data must be a numeric vector of length greater than 1 for non censored data
             or a dataframe with two columns named left and right and more than one line for censored data")
+        checkUncensoredNAInfNan(data)
     }
     else {
         cens <- TRUE

@@ -26,6 +26,17 @@ if(visualize) {  # check ERROR on aarch64-apple-darwin20.4.0 (64-bit) (2021/05/1
   names(fitdist(serving, "gamma", optim.method="L-BFGS-B", lower=0)$estimate)
 }
 
+# (2) sanity check
+#
+
+
+try(fitdist(c(serving, "a"), "gamma"))
+try(fitdist(c(serving, NA), "gamma"))
+try(fitdist(c(serving, Inf), "gamma"))
+try(fitdist(c(serving, -Inf), "gamma"))
+try(fitdist(c(serving, NaN), "gamma"))
+
+
 # (7) custom optimization function
 #
 
