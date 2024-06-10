@@ -47,14 +47,15 @@ bootdist <- function (f, bootmethod="param", niter=1001, silent=TRUE,
     stop("Bootstrap is not yet available when using weights")
     
     #simulate bootstrap data
-    if (bootmethod == "param") { # parametric bootstrap
+    if (bootmethod == "param") 
+    { # parametric bootstrap
         rdistname <- paste("r", f$distname, sep="")
         if (!exists(rdistname, mode="function"))
             stop(paste("The ", rdistname, " function must be defined"))
         rdata <- do.call(rdistname, c(list(niter*f$n), as.list(f$estimate), f$fix.arg))
         dim(rdata) <- c(f$n, niter)
-    }
-    else { # non parametric bootstrap
+    }else 
+    { # non parametric bootstrap
         rdata <- sample(f$data, size=niter*f$n, replace=TRUE)
         dim(rdata) <- c(f$n, niter)
     }
@@ -139,14 +140,15 @@ bootdist <- function (f, bootmethod="param", niter=1001, silent=TRUE,
     options(warn=owarn, show.error.messages=oerr)
     
     rownames(resboot) <- c(names(start), "convergence")
-    if (length(resboot[, 1])>2) {
+    if (length(resboot[, 1]) > 2)
+    {
         estim <- data.frame(t(resboot)[, -length(resboot[, 1])])
         bootCI <- cbind(apply(resboot[-length(resboot[, 1]), ], 1, median, na.rm=TRUE), 
         apply(resboot[-length(resboot[, 1]), ], 1, quantile, 0.025, na.rm=TRUE), 
         apply(resboot[-length(resboot[, 1]), ], 1, quantile, 0.975, na.rm=TRUE))
         colnames(bootCI) <- c("Median", "2.5%", "97.5%")
-    }
-    else {
+    }else 
+    {
         estim <- as.data.frame(t(resboot)[, -length(resboot[, 1])])
         names(estim) <- names(f$estimate)
         bootCI <- c(median(resboot[-length(resboot[, 1]), ], na.rm=TRUE), 
@@ -164,7 +166,8 @@ bootdist <- function (f, bootmethod="param", niter=1001, silent=TRUE,
     res    
 }
 
-print.bootdist <- function(x, ...){
+print.bootdist <- function(x, ...)
+{
     if (!inherits(x, "bootdist"))
         stop("Use only with 'bootdist' objects")
     if (x$method=="param") 
@@ -183,16 +186,18 @@ print.bootdist <- function(x, ...){
 }
 
 plot.bootdist <- function(x, main="Bootstrapped values of parameters", enhance=FALSE, 
-    trueval=NULL, rampcol=NULL, nbgrid = 100, nbcol = 100, ...){
+    trueval=NULL, rampcol=NULL, nbgrid = 100, nbcol = 100, ...)
+{
     if (!inherits(x, "bootdist"))
         stop("Use only with 'bootdist' objects")
   if (dim(x$estim)[2]==1) 
   {
     stripchart(x$estim, method="jitter", main=main, 
                xlab="Bootstrapped values of the parameter", ...)
-  }
-  else 
+  }else 
   {
+    if(!is.null(trueval)) #true value supplied
+      stopifnot(length(trueval) == NCOL(x$estim))
     if(!is.logical(enhance))
       stop("wrong argument enhance for plot.bootdist.")
     if (!enhance)
@@ -201,8 +206,7 @@ plot.bootdist <- function(x, main="Bootstrapped values of parameters", enhance=F
         pairs(data.matrix(x$estim), main=main, ...)
       else #some true value supplied
         pairs4boot(x$estim, main=main, trueval=trueval, enhance=FALSE, ...)
-    }
-    else 
+    }else 
     {
       if(is.null(rampcol))
         rampcol <- c("green", "yellow", "orange", "red")
@@ -212,7 +216,8 @@ plot.bootdist <- function(x, main="Bootstrapped values of parameters", enhance=F
   }
 }
 
-summary.bootdist <- function(object, ...){
+summary.bootdist <- function(object, ...)
+{
     if (!inherits(object, "bootdist"))
         stop("Use only with 'bootdist' objects")
     
@@ -220,7 +225,8 @@ summary.bootdist <- function(object, ...){
     object
 }
 
-print.summary.bootdist <- function(x, ...){
+print.summary.bootdist <- function(x, ...)
+{
     
     if (!inherits(x, "summary.bootdist"))
         stop("Use only with 'summary.bootdist' objects")

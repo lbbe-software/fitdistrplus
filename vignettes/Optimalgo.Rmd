@@ -287,8 +287,7 @@ We can simulate bootstrap replicates using the `bootdist` function.
 b1 <- bootdist(fitdist(x, "beta", method = "mle", optim.method = "BFGS"), 
                niter = 100, parallel = "snow", ncpus = 2)
 summary(b1)
-plot(b1)
-abline(v = 3, h = 3/4, col = "red", lwd = 1.5)
+plot(b1, trueval = c(3, 3/4))
 ```
 
 
@@ -445,7 +444,7 @@ We can simulate bootstrap replicates using the `bootdist` function.
 b1 <- bootdist(fitdist(x, "nbinom", method = "mle", optim.method = "BFGS"), 
                niter = 100, parallel = "snow", ncpus = 2)
 summary(b1)
-plot(b1, trueval=trueval) 
+plot(b1, trueval=trueval[c("size", "mu")]) 
 ```
 
 
