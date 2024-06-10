@@ -16,6 +16,7 @@ BUG FIX
 - add further sanity check in `plotdistcens`: the following code `plotdistcens(data.frame(right=smokedfish$right, left=smokedfish$left))` raised an error via `npsurv()`, thanks to R. Pouillot
 - bug fixed in using `breaks` in `plotdist`
 - solve the extremely long time taking by `lines` in `descdist`
+- add defensive programming for input data (check NA, NaN, Inf values)
 
 
 # fitdistrplus 1.1-11
