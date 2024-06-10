@@ -18,7 +18,7 @@ BUG FIXES
 - bug fixed in using `breaks` in `plotdist`.
 - solve the extremely long time taking by `lines` in `descdist`.
 - add defensive programming for input data (check `NA`, `NaN`, `Inf` values).
-
+- remove the use of `plot.np` in vignettes.
 
 # fitdistrplus 1.1-11
 
