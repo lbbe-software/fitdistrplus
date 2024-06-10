@@ -46,8 +46,8 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
     if(is.vector(start.arg)) #backward compatibility
       start.arg <- as.list(start.arg)
     
-    txt1 <- "data must be a numeric vector of length greater than 1 for non censored data"
-    txt2 <- "or a dataframe with two columns named left and right and more than one line for censored data"
+    txt1uncens <- "data must be a numeric vector of length greater than 1."
+    txt2cens <- "data must be a dataframe with two columns named left and right."
     if(!is.null(weights))
     {
       if(any(weights < 0))
@@ -62,14 +62,16 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
     if (is.vector(data)) {
         cens <- FALSE
         if (!(is.numeric(data) & length(data)>1)) 
-            stop(paste(txt1, txt2))
+            stop(txt1uncens)
         checkUncensoredNAInfNan(data)
     }
     else {
         cens <- TRUE
         censdata <- data
         if (!(is.vector(censdata$left) & is.vector(censdata$right) & length(censdata[, 1])>1))
-            stop(paste(txt1, txt2))
+            stop(txt2cens)
+        checkCensoredDataFrameNAInfNan(censdata)
+          
         pdistname<-paste("p", distname, sep="")
         if (!exists(pdistname, mode="function"))
             stop(paste("The ", pdistname, " function must be defined to apply maximum likelihood to censored data"))

@@ -17,6 +17,14 @@ mledist(log10EC50, "gumbel", start=list(a=0,b=2), optim.method="Nelder-Mead")
 mledist(log10EC50, "gumbel", start=list(a=0,b=2)) #default NM
 
 
+try(mledist(rbind(log10EC50, c("a", "b")), "gamma"))
+try(mledist(rbind(log10EC50, c(NA, NA)), "gamma"))
+try(mledist(rbind(log10EC50, c(3, Inf)), "gamma"))
+try(mledist(rbind(log10EC50, c(3, NaN)), "gamma"))
+
+
+
+
 
 # (2) test optimization arguments to censored data MLE.
 #
