@@ -64,6 +64,7 @@
 <li>add calculation of the hessian using <code>optimHess</code> within <code>fitdist</code> when it is not given by <code>optim</code>.</li>
 <li>compute the asymptotic covariance matrix with MME.</li>
 <li>graphics function <code>*comp()</code> now return a list of drawn points and/or lines when <code>plotstyle == "graphics"</code>.</li>
+<li>add a <code>density</code> function for <code>bootdist(cens)</code> objects.</li>
 </ul><p>BUG FIXES</p>
 <ul><li>when a <code>scale</code> parameter was fixed, the <code>startarg</code> function also set a <code>rate</code> parameter. this leads to an error when calling the density.</li>
 <li>add further sanity check in <code>plotdistcens</code>: the following code <code>plotdistcens(data.frame(right=smokedfish$right, left=smokedfish$left))</code> raised an error via <code>npsurv()</code>, thanks to R. Pouillot.</li>

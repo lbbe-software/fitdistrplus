@@ -75,7 +75,7 @@
       <img src="" class="logo" alt=""><h1>Frequently Asked Questions</h1>
                         <h4 data-toc-skip class="author">Marie Laure Delignette Muller, Christophe Dutang</h4>
             
-            <h4 data-toc-skip class="date">2024-06-10</h4>
+            <h4 data-toc-skip class="date">2024-06-12</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/lbbe-software/fitdistrplus/blob/HEAD/vignettes/FAQ.Rmd" class="external-link"><code>vignettes/FAQ.Rmd</code></a></small>
       <div class="d-none name"><code>FAQ.Rmd</code></div>
@@ -1727,6 +1727,162 @@ we recommend the use of the package <code>mc2d</code> which aims at making such 
 easy and which gives extensive examples of use of such bootstrap samples of
 parameters estimated using functions of the package <code>fitdistrplus</code>.</p>
 </div>
+<div class="section level3" number="4.4">
+<h3 id="how-do-we-choose-the-bootstrap-number">
+<span class="header-section-number">4.4</span> How do we choose the bootstrap number?<a class="anchor" aria-label="anchor" href="#how-do-we-choose-the-bootstrap-number"></a>
+</h3>
+<p>Generally, we do not need to choose a number of bootstrap values
+as high as the original sample size.
+We search a number for which the mean and the standard values become
+stable.
+In the log-normal example below, it is enough to have 100 bootstrap values.</p>
+<div class="sourceCode" id="cb202"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">f.ln.MME</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Lognormal.html" class="external-link">rlnorm</a></span><span class="op">(</span><span class="fl">1000</span><span class="op">)</span>, <span class="st">"lnorm"</span>, method <span class="op">=</span> <span class="st">"mme"</span>, order <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></span>
+<span><span class="co"># Bootstrap </span></span>
+<span><span class="va">b.ln.50</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bootdist.html">bootdist</a></span><span class="op">(</span><span class="va">f.ln.MME</span>, niter <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
+<span><span class="va">b.ln.100</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bootdist.html">bootdist</a></span><span class="op">(</span><span class="va">f.ln.MME</span>, niter <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
+<span><span class="va">b.ln.200</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bootdist.html">bootdist</a></span><span class="op">(</span><span class="va">f.ln.MME</span>, niter <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span>
+<span><span class="va">b.ln.500</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bootdist.html">bootdist</a></span><span class="op">(</span><span class="va">f.ln.MME</span>, niter <span class="op">=</span> <span class="fl">500</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">d1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">b.ln.50</span>, <span class="va">b.ln.100</span>, <span class="va">b.ln.200</span>, <span class="va">b.ln.500</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## List of 4</span></span>
+<span><span class="co">##  $ :List of 6</span></span>
+<span><span class="co">##   ..$ estim  :'data.frame':  50 obs. of  2 variables:</span></span>
+<span><span class="co">##   .. ..$ meanlog: num [1:50] -0.31255 0.02865 -0.0075 0.00431 0.03844 ...</span></span>
+<span><span class="co">##   .. ..$ sdlog  : num [1:50] 1.29 0.959 1.055 1.001 1.008 ...</span></span>
+<span><span class="co">##   ..$ converg: num [1:50] 0 0 0 0 0 0 0 0 0 0 ...</span></span>
+<span><span class="co">##   ..$ method : chr "param"</span></span>
+<span><span class="co">##   ..$ nbboot : num 50</span></span>
+<span><span class="co">##   ..$ CI     : num [1:2, 1:3] 0.0427 0.9749 -0.2416 0.9081 0.1195 ...</span></span>
+<span><span class="co">##   .. ..- attr(*, "dimnames")=List of 2</span></span>
+<span><span class="co">##   .. .. ..$ : chr [1:2] "meanlog" "sdlog"</span></span>
+<span><span class="co">##   .. .. ..$ : chr [1:3] "Median" "2.5%" "97.5%"</span></span>
+<span><span class="co">##   ..$ fitpart:List of 17</span></span>
+<span><span class="co">##   .. ..$ estimate   : Named num [1:2] 0.0278 0.9888</span></span>
+<span><span class="co">##   .. .. ..- attr(*, "names")= chr [1:2] "meanlog" "sdlog"</span></span>
+<span><span class="co">##   .. ..$ method     : chr "mme"</span></span>
+<span><span class="co">##   .. ..$ sd         : num [1:2] 2.6 2.83</span></span>
+<span><span class="co">##   .. ..$ cor        : num [1:2, 1:2] 1 -0.889 -0.889 1</span></span>
+<span><span class="co">##   .. ..$ vcov       : num [1:2, 1:2] 6.74 -6.53 -6.53 8.01</span></span>
+<span><span class="co">##   .. ..$ loglik     : num -1428</span></span>
+<span><span class="co">##   .. ..$ aic        : num 2861</span></span>
+<span><span class="co">##   .. ..$ bic        : num 2871</span></span>
+<span><span class="co">##   .. ..$ n          : int 1000</span></span>
+<span><span class="co">##   .. ..$ data       : num [1:1000] 0.16 4.4 2.3 0.25 1.46 ...</span></span>
+<span><span class="co">##   .. ..$ distname   : chr "lnorm"</span></span>
+<span><span class="co">##   .. ..$ fix.arg    : NULL</span></span>
+<span><span class="co">##   .. ..$ fix.arg.fun: NULL</span></span>
+<span><span class="co">##   .. ..$ dots       :List of 1</span></span>
+<span><span class="co">##   .. .. ..$ order: int [1:2] 1 2</span></span>
+<span><span class="co">##   .. ..$ convergence: num 0</span></span>
+<span><span class="co">##   .. ..$ discrete   : logi FALSE</span></span>
+<span><span class="co">##   .. ..$ weights    : NULL</span></span>
+<span><span class="co">##   .. ..- attr(*, "class")= chr "fitdist"</span></span>
+<span><span class="co">##   ..- attr(*, "class")= chr "bootdist"</span></span>
+<span><span class="co">##  $ :List of 6</span></span>
+<span><span class="co">##   ..$ estim  :'data.frame':  100 obs. of  2 variables:</span></span>
+<span><span class="co">##   .. ..$ meanlog: num [1:100] 0.0198 -0.0542 0.0546 0.0734 0.1281 ...</span></span>
+<span><span class="co">##   .. ..$ sdlog  : num [1:100] 1.009 1.045 0.964 0.954 0.928 ...</span></span>
+<span><span class="co">##   ..$ converg: num [1:100] 0 0 0 0 0 0 0 0 0 0 ...</span></span>
+<span><span class="co">##   ..$ method : chr "param"</span></span>
+<span><span class="co">##   ..$ nbboot : num 100</span></span>
+<span><span class="co">##   ..$ CI     : num [1:2, 1:3] 0.0446 0.969 -0.1104 0.8878 0.1104 ...</span></span>
+<span><span class="co">##   .. ..- attr(*, "dimnames")=List of 2</span></span>
+<span><span class="co">##   .. .. ..$ : chr [1:2] "meanlog" "sdlog"</span></span>
+<span><span class="co">##   .. .. ..$ : chr [1:3] "Median" "2.5%" "97.5%"</span></span>
+<span><span class="co">##   ..$ fitpart:List of 17</span></span>
+<span><span class="co">##   .. ..$ estimate   : Named num [1:2] 0.0278 0.9888</span></span>
+<span><span class="co">##   .. .. ..- attr(*, "names")= chr [1:2] "meanlog" "sdlog"</span></span>
+<span><span class="co">##   .. ..$ method     : chr "mme"</span></span>
+<span><span class="co">##   .. ..$ sd         : num [1:2] 2.6 2.83</span></span>
+<span><span class="co">##   .. ..$ cor        : num [1:2, 1:2] 1 -0.889 -0.889 1</span></span>
+<span><span class="co">##   .. ..$ vcov       : num [1:2, 1:2] 6.74 -6.53 -6.53 8.01</span></span>
+<span><span class="co">##   .. ..$ loglik     : num -1428</span></span>
+<span><span class="co">##   .. ..$ aic        : num 2861</span></span>
+<span><span class="co">##   .. ..$ bic        : num 2871</span></span>
+<span><span class="co">##   .. ..$ n          : int 1000</span></span>
+<span><span class="co">##   .. ..$ data       : num [1:1000] 0.16 4.4 2.3 0.25 1.46 ...</span></span>
+<span><span class="co">##   .. ..$ distname   : chr "lnorm"</span></span>
+<span><span class="co">##   .. ..$ fix.arg    : NULL</span></span>
+<span><span class="co">##   .. ..$ fix.arg.fun: NULL</span></span>
+<span><span class="co">##   .. ..$ dots       :List of 1</span></span>
+<span><span class="co">##   .. .. ..$ order: int [1:2] 1 2</span></span>
+<span><span class="co">##   .. ..$ convergence: num 0</span></span>
+<span><span class="co">##   .. ..$ discrete   : logi FALSE</span></span>
+<span><span class="co">##   .. ..$ weights    : NULL</span></span>
+<span><span class="co">##   .. ..- attr(*, "class")= chr "fitdist"</span></span>
+<span><span class="co">##   ..- attr(*, "class")= chr "bootdist"</span></span>
+<span><span class="co">##  $ :List of 6</span></span>
+<span><span class="co">##   ..$ estim  :'data.frame':  200 obs. of  2 variables:</span></span>
+<span><span class="co">##   .. ..$ meanlog: num [1:200] -0.0392 0.0516 -0.0169 0.1128 0.0608 ...</span></span>
+<span><span class="co">##   .. ..$ sdlog  : num [1:200] 1.048 0.971 1.028 0.941 0.955 ...</span></span>
+<span><span class="co">##   ..$ converg: num [1:200] 0 0 0 0 0 0 0 0 0 0 ...</span></span>
+<span><span class="co">##   ..$ method : chr "param"</span></span>
+<span><span class="co">##   ..$ nbboot : num 200</span></span>
+<span><span class="co">##   ..$ CI     : num [1:2, 1:3] 0.0418 0.9717 -0.1552 0.875 0.1238 ...</span></span>
+<span><span class="co">##   .. ..- attr(*, "dimnames")=List of 2</span></span>
+<span><span class="co">##   .. .. ..$ : chr [1:2] "meanlog" "sdlog"</span></span>
+<span><span class="co">##   .. .. ..$ : chr [1:3] "Median" "2.5%" "97.5%"</span></span>
+<span><span class="co">##   ..$ fitpart:List of 17</span></span>
+<span><span class="co">##   .. ..$ estimate   : Named num [1:2] 0.0278 0.9888</span></span>
+<span><span class="co">##   .. .. ..- attr(*, "names")= chr [1:2] "meanlog" "sdlog"</span></span>
+<span><span class="co">##   .. ..$ method     : chr "mme"</span></span>
+<span><span class="co">##   .. ..$ sd         : num [1:2] 2.6 2.83</span></span>
+<span><span class="co">##   .. ..$ cor        : num [1:2, 1:2] 1 -0.889 -0.889 1</span></span>
+<span><span class="co">##   .. ..$ vcov       : num [1:2, 1:2] 6.74 -6.53 -6.53 8.01</span></span>
+<span><span class="co">##   .. ..$ loglik     : num -1428</span></span>
+<span><span class="co">##   .. ..$ aic        : num 2861</span></span>
+<span><span class="co">##   .. ..$ bic        : num 2871</span></span>
+<span><span class="co">##   .. ..$ n          : int 1000</span></span>
+<span><span class="co">##   .. ..$ data       : num [1:1000] 0.16 4.4 2.3 0.25 1.46 ...</span></span>
+<span><span class="co">##   .. ..$ distname   : chr "lnorm"</span></span>
+<span><span class="co">##   .. ..$ fix.arg    : NULL</span></span>
+<span><span class="co">##   .. ..$ fix.arg.fun: NULL</span></span>
+<span><span class="co">##   .. ..$ dots       :List of 1</span></span>
+<span><span class="co">##   .. .. ..$ order: int [1:2] 1 2</span></span>
+<span><span class="co">##   .. ..$ convergence: num 0</span></span>
+<span><span class="co">##   .. ..$ discrete   : logi FALSE</span></span>
+<span><span class="co">##   .. ..$ weights    : NULL</span></span>
+<span><span class="co">##   .. ..- attr(*, "class")= chr "fitdist"</span></span>
+<span><span class="co">##   ..- attr(*, "class")= chr "bootdist"</span></span>
+<span><span class="co">##  $ :List of 6</span></span>
+<span><span class="co">##   ..$ estim  :'data.frame':  500 obs. of  2 variables:</span></span>
+<span><span class="co">##   .. ..$ meanlog: num [1:500] 0.0327 -0.0487 0.0781 0.0141 0.018 ...</span></span>
+<span><span class="co">##   .. ..$ sdlog  : num [1:500] 0.979 1.1 0.928 1.031 0.97 ...</span></span>
+<span><span class="co">##   ..$ converg: num [1:500] 0 0 0 0 0 0 0 0 0 0 ...</span></span>
+<span><span class="co">##   ..$ method : chr "param"</span></span>
+<span><span class="co">##   ..$ nbboot : num 500</span></span>
+<span><span class="co">##   ..$ CI     : num [1:2, 1:3] 0.0411 0.9668 -0.0832 0.8854 0.1197 ...</span></span>
+<span><span class="co">##   .. ..- attr(*, "dimnames")=List of 2</span></span>
+<span><span class="co">##   .. .. ..$ : chr [1:2] "meanlog" "sdlog"</span></span>
+<span><span class="co">##   .. .. ..$ : chr [1:3] "Median" "2.5%" "97.5%"</span></span>
+<span><span class="co">##   ..$ fitpart:List of 17</span></span>
+<span><span class="co">##   .. ..$ estimate   : Named num [1:2] 0.0278 0.9888</span></span>
+<span><span class="co">##   .. .. ..- attr(*, "names")= chr [1:2] "meanlog" "sdlog"</span></span>
+<span><span class="co">##   .. ..$ method     : chr "mme"</span></span>
+<span><span class="co">##   .. ..$ sd         : num [1:2] 2.6 2.83</span></span>
+<span><span class="co">##   .. ..$ cor        : num [1:2, 1:2] 1 -0.889 -0.889 1</span></span>
+<span><span class="co">##   .. ..$ vcov       : num [1:2, 1:2] 6.74 -6.53 -6.53 8.01</span></span>
+<span><span class="co">##   .. ..$ loglik     : num -1428</span></span>
+<span><span class="co">##   .. ..$ aic        : num 2861</span></span>
+<span><span class="co">##   .. ..$ bic        : num 2871</span></span>
+<span><span class="co">##   .. ..$ n          : int 1000</span></span>
+<span><span class="co">##   .. ..$ data       : num [1:1000] 0.16 4.4 2.3 0.25 1.46 ...</span></span>
+<span><span class="co">##   .. ..$ distname   : chr "lnorm"</span></span>
+<span><span class="co">##   .. ..$ fix.arg    : NULL</span></span>
+<span><span class="co">##   .. ..$ fix.arg.fun: NULL</span></span>
+<span><span class="co">##   .. ..$ dots       :List of 1</span></span>
+<span><span class="co">##   .. .. ..$ order: int [1:2] 1 2</span></span>
+<span><span class="co">##   .. ..$ convergence: num 0</span></span>
+<span><span class="co">##   .. ..$ discrete   : logi FALSE</span></span>
+<span><span class="co">##   .. ..$ weights    : NULL</span></span>
+<span><span class="co">##   .. ..- attr(*, "class")= chr "fitdist"</span></span>
+<span><span class="co">##   ..- attr(*, "class")= chr "bootdist"</span></span>
+<span><span class="co">## NULL</span></span></code></pre>
+<div class="sourceCode" id="cb204"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">d1</span><span class="op">)</span></span></code></pre></div>
+<p><img src="FAQ_files/figure-html/unnamed-chunk-62-1.png"><!-- --></p>
+</div>
 </div>
 <div class="section level2" number="5">
 <h2 id="how-to-personalize-plots">
@@ -1747,7 +1903,7 @@ functions, <code>denscomp</code>, <code>cdfcomp</code>, <code>ppcomp</code>, <co
 </h3>
 <p>The default plot of an object of class <code>fitdist</code> can be easily reproduced and personalized
 using <code>denscomp</code>, <code>cdfcomp</code>, <code>ppcomp</code> and <code>qqcomp</code>.</p>
-<div class="sourceCode" id="cb202"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb205"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">groundbeef</span><span class="op">)</span></span>
 <span><span class="va">serving</span> <span class="op">&lt;-</span> <span class="va">groundbeef</span><span class="op">$</span><span class="va">serving</span></span>
 <span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">serving</span>, <span class="st">"gamma"</span><span class="op">)</span></span>
@@ -1756,7 +1912,7 @@ using <code>denscomp</code>, <code>cdfcomp</code>, <code>ppcomp</code> and <code
 <span><span class="fu"><a href="../reference/graphcomp.html">qqcomp</a></span><span class="op">(</span><span class="va">fit</span>, addlegend <span class="op">=</span> <span class="cn">FALSE</span>, main <span class="op">=</span> <span class="st">""</span>, fitpch <span class="op">=</span> <span class="fl">16</span>, fitcol <span class="op">=</span> <span class="st">"grey"</span>, line01lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/graphcomp.html">cdfcomp</a></span><span class="op">(</span><span class="va">fit</span>, addlegend <span class="op">=</span> <span class="cn">FALSE</span>, main <span class="op">=</span> <span class="st">""</span>, xlab <span class="op">=</span> <span class="st">"serving sizes (g)"</span>, fitcol <span class="op">=</span> <span class="st">"orange"</span>, lines01 <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/graphcomp.html">ppcomp</a></span><span class="op">(</span><span class="va">fit</span>, addlegend <span class="op">=</span> <span class="cn">FALSE</span>, main <span class="op">=</span> <span class="st">""</span>, fitpch <span class="op">=</span> <span class="fl">16</span>, fitcol <span class="op">=</span> <span class="st">"grey"</span>, line01lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="FAQ_files/figure-html/unnamed-chunk-62-1.png"><!-- --></p>
+<p><img src="FAQ_files/figure-html/unnamed-chunk-63-1.png"><!-- --></p>
 <p>In a similar way, the default plot of an object of class <code>fitdistcens</code> can be easily personalized
 using <code>cdfcompcens</code>.</p>
 </div>
@@ -1765,7 +1921,7 @@ using <code>cdfcompcens</code>.</p>
 <span class="header-section-number">5.3</span> Is it possible to obtain <code>ggplot2</code> plots ?<a class="anchor" aria-label="anchor" href="#is-it-possible-to-obtain-ggplot2-plots"></a>
 </h3>
 <p>An argument <code>plotstyle</code> was added to functions <code>denscomp</code>, <code>cdfcomp</code>, <code>ppcomp</code>, <code>qqcomp</code>and <code>cdfcompcens</code>, <code>ppcompcens</code>, <code>qqcompcens</code> to enable the generation of plots using the <code>ggplot2</code> package. This argument by default fixed at <code>graphics</code> must simply be fixed at <code>ggplot</code> for this purpose, as in the following example. In that latter case the graphical functions return a graphic object that can be further personalized using <code>ggplot2</code> functions.</p>
-<div class="sourceCode" id="cb203"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb206"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="va">fitW</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">serving</span>, <span class="st">"weibull"</span><span class="op">)</span></span>
 <span><span class="va">fitln</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">serving</span>, <span class="st">"lnorm"</span><span class="op">)</span></span>
@@ -1775,7 +1931,7 @@ using <code>cdfcompcens</code>.</p>
 <span>    fitcol <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>, <span class="st">"green"</span>, <span class="st">"orange"</span><span class="op">)</span>, fitlty <span class="op">=</span> <span class="fl">1</span>, fitlwd <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, </span>
 <span>    xlegend <span class="op">=</span> <span class="st">"topright"</span>, plotstyle <span class="op">=</span> <span class="st">"ggplot"</span>, addlegend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">dcomp</span> <span class="op">+</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Ground beef fits"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="FAQ_files/figure-html/unnamed-chunk-63-1.png"><!-- --></p>
+<p><img src="FAQ_files/figure-html/unnamed-chunk-64-1.png"><!-- --></p>
 <!-- We plan to include the argument `plotstyle` to other functions of the `fitdistrplus` package in a next future. -->
 </div>
 <div class="section level3" number="5.4">
@@ -1788,7 +1944,7 @@ of the points on the left of each point. This option is available only for
 ECDF goodness-of-fit plots and only for non censored data. This option can be used
 as below, for example, to name the species in the classical plot of the
 Species Sensitivity Distributions (SSD) in ecotoxicology.</p>
-<div class="sourceCode" id="cb204"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb207"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">endosulfan</span><span class="op">)</span></span>
 <span><span class="va">ATV</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">endosulfan</span>, <span class="va">group</span> <span class="op">==</span> <span class="st">"NonArthroInvert"</span><span class="op">)</span><span class="op">$</span><span class="va">ATV</span></span>
 <span><span class="va">taxaATV</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">endosulfan</span>, <span class="va">group</span> <span class="op">==</span> <span class="st">"NonArthroInvert"</span><span class="op">)</span><span class="op">$</span><span class="va">taxa</span></span>
@@ -1796,7 +1952,7 @@ Species Sensitivity Distributions (SSD) in ecotoxicology.</p>
 <span><span class="fu"><a href="../reference/graphcomp.html">cdfcomp</a></span><span class="op">(</span><span class="va">f</span>, xlogscale <span class="op">=</span> <span class="cn">TRUE</span>, main <span class="op">=</span> <span class="st">"Species Sensitivty Distribution"</span>, </span>
 <span>    xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">100000</span><span class="op">)</span>, name.points <span class="op">=</span> <span class="va">taxaATV</span>, </span>
 <span>    addlegend <span class="op">=</span> <span class="cn">FALSE</span>, plotstyle <span class="op">=</span> <span class="st">"ggplot"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="FAQ_files/figure-html/unnamed-chunk-64-1.png"><!-- --></p>
+<p><img src="FAQ_files/figure-html/unnamed-chunk-65-1.png"><!-- --></p>
 </div>
 </div>
 <div class="section level2" number="6">
@@ -1812,7 +1968,7 @@ corresponds to the coding names <code>"interval2"</code> in function <code>Surv<
 <code>survival</code>. There is no other way to represent censored data in <code>fitdistrplus</code> but the function <code><a href="../reference/Surv2fitdistcens.html">Surv2fitdistcens()</a></code> can be used to help you
 to format data for use in <code><a href="../reference/fitdistcens.html">fitdistcens()</a></code> from one of the format
 used in the survival package (see the help page of <code><a href="../reference/Surv2fitdistcens.html">Surv2fitdistcens()</a></code>). You have a toy example below.</p>
-<div class="sourceCode" id="cb205"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb208"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dtoy</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>left <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">6</span>, <span class="fl">9.7</span>, <span class="fl">10</span><span class="op">)</span>, right <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">7</span>, <span class="fl">8</span>, <span class="fl">9.7</span>, <span class="cn">NA</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">dtoy</span></span></code></pre></div>
 <pre><code><span><span class="co">##   left right</span></span>
@@ -1830,7 +1986,7 @@ used in the survival package (see the help page of <code><a href="../reference/S
 <p>Let us consider a classical right-censored dataset for human life:
 twenty values randomly chosen from the <code>canlifins</code> dataset of <code>CASdatasets</code> package.
 We refer to the help of <code><a href="../reference/Surv2fitdistcens.html">Surv2fitdistcens()</a></code> for other censoring types.</p>
-<div class="sourceCode" id="cb207"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb210"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">exitage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">81.1</span>,<span class="fl">78.9</span>,<span class="fl">72.6</span>,<span class="fl">67.9</span>,<span class="fl">60.1</span>,<span class="fl">78.3</span>,<span class="fl">83.4</span>,<span class="fl">66.9</span>,<span class="fl">74.8</span>,<span class="fl">80.5</span>,<span class="fl">75.6</span>,<span class="fl">67.1</span>,</span>
 <span>             <span class="fl">75.3</span>,<span class="fl">82.8</span>,<span class="fl">70.1</span>,<span class="fl">85.4</span>,<span class="fl">74</span>,<span class="fl">70</span>,<span class="fl">71.6</span>,<span class="fl">76.5</span><span class="op">)</span></span>
 <span><span class="va">death</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span></span></code></pre></div>
@@ -1838,15 +1994,15 @@ We refer to the help of <code><a href="../reference/Surv2fitdistcens.html">Surv2
 from package <code>survival</code> to handle different types of censoring.
 In order to ease the use of <code><a href="../reference/fitdistcens.html">fitdistcens()</a></code>, a dedicated function <code><a href="../reference/Surv2fitdistcens.html">Surv2fitdistcens()</a></code>
 has been implemented with arguments similar to the ones of <code><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv()</a></code>.</p>
-<div class="sourceCode" id="cb208"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb211"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">svdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Surv2fitdistcens.html">Surv2fitdistcens</a></span><span class="op">(</span><span class="va">exitage</span>, event<span class="op">=</span><span class="va">death</span><span class="op">)</span></span></code></pre></div>
 <p>Let us now fit two simple distributions.</p>
-<div class="sourceCode" id="cb209"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb212"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">flnormc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdistcens.html">fitdistcens</a></span><span class="op">(</span><span class="va">svdata</span>, <span class="st">"lnorm"</span><span class="op">)</span></span>
 <span><span class="va">fweic</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdistcens.html">fitdistcens</a></span><span class="op">(</span><span class="va">svdata</span>, <span class="st">"weibull"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/graphcompcens.html">cdfcompcens</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fweic</span>, <span class="va">flnormc</span><span class="op">)</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">exitage</span><span class="op">)</span>, xlegend <span class="op">=</span> <span class="st">"topleft"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="FAQ_files/figure-html/unnamed-chunk-68-1.png"><!-- --></p>
+<p><img src="FAQ_files/figure-html/unnamed-chunk-69-1.png"><!-- --></p>
 </div>
 <div class="section level3" number="6.3">
 <h3 id="how-to-represent-an-empirical-distribution-from-censored-data">
@@ -1858,13 +2014,13 @@ y-value defined by the rank of the observation as done below using function
 <code>plotdistcens</code>. This representation can be interesting to visualize the raw data,
 but it remains difficult to correctly order the observations
 in any case (see the example below on the right using data <code>smokedfish</code>).</p>
-<div class="sourceCode" id="cb210"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb213"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>, mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">3</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plotdistcens.html">plotdistcens</a></span><span class="op">(</span><span class="va">dtoy</span>, NPMLE <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">smokedfish</span><span class="op">)</span></span>
 <span><span class="va">dsmo</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log10</a></span><span class="op">(</span><span class="va">smokedfish</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plotdistcens.html">plotdistcens</a></span><span class="op">(</span><span class="va">dsmo</span>, NPMLE <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="FAQ_files/figure-html/unnamed-chunk-69-1.png"><!-- --></p>
+<p><img src="FAQ_files/figure-html/unnamed-chunk-70-1.png"><!-- --></p>
 <p>Many authors worked on the development of algorithms for
 <strong>non parametric maximum likelihood estimation (NPMLE)</strong> of the
 <strong>empirical cumulative distribution function (ECDF)</strong> from interval censored data (including
@@ -1879,7 +2035,7 @@ page of <code>plotdistcens</code>). Due to lack of maintenance of this package w
 rewrite their main functions in our package, using another
 optimization function. The same
 ECDF plot was also implemented in our using the Turnbull algorithm of survival (see below).</p>
-<div class="sourceCode" id="cb211"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb214"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>,  mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">3</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co"># Turnbull algorithm with representation of middle points of equivalence classes</span></span>
 <span><span class="fu"><a href="../reference/plotdistcens.html">plotdistcens</a></span><span class="op">(</span><span class="va">dsmo</span>, NPMLE.method <span class="op">=</span> <span class="st">"Turnbull.middlepoints"</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.8</span>, <span class="fl">2.4</span><span class="op">)</span><span class="op">)</span></span>
@@ -1887,7 +2043,7 @@ ECDF plot was also implemented in our using the Turnbull algorithm of survival (
 <span><span class="fu"><a href="../reference/plotdistcens.html">plotdistcens</a></span><span class="op">(</span><span class="va">dsmo</span>, NPMLE.method <span class="op">=</span> <span class="st">"Turnbull.intervals"</span><span class="op">)</span></span>
 <span><span class="co"># Wang algorithm with representation of equivalence classes as intervals</span></span>
 <span><span class="fu"><a href="../reference/plotdistcens.html">plotdistcens</a></span><span class="op">(</span><span class="va">dsmo</span>, NPMLE.method <span class="op">=</span> <span class="st">"Wang"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="FAQ_files/figure-html/unnamed-chunk-70-1.png"><!-- --></p>
+<p><img src="FAQ_files/figure-html/unnamed-chunk-71-1.png"><!-- --></p>
 <p>As you can see in the above example, the new implementation of NPMLE
 provides a different type of plot
 for the ECDF, representing by filled rectangles the zones of non-uniqueness
@@ -1902,7 +2058,7 @@ class, which may be zero on some classes. The NPMLE is unique only up to these e
 </ol>
 <p>Various NPMLE algorithms are implemented in the packages <strong>Icens</strong>, <strong>interval</strong> and <strong>npsurv</strong>. They are more or less performant and all of them do not enable the handling
 of other data than survival data, especially with left censored observations.</p>
-<p><img src="FAQ_files/figure-html/unnamed-chunk-71-1.png"><!-- --></p>
+<p><img src="FAQ_files/figure-html/unnamed-chunk-72-1.png"><!-- --></p>
 </div>
 <div class="section level3" number="6.4">
 <h3 id="how-to-assess-the-goodness-of-fit-of-a-distribution-fitted-on-censored-data">
@@ -1916,45 +2072,45 @@ compare the fit of various distributions on a same dataset.
 Function <code>gofstat</code> is not yet proposed in our package for fits on censored
 data but we plan to develop it in the future with the calculation of other
 goodness-of-fit statistics for censored data.</p>
-<div class="sourceCode" id="cb212"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb215"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fnorm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdistcens.html">fitdistcens</a></span><span class="op">(</span><span class="va">dsmo</span>,<span class="st">"norm"</span><span class="op">)</span></span>
 <span><span class="va">flogis</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdistcens.html">fitdistcens</a></span><span class="op">(</span><span class="va">dsmo</span>,<span class="st">"logis"</span><span class="op">)</span></span>
 <span><span class="co"># comparison of AIC values</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fnorm</span><span class="op">)</span><span class="op">$</span><span class="va">aic</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 178</span></span></code></pre>
-<div class="sourceCode" id="cb214"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb217"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">flogis</span><span class="op">)</span><span class="op">$</span><span class="va">aic</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 177</span></span></code></pre>
 <p>Considering goodness-of-fit plots, the generic <code>plot</code> function of an object of class
 <code>fitdistcens</code>provides three plots, one in CDF using the NPMLE ECDF plot (by default
 using the Wang prepresentation, see previous part for details), a Q-Q plot and a P-P plot
 simply derived from the Wang plot of the ECDF, with filled rectangles indicating non uniqueness of the NPMLE ECDF.</p>
-<div class="sourceCode" id="cb216"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb219"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">3</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fnorm</span><span class="op">)</span></span></code></pre></div>
-<p><img src="FAQ_files/figure-html/unnamed-chunk-73-1.png"><!-- --></p>
+<p><img src="FAQ_files/figure-html/unnamed-chunk-74-1.png"><!-- --></p>
 <p>Functions <code><a href="../reference/graphcompcens.html">cdfcompcens()</a></code>, <code>qqcompens()</code> and <code><a href="../reference/graphcompcens.html">ppcompcens()</a></code> can be used to
 individualize and personnalize
 CDF, Q-Q and P-P goodness-of-fit plots and/or to compare the fit of various distributions
 on a same dataset.</p>
-<div class="sourceCode" id="cb217"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb220"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/graphcompcens.html">cdfcompcens</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fnorm</span>, <span class="va">flogis</span><span class="op">)</span>, fitlty <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="FAQ_files/figure-html/unnamed-chunk-74-1.png"><!-- --></p>
-<div class="sourceCode" id="cb218"><pre class="downlit sourceCode r">
+<p><img src="FAQ_files/figure-html/unnamed-chunk-75-1.png"><!-- --></p>
+<div class="sourceCode" id="cb221"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/graphcompcens.html">qqcompcens</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fnorm</span>, <span class="va">flogis</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="FAQ_files/figure-html/unnamed-chunk-74-2.png"><!-- --></p>
-<div class="sourceCode" id="cb219"><pre class="downlit sourceCode r">
+<p><img src="FAQ_files/figure-html/unnamed-chunk-75-2.png"><!-- --></p>
+<div class="sourceCode" id="cb222"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/graphcompcens.html">ppcompcens</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fnorm</span>, <span class="va">flogis</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="FAQ_files/figure-html/unnamed-chunk-74-3.png"><!-- --></p>
+<p><img src="FAQ_files/figure-html/unnamed-chunk-75-3.png"><!-- --></p>
 <p>Considering Q-Q plots and P-P plots, it may be easier to compare various fits by
 splitting the plots as below which is done automatically using the <code>plotstyle</code> <code>ggplot</code> in <code>qqcompens()</code> and <code><a href="../reference/graphcompcens.html">ppcompcens()</a></code> but can also be done manually
 with the <code>plotstyle</code> <code>graphics</code>.</p>
-<div class="sourceCode" id="cb220"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb223"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/graphcompcens.html">qqcompcens</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fnorm</span>, <span class="va">flogis</span><span class="op">)</span>, lwd <span class="op">=</span> <span class="fl">2</span>, plotstyle <span class="op">=</span> <span class="st">"ggplot"</span>,</span>
 <span>  fitcol <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>, <span class="st">"green"</span><span class="op">)</span>, fillrect <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pink"</span>, <span class="st">"lightgreen"</span><span class="op">)</span>,</span>
 <span>  legendtext <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"normal distribution"</span>, <span class="st">"logistic distribution"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="FAQ_files/figure-html/unnamed-chunk-75-1.png"><!-- --></p>
+<p><img src="FAQ_files/figure-html/unnamed-chunk-76-1.png"><!-- --></p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
