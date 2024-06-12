@@ -3,6 +3,9 @@
 \alias{plot.bootdist}
 \alias{print.bootdist}
 \alias{summary.bootdist}
+\alias{density.bootdist}
+\alias{plot.density.bootdist}
+\alias{print.density.bootdist}
 
 \title{ Bootstrap simulation of uncertainty for non-censored data}
 
@@ -18,6 +21,9 @@ bootdist(f, bootmethod = "param", niter = 1001, silent = TRUE,
 \method{plot}{bootdist}(x, main = "Bootstrapped values of parameters", enhance = FALSE, 
     trueval = NULL, rampcol = NULL, nbgrid = 100, nbcol = 100, \dots)
 \method{summary}{bootdist}(object, \dots)
+\method{density}{bootdist}(\dots, bw = nrd0, adjust = 1, kernel = "gaussian")
+\method{plot}{density.bootdist}(x, mar=c(4,4,2,1), lty=NULL, col=NULL, lwd=NULL, \dots)
+\method{print}{density.bootdist}(x, \dots)
 
 }
 
@@ -33,18 +39,26 @@ bootdist(f, bootmethod = "param", niter = 1001, silent = TRUE,
 \item{ncpus}{Number of processes to be used in parallel operation : 
   typically one would fix it to the number of available CPUs.}
 
-\item{x}{ An object of class \code{"bootdist"}.  }
+\item{x}{ An object of class \code{"bootdist"} or \code{"density.bootdist"}.  }
 \item{object}{ An object of class \code{"bootdist"}.  }
 \item{main}{an overall title for the plot: see \code{\link{title}},
-default to \code{"Bootstrapped values of parameters"}.}
+  default to \code{"Bootstrapped values of parameters"}.}
 \item{enhance}{a logical to get an enhanced plot.}
 \item{trueval}{when relevant, a numeric vector with the true value of 
-parameters (for backfitting purposes).}
+  parameters (for backfitting purposes).}
 \item{rampcol}{colors to interpolate; must be a valid argument to 
 \code{\link[grDevices]{colorRampPalette}()}.}
-\item{nbgrid}{Number of grid points in each direction. Can be scalar or a length-2 integer vector.}
-\item{nbcol}{an integer argument, the required number of colors}
-\item{\dots}{ Further arguments to be passed to generic methods }
+\item{nbgrid}{Number of grid points in each direction. Can be scalar or a 
+  length-2 integer vector.}
+\item{nbcol}{An integer argument, the required number of colors}
+\item{\dots}{Further arguments to be passed to generic methods or \code{"bootdist"}
+  objects for \code{density}.}
+\item{bw, adjust, kernel}{resp. the smoothing bandwidth, the scaling factor,
+  the kernel used, see \code{\link{density}}.}  
+\item{mar}{A numerical vector of the form \code{c(bottom, left, top, right)}, 
+  see \code{\link{par}}.} 
+\item{lty, col, lwd}{resp. the line type, the color, the line width, 
+  see \code{\link{par}}.}   
 
 }
 
@@ -84,6 +98,11 @@ parameters (for backfitting purposes).}
     It is possible to accelerate the bootstrap using parallelization. We recommend you to
     use \code{parallel = "multicore"}, or \code{parallel = "snow"} if you work on Windows,
     and to fix \code{ncpus} to the number of available processors.
+    
+    \code{density} computes the empirical density of \code{bootdist} objects using the
+    \code{\link{density}} function (with Gaussian kernel by default). 
+    It returns an object of class \code{density.bootdist} for which \code{print}
+    and \code{plot} methods are provided.
 }
 
 \value{ 
@@ -115,8 +134,10 @@ Generic functions:
     The plot shows the bootstrap estimates with \code{\link{stripchart}} function
     for univariate parameters and \code{\link{plot}} function for multivariate parameters.
     }           
-    
-}
+    \item{\code{density}}{
+    The density computes empirical densities and return an object of class \code{density.bootdist}.
+    }
+  }
         
 }
         
@@ -166,6 +187,8 @@ plot(b1, enhance=TRUE)
 summary(b1)
 quantile(b1)
 CIcdfplot(b1, CI.output = "quantile")
+density(b1)
+plot(density(b1))
 
 # (2) non parametric bootstrap on the same fit
 #

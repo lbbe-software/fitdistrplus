@@ -10,6 +10,7 @@ NEW FEATURES
 - add calculation of the hessian using `optimHess` within `fitdist` when it is not given by `optim`.
 - compute the asymptotic covariance matrix with MME.
 - graphics function `*comp()` now return a list of drawn points and/or lines when `plotstyle == "graphics"`.
+- add a `density` function for `bootdist(cens)` objects.
 
 BUG FIXES
 

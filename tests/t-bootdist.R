@@ -24,7 +24,7 @@ print(lapply(b1, head))
 plot(b1)
 summary(b1)
 
-# (1) bis test new plot arguments
+# (2) new plot arguments
 #for new graph functions
 f1 <- fitdist(rgamma(nsample, 2, 3), "gamma")
 b1 <- bootdist(f1, niter=nbboot, silent=TRUE)
@@ -299,4 +299,20 @@ xval <- sort(unique(x))
 summary(bootdist(f1, niter = nbboot))
 try(summary(bootdist(f2, niter = nbboot))) # not yet developed
 
+# (18) density of bootdist()
+#
+x <- rlnorm(1e3)
+b0 <- bootdist(fitdist(x, "lnorm"), niter = 50)
+b1 <- bootdist(fitdist(x, "lnorm"), niter = 100)
+b2 <- bootdist(fitdist(x, "lnorm"), niter = 200)
 
+#d1 <- fitdistrplus:::density.bootdist(b0, b1, b2)
+d1 <- density(b0, b1, b2)
+str(d1)
+plot(d1)
+print(d1)
+
+d1 <- density(b1)
+str(d1)
+plot(d1)
+print(d1)

@@ -3,6 +3,9 @@
 \alias{plot.bootdistcens}
 \alias{print.bootdistcens}
 \alias{summary.bootdistcens}
+\alias{density.bootdistcens}
+\alias{plot.density.bootdistcens}
+\alias{print.density.bootdistcens}
 
 \title{ Bootstrap simulation of uncertainty for censored data}
 
@@ -17,6 +20,9 @@ bootdistcens(f, niter = 1001, silent = TRUE,
 \method{print}{bootdistcens}(x, \dots)
 \method{plot}{bootdistcens}(x, \dots)
 \method{summary}{bootdistcens}(object, \dots)
+\method{density}{bootdistcens}(\dots, bw = nrd0, adjust = 1, kernel = "gaussian")
+\method{plot}{density.bootdistcens}(x, mar=c(4,4,2,1), lty=NULL, col=NULL, lwd=NULL, \dots)
+\method{print}{density.bootdistcens}(x, \dots)
 
 }
 
@@ -32,7 +38,14 @@ bootdistcens(f, niter = 1001, silent = TRUE,
 
 \item{x}{ An object of class \code{"bootdistcens"}.}
 \item{object}{ An object of class \code{"bootdistcens"}.}
-\item{\dots}{ Further arguments to be passed to generic methods.}
+\item{\dots}{Further arguments to be passed to generic methods or \code{"bootdistcens"}
+  objects for \code{density}.}
+\item{bw, adjust, kernel}{resp. the smoothing bandwidth, the scaling factor,
+  the kernel used, see \code{\link{density}}.}  
+\item{mar}{A numerical vector of the form \code{c(bottom, left, top, right)}, 
+  see \code{\link{par}}.} 
+\item{lty, col, lwd}{resp. the line type, the color, the line width, 
+  see \code{\link{par}}.}
 }
 
 \details{
@@ -52,10 +65,14 @@ bootdistcens(f, niter = 1001, silent = TRUE,
     In these last cases, it provides
     a representation of the joint uncertainty distribution of the fitted parameters.
     
-        It is possible to accelerate the bootstrap using parallelization. We recommend you to
+    It is possible to accelerate the bootstrap using parallelization. We recommend you to
     use \code{parallel = "multicore"}, or \code{parallel = "snow"} if you work on Windows,
     and to fix \code{ncpus} to the number of available processors.
 
+    \code{density} computes the empirical density of \code{bootdistcens} objects using the
+    \code{\link{density}} function (with Gaussian kernel by default). 
+    It returns an object of class \code{density.bootdistcens} for which \code{print}
+    and \code{plot} methods are provided.
 }
 
 \value{ 
@@ -87,7 +104,9 @@ Generic functions:
     The plot shows the bootstrap estimates with the \code{\link{stripchart}} function
     for univariate parameters and \code{\link{plot}} function for multivariate parameters.
     }          
-    
+    \item{\code{density}}{
+    The density computes empirical densities and return an object of class \code{density.bootdistcens}.
+    }
 }   
 }
         
@@ -133,6 +152,7 @@ summary(b1)
 plot(b1)
 quantile(b1)
 CIcdfplot(b1, CI.output = "quantile")
+plot(density(b1))
 
 # (2) Estimation of the mean of the normal distribution 
 # by maximum likelihood with the standard deviation fixed at 1 

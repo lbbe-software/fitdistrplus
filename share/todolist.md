@@ -5,7 +5,7 @@
 1.  [ ] take into account weights for definition of starting values
 2.  [ ] take into account weights in every functions and add examples in fitdist, gofstat, plotdist, plotdistcens, descdist, and all plotting functions
 3.  [x] ajouter des choix de valeurs initiales pour des lois de actuar, vgam (packages considérés comme centro dans la task view (mention core dans lis à la fin) et bien utilisés avec le format classique, actuar, vgam, gamlss.dist) et faire une FAQ associée avec un tableau lisant les dist prises en compte et la méthode associées (moments ou quantiles), voire la formule
-4.  [ ] Traiter dans la FAQ la question du choix du nombre d'itérations bootstrap - compléter avec un 4.4 en donnant un exemple où on fait varier le nb d'itérations (faut que ça se stabilise)
+4.  [x] Traiter dans la FAQ la question du choix du nombre d'itérations bootstrap - compléter avec un 4.4 en donnant un exemple où on fait varier le nb d'itérations (faut que ça se stabilise)
 5.  [ ] Add stats for fits on censored data and the corresponding gofstat function : look at recent papers
 6.  [ ] consider the method MSE for censored data ?
 7.  [ ] explore Cullen and Frey for various dist with trimmed linear moments as well as other common distributions

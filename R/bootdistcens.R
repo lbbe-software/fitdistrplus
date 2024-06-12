@@ -209,3 +209,107 @@ print.summary.bootdistcens <- function(x, ...){
                 length(x$converg), "iterations \n")
     }
 }
+
+density.bootdistcens <- function(..., bw = "nrd0", adjust = 1, kernel = "gaussian")
+{
+  x <- list(...)
+  if(inherits(x, "bootdistcens"))
+  {
+    x <- list(x)
+  }else if(!is.list(x))
+  {
+    stop("argument x must be a list of 'bootdistcens' objects")
+  }else
+  {
+    if(any(sapply(x, function(y) !inherits(y, "bootdistcens"))))        
+      stop("argument x must be a list of 'bootdistcens' objects")
+  }
+  print(str(x))
+  nx <- length(x)
+  nbpar <- NCOL(x[[1]]$estim)
+  denslist <- lapply(1:nx, function(j)
+  {
+    dres <- lapply(1:nbpar, function(i)
+    {
+      #compute empirical density, mean, sd
+      res <- density(x[[j]]$estim[,i], bw=bw, adjust=adjust, kernel=kernel)
+      res$mean <- mean(x[[j]]$estim[,i], na.rm=TRUE)
+      res$sd <- sd(x[[j]]$estim[,i], na.rm=TRUE)
+      res$distname <- x[[j]]$fitpart$distname
+      res
+    }
+    )
+    #name list of densities
+    names(dres) <- colnames(x[[j]]$estim)
+    dres
+  }
+  )
+  nbboot <- sapply(1:nx, function(j) x[[j]]$nbboot)
+  
+  structure(denslist, 
+            distname=x[[1]]$fitpart$distname,
+            nbobject=nx,
+            nbboot=nbboot,
+            n=x[[1]]$fitpart$n,
+            class="density.bootdistcens")
+}
+
+
+plot.density.bootdistcens <- function(x, mar=c(4,4,2,1), lty=NULL, col=NULL, lwd=NULL, ...)
+{
+  if (!inherits(x, "density.bootdistcens"))
+    stop("Use only with 'density.bootdistcens' objects")
+  nbpar <- length(x[[1]])
+  nft <-  length(x)
+  if(is.null(lty))
+    lty <- 1:nft
+  else
+    lty <- rep(lty, length.out=nft)
+  if(is.null(col))
+    col <- 1:nft
+  else
+    col <- rep(col, length.out=nft)
+  if(is.null(lwd))
+    lwd <- 1.5
+  else
+    lwd <- rep(lwd, length.out=nft)
+  xname <- names(x[[1]])
+  m <- ceiling(nbpar/2)
+  par(mfrow=c(m, 2), mar=mar)
+  for(i in 1:nbpar)
+  {
+    xlim <- range(sapply(x, function(d) d[[i]]$x))
+    ylim <- range(sapply(x, function(d) d[[i]]$y))
+    nbboot <- sapply(x, function(d) d[[i]]$n)
+    mymean <- signif(sapply(x, function(d) d[[i]]$mean), 3)
+    mysd <- signif(sapply(x, function(d) d[[i]]$sd), 3)
+    ylim[2] <- ylim[2]*1.2
+    
+    main <- paste0(x[[1]][[1]]$distname, " distribution - ", xname[i])
+    plot(x[[1]][[i]], xlim=xlim, ylim=ylim, lwd=lwd[1], main=main, xlab=xname[i],
+         col=col[1], lty=lty[1], ylab="Density of bootstrapped values") 
+    if(nft > 1)
+    {
+      for(j in 2:nft)
+      {
+        lines(x[[j]][[i]], lty=lty[j], lwd=lwd*(1+(j-1)/10), col=col[j]) 
+      }
+      myleg <- paste("n=", nbboot, ", mean=", mymean, ", sd=", mysd)
+      legend("topleft", lty=lty, col=col, lwd=lwd, legend=myleg, bty="n") 
+    }
+  }
+  invisible(NULL)
+}
+
+print.density.bootdistcens <- function(x, ...)
+{
+  if (!inherits(x, "density.bootdistcens"))
+    stop("Use only with 'density.bootdistcens' objects")
+  
+  nbboot <- paste(attr(x, "nbboot"), collapse=", ")
+  cat("\nBootstrap values for: ", attr(x, "distname"), " for ",
+      attr(x, "nbobject"), " object(s) with ", 
+      nbboot, " bootstrap values (original sample size ",
+      attr(x, "n"), ").", sep = "")
+  invisible(x)
+}

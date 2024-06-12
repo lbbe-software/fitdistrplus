@@ -1410,6 +1410,27 @@ we recommend the use of the package `mc2d` which aims at making such calculation
 easy and which gives extensive examples of use of such bootstrap samples of 
 parameters estimated using functions of the package `fitdistrplus`.
 
+## How do we choose the bootstrap number?
+
+Generally, we do not need to choose a number of bootstrap values
+as high as the original sample size.
+We search a number for which the mean and the standard values become
+stable.
+In the log-normal example below, it is enough to have 100 bootstrap values.
+
+```{r, fig.height=4, fig.width=7, warning = FALSE}
+f.ln.MME <- fitdist(rlnorm(1000), "lnorm", method = "mme", order = 1:2)
+# Bootstrap 
+b.ln.50 <- bootdist(f.ln.MME, niter = 50)
+b.ln.100 <- bootdist(f.ln.MME, niter = 100)
+b.ln.200 <- bootdist(f.ln.MME, niter = 200)
+b.ln.500 <- bootdist(f.ln.MME, niter = 500)
+
+d1 <- density(b.ln.50, b.ln.100, b.ln.200, b.ln.500)
+plot(d1)
+```
+
+
 # How to personalize plots 
 
 ## Can I personalize the default plot given for an object of class `fitdist` or `fitdistcens`?
