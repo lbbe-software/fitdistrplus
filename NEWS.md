@@ -1,6 +1,6 @@
 # fitdistrplus 1.2-0
 
-NEW FEATURES
+## NEW FEATURES
 
 - the `fitdistrplus` git repo now belongs to the `lbbe-software` organization
 - modify or add a initial value for all univariate distributions provided in `actuar`.
@@ -12,7 +12,7 @@ NEW FEATURES
 - graphics function `*comp()` now return a list of drawn points and/or lines when `plotstyle == "graphics"`.
 - add a `density` function for `bootdist(cens)` objects.
 
-BUG FIXES
+## BUG FIXES
 
 - when a `scale` parameter was fixed, the `startarg` function also set a `rate` parameter. this leads to an error when calling the density.
 - add further sanity check in `plotdistcens`: the following code `plotdistcens(data.frame(right=smokedfish$right, left=smokedfish$left))` raised an error via `npsurv()`, thanks to R. Pouillot.

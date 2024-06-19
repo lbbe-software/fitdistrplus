@@ -1,5 +1,6 @@
 template:
   bootstrap: 5
+  bootswatch: lumen
 
 navbar:
   structure:
@@ -11,11 +12,14 @@ toc:
   depth: 4
   
 articles:
-- title: Articles
+- title: Introduction and help
   navbar: ~
   contents:
   - fitdistrplus_vignette
+  - FAQ
+- title: Advanced topics
+  navbar: ~
+  contents:
   - Optimalgo
   - starting-values
-  - FAQ
   
