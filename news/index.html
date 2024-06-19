@@ -25,9 +25,9 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/fitdistrplus_vignette.html">Overview of the fitdistrplus package</a>
+    <a class="dropdown-item" href="../articles/FAQ.html">Frequently Asked Questions</a>
     <a class="dropdown-item" href="../articles/Optimalgo.html">Which optimization algorithm to choose?</a>
     <a class="dropdown-item" href="../articles/starting-values.html">Starting values used in fitdistrplus</a>
-    <a class="dropdown-item" href="../articles/FAQ.html">Frequently Asked Questions</a>
   </div>
 </li>
 <li class="active nav-item">
@@ -55,7 +55,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.2-0" id="fitdistrplus-12-0">fitdistrplus 1.2-0<a class="anchor" aria-label="anchor" href="#fitdistrplus-12-0"></a></h2>
-<p>NEW FEATURES</p>
+<div class="section level3">
+<h3 id="new-features-1-2-0">NEW FEATURES<a class="anchor" aria-label="anchor" href="#new-features-1-2-0"></a></h3>
 <ul><li>the <code>fitdistrplus</code> git repo now belongs to the <code>lbbe-software</code> organization</li>
 <li>modify or add a initial value for all univariate distributions provided in <code>actuar</code>.</li>
 <li>create a new vignette regarding default initial values.</li>
@@ -65,7 +66,9 @@
 <li>compute the asymptotic covariance matrix with MME.</li>
 <li>graphics function <code>*comp()</code> now return a list of drawn points and/or lines when <code>plotstyle == "graphics"</code>.</li>
 <li>add a <code>density</code> function for <code>bootdist(cens)</code> objects.</li>
-</ul><p>BUG FIXES</p>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-1-2-0">BUG FIXES<a class="anchor" aria-label="anchor" href="#bug-fixes-1-2-0"></a></h3>
 <ul><li>when a <code>scale</code> parameter was fixed, the <code>startarg</code> function also set a <code>rate</code> parameter. this leads to an error when calling the density.</li>
 <li>add further sanity check in <code>plotdistcens</code>: the following code <code>plotdistcens(data.frame(right=smokedfish$right, left=smokedfish$left))</code> raised an error via <code>npsurv()</code>, thanks to R. Pouillot.</li>
 <li>bug fixed in using <code>breaks</code> in <code>plotdist</code>.</li>
@@ -73,6 +76,7 @@
 <li>add defensive programming for input data (check <code>NA</code>, <code>NaN</code>, <code>Inf</code> values).</li>
 <li>remove the use of <code>plot.np</code> in vignettes.</li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1-11" id="fitdistrplus-11-11">fitdistrplus 1.1-11<a class="anchor" aria-label="anchor" href="#fitdistrplus-11-11"></a></h2><p class="text-muted">CRAN release: 2023-04-25</p>
 <p>NEW FEATURES</p>
