@@ -23,3 +23,106 @@ articles:
   - Optimalgo
   - starting-values
   
+reference:
+- title: Overview
+  desc: Overview of `fitdistrplus`
+  contents:
+  - fitdistrplus
+- title: Exploratory analysis
+  desc: Exploratory analysis when searching for appropriate distributions
+  contents:
+  - descdist
+- title: Fit uncensored distributions
+  desc: Fitting procedures and derivatives
+  contents:
+  - fitdist
+  - plot.fitdist
+  - print.fitdist
+  - summary.fitdist
+  - logLik.fitdist
+  - AIC.fitdist
+  - BIC.fitdist
+  - vcov.fitdist
+  - coef.fitdist
+  - quantile.fitdist
+  - print.quantile.fitdist
+  - gofstat
+  - print.gofstat.fitdist
+  - mgedist
+  - mledist
+  - mmedist
+  - msedist
+  - qmedist
+  - bootdist
+  - plot.bootdist
+  - print.bootdist
+  - summary.bootdist
+  - density.bootdist
+  - plot.density.bootdist
+  - print.density.bootdist
+  - quantile.bootdist
+  - print.quantile.bootdist
+- title: Fit censored distributions
+  desc: Fitting procedures and derivatives
+  contents:
+  - fitdistcens
+  - plot.fitdistcens
+  - print.fitdistcens
+  - summary.fitdistcens
+  - logLik.fitdistcens
+  - AIC.fitdistcens
+  - BIC.fitdistcens
+  - vcov.fitdistcens
+  - coef.fitdistcens
+  - quantile.fitdistcens
+  - print.quantile.fitdistcens
+  - gofstat
+  - print.gofstat.fitdistcens
+  - mledist
+  - Surv2fitdistcens
+  - bootdistcens
+  - plot.bootdistcens
+  - print.bootdistcens
+  - summary.bootdistcens
+  - density.bootdistcens
+  - plot.density.bootdistcens
+  - print.density.bootdistcens
+  - print.quantile.bootdistcens
+- title: Graphics
+  desc: Graphical procedures
+  contents:
+  - CIcdfplot
+  - plotdist
+  - plotdistcens
+  - cdfcomp
+  - denscomp
+  - qqcomp
+  - ppcomp
+  - cdfcompcens
+  - qqcompcens
+  - ppcompcens
+- title: Data
+  desc: Useful datasets
+  contents:
+  - danishuni
+  - danishmulti
+  - dataFAQlog1
+  - dataFAQscale1
+  - dataFAQscale2
+  - endosulfan
+  - fluazinam
+  - fremale
+  - groundbeef
+  - salinity
+  - smokedfish
+  - toxocara
+- title: Misc
+  desc: Other internal functions
+  contents:  
+  - detectbound
+  - llplot
+  - llsurface
+  - llcurve
+  - prefit
+   
+  
