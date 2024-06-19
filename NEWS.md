@@ -1,4 +1,4 @@
-# fitdistrplus 1.1-12
+# fitdistrplus 1.2-0
 
 NEW FEATURES
 
