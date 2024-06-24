@@ -149,13 +149,14 @@ I. Ibragimov and R. Has'minskii (1981),
 \emph{Statistical Estimation - Asymptotic Theory}, Springer-Verlag, 
 \doi{10.1007/978-1-4899-0027-2}
 
-Evans M, Hastings N and Peacock B (2000), \emph{Statistical distributions}. John Wiley and Sons Inc.
+Evans M, Hastings N and Peacock B (2000), \emph{Statistical distributions}. John Wiley and Sons Inc,
+\doi{10.1002/9780470627242}.
 
 Vose D (2000), \emph{Risk analysis, a quantitative guide}.
 John Wiley & Sons Ltd, Chischester, England, pp. 99-143.
 
 Delignette-Muller ML and Dutang C (2015), \emph{fitdistrplus: An R Package for Fitting Distributions}.
-Journal of Statistical Software, 64(4), 1-34.
+Journal of Statistical Software, 64(4), 1-34, \doi{https://doi.org/10.18637/jss.v064.i04}.
 }
 
 

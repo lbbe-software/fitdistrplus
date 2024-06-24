@@ -81,13 +81,13 @@ Cullen AC and Frey HC (1999), \emph{Probabilistic techniques in exposure assessm
 Plenum Press, USA, pp. 81-159.
 
 Evans M, Hastings N and Peacock B (2000), \emph{Statistical distributions}.
-John Wiley and Sons Inc.
+John Wiley and Sons Inc, \doi{10.1002/9780470627242}.
 
 Sokal RR and Rohlf FJ (1995), \emph{Biometry}.
 W.H. Freeman and Company, USA, pp. 111-115.
 
 Delignette-Muller ML and Dutang C (2015), \emph{fitdistrplus: An R Package for Fitting Distributions}.
-Journal of Statistical Software, 64(4), 1-34.
+Journal of Statistical Software, 64(4), 1-34, \doi{https://doi.org/10.18637/jss.v064.i04}.
 
 }
 

@@ -126,13 +126,13 @@ Stephens MA (1986), \emph{Tests based on edf statistics}. In Goodness-of-fit tec
 Stephens MA, eds), Marcel Dekker, New York, pp. 97-194.
 
 Venables WN and Ripley BD (2002), \emph{Modern applied statistics with S}.
-Springer, New York, pp. 435-446.
+Springer, New York, pp. 435-446, \doi{10.1007/978-0-387-21706-2}.
 
 Vose D (2000), \emph{Risk analysis, a quantitative guide}.
 John Wiley & Sons Ltd, Chischester, England, pp. 99-143.
 
 Delignette-Muller ML and Dutang C (2015), \emph{fitdistrplus: An R Package for Fitting Distributions}.
-Journal of Statistical Software, 64(4), 1-34.
+Journal of Statistical Software, 64(4), 1-34, \doi{https://doi.org/10.18637/jss.v064.i04}.
 
 }
 

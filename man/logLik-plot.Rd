@@ -57,7 +57,7 @@ parameter is of 2 standard error around the mle estimate but this range can be e
 \references{
 Delignette-Muller ML and Dutang C (2015), 
 \emph{fitdistrplus: An R Package for Fitting Distributions}.
-Journal of Statistical Software, 64(4), 1-34.
+Journal of Statistical Software, 64(4), 1-34, \doi{https://doi.org/10.18637/jss.v064.i04}.
 
 }
 

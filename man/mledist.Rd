@@ -182,10 +182,10 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
 \references{ 
 
 Venables WN and Ripley BD (2002), \emph{Modern applied statistics with S}.
-Springer, New York, pp. 435-446.
+Springer, New York, pp. 435-446, \doi{10.1007/978-0-387-21706-2}.
 
 Delignette-Muller ML and Dutang C (2015), \emph{fitdistrplus: An R Package for Fitting Distributions}.
-Journal of Statistical Software, 64(4), 1-34.
+Journal of Statistical Software, 64(4), 1-34, \doi{https://doi.org/10.18637/jss.v064.i04}.
 }
 
 

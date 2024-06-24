@@ -120,11 +120,12 @@ qmedist(data, distr, probs, start = NULL, fix.arg = NULL, qtype = 7,
 \references{
 Klugman SA, Panjer HH and Willmot GE (2012),
 \emph{Loss Models: From Data to Decissions}, 4th edition.
-Wiley Series in Statistics for Finance, Business and Economics, p. 253.
+Wiley Series in Statistics for Finance, Business and Economics, p. 253,
+\doi{10.1198/tech.2006.s409}.
 
 
 Delignette-Muller ML and Dutang C (2015), \emph{fitdistrplus: An R Package for Fitting Distributions}.
-Journal of Statistical Software, 64(4), 1-34.
+Journal of Statistical Software, 64(4), 1-34, \doi{https://doi.org/10.18637/jss.v064.i04}.
 
 
 }

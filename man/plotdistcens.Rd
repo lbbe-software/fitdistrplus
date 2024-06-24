@@ -101,18 +101,22 @@ plotdistcens(censdata, distr, para, leftNA = -Inf, rightNA = Inf,
 
 \references{ 
 Turnbull BW (1974), \emph{Nonparametric estimation of a survivorship function with doubly
-censored data}. Journal of American Statistical Association, 69, 169-173.
+censored data}. Journal of American Statistical Association, 69, 169-173,
+\doi{10.2307/2285518}.
 
 Wang Y (2008), \emph{Dimension-reduced nonparametric maximum likelihood computation
-for interval-censored data}. Computational Statistics & Data Analysis, 52, 2388-2402.
+for interval-censored data}. Computational Statistics & Data Analysis, 52, 2388-2402,
+\doi{10.1016/j.csda.2007.10.018}.
 
 Wang Y and Taylor SM (2013), \emph{Efficient computation of nonparametric survival
-functions via a hierarchical mixture formulation}. Statistics and Computing, 23, 713-725.
+functions via a hierarchical mixture formulation}. Statistics and Computing, 23, 713-725,
+\doi{10.1007/s11222-012-9341-9}.
 
-Wang, Y., & Fani, S. (2018), \emph{Nonparametric maximum likelihood computation of a U-shaped hazard function}. Statistics and Computing, 28(1), 187-200.
+Wang, Y., & Fani, S. (2018), \emph{Nonparametric maximum likelihood computation of a U-shaped hazard function}. Statistics and Computing, 28(1), 187-200,
+\doi{10.1007/s11222-017-9724-z}.
 
 Delignette-Muller ML and Dutang C (2015), \emph{fitdistrplus: An R Package for Fitting Distributions}.
-Journal of Statistical Software, 64(4), 1-34.
+Journal of Statistical Software, 64(4), 1-34, \doi{https://doi.org/10.18637/jss.v064.i04}.
 
 }
 
