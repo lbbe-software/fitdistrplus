@@ -89,6 +89,13 @@ to the number of parameters to estimate.}
 
     This function is not intended to be called directly but is internally called in
     \code{\link{fitdist}} and \code{\link{bootdist}} when used with the matching moments method. 
+    
+    Since Version 1.2-0, \code{mmedist} automatically computes the asymptotic covariance matrix
+    using I. Ibragimov and R. Has'minskii (1981), hence the theoretical moments \code{mdist} 
+    should be defined up to an order which equals to twice the maximal order given \code{order}.
+    For instance, the normal distribution, we fit against the expectation and the variance
+    and we need to have \code{mnorm} up to order \eqn{2\times2=4}.
+    
 }
 
 \value{ 
@@ -136,6 +143,12 @@ to the number of parameters to estimate.}
 }
 
 \references{ 
+
+
+I. Ibragimov and R. Has'minskii (1981), 
+\emph{Statistical Estimation - Asymptotic Theory}, Springer-Verlag, 
+\doi{10.1007/978-1-4899-0027-2}
+
 Evans M, Hastings N and Peacock B (2000), \emph{Statistical distributions}. John Wiley and Sons Inc.
 
 Vose D (2000), \emph{Risk analysis, a quantitative guide}.

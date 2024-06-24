@@ -8,7 +8,7 @@ NEW FEATURES
 - add of generic functions `AIC()` and `BIC()` for `fitdist` and `fitdistcens` objects.
 - make `gofstat()` work with `fitdistcens` objects (giving only AIC and BIC values).
 - add calculation of the hessian using `optimHess` within `fitdist` when it is not given by `optim`.
-- compute the asymptotic covariance matrix with MME.
+- compute the asymptotic covariance matrix with MME : Now the theoretical moments `m<dist>` should be defined up to an order which equals to twice the maximal order given `order`.
 - graphics function `*comp()` now return a list of drawn points and/or lines when `plotstyle == "graphics"`.
 - add a `density` function for `bootdist(cens)` objects.
 

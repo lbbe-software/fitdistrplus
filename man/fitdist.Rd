@@ -108,6 +108,10 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge", "mse"),
     by minimization of the sum of squared differences between observed and theoretical moments. 
     In this last case, further arguments are needed in the call to \code{fitdist}: \code{order} and \code{memp}
     (see \code{\link{mmedist}} for details).
+    
+    Since Version 1.2-0, \code{mmedist} automatically computes the asymptotic covariance matrix, 
+    hence the theoretical moments \code{mdist} 
+    should be defined up to an order which equals to twice the maximal order given \code{order}.
     }
     \item{When \code{method = "qme"}}{
     Quantile matching estimation consists in equalizing theoretical and empirical quantile.
@@ -192,7 +196,8 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge", "mse"),
         or \code{NULL} if not available.}
     \item{cor}{ the estimated correlation matrix, \code{NA} if numerically not computable
         or \code{NULL} if not available.}
-    \item{vcov}{ the estimated variance-covariance matrix, \code{NULL} if not available.}
+    \item{vcov}{ the estimated variance-covariance matrix, \code{NULL} if not available
+        for the estimation method considered.}
     \item{loglik}{ the log-likelihood.}
     \item{aic}{ the Akaike information criterion.}
     \item{bic}{ the the so-called BIC or SBC (Schwarz Bayesian criterion).}
@@ -273,6 +278,10 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge", "mse"),
 }
 
 \references{ 
+I. Ibragimov and R. Has'minskii (1981), 
+\emph{Statistical Estimation - Asymptotic Theory}, Springer-Verlag, 
+\doi{10.1007/978-1-4899-0027-2}
+
 Cullen AC and Frey HC (1999), \emph{Probabilistic techniques in exposure assessment}.
 Plenum Press, USA, pp. 81-155.
 
