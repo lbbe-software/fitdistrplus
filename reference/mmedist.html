@@ -166,7 +166,12 @@ to the number of parameters to estimate.</p></dd>
     and <code>descdist</code>
     (developments planned in the future).</p>
 <p>This function is not intended to be called directly but is internally called in
-    <code><a href="fitdist.html">fitdist</a></code> and <code><a href="bootdist.html">bootdist</a></code> when used with the matching moments method.</p>
+    <code><a href="fitdist.html">fitdist</a></code> and <code><a href="bootdist.html">bootdist</a></code> when used with the matching moments method.</p>    
+<p>Since Version 1.2-0, <code>mmedist</code> automatically computes the asymptotic covariance matrix
+    using I. Ibragimov and R. Has'minskii (1981), hence the theoretical moments <code>mdist</code> 
+    should be defined up to an order which equals to twice the maximal order given <code>order</code>.
+    For instance, the normal distribution, we fit against the expectation and the variance
+    and we need to have <code>mnorm</code> up to order \(2\times2=4\).</p>
     </div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -243,11 +248,20 @@ to the number of parameters to estimate.</p></dd>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
-    <p>Evans M, Hastings N and Peacock B (2000), <em>Statistical distributions</em>. John Wiley and Sons Inc.</p>
+     
+
+
+<p>I. Ibragimov and R. Has'minskii (1981), 
+<em>Statistical Estimation - Asymptotic Theory</em>, Springer-Verlag, 
+<a href="https://doi.org/10.1007/978-1-4899-0027-2" class="external-link">doi:10.1007/978-1-4899-0027-2</a></p>
+<p>Evans M, Hastings N and Peacock B (2000), <em>Statistical distributions</em>. John Wiley and Sons Inc,
+<a href="https://doi.org/10.1002/9780470627242" class="external-link">doi:10.1002/9780470627242</a>
+.</p>
 <p>Vose D (2000), <em>Risk analysis, a quantitative guide</em>.
 John Wiley &amp; Sons Ltd, Chischester, England, pp. 99-143.</p>
 <p>Delignette-Muller ML and Dutang C (2015), <em>fitdistrplus: An R Package for Fitting Distributions</em>.
-Journal of Statistical Software, 64(4), 1-34.</p>
+Journal of Statistical Software, 64(4), 1-34, <a href="https://doi.org/10.18637/jss.v064.i04" class="external-link">doi:10.18637/jss.v064.i04</a>
+.</p>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
@@ -501,7 +515,7 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $memp</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function(x, order) mean(x^order)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x5630efb7d150&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x565183f3c298&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $vcov</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          [,1]     [,2]</span>
@@ -587,7 +601,7 @@ Journal of Statistical Software, 64(4), 1-34.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $memp</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function(x, order, weights) sum(x^order * weights)/sum(weights)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x5630efb7d150&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x565183f3c298&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $vcov</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          [,1]      [,2]</span>
