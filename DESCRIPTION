@@ -5,7 +5,7 @@ Authors@R: c(person("Marie-Laure", "Delignette-Muller", role = "aut", email = "m
              person("Christophe", "Dutang", role = "aut", email = "christophe.dutang@ensimag.fr", comment = c(ORCID = "0000-0001-6732-1501")),
              person("Regis", "Pouillot", role = "ctb"),
              person("Jean-Baptiste", "Denis", role = "ctb"),
-             person("Aurelie", "Siberchicot", role = c("aut", "cre"), email = "aurelie.siberchicot@univ-lyon1.fr", comment = c(ORCID = "0000-0002-7638-8318")))
+             person("Aurélie", "Siberchicot", role = c("aut", "cre"), email = "aurelie.siberchicot@univ-lyon1.fr", comment = c(ORCID = "0000-0002-7638-8318")))
 Description: Extends the fitdistr() function (of the MASS package) with several functions 
   to help the fit of a parametric distribution to non-censored or censored data. 
   Censored data may contain left censored, right censored and interval censored values, 
