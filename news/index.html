@@ -65,6 +65,7 @@
 <li>compute the asymptotic covariance matrix with MME : Now the theoretical moments <code>m&lt;dist&gt;</code> should be defined up to an order which equals to twice the maximal order given <code>order</code>.</li>
 <li>graphics function <code>*comp()</code> now return a list of drawn points and/or lines when <code>plotstyle == "graphics"</code>.</li>
 <li>add a <code>density</code> function for <code>bootdist(cens)</code> objects.</li>
+<li>add DOIs in man pages.</li>
 </ul><p>BUG FIXES</p>
 <ul><li>when a <code>scale</code> parameter was fixed, the <code>startarg</code> function also set a <code>rate</code> parameter. this leads to an error when calling the density.</li>
 <li>add further sanity check in <code>plotdistcens</code>: the following code <code>plotdistcens(data.frame(right=smokedfish$right, left=smokedfish$left))</code> raised an error via <code>npsurv()</code>, thanks to R. Pouillot.</li>
