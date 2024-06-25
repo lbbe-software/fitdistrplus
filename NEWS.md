@@ -11,6 +11,7 @@ NEW FEATURES
 - compute the asymptotic covariance matrix with MME : Now the theoretical moments `m<dist>` should be defined up to an order which equals to twice the maximal order given `order`.
 - graphics function `*comp()` now return a list of drawn points and/or lines when `plotstyle == "graphics"`.
 - add a `density` function for `bootdist(cens)` objects.
+- add DOIs in man pages.
 
 BUG FIXES
 

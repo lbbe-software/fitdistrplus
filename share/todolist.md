@@ -36,6 +36,7 @@
 32. [x] check link of `Surv2fitdistcens` in the FAQ
 33. [ ] add exploratory tools for assessing the role of covariates and for choosing the appropriate distribution in modelling (survival parametric model), e.g. dose-response
 34. [x] allow the computation of vcov for MME, remove NOTE when checking the package *CD*
+35. [x] add DOI for reference in man pages
 
 # Of less priority
 
