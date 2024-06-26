@@ -22,8 +22,8 @@
 ###         R functions
 ### 
 
-fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge", "mse"), start=NULL, 
-                     fix.arg=NULL, discrete, keepdata = TRUE, keepdata.nb=100, ...) 
+fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge", "mse"), start = NULL, 
+                     fix.arg = NULL, discrete, keepdata = TRUE, keepdata.nb = 100, calcvcov = TRUE, ...) 
 {
     #check argument distr
     if (!is.character(distr)) 
@@ -49,6 +49,8 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge", "mse"),
       stop("wrong argument 'discrete'.")
     if(!is.logical(keepdata) || !is.numeric(keepdata.nb) || keepdata.nb < 2)
       stop("wrong arguments 'keepdata' and 'keepdata.nb'")
+    if(!is.logical(calcvcov) || length(calcvcov) != 1)
+      stop("wrong argument 'calcvcov'.")
     #check argument method
     if(any(method == "mom"))
         warning("the name \"mom\" for matching moments is NO MORE used and is replaced by \"mme\"")
@@ -104,11 +106,16 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge", "mse"),
                 stop("moment matching estimation needs an 'order' argument")   
         
         mme <- mmedist(data, distname, start=arg_startfix$start.arg, 
-                       fix.arg=arg_startfix$fix.arg, checkstartfix=TRUE, ...)
+                       fix.arg=arg_startfix$fix.arg, checkstartfix=TRUE, 
+                       calcvcov=calcvcov, ...)
                 
         varcovar <- mme$vcov
-        correl <- cov2cor(varcovar)
-        sd <- sqrt(diag(varcovar))
+        if(!is.null(varcovar))
+        {
+          correl <- cov2cor(varcovar)
+          sd <- sqrt(diag(varcovar))
+        }else
+          correl <- sd <- NULL
         
         estimate <- mme$estimate
         loglik <- mme$loglik
@@ -121,29 +128,20 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge", "mse"),
     }else if (method == "mle")
     {
         mle <- mledist(data, distname, start=arg_startfix$start.arg, 
-                       fix.arg=arg_startfix$fix.arg, checkstartfix=TRUE, ...)
+                       fix.arg=arg_startfix$fix.arg, checkstartfix=TRUE, 
+                       calcvcov=calcvcov, ...)
         if (mle$convergence>0) 
            stop("the function mle failed to estimate the parameters, 
                 with the error code ", mle$convergence, "\n") 
         estimate <- mle$estimate
-        if(!is.null(mle$hessian)){
-            #check for NA values and invertible Hessian
-            if(all(!is.na(mle$hessian)) && qr(mle$hessian)$rank == NCOL(mle$hessian))
-            {
-                varcovar <- solve(mle$hessian)
-                sd <- sqrt(diag(varcovar))
-                correl <- cov2cor(varcovar)
-            }else
-            {
-                varcovar <- NA
-                sd <- NA
-                correl <- NA                            
-            }
-        }else{
-            varcovar <- NA
-            sd <- NA
-            correl <- NA            
-        }
+        varcovar <- mle$vcov
+        if(!is.null(varcovar))
+        {
+          correl <- cov2cor(varcovar)
+          sd <- sqrt(diag(varcovar))
+        }else
+          correl <- sd <- NULL
+        
         loglik <- mle$loglik
         npar <- length(estimate)
         aic <- -2*loglik+2*npar
@@ -157,15 +155,15 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge", "mse"),
             stop("quantile matching estimation needs an 'probs' argument") 
                 
         qme <- qmedist(data, distname, start=arg_startfix$start.arg, 
-                       fix.arg=arg_startfix$fix.arg, checkstartfix=TRUE, ...)
+                       fix.arg=arg_startfix$fix.arg, checkstartfix=TRUE, 
+                       calcvcov=calcvcov, ...)
 
         estimate <- qme$estimate
-        sd <- NULL
         loglik <- qme$loglik
         npar <- length(estimate)
         aic <- -2*loglik+2*npar
         bic <- -2*loglik+log(n)*npar
-        correl <- varcovar <- NULL
+        sd <- correl <- varcovar <- NULL
         
         convergence <- qme$convergence   
         fix.arg <- qme$fix.arg
@@ -176,15 +174,15 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge", "mse"),
             warning("maximum GOF estimation has a default 'gof' argument set to 'CvM'")    
 
         mge <- mgedist(data, distname, start=arg_startfix$start.arg, 
-                       fix.arg=arg_startfix$fix.arg, checkstartfix=TRUE, ...)
+                       fix.arg=arg_startfix$fix.arg, checkstartfix=TRUE, 
+                       calcvcov=calcvcov, ...)
 
         estimate <- mge$estimate
-        sd <- NULL
         loglik <- mge$loglik
         npar <- length(estimate)
         aic <- -2*loglik+2*npar
         bic <- -2*loglik+log(n)*npar
-        correl <- varcovar <- NULL
+        sd <- correl <- varcovar <- NULL
         
         convergence <- mge$convergence
         fix.arg <- mge$fix.arg
@@ -192,22 +190,22 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge", "mse"),
     }else if (method == "mse")
     {
       mse <- msedist(data, distname, start=arg_startfix$start.arg, 
-                     fix.arg=arg_startfix$fix.arg, checkstartfix=TRUE, ...)
+                     fix.arg=arg_startfix$fix.arg, checkstartfix=TRUE, 
+                     calcvcov=calcvcov, ...)
       
       estimate <- mse$estimate
-      sd <- NULL
       loglik <- mse$loglik
       npar <- length(estimate)
       aic <- -2*loglik+2*npar
       bic <- -2*loglik+log(n)*npar
-      correl <- varcovar <- NULL
+      sd <- correl <- varcovar <- NULL
       
       convergence <- mse$convergence
       fix.arg <- mse$fix.arg
       weights <- mse$weights
     }else
     {
-        stop("match.arg() did not work correctly")
+        stop("match.arg() for 'method' did not work correctly")
     }
     
     #needed for bootstrap

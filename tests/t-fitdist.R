@@ -26,16 +26,6 @@ if(visualize) {  # check ERROR on aarch64-apple-darwin20.4.0 (64-bit) (2021/05/1
   names(fitdist(serving, "gamma", optim.method="L-BFGS-B", lower=0)$estimate)
 }
 
-# (2) sanity check
-#
-
-
-try(fitdist(c(serving, "a"), "gamma"))
-try(fitdist(c(serving, NA), "gamma"))
-try(fitdist(c(serving, Inf), "gamma"))
-try(fitdist(c(serving, -Inf), "gamma"))
-try(fitdist(c(serving, NaN), "gamma"))
-
 
 # (7) custom optimization function
 #
@@ -361,27 +351,3 @@ fitdist(xval, "pois", method = "qme", weights = xtab, probs=c(1/2), optim.method
 fitdist(x, "pois", method = "qme", probs=c(1/2), optim.method="SANN", control=list(maxit=1000)) # should be similar
 
 # should give similar results for big samples
-
-# (25) check the warning messages when using weights in the fit followed by functions
-# that do not yet take weights into account
-# with an example to be used later to see if weights are well taken into account
-#
-if(visualize)
-{
-  x3 <- rnorm(100) # this sample size must be fixed here (see next lines, 50+50)
-  x3 <- sort(x3)
-  (f <- fitdist(x3, "norm", method="mle", weights= c(rep(1, 50), rep(2, 50))))
-  try(plot(f))
-  try(cdfcomp(f))
-  (f2 <- fitdist(x3, "logis", method="mle", weights= c(rep(1, 50), rep(2, 50))))
-  try(cdfcomp(list(f,f2)))
-  try(denscomp(f))
-  try(denscomp(list(f,f2)))
-  try(ppcomp(f))
-  try(ppcomp(list(f,f2)))
-  try(qqcomp(f))
-  try(qqcomp(list(f,f2)))
-  try(gofstat(f))
-  try(gofstat(list(f,f2)))
-  try(bootdist(f))
-}

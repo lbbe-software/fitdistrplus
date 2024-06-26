@@ -1,5 +1,5 @@
 #############################################################################
-#   Copyright (c) 2009 Marie Laure Delignette-Muller, Regis Pouillot, Jean-Baptiste Denis, Christophe Dutang                                                                                                  
+#   Copyright (c) 2024 Christophe Dutang, Marie Laure Delignette-Muller
 #                                                                                                                                                                        
 #   This program is free software; you can redistribute it and/or modify                                               
 #   it under the terms of the GNU General Public License as published by                                         
@@ -17,27 +17,22 @@
 #   59 Temple Place, Suite 330, Boston, MA 02111-1307, USA                                                             
 #                                                                                                                                                                         
 #############################################################################
-### var-covariance matrix
+### Theory of point estimation, Casella & Berger
 ###
 ###         R functions
-###
+### 
 
-#already in R
-#
-#vcov <- function(object, ...)
-#    UseMethod("vcov")
-#
-#vcov.default <- function(object, ...)
-#    return(object)
 
-vcov.fitdist <- function(object, ...)
+#compute H^{-1}
+mle.vcov <- function(myhessian)
 {
-    stopifnot(inherits(object, "fitdist"))
-    return(object$vcov)
-}
-
-vcov.fitdistcens <- function(object, ...)
-{
-    stopifnot(inherits(object, "fitdistcens"))
-    return(object$vcov)
+  
+  if(all(!is.na(myhessian)) && qr(myhessian)$rank == NCOL(myhessian))
+  {
+    res <- solve(myhessian)
+  }else
+  {
+    res <- NULL
+  }
+  res
 }

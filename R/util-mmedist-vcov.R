@@ -34,9 +34,14 @@ mme.vcov <- function(par, fix.arg, order, obs, mdistnam, memp, weights,
   stopifnot(length(epsilon) == 1)
   stopifnot(epsilon > 0)
   
-  Amat <- mme.Ahat(par, fix.arg, order, obs, mdistnam, memp, weights)
   Jmat <- mme.Jhat(par, fix.arg, order, mdistnam, epsilon)
-  Jinv <- solve(Jmat)
+  if(all(!is.na(Jmat)) && qr(Jmat)$rank == NCOL(Jmat))
+  {  
+    Jinv <- solve(Jmat)
+    Amat <- mme.Ahat(par, fix.arg, order, obs, mdistnam, memp, weights)
+    res <- Jinv %*% Amat %*% t(Jinv)
+  }else 
+    res <- NULL
   if(echo)
   {
     cat("Amat\n")
@@ -46,8 +51,6 @@ mme.vcov <- function(par, fix.arg, order, obs, mdistnam, memp, weights,
     cat("Jinv\n")
     print(Jinv)
   }
-  res <- Jinv %*% Amat %*% t(Jinv)
-  
   res
 }
 

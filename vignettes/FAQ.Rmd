@@ -272,7 +272,7 @@ par(mfrow=c(1,1), mar=c(4,4,2,1))
 cdfcomp(list(f1, f2), do.points = FALSE, addlegend=FALSE, xlim=c(0, 3.5))
 curve(ptiexp(x, 1, .5, 3), add=TRUE, col="blue", lty=3)
 legend("bottomright", lty=1:3, col=c("red", "green", "blue", "black"), 
-        leg=c("full MLE", "MLE fixed arg", "true CDF", "emp. CDF"))
+        legend=c("full MLE", "MLE fixed arg", "true CDF", "emp. CDF"))
 ```
 
 

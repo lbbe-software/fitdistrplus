@@ -10,7 +10,7 @@
 \usage{
 msedist(data, distr, phidiv="KL", power.phidiv=NULL, start = NULL, fix.arg = NULL, 
   optim.method = "default", lower = -Inf, upper = Inf, custom.optim = NULL, 
-  weights=NULL, silent = TRUE, gradient = NULL, checkstartfix=FALSE, \dots)
+  weights=NULL, silent = TRUE, gradient = NULL, checkstartfix=FALSE, calcvcov=FALSE, \dots)
 
 }
 
@@ -45,7 +45,9 @@ msedist(data, distr, phidiv="KL", power.phidiv=NULL, start = NULL, fix.arg = NUL
 \item{silent}{A logical to remove or show warnings when bootstraping.}    
 \item{gradient}{A function to return the gradient of the gof distance for the \code{"BFGS"}, \code{"CG"} 
     and \code{"L-BFGS-B"} methods. If it is \code{NULL}, a finite-difference approximation will be used.}
-\item{checkstartfix}{A logical to test starting and fixed values. Do not change it.}      
+\item{checkstartfix}{A logical to test starting and fixed values. Do not change it.}  
+\item{calcvcov}{A logical indicating if (asymptotic) covariance matrix is required.
+  (currently ignored)}
 \item{\dots}{further arguments passed to the \code{\link{optim}}, \code{\link{constrOptim}} or \code{custom.optim} function.}
 }
 

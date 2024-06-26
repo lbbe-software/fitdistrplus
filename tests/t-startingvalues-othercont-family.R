@@ -23,4 +23,3 @@ fitdist(x, "invgauss")
 x <- rgenbeta(n, 2, 2, 2, scale=2)
 fitdistrplus:::startarg_othercontinuous_actuar_family(x, "genbeta")
 fitdist(x, "genbeta", lower=0)
-

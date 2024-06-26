@@ -9,6 +9,7 @@ NEW FEATURES
 - make `gofstat()` work with `fitdistcens` objects (giving only AIC and BIC values).
 - add calculation of the hessian using `optimHess` within `fitdist` when it is not given by `optim`.
 - compute the asymptotic covariance matrix with MME : Now the theoretical moments `m<dist>` should be defined up to an order which equals to twice the maximal order given `order`.
+- add a new argument `calcvcov` in order to (dis)able the computation of covariance matrix for any method.
 - graphics function `*comp()` now return a list of drawn points and/or lines when `plotstyle == "graphics"`.
 - add a `density` function for `bootdist(cens)` objects.
 - add DOIs in man pages.

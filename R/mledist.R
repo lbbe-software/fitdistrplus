@@ -26,7 +26,7 @@
 
 mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="default", 
     lower=-Inf, upper=Inf, custom.optim=NULL, weights=NULL, silent=TRUE, gradient=NULL, 
-    checkstartfix=FALSE, ...)
+    checkstartfix=FALSE, calcvcov=FALSE, ...)
     # data may correspond to a vector for non censored data or to
     # a dataframe of two columns named left and right for censored data 
 {
@@ -298,7 +298,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
             #recompute Hessian if Hessian matrix has NA values
             if(!inherits(opttryerror, "try-error"))
             {
-              if(any(is.na(opt$hessian)) || is.null(opt$hessian)) 
+              if(calcvcov && any(is.na(opt$hessian)) || is.null(opt$hessian)) 
               {
                 opthessian <- try(optimHess(par=vstart, fn=fnobj, fix.arg=fix.arg, obs=data, gr=gradient, ddistnam=ddistname), silent=TRUE)
                 if(!inherits(opthessian, "try-error"))
@@ -320,7 +320,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
             #recompute Hessian if Hessian matrix has NA values
             if(!inherits(opttryerror, "try-error"))
             {
-              if(any(is.na(opt$hessian)) || is.null(opt$hessian)) 
+              if(calcvcov && any(is.na(opt$hessian)) || is.null(opt$hessian)) 
               {
                 opthessian <- try(optimHess(par=vstart, fn=fnobj, fix.arg=fix.arg, obs=data, gr=gradient, ddistnam=ddistname), 
                                   silent=TRUE)
@@ -346,7 +346,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
           #recompute Hessian if Hessian matrix has NA values
           if(!inherits(opttryerror, "try-error"))
           {
-            if(any(is.na(opt$hessian)) || is.null(opt$hessian)) 
+            if(calcvcov && any(is.na(opt$hessian)) || is.null(opt$hessian)) 
             {
               opthessian <- try(optimHess(par=vstart, fn=fnobj, fix.arg=fix.arg, obs=data, gr=gradient, ddistnam=ddistname),
                                 silent=TRUE)
@@ -362,8 +362,9 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
             warnings("The function optim encountered an error and stopped.")
             if(getOption("show.error.messages")) print(attr(opttryerror, "condition"))          
             return(list(estimate = rep(NA, length(vstart)), convergence = 100, loglik = NA, 
-                        hessian = NA, optim.function=opt.fun, fix.arg = fix.arg, 
-                        optim.method=meth, fix.arg.fun = fix.arg.fun, counts=c(NA, NA)))
+                        hessian = NA, optim.function = opt.fun, fix.arg = fix.arg, 
+                        optim.method=meth, fix.arg.fun = fix.arg.fun, counts=c(NA, NA), 
+                        vcov = NULL))
         }
         
         if (opt$convergence>0) {
@@ -372,10 +373,20 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
         }
         if(is.null(names(opt$par)))
           names(opt$par) <- names(vstart)
+        if(calcvcov && !is.null(opt$hessian))
+        {
+          #see R/util-mledist-vcov.R
+          varcovar <- mle.vcov(opt$hessian)
+          #add names
+          if(!is.null(varcovar))
+            colnames(varcovar) <- rownames(varcovar) <- names(opt$par)
+        }else
+          varcovar <- NULL
         res <- list(estimate = opt$par, convergence = opt$convergence, value=opt$value,  
                     hessian = opt$hessian, optim.function=opt.fun, optim.method=meth, 
                     fix.arg = fix.arg, fix.arg.fun = fix.arg.fun, weights = weights, 
-                    counts=opt$counts, optim.message=opt$message, loglik = -opt$value)
+                    counts=opt$counts, optim.message=opt$message, loglik = -opt$value,
+                    vcov=varcovar)
     }
     else # Try to minimize the minus (log-)likelihood using a user-supplied optim function 
     {
@@ -384,7 +395,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
             opttryerror <- try(opt <- custom.optim(fn=fnobj, fix.arg=fix.arg, obs=data, 
                 ddistnam=ddistname, par=vstart, ...), silent=TRUE)
         else
-            opttryerror <-try(opt<-custom.optim(fn=fnobjcens, fix.arg=fix.arg, rcens=rcens, 
+            opttryerror <-try(opt <- custom.optim(fn=fnobjcens, fix.arg=fix.arg, rcens=rcens, 
                 lcens=lcens, icens=icens, ncens=ncens, ddistnam=ddistname, pdistnam=pdistname, 
                 par=vstart, ...), silent=TRUE)              
         options(warn=owarn)
@@ -404,12 +415,21 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
         }
         if(is.null(names(opt$par)))
           names(opt$par) <- names(vstart)
+        if(calcvcov && !is.null(opt$hessian))
+        {
+          varcovar <- mle.vcov(opt$hessian)
+          #add names
+          if(!is.null(varcovar))
+            colnames(varcovar) <- rownames(varcovar) <- names(opt$par)
+        }else
+          varcovar <- NULL
         argdot <- list(...)
         method.cust <- argdot$method
         res <- list(estimate = opt$par, convergence = opt$convergence, value=opt$value, 
                     hessian = opt$hessian, optim.function = custom.optim, optim.method = method.cust, 
                     fix.arg = fix.arg, fix.arg.fun = fix.arg.fun, weights = weights, 
-                    counts=opt$counts, optim.message=opt$message, loglik = -opt$value)        
+                    counts=opt$counts, optim.message=opt$message, loglik = -opt$value,
+                    vcov=varcovar)
     }   
         
     return(res) 
@@ -418,5 +438,5 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
 ## old function with previous name for censored data
 mledistcens <- function(censdata, distr, start=NULL, optim.method="default", lower=-Inf, upper=Inf)
 {
-    stop("The function \"mledistcens\" is no more used. Now the same function \"mledist\" must be used both for censored and non censored data.")
+    stop("The function \"mledistcens\" is deprecated. Now the same function \"mledist\" must be used both for censored and non censored data.")
 }

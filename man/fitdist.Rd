@@ -22,7 +22,8 @@
 
 \usage{
 fitdist(data, distr, method = c("mle", "mme", "qme", "mge", "mse"), 
-    start=NULL, fix.arg=NULL, discrete, keepdata = TRUE, keepdata.nb=100, \dots)
+    start=NULL, fix.arg=NULL, discrete, keepdata = TRUE, keepdata.nb=100, 
+    calcvcov=TRUE, \dots)
     
 \method{print}{fitdist}(x, \dots)
 
@@ -64,6 +65,8 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge", "mse"),
 \item{keepdata}{a logical. If \code{TRUE}, dataset is returned, 
     otherwise only a sample subset is returned.}
 \item{keepdata.nb}{When \code{keepdata=FALSE}, the length (>1) of the subset returned.}
+\item{calcvcov}{A logical indicating if (asymptotic) covariance matrix is required.}
+
 \item{discrete}{ If TRUE, the distribution is considered as discrete.
     If \code{discrete} is missing, 
 	  \code{discrete} is automaticaly set to \code{TRUE} when \code{distr} belongs to 

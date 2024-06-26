@@ -459,10 +459,16 @@ startarg_transgamma_family <- function(x, distr)
     #same as gamma with shape2=tau=1
     m <- mean(x, na.rm = TRUE)
     v <- var(x, na.rm = TRUE)
-    alphahat <- m^2/v
-    thetahat <- v/m
-    
-    start <- list(shape=alphahat, scale=thetahat)
+    if(v > 0)
+    {
+      alphahat <- m^2/v
+      thetahat <- m/v
+    }else #exponential case
+    {
+      alphahat <- 1 
+      thetahat <- m
+    } 
+    start <- list(shape=alphahat, rate=1/thetahat)
   }else if (distr == "weibull") 
   {
     if (any(x < 0)) 

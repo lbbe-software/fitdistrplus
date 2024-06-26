@@ -11,7 +11,7 @@
 qmedist(data, distr, probs, start = NULL, fix.arg = NULL, qtype = 7, 
     optim.method = "default", lower = -Inf, upper = Inf, 
     custom.optim = NULL, weights = NULL, silent = TRUE, gradient = NULL, 
-    checkstartfix=FALSE, \dots)
+    checkstartfix=FALSE, calcvcov=FALSE, \dots)
 
 }
 
@@ -44,7 +44,9 @@ qmedist(data, distr, probs, start = NULL, fix.arg = NULL, qtype = 7,
 \item{gradient}{A function to return the gradient of the squared difference for the \code{"BFGS"}, \code{"CG"} 
     and \code{"L-BFGS-B"} methods. If it is \code{NULL}, a finite-difference approximation will be used,
     see details.}
-\item{checkstartfix}{A logical to test starting and fixed values. Do not change it.}      
+\item{checkstartfix}{A logical to test starting and fixed values. Do not change it.}     
+\item{calcvcov}{A logical indicating if (asymptotic) covariance matrix is required.
+  (currently ignored)}
 \item{\dots}{further arguments passed to the \code{\link{optim}}, 
     \code{\link{constrOptim}} or \code{custom.optim} function.}
 

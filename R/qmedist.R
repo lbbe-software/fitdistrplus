@@ -24,7 +24,8 @@
 
 qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL, 
     qtype=7, optim.method="default", lower=-Inf, upper=Inf, custom.optim=NULL, 
-    weights=NULL, silent=TRUE, gradient=NULL, checkstartfix=FALSE, ...)
+    weights=NULL, silent=TRUE, gradient=NULL, checkstartfix=FALSE, 
+    calcvcov=FALSE, ...)
     # data may correspond to a vector for non censored data or to
     # a dataframe of two columns named left and right for censored data 
 {
@@ -302,6 +303,5 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
                     loglik=loglik(opt$par, fix.arg, data, ddistname), probs=probs)
     }   
     return(res)    
-     
 }
 

@@ -26,7 +26,7 @@
 
 mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.method="default",
     lower=-Inf, upper=Inf, custom.optim=NULL, silent=TRUE, gradient=NULL, 
-    checkstartfix=FALSE, ...)
+    checkstartfix=FALSE, calcvcov=FALSE, ...)
     # data may correspond to a vector for non censored data or to
     # a dataframe of two columns named left and right for censored data 
 {
@@ -368,6 +368,5 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
                     counts=opt$counts, optim.message=opt$message,
                     loglik=loglik(opt$par, fix.arg, data, ddistname), gof=gof)
     }   
-   
     return(res)                
 }

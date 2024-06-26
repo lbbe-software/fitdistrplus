@@ -24,9 +24,9 @@
 ###         R functions
 ### 
 
-msedist <- function (data, distr, phidiv="KL", power.phidiv=NULL, start=NULL, fix.arg=NULL, optim.method="default",
-    lower=-Inf, upper=Inf, custom.optim=NULL, weights=NULL, silent=TRUE, gradient=NULL, 
-    checkstartfix=FALSE, ...)
+msedist <- function (data, distr, phidiv="KL", power.phidiv=NULL, start=NULL, 
+    fix.arg=NULL, optim.method="default", lower=-Inf, upper=Inf, custom.optim=NULL, 
+    weights=NULL, silent=TRUE, gradient=NULL, checkstartfix=FALSE, calcvcov=FALSE, ...)
     # data may correspond to a vector for non censored data or to
     # a dataframe of two columns named left and right for censored data 
 {
@@ -385,6 +385,5 @@ msedist <- function (data, distr, phidiv="KL", power.phidiv=NULL, start=NULL, fi
                     loglik=loglik(opt$par, fix.arg, data, ddistname),
                     phidiv=phidiv, power.phidiv=power.phidiv)
     }   
-   
     return(res)                
 }

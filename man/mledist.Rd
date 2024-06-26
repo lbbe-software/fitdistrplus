@@ -10,7 +10,7 @@
 \usage{
 mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default", 
     lower = -Inf, upper = Inf, custom.optim = NULL, weights = NULL, silent = TRUE, 
-    gradient = NULL, checkstartfix=FALSE, \dots)
+    gradient = NULL, checkstartfix=FALSE, calcvcov=FALSE, \dots)
 }
 
 \arguments{
@@ -49,6 +49,7 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
     and \code{"L-BFGS-B"} methods. If it is \code{NULL}, a finite-difference approximation will be used,
     see details.}
 \item{checkstartfix}{A logical to test starting and fixed values. Do not change it.}    
+\item{calcvcov}{A logical indicating if (asymptotic) covariance matrix is required.}
 \item{\dots}{further arguments passed to the \code{\link{optim}}, 
     \code{\link{constrOptim}} or \code{custom.optim} function.}
 }
