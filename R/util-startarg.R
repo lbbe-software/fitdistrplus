@@ -473,20 +473,20 @@ startarg_transgamma_family <- function(x, distr)
   {
     if (any(x < 0)) 
       stop("values must be positive to fit a Weibull distribution")
-    q25 <- as.numeric(quantile(x, 0.25, na.rm = TRUE))
-    q75 <- as.numeric(quantile(x, 0.75, na.rm = TRUE))
-    if(q25 < q75) #check to avoid division by zero
-    {
-      q50 <- median(x, na.rm = TRUE)
-      tauhat <- (log(-log(1-1/4)) - log(-log(1-3/4))) / (log(q25) - log(q75))
-      thetahat <- q50/(-log(1-1/2))^(tauhat)
-    }else
-    {
+    #q25 <- as.numeric(quantile(x, 0.25, na.rm = TRUE))
+    #q75 <- as.numeric(quantile(x, 0.75, na.rm = TRUE))
+    #if(q25 < q75) #check to avoid division by zero
+    #{
+    #  q50 <- median(x, na.rm = TRUE)
+    #  tauhat <- (log(-log(1-1/4)) - log(-log(1-3/4))) / (log(q25) - log(q75))
+    #  thetahat <- q50/(-log(1-1/2))^(tauhat)
+    #}else
+    #{
       m <- mean(log(x), na.rm = TRUE)
       v <- var(log(x), na.rm = TRUE)
       tauhat <- 1.2/sqrt(v)
       thetahat <- exp(m + 0.572/tauhat)
-    }
+    #}
     
     start <- list(shape = tauhat, scale = thetahat)
   }else if (distr == "exp") 
