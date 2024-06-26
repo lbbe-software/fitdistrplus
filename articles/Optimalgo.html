@@ -75,7 +75,7 @@
       <img src="" class="logo" alt=""><h1>Which optimization algorithm to choose?</h1>
                         <h4 data-toc-skip class="author">Marie Laure Delignette Muller, Christophe Dutang</h4>
             
-            <h4 data-toc-skip class="date">2024-06-25</h4>
+            <h4 data-toc-skip class="date">2024-06-26</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/lbbe-software/fitdistrplus/blob/HEAD/vignettes/Optimalgo.Rmd" class="external-link"><code>vignettes/Optimalgo.Rmd</code></a></small>
       <div class="d-none name"><code>Optimalgo.Rmd</code></div>
@@ -315,9 +315,9 @@ with and without the gradient for the different optimization methods.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">unconstropt</span> <span class="op">&lt;-</span> <span class="fu">fitbench</span><span class="op">(</span><span class="va">x</span>, <span class="st">"beta"</span>, <span class="st">"mle"</span>, grad<span class="op">=</span><span class="va">grlnlbeta</span>, lower<span class="op">=</span><span class="fl">0</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##     BFGS       NM     CGFR     CGPR     CGBS L-BFGS-B     NM-B   G-BFGS </span></span>
-<span><span class="co">##       13       13       13       13       13       13       13       13 </span></span>
+<span><span class="co">##       14       14       14       14       14       14       14       14 </span></span>
 <span><span class="co">##   G-CGFR   G-CGPR   G-CGBS G-BFGS-B   G-NM-B G-CGFR-B G-CGPR-B G-CGBS-B </span></span>
-<span><span class="co">##       13       13       13       13       13       13       13       13</span></span></code></pre>
+<span><span class="co">##       14       14       14       14       14       14       14       14</span></span></code></pre>
 <p>In the case of constrained optimization, <code>mledist</code> permits the direct use
 of <code>constrOptim</code> function (still implemented in <code>stats</code> package)
 that allow linear inequality constraints by using a logarithmic barrier.</p>
@@ -335,7 +335,7 @@ to ensure that the shape parameters are strictly positive.</p>
 <span></span>
 <span><span class="va">expopt</span> <span class="op">&lt;-</span> <span class="fu">fitbench</span><span class="op">(</span><span class="va">x</span>, distr<span class="op">=</span><span class="st">"beta2"</span>, method<span class="op">=</span><span class="st">"mle"</span>, grad<span class="op">=</span><span class="va">grbetaexp</span>, start<span class="op">=</span><span class="va">startarg</span><span class="op">)</span> </span></code></pre></div>
 <pre><code><span><span class="co">##   BFGS     NM   CGFR   CGPR   CGBS G-BFGS G-CGFR G-CGPR G-CGBS </span></span>
-<span><span class="co">##     13     13     13     13     13     13     13     13     13</span></span></code></pre>
+<span><span class="co">##     14     14     14     14     14     14     14     14     14</span></span></code></pre>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#get back to original parametrization</span></span>
 <span><span class="va">expopt</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"fitted shape1"</span>, <span class="st">"fitted shape2"</span><span class="op">)</span>, <span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">expopt</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"fitted shape1"</span>, <span class="st">"fitted shape2"</span><span class="op">)</span>, <span class="op">]</span><span class="op">)</span></span></code></pre></div>
@@ -530,14 +530,14 @@ numerically approximated one).</p>
 <tr class="even">
 <td align="left">time (sec)</td>
 <td align="right">0.009</td>
-<td align="right">0.077</td>
-<td align="right">0.073</td>
-<td align="right">0.047</td>
+<td align="right">0.075</td>
+<td align="right">0.071</td>
+<td align="right">0.045</td>
 <td align="right">0.014</td>
-<td align="right">0.013</td>
+<td align="right">0.012</td>
 <td align="right">0.087</td>
-<td align="right">0.078</td>
-<td align="right">0.065</td>
+<td align="right">0.076</td>
+<td align="right">0.066</td>
 </tr>
 </tbody>
 </table>
@@ -596,8 +596,8 @@ numerically approximated one).</p>
 <tr class="even">
 <td align="left">time (sec)</td>
 <td align="right">0.015</td>
-<td align="right">0.004</td>
-<td align="right">0.014</td>
+<td align="right">0.003</td>
+<td align="right">0.013</td>
 <td align="right">0.013</td>
 <td align="right">0.015</td>
 </tr>
@@ -653,8 +653,8 @@ numerically approximated one).</p>
 <td align="left">time (sec)</td>
 <td align="right">0.011</td>
 <td align="right">0.045</td>
-<td align="right">0.051</td>
-<td align="right">0.038</td>
+<td align="right">0.044</td>
+<td align="right">0.043</td>
 </tr>
 </tbody>
 </table>
@@ -765,9 +765,9 @@ see the NIST Handbook of mathematical functions <a href="https://dlmf.nist.gov/"
 <code class="sourceCode R"><span><span class="va">ctr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>trace <span class="op">=</span> <span class="fl">0</span>, REPORT <span class="op">=</span> <span class="fl">1</span>, maxit <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
 <span><span class="va">unconstropt</span> <span class="op">&lt;-</span> <span class="fu">fitbench</span><span class="op">(</span><span class="va">x</span>, <span class="st">"nbinom"</span>, <span class="st">"mle"</span>, grad <span class="op">=</span> <span class="va">grlnlNB</span>, lower <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##     BFGS       NM     CGFR     CGPR     CGBS L-BFGS-B     NM-B   G-BFGS </span></span>
-<span><span class="co">##       13       13       13       13       13       13       13       13 </span></span>
+<span><span class="co">##       14       14       14       14       14       14       14       14 </span></span>
 <span><span class="co">##   G-CGFR   G-CGPR   G-CGBS G-BFGS-B   G-NM-B G-CGFR-B G-CGPR-B G-CGBS-B </span></span>
-<span><span class="co">##       13       13       13       13       13       13       13       13</span></span></code></pre>
+<span><span class="co">##       14       14       14       14       14       14       14       14</span></span></code></pre>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">unconstropt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">unconstropt</span>, </span>
 <span>                     <span class="st">"fitted prob"</span> <span class="op">=</span> <span class="va">unconstropt</span><span class="op">[</span><span class="st">"fitted mu"</span>, <span class="op">]</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">unconstropt</span><span class="op">[</span><span class="st">"fitted mu"</span>, <span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -793,7 +793,7 @@ to ensure that the shape parameters are strictly positive.</p>
 <span></span>
 <span><span class="va">expopt</span> <span class="op">&lt;-</span> <span class="fu">fitbench</span><span class="op">(</span><span class="va">x</span>, distr<span class="op">=</span><span class="st">"nbinom2"</span>, method<span class="op">=</span><span class="st">"mle"</span>, grad<span class="op">=</span><span class="va">grNBexp</span>, start<span class="op">=</span><span class="va">startarg</span><span class="op">)</span> </span></code></pre></div>
 <pre><code><span><span class="co">##   BFGS     NM   CGFR   CGPR   CGBS G-BFGS G-CGFR G-CGPR G-CGBS </span></span>
-<span><span class="co">##     13     13     13     13     13     13     13     13     13</span></span></code></pre>
+<span><span class="co">##     14     14     14     14     14     14     14     14     14</span></span></code></pre>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># get back to original parametrization</span></span>
 <span><span class="va">expopt</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"fitted size"</span>, <span class="st">"fitted prob"</span><span class="op">)</span>, <span class="op">]</span> <span class="op">&lt;-</span> </span>
@@ -888,13 +888,13 @@ numerically approximated one).</p>
 </tr>
 <tr class="even">
 <td align="left">time (sec)</td>
+<td align="right">0.001</td>
 <td align="right">0.002</td>
+<td align="right">0.227</td>
+<td align="right">0.206</td>
+<td align="right">0.204</td>
+<td align="right">0.001</td>
 <td align="right">0.002</td>
-<td align="right">0.223</td>
-<td align="right">0.207</td>
-<td align="right">0.205</td>
-<td align="right">0.002</td>
-<td align="right">0.003</td>
 </tr>
 <tr class="odd">
 <td align="left">fitted prob</td>
@@ -998,11 +998,11 @@ numerically approximated one).</p>
 </tr>
 <tr class="even">
 <td align="left">time (sec)</td>
-<td align="right">0.009</td>
-<td align="right">0.032</td>
 <td align="right">0.008</td>
-<td align="right">0.033</td>
-<td align="right">0.002</td>
+<td align="right">0.032</td>
+<td align="right">0.007</td>
+<td align="right">0.032</td>
+<td align="right">0.001</td>
 <td align="right">0.002</td>
 <td align="right">0.031</td>
 <td align="right">0.007</td>
@@ -1076,11 +1076,11 @@ numerically approximated one).</p>
 </tr>
 <tr class="even">
 <td align="left">time (sec)</td>
-<td align="right">0.004</td>
-<td align="right">0.003</td>
-<td align="right">0.260</td>
-<td align="right">0.237</td>
-<td align="right">0.025</td>
+<td align="right">0.005</td>
+<td align="right">0.002</td>
+<td align="right">0.258</td>
+<td align="right">0.234</td>
+<td align="right">0.024</td>
 </tr>
 </tbody>
 </table>
@@ -1132,7 +1132,7 @@ numerically approximated one).</p>
 </tr>
 <tr class="even">
 <td align="left">time (sec)</td>
-<td align="right">0.007</td>
+<td align="right">0.006</td>
 <td align="right">0.002</td>
 <td align="right">0.002</td>
 <td align="right">0.002</td>

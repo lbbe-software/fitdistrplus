@@ -63,7 +63,7 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">qmedist</span><span class="op">(</span><span class="va">data</span>, <span class="va">distr</span>, <span class="va">probs</span>, start <span class="op">=</span> <span class="cn">NULL</span>, fix.arg <span class="op">=</span> <span class="cn">NULL</span>, qtype <span class="op">=</span> <span class="fl">7</span>, </span>
 <span>    optim.method <span class="op">=</span> <span class="st">"default"</span>, lower <span class="op">=</span> <span class="op">-</span><span class="cn">Inf</span>, upper <span class="op">=</span> <span class="cn">Inf</span>, </span>
 <span>    custom.optim <span class="op">=</span> <span class="cn">NULL</span>, weights <span class="op">=</span> <span class="cn">NULL</span>, silent <span class="op">=</span> <span class="cn">TRUE</span>, gradient <span class="op">=</span> <span class="cn">NULL</span>, </span>
-<span>    checkstartfix<span class="op">=</span><span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span>    checkstartfix<span class="op">=</span><span class="cn">FALSE</span>, calcvcov<span class="op">=</span><span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -124,7 +124,11 @@
 
 <dt>checkstartfix</dt>
 <dd><p>A logical to test starting and fixed values. Do not change it.</p></dd>
-      
+     
+<dt>calcvcov</dt>
+<dd><p>A logical indicating if (asymptotic) covariance matrix is required.
+  (currently ignored)</p></dd>
+
 <dt>...</dt>
 <dd><p>further arguments passed to the <code><a href="https://rdrr.io/r/stats/optim.html" class="external-link">optim</a></code>, 
     <code><a href="https://rdrr.io/r/stats/constrOptim.html" class="external-link">constrOptim</a></code> or <code>custom.optim</code> function.</p></dd>

@@ -75,7 +75,7 @@
       <img src="" class="logo" alt=""><h1>Frequently Asked Questions</h1>
                         <h4 data-toc-skip class="author">Marie Laure Delignette Muller, Christophe Dutang</h4>
             
-            <h4 data-toc-skip class="date">2024-06-25</h4>
+            <h4 data-toc-skip class="date">2024-06-26</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/lbbe-software/fitdistrplus/blob/HEAD/vignettes/FAQ.Rmd" class="external-link"><code>vignettes/FAQ.Rmd</code></a></small>
       <div class="d-none name"><code>FAQ.Rmd</code></div>
@@ -414,10 +414,10 @@ does not succeed to estimate the true value of the bounds <span class="math inli
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">f1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"tiexp"</span>, method<span class="op">=</span><span class="st">"mle"</span>, start<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>rate<span class="op">=</span><span class="fl">3</span>, low<span class="op">=</span><span class="fl">0</span>, upp<span class="op">=</span><span class="fl">20</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Fitting of the distribution ' tiexp ' by maximum likelihood </span></span>
 <span><span class="co">## Parameters:</span></span>
-<span><span class="co">##      estimate Std. Error</span></span>
-<span><span class="co">## rate    0.949         NA</span></span>
-<span><span class="co">## low    -0.502         NA</span></span>
-<span><span class="co">## upp    23.072         NA</span></span></code></pre>
+<span><span class="co">##      estimate</span></span>
+<span><span class="co">## rate    0.949</span></span>
+<span><span class="co">## low    -0.502</span></span>
+<span><span class="co">## upp    23.072</span></span></code></pre>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">f2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"tiexp"</span>, method<span class="op">=</span><span class="st">"mle"</span>, start<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>rate<span class="op">=</span><span class="fl">3</span><span class="op">)</span>, fix.arg<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>low<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, upp<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Fitting of the distribution ' tiexp ' by maximum likelihood </span></span>
@@ -445,7 +445,7 @@ does not succeed to estimate the true value of the bounds <span class="math inli
 <span><span class="fu"><a href="../reference/graphcomp.html">cdfcomp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">f1</span>, <span class="va">f2</span><span class="op">)</span>, do.points <span class="op">=</span> <span class="cn">FALSE</span>, addlegend<span class="op">=</span><span class="cn">FALSE</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">3.5</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html" class="external-link">curve</a></span><span class="op">(</span><span class="fu">ptiexp</span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span>, <span class="fl">.5</span>, <span class="fl">3</span><span class="op">)</span>, add<span class="op">=</span><span class="cn">TRUE</span>, col<span class="op">=</span><span class="st">"blue"</span>, lty<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"bottomright"</span>, lty<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>, <span class="st">"green"</span>, <span class="st">"blue"</span>, <span class="st">"black"</span><span class="op">)</span>, </span>
-<span>        leg<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"full MLE"</span>, <span class="st">"MLE fixed arg"</span>, <span class="st">"true CDF"</span>, <span class="st">"emp. CDF"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>        legend<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"full MLE"</span>, <span class="st">"MLE fixed arg"</span>, <span class="st">"true CDF"</span>, <span class="st">"emp. CDF"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="FAQ_files/figure-html/unnamed-chunk-12-1.png"><!-- --></p>
 </div>
 <div class="section level3" number="1.10">
@@ -565,9 +565,9 @@ when fixing the support parameters <span class="math inline">\(a\)</span> and <s
 <span>              lower<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="op">-</span><span class="cn">Inf</span>, <span class="op">-</span><span class="cn">Inf</span>, <span class="fl">0</span><span class="op">)</span>, upper<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">Inf</span>, <span class="cn">Inf</span>, <span class="cn">Inf</span>, <span class="cn">Inf</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Warning in checkparamlist(arg_startfix$start.arg, arg_startfix$fix.arg, : Some</span></span>
 <span><span class="co">## parameter names have no starting/fixed value but have a default value: mean.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in sqrt(diag(varcovar)): NaNs produced</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in cov2cor(varcovar): diag(V) had non-positive or NA entries; the</span></span>
 <span><span class="co">## non-finite result may be dubious</span></span></code></pre>
+<pre><code><span><span class="co">## Warning in sqrt(diag(varcovar)): NaNs produced</span></span></code></pre>
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">f2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">x2</span>, <span class="st">"pert"</span>, start<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>mode<span class="op">=</span><span class="fl">1</span>, shape<span class="op">=</span><span class="fl">1</span><span class="op">)</span>, </span>
 <span>              fix.arg<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>min<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">x2</span><span class="op">)</span><span class="op">-</span><span class="va">eps</span>, max<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">x2</span><span class="op">)</span><span class="op">+</span><span class="va">eps</span><span class="op">)</span>,</span>
@@ -642,8 +642,8 @@ only the decision (rejection of H0 or not) is given, when available
 <span><span class="co">## &lt;= 1.523          9       5.24     3.74</span></span>
 <span><span class="co">## &lt;= 1.701          9       5.73     3.97</span></span>
 <span><span class="co">## &lt;= 1.94           9       7.09     4.82</span></span>
-<span><span class="co">## &lt;= 2.381          9      11.08     7.50</span></span>
-<span><span class="co">## &lt;= 2.842          9       9.00     6.29</span></span>
+<span><span class="co">## &lt;= 2.381          9      11.07     7.50</span></span>
+<span><span class="co">## &lt;= 2.842          9       8.99     6.29</span></span>
 <span><span class="co">## &lt;= 3.801          9      11.93     9.28</span></span>
 <span><span class="co">## &gt; 3.801          10      11.15    15.40</span></span></code></pre>
 <div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
@@ -879,8 +879,8 @@ of such a test.</p>
 <pre><code><span><span class="co">## Fitting of the distribution ' gamma ' by maximum likelihood </span></span>
 <span><span class="co">## Parameters:</span></span>
 <span><span class="co">##       estimate Std. Error</span></span>
-<span><span class="co">## shape     2.02      0.266</span></span>
-<span><span class="co">## scale     1.00      0.149</span></span></code></pre>
+<span><span class="co">## shape    2.024      0.266</span></span>
+<span><span class="co">## rate     0.997      0.149</span></span></code></pre>
 <div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">f0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">g</span>, <span class="st">"exp"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Fitting of the distribution ' exp ' by maximum likelihood </span></span>
@@ -1083,9 +1083,9 @@ This allows also to use other optimization methods than L-BFGS-B
 (low-memory BFGS bounded) used in optim.</p>
 <div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">f2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">y</span>, <span class="st">"shiftlnorm"</span>, start<span class="op">=</span><span class="va">start</span>, lower<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="fl">0</span>, <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">)</span>, optim.method<span class="op">=</span><span class="st">"Nelder-Mead"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning in sqrt(diag(varcovar)): NaNs produced</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in cov2cor(varcovar): diag(V) had non-positive or NA entries; the</span></span>
 <span><span class="co">## non-finite result may be dubious</span></span></code></pre>
+<pre><code><span><span class="co">## Warning in sqrt(diag(varcovar)): NaNs produced</span></span></code></pre>
 <div class="sourceCode" id="cb116"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">f2</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Fitting of the distribution ' shiftlnorm ' by maximum likelihood </span></span>
@@ -1320,11 +1320,11 @@ Here is an example</p>
 <span><span class="co">## input has inconsistent values and not raise an error</span></span></code></pre>
 <pre><code><span><span class="co">## Fitting of the distribution ' nig ' by maximum likelihood </span></span>
 <span><span class="co">## Parameters:</span></span>
-<span><span class="co">##       estimate Std. Error</span></span>
-<span><span class="co">## mu       2.985         NA</span></span>
-<span><span class="co">## delta    0.457         NA</span></span>
-<span><span class="co">## alpha    0.466         NA</span></span>
-<span><span class="co">## beta     0.237         NA</span></span></code></pre>
+<span><span class="co">##       estimate</span></span>
+<span><span class="co">## mu       2.985</span></span>
+<span><span class="co">## delta    0.457</span></span>
+<span><span class="co">## alpha    0.466</span></span>
+<span><span class="co">## beta     0.237</span></span></code></pre>
 </div>
 </div>
 <div class="section level3" number="3.6">
@@ -1535,9 +1535,9 @@ shape parameter is badly estimated.</p>
 <span>  start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>shape <span class="op">=</span> <span class="fl">10</span>, rate <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,</span>
 <span>  fix.arg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>upp <span class="op">=</span> <span class="cn">Inf</span>, low<span class="op">=</span><span class="va">x0</span><span class="op">)</span>,</span>
 <span>  lower <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, upper<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">Inf</span>, <span class="cn">Inf</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning in sqrt(diag(varcovar)): NaNs produced</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in cov2cor(varcovar): diag(V) had non-positive or NA entries; the</span></span>
 <span><span class="co">## non-finite result may be dubious</span></span></code></pre>
+<pre><code><span><span class="co">## Warning in sqrt(diag(varcovar)): NaNs produced</span></span></code></pre>
 <div class="sourceCode" id="cb177"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit.NM.3P</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">x</span>,</span>
@@ -1546,9 +1546,9 @@ shape parameter is badly estimated.</p>
 <span>  start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>shape <span class="op">=</span> <span class="fl">10</span>, rate <span class="op">=</span> <span class="fl">10</span>, low<span class="op">=</span><span class="fl">1</span><span class="op">)</span>,</span>
 <span>  fix.arg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>upp <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span>,</span>
 <span>  lower <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="op">-</span><span class="cn">Inf</span><span class="op">)</span>, upper<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">Inf</span>, <span class="cn">Inf</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning in sqrt(diag(varcovar)): NaNs produced</span></span>
-<span><span class="co">## Warning in sqrt(diag(varcovar)): diag(V) had non-positive or NA entries; the</span></span>
-<span><span class="co">## non-finite result may be dubious</span></span></code></pre>
+<pre><code><span><span class="co">## Warning in cov2cor(varcovar): diag(V) had non-positive or NA entries; the</span></span>
+<span><span class="co">## non-finite result may be dubious</span></span>
+<span><span class="co">## Warning in cov2cor(varcovar): NaNs produced</span></span></code></pre>
 <pre><code><span><span class="co">##                  fit3P  fit2P true value</span></span>
 <span><span class="co">## shape          11.8503  57.13         11</span></span>
 <span><span class="co">## rate            3.2982  10.92          3</span></span>
@@ -1573,19 +1573,19 @@ Iterates get stuck far from the true value.
 <span>  method <span class="op">=</span> <span class="st">"mle"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##                  fit3P fit2P orig. data fit2P shift data true value</span></span>
 <span><span class="co">## shape          11.8503            57.13            1.498         11</span></span>
-<span><span class="co">## rate            3.2982            10.92            0.437          3</span></span>
+<span><span class="co">## rate            3.2982            10.92            2.289          3</span></span>
 <span><span class="co">## low             5.0094             5.00            5.000          5</span></span>
-<span><span class="co">## mean sq. error  0.2707           730.30           32.288          0</span></span>
-<span><span class="co">## rel. error      0.0595             2.28            0.573          0</span></span></code></pre>
+<span><span class="co">## mean sq. error  0.2707           730.30           30.265          0</span></span>
+<span><span class="co">## rel. error      0.0595             2.28            0.367          0</span></span></code></pre>
 <p>Changing the sample size improves the two-parameter fit very slowly even as the MLE of the <code>low</code> parameter
 is in fact the minimum of the dataset: the fitted <code>low</code> converges quickly to the true
 value. Below an example with 1000 variates.</p>
-<pre><code><span><span class="co">## Warning in sqrt(diag(varcovar)): NaNs produced</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in cov2cor(varcovar): diag(V) had non-positive or NA entries; the</span></span>
 <span><span class="co">## non-finite result may be dubious</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in sqrt(diag(varcovar)): NaNs produced</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in cov2cor(varcovar): diag(V) had non-positive or NA entries; the</span></span>
 <span><span class="co">## non-finite result may be dubious</span></span></code></pre>
+<pre><code><span><span class="co">## Warning in sqrt(diag(varcovar)): NaNs produced</span></span></code></pre>
 <pre><code><span><span class="co">##                  fit3P fit2P orig. data true value</span></span>
 <span><span class="co">## shape          11.7976           15.489         11</span></span>
 <span><span class="co">## rate            3.0813            3.679          3</span></span>
@@ -1650,14 +1650,14 @@ they give wrong results, with parameter values even outside their possible range
 <span><span class="va">fg</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">g</span>, <span class="st">"gamma"</span><span class="op">)</span></span>
 <span><span class="va">bg</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bootdist.html">bootdist</a></span><span class="op">(</span><span class="va">fg</span><span class="op">)</span></span>
 <span><span class="va">bg</span><span class="op">$</span><span class="va">CI</span></span></code></pre></div>
-<pre><code><span><span class="co">##       Median    2.5% 97.5%</span></span>
-<span><span class="co">## shape 0.0923 0.06362 0.145</span></span>
-<span><span class="co">## scale 0.0334 0.00684 0.104</span></span></code></pre>
+<pre><code><span><span class="co">##        Median   2.5%   97.5%</span></span>
+<span><span class="co">## shape  0.0923 0.0636   0.145</span></span>
+<span><span class="co">## rate  30.0829 9.6362 147.194</span></span></code></pre>
 <div class="sourceCode" id="cb194"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fg</span><span class="op">$</span><span class="va">estimate</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="st">"estimate"</span><span class="op">=</span> <span class="fl">0</span>, <span class="st">"2.5%"</span><span class="op">=</span> <span class="op">-</span><span class="fl">1.96</span><span class="op">*</span><span class="va">fg</span><span class="op">$</span><span class="va">sd</span>, <span class="st">"97.5%"</span><span class="op">=</span> <span class="fl">1.96</span><span class="op">*</span><span class="va">fg</span><span class="op">$</span><span class="va">sd</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##       estimate    2.5%  97.5%</span></span>
-<span><span class="co">## shape   0.0882  0.0553 0.1210</span></span>
-<span><span class="co">## scale   0.0413 -0.0108 0.0933</span></span></code></pre>
+<span><span class="co">## shape   0.0882  0.0553  0.121</span></span>
+<span><span class="co">## rate   24.2799 -6.3459 54.906</span></span></code></pre>
 <div class="sourceCode" id="cb196"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/logLik-plot.html">llplot</a></span><span class="op">(</span><span class="va">fg</span>, back.col <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
@@ -1761,9 +1761,16 @@ In the log-normal example below, it is enough to have 100 bootstrap values.</p>
 <span><span class="co">##   .. ..$ estimate   : Named num [1:2] 0.0278 0.9888</span></span>
 <span><span class="co">##   .. .. ..- attr(*, "names")= chr [1:2] "meanlog" "sdlog"</span></span>
 <span><span class="co">##   .. ..$ method     : chr "mme"</span></span>
-<span><span class="co">##   .. ..$ sd         : num [1:2] 2.6 2.83</span></span>
+<span><span class="co">##   .. ..$ sd         : Named num [1:2] 2.6 2.83</span></span>
+<span><span class="co">##   .. .. ..- attr(*, "names")= chr [1:2] "meanlog" "sdlog"</span></span>
 <span><span class="co">##   .. ..$ cor        : num [1:2, 1:2] 1 -0.889 -0.889 1</span></span>
+<span><span class="co">##   .. .. ..- attr(*, "dimnames")=List of 2</span></span>
+<span><span class="co">##   .. .. .. ..$ : chr [1:2] "meanlog" "sdlog"</span></span>
+<span><span class="co">##   .. .. .. ..$ : chr [1:2] "meanlog" "sdlog"</span></span>
 <span><span class="co">##   .. ..$ vcov       : num [1:2, 1:2] 6.74 -6.53 -6.53 8.01</span></span>
+<span><span class="co">##   .. .. ..- attr(*, "dimnames")=List of 2</span></span>
+<span><span class="co">##   .. .. .. ..$ : chr [1:2] "meanlog" "sdlog"</span></span>
+<span><span class="co">##   .. .. .. ..$ : chr [1:2] "meanlog" "sdlog"</span></span>
 <span><span class="co">##   .. ..$ loglik     : num -1428</span></span>
 <span><span class="co">##   .. ..$ aic        : num 2861</span></span>
 <span><span class="co">##   .. ..$ bic        : num 2871</span></span>
@@ -1794,9 +1801,16 @@ In the log-normal example below, it is enough to have 100 bootstrap values.</p>
 <span><span class="co">##   .. ..$ estimate   : Named num [1:2] 0.0278 0.9888</span></span>
 <span><span class="co">##   .. .. ..- attr(*, "names")= chr [1:2] "meanlog" "sdlog"</span></span>
 <span><span class="co">##   .. ..$ method     : chr "mme"</span></span>
-<span><span class="co">##   .. ..$ sd         : num [1:2] 2.6 2.83</span></span>
+<span><span class="co">##   .. ..$ sd         : Named num [1:2] 2.6 2.83</span></span>
+<span><span class="co">##   .. .. ..- attr(*, "names")= chr [1:2] "meanlog" "sdlog"</span></span>
 <span><span class="co">##   .. ..$ cor        : num [1:2, 1:2] 1 -0.889 -0.889 1</span></span>
+<span><span class="co">##   .. .. ..- attr(*, "dimnames")=List of 2</span></span>
+<span><span class="co">##   .. .. .. ..$ : chr [1:2] "meanlog" "sdlog"</span></span>
+<span><span class="co">##   .. .. .. ..$ : chr [1:2] "meanlog" "sdlog"</span></span>
 <span><span class="co">##   .. ..$ vcov       : num [1:2, 1:2] 6.74 -6.53 -6.53 8.01</span></span>
+<span><span class="co">##   .. .. ..- attr(*, "dimnames")=List of 2</span></span>
+<span><span class="co">##   .. .. .. ..$ : chr [1:2] "meanlog" "sdlog"</span></span>
+<span><span class="co">##   .. .. .. ..$ : chr [1:2] "meanlog" "sdlog"</span></span>
 <span><span class="co">##   .. ..$ loglik     : num -1428</span></span>
 <span><span class="co">##   .. ..$ aic        : num 2861</span></span>
 <span><span class="co">##   .. ..$ bic        : num 2871</span></span>
@@ -1827,9 +1841,16 @@ In the log-normal example below, it is enough to have 100 bootstrap values.</p>
 <span><span class="co">##   .. ..$ estimate   : Named num [1:2] 0.0278 0.9888</span></span>
 <span><span class="co">##   .. .. ..- attr(*, "names")= chr [1:2] "meanlog" "sdlog"</span></span>
 <span><span class="co">##   .. ..$ method     : chr "mme"</span></span>
-<span><span class="co">##   .. ..$ sd         : num [1:2] 2.6 2.83</span></span>
+<span><span class="co">##   .. ..$ sd         : Named num [1:2] 2.6 2.83</span></span>
+<span><span class="co">##   .. .. ..- attr(*, "names")= chr [1:2] "meanlog" "sdlog"</span></span>
 <span><span class="co">##   .. ..$ cor        : num [1:2, 1:2] 1 -0.889 -0.889 1</span></span>
+<span><span class="co">##   .. .. ..- attr(*, "dimnames")=List of 2</span></span>
+<span><span class="co">##   .. .. .. ..$ : chr [1:2] "meanlog" "sdlog"</span></span>
+<span><span class="co">##   .. .. .. ..$ : chr [1:2] "meanlog" "sdlog"</span></span>
 <span><span class="co">##   .. ..$ vcov       : num [1:2, 1:2] 6.74 -6.53 -6.53 8.01</span></span>
+<span><span class="co">##   .. .. ..- attr(*, "dimnames")=List of 2</span></span>
+<span><span class="co">##   .. .. .. ..$ : chr [1:2] "meanlog" "sdlog"</span></span>
+<span><span class="co">##   .. .. .. ..$ : chr [1:2] "meanlog" "sdlog"</span></span>
 <span><span class="co">##   .. ..$ loglik     : num -1428</span></span>
 <span><span class="co">##   .. ..$ aic        : num 2861</span></span>
 <span><span class="co">##   .. ..$ bic        : num 2871</span></span>
@@ -1860,9 +1881,16 @@ In the log-normal example below, it is enough to have 100 bootstrap values.</p>
 <span><span class="co">##   .. ..$ estimate   : Named num [1:2] 0.0278 0.9888</span></span>
 <span><span class="co">##   .. .. ..- attr(*, "names")= chr [1:2] "meanlog" "sdlog"</span></span>
 <span><span class="co">##   .. ..$ method     : chr "mme"</span></span>
-<span><span class="co">##   .. ..$ sd         : num [1:2] 2.6 2.83</span></span>
+<span><span class="co">##   .. ..$ sd         : Named num [1:2] 2.6 2.83</span></span>
+<span><span class="co">##   .. .. ..- attr(*, "names")= chr [1:2] "meanlog" "sdlog"</span></span>
 <span><span class="co">##   .. ..$ cor        : num [1:2, 1:2] 1 -0.889 -0.889 1</span></span>
+<span><span class="co">##   .. .. ..- attr(*, "dimnames")=List of 2</span></span>
+<span><span class="co">##   .. .. .. ..$ : chr [1:2] "meanlog" "sdlog"</span></span>
+<span><span class="co">##   .. .. .. ..$ : chr [1:2] "meanlog" "sdlog"</span></span>
 <span><span class="co">##   .. ..$ vcov       : num [1:2, 1:2] 6.74 -6.53 -6.53 8.01</span></span>
+<span><span class="co">##   .. .. ..- attr(*, "dimnames")=List of 2</span></span>
+<span><span class="co">##   .. .. .. ..$ : chr [1:2] "meanlog" "sdlog"</span></span>
+<span><span class="co">##   .. .. .. ..$ : chr [1:2] "meanlog" "sdlog"</span></span>
 <span><span class="co">##   .. ..$ loglik     : num -1428</span></span>
 <span><span class="co">##   .. ..$ aic        : num 2861</span></span>
 <span><span class="co">##   .. ..$ bic        : num 2871</span></span>

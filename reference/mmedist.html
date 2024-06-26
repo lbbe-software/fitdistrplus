@@ -62,7 +62,7 @@
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mmedist</span><span class="op">(</span><span class="va">data</span>, <span class="va">distr</span>, <span class="va">order</span>, <span class="va">memp</span>, start <span class="op">=</span> <span class="cn">NULL</span>, fix.arg <span class="op">=</span> <span class="cn">NULL</span>, optim.method <span class="op">=</span> <span class="st">"default"</span>, </span>
 <span>  lower <span class="op">=</span> <span class="op">-</span><span class="cn">Inf</span>, upper <span class="op">=</span> <span class="cn">Inf</span>, custom.optim <span class="op">=</span> <span class="cn">NULL</span>, weights <span class="op">=</span> <span class="cn">NULL</span>, silent <span class="op">=</span> <span class="cn">TRUE</span>, </span>
-<span>  gradient <span class="op">=</span> <span class="cn">NULL</span>, checkstartfix<span class="op">=</span><span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span>  gradient <span class="op">=</span> <span class="cn">NULL</span>, checkstartfix<span class="op">=</span><span class="cn">FALSE</span>, calcvcov<span class="op">=</span><span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -121,7 +121,10 @@ to the number of parameters to estimate.</p></dd>
 
 <dt>checkstartfix</dt>
 <dd><p>A logical to test starting and fixed values. Do not change it.</p></dd>
-      
+   
+<dt>calcvcov</dt>
+<dd><p>A logical indicating if (asymptotic) covariance matrix is required.</p></dd>
+
 <dt>...</dt>
 <dd><p>further arguments passed to the <code><a href="https://rdrr.io/r/stats/optim.html" class="external-link">optim</a></code>, 
     <code><a href="https://rdrr.io/r/stats/constrOptim.html" class="external-link">constrOptim</a></code> or <code>custom.optim</code> function.</p></dd>
@@ -325,9 +328,7 @@ Journal of Statistical Software, 64(4), 1-34, <a href="https://doi.org/10.18637/
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $vcov</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>              [,1]         [,2]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 9.987417e-01 6.858286e-10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 6.858286e-10 4.993709e-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#weighted</span></span></span>
@@ -391,8 +392,7 @@ Journal of Statistical Software, 64(4), 1-34, <a href="https://doi.org/10.18637/
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $vcov</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      [,1]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  1.7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># (3) fit a finite-support distribution (beta)</span></span></span>
@@ -448,9 +448,7 @@ Journal of Statistical Software, 64(4), 1-34, <a href="https://doi.org/10.18637/
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $vcov</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]     [,2]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  418.8092 1261.175</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 1261.1752 3482.466</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
@@ -515,12 +513,10 @@ Journal of Statistical Software, 64(4), 1-34, <a href="https://doi.org/10.18637/
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $memp</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function(x, order) mean(x^order)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55d85a5544d8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55cf95eb6d78&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $vcov</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          [,1]     [,2]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 3763.905 1517.994</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 1517.994  615.786</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span>  <span class="co">#fit by weighted MME</span></span></span>
 <span class="r-in"><span>  <span class="va">w</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x4</span><span class="op">)</span><span class="op">)</span></span></span>
@@ -601,12 +597,10 @@ Journal of Statistical Software, 64(4), 1-34, <a href="https://doi.org/10.18637/
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $memp</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function(x, order, weights) sum(x^order * weights)/sum(weights)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55d85a5544d8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55cf95eb6d78&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $vcov</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          [,1]      [,2]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 3295.967 1121.9305</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 1121.930  385.6963</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>

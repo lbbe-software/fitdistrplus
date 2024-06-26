@@ -63,6 +63,7 @@
 <li>make <code><a href="../reference/gofstat.html">gofstat()</a></code> work with <code>fitdistcens</code> objects (giving only AIC and BIC values).</li>
 <li>add calculation of the hessian using <code>optimHess</code> within <code>fitdist</code> when it is not given by <code>optim</code>.</li>
 <li>compute the asymptotic covariance matrix with MME : Now the theoretical moments <code>m&lt;dist&gt;</code> should be defined up to an order which equals to twice the maximal order given <code>order</code>.</li>
+<li>add a new argument <code>calcvcov</code> in order to (dis)able the computation of covariance matrix for any method.</li>
 <li>graphics function <code>*comp()</code> now return a list of drawn points and/or lines when <code>plotstyle == "graphics"</code>.</li>
 <li>add a <code>density</code> function for <code>bootdist(cens)</code> objects.</li>
 <li>add DOIs in man pages.</li>

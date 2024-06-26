@@ -75,7 +75,7 @@
       <img src="" class="logo" alt=""><h1>Overview of the fitdistrplus package</h1>
                         <h4 data-toc-skip class="author">Marie Laure Delignette Muller, Christophe Dutang</h4>
             
-            <h4 data-toc-skip class="date">2024-06-25</h4>
+            <h4 data-toc-skip class="date">2024-06-26</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/lbbe-software/fitdistrplus/blob/HEAD/vignettes/fitdistrplus_vignette.Rmd" class="external-link"><code>vignettes/fitdistrplus_vignette.Rmd</code></a></small>
       <div class="d-none name"><code>fitdistrplus_vignette.Rmd</code></div>
@@ -567,11 +567,11 @@ The MME method provides a more cautious estimation of the insurance risk as the 
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://gitlab.com/vigou3/actuar" class="external-link">actuar</a></span><span class="op">)</span></span>
 <span><span class="va">fdanish.P.MLE</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">danishuni</span><span class="op">$</span><span class="va">Loss</span>, <span class="st">"pareto"</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>shape <span class="op">=</span> <span class="fl">10</span>, scale <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>, </span>
 <span>                         lower <span class="op">=</span> <span class="fl">2</span><span class="op">+</span><span class="fl">1e-6</span>, upper <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning in sqrt(diag(varcovar)): NaNs produced</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in cov2cor(varcovar): diag(V) had non-positive or NA entries; the</span></span>
 <span><span class="co">## non-finite result may be dubious</span></span></code></pre>
+<pre><code><span><span class="co">## Warning in sqrt(diag(varcovar)): NaNs produced</span></span></code></pre>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">memp</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">order</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">x</span><span class="op">^</span><span class="va">order</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">memp</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">order</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">^</span><span class="va">order</span><span class="op">)</span></span>
 <span><span class="va">fdanish.P.MME</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">danishuni</span><span class="op">$</span><span class="va">Loss</span>, <span class="st">"pareto"</span>, method <span class="op">=</span> <span class="st">"mme"</span>, order <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, memp <span class="op">=</span> <span class="st">"memp"</span>, </span>
 <span>                         start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>shape <span class="op">=</span> <span class="fl">10</span>, scale <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>, lower <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span><span class="op">+</span><span class="fl">1e-6</span>, <span class="fl">2</span><span class="op">+</span><span class="fl">1e-6</span><span class="op">)</span>, </span>
 <span>                         upper <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">Inf</span>, <span class="cn">Inf</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -703,9 +703,9 @@ The code below compares all the parameter estimates (<span class="math inline">\
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span>NM <span class="op">=</span> <span class="va">fNM</span><span class="op">$</span><span class="va">estimate</span>, BFGS <span class="op">=</span> <span class="va">fBFGS</span><span class="op">$</span><span class="va">estimate</span>, SANN <span class="op">=</span> <span class="va">fSANN</span><span class="op">$</span><span class="va">estimate</span>, CG <span class="op">=</span> <span class="va">fCG</span><span class="op">$</span><span class="va">estimate</span>, </span>
 <span>      fgenoud <span class="op">=</span> <span class="va">fgenoud</span><span class="op">$</span><span class="va">estimate</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##           NM   BFGS  SANN     CG fgenoud</span></span>
-<span><span class="co">## shape  4.009  4.008  4.01  4.008 4.00834</span></span>
-<span><span class="co">## scale 18.369 18.373 18.36 18.373 0.05443</span></span></code></pre>
+<pre><code><span><span class="co">##            NM    BFGS    SANN      CG fgenoud</span></span>
+<span><span class="co">## shape 3.99526 3.93869 3.98110 4.12797 4.00833</span></span>
+<span><span class="co">## rate  0.05424 0.05349 0.05402 0.05605 0.05443</span></span></code></pre>
 </div>
 <div class="section level3" number="3.3">
 <h3 id="otherdata">
