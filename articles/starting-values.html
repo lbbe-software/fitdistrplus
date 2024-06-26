@@ -85,12 +85,13 @@
     
 <p>We denote by the raw empirical moment by
 <span class="math display">\[
-m_j = \frac1n \sum_{i=1}^n x_i^j
+m_j = \frac1n \sum_{i=1}^n x_i^j,
 \]</span>
 by the centered empirical moment by
 <span class="math display">\[
-\mu_j = \frac1n \sum_{i=1}^n (x_i^j-m_1)
-\]</span></p>
+\mu_j = \frac1n \sum_{i=1}^n (x_i^j-m_1).
+\]</span>
+Starting values are computed in <code>R/util-startarg.R</code>.</p>
 <div class="section level2" number="1">
 <h2 id="discrete-distributions">
 <span class="header-section-number">1</span> Discrete distributions<a class="anchor" aria-label="anchor" href="#discrete-distributions"></a>
@@ -142,11 +143,11 @@ the size parameter is
 E[X] = -\frac{1}{\log(1-p)}\frac{p}{1-p}
 \approx
 -\frac{1}{-p}\frac{p}{1-p}
-=\frac{1}{1-p}
+=\frac{1}{1-p}.
 \]</span>
 So the initial estimate is
 <span class="math display">\[
-\hat p = 1-1/m_1
+\hat p = 1-1/m_1.
 \]</span></p>
 </div>
 <div class="section level3" number="1.3">
@@ -188,7 +189,7 @@ So the initial estimate are
 <h3 id="normal-distribution">
 <span class="header-section-number">2.1</span> Normal distribution<a class="anchor" aria-label="anchor" href="#normal-distribution"></a>
 </h3>
-<p>The MLE is the MME so we use empirical mean and empirical variance.</p>
+<p>The MLE is the MME so we use the empirical mean and variance.</p>
 </div>
 <div class="section level3" number="2.2">
 <h3 id="lognormal-distribution">
@@ -227,7 +228,7 @@ The initial estimate is the MME
 </h4>
 <p>The distribution function is
 <span class="math display">\[
-F(x) = \exp(-\exp(-\frac{x-\alpha}{\theta}))
+F(x) = \exp(-\exp(-\frac{x-\alpha}{\theta})).
 \]</span>
 Let <span class="math inline">\(q_1\)</span> and <span class="math inline">\(q_3\)</span> the first and the third quartiles.
 <span class="math display">\[
@@ -244,13 +245,13 @@ Let <span class="math inline">\(q_1\)</span> and <span class="math inline">\(q_3
 \left\{\begin{array}
 \theta= \frac{q_1-q_3}{\log(-\log(p_3)) - \log(-\log(p_1))} \\
 \alpha= \theta\log(-\log(p_3)) + q_3
-\end{array}\right.
+\end{array}\right..
 \]</span>
 Using the median for the location parameter <span class="math inline">\(\alpha\)</span> yields to
 initial estimate
 <span class="math display">\[
 \hat\theta= \frac{q_1-q_3}{\log(\log(4/3)) - \log(\log(4))},
-\hat\alpha = \hat\theta\log(\log(2)) + q_2
+\hat\alpha = \hat\theta\log(\log(2)) + q_2.
 \]</span></p>
 </div>
 <div class="section level4" number="2.4.3">
@@ -260,7 +261,7 @@ initial estimate
 <p>The moments of this distribution are
 <span class="math display">\[
 E[X] = \mu,
-Var[X] = \mu^3\phi
+Var[X] = \mu^3\phi.
 \]</span>
 Hence the initial estimate are <span class="math inline">\(\hat\mu=m_1\)</span>, <span class="math inline">\(\hat\phi=\mu_2/m_1^3\)</span>.</p>
 </div>
@@ -272,25 +273,25 @@ Hence the initial estimate are <span class="math inline">\(\hat\mu=m_1\)</span>,
 The moments are
 <span class="math display">\[
 E[X] = \theta \beta(a+1/\tau, b)/\beta(a,b)
-= \theta \frac{\Gamma(a+1/\tau)}{\Gamma(a)}\frac{\Gamma(a+b)}{\Gamma(a+b+1/\tau)}
+= \theta \frac{\Gamma(a+1/\tau)}{\Gamma(a)}\frac{\Gamma(a+b)}{\Gamma(a+b+1/\tau)},
 \]</span>
 <span class="math display">\[
 E[X^2]
-= \theta^2 \frac{\Gamma(a+2/\tau)}{\Gamma(a)}\frac{\Gamma(a+b)}{\Gamma(a+b+2/\tau)}
+= \theta^2 \frac{\Gamma(a+2/\tau)}{\Gamma(a)}\frac{\Gamma(a+b)}{\Gamma(a+b+2/\tau)}.
 \]</span>
 Hence for large value of <span class="math inline">\(\tau\)</span>, we have
 <span class="math display">\[
 E[X^2] /E[X] = \theta \frac{\Gamma(a+2/\tau)}{\Gamma(a+b+2/\tau)}
 \frac{\Gamma(a+b+1/\tau)}{\Gamma(a+1/\tau)}
 \approx
-\theta
+\theta.
 \]</span>
 Note that the MLE of <span class="math inline">\(\theta\)</span> is the maximum
 We use
 <span class="math display">\[
 \hat\tau=3,
 \hat\theta = \frac{m_2}{m_1}\max_i x_i 1_{m_2&gt;m_1}
-+\frac{m_1}{m_2}\max_i x_i 1_{m_2\geq m_1}
++\frac{m_1}{m_2}\max_i x_i 1_{m_2\geq m_1}.
 \]</span>
 then we use beta initial estimate on sample
 <span class="math inline">\((\frac{x_i}{\hat\theta})^{\hat\tau}\)</span>.</p>
@@ -315,7 +316,7 @@ For <span class="math inline">\(\gamma\)</span> close to 1, <span class="math in
 = (\tau \gamma - 1) \sum_{i} \log(\frac{x_i-\mu}\theta)
 - (\alpha+\tau)\sum_i \log(1+(\frac{x_i-\mu}\theta)^\gamma)
 + n\log(\gamma) - n\log(\theta) -n \log(\beta(\alpha,\tau)).
-\tag{2.2}
+\tag{2.2}.
 \end{equation}\]</span>
 The MLE of <span class="math inline">\(\mu\)</span> is the minimum.</p>
 <p>The gradient with respect to <span class="math inline">\(\theta, \alpha, \gamma, \tau\)</span> is
@@ -338,7 +339,7 @@ The MLE of <span class="math inline">\(\mu\)</span> is the minimum.</p>
 (\gamma - 1) \sum_{i} \log(\frac{x_i-\mu}\theta)
 - \sum_i \log(1+(\frac{x_i-\mu}\theta)^\gamma)
 -n (\psi(\tau) - \psi(\alpha+\tau))
-\end{pmatrix}
+\end{pmatrix}.
 \tag{2.3}
 \end{equation}\]</span>
 Cancelling the first component of score for <span class="math inline">\(\gamma=\alpha=2\)</span>, we get
@@ -360,7 +361,7 @@ Cancelling the first component of score for <span class="math inline">\(\gamma=\
 \frac{(2+\tau) \frac1n\sum_i \frac{x_i 2(x_i-\mu)}{1+(\frac{x_i-\mu}\theta)^2}
 }{(2\tau  - 1)\left(\frac1n \sum_{i} \frac{x_i}{x_i-\mu} -1\right)}
 }
-= \theta
+= \theta.
 \]</span>
 Neglecting unknown value of <span class="math inline">\(\tau\)</span> and the denominator in <span class="math inline">\(\theta\)</span>, we get
 with <span class="math inline">\(\hat\mu\)</span> set with (<a href="#eq:pareto4muinit">(2.16)</a>)
@@ -368,13 +369,13 @@ with <span class="math inline">\(\hat\mu\)</span> set with (<a href="#eq:pareto4
 \hat\theta = \sqrt{
 \frac{ \frac1n\sum_i \frac{x_i 2(x_i-\hat\mu)}{1+(x_i-\hat\mu)^2}
 }{\left(\frac1n \sum_{i} \frac{x_i}{x_i-\hat\mu} -1\right)}
-}
+}.
 \tag{2.4}
 \end{equation}\]</span>
 Initial value of <span class="math inline">\(\tau,\alpha\)</span> are obtained on the sample <span class="math inline">\((z_i)_i\)</span>
 <span class="math display">\[
 z_i = y_i/(1+y_i),
-y_i = (x_i - \hat\mu)/\hat\theta
+y_i = (x_i - \hat\mu)/\hat\theta,
 \]</span>
 with initial values of a beta distribution which is based on MME
 (<a href="#eq:betaguessestimator">(2.1)</a>).</p>
@@ -387,7 +388,7 @@ with initial values of a beta distribution which is based on MME
 (\gamma - 1) \frac1n\sum_{i} \log(\frac{x_i-\mu}\theta)
 =
 \psi(\tau) - \psi(\alpha+\tau)
-+\frac1n\sum_i \log(1+(\frac{x_i-\mu}\theta)^\gamma)
++\frac1n\sum_i \log(1+(\frac{x_i-\mu}\theta)^\gamma) .
 \]</span>
 Neglecting the value <span class="math inline">\(\gamma\)</span> on the right-hand side we obtain
 <span class="math display" id="eq:fellerparetogammahat">\[\begin{equation}
@@ -398,7 +399,7 @@ Neglecting the value <span class="math inline">\(\gamma\)</span> on the right-ha
 +\frac1n\sum_i \log(1+(\frac{x_i-\mu}\theta))
 }{
 \frac1n\sum_{i} \log(\frac{x_i-\mu}\theta)
-}
+}.
 \tag{2.5}
 \end{equation}\]</span></p>
 <div class="section level4" number="2.5.1">
@@ -418,19 +419,19 @@ So the first component of <a href="#eq:fellerparetogradient">(2.3)</a> simplifie
 = \theta^2
 \]</span>
 <span class="math display">\[
-\theta^2=\frac{2+\tau}{2\tau}\frac1n\sum_i \frac{2x_i^2}{1+(\frac{x_i}\theta)^2}
+\theta^2=\frac{2+\tau}{2\tau}\frac1n\sum_i \frac{2x_i^2}{1+(\frac{x_i}\theta)^2}.
 \]</span>
 Neglecting unknown value of <span class="math inline">\(\tau\)</span> in the denominator in <span class="math inline">\(\theta\)</span>, we get
 <span class="math display" id="eq:trbetathetahat">\[\begin{equation}
 \hat\theta = \sqrt{
 \frac1n\sum_i \frac{2x_i^2}{1+x_i^2}
-}
+}.
 \tag{2.6}
-\end{equation}\]</span></p>
-<p>Initial value of <span class="math inline">\(\tau,\alpha\)</span> are obtained on the sample <span class="math inline">\((z_i)_i\)</span>
+\end{equation}\]</span>
+Initial value of <span class="math inline">\(\tau,\alpha\)</span> are obtained on the sample <span class="math inline">\((z_i)_i\)</span>
 <span class="math display">\[
 z_i = y_i/(1+y_i),
-y_i = x_i/\hat\theta
+y_i = x_i/\hat\theta,
 \]</span>
 with initial values of a beta distribution which is based on MME
 (<a href="#eq:betaguessestimator">(2.1)</a>).
@@ -443,7 +444,7 @@ Similar to Feller-Pareto, we set
 +\frac1n\sum_i \log(1+\frac{x_i}\theta)
 }{
 \frac1n\sum_{i} \log(\frac{x_i}\theta)
-}
+}.
 \tag{2.5}
 \end{equation}\]</span></p>
 </div>
@@ -461,7 +462,7 @@ So the first component of <a href="#eq:fellerparetogradient">(2.3)</a> simplifie
 \Leftrightarrow
 -(\tau - 1) \theta
 + (2+\tau)\frac1n\sum_i \frac{x_i}{(1+\frac{x_i}\theta}
-= \theta
+= \theta.
 \]</span>
 Neglecting unknown value of <span class="math inline">\(\tau\)</span> leads to
 <span class="math display" id="eq:generalizedparetotheta">\[\begin{equation}
@@ -472,7 +473,7 @@ Neglecting unknown value of <span class="math inline">\(\tau\)</span> leads to
 <p>Initial value of <span class="math inline">\(\tau,\alpha\)</span> are obtained on the sample <span class="math inline">\((z_i)_i\)</span>
 <span class="math display">\[
 z_i = y_i/(1+y_i),
-y_i = x_i/\hat\theta
+y_i = x_i/\hat\theta,
 \]</span>
 with initial values of a beta distribution which is based on MME
 (<a href="#eq:betaguessestimator">(2.1)</a>).</p>
@@ -488,7 +489,7 @@ with initial values of a beta distribution which is based on MME
 \]</span>
 Using the median <span class="math inline">\(q_2\)</span>, we have
 <span class="math display">\[
-\log(1/2) = - \alpha \log(1+(q_2/\theta)^\gamma)
+\log(1/2) = - \alpha \log(1+(q_2/\theta)^\gamma).
 \]</span>
 The initial value is
 <span class="math display" id="eq:burralpharelation">\[\begin{equation}
@@ -505,7 +506,7 @@ The initial value is
 = n/\theta
 \Leftrightarrow
 \theta^2\frac1n\sum_i \frac{2x_i(\frac{x_i}\theta)}{(1+(\frac{x_i}\theta)^2)}
-= 2/3
+= 2/3.
 \]</span>
 Neglecting unknown value in the denominator in <span class="math inline">\(\theta\)</span>, we get
 <span class="math display" id="eq:trbetathetahat">\[\begin{equation}
@@ -513,7 +514,7 @@ Neglecting unknown value in the denominator in <span class="math inline">\(\thet
 \frac{2}{3
 \frac1n\sum_i \frac{2x_i^2}{1+(x_i)^2}
 }
-}
+}.
 \tag{2.6}
 \end{equation}\]</span>
 We use for <span class="math inline">\(\hat\gamma\)</span> <a href="#eq:fellerparetogammahat">(2.5)</a> with <span class="math inline">\(\tau=1\)</span> and <span class="math inline">\(\alpha=2\)</span> and previous <span class="math inline">\(\hat\theta\)</span>.</p>
@@ -531,7 +532,7 @@ So
 <span class="math display">\[
 \frac1{1-F(x)}-1 = (x/\theta)^\gamma
 \Leftrightarrow
-\log(\frac{F(x)}{1-F(x)}) = \gamma\log(x/\theta)
+\log(\frac{F(x)}{1-F(x)}) = \gamma\log(x/\theta).
 \]</span>
 Let <span class="math inline">\(q_1\)</span> and <span class="math inline">\(q_3\)</span> be the first and the third quartile.
 <span class="math display">\[
@@ -539,7 +540,7 @@ Let <span class="math inline">\(q_1\)</span> and <span class="math inline">\(q_3
 \log(\frac{2/3}{1/3})= \gamma\log(q_3/\theta)
 \Leftrightarrow
 -\log(2)= \gamma\log(q_1/\theta),
-\log(2)= \gamma\log(q_3/\theta)
+\log(2)= \gamma\log(q_3/\theta).
 \]</span>
 The difference of previous equations simplifies to
 <span class="math display">\[
@@ -550,7 +551,7 @@ The sum of previous equations
 0 = \gamma\log(q_1)+\gamma\log(q_3) - 2\gamma\log(\theta).
 \]</span>
 <span class="math display" id="eq:llogisthetahat">\[\begin{equation}
-\hat\theta = \frac12 e^{\log(q_1q_3)}
+\hat\theta = \frac12 e^{\log(q_1q_3)}.
 \tag{2.9}
 \end{equation}\]</span></p>
 </div>
@@ -565,9 +566,9 @@ The survival function is
 \]</span>
 So
 <span class="math display">\[
-\log(1-F(x)) = -\alpha \log(1+(x/\theta)^\alpha)
-\]</span></p>
-<p>The log-likelihood is
+\log(1-F(x)) = -\alpha \log(1+(x/\theta)^\alpha).
+\]</span>
+The log-likelihood is
 <span class="math display" id="eq:paralogisloglik">\[\begin{equation}
 \mathcal L(\theta, \alpha)
 = ( \alpha - 1) \sum_{i} \log(\frac{x_i}\theta)
@@ -586,7 +587,7 @@ The gradient with respect to <span class="math inline">\(\theta\)</span>, <span 
 - (\alpha+1)\sum_i \frac{(\frac{x_i}\theta)^\alpha \log(x_i/\theta)}{1+(\frac{x_i}\theta)^\alpha}
 + 2n/\alpha
 \\
-\end{pmatrix}
+\end{pmatrix}.
 \]</span>
 The first component cancels when
 <span class="math display">\[
@@ -594,20 +595,20 @@ The first component cancels when
 = \alpha n/\theta
 \Leftrightarrow
 (\alpha+1)\frac1n\sum_i \frac{ (x_i)^{\alpha+1}}{1+(\frac{x_i}\theta)^\alpha}
-= \theta^\alpha
+= \theta^\alpha.
 \]</span>
 The second component cancels when
 <span class="math display">\[
 \frac1n\sum_{i} \log(\frac{ \frac{x_i}\theta}{1+(\frac{x_i}\theta)^\alpha })
 = -2/\alpha
-+(\alpha+1)\frac1n\sum_i \frac{(\frac{x_i}\theta)^\alpha \log(x_i/\theta)}{1+(\frac{x_i}\theta)^\alpha}
++(\alpha+1)\frac1n\sum_i \frac{(\frac{x_i}\theta)^\alpha \log(x_i/\theta)}{1+(\frac{x_i}\theta)^\alpha}.
 \]</span>
 Choosing <span class="math inline">\(\theta=1\)</span>, <span class="math inline">\(\alpha=2\)</span> in sums leads to
 <span class="math display">\[
 \frac1n\sum_{i} \log(\frac{ \frac{x_i}\theta}{1+x_i^2 })
 - \frac1n\sum_i \frac{x_i^2\log(x_i)}{1+x_i^2}
 = -2/\alpha
-+(\alpha)\frac1n\sum_i \frac{x_i^2\log(x_i)}{1+x_i^2}
++(\alpha)\frac1n\sum_i \frac{x_i^2\log(x_i)}{1+x_i^2}.
 \]</span>
 Initial estimators are
 <span class="math display" id="eq:paralogisalphahat">\[\begin{equation}
@@ -616,11 +617,11 @@ Initial estimators are
 - \frac1n\sum_i \frac{x_i^2\log(x_i)}{1+x_i^2}
 }{
 \frac1n\sum_i \frac{x_i^2\log(x_i)}{1+x_i^2} - 2
-}
+},
 \tag{2.11}
 \end{equation}\]</span>
 <span class="math display" id="eq:paralogisthetahat">\[\begin{equation}
-\hat\theta = (\hat\alpha+1)\frac1n\sum_i \frac{ (x_i)^{\hat\alpha+1}}{1+(x_i)^{\hat\alpha}}
+\hat\theta = (\hat\alpha+1)\frac1n\sum_i \frac{ (x_i)^{\hat\alpha+1}}{1+(x_i)^{\hat\alpha}}.
 \tag{2.12}
 \end{equation}\]</span></p>
 </div>
@@ -708,7 +709,7 @@ order that all observations are strictly above it
 \left\{ \begin{array}{ll}
 (1-\epsilon) \min_i x_i &amp; \text{if } \min_i x_i &lt;0 \\
 (1+\epsilon)\min_i x_i &amp; \text{if } \min_i x_i \geq 0 \\
-\end{array} \right.
+\end{array} \right. .
 \tag{2.16}
 \end{equation}\]</span>
 where <span class="math inline">\(\epsilon=0.05\)</span>.</p>
@@ -716,7 +717,7 @@ where <span class="math inline">\(\epsilon=0.05\)</span>.</p>
 <span class="math inline">\(\alpha^\star = 2\)</span> ,
 <span class="math inline">\(\hat\gamma\)</span> from <a href="#eq:pareto4gammarelation">(2.13)</a> with <span class="math inline">\(\alpha^\star\)</span>,
 <span class="math inline">\(\hat\theta\)</span> from <a href="#eq:pareto4thetarelation">(2.14)</a> with <span class="math inline">\(\alpha^\star\)</span> and <span class="math inline">\(\hat\gamma\)</span>,
-<span class="math inline">\(\hat\alpha\)</span> from <a href="#eq:pareto4alpharelation">(2.15)</a> with <span class="math inline">\(\hat\mu\)</span>, <span class="math inline">\(\hat\theta\)</span> and <span class="math inline">\(\hat\gamma\)</span>,</p>
+<span class="math inline">\(\hat\alpha\)</span> from <a href="#eq:pareto4alpharelation">(2.15)</a> with <span class="math inline">\(\hat\mu\)</span>, <span class="math inline">\(\hat\theta\)</span> and <span class="math inline">\(\hat\gamma\)</span>.</p>
 </div>
 <div class="section level4" number="2.5.10">
 <h4 id="pareto-iii">
@@ -781,7 +782,7 @@ where <span class="math inline">\(\epsilon=0.05\)</span>.</p>
 <p>The MLE is
 <span class="math display">\[\begin{equation}
 \hat\mu = \min_i X_i,
-\hat\alpha = \left(\frac1n \sum_{i=1}^n \log(X_i/\hat\mu) \right)^{-1}
+\hat\alpha = \left(\frac1n \sum_{i=1}^n \log(X_i/\hat\mu) \right)^{-1}.
 \label{eq:pareto1:alpha:mu:relation}
 \end{equation}\]</span></p>
 <p>This can be rewritten with the geometric mean of the sample
@@ -796,8 +797,8 @@ where <span class="math inline">\(\epsilon=0.05\)</span>.</p>
 <h4 id="pareto">
 <span class="header-section-number">2.5.13</span> Pareto<a class="anchor" aria-label="anchor" href="#pareto"></a>
 </h4>
-<p>Pareto corresponds to Pareto IV with <span class="math inline">\(\gamma=1\)</span>, <span class="math inline">\(\mu=0\)</span>.</p>
-<p><span class="math display">\[\begin{equation}
+<p>Pareto corresponds to Pareto IV with <span class="math inline">\(\gamma=1\)</span>, <span class="math inline">\(\mu=0\)</span>.
+<span class="math display">\[\begin{equation}
 \theta
 =
 \frac{
@@ -850,7 +851,7 @@ We compute moment-estimator as in gamma
 \]</span>
 Then cancelling the first component of the gradient we set
 <span class="math display">\[
-\hat\tau =  \frac{\psi(\hat\alpha)}{\frac1n\sum_i \log(x_i/\hat\theta) }
+\hat\tau =  \frac{\psi(\hat\alpha)}{\frac1n\sum_i \log(x_i/\hat\theta) }.
 \]</span></p>
 </div>
 <div class="section level4" number="2.6.2">
@@ -870,18 +871,18 @@ Then cancelling the first component of the gradient we set
 </h4>
 <p>Transformed gamma with <span class="math inline">\(\alpha=1\)</span></p>
 <p>Let <span class="math inline">\(\tilde m=\frac1n\sum_i \log(x_i)\)</span> and <span class="math inline">\(\tilde v=\frac1n\sum_i (\log(x_i) - \tilde m)^2\)</span>.
-We can use
+We use an approximate MME
 <span class="math display">\[
 \hat\tau =  1.2/sqrt(\tilde v),
-\hat\theta =  exp(\tilde m + 0.572/\hat \tau)
+\hat\theta =  exp(\tilde m + 0.572/\hat \tau).
 \]</span>
-As the distribution function is
+Alternatively, we can use the distribution function
 <span class="math display">\[
 F(x) = 1 - e^{-(x/\sigma)^\tau}
 \Rightarrow
 \log(-\log(1-F(x))) = \tau\log(x) - \tau\log(\theta),
 \]</span>
-Hence
+Hence the QME for Weibull is
 <span class="math display">\[
 \tilde\tau = \frac{
 \log(-\log(1-p_1))
@@ -899,10 +900,8 @@ with <span class="math inline">\(p_1=1/4\)</span>, <span class="math inline">\(p
 <h4 id="exponential-distribution">
 <span class="header-section-number">2.6.4</span> Exponential distribution<a class="anchor" aria-label="anchor" href="#exponential-distribution"></a>
 </h4>
-<p>The MLE is
-<span class="math display">\[
-\hat\lambda = 1/m_1.
-\]</span></p>
+<p>The MLE is the MME
+<span class="math inline">\(\hat\lambda = 1/m_1.\)</span></p>
 </div>
 </div>
 <div class="section level3" number="2.7">
@@ -913,7 +912,7 @@ with <span class="math inline">\(p_1=1/4\)</span>, <span class="math inline">\(p
 <h4 id="inverse-transformed-gamma-distribution">
 <span class="header-section-number">2.7.1</span> Inverse transformed gamma distribution<a class="anchor" aria-label="anchor" href="#inverse-transformed-gamma-distribution"></a>
 </h4>
-<p>same as transformed gamma distribution with <span class="math inline">\((1/x_i)_i\)</span></p>
+<p>Same as transformed gamma distribution with <span class="math inline">\((1/x_i)_i\)</span>.</p>
 </div>
 <div class="section level4" number="2.7.2">
 <h4 id="inverse-gamma-distribution">
@@ -929,12 +928,13 @@ with <span class="math inline">\(p_1=1/4\)</span>, <span class="math inline">\(p
 <h4 id="inverse-weibull-distribution">
 <span class="header-section-number">2.7.3</span> Inverse Weibull distribution<a class="anchor" aria-label="anchor" href="#inverse-weibull-distribution"></a>
 </h4>
-<p>QME</p>
+<p>We use the QME.</p>
 </div>
 <div class="section level4" number="2.7.4">
 <h4 id="inverse-exponential">
 <span class="header-section-number">2.7.4</span> Inverse exponential<a class="anchor" aria-label="anchor" href="#inverse-exponential"></a>
 </h4>
+<p>Same as transformed gamma distribution with <span class="math inline">\((1/x_i)_i\)</span>.</p>
 </div>
 </div>
 </div>
