@@ -31,6 +31,9 @@ $$
 \mu_j = \frac1n \sum_{i=1}^n (x_i^j-m_1).
 $$
 Starting values are computed in `R/util-startarg.R`.
+We give below the starting values for discrete and continuous
+distributions and refer to the bibliograhy sections for
+details.
 
 
 # Discrete distributions
@@ -828,3 +831,27 @@ We use the QME.
 
 Same as transformed gamma distribution with $(1/x_i)_i$.
 
+# Bibliography
+
+## General books
+
+- N. L. Johnson, S. Kotz, N. Balakrishnan (1994). Continuous univariate distributions, Volume 1, Wiley. 
+- N. L. Johnson, S. Kotz, N. Balakrishnan (1995). Continuous univariate distributions, Volume 2, Wiley. 
+- N. L. Johnson, S. Kotz, N. Balakrishnan (1997). Discrete multivariate distributions, Wiley.
+- N. L. Johnson, A. W. Kemp, S. Kotz (2008). Univariate discrete distributions, Wiley. 
+- S. Kotz, N. Balakrishnan, N. L. Johnson (2000). Continuous multivariate distributions Volume 1, Wiley.
+- G. Wimmer (1999),  Thesaurus of univariate discrete probability distributions.
+
+## Books dedicated to a distribution family
+
+- M. Ahsanullah, B.M. Golam Kibria, M. Shakil (2014). Normal and Student's t Distributions and Their Applications, Springer. 
+- B. C. Arnold (2010). Pareto Distributions, Chapman and Hall. 
+- A. Azzalini (2013). The Skew-Normal and Related Families. 
+- N. Balakrishnan (2014). Handbook of the Logistic Distribution, CRC Press. 
+
+## Books with applications
+
+- C. Forbes, M. Evans, N. Hastings, B. Peacock (2011). Statistical Distributions, Wiley. 
+- Z. A. Karian, E. J. Dudewicz, K. Shimizu (2010). Handbook of Fitting Statistical Distributions with R, CRC Press. 
+- K. Krishnamoorthy (2015). Handbook of Statistical Distributions with Applications, Chapman and Hall. 
+- Klugman, S., Panjer, H. & Willmot, G. (2019). Loss Models: From Data to Decisions, 5th ed., John Wiley & Sons.

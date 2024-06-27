@@ -21,6 +21,8 @@ or
 
 `fitdistrplus` extends the `fitdistr()` function (of the `MASS` package) with several functions to help the fit of a parametric distribution to non-censored or censored data. Censored data may contain left censored, right censored and interval censored values, with several lower and upper bounds. In addition to maximum likelihood estimation (MLE), the package provides moment matching (MME), quantile matching (QME) and maximum goodness-of-fit estimation (MGE) methods (available only for non-censored data). Weighted versions of MLE, MME and QME are available.
 
+`fitdistrplus` allows to fit any probability distribution provided by the user and not restricted to base R distributions (see `?Distributions`). We strongly encourage users to visit the CRAN task view 
+on [Distributions](https://cran.r-project.org/view=Distributions) proposed by Dutang, Kiener & Swihart (2024).
 
 ## The package
 
@@ -44,12 +46,16 @@ library(fitdistrplus)
 
 ## Documentation
 
-Four **vignettes** are attached to the `fitdistrplus` package:
+Four **vignettes** are attached to the `fitdistrplus` package. Two of them are for beginners
 
 - <a href="https://lbbe-software.github.io/fitdistrplus/articles/fitdistrplus_vignette.html" target="_blank">Overview of the fitdistrplus package</a>
+- <a href="https://lbbe-software.github.io/fitdistrplus/articles/FAQ.html" target="_blank">Frequently Asked Questions</a>
+
+The last two vignettes deal with advanced topics
+
 - <a href="https://lbbe-software.github.io/fitdistrplus/articles/Optimalgo.html" target="_blank">Which optimization algorithm to choose?</a>
 - <a href="https://lbbe-software.github.io/fitdistrplus/articles/starting-values.html" target="_blank">Starting values used in fitdistrplus</a>
-- <a href="https://lbbe-software.github.io/fitdistrplus/articles/FAQ.html" target="_blank">Frequently Asked Questions</a>
+
 
 
 ## Authors & Contacts
