@@ -837,9 +837,7 @@ Same as transformed gamma distribution with $(1/x_i)_i$.
 
 - N. L. Johnson, S. Kotz, N. Balakrishnan (1994). Continuous univariate distributions, Volume 1, Wiley. 
 - N. L. Johnson, S. Kotz, N. Balakrishnan (1995). Continuous univariate distributions, Volume 2, Wiley. 
-- N. L. Johnson, S. Kotz, N. Balakrishnan (1997). Discrete multivariate distributions, Wiley.
 - N. L. Johnson, A. W. Kemp, S. Kotz (2008). Univariate discrete distributions, Wiley. 
-- S. Kotz, N. Balakrishnan, N. L. Johnson (2000). Continuous multivariate distributions Volume 1, Wiley.
 - G. Wimmer (1999),  Thesaurus of univariate discrete probability distributions.
 
 ## Books dedicated to a distribution family
