@@ -75,7 +75,7 @@
       <img src="" class="logo" alt=""><h1>Starting values used in fitdistrplus</h1>
                         <h4 data-toc-skip class="author">Marie Laure Delignette Muller, Christophe Dutang</h4>
             
-            <h4 data-toc-skip class="date">2024-06-26</h4>
+            <h4 data-toc-skip class="date">2024-06-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/lbbe-software/fitdistrplus/blob/HEAD/vignettes/starting-values.Rmd" class="external-link"><code>vignettes/starting-values.Rmd</code></a></small>
       <div class="d-none name"><code>starting-values.Rmd</code></div>
@@ -91,7 +91,10 @@ by the centered empirical moment by
 <span class="math display">\[
 \mu_j = \frac1n \sum_{i=1}^n (x_i^j-m_1).
 \]</span>
-Starting values are computed in <code>R/util-startarg.R</code>.</p>
+Starting values are computed in <code>R/util-startarg.R</code>.
+We give below the starting values for discrete and continuous
+distributions and refer to the bibliograhy sections for
+details.</p>
 <div class="section level2" number="1">
 <h2 id="discrete-distributions">
 <span class="header-section-number">1</span> Discrete distributions<a class="anchor" aria-label="anchor" href="#discrete-distributions"></a>
@@ -936,6 +939,46 @@ with <span class="math inline">\(p_1=1/4\)</span>, <span class="math inline">\(p
 </h4>
 <p>Same as transformed gamma distribution with <span class="math inline">\((1/x_i)_i\)</span>.</p>
 </div>
+</div>
+</div>
+<div class="section level2" number="3">
+<h2 id="bibliography">
+<span class="header-section-number">3</span> Bibliography<a class="anchor" aria-label="anchor" href="#bibliography"></a>
+</h2>
+<div class="section level3" number="3.1">
+<h3 id="general-books">
+<span class="header-section-number">3.1</span> General books<a class="anchor" aria-label="anchor" href="#general-books"></a>
+</h3>
+<ul>
+<li>N. L. Johnson, S. Kotz, N. Balakrishnan (1994). Continuous univariate distributions, Volume 1, Wiley.</li>
+<li>N. L. Johnson, S. Kotz, N. Balakrishnan (1995). Continuous univariate distributions, Volume 2, Wiley.</li>
+<li>N. L. Johnson, S. Kotz, N. Balakrishnan (1997). Discrete multivariate distributions, Wiley.</li>
+<li>N. L. Johnson, A. W. Kemp, S. Kotz (2008). Univariate discrete distributions, Wiley.</li>
+<li>S. Kotz, N. Balakrishnan, N. L. Johnson (2000). Continuous multivariate distributions Volume 1, Wiley.</li>
+<li>G. Wimmer (1999), Thesaurus of univariate discrete probability distributions.</li>
+</ul>
+</div>
+<div class="section level3" number="3.2">
+<h3 id="books-dedicated-to-a-distribution-family">
+<span class="header-section-number">3.2</span> Books dedicated to a distribution family<a class="anchor" aria-label="anchor" href="#books-dedicated-to-a-distribution-family"></a>
+</h3>
+<ul>
+<li>M. Ahsanullah, B.M. Golam Kibria, M. Shakil (2014). Normal and Student’s t Distributions and Their Applications, Springer.</li>
+<li>B. C. Arnold (2010). Pareto Distributions, Chapman and Hall.</li>
+<li>A. Azzalini (2013). The Skew-Normal and Related Families.</li>
+<li>N. Balakrishnan (2014). Handbook of the Logistic Distribution, CRC Press.</li>
+</ul>
+</div>
+<div class="section level3" number="3.3">
+<h3 id="books-with-applications">
+<span class="header-section-number">3.3</span> Books with applications<a class="anchor" aria-label="anchor" href="#books-with-applications"></a>
+</h3>
+<ul>
+<li>C. Forbes, M. Evans, N. Hastings, B. Peacock (2011). Statistical Distributions, Wiley.</li>
+<li>Z. A. Karian, E. J. Dudewicz, K. Shimizu (2010). Handbook of Fitting Statistical Distributions with R, CRC Press.</li>
+<li>K. Krishnamoorthy (2015). Handbook of Statistical Distributions with Applications, Chapman and Hall.</li>
+<li>Klugman, S., Panjer, H. &amp; Willmot, G. (2019). Loss Models: From Data to Decisions, 5th ed., John Wiley &amp; Sons.</li>
+</ul>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
