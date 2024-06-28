@@ -55,7 +55,6 @@ mme.vcov <- function(par, fix.arg, order, obs, mdistnam, memp, weights,
 }
 
 
-
 #compute E[X^(i+j)] - \overline{x^i}_n \overline{x^j}_n
 mme.Ahat <- function(par, fix.arg, order, obs, mdistnam, memp, weights)
 {

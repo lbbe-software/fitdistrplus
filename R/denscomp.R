@@ -122,15 +122,15 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
     {
       if (length(unique(diff(reshist$breaks))) > 1) # wrong histogram and not possible to compute a scale factor
         stop("You should not use probability = FALSE with non-equidistant breaks for the histogram !") else
-      scalefactor <- n * diff(reshist$breaks)[1]
+          scalefactor <- n * diff(reshist$breaks)[1]
     }
-#    previous writing that gave incorrect output in case of probability = 1 and non-equidistant breaks
-#    scalefactor <- ifelse(probability, 1, n * diff(reshist$breaks))
+    #    previous writing that gave incorrect output in case of probability = 1 and non-equidistant breaks
+    #    scalefactor <- ifelse(probability, 1, n * diff(reshist$breaks))
   } else
   {
     scalefactor <- ifelse(probability, 1, n)
   }
-#  binwidth <- min(diff(reshist$breaks))
+  #  binwidth <- min(diff(reshist$breaks))
   
   # computation of each fitted distribution
   comput.fti <- function(i)
@@ -194,9 +194,9 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
     fitcol <- c(fitcol, dempcol)
   }
   
-  if(plotstyle == "graphics") {
+  if(plotstyle == "graphics") 
+  {
     ######## plot if plotstyle=='graphics' ########
-    
     if(!discrete)
     {
       #main plotting
@@ -204,8 +204,8 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
       
       #plot fitted densities (line)
       for(i in 1:nft)
-          lines(sfin, fitteddens[,i], lty=fitlty[i], col=fitcol[i], lwd=fitlwd[i], ...)
- 
+        lines(sfin, fitteddens[,i], lty=fitlty[i], col=fitcol[i], lwd=fitlwd[i], ...)
+      
       #plot empirical density
       if(demp)
         lines(density(mydata)$x, density(mydata)$y * scalefactor, col=dempcol)
@@ -218,7 +218,7 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
       # plotting of an empty histogram
       reshist <- hist(mydata, main = main, xlab = xlab, ylab = ylab, xlim = xlim, ylim = ylim, border = "white",
                       probability = probability, ...)
-       
+      
       eps <- diff(range(sfin))/200
       if(fittype %in% c("l", "o"))
       {
@@ -254,12 +254,12 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
     }
     return(invisible(list(hist = reshist, densities = fitteddens)))
     
-  } else if (!requireNamespace("ggplot2", quietly = TRUE)) {
+  } else if (!requireNamespace("ggplot2", quietly = TRUE)) 
+  {
     stop("ggplot2 needed for this function to work with plotstyle = 'ggplot'. Please install it", call. = FALSE)
-    
-  } else {
+  } else 
+  {
     ######## plot if plotstyle=='ggplot' ########
-    
     # recode the legend position according to available positions in ggplot2
     if(xlegend %in% c("topleft", "bottomleft"))
       xlegend <- "left"
@@ -283,14 +283,14 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
       
       histdata <- data.frame(values = mydata, ind = "hist", sfin = mydata) # the added data must have the same column names as the main data to be compatible with ggplot
       
-        ggdenscomp <-
+      ggdenscomp <-
         ggplot2::ggplot(fitteddens, ggplot2::aes(.data$sfin, .data$values, group = .data$ind, colour = .data$ind)) +
         ggplot2::xlab(xlab) +
         ggplot2::ylab(ylab) +
         ggplot2::ggtitle(main) +
         ggplot2::coord_cartesian(xlim = c(xlim[1], xlim[2]), ylim = c(ylim[1], ylim[2])) +
-          {if(probability) ggplot2::geom_histogram(data = histdata, ggplot2::aes(.data$values, ggplot2::after_stat(density)), breaks = reshist$breaks, boundary = 0, show.legend = FALSE, col = "black", alpha = 1, fill = datacol)
-            else ggplot2::geom_histogram(data = histdata, ggplot2::aes(.data$values, .data$..count..), breaks = reshist$breaks, boundary = 0, show.legend = FALSE, col = "black", alpha = 1, fill = datacol)} +
+        {if(probability) ggplot2::geom_histogram(data = histdata, ggplot2::aes(.data$values, ggplot2::after_stat(density)), breaks = reshist$breaks, boundary = 0, show.legend = FALSE, col = "black", alpha = 1, fill = datacol)
+          else ggplot2::geom_histogram(data = histdata, ggplot2::aes(.data$values, .data$..count..), breaks = reshist$breaks, boundary = 0, show.legend = FALSE, col = "black", alpha = 1, fill = datacol)} +
         ggplot2::geom_line(data = fitteddens, ggplot2::aes(linetype = .data$ind, colour = .data$ind, size = .data$ind)) +
         ggplot2::guides(colour = ggplot2::guide_legend(title = NULL)) +
         ggplot2::guides(linetype = ggplot2::guide_legend(title = NULL)) +

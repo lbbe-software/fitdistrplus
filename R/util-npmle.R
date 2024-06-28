@@ -33,6 +33,5 @@ npmle <- function(censdata, method = "Wang")
     f <- Turnbull.intervals(censdata)
   }
   return(f)
-  
 }
 

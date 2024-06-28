@@ -26,7 +26,6 @@
 #compute H^{-1}
 mle.vcov <- function(myhessian)
 {
-  
   if(all(!is.na(myhessian)) && qr(myhessian)$rank == NCOL(myhessian))
   {
     res <- solve(myhessian)

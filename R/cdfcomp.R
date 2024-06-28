@@ -171,7 +171,8 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
     sfin <- 10^sfin
   
   
-  if(plotstyle == "graphics") {
+  if(plotstyle == "graphics") 
+  {
     ######## plot if plotstyle=='graphics' ########
     
     #main plot
@@ -203,7 +204,8 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
       text(sdata, obsp, labels = name.points, pos = 2)
     
     # optional add of horizontal and vertical lines for step function
-    if (!largedata && horizontals) {
+    if (!largedata && horizontals) 
+    {
       segments(xhleft, yh, xhright, yh, col=datacol,...)
       segments(sdata[length(sdata)], 1, xmax, 1, col=datacol, lty = 2, ...)
       segments(xmin, 0, sdata[1], 0, col=datacol, lty = 2, ...)
@@ -226,10 +228,12 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
     
     return(invisible(list(obs = cbind(sdata, obsp), probabilities = fittedprob)))
     
-  } else if (!requireNamespace("ggplot2", quietly = TRUE)) {
+  } else if (!requireNamespace("ggplot2", quietly = TRUE)) 
+  {
     stop("ggplot2 needed for this function to work with plotstyle = 'ggplot'. Please install it", call. = FALSE)
     
-  } else {
+  }else 
+  {
     ######## plot if plotstyle=='ggplot' ########
     
     # recode the legend position according to available positions in ggplot2
@@ -273,7 +277,7 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
       
       {if(discrete) ggplot2::geom_step(data = fittedprob, ggplot2::aes(linetype = .data$ind, colour = .data$ind), size = 0.4)} +
       {if(!discrete) ggplot2::geom_line(data = fittedprob, ggplot2::aes(linetype = .data$ind, colour = .data$ind, size = .data$ind))} +
-
+      
       ggplot2::theme_bw() +   
       {if(addlegend) ggplot2::theme(legend.position = c(xlegend, ylegend)) else ggplot2::theme(legend.position = "none")} +
       ggplot2::scale_color_manual(values = fitcol, labels = legendtext) +

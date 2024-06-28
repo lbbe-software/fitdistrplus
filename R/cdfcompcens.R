@@ -50,8 +50,8 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
             of Turnbull.intervals. It was here fixed as Turnbull.middlepoints, equivalent to former Turnbull.")
     NPMLE.method <- "Turnbull.middlepoints"
   }
-
-    if ((Turnbull.confint == TRUE) & ((NPMLE.method == "Wang") | (NPMLE.method == "Turnbull.intervals")))
+  
+  if ((Turnbull.confint == TRUE) & ((NPMLE.method == "Wang") | (NPMLE.method == "Turnbull.intervals")))
   {
     warning("When Turnbull.confint is TRUE NPMLE.method is forced to Turnbull.middlepoints." )
     NPMLE.method <- "Turnbull.middlepoints"
@@ -100,9 +100,10 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
   
   
   # calculations for Wang method, for both graphics and ggplot displays
-  if ((NPMLE.method == "Wang") | (NPMLE.method == "Turnbull.intervals")) {
+  if ((NPMLE.method == "Wang") | (NPMLE.method == "Turnbull.intervals"))
+  {
     f <- npmle(censdata, method = NPMLE.method)
-  
+    
     bounds <- c(f$right, f$left)
     finitebounds <- bounds[is.finite(bounds)]
     upper <- max(finitebounds)
@@ -181,8 +182,8 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
       legendtext <- paste(legendtext, 1:nft, sep="-")
   }
   
-  
-  if(plotstyle == "graphics") {
+  if(plotstyle == "graphics") 
+  {
     ######## plot if plotstyle=='graphics' ########
     
     if (NPMLE.method == "Turnbull.middlepoints")
@@ -193,8 +194,7 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
         xmin <- min(c(censdata$left, censdata$right), na.rm=TRUE)
         xmax <- max(c(censdata$left, censdata$right), na.rm=TRUE)
         xlim <- c(xmin, xmax)
-      }
-      else
+      }else
       {
         xmin <- xlim[1]
         xmax <- xlim[2]
@@ -228,8 +228,7 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
                   log=logxy, col=datacol, conf.int = FALSE, xlim = xlim, ...)
           
         }
-      }
-      else
+      }else
       {
         if (Turnbull.confint)
         {
@@ -269,7 +268,8 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
       # rgbdatacol <- col2rgb(datacol)
       # lightdatacol <- rgb(rgbdatacol[1], rgbdatacol[2], rgbdatacol[3], maxColorValue = 255, 
       #                     alpha = 10)
-      for(i in 1:k) {
+      for(i in 1:k) 
+      {
         rect(xleft = Qi.left4plot, ybottom = Pi.low, xright = Qi.right4plot, ytop = Pi.up,
              border = datacol, col = fillrect)
       }
@@ -308,10 +308,11 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
     }
     invisible()
     
-  } else if (!requireNamespace("ggplot2", quietly = TRUE)) {
+  } else if (!requireNamespace("ggplot2", quietly = TRUE)) 
+  {
     stop("ggplot2 needed for this function to work with plotstyle = 'ggplot'. Please install it", call. = FALSE)
-    
-  } else {
+  } else 
+  {
     ######## plot if plotstyle=='ggplot' ########
     if ((NPMLE.method == "Wang") | (NPMLE.method == "Turnbull.intervals")) {
       

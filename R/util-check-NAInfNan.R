@@ -1,5 +1,5 @@
 
-
+#check for uncensored data the presence of NaN, +/-Inf, NA
 checkUncensoredNAInfNan <- function(x)
 {
   if(!is.numeric(x))
@@ -13,7 +13,7 @@ checkUncensoredNAInfNan <- function(x)
   invisible(NULL)
 }
 
-
+#check for censored data the presence of NaN, +/-Inf, NA
 checkCensoredDataFrameNAInfNan <- function(x)
 {
   if(!is.data.frame(x))

@@ -32,20 +32,20 @@
 
 logLik.fitdist <- function(object, ...)
 {
-    stopifnot(inherits(object, "fitdist"))
-    
-    if(is.null(object$loglik))
-        stop("Internal error in loglik.fitdist")
-    else
-        return(object$loglik)
+  stopifnot(inherits(object, "fitdist"))
+  
+  if(is.null(object$loglik))
+    stop("Internal error in loglik.fitdist")
+  else
+    return(object$loglik)
 }
 
 logLik.fitdistcens <- function(object, ...)
 {
-    stopifnot(inherits(object, "fitdistcens"))
-    
-    if(is.null(object$loglik))
-        stop("Internal error in loglik.fitdistcens")
-    else
-        return(object$loglik)
+  stopifnot(inherits(object, "fitdistcens"))
+  
+  if(is.null(object$loglik))
+    stop("Internal error in loglik.fitdistcens")
+  else
+    return(object$loglik)
 }

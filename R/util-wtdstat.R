@@ -32,7 +32,6 @@ wtdmean <- function(x, weights=NULL, normwt='ignored', na.rm=TRUE)
   sum(weights*x)/sum(weights)
 }
 
-
 #From wtd.stats.s (line 15) of the Hmisc package
 wtdvar <- function(x, weights=NULL, normwt=FALSE, na.rm=TRUE,
                     method = c('unbiased', 'ML'))

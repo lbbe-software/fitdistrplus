@@ -61,13 +61,13 @@ llplot <- function(mlefit, loglik = TRUE, expansion = 1, lseq = 50,
       plot.arg <- names(mlefit$estimate)
       fix.arg <- mlefit$fix.arg
       llsurface(data, distr, plot.arg = plot.arg, 
-              min.arg = estim.value - estim.sd * 2 *expansion, 
-              max.arg = estim.value + estim.sd * 2 *expansion, 
-              lseq = lseq, fix.arg = fix.arg, loglik = loglik,
-              back.col = back.col, nlev = nlev, pal.col = pal.col,
-              weights = mlefit$weights, ...)
-    if (fit.show) points(estim.value[1], estim.value[2], pch = fit.pch)
-      
+                min.arg = estim.value - estim.sd * 2 *expansion, 
+                max.arg = estim.value + estim.sd * 2 *expansion, 
+                lseq = lseq, fix.arg = fix.arg, loglik = loglik,
+                back.col = back.col, nlev = nlev, pal.col = pal.col,
+                weights = mlefit$weights, ...)
+      if (fit.show) 
+        points(estim.value[1], estim.value[2], pch = fit.pch)
     } else # so if np > 2
     {
       def.par <- par(no.readonly = TRUE)
@@ -77,6 +77,7 @@ llplot <- function(mlefit, loglik = TRUE, expansion = 1, lseq = 50,
       layout(lay)
       par(mar = c(5, 4, 0.2, 0.2))
       for (i in 1:(np - 1))
+      {
         for (j in (i+1):np)
         {
           plot.arg <- names(mlefit$estimate)[c(i, j)]
@@ -91,17 +92,18 @@ llplot <- function(mlefit, loglik = TRUE, expansion = 1, lseq = 50,
                     weights = mlefit$weights, ...)
           if (fit.show) points(estim.value[1], estim.value[2], pch = fit.pch)
         }
+      }
       par(def.par)
     }
   invisible()
 }
 
 llsurface <- function(data, distr, plot.arg, min.arg, max.arg,   lseq = 50, fix.arg = NULL,  
-            loglik = TRUE, back.col = TRUE, nlev = 10, pal.col = terrain.colors(100), weights = NULL, ...)
+                      loglik = TRUE, back.col = TRUE, nlev = 10, pal.col = terrain.colors(100), weights = NULL, ...)
 {
   stopifnot(is.vector(plot.arg) || length(plot.arg) == 2)
   stopifnot(is.list(fix.arg) || is.null(fix.arg))
-
+  
   if(!is.null(weights))
   {
     if(any(weights < 0))
@@ -113,7 +115,7 @@ llsurface <- function(data, distr, plot.arg, min.arg, max.arg,   lseq = 50, fix.
     weights <- rep(1, NROW(data))
   }
   
-    
+  
   if (is.vector(data))
   {
     cens <- FALSE
@@ -145,7 +147,7 @@ llsurface <- function(data, distr, plot.arg, min.arg, max.arg,   lseq = 50, fix.
     distname <- distr
   ddistname <- paste("d", distname, sep="")
   if (!exists(ddistname, mode="function"))
-  stop(paste("The ", ddistname, " function must be defined"))
+    stop(paste("The ", ddistname, " function must be defined"))
   if (cens)
   {
     pdistname <- paste("p", distname, sep="")
@@ -235,7 +237,7 @@ llcurve <- function(data, distr, plot.arg, min.arg, max.arg,   lseq = 50, fix.ar
 {
   stopifnot(is.vector(plot.arg) || length(plot.arg) == 1)
   stopifnot(is.list(fix.arg) || is.null(fix.arg))
-
+  
   if(!is.null(weights))
   {
     if(any(weights < 0))
@@ -246,7 +248,6 @@ llcurve <- function(data, distr, plot.arg, min.arg, max.arg,   lseq = 50, fix.ar
   {
     weights <- rep(1, NROW(data))
   }
-  
   
   if (is.vector(data))
   {
@@ -279,13 +280,12 @@ llcurve <- function(data, distr, plot.arg, min.arg, max.arg,   lseq = 50, fix.ar
   ddistname <- paste("d", distname, sep="")
   if (!exists(ddistname, mode="function"))
     stop(paste("The ", ddistname, " function must be defined"))
- 
+  
   if (cens)
   {
     pdistname <- paste("p", distname, sep="")
     if (!exists(pdistname, mode="function"))
       stop(paste("The ", pdistname, " function must be defined"))
-    
   }
   
   #sanity check for argument names
@@ -338,9 +338,9 @@ llcurve <- function(data, distr, plot.arg, min.arg, max.arg,   lseq = 50, fix.ar
         par <- list(x)
         names(par) <- plot.arg
         likelihoodcens(par, fix.arg = fix.arg, rcens = rcens, lcens = lcens, icens = icens,
-                          ncens = ncens, ddistnam = ddistname, pdistnam = pdistname, weights = weights,
-                          irow.ncens = irow.ncens, irow.lcens = irow.lcens, 
-                          irow.rcens = irow.rcens, irow.icens = irow.icens)
+                       ncens = ncens, ddistnam = ddistname, pdistnam = pdistname, weights = weights,
+                       irow.ncens = irow.ncens, irow.lcens = irow.lcens, 
+                       irow.rcens = irow.rcens, irow.icens = irow.icens)
       }
     }
   }
@@ -384,7 +384,7 @@ likelihoodcens <- function(par, fix.arg, rcens, lcens, icens, ncens, ddistnam, p
   p2 <- do.call(pdistnam, c(list(lcens), as.list(par), as.list(fix.arg)))
   p3 <- 1-do.call(pdistnam, c(list(rcens), as.list(par), as.list(fix.arg)))
   p4 <- do.call(pdistnam, c(list(icens$right), as.list(par), as.list(fix.arg))) - 
-              do.call(pdistnam, c(list(icens$left), as.list(par), as.list(fix.arg))) 
+    do.call(pdistnam, c(list(icens$left), as.list(par), as.list(fix.arg))) 
   prod(p1^weights[irow.ncens]) * 
     prod(p2^weights[irow.lcens]) * 
     prod(p3^weights[irow.rcens]) * 

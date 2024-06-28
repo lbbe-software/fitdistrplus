@@ -159,9 +159,9 @@ ppcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
                              Pi.up = Pi.up, ind = legendtext[i])
   }
   
-  if(plotstyle == "graphics") {
+  if(plotstyle == "graphics") 
+  {
     ######## plot if plotstyle=='graphics' ########
-    
     # main plot
     plot(1, 1, type = "n", main = main, xlim = xlim, ylim = ylim,
          xlab = xlab, ylab = ylab, log = logxy)
@@ -208,12 +208,12 @@ ppcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
     }
     invisible()
     
-  } else if (!requireNamespace("ggplot2", quietly = TRUE)) {
+  } else if (!requireNamespace("ggplot2", quietly = TRUE)) 
+  {
     stop("ggplot2 needed for this function to work with plotstyle = 'ggplot'. Please install it", call. = FALSE)
-    
-  } else {
+  } else 
+  {
     ######## plot if plotstyle=='ggplot' ########
-    
     drect <-  do.call("rbind", lrect)
     ind <- as.factor(drect$ind)
     fitcol <- rep(fitcol, table(ind))

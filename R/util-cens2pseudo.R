@@ -19,7 +19,6 @@ cens2pseudo <- function(censdata)
   # mean of bounds for interval censored data and the left or right bound for the other 
   # censored data) = vector
   
-  
   irow.lcens <- is.na(censdata$left) # rows corresponding to lcens data
   lcens <- censdata[irow.lcens, ]$right
   irow.rcens <- is.na(censdata$right)  # rows corresponding to rcens data
@@ -38,9 +37,7 @@ cens2pseudo <- function(censdata)
   list(pseudo=pseudo, rcens=rcens, lcens=lcens, ncens=ncens, icens=icens)
 }
 
-
 # compute row indexes from a censored dataset
-
 cens2idxrow <- function(censdata)
 {
   # Definition of datasets lcens (left censored)=vector, rcens (right censored)= vector, 

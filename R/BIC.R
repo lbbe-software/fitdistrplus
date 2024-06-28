@@ -24,20 +24,20 @@
 
 BIC.fitdist <- function(object, ...)
 {
-    stopifnot(inherits(object, "fitdist"))
-    
-    if(is.null(object$bic))
-        stop("Internal error in BIC.fitdist")
-    else
-        return(object$bic)
+  stopifnot(inherits(object, "fitdist"))
+  
+  if(is.null(object$bic))
+    stop("Internal error in BIC.fitdist")
+  else
+    return(object$bic)
 }
 
 BIC.fitdistcens <- function(object, ...)
 {
-    stopifnot(inherits(object, "fitdistcens"))
-    
-    if(is.null(object$bic))
-        stop("Internal error in BIC.fitdistcens")
-    else
-        return(object$bic)
+  stopifnot(inherits(object, "fitdistcens"))
+  
+  if(is.null(object$bic))
+    stop("Internal error in BIC.fitdistcens")
+  else
+    return(object$bic)
 }

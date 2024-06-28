@@ -118,11 +118,9 @@ qqcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
   if(missing(ylim))
     ylim <- range(mydata)       
   
-  
-  
-  if(plotstyle == "graphics") {
+  if(plotstyle == "graphics") 
+  {
     ######## plot if plotstyle=='graphics' ########
-    
     # main plot
     if(!largedata)
       resquant <- plot(fittedquant[,1], sdata, main=main, xlab=xlab, ylab=ylab, log=logxy,
@@ -164,10 +162,11 @@ qqcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
     }
     return(invisible(list(obs = sdata, quantiles = fittedquant)))
     
-  } else if (!requireNamespace("ggplot2", quietly = TRUE)) {
+  } else if (!requireNamespace("ggplot2", quietly = TRUE)) 
+  {
     stop("ggplot2 needed for this function to work with plotstyle = 'ggplot'. Please install it", call. = FALSE)
-    
-  } else {
+  } else 
+  {
     ######## plot if plotstyle=='ggplot' ########
     
     # recode the legend position according to available positions in ggplot2

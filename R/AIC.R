@@ -24,40 +24,40 @@
 
 AIC.fitdist <- function(object, ..., k = 2)
 {
-    stopifnot(inherits(object, "fitdist"))
-    
-    if(is.null(object$aic))
-        stop("Internal error in AIC.fitdist")
-    else
+  stopifnot(inherits(object, "fitdist"))
+  
+  if(is.null(object$aic))
+    stop("Internal error in AIC.fitdist")
+  else
+  {
+    if (k == 2) 
     {
-      if (k == 2) 
-      {
-        return(object$aic)
-      } else
-      {
-        npar <- object$aic / 2 +  object$loglik
-        aic <- -2 * object$loglik + k * npar
-        return(aic)
-      }
+      return(object$aic)
+    } else
+    {
+      npar <- object$aic / 2 +  object$loglik
+      aic <- -2 * object$loglik + k * npar
+      return(aic)
     }
+  }
 }
 
 AIC.fitdistcens <- function(object, ..., k = 2)
 {
-    stopifnot(inherits(object, "fitdistcens"))
-    
-    if(is.null(object$aic))
-        stop("Internal error in AIC.fitdistcens")
-    else
+  stopifnot(inherits(object, "fitdistcens"))
+  
+  if(is.null(object$aic))
+    stop("Internal error in AIC.fitdistcens")
+  else
+  {
+    if (k == 2) 
     {
-      if (k == 2) 
-      {
-        return(object$aic)
-      } else
-      {
-        npar <- object$aic / 2 +  object$loglik
-        aic <- -2 * object$loglik + k * npar
-        return(aic)
-      }
+      return(object$aic)
+    } else
+    {
+      npar <- object$aic / 2 +  object$loglik
+      aic <- -2 * object$loglik + k * npar
+      return(aic)
     }
+  }
 }

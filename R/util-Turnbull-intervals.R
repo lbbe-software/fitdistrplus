@@ -34,7 +34,6 @@ Turnbull.intervals <- function(censdata, threshold.par = 0.001)
   maxbounds <- max(finitebounds)
   uncensoredvalues <- censdata[censdata$left == censdata$right,]$left
   
-  
   j <- 1
   for (i in 1:lem)
   {
@@ -50,7 +49,6 @@ Turnbull.intervals <- function(censdata, threshold.par = 0.001)
     }
   }
   # try to rewrite it with a min(which()) and apply 
-  
   
   # correction for first and last bounds if needed
   if (!is.finite(bounds[1]) & isTRUE(all.equal(leftbounds[1], rightbounds[1])) &

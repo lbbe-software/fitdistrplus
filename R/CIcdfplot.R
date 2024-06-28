@@ -32,14 +32,13 @@ CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.c
   if(inherits(b, "bootdist"))
   {
     cens <- FALSE
+  } else if(inherits(b, "bootdistcens"))
+  {
+    cens <- TRUE
   } else
-    if(inherits(b, "bootdistcens"))
-    {
-      cens <- TRUE
-    } else
-    {
-      stop("argument b must be a 'bootdist' or a `bootdistcens` object")
-    }
+  {
+    stop("argument b must be a 'bootdist' or a `bootdistcens` object")
+  }
   if(missing(CI.output))
     stop("argument CI.output must be specified: either 'probability' or 'quantile'.")
   CI.output <- match.arg(CI.output, c("probability", "quantile"))
@@ -169,13 +168,12 @@ CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.c
   logxy <- paste0(ifelse(xlogscale,"x",""), ifelse(ylogscale,"y",""))
   
   ##### plot ####
-  if(plotstyle == "graphics") {
+  if(plotstyle == "graphics") 
+  {
     ######## plot if plotstyle=='graphics' ########
-    
     #open graphic window
     plot(0, 0, main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim,
          log=logxy, type="n")
-    
     if (!is.null(CI.fill)) # first fill the band
     {
       if(CI.output == "probability")
@@ -225,10 +223,11 @@ CIcdfplot <- function(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.c
         
       }
     }
-  } else if (!requireNamespace("ggplot2", quietly = TRUE)) {
+  } else if (!requireNamespace("ggplot2", quietly = TRUE)) 
+  {
     stop("ggplot2 needed for this function to work with plotstyle = 'ggplot'. Please install it", call. = FALSE)
-    
-  } else {
+  } else 
+  {
     ######## plot if plotstyle=='ggplot' ########
     if(CI.output == "probability") {
       if(CI.type == "less") CIband <- cbind(rep(0, NROW(CIband)), CIband)

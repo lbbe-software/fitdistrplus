@@ -118,7 +118,8 @@ ppcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
   if (missing(ylim))
     ylim <- range(obsp)
   
-  if(plotstyle == "graphics") {
+  if(plotstyle == "graphics") 
+  {
     ######## plot if plotstyle=='graphics' ########
     
     #main plotting
@@ -162,10 +163,11 @@ ppcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
         legend(x=xlegend, y=ylegend, bty="n", legend=legendtext, col=fitcol, lty = fitpch, lwd = fitlwd, ...)
     }
     return(invisible(list(obs = obsp, probabilities = fittedprob)))
-  } else if (!requireNamespace("ggplot2", quietly = TRUE)) {
+  } else if (!requireNamespace("ggplot2", quietly = TRUE)) 
+  {
     stop("ggplot2 needed for this function to work with plotstyle = 'ggplot'. Please install it", call. = FALSE)
-    
-  } else {
+  } else 
+  {
     ######## plot if plotstyle=='ggplot' ########
     
     # recode the legend position according to available positions in ggplot2

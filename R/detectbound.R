@@ -99,7 +99,7 @@ detectbound <- function(distname, vstart, obs, fix.arg=NULL, echo=FALSE)
         uppb[a] <- aval[i]
       }
     }
-      
+    
   }
   
   options(warn=owarn, show.error.messages=oerr)

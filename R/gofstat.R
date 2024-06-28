@@ -254,7 +254,6 @@ gofstat <- function (f, chisqbreaks, meancount, discrete,
 computegofstatKSCvMAD <- function(sdata, n, distname, pdistname, estimate, 
                                   fix.arg, method)
 {
-  
   obspu <- seq(1,n)/n
   obspl <- seq(0,n-1)/n
   theop <- do.call(pdistname, c(list(sdata), as.list(estimate), fix.arg))
@@ -376,7 +375,6 @@ computegofstatChi2 <- function(sdata, n, distname, pdistname, estimate, fix.arg,
     
     obscounts <- round(Fobs*n)
     theocounts <- p*n
-    
     chisq <- sum(((obscounts-theocounts)^2)/theocounts)
     chisqdf <- length(obscounts)-1-length(estimate)
     
@@ -461,6 +459,5 @@ print.gofstat.fitdistcens <- function(x, ...)
   rownames(mm) <- c("Akaike's Information Criterion",
                     "Bayesian Information Criterion")
   print(mm)
-  
   invisible(x)
 }

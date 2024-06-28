@@ -22,7 +22,7 @@
 ###         R functions
 ###
 
-#already in R
+#already in R, see <src>/stats/R/models.R
 #
 #coef <- function(object, ...)
 #    UseMethod("coef")
@@ -32,20 +32,20 @@
 
 coef.fitdist <- function(object, ...)
 {
-    stopifnot(inherits(object, "fitdist"))  
-    
-    if(is.null(object$estimate))
-        stop("Internal error in coef.fitdist")
-    else
-        return(object$estimate)
+  stopifnot(inherits(object, "fitdist"))  
+  
+  if(is.null(object$estimate))
+    stop("Internal error in coef.fitdist")
+  else
+    return(object$estimate)
 }
 
 coef.fitdistcens <- function(object, ...)
 {
-    stopifnot(inherits(object, "fitdistcens"))
-    
-    if(is.null(object$estimate))
-        stop("Internal error in coef.fitdistcens")
-    else
-        return(object$estimate)
+  stopifnot(inherits(object, "fitdistcens"))
+  
+  if(is.null(object$estimate))
+    stop("Internal error in coef.fitdistcens")
+  else
+    return(object$estimate)
 }
