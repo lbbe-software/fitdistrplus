@@ -60,12 +60,13 @@ The last two vignettes deal with advanced topics
 
 ## Authors & Contacts
 
-Issues can be reported on https://github.com/lbbe-software/fitdistrplus/issues.
+Please read the <a href="https://lbbe-software.github.io/fitdistrplus/articles/FAQ.html" target="_blank">FAQ</a> before contacting authors
 
-- Marie-Laure Delignette-Muller: marielaure.delignettemuller@vetagro-sup.fr
-- Christophe Dutang: dutangc@gmail.com
-- Aurélie Siberchicot: aurelie.siberchicot@univ-lyon1.fr
+- Marie-Laure Delignette-Muller: marielaure.delignettemuller<<@))vetagro-sup.fr
+- Christophe Dutang: dutangc<<@))gmail.com
+- Aurélie Siberchicot: aurelie.siberchicot<<@))univ-lyon1.fr
 
+Issues can be reported on [fitdistrplus-issues](https://github.com/lbbe-software/fitdistrplus/issues).
 
 ## Citation
 
