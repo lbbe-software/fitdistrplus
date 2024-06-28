@@ -61,7 +61,7 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">fitdistcens</span><span class="op">(</span><span class="va">censdata</span>, <span class="va">distr</span>, start<span class="op">=</span><span class="cn">NULL</span>, fix.arg<span class="op">=</span><span class="cn">NULL</span>, </span>
-<span>  keepdata <span class="op">=</span> <span class="cn">TRUE</span>, keepdata.nb<span class="op">=</span><span class="fl">100</span>, <span class="va">...</span><span class="op">)</span></span>
+<span>  keepdata <span class="op">=</span> <span class="cn">TRUE</span>, keepdata.nb<span class="op">=</span><span class="fl">100</span>, calcvcov<span class="op">=</span><span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for fitdistcens</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
@@ -127,6 +127,9 @@ otherwise only a sample subset is returned.</p></dd>
 
 <dt>keepdata.nb</dt>
 <dd><p>When <code>keepdata=FALSE</code>, the length of the subset returned.</p></dd>
+
+<dt>calcvcov</dt>
+<dd><p>A logical indicating if (asymptotic) covariance matrix is required.</p></dd>
 
 
 <dt>k</dt>
@@ -449,7 +452,7 @@ Journal of Statistical Software, 64(4), 1-34, <a href="https://doi.org/10.18637/
 <span class="r-in"><span>        print.level<span class="op">=</span><span class="fl">1</span>, hessian<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fri Jun 28 07:52:49 2024</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Fri Jun 28 09:38:03 2024</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Domains:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  0.000000e+00   &lt;=  X1   &lt;=    5.000000e+00 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  0.000000e+00   &lt;=  X2   &lt;=    5.000000e+00 </span>
@@ -496,7 +499,7 @@ Journal of Statistical Software, 64(4), 1-34, <a href="https://doi.org/10.18637/
 <span class="r-out co"><span class="r-pr">#&gt;</span> Solution Found Generation 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of Generations Run 12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fri Jun 28 07:52:51 2024</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Fri Jun 28 09:38:05 2024</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Total run time : 0 hours 0 minutes and 2 seconds</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fit.with.genoud</span><span class="op">)</span></span></span>
@@ -507,9 +510,9 @@ Journal of Statistical Software, 64(4), 1-34, <a href="https://doi.org/10.18637/
 <span class="r-out co"><span class="r-pr">#&gt;</span> scale    0.6909667  0.1744837</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Loglikelihood:  -20.55391   AIC:  45.10781   BIC:  46.38593 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Correlation matrix:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 1.00000000 0.05106485</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.05106485 1.00000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            location      scale</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> location 1.00000000 0.05106485</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale    0.05106485 1.00000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
