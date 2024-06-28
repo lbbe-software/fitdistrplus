@@ -23,7 +23,7 @@
 ### 
 
 fitdistcens <- function (censdata, distr, start=NULL, fix.arg=NULL, 
-                         keepdata = TRUE, keepdata.nb=100, ...) 
+                         keepdata = TRUE, keepdata.nb=100, calcvcov = TRUE, ...) 
 {
   if (missing(censdata) || !is.data.frame(censdata) ||
       !(is.vector(censdata$left) & is.vector(censdata$right) & length(censdata[, 1])>1))
@@ -44,7 +44,8 @@ fitdistcens <- function (censdata, distr, start=NULL, fix.arg=NULL,
     stop(paste("The ", pdistname, " function must be defined"))
   if(!is.logical(keepdata) || !is.numeric(keepdata.nb) || keepdata.nb < 3)
     stop("wrong arguments 'keepdata' and 'keepdata.nb'.")
-  
+  if(!is.logical(calcvcov) || length(calcvcov) != 1)
+    stop("wrong argument 'calcvcov'.")
   #encapsulate three dots arguments
   my3dots <- list(...)    
   if (length(my3dots) == 0) 
@@ -83,28 +84,19 @@ fitdistcens <- function (censdata, distr, start=NULL, fix.arg=NULL,
   
   # MLE fit with mledist 
   mle <- mledist(censdata, distname, start=arg_startfix$start.arg, 
-                 fix.arg=arg_startfix$fix.arg, checkstartfix=TRUE, ...)
+                 fix.arg=arg_startfix$fix.arg, checkstartfix=TRUE,
+                 calcvcov=calcvcov, ...)
   if (mle$convergence>0) 
     stop("the function mle failed to estimate the parameters, 
         with the error code ", mle$convergence) 
   estimate <- mle$estimate
-  
-  if(!is.null(mle$hessian)){
-    #check for NA values and invertible Hessian
-    if(all(!is.na(mle$hessian)) && qr(mle$hessian)$rank == NCOL(mle$hessian)){
-      varcovar <- solve(mle$hessian)
-      sd <- sqrt(diag(varcovar))
-      correl <- cov2cor(varcovar)
-    }else{
-      varcovar <- NA
-      sd <- NA
-      correl <- NA
-    }
-  }else{
-    varcovar <- NA
-    sd <- NA
-    correl <- NA
-  }
+  varcovar <- mle$vcov
+  if(!is.null(varcovar))
+  {
+    correl <- cov2cor(varcovar)
+    sd <- sqrt(diag(varcovar))
+  }else
+    correl <- sd <- NULL
   
   loglik <- mle$loglik
   n <- nrow(censdata)

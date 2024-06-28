@@ -23,6 +23,9 @@ try(fitdistcens(rbind(smokedfish2, c(NaN, 3)) , "lnorm"))
 
 try(fitdistcens(rbind(smokedfish2, c(5, 3)) , "lnorm"))
 
+fitsf  <-  fitdistcens(smokedfish, "lnorm", calcvcov = FALSE)
+
+
 
 # (6) custom optimisation function - example with the genetic algorithm
 #
@@ -41,7 +44,7 @@ log10EC50 <-log10(fluazinam)
   
   # call fitdistcens with a 'custom' optimization function
   fit.with.genoud <- fitdistcens(log10EC50, "logis", custom.optim=mygenoud, nvars=2, 
-                                 start=list(location=0, scale=1),    
+                                 start=list(location=1, scale=1),    
                                  Domains=cbind(c(0,0), c(5, 5)), boundary.enforcement=1, 
                                  print.level=1, hessian=TRUE)
   

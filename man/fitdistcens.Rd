@@ -16,7 +16,7 @@
 
 \usage{
 fitdistcens(censdata, distr, start=NULL, fix.arg=NULL, 
-  keepdata = TRUE, keepdata.nb=100, \dots)
+  keepdata = TRUE, keepdata.nb=100, calcvcov=TRUE, \dots)
 
 \method{print}{fitdistcens}(x, \dots)
 
@@ -60,6 +60,7 @@ fitdistcens(censdata, distr, start=NULL, fix.arg=NULL,
 \item{keepdata}{a logical. If \code{TRUE}, dataset is returned, 
 otherwise only a sample subset is returned.}
 \item{keepdata.nb}{When \code{keepdata=FALSE}, the length of the subset returned.}
+\item{calcvcov}{A logical indicating if (asymptotic) covariance matrix is required.}
 
 \item{k}{penalty per parameter to be passed to the AIC generic function (2 by default).}
 \item{\dots}{ further arguments to be passed to generic functions,
