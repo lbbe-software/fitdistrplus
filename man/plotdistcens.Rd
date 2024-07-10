@@ -72,7 +72,7 @@ plotdistcens(censdata, distr, para, leftNA = -Inf, rightNA = Inf,
     in cdf using the EM approach of Turnbull (Turnbull, 1974) 
     to compute the overall 
     empirical cdf curve, with confidence intervals if \code{Turnbull.confint} is \code{TRUE}, 
-    by calls to functions \code{\link{survfit}} and \code{\link{plot.survfit}} from the 
+    by calls to functions \code{\link[survival]{survfit}} and \code{\link[survival]{plot.survfit}} from the 
     \code{survival} package. 
     
     If \code{NPMLE} is \code{FALSE} empirical and, if specified, theoretical distributions 
@@ -96,7 +96,7 @@ plotdistcens(censdata, distr, para, leftNA = -Inf, rightNA = Inf,
 }
 
 \seealso{ 
-    \code{\link{plotdist}}, \code{\link{survfit.formula}}.
+    \code{\link{plotdist}}, \code{\link[survival]{survfit.formula}}.
 }
 
 \references{ 

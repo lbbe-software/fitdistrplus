@@ -94,7 +94,7 @@ ppcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, yla
 }
 
 \seealso{ 
-  \code{\link{plotdistcens}}, \code{\link{survfit.formula}}, \code{\link{legend}} and \code{\link{par}}.
+  \code{\link{plotdistcens}}, \code{\link[survival]{survfit.formula}}, \code{\link{legend}} and \code{\link{par}}.
 }
 
 \references{ 
