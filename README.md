@@ -75,4 +75,4 @@ Marie Laure Delignette-Muller, Christophe Dutang (2015).
 *fitdistrplus: An R Package for Fitting Distributions.*
 Journal of Statistical Software.
 <a href="https://www.jstatsoft.org/article/view/v064i04" target="_blank">https://www.jstatsoft.org/article/view/v064i04</a>
-DOI [10.18637/jss.v064.i04](www.doi.org/10.18637/jss.v064.i04).
+DOI [10.18637/jss.v064.i04](https://doi.org/10.18637/jss.v064.i04).
