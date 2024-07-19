@@ -1,6 +1,6 @@
 # Help to Fit of a Parametric Distribution to Non-Censored or Censored Data 
 
-[![CRAN_Release_Badge](http://www.r-pkg.org/badges/version-ago/fitdistrplus)](https://cran.r-project.org/package=fitdistrplus)
+[![CRAN_Release_Badge](https://www.r-pkg.org/badges/version-ago/fitdistrplus)](https://cran.r-project.org/package=fitdistrplus)
 [![CRAN Downloads](https://cranlogs.r-pkg.org/badges/fitdistrplus)](https://cran.r-project.org/package=fitdistrplus)
 [![R-CMD-check](https://github.com/lbbe-software/fitdistrplus/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/lbbe-software/fitdistrplus/actions/workflows/R-CMD-check.yaml)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
