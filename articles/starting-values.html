@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">fitdistrplus</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2-1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2-2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,7 +60,7 @@
       <h1>Starting values used in fitdistrplus</h1>
                         <h4 data-toc-skip class="author">Marie Laure Delignette Muller, Christophe Dutang</h4>
             
-            <h4 data-toc-skip class="date">2024-07-19</h4>
+            <h4 data-toc-skip class="date">2024-07-29</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/lbbe-software/fitdistrplus/blob/master/vignettes/starting-values.Rmd" class="external-link"><code>vignettes/starting-values.Rmd</code></a></small>
       <div class="d-none name"><code>starting-values.Rmd</code></div>
@@ -832,7 +832,7 @@ n/\tau + \alpha\sum_i \log(x_i/\theta)
 +\sum_i \tau \frac{x_i}{\theta^2}(x_i/\theta)^{\tau-1}
 \end{pmatrix}.
 \]</span>
-We compute moment-estimator as in gamma
+We compute the moment-estimator as in gamma <span class="math inline">\(\eqref{eq:gamma:relation}\)</span>
 <span class="math display">\[
 \hat\alpha = m_2^2/\mu_2,
 \hat\theta= \mu_2/m_1.
@@ -847,11 +847,12 @@ Then cancelling the first component of the gradient we set
 <span class="header-section-number">2.6.2</span> gamma distribution<a class="anchor" aria-label="anchor" href="#gamma-distribution"></a>
 </h4>
 <p>Transformed gamma with <span class="math inline">\(\tau=1\)</span></p>
-<p>We compute moment-estimator as in gamma
-<span class="math display">\[
+<p>We compute the moment-estimator given by
+<span class="math display">\[\begin{equation}
 \hat\alpha = m_2^2/\mu_2,
 \hat\theta= \mu_2/m_1.
-\]</span></p>
+\label{eq:gamma:relation}
+\end{equation}\]</span></p>
 </div>
 <div class="section level4" number="2.6.3">
 <h4 id="weibull-distribution">
