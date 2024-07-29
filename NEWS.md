@@ -1,3 +1,9 @@
+# fitdistrplus 1.2-2
+
+BUG FIX
+
+- the default starting value for the gamma distribution was wrongly computed for the rate parameter.
+
 # fitdistrplus 1.2-1
 
 NEW FEATURES

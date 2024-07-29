@@ -20,6 +20,12 @@ fitdist(x, "weibull")
 fitdist(x, "exp")
 
 
+x <- rgamma(n, 2, 2)
+
+fitdistrplus:::startarg_transgamma_family(x, "gamma")
+
+
+
 #weird examples
 x <- rep(1, n)
 

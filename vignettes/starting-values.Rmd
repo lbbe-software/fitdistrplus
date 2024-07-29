@@ -752,7 +752,7 @@ n/\tau + \alpha\sum_i \log(x_i/\theta)
 +\sum_i \tau \frac{x_i}{\theta^2}(x_i/\theta)^{\tau-1}
 \end{pmatrix}.
 $$
-We compute moment-estimator as in gamma
+We compute the moment-estimator as in gamma \eqref{eq:gamma:relation}
 $$
 \hat\alpha = m_2^2/\mu_2, 
 \hat\theta= \mu_2/m_1.
@@ -766,11 +766,12 @@ $$
 
 Transformed gamma with $\tau=1$
 
-We compute moment-estimator as in gamma
-$$
+We compute the moment-estimator given by
+\begin{equation}
 \hat\alpha = m_2^2/\mu_2, 
 \hat\theta= \mu_2/m_1.
-$$
+\label{eq:gamma:relation}
+\end{equation}
 
 
 ### Weibull distribution

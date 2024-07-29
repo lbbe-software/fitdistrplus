@@ -481,7 +481,7 @@ startarg_transgamma_family <- function(x, distr)
     if(v > 0)
     {
       alphahat <- m^2/v
-      thetahat <- m/v
+      thetahat <- v/m
     }else #exponential case
     {
       alphahat <- 1 
