@@ -260,7 +260,6 @@ density.bootdist <- function(..., bw = "nrd0", adjust = 1, kernel = "gaussian")
     if(any(sapply(x, function(y) !inherits(y, "bootdist"))))        
       stop("argument x must be a list of 'bootdist' objects")
   }
-  print(str(x))
   nx <- length(x)
   nbpar <- NCOL(x[[1]]$estim)
   denslist <- lapply(1:nx, function(j)
