@@ -87,24 +87,29 @@ Yes, an example with the Burr distribution is detailed in the JSS paper. We repr
 ```{r, message=FALSE}
 data("endosulfan")
 library("actuar")
-fendo.B <- fitdist(endosulfan$ATV, "burr", start = list(shape1 = 0.3, shape2 = 1, rate = 1))
+fendo.B <- fitdist(endosulfan$ATV, "burr", start = list(shape1 = 0.3, 
+                                                        shape2 = 1, rate = 1))
 summary(fendo.B)
 ```
 
 ## Why there are differences between MLE and MME for the lognormal distribution?
 We recall that the lognormal distribution function is given by
+
 $$
 F_X(x) =  \Phi\left(\frac{\log(x)-\mu}{\sigma} \right),
 $$
+
 where $\Phi$ denotes the distribution function of the standard normal distribution.
 We know that $E(X) = \exp\left( \mu+\frac{1}{2} \sigma^2 \right)$
 and $Var(X) = \exp\left( 2\mu+\sigma^2\right) (e^{\sigma^2} -1)$.
 The MME is obtained by inverting the previous formulas, whereas
 the MLE has the following explicit solution
+
 $$
 \hat\mu_{MLE} = \frac{1}{n}\sum_{i=1}^n \log(x_i),~~
 \hat\sigma^2_{MLE} = \frac{1}{n}\sum_{i=1}^n (\log(x_i) - \hat\mu_{MLE})^2.
 $$
+
 Let us fit a sample by MLE and MME. The fit looks particularly good in both cases.
 
 ```{r, fig.height=3.5, fig.width=7}
@@ -117,11 +122,13 @@ denscomp(list(f1, f2), demp=TRUE, main = "Density plot")
 ```
 
 Let us compare the theoretical moments (mean and variance) given the fitted values 
+
 ($\hat\mu,\hat\sigma$), that is
 $$
 E(X) = \exp\left( \hat\mu+\frac{1}{2} \hat\sigma^2 \right),
 Var(X) = \exp\left( 2\hat\mu+\hat\sigma^2\right) (e^{\hat\sigma^2} -1).
 $$
+
 ```{r}
 c("E(X) by MME"=as.numeric(exp(f2$estimate["meanlog"]+f2$estimate["sdlog"]^2/2)), 
 	"E(X) by MLE"=as.numeric(exp(f1$estimate["meanlog"]+f1$estimate["sdlog"]^2/2)), 
