@@ -92,11 +92,9 @@ summary(fendo.B)
 
 ## Why there are differences between MLE and MME for the lognormal distribution?
 We recall that the lognormal distribution function is given by
-
-
-$$f(x) = \dfrac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x-\mu^2)}{2\sigma^2}}$$
-
-$$F_X(x) =  \Phi\left(\frac{\log(x)-\mu}{\sigma} \right),$$
+$$
+F_X(x) =  \Phi\left(\frac{\log(x)-\mu}{\sigma} \right),
+$$
 
 where $\Phi$ denotes the distribution function of the standard normal distribution.
 We know that $E(X) = \exp\left( \mu+\frac{1}{2} \sigma^2 \right)$
