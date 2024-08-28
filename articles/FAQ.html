@@ -148,7 +148,8 @@ constrained.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"endosulfan"</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://gitlab.com/vigou3/actuar" class="external-link">"actuar"</a></span><span class="op">)</span></span>
-<span><span class="va">fendo.B</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">endosulfan</span><span class="op">$</span><span class="va">ATV</span>, <span class="st">"burr"</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>shape1 <span class="op">=</span> <span class="fl">0.3</span>, shape2 <span class="op">=</span> <span class="fl">1</span>, rate <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">fendo.B</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">endosulfan</span><span class="op">$</span><span class="va">ATV</span>, <span class="st">"burr"</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>shape1 <span class="op">=</span> <span class="fl">0.3</span>, </span>
+<span>                                                        shape2 <span class="op">=</span> <span class="fl">1</span>, rate <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fendo.B</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Fitting of the distribution ' burr ' by maximum likelihood </span></span>
 <span><span class="co">## Parameters : </span></span>
@@ -167,20 +168,20 @@ constrained.</p>
 <h3 id="why-there-are-differences-between-mle-and-mme-for-the-lognormal-distribution">
 <span class="header-section-number">1.5</span> Why there are differences between MLE and MME for the lognormal distribution?<a class="anchor" aria-label="anchor" href="#why-there-are-differences-between-mle-and-mme-for-the-lognormal-distribution"></a>
 </h3>
-<p>We recall that the lognormal distribution function is given by
-<span class="math display">\[
+<p>We recall that the lognormal distribution function is given by</p>
+<p><span class="math display">\[
 F_X(x) =  \Phi\left(\frac{\log(x)-\mu}{\sigma} \right),
-\]</span>
-where <span class="math inline">\(\Phi\)</span> denotes the distribution function of the standard normal distribution.
+\]</span></p>
+<p>where <span class="math inline">\(\Phi\)</span> denotes the distribution function of the standard normal distribution.
 We know that <span class="math inline">\(E(X) = \exp\left( \mu+\frac{1}{2} \sigma^2 \right)\)</span>
 and <span class="math inline">\(Var(X) = \exp\left( 2\mu+\sigma^2\right) (e^{\sigma^2} -1)\)</span>.
 The MME is obtained by inverting the previous formulas, whereas
-the MLE has the following explicit solution
-<span class="math display">\[
+the MLE has the following explicit solution</p>
+<p><span class="math display">\[
 \hat\mu_{MLE} = \frac{1}{n}\sum_{i=1}^n \log(x_i),~~
 \hat\sigma^2_{MLE} = \frac{1}{n}\sum_{i=1}^n (\log(x_i) - \hat\mu_{MLE})^2.
-\]</span>
-Let us fit a sample by MLE and MME. The fit looks particularly good in both cases.</p>
+\]</span></p>
+<p>Let us fit a sample by MLE and MME. The fit looks particularly good in both cases.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Lognormal.html" class="external-link">rlnorm</a></span><span class="op">(</span><span class="fl">1000</span><span class="op">)</span></span>
 <span><span class="va">f1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">x3</span>, <span class="st">"lnorm"</span>, method<span class="op">=</span><span class="st">"mle"</span><span class="op">)</span> </span>
@@ -189,8 +190,8 @@ Let us fit a sample by MLE and MME. The fit looks particularly good in both case
 <span><span class="fu"><a href="../reference/graphcomp.html">cdfcomp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">f1</span>, <span class="va">f2</span><span class="op">)</span>, do.points<span class="op">=</span><span class="cn">FALSE</span>, xlogscale <span class="op">=</span> <span class="cn">TRUE</span>, main <span class="op">=</span> <span class="st">"CDF plot"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/graphcomp.html">denscomp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">f1</span>, <span class="va">f2</span><span class="op">)</span>, demp<span class="op">=</span><span class="cn">TRUE</span>, main <span class="op">=</span> <span class="st">"Density plot"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="FAQ_files/figure-html/unnamed-chunk-4-1.png"><!-- --></p>
-<p>Let us compare the theoretical moments (mean and variance) given the fitted values
-(<span class="math inline">\(\hat\mu,\hat\sigma\)</span>), that is
+<p>Let us compare the theoretical moments (mean and variance) given the fitted values</p>
+<p>(<span class="math inline">\(\hat\mu,\hat\sigma\)</span>), that is
 <span class="math display">\[
 E(X) = \exp\left( \hat\mu+\frac{1}{2} \hat\sigma^2 \right),
 Var(X) = \exp\left( 2\hat\mu+\hat\sigma^2\right) (e^{\hat\sigma^2} -1).
