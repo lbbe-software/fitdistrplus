@@ -14,8 +14,6 @@ vignette: >
   %\VignetteIndexEntry{Frequently Asked Questions} 
   %!\VignetteEncoding{UTF-8}
   \usepackage[utf8]{inputenc}
-pkgdown:
-  as_is: true
 ---
 
 ```{r setup, echo=FALSE, message=FALSE, warning=FALSE}
