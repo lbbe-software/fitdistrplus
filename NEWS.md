@@ -1,5 +1,10 @@
 # fitdistrplus 1.2-2
 
+NEW FEATURES
+
+- a website bringing together all the resources related to the fitdistrplus package now exists on github.io
+at the following URL: https://lbbe-software.github.io/fitdistrplus/
+
 BUG FIX
 
 - the default starting value for the gamma distribution was wrongly computed for the rate parameter.
