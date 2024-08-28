@@ -34,6 +34,20 @@ jobs:
           needs: website
           
       - uses: r-lib/actions/setup-tinytex@v2
+      
+      - name: Install libraries for Linux
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get install libcurl4-openssl-dev texlive
+          
+      - name: Install dependencies
+        run: |
+          install.packages("remotes")
+          remotes::install_deps(dependencies = TRUE)
+          remotes::install_cran("rcmdcheck")
+          tinytex::tlmgr_install("amscls")
+          tinytex::parse_install(text = "! LaTeX Error: File `ae.sty' not found.")
+        shell: Rscript {0}
 
       - name: Build site
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
