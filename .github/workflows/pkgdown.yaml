@@ -11,6 +11,8 @@ on:
 
 name: pkgdown
 
+permissions: read-all
+
 jobs:
   pkgdown:
     runs-on: ubuntu-latest
@@ -23,6 +25,12 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
+      
+      - uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          tinytex: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: r-lib/actions/setup-pandoc@v2
 
@@ -35,8 +43,6 @@ jobs:
           extra-packages: any::pkgdown, local::.
           needs: website
           
-      - uses: r-lib/actions/setup-tinytex@v2
-      
       - name: Build site
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
         shell: Rscript {0}
