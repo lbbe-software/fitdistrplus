@@ -372,9 +372,9 @@ Journal of Statistical Software, 64(4), 1-34, <a href="https://doi.org/10.18637/
 <span class="r-in"><span><span class="va">fg</span> <span class="op">&lt;-</span> <span class="fu">fitdistcens</span><span class="op">(</span><span class="va">log10EC50</span>,<span class="st">"gumbel"</span>,start<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>a<span class="op">=</span><span class="fl">1</span>,b<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in checkparamlist(arg_startfix$start.arg, arg_startfix$fix.arg,     argddistname, hasnodefaultval):</span> 'start' must specify names which are arguments to 'distr'.</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fg</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fg' not found</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'fg' not found</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fg</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fg' not found</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'fg' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># (4) comparison of fits of various distributions</span></span></span>
 <span class="r-in"><span><span class="co"># </span></span></span>
@@ -395,7 +395,7 @@ Journal of Statistical Software, 64(4), 1-34, <a href="https://doi.org/10.18637/
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="graphcompcens.html">cdfcompcens</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fln</span>,<span class="va">fll</span>,<span class="va">fg</span><span class="op">)</span>,legendtext<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"normal"</span>,<span class="st">"logistic"</span>,<span class="st">"gumbel"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>xlab <span class="op">=</span> <span class="st">"log10(EC50)"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fg' not found</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'fg' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># (5) how to change the optimisation method?</span></span></span>
 <span class="r-in"><span><span class="co">#</span></span></span>
@@ -439,7 +439,7 @@ Journal of Statistical Software, 64(4), 1-34, <a href="https://doi.org/10.18637/
 <span class="r-in"><span>        print.level<span class="op">=</span><span class="fl">1</span>, hessian<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mon Sep  9 11:29:26 2024</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mon Sep 30 15:02:22 2024</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Domains:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  0.000000e+00   &lt;=  X1   &lt;=    5.000000e+00 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  0.000000e+00   &lt;=  X2   &lt;=    5.000000e+00 </span>
@@ -486,8 +486,8 @@ Journal of Statistical Software, 64(4), 1-34, <a href="https://doi.org/10.18637/
 <span class="r-out co"><span class="r-pr">#&gt;</span> Solution Found Generation 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of Generations Run 12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mon Sep  9 11:29:27 2024</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Total run time : 0 hours 0 minutes and 1 seconds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mon Sep 30 15:02:24 2024</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Total run time : 0 hours 0 minutes and 2 seconds</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fit.with.genoud</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fitting of the distribution ' logis ' By maximum likelihood on censored data </span>
@@ -548,7 +548,7 @@ Journal of Statistical Software, 64(4), 1-34, <a href="https://doi.org/10.18637/
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>

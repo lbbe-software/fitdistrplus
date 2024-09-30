@@ -54,13 +54,16 @@
 </nav><div class="container template-article">
 
 
+
+
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Starting values used in fitdistrplus</h1>
-                        <h4 data-toc-skip class="author">Marie Laure Delignette Muller, Christophe Dutang</h4>
+                        <h4 data-toc-skip class="author">Marie Laure
+Delignette Muller, Christophe Dutang</h4>
             
-            <h4 data-toc-skip class="date">2024-09-09</h4>
+            <h4 data-toc-skip class="date">2024-09-30</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/lbbe-software/fitdistrplus/blob/master/vignettes/starting-values.Rmd" class="external-link"><code>vignettes/starting-values.Rmd</code></a></small>
       <div class="d-none name"><code>starting-values.Rmd</code></div>
@@ -69,157 +72,150 @@
     
     
 <p>We denote by the raw empirical moment by
-<span class="math display">\[
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>m</mi><mi>j</mi></msub><mo>=</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msubsup><mi>x</mi><mi>i</mi><mi>j</mi></msubsup><mo>,</mo></mrow><annotation encoding="application/x-tex">
 m_j = \frac1n \sum_{i=1}^n x_i^j,
-\]</span>
-by the centered empirical moment by
-<span class="math display">\[
+</annotation></semantics></math> by the centered empirical moment by
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>μ</mi><mi>j</mi></msub><mo>=</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mrow><mo stretchy="true" form="prefix">(</mo><msubsup><mi>x</mi><mi>i</mi><mi>j</mi></msubsup><mo>−</mo><msub><mi>m</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
 \mu_j = \frac1n \sum_{i=1}^n (x_i^j-m_1).
-\]</span>
-Starting values are computed in <code>R/util-startarg.R</code>.
-We give below the starting values for discrete and continuous
-distributions and refer to the bibliograhy sections for
-details.</p>
-<div class="section level2" number="1">
-<h2 id="discrete-distributions">
-<span class="header-section-number">1</span> Discrete distributions<a class="anchor" aria-label="anchor" href="#discrete-distributions"></a>
+</annotation></semantics></math> Starting values are computed in
+<code>R/util-startarg.R</code>. We give below the starting values for
+discrete and continuous distributions and refer to the bibliograhy
+sections for details.</p>
+<div class="section level2">
+<h2 id="discrete-distributions">Discrete distributions<a class="anchor" aria-label="anchor" href="#discrete-distributions"></a>
 </h2>
-<div class="section level3" number="1.1">
-<h3 id="base-r-distribution">
-<span class="header-section-number">1.1</span> Base R distribution<a class="anchor" aria-label="anchor" href="#base-r-distribution"></a>
+<div class="section level3">
+<h3 id="base-r-distribution">Base R distribution<a class="anchor" aria-label="anchor" href="#base-r-distribution"></a>
 </h3>
-<div class="section level4" number="1.1.1">
-<h4 id="geometric-distribution">
-<span class="header-section-number">1.1.1</span> Geometric distribution<a class="anchor" aria-label="anchor" href="#geometric-distribution"></a>
-</h4>
-<p>The MME is used <span class="math inline">\(\hat p=1/(1+m_1)\)</span>.</p>
-</div>
-<div class="section level4" number="1.1.2">
-<h4 id="negative-binomial-distribution">
-<span class="header-section-number">1.1.2</span> Negative binomial distribution<a class="anchor" aria-label="anchor" href="#negative-binomial-distribution"></a>
-</h4>
-<p>The MME is used <span class="math inline">\(\hat n = m_1^2/(\mu_2-m_1)\)</span>.</p>
-</div>
-<div class="section level4" number="1.1.3">
-<h4 id="poisson-distribution">
-<span class="header-section-number">1.1.3</span> Poisson distribution<a class="anchor" aria-label="anchor" href="#poisson-distribution"></a>
-</h4>
-<p>Both the MME and the MLE is <span class="math inline">\(\hat \lambda = m_1\)</span>.</p>
-</div>
-<div class="section level4" number="1.1.4">
-<h4 id="binomial-distribution">
-<span class="header-section-number">1.1.4</span> Binomial distribution<a class="anchor" aria-label="anchor" href="#binomial-distribution"></a>
+<div class="section level4">
+<h4 id="geometric-distribution">Geometric distribution<a class="anchor" aria-label="anchor" href="#geometric-distribution"></a>
 </h4>
 <p>The MME is used
-<span class="math display">\[
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>p</mi><mo accent="true">̂</mo></mover><mo>=</mo><mn>1</mn><mi>/</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><msub><mi>m</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\hat p=1/(1+m_1)</annotation></semantics></math>.</p>
+</div>
+<div class="section level4">
+<h4 id="negative-binomial-distribution">Negative binomial distribution<a class="anchor" aria-label="anchor" href="#negative-binomial-distribution"></a>
+</h4>
+<p>The MME is used
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>n</mi><mo accent="true">̂</mo></mover><mo>=</mo><msubsup><mi>m</mi><mn>1</mn><mn>2</mn></msubsup><mi>/</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>μ</mi><mn>2</mn></msub><mo>−</mo><msub><mi>m</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\hat n = m_1^2/(\mu_2-m_1)</annotation></semantics></math>.</p>
+</div>
+<div class="section level4">
+<h4 id="poisson-distribution">Poisson distribution<a class="anchor" aria-label="anchor" href="#poisson-distribution"></a>
+</h4>
+<p>Both the MME and the MLE is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>λ</mi><mo accent="true">̂</mo></mover><mo>=</mo><msub><mi>m</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">\hat \lambda = m_1</annotation></semantics></math>.</p>
+</div>
+<div class="section level4">
+<h4 id="binomial-distribution">Binomial distribution<a class="anchor" aria-label="anchor" href="#binomial-distribution"></a>
+</h4>
+<p>The MME is used
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>a</mi><mi>r</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>X</mi><mo stretchy="true" form="postfix">]</mo></mrow><mi>/</mi><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>X</mi><mo stretchy="true" form="postfix">]</mo></mrow><mo>=</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo>⇒</mo><mover><mi>p</mi><mo accent="true">̂</mo></mover><mo>=</mo><mn>1</mn><mo>−</mo><msub><mi>μ</mi><mn>2</mn></msub><mi>/</mi><msub><mi>m</mi><mn>1</mn></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">
 Var[X]/E[X] = 1-p
 \Rightarrow
 \hat p = 1- \mu_2/m_1.
-\]</span>
-the size parameter is
-<span class="math display">\[
+</annotation></semantics></math> the size parameter is
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>n</mi><mo accent="true">̂</mo></mover><mo>=</mo><mo stretchy="false" form="prefix">⌈</mo><mo>max</mo><mrow><mo stretchy="true" form="prefix">(</mo><munder><mo>max</mo><mi>i</mi></munder><msub><mi>x</mi><mi>i</mi></msub><mo>,</mo><msub><mi>m</mi><mn>1</mn></msub><mi>/</mi><mover><mi>p</mi><mo accent="true">̂</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="false" form="postfix">⌉</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">
 \hat n = \lceil\max(\max_i x_i, m_1/\hat p)\rceil.
-\]</span></p>
+</annotation></semantics></math></p>
 </div>
 </div>
-<div class="section level3" number="1.2">
-<h3 id="logarithmic-distribution">
-<span class="header-section-number">1.2</span> logarithmic distribution<a class="anchor" aria-label="anchor" href="#logarithmic-distribution"></a>
+<div class="section level3">
+<h3 id="logarithmic-distribution">logarithmic distribution<a class="anchor" aria-label="anchor" href="#logarithmic-distribution"></a>
 </h3>
-<p>The expectation simplifies for small values of <span class="math inline">\(p\)</span>
-<span class="math display">\[
+<p>The expectation simplifies for small values of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>X</mi><mo stretchy="true" form="postfix">]</mo></mrow><mo>=</mo><mo>−</mo><mfrac><mn>1</mn><mrow><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mfrac><mi>p</mi><mrow><mn>1</mn><mo>−</mo><mi>p</mi></mrow></mfrac><mo>≈</mo><mo>−</mo><mfrac><mn>1</mn><mrow><mo>−</mo><mi>p</mi></mrow></mfrac><mfrac><mi>p</mi><mrow><mn>1</mn><mo>−</mo><mi>p</mi></mrow></mfrac><mo>=</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>−</mo><mi>p</mi></mrow></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">
 E[X] = -\frac{1}{\log(1-p)}\frac{p}{1-p}
 \approx
 -\frac{1}{-p}\frac{p}{1-p}
 =\frac{1}{1-p}.
-\]</span>
-So the initial estimate is
-<span class="math display">\[
+</annotation></semantics></math> So the initial estimate is
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>p</mi><mo accent="true">̂</mo></mover><mo>=</mo><mn>1</mn><mo>−</mo><mn>1</mn><mi>/</mi><msub><mi>m</mi><mn>1</mn></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">
 \hat p = 1-1/m_1.
-\]</span></p>
+</annotation></semantics></math></p>
 </div>
-<div class="section level3" number="1.3">
-<h3 id="zero-truncated-distributions">
-<span class="header-section-number">1.3</span> Zero truncated distributions<a class="anchor" aria-label="anchor" href="#zero-truncated-distributions"></a>
+<div class="section level3">
+<h3 id="zero-truncated-distributions">Zero truncated distributions<a class="anchor" aria-label="anchor" href="#zero-truncated-distributions"></a>
 </h3>
-<p>This distribution are the distribution of <span class="math inline">\(X\vert X&gt;0\)</span> when <span class="math inline">\(X\)</span> follows a particular discrete distributions.
-Hence the initial estimate are the one used for base R on sample <span class="math inline">\(x-1\)</span>.</p>
+<p>This distribution are the distribution of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo stretchy="false" form="postfix">|</mo><mi>X</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">X\vert X&gt;0</annotation></semantics></math>
+when
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>
+follows a particular discrete distributions. Hence the initial estimate
+are the one used for base R on sample
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">x-1</annotation></semantics></math>.</p>
 </div>
-<div class="section level3" number="1.4">
-<h3 id="zero-modified-distributions">
-<span class="header-section-number">1.4</span> Zero modified distributions<a class="anchor" aria-label="anchor" href="#zero-modified-distributions"></a>
+<div class="section level3">
+<h3 id="zero-modified-distributions">Zero modified distributions<a class="anchor" aria-label="anchor" href="#zero-modified-distributions"></a>
 </h3>
-<p>The MLE of the probability parameter is the empirical mass at 0 <span class="math inline">\(\hat p_0=\frac1n \sum_i 1_{x_i=0}\)</span>.
+<p>The MLE of the probability parameter is the empirical mass at 0
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mn>0</mn></msub><mo>=</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><msub><mo>∑</mo><mi>i</mi></msub><msub><mn>1</mn><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>=</mo><mn>0</mn></mrow></msub></mrow><annotation encoding="application/x-tex">\hat p_0=\frac1n \sum_i 1_{x_i=0}</annotation></semantics></math>.
 For other estimators we use the classical estimator with probability
-parameter <span class="math inline">\(1-\hat p_0\)</span>.</p>
+parameter
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">1-\hat p_0</annotation></semantics></math>.</p>
 </div>
-<div class="section level3" number="1.5">
-<h3 id="poisson-inverse-gaussian-distribution">
-<span class="header-section-number">1.5</span> Poisson inverse Gaussian distribution<a class="anchor" aria-label="anchor" href="#poisson-inverse-gaussian-distribution"></a>
+<div class="section level3">
+<h3 id="poisson-inverse-gaussian-distribution">Poisson inverse Gaussian distribution<a class="anchor" aria-label="anchor" href="#poisson-inverse-gaussian-distribution"></a>
 </h3>
 <p>The first two moments are
-<span class="math display">\[
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>X</mi><mo stretchy="true" form="postfix">]</mo></mrow><mo>=</mo><mi>μ</mi><mo>,</mo><mi>V</mi><mi>a</mi><mi>r</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>X</mi><mo stretchy="true" form="postfix">]</mo></mrow><mo>=</mo><mi>μ</mi><mo>+</mo><mi>ϕ</mi><msup><mi>μ</mi><mn>3</mn></msup><mi>.</mi></mrow><annotation encoding="application/x-tex">
 E[X]=\mu,
 Var[X] = \mu+\phi\mu^3.
-\]</span>
-So the initial estimate are
-<span class="math display">\[
+</annotation></semantics></math> So the initial estimate are
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>μ</mi><mo accent="true">̂</mo></mover><mo>=</mo><msub><mi>m</mi><mn>1</mn></msub><mo>,</mo><mover><mi>ϕ</mi><mo accent="true">̂</mo></mover><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>μ</mi><mn>2</mn></msub><mo>−</mo><msub><mi>m</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><msubsup><mi>m</mi><mn>1</mn><mn>3</mn></msubsup><mi>.</mi></mrow><annotation encoding="application/x-tex">
 \hat\mu=m_1,
 \hat\phi = (\mu_2 - m_1)/m_1^3.
-\]</span></p>
+</annotation></semantics></math></p>
 </div>
 </div>
-<div class="section level2" number="2">
-<h2 id="continuous-distributions">
-<span class="header-section-number">2</span> Continuous distributions<a class="anchor" aria-label="anchor" href="#continuous-distributions"></a>
+<div class="section level2">
+<h2 id="continuous-distributions">Continuous distributions<a class="anchor" aria-label="anchor" href="#continuous-distributions"></a>
 </h2>
-<div class="section level3" number="2.1">
-<h3 id="normal-distribution">
-<span class="header-section-number">2.1</span> Normal distribution<a class="anchor" aria-label="anchor" href="#normal-distribution"></a>
+<div class="section level3">
+<h3 id="normal-distribution">Normal distribution<a class="anchor" aria-label="anchor" href="#normal-distribution"></a>
 </h3>
 <p>The MLE is the MME so we use the empirical mean and variance.</p>
 </div>
-<div class="section level3" number="2.2">
-<h3 id="lognormal-distribution">
-<span class="header-section-number">2.2</span> Lognormal distribution<a class="anchor" aria-label="anchor" href="#lognormal-distribution"></a>
+<div class="section level3">
+<h3 id="lognormal-distribution">Lognormal distribution<a class="anchor" aria-label="anchor" href="#lognormal-distribution"></a>
 </h3>
-<p>The log sample follows a normal distribution, so same as normal on the log sample.</p>
+<p>The log sample follows a normal distribution, so same as normal on
+the log sample.</p>
 </div>
-<div class="section level3" number="2.3">
-<h3 id="beta-distribution-of-the-first-kind">
-<span class="header-section-number">2.3</span> Beta distribution (of the first kind)<a class="anchor" aria-label="anchor" href="#beta-distribution-of-the-first-kind"></a>
+<div class="section level3">
+<h3 id="beta-distribution-of-the-first-kind">Beta distribution (of the first kind)<a class="anchor" aria-label="anchor" href="#beta-distribution-of-the-first-kind"></a>
 </h3>
-<p>The density function for a beta <span class="math inline">\(\mathcal Be(a,b)\)</span> is
-<span class="math display">\[
+<p>The density function for a beta
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ℬ</mi><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mo>,</mo><mi>b</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\mathcal Be(a,b)</annotation></semantics></math>
+is
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>X</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mrow><mi>Γ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>Γ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>b</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mi>Γ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mo>+</mo><mi>b</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><msup><mi>x</mi><mrow><mi>a</mi><mo>−</mo><mn>1</mn></mrow></msup><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mi>b</mi><mo>−</mo><mn>1</mn></mrow></msup><mi>.</mi></mrow><annotation encoding="application/x-tex">
 f_X(x) = \frac{\Gamma(a)\Gamma(b)}{\Gamma(a+b)} x^{a-1}(1-x)^{b-1}.
-\]</span>
-The initial estimate is the MME
-<span class="math display" id="eq:betaguessestimator">\[\begin{equation}
+</annotation></semantics></math> The initial estimate is the MME
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>a</mi><mo accent="true">̂</mo></mover><mo>=</mo><msub><mi>m</mi><mn>1</mn></msub><mi>δ</mi><mo>,</mo><mover><mi>b</mi><mo accent="true">̂</mo></mover><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>m</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>δ</mi><mo>,</mo><mi>δ</mi><mo>=</mo><mfrac><mrow><msub><mi>m</mi><mn>1</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>m</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><msub><mi>μ</mi><mn>2</mn></msub></mfrac><mo>−</mo><mn>1</mn><mo>,</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>b</mi><mi>e</mi><mi>t</mi><mi>a</mi><mi>g</mi><mi>u</mi><mi>e</mi><mi>s</mi><mi>s</mi><mi>e</mi><mi>s</mi><mi>t</mi><mi>i</mi><mi>m</mi><mi>a</mi><mi>t</mi><mi>o</mi><mi>r</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\begin{equation}
 \hat a = m_1 \delta, \hat b = (1-m_1)\delta,
 \delta = \frac{m_1(1-m_1)}{\mu_2}-1,
-\tag{2.1}
-\end{equation}\]</span></p>
+(\#eq:betaguessestimator)
+\end{equation}</annotation></semantics></math></p>
 </div>
-<div class="section level3" number="2.4">
-<h3 id="other-continuous-distribution-in-actuar">
-<span class="header-section-number">2.4</span> Other continuous distribution in <code>actuar</code><a class="anchor" aria-label="anchor" href="#other-continuous-distribution-in-actuar"></a>
+<div class="section level3">
+<h3 id="other-continuous-distribution-in-actuar">Other continuous distribution in <code>actuar</code><a class="anchor" aria-label="anchor" href="#other-continuous-distribution-in-actuar"></a>
 </h3>
-<div class="section level4" number="2.4.1">
-<h4 id="log-gamma">
-<span class="header-section-number">2.4.1</span> Log-gamma<a class="anchor" aria-label="anchor" href="#log-gamma"></a>
+<div class="section level4">
+<h4 id="log-gamma">Log-gamma<a class="anchor" aria-label="anchor" href="#log-gamma"></a>
 </h4>
-<p>Use the gamma initial values on the sample <span class="math inline">\(\log(x)\)</span></p>
+<p>Use the gamma initial values on the sample
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\log(x)</annotation></semantics></math></p>
 </div>
-<div class="section level4" number="2.4.2">
-<h4 id="gumbel">
-<span class="header-section-number">2.4.2</span> Gumbel<a class="anchor" aria-label="anchor" href="#gumbel"></a>
+<div class="section level4">
+<h4 id="gumbel">Gumbel<a class="anchor" aria-label="anchor" href="#gumbel"></a>
 </h4>
 <p>The distribution function is
-<span class="math display">\[
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mo>−</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mo>−</mo><mfrac><mrow><mi>x</mi><mo>−</mo><mi>α</mi></mrow><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
 F(x) = \exp(-\exp(-\frac{x-\alpha}{\theta})).
-\]</span>
-Let <span class="math inline">\(q_1\)</span> and <span class="math inline">\(q_3\)</span> the first and the third quartiles.
-<span class="math display">\[
+</annotation></semantics></math> Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>q</mi><mn>1</mn></msub><annotation encoding="application/x-tex">q_1</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>q</mi><mn>3</mn></msub><annotation encoding="application/x-tex">q_3</annotation></semantics></math>
+the first and the third quartiles. <span class="math display">$$
 \left\{\begin{array}
 -\theta\log(-\log(p_1)) = q_1-\alpha \\
 -\theta\log(-\log(p_3)) = q_3-\alpha
@@ -234,113 +230,133 @@ Let <span class="math inline">\(q_1\)</span> and <span class="math inline">\(q_3
 \theta= \frac{q_1-q_3}{\log(-\log(p_3)) - \log(-\log(p_1))} \\
 \alpha= \theta\log(-\log(p_3)) + q_3
 \end{array}\right..
-\]</span>
-Using the median for the location parameter <span class="math inline">\(\alpha\)</span> yields to
-initial estimate
-<span class="math display">\[
+$$</span> Using the median for the location parameter
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
+yields to initial estimate
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>θ</mi><mo accent="true">̂</mo></mover><mo>=</mo><mfrac><mrow><msub><mi>q</mi><mn>1</mn></msub><mo>−</mo><msub><mi>q</mi><mn>3</mn></msub></mrow><mrow><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>4</mn><mi>/</mi><mn>3</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>4</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo>,</mo><mover><mi>α</mi><mo accent="true">̂</mo></mover><mo>=</mo><mover><mi>θ</mi><mo accent="true">̂</mo></mover><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><msub><mi>q</mi><mn>2</mn></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">
 \hat\theta= \frac{q_1-q_3}{\log(\log(4/3)) - \log(\log(4))},
 \hat\alpha = \hat\theta\log(\log(2)) + q_2.
-\]</span></p>
+</annotation></semantics></math></p>
 </div>
-<div class="section level4" number="2.4.3">
-<h4 id="inverse-gaussian-distribution">
-<span class="header-section-number">2.4.3</span> Inverse Gaussian distribution<a class="anchor" aria-label="anchor" href="#inverse-gaussian-distribution"></a>
+<div class="section level4">
+<h4 id="inverse-gaussian-distribution">Inverse Gaussian distribution<a class="anchor" aria-label="anchor" href="#inverse-gaussian-distribution"></a>
 </h4>
 <p>The moments of this distribution are
-<span class="math display">\[
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>X</mi><mo stretchy="true" form="postfix">]</mo></mrow><mo>=</mo><mi>μ</mi><mo>,</mo><mi>V</mi><mi>a</mi><mi>r</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>X</mi><mo stretchy="true" form="postfix">]</mo></mrow><mo>=</mo><msup><mi>μ</mi><mn>3</mn></msup><mi>ϕ</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">
 E[X] = \mu,
 Var[X] = \mu^3\phi.
-\]</span>
-Hence the initial estimate are <span class="math inline">\(\hat\mu=m_1\)</span>, <span class="math inline">\(\hat\phi=\mu_2/m_1^3\)</span>.</p>
+</annotation></semantics></math> Hence the initial estimate are
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>μ</mi><mo accent="true">̂</mo></mover><mo>=</mo><msub><mi>m</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">\hat\mu=m_1</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>ϕ</mi><mo accent="true">̂</mo></mover><mo>=</mo><msub><mi>μ</mi><mn>2</mn></msub><mi>/</mi><msubsup><mi>m</mi><mn>1</mn><mn>3</mn></msubsup></mrow><annotation encoding="application/x-tex">\hat\phi=\mu_2/m_1^3</annotation></semantics></math>.</p>
 </div>
-<div class="section level4" number="2.4.4">
-<h4 id="generalized-beta">
-<span class="header-section-number">2.4.4</span> Generalized beta<a class="anchor" aria-label="anchor" href="#generalized-beta"></a>
+<div class="section level4">
+<h4 id="generalized-beta">Generalized beta<a class="anchor" aria-label="anchor" href="#generalized-beta"></a>
 </h4>
-<p>This is the distribution of <span class="math inline">\(\theta X^{1/\tau}\)</span> when <span class="math inline">\(X\)</span> is beta distributed <span class="math inline">\(\mathcal Be(a,b)\)</span>
+<p>This is the distribution of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><msup><mi>X</mi><mrow><mn>1</mn><mi>/</mi><mi>τ</mi></mrow></msup></mrow><annotation encoding="application/x-tex">\theta X^{1/\tau}</annotation></semantics></math>
+when
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>
+is beta distributed
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ℬ</mi><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mo>,</mo><mi>b</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\mathcal Be(a,b)</annotation></semantics></math>
 The moments are
-<span class="math display">\[
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>X</mi><mo stretchy="true" form="postfix">]</mo></mrow><mo>=</mo><mi>θ</mi><mi>β</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mo>+</mo><mn>1</mn><mi>/</mi><mi>τ</mi><mo>,</mo><mi>b</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mi>β</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mo>,</mo><mi>b</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>θ</mi><mfrac><mrow><mi>Γ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mo>+</mo><mn>1</mn><mi>/</mi><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mi>Γ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mfrac><mrow><mi>Γ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mo>+</mo><mi>b</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mi>Γ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mo>+</mo><mi>b</mi><mo>+</mo><mn>1</mn><mi>/</mi><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo>,</mo></mrow><annotation encoding="application/x-tex">
 E[X] = \theta \beta(a+1/\tau, b)/\beta(a,b)
 = \theta \frac{\Gamma(a+1/\tau)}{\Gamma(a)}\frac{\Gamma(a+b)}{\Gamma(a+b+1/\tau)},
-\]</span>
-<span class="math display">\[
-E[X^2]
+</annotation></semantics></math><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><msup><mi>X</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">]</mo></mrow><mo>=</mo><msup><mi>θ</mi><mn>2</mn></msup><mfrac><mrow><mi>Γ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mo>+</mo><mn>2</mn><mi>/</mi><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mi>Γ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mfrac><mrow><mi>Γ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mo>+</mo><mi>b</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mi>Γ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mo>+</mo><mi>b</mi><mo>+</mo><mn>2</mn><mi>/</mi><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">
+E[X^2] 
 = \theta^2 \frac{\Gamma(a+2/\tau)}{\Gamma(a)}\frac{\Gamma(a+b)}{\Gamma(a+b+2/\tau)}.
-\]</span>
-Hence for large value of <span class="math inline">\(\tau\)</span>, we have
-<span class="math display">\[
+</annotation></semantics></math> Hence for large value of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>τ</mi><annotation encoding="application/x-tex">\tau</annotation></semantics></math>,
+we have
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><msup><mi>X</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">]</mo></mrow><mi>/</mi><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>X</mi><mo stretchy="true" form="postfix">]</mo></mrow><mo>=</mo><mi>θ</mi><mfrac><mrow><mi>Γ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mo>+</mo><mn>2</mn><mi>/</mi><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mi>Γ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mo>+</mo><mi>b</mi><mo>+</mo><mn>2</mn><mi>/</mi><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mfrac><mrow><mi>Γ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mo>+</mo><mi>b</mi><mo>+</mo><mn>1</mn><mi>/</mi><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mi>Γ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mo>+</mo><mn>1</mn><mi>/</mi><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo>≈</mo><mi>θ</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">
 E[X^2] /E[X] = \theta \frac{\Gamma(a+2/\tau)}{\Gamma(a+b+2/\tau)}
 \frac{\Gamma(a+b+1/\tau)}{\Gamma(a+1/\tau)}
 \approx
 \theta.
-\]</span>
-Note that the MLE of <span class="math inline">\(\theta\)</span> is the maximum
-We use
-<span class="math display">\[
+</annotation></semantics></math> Note that the MLE of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>θ</mi><annotation encoding="application/x-tex">\theta</annotation></semantics></math>
+is the maximum We use
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>τ</mi><mo accent="true">̂</mo></mover><mo>=</mo><mn>3</mn><mo>,</mo><mover><mi>θ</mi><mo accent="true">̂</mo></mover><mo>=</mo><mfrac><msub><mi>m</mi><mn>2</mn></msub><msub><mi>m</mi><mn>1</mn></msub></mfrac><munder><mo>max</mo><mi>i</mi></munder><msub><mi>x</mi><mi>i</mi></msub><msub><mn>1</mn><mrow><msub><mi>m</mi><mn>2</mn></msub><mo>&gt;</mo><msub><mi>m</mi><mn>1</mn></msub></mrow></msub><mo>+</mo><mfrac><msub><mi>m</mi><mn>1</mn></msub><msub><mi>m</mi><mn>2</mn></msub></mfrac><munder><mo>max</mo><mi>i</mi></munder><msub><mi>x</mi><mi>i</mi></msub><msub><mn>1</mn><mrow><msub><mi>m</mi><mn>2</mn></msub><mo>≥</mo><msub><mi>m</mi><mn>1</mn></msub></mrow></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">
 \hat\tau=3,
 \hat\theta = \frac{m_2}{m_1}\max_i x_i 1_{m_2&gt;m_1}
 +\frac{m_1}{m_2}\max_i x_i 1_{m_2\geq m_1}.
-\]</span>
-then we use beta initial estimate on sample
-<span class="math inline">\((\frac{x_i}{\hat\theta})^{\hat\tau}\)</span>.</p>
+</annotation></semantics></math> then we use beta initial estimate on
+sample
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>x</mi><mi>i</mi></msub><mover><mi>θ</mi><mo accent="true">̂</mo></mover></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mover><mi>τ</mi><mo accent="true">̂</mo></mover></msup><annotation encoding="application/x-tex">(\frac{x_i}{\hat\theta})^{\hat\tau}</annotation></semantics></math>.</p>
 </div>
 </div>
-<div class="section level3" number="2.5">
-<h3 id="feller-pareto-family">
-<span class="header-section-number">2.5</span> Feller-Pareto family<a class="anchor" aria-label="anchor" href="#feller-pareto-family"></a>
+<div class="section level3">
+<h3 id="feller-pareto-family">Feller-Pareto family<a class="anchor" aria-label="anchor" href="#feller-pareto-family"></a>
 </h3>
-<p>The Feller-Pareto distribution is the distribution <span class="math inline">\(X=\mu+\theta(1/B-1)^{1/\gamma}\)</span> when
-<span class="math inline">\(B\)</span> follows a beta distribution with shape parameters <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\tau\)</span>.
-See details at <a href="https://doi.org/10.18637/jss.v103.i06" class="external-link uri">https://doi.org/10.18637/jss.v103.i06</a>
-Hence let <span class="math inline">\(Y = (X-\mu)/\theta\)</span>, we have
-<span class="math display">\[
-\frac{Y}{1+Y} =
+<p>The Feller-Pareto distribution is the distribution
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo>=</mo><mi>μ</mi><mo>+</mo><mi>θ</mi><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mi>/</mi><mi>B</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mn>1</mn><mi>/</mi><mi>γ</mi></mrow></msup></mrow><annotation encoding="application/x-tex">X=\mu+\theta(1/B-1)^{1/\gamma}</annotation></semantics></math>
+when
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>
+follows a beta distribution with shape parameters
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>τ</mi><annotation encoding="application/x-tex">\tau</annotation></semantics></math>.
+See details at <a href="https://doi.org/10.18637/jss.v103.i06" class="external-link uri">https://doi.org/10.18637/jss.v103.i06</a> Hence let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mi>θ</mi></mrow><annotation encoding="application/x-tex">Y = (X-\mu)/\theta</annotation></semantics></math>,
+we have
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mi>Y</mi><mrow><mn>1</mn><mo>+</mo><mi>Y</mi></mrow></mfrac><mo>=</mo><mfrac><mrow><mi>X</mi><mo>−</mo><mi>μ</mi></mrow><mrow><mi>θ</mi><mo>+</mo><mi>X</mi><mo>−</mo><mi>μ</mi></mrow></mfrac><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>B</mi><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mn>1</mn><mi>/</mi><mi>γ</mi></mrow></msup><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\frac{Y}{1+Y} = 
 \frac{X-\mu}{\theta+X-\mu} = (1-B)^{1/\gamma}.
-\]</span>
-For <span class="math inline">\(\gamma\)</span> close to 1, <span class="math inline">\(\frac{Y}{1+Y}\)</span> is approximately beta distributed <span class="math inline">\(\tau\)</span> and <span class="math inline">\(\alpha\)</span>.</p>
+</annotation></semantics></math> For
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>γ</mi><annotation encoding="application/x-tex">\gamma</annotation></semantics></math>
+close to 1,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mfrac><mi>Y</mi><mrow><mn>1</mn><mo>+</mo><mi>Y</mi></mrow></mfrac><annotation encoding="application/x-tex">\frac{Y}{1+Y}</annotation></semantics></math>
+is approximately beta distributed
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>τ</mi><annotation encoding="application/x-tex">\tau</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>.</p>
 <p>The log-likelihood is
-<span class="math display" id="eq:fellerparetologlik">\[\begin{equation}
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ℒ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>,</mo><mi>θ</mi><mo>,</mo><mi>α</mi><mo>,</mo><mi>γ</mi><mo>,</mo><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>τ</mi><mi>γ</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><munder><mo>∑</mo><mi>i</mi></munder><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi></mrow><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>+</mo><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow><munder><mo>∑</mo><mi>i</mi></munder><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi></mrow><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>γ</mi></msup><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mi>n</mi><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>γ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>n</mi><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>n</mi><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>β</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>,</mo><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>f</mi><mi>e</mi><mi>l</mi><mi>l</mi><mi>e</mi><mi>r</mi><mi>p</mi><mi>a</mi><mi>r</mi><mi>e</mi><mi>t</mi><mi>o</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>l</mi><mi>i</mi><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">\begin{equation}
 \mathcal L(\mu, \theta, \alpha, \gamma, \tau)
-= (\tau \gamma - 1) \sum_{i} \log(\frac{x_i-\mu}\theta)
+= (\tau \gamma - 1) \sum_{i} \log(\frac{x_i-\mu}\theta) 
 - (\alpha+\tau)\sum_i \log(1+(\frac{x_i-\mu}\theta)^\gamma)
 + n\log(\gamma) - n\log(\theta) -n \log(\beta(\alpha,\tau)).
-\tag{2.2}.
-\end{equation}\]</span>
-The MLE of <span class="math inline">\(\mu\)</span> is the minimum.</p>
-<p>The gradient with respect to <span class="math inline">\(\theta, \alpha, \gamma, \tau\)</span> is
-<span class="math display" id="eq:fellerparetogradient">\[\begin{equation}
+(\#eq:fellerparetologlik).
+\end{equation}</annotation></semantics></math> The MLE of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
+is the minimum.</p>
+<p>The gradient with respect to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo>,</mo><mi>α</mi><mo>,</mo><mi>γ</mi><mo>,</mo><mi>τ</mi></mrow><annotation encoding="application/x-tex">\theta, \alpha, \gamma, \tau</annotation></semantics></math>
+is
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>∇</mi><mi>ℒ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>,</mo><mi>θ</mi><mo>,</mo><mi>α</mi><mo>,</mo><mi>γ</mi><mo>,</mo><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mo>−</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>τ</mi><mi>γ</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><munder><mo>∑</mo><mi>i</mi></munder><mfrac><msub><mi>x</mi><mi>i</mi></msub><mrow><mi>θ</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo>+</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>+</mo><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow><munder><mo>∑</mo><mi>i</mi></munder><mfrac><mrow><msub><mi>x</mi><mi>i</mi></msub><mi>γ</mi><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi></mrow><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mi>γ</mi><mo>−</mo><mn>1</mn></mrow></msup></mrow><mrow><msup><mi>θ</mi><mn>2</mn></msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi></mrow><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>γ</mi></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo>−</mo><mi>n</mi><mi>/</mi><mi>θ</mi></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mo>−</mo><munder><mo>∑</mo><mi>i</mi></munder><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi></mrow><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>γ</mi></msup><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>n</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>ψ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>ψ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>+</mo><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mrow><mo stretchy="true" form="prefix">(</mo><mi>τ</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><munder><mo>∑</mo><mi>i</mi></munder><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi></mrow><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>+</mo><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow><munder><mo>∑</mo><mi>i</mi></munder><mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi></mrow><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>γ</mi></msup><mrow><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi></mrow><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>γ</mi></msup></mrow></mfrac><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi></mrow><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mi>n</mi><mi>/</mi><mi>γ</mi></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mrow><mo stretchy="true" form="prefix">(</mo><mi>γ</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><munder><mo>∑</mo><mi>i</mi></munder><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi></mrow><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><munder><mo>∑</mo><mi>i</mi></munder><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi></mrow><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>γ</mi></msup><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>n</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>ψ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>ψ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>+</mo><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>f</mi><mi>e</mi><mi>l</mi><mi>l</mi><mi>e</mi><mi>r</mi><mi>p</mi><mi>a</mi><mi>r</mi><mi>e</mi><mi>t</mi><mi>o</mi><mi>g</mi><mi>r</mi><mi>a</mi><mi>d</mi><mi>i</mi><mi>e</mi><mi>n</mi><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\begin{equation}
 \nabla
 \mathcal L(\mu, \theta, \alpha, \gamma, \tau)
 =
 \begin{pmatrix}
--(\tau \gamma - 1) \sum_{i} \frac{x_i}{\theta(x_i-\mu)}
+-(\tau \gamma - 1) \sum_{i} \frac{x_i}{\theta(x_i-\mu)} 
 + (\alpha+\tau)\sum_i \frac{x_i\gamma(\frac{x_i-\mu}\theta)^{\gamma-1}}{\theta^2(1+(\frac{x_i-\mu}\theta)^\gamma)}
 - n/\theta
 \\
 - \sum_i \log(1+(\frac{x_i-\mu}\theta)^\gamma)
 -n(\psi(\tau) - \psi(\alpha+\tau))
 \\
-(\tau  - 1) \sum_{i} \log(\frac{x_i-\mu}\theta)
+(\tau  - 1) \sum_{i} \log(\frac{x_i-\mu}\theta) 
 - (\alpha+\tau)\sum_i \frac{(\frac{x_i-\mu}\theta)^\gamma}{ 1+(\frac{x_i-\mu}\theta)^\gamma}\log(\frac{x_i-\mu}\theta)
 + n/\gamma
 \\
-(\gamma - 1) \sum_{i} \log(\frac{x_i-\mu}\theta)
+ (\gamma - 1) \sum_{i} \log(\frac{x_i-\mu}\theta) 
 - \sum_i \log(1+(\frac{x_i-\mu}\theta)^\gamma)
 -n (\psi(\tau) - \psi(\alpha+\tau))
 \end{pmatrix}.
-\tag{2.3}
-\end{equation}\]</span>
-Cancelling the first component of score for <span class="math inline">\(\gamma=\alpha=2\)</span>, we get
-<span class="math display">\[
--(2\tau  - 1) \sum_{i} \frac{x_i}{\theta(x_i-\mu)}
+(\#eq:fellerparetogradient)
+\end{equation}</annotation></semantics></math> Cancelling the first
+component of score for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>=</mo><mi>α</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">\gamma=\alpha=2</annotation></semantics></math>,
+we get
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mi>τ</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><munder><mo>∑</mo><mi>i</mi></munder><mfrac><msub><mi>x</mi><mi>i</mi></msub><mrow><mi>θ</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo>+</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mo>+</mo><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow><munder><mo>∑</mo><mi>i</mi></munder><mfrac><mrow><msub><mi>x</mi><mi>i</mi></msub><mn>2</mn><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><msup><mi>θ</mi><mn>3</mn></msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi></mrow><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo>=</mo><mfrac><mi>n</mi><mi>θ</mi></mfrac><mo>⇔</mo><mo>−</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mi>τ</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><msup><mi>θ</mi><mn>2</mn></msup><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><mfrac><msub><mi>x</mi><mi>i</mi></msub><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi></mrow></mfrac><mo>+</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mo>+</mo><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><mfrac><mrow><msub><mi>x</mi><mi>i</mi></msub><mn>2</mn><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi></mrow><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow></mfrac><mo>=</mo><msup><mi>θ</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
+-(2\tau  - 1) \sum_{i} \frac{x_i}{\theta(x_i-\mu)} 
 + (2+\tau)\sum_i \frac{x_i 2(x_i-\mu)}{\theta^3(1+(\frac{x_i-\mu}\theta)^2)}
 = \frac{n}{\theta}
 \Leftrightarrow
--(2\tau  - 1)\theta^2\frac1n \sum_{i} \frac{x_i}{x_i-\mu}
+-(2\tau  - 1)\theta^2\frac1n \sum_{i} \frac{x_i}{x_i-\mu} 
 + (2+\tau) \frac1n\sum_i \frac{x_i 2(x_i-\mu)}{(1+(\frac{x_i-\mu}\theta)^2)}
 = \theta^2
-\]</span>
-<span class="math display">\[
+</annotation></semantics></math><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⇔</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mo>+</mo><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><mfrac><mrow><msub><mi>x</mi><mi>i</mi></msub><mn>2</mn><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi></mrow><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow></mfrac><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mi>τ</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><msup><mi>θ</mi><mn>2</mn></msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><mfrac><msub><mi>x</mi><mi>i</mi></msub><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi></mrow></mfrac><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>⇔</mo><msqrt><mfrac><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mo>+</mo><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><mfrac><mrow><msub><mi>x</mi><mi>i</mi></msub><mn>2</mn><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi></mrow><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow></mfrac></mrow><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mi>τ</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><mfrac><msub><mi>x</mi><mi>i</mi></msub><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi></mrow></mfrac><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac></msqrt><mo>=</mo><mi>θ</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">
 \Leftrightarrow
 (2+\tau) \frac1n\sum_i \frac{x_i 2(x_i-\mu)}{1+(\frac{x_i-\mu}\theta)^2}
 = (2\tau  - 1)\theta^2\left(\frac1n \sum_{i} \frac{x_i}{x_i-\mu} -1\right)
@@ -350,305 +366,331 @@ Cancelling the first component of score for <span class="math inline">\(\gamma=\
 }{(2\tau  - 1)\left(\frac1n \sum_{i} \frac{x_i}{x_i-\mu} -1\right)}
 }
 = \theta.
-\]</span>
-Neglecting unknown value of <span class="math inline">\(\tau\)</span> and the denominator in <span class="math inline">\(\theta\)</span>, we get
-with <span class="math inline">\(\hat\mu\)</span> set with (<a href="#eq:pareto4muinit">(2.16)</a>)
-<span class="math display" id="eq:fellerparetothetahat">\[\begin{equation}
+</annotation></semantics></math> Neglecting unknown value of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>τ</mi><annotation encoding="application/x-tex">\tau</annotation></semantics></math>
+and the denominator in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>θ</mi><annotation encoding="application/x-tex">\theta</annotation></semantics></math>,
+we get with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>μ</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\hat\mu</annotation></semantics></math>
+set with (@ref(eq:pareto4muinit))
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>θ</mi><mo accent="true">̂</mo></mover><mo>=</mo><msqrt><mfrac><mrow><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><mfrac><mrow><msub><mi>x</mi><mi>i</mi></msub><mn>2</mn><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mover><mi>μ</mi><mo accent="true">̂</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mover><mi>μ</mi><mo accent="true">̂</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow></mfrac></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><mfrac><msub><mi>x</mi><mi>i</mi></msub><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mover><mi>μ</mi><mo accent="true">̂</mo></mover></mrow></mfrac><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></mfrac></msqrt><mi>.</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>f</mi><mi>e</mi><mi>l</mi><mi>l</mi><mi>e</mi><mi>r</mi><mi>p</mi><mi>a</mi><mi>r</mi><mi>e</mi><mi>t</mi><mi>o</mi><mi>t</mi><mi>h</mi><mi>e</mi><mi>t</mi><mi>a</mi><mi>h</mi><mi>a</mi><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\begin{equation}
 \hat\theta = \sqrt{
 \frac{ \frac1n\sum_i \frac{x_i 2(x_i-\hat\mu)}{1+(x_i-\hat\mu)^2}
 }{\left(\frac1n \sum_{i} \frac{x_i}{x_i-\hat\mu} -1\right)}
 }.
-\tag{2.4}
-\end{equation}\]</span>
-Initial value of <span class="math inline">\(\tau,\alpha\)</span> are obtained on the sample <span class="math inline">\((z_i)_i\)</span>
-<span class="math display">\[
+(\#eq:fellerparetothetahat)
+\end{equation}</annotation></semantics></math> Initial value of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>τ</mi><mo>,</mo><mi>α</mi></mrow><annotation encoding="application/x-tex">\tau,\alpha</annotation></semantics></math>
+are obtained on the sample
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>z</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>i</mi></msub><annotation encoding="application/x-tex">(z_i)_i</annotation></semantics></math><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>z</mi><mi>i</mi></msub><mo>=</mo><msub><mi>y</mi><mi>i</mi></msub><mi>/</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><msub><mi>y</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><msub><mi>y</mi><mi>i</mi></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mover><mi>μ</mi><mo accent="true">̂</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mover><mi>θ</mi><mo accent="true">̂</mo></mover><mo>,</mo></mrow><annotation encoding="application/x-tex">
 z_i = y_i/(1+y_i),
 y_i = (x_i - \hat\mu)/\hat\theta,
-\]</span>
-with initial values of a beta distribution which is based on MME
-(<a href="#eq:betaguessestimator">(2.1)</a>).</p>
+</annotation></semantics></math> with initial values of a beta
+distribution which is based on MME (@ref(eq:betaguessestimator)).</p>
 <p>Cancelling the last component of the gradient leads to
-<span class="math display">\[
-(\gamma - 1) \frac1n\sum_{i} \log(\frac{x_i-\mu}\theta)
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mi>γ</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi></mrow><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi></mrow><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>γ</mi></msup><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>ψ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>ψ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>+</mo><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>⇔</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>γ</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi></mrow><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>ψ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>ψ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>+</mo><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi></mrow><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>γ</mi></msup><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
+(\gamma - 1) \frac1n\sum_{i} \log(\frac{x_i-\mu}\theta) 
 - \frac1n\sum_i \log(1+(\frac{x_i-\mu}\theta)^\gamma)
 = \psi(\tau) - \psi(\alpha+\tau)
 \Leftrightarrow
-(\gamma - 1) \frac1n\sum_{i} \log(\frac{x_i-\mu}\theta)
+(\gamma - 1) \frac1n\sum_{i} \log(\frac{x_i-\mu}\theta) 
 =
 \psi(\tau) - \psi(\alpha+\tau)
 +\frac1n\sum_i \log(1+(\frac{x_i-\mu}\theta)^\gamma) .
-\]</span>
-Neglecting the value <span class="math inline">\(\gamma\)</span> on the right-hand side we obtain
-<span class="math display" id="eq:fellerparetogammahat">\[\begin{equation}
-\hat\gamma =
+</annotation></semantics></math> Neglecting the value
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>γ</mi><annotation encoding="application/x-tex">\gamma</annotation></semantics></math>
+on the right-hand side we obtain
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>γ</mi><mo accent="true">̂</mo></mover><mo>=</mo><mn>1</mn><mo>+</mo><mfrac><mrow><mi>ψ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>ψ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>+</mo><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi></mrow><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi></mrow><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mi>.</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>f</mi><mi>e</mi><mi>l</mi><mi>l</mi><mi>e</mi><mi>r</mi><mi>p</mi><mi>a</mi><mi>r</mi><mi>e</mi><mi>t</mi><mi>o</mi><mi>g</mi><mi>a</mi><mi>m</mi><mi>m</mi><mi>a</mi><mi>h</mi><mi>a</mi><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\begin{equation}
+\hat\gamma = 
 1+
 \frac{
 \psi(\tau) - \psi(\alpha+\tau)
-+\frac1n\sum_i \log(1+(\frac{x_i-\mu}\theta))
++\frac1n\sum_i \log(1+(\frac{x_i-\mu}\theta)) 
 }{
-\frac1n\sum_{i} \log(\frac{x_i-\mu}\theta)
+\frac1n\sum_{i} \log(\frac{x_i-\mu}\theta) 
 }.
-\tag{2.5}
-\end{equation}\]</span></p>
-<div class="section level4" number="2.5.1">
-<h4 id="transformed-beta">
-<span class="header-section-number">2.5.1</span> Transformed beta<a class="anchor" aria-label="anchor" href="#transformed-beta"></a>
+(\#eq:fellerparetogammahat)
+\end{equation}</annotation></semantics></math></p>
+<div class="section level4">
+<h4 id="transformed-beta">Transformed beta<a class="anchor" aria-label="anchor" href="#transformed-beta"></a>
 </h4>
-<p>This is the Feller-Pareto with <span class="math inline">\(\mu=0\)</span>.
-So the first component of <a href="#eq:fellerparetogradient">(2.3)</a> simplifies to with
-<span class="math inline">\(\gamma=\alpha=2\)</span>
-<span class="math display">\[
--(2\tau  - 1) \sum_{i} \frac{x_i}{\theta(x_i)}
+<p>This is the Feller-Pareto with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>μ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\mu=0</annotation></semantics></math>.
+So the first component of @ref(eq:fellerparetogradient) simplifies to
+with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>=</mo><mi>α</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">\gamma=\alpha=2</annotation></semantics></math><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mi>τ</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><munder><mo>∑</mo><mi>i</mi></munder><mfrac><msub><mi>x</mi><mi>i</mi></msub><mrow><mi>θ</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo>+</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mo>+</mo><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow><munder><mo>∑</mo><mi>i</mi></munder><mfrac><mrow><mn>2</mn><msubsup><mi>x</mi><mi>i</mi><mn>2</mn></msubsup></mrow><mrow><msup><mi>θ</mi><mn>3</mn></msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>x</mi><mi>i</mi></msub><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo>=</mo><mfrac><mi>n</mi><mi>θ</mi></mfrac><mo>⇔</mo><mo>−</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mi>τ</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><msup><mi>θ</mi><mn>2</mn></msup><mo>+</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mo>+</mo><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><mfrac><mrow><mn>2</mn><msubsup><mi>x</mi><mi>i</mi><mn>2</mn></msubsup></mrow><mrow><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>x</mi><mi>i</mi></msub><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow></mfrac><mo>=</mo><msup><mi>θ</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
+-(2\tau  - 1) \sum_{i} \frac{x_i}{\theta(x_i)} 
 + (2+\tau)\sum_i \frac{2x_i^2}{\theta^3(1+(\frac{x_i}\theta)^2)}
 = \frac{n}{\theta}
 \Leftrightarrow
 -(2\tau  - 1) \theta^2
 + (2+\tau)\frac1n\sum_i \frac{2x_i^2}{1+(\frac{x_i}\theta)^2}
 = \theta^2
-\]</span>
-<span class="math display">\[
+</annotation></semantics></math><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>θ</mi><mn>2</mn></msup><mo>=</mo><mfrac><mrow><mn>2</mn><mo>+</mo><mi>τ</mi></mrow><mrow><mn>2</mn><mi>τ</mi></mrow></mfrac><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><mfrac><mrow><mn>2</mn><msubsup><mi>x</mi><mi>i</mi><mn>2</mn></msubsup></mrow><mrow><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>x</mi><mi>i</mi></msub><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">
 \theta^2=\frac{2+\tau}{2\tau}\frac1n\sum_i \frac{2x_i^2}{1+(\frac{x_i}\theta)^2}.
-\]</span>
-Neglecting unknown value of <span class="math inline">\(\tau\)</span> in the denominator in <span class="math inline">\(\theta\)</span>, we get
-<span class="math display" id="eq:trbetathetahat">\[\begin{equation}
+</annotation></semantics></math> Neglecting unknown value of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>τ</mi><annotation encoding="application/x-tex">\tau</annotation></semantics></math>
+in the denominator in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>θ</mi><annotation encoding="application/x-tex">\theta</annotation></semantics></math>,
+we get
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>θ</mi><mo accent="true">̂</mo></mover><mo>=</mo><msqrt><mrow><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><mfrac><mrow><mn>2</mn><msubsup><mi>x</mi><mi>i</mi><mn>2</mn></msubsup></mrow><mrow><mn>1</mn><mo>+</mo><msubsup><mi>x</mi><mi>i</mi><mn>2</mn></msubsup></mrow></mfrac></mrow></msqrt><mi>.</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>t</mi><mi>r</mi><mi>b</mi><mi>e</mi><mi>t</mi><mi>a</mi><mi>t</mi><mi>h</mi><mi>e</mi><mi>t</mi><mi>a</mi><mi>h</mi><mi>a</mi><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\begin{equation}
 \hat\theta = \sqrt{
 \frac1n\sum_i \frac{2x_i^2}{1+x_i^2}
 }.
-\tag{2.6}
-\end{equation}\]</span>
-Initial value of <span class="math inline">\(\tau,\alpha\)</span> are obtained on the sample <span class="math inline">\((z_i)_i\)</span>
-<span class="math display">\[
+(\#eq:trbetathetahat)
+\end{equation}</annotation></semantics></math> Initial value of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>τ</mi><mo>,</mo><mi>α</mi></mrow><annotation encoding="application/x-tex">\tau,\alpha</annotation></semantics></math>
+are obtained on the sample
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>z</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>i</mi></msub><annotation encoding="application/x-tex">(z_i)_i</annotation></semantics></math><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>z</mi><mi>i</mi></msub><mo>=</mo><msub><mi>y</mi><mi>i</mi></msub><mi>/</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><msub><mi>y</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><msub><mi>y</mi><mi>i</mi></msub><mo>=</mo><msub><mi>x</mi><mi>i</mi></msub><mi>/</mi><mover><mi>θ</mi><mo accent="true">̂</mo></mover><mo>,</mo></mrow><annotation encoding="application/x-tex">
 z_i = y_i/(1+y_i),
 y_i = x_i/\hat\theta,
-\]</span>
-with initial values of a beta distribution which is based on MME
-(<a href="#eq:betaguessestimator">(2.1)</a>).
+</annotation></semantics></math> with initial values of a beta
+distribution which is based on MME (@ref(eq:betaguessestimator)).
 Similar to Feller-Pareto, we set
-<span class="math display" id="eq:fellerparetogammahat">\[\begin{equation}
-\hat\gamma =
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>γ</mi><mo accent="true">̂</mo></mover><mo>=</mo><mn>1</mn><mo>+</mo><mfrac><mrow><mi>ψ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>ψ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>+</mo><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><mfrac><msub><mi>x</mi><mi>i</mi></msub><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>x</mi><mi>i</mi></msub><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mi>.</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>f</mi><mi>e</mi><mi>l</mi><mi>l</mi><mi>e</mi><mi>r</mi><mi>p</mi><mi>a</mi><mi>r</mi><mi>e</mi><mi>t</mi><mi>o</mi><mi>g</mi><mi>a</mi><mi>m</mi><mi>m</mi><mi>a</mi><mi>h</mi><mi>a</mi><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\begin{equation}
+\hat\gamma = 
 1+
 \frac{
 \psi(\tau) - \psi(\alpha+\tau)
-+\frac1n\sum_i \log(1+\frac{x_i}\theta)
++\frac1n\sum_i \log(1+\frac{x_i}\theta) 
 }{
-\frac1n\sum_{i} \log(\frac{x_i}\theta)
+\frac1n\sum_{i} \log(\frac{x_i}\theta) 
 }.
-\tag{2.5}
-\end{equation}\]</span></p>
+(\#eq:fellerparetogammahat)
+\end{equation}</annotation></semantics></math></p>
 </div>
-<div class="section level4" number="2.5.2">
-<h4 id="generalized-pareto">
-<span class="header-section-number">2.5.2</span> Generalized Pareto<a class="anchor" aria-label="anchor" href="#generalized-pareto"></a>
+<div class="section level4">
+<h4 id="generalized-pareto">Generalized Pareto<a class="anchor" aria-label="anchor" href="#generalized-pareto"></a>
 </h4>
-<p>This is the Feller-Pareto with <span class="math inline">\(\mu=0\)</span> <span class="math inline">\(\gamma=1\)</span>.
-So the first component of <a href="#eq:fellerparetogradient">(2.3)</a> simplifies to with
-<span class="math inline">\(\gamma=2\)</span>
-<span class="math display">\[
--(\tau - 1) \frac{n}{\theta}
+<p>This is the Feller-Pareto with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>μ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\mu=0</annotation></semantics></math><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\gamma=1</annotation></semantics></math>.
+So the first component of @ref(eq:fellerparetogradient) simplifies to
+with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">\gamma=2</annotation></semantics></math><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>τ</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mfrac><mi>n</mi><mi>θ</mi></mfrac><mo>+</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mo>+</mo><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow><munder><mo>∑</mo><mi>i</mi></munder><mfrac><msub><mi>x</mi><mi>i</mi></msub><mrow><msup><mi>θ</mi><mn>2</mn></msup><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>+</mo><mfrac><msub><mi>x</mi><mi>i</mi></msub><mi>θ</mi></mfrac></mrow></mfrac><mo>=</mo><mi>n</mi><mi>/</mi><mi>θ</mi><mo>⇔</mo><mo>−</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>τ</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>θ</mi><mo>+</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mo>+</mo><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><mfrac><msub><mi>x</mi><mi>i</mi></msub><mrow><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>+</mo><mfrac><msub><mi>x</mi><mi>i</mi></msub><mi>θ</mi></mfrac></mrow></mfrac><mo>=</mo><mi>θ</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">
+-(\tau - 1) \frac{n}{\theta} 
 + (2+\tau)\sum_i \frac{x_i}{\theta^2(1+\frac{x_i}\theta}
 = n/\theta
 \Leftrightarrow
 -(\tau - 1) \theta
 + (2+\tau)\frac1n\sum_i \frac{x_i}{(1+\frac{x_i}\theta}
 = \theta.
-\]</span>
-Neglecting unknown value of <span class="math inline">\(\tau\)</span> leads to
-<span class="math display" id="eq:generalizedparetotheta">\[\begin{equation}
-\hat\theta =
+</annotation></semantics></math> Neglecting unknown value of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>τ</mi><annotation encoding="application/x-tex">\tau</annotation></semantics></math>
+leads to
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>θ</mi><mo accent="true">̂</mo></mover><mo>=</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><mfrac><msub><mi>x</mi><mi>i</mi></msub><mrow><mn>1</mn><mo>+</mo><msub><mi>x</mi><mi>i</mi></msub></mrow></mfrac><mrow><mo stretchy="true" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>g</mi><mi>e</mi><mi>n</mi><mi>e</mi><mi>r</mi><mi>a</mi><mi>l</mi><mi>i</mi><mi>z</mi><mi>e</mi><mi>d</mi><mi>p</mi><mi>a</mi><mi>r</mi><mi>e</mi><mi>t</mi><mi>o</mi><mi>t</mi><mi>h</mi><mi>e</mi><mi>t</mi><mi>a</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\begin{equation}
+\hat\theta = 
 \frac1n\sum_i \frac{x_i}{1+x_i}
-\tag{2.7}
-\end{equation}\]</span></p>
-<p>Initial value of <span class="math inline">\(\tau,\alpha\)</span> are obtained on the sample <span class="math inline">\((z_i)_i\)</span>
-<span class="math display">\[
+(\#eq:generalizedparetotheta)
+\end{equation}</annotation></semantics></math></p>
+<p>Initial value of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>τ</mi><mo>,</mo><mi>α</mi></mrow><annotation encoding="application/x-tex">\tau,\alpha</annotation></semantics></math>
+are obtained on the sample
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>z</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>i</mi></msub><annotation encoding="application/x-tex">(z_i)_i</annotation></semantics></math><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>z</mi><mi>i</mi></msub><mo>=</mo><msub><mi>y</mi><mi>i</mi></msub><mi>/</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><msub><mi>y</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><msub><mi>y</mi><mi>i</mi></msub><mo>=</mo><msub><mi>x</mi><mi>i</mi></msub><mi>/</mi><mover><mi>θ</mi><mo accent="true">̂</mo></mover><mo>,</mo></mrow><annotation encoding="application/x-tex">
 z_i = y_i/(1+y_i),
 y_i = x_i/\hat\theta,
-\]</span>
-with initial values of a beta distribution which is based on MME
-(<a href="#eq:betaguessestimator">(2.1)</a>).</p>
+</annotation></semantics></math> with initial values of a beta
+distribution which is based on MME (@ref(eq:betaguessestimator)).</p>
 </div>
-<div class="section level4" number="2.5.3">
-<h4 id="burr">
-<span class="header-section-number">2.5.3</span> Burr<a class="anchor" aria-label="anchor" href="#burr"></a>
+<div class="section level4">
+<h4 id="burr">Burr<a class="anchor" aria-label="anchor" href="#burr"></a>
 </h4>
-<p>Burr is a Feller-Pareto distribution with <span class="math inline">\(\mu=0\)</span>, <span class="math inline">\(\tau=1\)</span>.</p>
+<p>Burr is a Feller-Pareto distribution with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>μ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\mu=0</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>τ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\tau=1</annotation></semantics></math>.</p>
 <p>The survival function is
-<span class="math display">\[
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>−</mo><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mi>/</mi><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>γ</mi></msup><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo>−</mo><mi>α</mi></mrow></msup><mi>.</mi></mrow><annotation encoding="application/x-tex">
 1-F(x) = (1+(x/\theta)^\gamma)^{-\alpha}.
-\]</span>
-Using the median <span class="math inline">\(q_2\)</span>, we have
-<span class="math display">\[
+</annotation></semantics></math> Using the median
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>q</mi><mn>2</mn></msub><annotation encoding="application/x-tex">q_2</annotation></semantics></math>,
+we have
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mo>−</mo><mi>α</mi><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>q</mi><mn>2</mn></msub><mi>/</mi><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>γ</mi></msup><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
 \log(1/2) = - \alpha \log(1+(q_2/\theta)^\gamma).
-\]</span>
-The initial value is
-<span class="math display" id="eq:burralpharelation">\[\begin{equation}
+</annotation></semantics></math> The initial value is
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mfrac><mrow><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>q</mi><mn>2</mn></msub><mi>/</mi><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>γ</mi></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo>,</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>b</mi><mi>u</mi><mi>r</mi><mi>r</mi><mi>a</mi><mi>l</mi><mi>p</mi><mi>h</mi><mi>a</mi><mi>r</mi><mi>e</mi><mi>l</mi><mi>a</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\begin{equation}
 \alpha
 =
 \frac{\log(2)}{\log(1+(q_2/\theta)^\gamma)},
-\tag{2.8}
-\end{equation}\]</span></p>
-<p>So the first component of <a href="#eq:fellerparetogradient">(2.3)</a> simplifies to with
-<span class="math inline">\(\gamma=\alpha=2\)</span>, <span class="math inline">\(\tau=1\)</span>, <span class="math inline">\(\mu=0\)</span>.
-<span class="math display">\[
+(\#eq:burralpharelation)
+\end{equation}</annotation></semantics></math></p>
+<p>So the first component of @ref(eq:fellerparetogradient) simplifies to
+with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>=</mo><mi>α</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">\gamma=\alpha=2</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>τ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\tau=1</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>μ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\mu=0</annotation></semantics></math>.
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mi>n</mi><mi>/</mi><mi>θ</mi><mo>+</mo><mn>3</mn><munder><mo>∑</mo><mi>i</mi></munder><mfrac><mrow><mn>2</mn><msub><mi>x</mi><mi>i</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>x</mi><mi>i</mi></msub><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><msup><mi>θ</mi><mn>2</mn></msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>x</mi><mi>i</mi></msub><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo>=</mo><mi>n</mi><mi>/</mi><mi>θ</mi><mo>⇔</mo><msup><mi>θ</mi><mn>2</mn></msup><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><mfrac><mrow><mn>2</mn><msub><mi>x</mi><mi>i</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>x</mi><mi>i</mi></msub><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>x</mi><mi>i</mi></msub><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow></mfrac><mo>=</mo><mn>2</mn><mi>/</mi><mn>3</mn><mi>.</mi></mrow><annotation encoding="application/x-tex">
 - n/\theta
 + 3\sum_i \frac{2x_i(\frac{x_i}\theta)}{\theta^2(1+(\frac{x_i}\theta)^2)}
 = n/\theta
 \Leftrightarrow
 \theta^2\frac1n\sum_i \frac{2x_i(\frac{x_i}\theta)}{(1+(\frac{x_i}\theta)^2)}
 = 2/3.
-\]</span>
-Neglecting unknown value in the denominator in <span class="math inline">\(\theta\)</span>, we get
-<span class="math display" id="eq:trbetathetahat">\[\begin{equation}
+</annotation></semantics></math> Neglecting unknown value in the
+denominator in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>θ</mi><annotation encoding="application/x-tex">\theta</annotation></semantics></math>,
+we get
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>θ</mi><mo accent="true">̂</mo></mover><mo>=</mo><msqrt><mfrac><mn>2</mn><mrow><mn>3</mn><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><mfrac><mrow><mn>2</mn><msubsup><mi>x</mi><mi>i</mi><mn>2</mn></msubsup></mrow><mrow><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow></mfrac></mrow></mfrac></msqrt><mi>.</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>t</mi><mi>r</mi><mi>b</mi><mi>e</mi><mi>t</mi><mi>a</mi><mi>t</mi><mi>h</mi><mi>e</mi><mi>t</mi><mi>a</mi><mi>h</mi><mi>a</mi><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\begin{equation}
 \hat\theta = \sqrt{
 \frac{2}{3
 \frac1n\sum_i \frac{2x_i^2}{1+(x_i)^2}
 }
 }.
-\tag{2.6}
-\end{equation}\]</span>
-We use for <span class="math inline">\(\hat\gamma\)</span> <a href="#eq:fellerparetogammahat">(2.5)</a> with <span class="math inline">\(\tau=1\)</span> and <span class="math inline">\(\alpha=2\)</span> and previous <span class="math inline">\(\hat\theta\)</span>.</p>
+(\#eq:trbetathetahat)
+\end{equation}</annotation></semantics></math> We use for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>γ</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\hat\gamma</annotation></semantics></math>
+@ref(eq:fellerparetogammahat) with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>τ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\tau=1</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">\alpha=2</annotation></semantics></math>
+and previous
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>θ</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\hat\theta</annotation></semantics></math>.</p>
 </div>
-<div class="section level4" number="2.5.4">
-<h4 id="loglogistic">
-<span class="header-section-number">2.5.4</span> Loglogistic<a class="anchor" aria-label="anchor" href="#loglogistic"></a>
+<div class="section level4">
+<h4 id="loglogistic">Loglogistic<a class="anchor" aria-label="anchor" href="#loglogistic"></a>
 </h4>
-<p>Loglogistic is a Feller-Pareto distribution with <span class="math inline">\(\mu=0\)</span>, <span class="math inline">\(\tau=1\)</span>, <span class="math inline">\(\alpha=1\)</span>.
+<p>Loglogistic is a Feller-Pareto distribution with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>μ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\mu=0</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>τ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\tau=1</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\alpha=1</annotation></semantics></math>.
 The survival function is
-<span class="math display">\[
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>−</mo><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mi>/</mi><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>γ</mi></msup><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo>−</mo><mn>1</mn></mrow></msup><mi>.</mi></mrow><annotation encoding="application/x-tex">
 1-F(x) = (1+(x/\theta)^\gamma)^{-1}.
-\]</span>
-So
-<span class="math display">\[
+</annotation></semantics></math> So
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>1</mn><mrow><mn>1</mn><mo>−</mo><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo>−</mo><mn>1</mn><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mi>/</mi><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>γ</mi></msup><mo>⇔</mo><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mn>1</mn><mo>−</mo><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>γ</mi><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mi>/</mi><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
 \frac1{1-F(x)}-1 = (x/\theta)^\gamma
 \Leftrightarrow
 \log(\frac{F(x)}{1-F(x)}) = \gamma\log(x/\theta).
-\]</span>
-Let <span class="math inline">\(q_1\)</span> and <span class="math inline">\(q_3\)</span> be the first and the third quartile.
-<span class="math display">\[
+</annotation></semantics></math> Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>q</mi><mn>1</mn></msub><annotation encoding="application/x-tex">q_1</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>q</mi><mn>3</mn></msub><annotation encoding="application/x-tex">q_3</annotation></semantics></math>
+be the first and the third quartile.
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><mn>1</mn><mi>/</mi><mn>3</mn></mrow><mrow><mn>2</mn><mi>/</mi><mn>3</mn></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>γ</mi><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>q</mi><mn>1</mn></msub><mi>/</mi><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><mn>2</mn><mi>/</mi><mn>3</mn></mrow><mrow><mn>1</mn><mi>/</mi><mn>3</mn></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>γ</mi><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>q</mi><mn>3</mn></msub><mi>/</mi><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>⇔</mo><mo>−</mo><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>γ</mi><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>q</mi><mn>1</mn></msub><mi>/</mi><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>γ</mi><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>q</mi><mn>3</mn></msub><mi>/</mi><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
 \log(\frac{1/3}{2/3})= \gamma\log(q_1/\theta),
 \log(\frac{2/3}{1/3})= \gamma\log(q_3/\theta)
 \Leftrightarrow
 -\log(2)= \gamma\log(q_1/\theta),
 \log(2)= \gamma\log(q_3/\theta).
-\]</span>
-The difference of previous equations simplifies to
-<span class="math display">\[
-\hat\gamma=\frac{2\log(2)}{\log(q_3/q_1)}.
-\]</span>
-The sum of previous equations
-<span class="math display">\[
+</annotation></semantics></math> The difference of previous equations
+simplifies to
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>γ</mi><mo accent="true">̂</mo></mover><mo>=</mo><mfrac><mrow><mn>2</mn><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>q</mi><mn>3</mn></msub><mi>/</mi><msub><mi>q</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\hat\gamma=\frac{2\log(2)}{\log(q_3/q_1)}. 
+</annotation></semantics></math> The sum of previous equations
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>=</mo><mi>γ</mi><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>q</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mi>γ</mi><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>q</mi><mn>3</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mn>2</mn><mi>γ</mi><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
 0 = \gamma\log(q_1)+\gamma\log(q_3) - 2\gamma\log(\theta).
-\]</span>
-<span class="math display" id="eq:llogisthetahat">\[\begin{equation}
+</annotation></semantics></math><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>θ</mi><mo accent="true">̂</mo></mover><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><msup><mi>e</mi><mrow><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>q</mi><mn>1</mn></msub><msub><mi>q</mi><mn>3</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></msup><mi>.</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>l</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>i</mi><mi>s</mi><mi>t</mi><mi>h</mi><mi>e</mi><mi>t</mi><mi>a</mi><mi>h</mi><mi>a</mi><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\begin{equation}
 \hat\theta = \frac12 e^{\log(q_1q_3)}.
-\tag{2.9}
-\end{equation}\]</span></p>
+(\#eq:llogisthetahat)
+\end{equation}</annotation></semantics></math></p>
 </div>
-<div class="section level4" number="2.5.5">
-<h4 id="paralogistic">
-<span class="header-section-number">2.5.5</span> Paralogistic<a class="anchor" aria-label="anchor" href="#paralogistic"></a>
+<div class="section level4">
+<h4 id="paralogistic">Paralogistic<a class="anchor" aria-label="anchor" href="#paralogistic"></a>
 </h4>
-<p>Paralogistic is a Feller-Pareto distribution with <span class="math inline">\(\mu=0\)</span>, <span class="math inline">\(\tau=1\)</span>, <span class="math inline">\(\alpha=\gamma\)</span>.
+<p>Paralogistic is a Feller-Pareto distribution with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>μ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\mu=0</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>τ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\tau=1</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mi>γ</mi></mrow><annotation encoding="application/x-tex">\alpha=\gamma</annotation></semantics></math>.
 The survival function is
-<span class="math display">\[
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>−</mo><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mi>/</mi><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>α</mi></msup><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo>−</mo><mi>α</mi></mrow></msup><mi>.</mi></mrow><annotation encoding="application/x-tex">
 1-F(x) = (1+(x/\theta)^\alpha)^{-\alpha}.
-\]</span>
-So
-<span class="math display">\[
+</annotation></semantics></math> So
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mo>−</mo><mi>α</mi><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mi>/</mi><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>α</mi></msup><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
 \log(1-F(x)) = -\alpha \log(1+(x/\theta)^\alpha).
-\]</span>
-The log-likelihood is
-<span class="math display" id="eq:paralogisloglik">\[\begin{equation}
+</annotation></semantics></math> The log-likelihood is
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ℒ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo>,</mo><mi>α</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><munder><mo>∑</mo><mi>i</mi></munder><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>x</mi><mi>i</mi></msub><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><munder><mo>∑</mo><mi>i</mi></munder><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>x</mi><mi>i</mi></msub><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>α</mi></msup><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mn>2</mn><mi>n</mi><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>n</mi><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>p</mi><mi>a</mi><mi>r</mi><mi>a</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>i</mi><mi>s</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>l</mi><mi>i</mi><mi>k</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\begin{equation}
 \mathcal L(\theta, \alpha)
-= ( \alpha - 1) \sum_{i} \log(\frac{x_i}\theta)
+= ( \alpha - 1) \sum_{i} \log(\frac{x_i}\theta) 
 - (\alpha+1)\sum_i \log(1+(\frac{x_i}\theta)^\alpha)
 + 2n\log(\alpha) - n\log(\theta).
-\tag{2.10}
-\end{equation}\]</span>
-The gradient with respect to <span class="math inline">\(\theta\)</span>, <span class="math inline">\(\alpha\)</span> is
-<span class="math display">\[
+(\#eq:paralogisloglik)
+\end{equation}</annotation></semantics></math> The gradient with respect
+to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>θ</mi><annotation encoding="application/x-tex">\theta</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
+is
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mfrac><mrow><mo>−</mo><mi>n</mi></mrow><mi>θ</mi></mfrac><mo>−</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><munder><mo>∑</mo><mi>i</mi></munder><mfrac><mrow><mo>−</mo><msub><mi>x</mi><mi>i</mi></msub><mi>α</mi><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mi>/</mi><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mi>α</mi><mo>−</mo><mn>1</mn></mrow></msup></mrow><mrow><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>x</mi><mi>i</mi></msub><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>α</mi></msup></mrow></mfrac><mo>−</mo><mi>n</mi><mi>/</mi><mi>θ</mi></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><munder><mo>∑</mo><mi>i</mi></munder><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mfrac><msub><mi>x</mi><mi>i</mi></msub><mi>θ</mi></mfrac><mrow><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>x</mi><mi>i</mi></msub><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>α</mi></msup></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><munder><mo>∑</mo><mi>i</mi></munder><mfrac><mrow><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>x</mi><mi>i</mi></msub><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>α</mi></msup><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mi>/</mi><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>x</mi><mi>i</mi></msub><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>α</mi></msup></mrow></mfrac><mo>+</mo><mn>2</mn><mi>n</mi><mi>/</mi><mi>α</mi></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
 \begin{pmatrix}
 ( \alpha - 1)\frac{-n}{\theta}
 - (\alpha+1)\sum_i \frac{-x_i\alpha(x_i/\theta)^{\alpha-1}}{1+(\frac{x_i}\theta)^\alpha}
 - n/\theta
 \\
-\sum_{i} \log(\frac{ \frac{x_i}\theta}{1+(\frac{x_i}\theta)^\alpha })
+\sum_{i} \log(\frac{ \frac{x_i}\theta}{1+(\frac{x_i}\theta)^\alpha }) 
 - (\alpha+1)\sum_i \frac{(\frac{x_i}\theta)^\alpha \log(x_i/\theta)}{1+(\frac{x_i}\theta)^\alpha}
 + 2n/\alpha
 \\
 \end{pmatrix}.
-\]</span>
-The first component cancels when
-<span class="math display">\[
+</annotation></semantics></math> The first component cancels when
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><munder><mo>∑</mo><mi>i</mi></munder><mfrac><mrow><mo>−</mo><msub><mi>x</mi><mi>i</mi></msub><mi>α</mi><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mi>/</mi><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mi>α</mi><mo>−</mo><mn>1</mn></mrow></msup></mrow><mrow><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>x</mi><mi>i</mi></msub><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>α</mi></msup></mrow></mfrac><mo>=</mo><mi>α</mi><mi>n</mi><mi>/</mi><mi>θ</mi><mo>⇔</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mi>α</mi><mo>+</mo><mn>1</mn></mrow></msup><mrow><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>x</mi><mi>i</mi></msub><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>α</mi></msup></mrow></mfrac><mo>=</mo><msup><mi>θ</mi><mi>α</mi></msup><mi>.</mi></mrow><annotation encoding="application/x-tex">
 - (\alpha+1)\sum_i \frac{-x_i\alpha(x_i/\theta)^{\alpha-1}}{1+(\frac{x_i}\theta)^\alpha}
 = \alpha n/\theta
 \Leftrightarrow
 (\alpha+1)\frac1n\sum_i \frac{ (x_i)^{\alpha+1}}{1+(\frac{x_i}\theta)^\alpha}
 = \theta^\alpha.
-\]</span>
-The second component cancels when
-<span class="math display">\[
-\frac1n\sum_{i} \log(\frac{ \frac{x_i}\theta}{1+(\frac{x_i}\theta)^\alpha })
+</annotation></semantics></math> The second component cancels when
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mfrac><msub><mi>x</mi><mi>i</mi></msub><mi>θ</mi></mfrac><mrow><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>x</mi><mi>i</mi></msub><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>α</mi></msup></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mo>−</mo><mn>2</mn><mi>/</mi><mi>α</mi><mo>+</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><mfrac><mrow><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>x</mi><mi>i</mi></msub><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>α</mi></msup><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mi>/</mi><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>x</mi><mi>i</mi></msub><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>α</mi></msup></mrow></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\frac1n\sum_{i} \log(\frac{ \frac{x_i}\theta}{1+(\frac{x_i}\theta)^\alpha }) 
 = -2/\alpha
 +(\alpha+1)\frac1n\sum_i \frac{(\frac{x_i}\theta)^\alpha \log(x_i/\theta)}{1+(\frac{x_i}\theta)^\alpha}.
-\]</span>
-Choosing <span class="math inline">\(\theta=1\)</span>, <span class="math inline">\(\alpha=2\)</span> in sums leads to
-<span class="math display">\[
-\frac1n\sum_{i} \log(\frac{ \frac{x_i}\theta}{1+x_i^2 })
+</annotation></semantics></math> Choosing
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\theta=1</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">\alpha=2</annotation></semantics></math>
+in sums leads to
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mfrac><msub><mi>x</mi><mi>i</mi></msub><mi>θ</mi></mfrac><mrow><mn>1</mn><mo>+</mo><msubsup><mi>x</mi><mi>i</mi><mn>2</mn></msubsup></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><mfrac><mrow><msubsup><mi>x</mi><mi>i</mi><mn>2</mn></msubsup><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mn>1</mn><mo>+</mo><msubsup><mi>x</mi><mi>i</mi><mn>2</mn></msubsup></mrow></mfrac><mo>=</mo><mo>−</mo><mn>2</mn><mi>/</mi><mi>α</mi><mo>+</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo stretchy="true" form="postfix">)</mo></mrow><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><mfrac><mrow><msubsup><mi>x</mi><mi>i</mi><mn>2</mn></msubsup><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mn>1</mn><mo>+</mo><msubsup><mi>x</mi><mi>i</mi><mn>2</mn></msubsup></mrow></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\frac1n\sum_{i} \log(\frac{ \frac{x_i}\theta}{1+x_i^2 }) 
 - \frac1n\sum_i \frac{x_i^2\log(x_i)}{1+x_i^2}
 = -2/\alpha
 +(\alpha)\frac1n\sum_i \frac{x_i^2\log(x_i)}{1+x_i^2}.
-\]</span>
-Initial estimators are
-<span class="math display" id="eq:paralogisalphahat">\[\begin{equation}
+</annotation></semantics></math> Initial estimators are
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>α</mi><mo accent="true">̂</mo></mover><mo>=</mo><mfrac><mrow><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>x</mi><mi>i</mi></msub><mrow><mn>1</mn><mo>+</mo><msubsup><mi>x</mi><mi>i</mi><mn>2</mn></msubsup></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><mfrac><mrow><msubsup><mi>x</mi><mi>i</mi><mn>2</mn></msubsup><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mn>1</mn><mo>+</mo><msubsup><mi>x</mi><mi>i</mi><mn>2</mn></msubsup></mrow></mfrac></mrow><mrow><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><mfrac><mrow><msubsup><mi>x</mi><mi>i</mi><mn>2</mn></msubsup><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mn>1</mn><mo>+</mo><msubsup><mi>x</mi><mi>i</mi><mn>2</mn></msubsup></mrow></mfrac><mo>−</mo><mn>2</mn></mrow></mfrac><mo>,</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>p</mi><mi>a</mi><mi>r</mi><mi>a</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>i</mi><mi>s</mi><mi>a</mi><mi>l</mi><mi>p</mi><mi>h</mi><mi>a</mi><mi>h</mi><mi>a</mi><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\begin{equation}
 \hat\alpha = \frac{
-\frac1n\sum_{i} \log(\frac{ x_i}{1+x_i^2 })
+\frac1n\sum_{i} \log(\frac{ x_i}{1+x_i^2 }) 
 - \frac1n\sum_i \frac{x_i^2\log(x_i)}{1+x_i^2}
 }{
 \frac1n\sum_i \frac{x_i^2\log(x_i)}{1+x_i^2} - 2
 },
-\tag{2.11}
-\end{equation}\]</span>
-<span class="math display" id="eq:paralogisthetahat">\[\begin{equation}
+(\#eq:paralogisalphahat)
+\end{equation}</annotation></semantics></math><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>θ</mi><mo accent="true">̂</mo></mover><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mover><mi>α</mi><mo accent="true">̂</mo></mover><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mover><mi>α</mi><mo accent="true">̂</mo></mover><mo>+</mo><mn>1</mn></mrow></msup><mrow><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mover><mi>α</mi><mo accent="true">̂</mo></mover></msup></mrow></mfrac><mi>.</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>p</mi><mi>a</mi><mi>r</mi><mi>a</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>i</mi><mi>s</mi><mi>t</mi><mi>h</mi><mi>e</mi><mi>t</mi><mi>a</mi><mi>h</mi><mi>a</mi><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\begin{equation}
 \hat\theta = (\hat\alpha+1)\frac1n\sum_i \frac{ (x_i)^{\hat\alpha+1}}{1+(x_i)^{\hat\alpha}}.
-\tag{2.12}
-\end{equation}\]</span></p>
+(\#eq:paralogisthetahat)
+\end{equation}</annotation></semantics></math></p>
 </div>
-<div class="section level4" number="2.5.6">
-<h4 id="inverse-burr">
-<span class="header-section-number">2.5.6</span> Inverse Burr<a class="anchor" aria-label="anchor" href="#inverse-burr"></a>
+<div class="section level4">
+<h4 id="inverse-burr">Inverse Burr<a class="anchor" aria-label="anchor" href="#inverse-burr"></a>
 </h4>
-<p>Use Burr estimate on the sample <span class="math inline">\(1/x\)</span></p>
+<p>Use Burr estimate on the sample
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">1/x</annotation></semantics></math></p>
 </div>
-<div class="section level4" number="2.5.7">
-<h4 id="inverse-paralogistic">
-<span class="header-section-number">2.5.7</span> Inverse paralogistic<a class="anchor" aria-label="anchor" href="#inverse-paralogistic"></a>
+<div class="section level4">
+<h4 id="inverse-paralogistic">Inverse paralogistic<a class="anchor" aria-label="anchor" href="#inverse-paralogistic"></a>
 </h4>
-<p>Use paralogistic estimate on the sample <span class="math inline">\(1/x\)</span></p>
+<p>Use paralogistic estimate on the sample
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">1/x</annotation></semantics></math></p>
 </div>
-<div class="section level4" number="2.5.8">
-<h4 id="inverse-pareto">
-<span class="header-section-number">2.5.8</span> Inverse pareto<a class="anchor" aria-label="anchor" href="#inverse-pareto"></a>
+<div class="section level4">
+<h4 id="inverse-pareto">Inverse pareto<a class="anchor" aria-label="anchor" href="#inverse-pareto"></a>
 </h4>
-<p>Use pareto estimate on the sample <span class="math inline">\(1/x\)</span></p>
+<p>Use pareto estimate on the sample
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">1/x</annotation></semantics></math></p>
 </div>
-<div class="section level4" number="2.5.9">
-<h4 id="pareto-iv">
-<span class="header-section-number">2.5.9</span> Pareto IV<a class="anchor" aria-label="anchor" href="#pareto-iv"></a>
+<div class="section level4">
+<h4 id="pareto-iv">Pareto IV<a class="anchor" aria-label="anchor" href="#pareto-iv"></a>
 </h4>
 <p>The survival function is
-<span class="math display">\[
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>−</mo><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><mi>x</mi><mo>−</mo><mi>μ</mi></mrow><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>γ</mi></msup><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo>−</mo><mi>α</mi></mrow></msup><mo>,</mo></mrow><annotation encoding="application/x-tex">
 1-F(x) = \left(1+
 \left(\frac{x-\mu}{\theta}\right)^{\gamma}
 \right)^{-\alpha},
-\]</span>
-see <code><a href="https://rdrr.io/pkg/actuar/man/Pareto4.html" class="external-link">?Pareto4</a></code> in <code>actuar</code>.</p>
-<p>The first and third quartiles <span class="math inline">\(q_1\)</span> and <span class="math inline">\(q_3\)</span> verify
-<span class="math display">\[
+</annotation></semantics></math> see <code><a href="https://rdrr.io/pkg/actuar/man/Pareto4.html" class="external-link">?Pareto4</a></code> in
+<code>actuar</code>.</p>
+<p>The first and third quartiles
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>q</mi><mn>1</mn></msub><annotation encoding="application/x-tex">q_1</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>q</mi><mn>3</mn></msub><annotation encoding="application/x-tex">q_3</annotation></semantics></math>
+verify
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow><mo stretchy="true" form="prefix">(</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>3</mn><mn>4</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo>−</mo><mn>1</mn><mi>/</mi><mi>α</mi></mrow></msup><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mn>1</mn><mi>/</mi><mi>γ</mi></mrow></msup><mo>=</mo><mfrac><mrow><msub><mi>q</mi><mn>1</mn></msub><mo>−</mo><mi>μ</mi></mrow><mi>θ</mi></mfrac><mo>,</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>1</mn><mn>4</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo>−</mo><mn>1</mn><mi>/</mi><mi>α</mi></mrow></msup><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mn>1</mn><mi>/</mi><mi>γ</mi></mrow></msup><mo>=</mo><mfrac><mrow><msub><mi>q</mi><mn>3</mn></msub><mo>−</mo><mi>μ</mi></mrow><mi>θ</mi></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">
 ((\frac34)^{-1/\alpha}-1)^{1/\gamma} = \frac{q_1-\mu}{\theta},
 ((\frac14)^{-1/\alpha}-1)^{1/\gamma} = \frac{q_3-\mu}{\theta}.
-\]</span>
-Hence we get two useful relations
-<span class="math display" id="eq:pareto4gammarelation">\[\begin{equation}
+</annotation></semantics></math> Hence we get two useful relations
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>=</mo><mfrac><mrow><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>4</mn><mn>3</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mn>1</mn><mi>/</mi><mi>α</mi></mrow></msup><mo>−</mo><mn>1</mn></mrow><mrow><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>4</mn><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mn>1</mn><mi>/</mi><mi>α</mi></mrow></msup><mo>−</mo><mn>1</mn></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>q</mi><mn>1</mn></msub><mo>−</mo><mi>μ</mi></mrow><mrow><msub><mi>q</mi><mn>3</mn></msub><mo>−</mo><mi>μ</mi></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo>,</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>p</mi><mi>a</mi><mi>r</mi><mi>e</mi><mi>t</mi><mi>o</mi><mn>4</mn><mi>g</mi><mi>a</mi><mi>m</mi><mi>m</mi><mi>a</mi><mi>r</mi><mi>e</mi><mi>l</mi><mi>a</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\begin{equation}
 \gamma
 =
 \frac{
@@ -662,57 +704,72 @@ Hence we get two useful relations
 }{
 \log\left(\frac{q_1-\mu}{q_3-\mu}\right)
 },
-\tag{2.13}
-\end{equation}\]</span>
-<span class="math display" id="eq:pareto4thetarelation">\[\begin{equation}
+(\#eq:pareto4gammarelation)
+\end{equation}</annotation></semantics></math><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo>=</mo><mfrac><mrow><msub><mi>q</mi><mn>1</mn></msub><mo>−</mo><msub><mi>q</mi><mn>3</mn></msub></mrow><mrow><msup><mrow><mo stretchy="true" form="prefix">(</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>4</mn><mn>3</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mn>1</mn><mi>/</mi><mi>α</mi></mrow></msup><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mn>1</mn><mi>/</mi><mi>γ</mi></mrow></msup><mo>−</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>4</mn><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mn>1</mn><mi>/</mi><mi>α</mi></mrow></msup><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mn>1</mn><mi>/</mi><mi>γ</mi></mrow></msup></mrow></mfrac><mi>.</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>p</mi><mi>a</mi><mi>r</mi><mi>e</mi><mi>t</mi><mi>o</mi><mn>4</mn><mi>t</mi><mi>h</mi><mi>e</mi><mi>t</mi><mi>a</mi><mi>r</mi><mi>e</mi><mi>l</mi><mi>a</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\begin{equation}
 \theta
-=
+= 
 \frac{q_1- q_3
 }{
 ((\frac43)^{1/\alpha}-1)^{1/\gamma}
 - ((4)^{1/\alpha}-1)^{1/\gamma}
 }.
-\tag{2.14}
-\end{equation}\]</span></p>
-<p>The log-likelihood of a Pareto 4 sample (see Equation (5.2.94) of Arnold (2015)
-updated with Goulet et al. notation) is
-<span class="math display">\[
+(\#eq:pareto4thetarelation)
+\end{equation}</annotation></semantics></math></p>
+<p>The log-likelihood of a Pareto 4 sample (see Equation (5.2.94) of
+Arnold (2015) updated with Goulet et al. notation) is
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ℒ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>,</mo><mi>θ</mi><mo>,</mo><mi>γ</mi><mo>,</mo><mi>α</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>γ</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><munder><mo>∑</mo><mi>i</mi></munder><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi></mrow><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><munder><mo>∑</mo><mi>i</mi></munder><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi></mrow><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>γ</mi></msup><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mi>n</mi><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>γ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>n</mi><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mi>n</mi><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
 \mathcal L(\mu,\theta,\gamma,\alpha)
 = (\gamma -1) \sum_i \log(\frac{x_i-\mu}{\theta})
 -(\alpha+1)\sum_i \log(1+ (\frac{x_i-\mu}{\theta})^{\gamma})
 +n\log(\gamma) -n\log(\theta)+n\log(\alpha).
-\]</span>
-Cancelling the derivate of <span class="math inline">\(\mathcal L(\mu,\theta,\gamma,\alpha)\)</span> with respect to <span class="math inline">\(\alpha\)</span>
+</annotation></semantics></math> Cancelling the derivate of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ℒ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>,</mo><mi>θ</mi><mo>,</mo><mi>γ</mi><mo>,</mo><mi>α</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\mathcal L(\mu,\theta,\gamma,\alpha)</annotation></semantics></math>
+with respect to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
 leads to
-<span class="math display" id="eq:pareto4alpharelation">\[\begin{equation}
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mi>n</mi><mi>/</mi><munder><mo>∑</mo><mi>i</mi></munder><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi></mrow><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>γ</mi></msup><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>p</mi><mi>a</mi><mi>r</mi><mi>e</mi><mi>t</mi><mi>o</mi><mn>4</mn><mi>a</mi><mi>l</mi><mi>p</mi><mi>h</mi><mi>a</mi><mi>r</mi><mi>e</mi><mi>l</mi><mi>a</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\begin{equation}
 \alpha
 =n/\sum_i \log(1+ (\frac{x_i-\mu}{\theta})^{\gamma}).
-\tag{2.15}
-\end{equation}\]</span></p>
-<p>The MLE of the threshold parameter <span class="math inline">\(\mu\)</span>
+(\#eq:pareto4alpharelation)
+\end{equation}</annotation></semantics></math></p>
+<p>The MLE of the threshold parameter
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
 is the minimum. So the initial estimate is slightly under the minimum in
 order that all observations are strictly above it
-<span class="math display" id="eq:pareto4muinit">\[\begin{equation}
-\hat\mu =
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>μ</mi><mo accent="true">̂</mo></mover><mo>=</mo><mrow><mo stretchy="true" form="prefix">{</mo><mtable><mtr><mtd columnalign="left" style="text-align: left"><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>ϵ</mi><mo stretchy="true" form="postfix">)</mo></mrow><munder><mo>min</mo><mi>i</mi></munder><msub><mi>x</mi><mi>i</mi></msub></mtd><mtd columnalign="left" style="text-align: left"><mrow><mtext mathvariant="normal">if </mtext><mspace width="0.333em"></mspace></mrow><munder><mo>min</mo><mi>i</mi></munder><msub><mi>x</mi><mi>i</mi></msub><mo>&lt;</mo><mn>0</mn></mtd></mtr><mtr><mtd columnalign="left" style="text-align: left"><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><mi>ϵ</mi><mo stretchy="true" form="postfix">)</mo></mrow><munder><mo>min</mo><mi>i</mi></munder><msub><mi>x</mi><mi>i</mi></msub></mtd><mtd columnalign="left" style="text-align: left"><mrow><mtext mathvariant="normal">if </mtext><mspace width="0.333em"></mspace></mrow><munder><mo>min</mo><mi>i</mi></munder><msub><mi>x</mi><mi>i</mi></msub><mo>≥</mo><mn>0</mn></mtd></mtr><mtr><mtd columnalign="left" style="text-align: left"></mtd></mtr></mtable></mrow><mi>.</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>p</mi><mi>a</mi><mi>r</mi><mi>e</mi><mi>t</mi><mi>o</mi><mn>4</mn><mi>m</mi><mi>u</mi><mi>i</mi><mi>n</mi><mi>i</mi><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\begin{equation}
+\hat\mu = 
 \left\{ \begin{array}{ll}
 (1-\epsilon) \min_i x_i &amp; \text{if } \min_i x_i &lt;0 \\
 (1+\epsilon)\min_i x_i &amp; \text{if } \min_i x_i \geq 0 \\
 \end{array} \right. .
-\tag{2.16}
-\end{equation}\]</span>
-where <span class="math inline">\(\epsilon=0.05\)</span>.</p>
-<p>Initial parameter estimation is <span class="math inline">\(\hat\mu\)</span>,
-<span class="math inline">\(\alpha^\star = 2\)</span> ,
-<span class="math inline">\(\hat\gamma\)</span> from <a href="#eq:pareto4gammarelation">(2.13)</a> with <span class="math inline">\(\alpha^\star\)</span>,
-<span class="math inline">\(\hat\theta\)</span> from <a href="#eq:pareto4thetarelation">(2.14)</a> with <span class="math inline">\(\alpha^\star\)</span> and <span class="math inline">\(\hat\gamma\)</span>,
-<span class="math inline">\(\hat\alpha\)</span> from <a href="#eq:pareto4alpharelation">(2.15)</a> with <span class="math inline">\(\hat\mu\)</span>, <span class="math inline">\(\hat\theta\)</span> and <span class="math inline">\(\hat\gamma\)</span>.</p>
+(\#eq:pareto4muinit)
+\end{equation}</annotation></semantics></math> where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>0.05</mn></mrow><annotation encoding="application/x-tex">\epsilon=0.05</annotation></semantics></math>.</p>
+<p>Initial parameter estimation is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>μ</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\hat\mu</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>α</mi><mo>⋆</mo></msup><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">\alpha^\star = 2</annotation></semantics></math>
+,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>γ</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\hat\gamma</annotation></semantics></math>
+from @ref(eq:pareto4gammarelation) with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>α</mi><mo>⋆</mo></msup><annotation encoding="application/x-tex">\alpha^\star</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>θ</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\hat\theta</annotation></semantics></math>
+from @ref(eq:pareto4thetarelation) with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>α</mi><mo>⋆</mo></msup><annotation encoding="application/x-tex">\alpha^\star</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>γ</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\hat\gamma</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>α</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\hat\alpha</annotation></semantics></math>
+from @ref(eq:pareto4alpharelation) with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>μ</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\hat\mu</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>θ</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\hat\theta</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>γ</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\hat\gamma</annotation></semantics></math>.</p>
 </div>
-<div class="section level4" number="2.5.10">
-<h4 id="pareto-iii">
-<span class="header-section-number">2.5.10</span> Pareto III<a class="anchor" aria-label="anchor" href="#pareto-iii"></a>
+<div class="section level4">
+<h4 id="pareto-iii">Pareto III<a class="anchor" aria-label="anchor" href="#pareto-iii"></a>
 </h4>
-<p>Pareto III corresponds to Pareto IV with <span class="math inline">\(\alpha=1\)</span>.
-<span class="math display">\[\begin{equation}
+<p>Pareto III corresponds to Pareto IV with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\alpha=1</annotation></semantics></math>.
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>=</mo><mfrac><mrow><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><mfrac><mn>4</mn><mn>3</mn></mfrac><mo>−</mo><mn>1</mn></mrow><mrow><mn>4</mn><mo>−</mo><mn>1</mn></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>q</mi><mn>1</mn></msub><mo>−</mo><mi>μ</mi></mrow><mrow><msub><mi>q</mi><mn>3</mn></msub><mo>−</mo><mi>μ</mi></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo>,</mo></mrow><annotation encoding="application/x-tex">\begin{equation}
 \gamma
 =
 \frac{
@@ -727,103 +784,133 @@ where <span class="math inline">\(\epsilon=0.05\)</span>.</p>
 \log\left(\frac{q_1-\mu}{q_3-\mu}\right)
 },
 \label{eq:pareto3:gamma:relation}
-\end{equation}\]</span></p>
-<p><span class="math display">\[\begin{equation}
+\end{equation}</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo>=</mo><mfrac><mrow><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>1</mn><mn>3</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mn>1</mn><mi>/</mi><mi>γ</mi></mrow></msup><mo>−</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>3</mn><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mn>1</mn><mi>/</mi><mi>γ</mi></mrow></msup></mrow><mrow><msub><mi>q</mi><mn>1</mn></msub><mo>−</mo><msub><mi>q</mi><mn>3</mn></msub></mrow></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">\begin{equation}
 \theta
-=
+= 
 \frac{
 (\frac13)^{1/\gamma}
 - (3)^{1/\gamma}
 }{q_1- q_3
 }.
 \label{eq:pareto3:theta:relation}
-\end{equation}\]</span></p>
-<p>Initial parameter estimation is <span class="math inline">\(\hat\mu\)</span>,
-<span class="math inline">\(\hat\gamma\)</span> from <span class="math inline">\(\eqref{eq:pareto3:gamma:relation}\)</span>,
-<span class="math inline">\(\hat\theta\)</span> from <span class="math inline">\(\eqref{eq:pareto3:theta:relation}\)</span> with <span class="math inline">\(\hat\gamma\)</span>.</p>
+\end{equation}</annotation></semantics></math></p>
+<p>Initial parameter estimation is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>μ</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\hat\mu</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>γ</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\hat\gamma</annotation></semantics></math>
+from ,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>θ</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\hat\theta</annotation></semantics></math>
+from with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>γ</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\hat\gamma</annotation></semantics></math>.</p>
 </div>
-<div class="section level4" number="2.5.11">
-<h4 id="pareto-ii">
-<span class="header-section-number">2.5.11</span> Pareto II<a class="anchor" aria-label="anchor" href="#pareto-ii"></a>
+<div class="section level4">
+<h4 id="pareto-ii">Pareto II<a class="anchor" aria-label="anchor" href="#pareto-ii"></a>
 </h4>
-<p>Pareto II corresponds to Pareto IV with <span class="math inline">\(\gamma=1\)</span>.</p>
-<p><span class="math display">\[\begin{equation}
+<p>Pareto II corresponds to Pareto IV with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\gamma=1</annotation></semantics></math>.</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo>=</mo><mfrac><mrow><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>4</mn><mn>3</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mn>1</mn><mi>/</mi><mi>α</mi></mrow></msup><mo>−</mo><msup><mn>4</mn><mrow><mn>1</mn><mi>/</mi><mi>α</mi></mrow></msup></mrow><mrow><msub><mi>q</mi><mn>1</mn></msub><mo>−</mo><msub><mi>q</mi><mn>3</mn></msub></mrow></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">\begin{equation}
 \theta
-=
+= 
 \frac{
 (\frac43)^{1/\alpha}
 - 4^{1/\alpha}
 }{q_1- q_3
 }.
 \label{eq:pareto2:theta:relation}
-\end{equation}\]</span></p>
-<p>Initial parameter estimation is <span class="math inline">\(\hat\mu\)</span>,
-<span class="math inline">\(\alpha^\star = 2\)</span> ,
-<span class="math inline">\(\hat\theta\)</span> from <span class="math inline">\(\eqref{eq:pareto4:theta:relation}\)</span> with <span class="math inline">\(\alpha^\star\)</span> and <span class="math inline">\(\gamma=1\)</span>,
-<span class="math inline">\(\hat\alpha\)</span> from <span class="math inline">\(\eqref{eq:pareto4:alpha:relation}\)</span> with <span class="math inline">\(\hat\mu\)</span>, <span class="math inline">\(\hat\theta\)</span> and <span class="math inline">\(\gamma=1\)</span>,</p>
+\end{equation}</annotation></semantics></math></p>
+<p>Initial parameter estimation is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>μ</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\hat\mu</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>α</mi><mo>⋆</mo></msup><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">\alpha^\star = 2</annotation></semantics></math>
+,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>θ</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\hat\theta</annotation></semantics></math>
+from with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>α</mi><mo>⋆</mo></msup><annotation encoding="application/x-tex">\alpha^\star</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\gamma=1</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>α</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\hat\alpha</annotation></semantics></math>
+from with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>μ</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\hat\mu</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>θ</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\hat\theta</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\gamma=1</annotation></semantics></math>,</p>
 </div>
-<div class="section level4" number="2.5.12">
-<h4 id="pareto-i">
-<span class="header-section-number">2.5.12</span> Pareto I<a class="anchor" aria-label="anchor" href="#pareto-i"></a>
+<div class="section level4">
+<h4 id="pareto-i">Pareto I<a class="anchor" aria-label="anchor" href="#pareto-i"></a>
 </h4>
-<p>Pareto I corresponds to Pareto IV with <span class="math inline">\(\gamma=1\)</span>, <span class="math inline">\(\mu=\theta\)</span>.</p>
+<p>Pareto I corresponds to Pareto IV with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\gamma=1</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>μ</mi><mo>=</mo><mi>θ</mi></mrow><annotation encoding="application/x-tex">\mu=\theta</annotation></semantics></math>.</p>
 <p>The MLE is
-<span class="math display">\[\begin{equation}
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>μ</mi><mo accent="true">̂</mo></mover><mo>=</mo><munder><mo>min</mo><mi>i</mi></munder><msub><mi>X</mi><mi>i</mi></msub><mo>,</mo><mover><mi>α</mi><mo accent="true">̂</mo></mover><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mi>i</mi></msub><mi>/</mi><mover><mi>μ</mi><mo accent="true">̂</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo>−</mo><mn>1</mn></mrow></msup><mi>.</mi></mrow><annotation encoding="application/x-tex">\begin{equation}
 \hat\mu = \min_i X_i,
 \hat\alpha = \left(\frac1n \sum_{i=1}^n \log(X_i/\hat\mu) \right)^{-1}.
 \label{eq:pareto1:alpha:mu:relation}
-\end{equation}\]</span></p>
+\end{equation}</annotation></semantics></math></p>
 <p>This can be rewritten with the geometric mean of the sample
-<span class="math inline">\(G_n = (\prod_{i=1}^n X_i)^{1/n}\)</span> as
-<span class="math display">\[
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>G</mi><mi>n</mi></msub><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><msubsup><mo>∏</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></msubsup><msub><mi>X</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mn>1</mn><mi>/</mi><mi>n</mi></mrow></msup></mrow><annotation encoding="application/x-tex">G_n = (\prod_{i=1}^n X_i)^{1/n}</annotation></semantics></math>
+as
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>α</mi><mo accent="true">̂</mo></mover><mo>=</mo><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>G</mi><mi>n</mi></msub><mi>/</mi><mover><mi>μ</mi><mo accent="true">̂</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
 \hat\alpha = \log(G_n/\hat\mu).
-\]</span></p>
-<p>Initial parameter estimation is <span class="math inline">\(\hat\mu\)</span>,
-<span class="math inline">\(\hat\alpha\)</span> from <span class="math inline">\(\eqref{eq:pareto1:alpha:mu:relation}\)</span>.</p>
+</annotation></semantics></math></p>
+<p>Initial parameter estimation is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>μ</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\hat\mu</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>α</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\hat\alpha</annotation></semantics></math>
+from .</p>
 </div>
-<div class="section level4" number="2.5.13">
-<h4 id="pareto">
-<span class="header-section-number">2.5.13</span> Pareto<a class="anchor" aria-label="anchor" href="#pareto"></a>
+<div class="section level4">
+<h4 id="pareto">Pareto<a class="anchor" aria-label="anchor" href="#pareto"></a>
 </h4>
-<p>Pareto corresponds to Pareto IV with <span class="math inline">\(\gamma=1\)</span>, <span class="math inline">\(\mu=0\)</span>.
-<span class="math display">\[\begin{equation}
+<p>Pareto corresponds to Pareto IV with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\gamma=1</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>μ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\mu=0</annotation></semantics></math>.
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo>=</mo><mfrac><mrow><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>4</mn><mn>3</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mn>1</mn><mi>/</mi><mi>α</mi></mrow></msup><mo>−</mo><msup><mn>4</mn><mrow><mn>1</mn><mi>/</mi><mi>α</mi></mrow></msup></mrow><mrow><msub><mi>q</mi><mn>1</mn></msub><mo>−</mo><msub><mi>q</mi><mn>3</mn></msub></mrow></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">\begin{equation}
 \theta
-=
+= 
 \frac{
 (\frac43)^{1/\alpha}
 - 4^{1/\alpha}
 }{q_1- q_3
 }.
 \label{eq:pareto:theta:relation}
-\end{equation}\]</span></p>
+\end{equation}</annotation></semantics></math></p>
 <p>Initial parameter estimation is
-<span class="math display">\[
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>α</mi><mo>⋆</mo></msup><mo>=</mo><mo>max</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mo>,</mo><mn>2</mn><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>m</mi><mn>2</mn></msub><mo>−</mo><msubsup><mi>m</mi><mn>1</mn><mn>2</mn></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>m</mi><mn>2</mn></msub><mo>−</mo><mn>2</mn><msubsup><mi>m</mi><mn>1</mn><mn>2</mn></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo></mrow><annotation encoding="application/x-tex">
 \alpha^\star = \max(2,  2(m_2-m_1^2)/(m_2-2m_1^2)),
-\]</span>
-with <span class="math inline">\(m_i\)</span> are empirical raw moment of order <span class="math inline">\(i\)</span>,
-<span class="math inline">\(\hat\theta\)</span> from <span class="math inline">\(\eqref{eq:pareto4:theta:relation}\)</span> with <span class="math inline">\(\alpha^\star\)</span> and <span class="math inline">\(\gamma=1\)</span>,
-<span class="math inline">\(\hat\alpha\)</span> from <span class="math inline">\(\eqref{eq:pareto4:alpha:relation}\)</span> with <span class="math inline">\(\mu=0\)</span>, <span class="math inline">\(\hat\theta\)</span> and <span class="math inline">\(\gamma=1\)</span>.</p>
+</annotation></semantics></math> with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mi>i</mi></msub><annotation encoding="application/x-tex">m_i</annotation></semantics></math>
+are empirical raw moment of order
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>θ</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\hat\theta</annotation></semantics></math>
+from with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>α</mi><mo>⋆</mo></msup><annotation encoding="application/x-tex">\alpha^\star</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\gamma=1</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>α</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\hat\alpha</annotation></semantics></math>
+from with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>μ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\mu=0</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>θ</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\hat\theta</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\gamma=1</annotation></semantics></math>.</p>
 </div>
 </div>
-<div class="section level3" number="2.6">
-<h3 id="transformed-gamma-family">
-<span class="header-section-number">2.6</span> Transformed gamma family<a class="anchor" aria-label="anchor" href="#transformed-gamma-family"></a>
+<div class="section level3">
+<h3 id="transformed-gamma-family">Transformed gamma family<a class="anchor" aria-label="anchor" href="#transformed-gamma-family"></a>
 </h3>
-<div class="section level4" number="2.6.1">
-<h4 id="transformed-gamma-distribution">
-<span class="header-section-number">2.6.1</span> Transformed gamma distribution<a class="anchor" aria-label="anchor" href="#transformed-gamma-distribution"></a>
+<div class="section level4">
+<h4 id="transformed-gamma-distribution">Transformed gamma distribution<a class="anchor" aria-label="anchor" href="#transformed-gamma-distribution"></a>
 </h4>
 <p>The log-likelihood is given by
-<span class="math display">\[
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ℒ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>,</mo><mi>τ</mi><mo>,</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>n</mi><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mi>α</mi><mi>τ</mi><munder><mo>∑</mo><mi>i</mi></munder><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mi>/</mi><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><munder><mo>∑</mo><mi>i</mi></munder><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mi>/</mi><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>τ</mi></msup><mo>−</mo><munder><mo>∑</mo><mi>i</mi></munder><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>n</mi><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>G</mi><mi>a</mi><mi>m</mi><mi>m</mi><mi>a</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
 \mathcal L(\alpha,\tau,\theta)
 = n\log(\tau) + \alpha\tau\sum_i \log(x_i/\theta)
 -\sum_i (x_i/\theta)^\tau
 - \sum_i\log(x_i) - n\log(Gamma(\alpha)).
-\]</span>
-The gradient with respect to <span class="math inline">\(\alpha,\tau,\theta\)</span> is given by
-<span class="math display">\[
+</annotation></semantics></math> The gradient with respect to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>,</mo><mi>τ</mi><mo>,</mo><mi>θ</mi></mrow><annotation encoding="application/x-tex">\alpha,\tau,\theta</annotation></semantics></math>
+is given by
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mi>τ</mi><mo>−</mo><mi>n</mi><mi>ψ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="false" form="postfix">)</mo></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mi>n</mi><mi>/</mi><mi>τ</mi><mo>+</mo><mi>α</mi><munder><mo>∑</mo><mi>i</mi></munder><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mi>/</mi><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><munder><mo>∑</mo><mi>i</mi></munder><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mi>/</mi><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>τ</mi></msup><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mi>/</mi><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mo>−</mo><mi>α</mi><mi>τ</mi><mi>/</mi><mi>θ</mi><mo>+</mo><munder><mo>∑</mo><mi>i</mi></munder><mi>τ</mi><mfrac><msub><mi>x</mi><mi>i</mi></msub><msup><mi>θ</mi><mn>2</mn></msup></mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mi>/</mi><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mi>τ</mi><mo>−</mo><mn>1</mn></mrow></msup></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
 \begin{pmatrix}
-\tau- n\psi(\alpha))
+\tau- n\psi(\alpha)) 
 \\
 n/\tau + \alpha\sum_i \log(x_i/\theta)
 -\sum_i (x_i/\theta)^{\tau} \log(x_i/\theta)
@@ -831,48 +918,50 @@ n/\tau + \alpha\sum_i \log(x_i/\theta)
 -\alpha\tau /\theta
 +\sum_i \tau \frac{x_i}{\theta^2}(x_i/\theta)^{\tau-1}
 \end{pmatrix}.
-\]</span>
-We compute the moment-estimator as in gamma <span class="math inline">\(\eqref{eq:gamma:relation}\)</span>
-<span class="math display">\[
-\hat\alpha = m_2^2/\mu_2,
+</annotation></semantics></math> We compute the moment-estimator as in
+gamma
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>α</mi><mo accent="true">̂</mo></mover><mo>=</mo><msubsup><mi>m</mi><mn>2</mn><mn>2</mn></msubsup><mi>/</mi><msub><mi>μ</mi><mn>2</mn></msub><mo>,</mo><mover><mi>θ</mi><mo accent="true">̂</mo></mover><mo>=</mo><msub><mi>μ</mi><mn>2</mn></msub><mi>/</mi><msub><mi>m</mi><mn>1</mn></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\hat\alpha = m_2^2/\mu_2, 
 \hat\theta= \mu_2/m_1.
-\]</span>
-Then cancelling the first component of the gradient we set
-<span class="math display">\[
+</annotation></semantics></math> Then cancelling the first component of
+the gradient we set
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>τ</mi><mo accent="true">̂</mo></mover><mo>=</mo><mfrac><mrow><mi>ψ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mover><mi>α</mi><mo accent="true">̂</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mfrac><mn>1</mn><mi>n</mi></mfrac><munder><mo>∑</mo><mi>i</mi></munder><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mi>/</mi><mover><mi>θ</mi><mo accent="true">̂</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">
 \hat\tau =  \frac{\psi(\hat\alpha)}{\frac1n\sum_i \log(x_i/\hat\theta) }.
-\]</span></p>
+</annotation></semantics></math></p>
 </div>
-<div class="section level4" number="2.6.2">
-<h4 id="gamma-distribution">
-<span class="header-section-number">2.6.2</span> gamma distribution<a class="anchor" aria-label="anchor" href="#gamma-distribution"></a>
+<div class="section level4">
+<h4 id="gamma-distribution">gamma distribution<a class="anchor" aria-label="anchor" href="#gamma-distribution"></a>
 </h4>
-<p>Transformed gamma with <span class="math inline">\(\tau=1\)</span></p>
+<p>Transformed gamma with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>τ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\tau=1</annotation></semantics></math></p>
 <p>We compute the moment-estimator given by
-<span class="math display">\[\begin{equation}
-\hat\alpha = m_2^2/\mu_2,
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>α</mi><mo accent="true">̂</mo></mover><mo>=</mo><msubsup><mi>m</mi><mn>2</mn><mn>2</mn></msubsup><mi>/</mi><msub><mi>μ</mi><mn>2</mn></msub><mo>,</mo><mover><mi>θ</mi><mo accent="true">̂</mo></mover><mo>=</mo><msub><mi>μ</mi><mn>2</mn></msub><mi>/</mi><msub><mi>m</mi><mn>1</mn></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">\begin{equation}
+\hat\alpha = m_2^2/\mu_2, 
 \hat\theta= \mu_2/m_1.
 \label{eq:gamma:relation}
-\end{equation}\]</span></p>
+\end{equation}</annotation></semantics></math></p>
 </div>
-<div class="section level4" number="2.6.3">
-<h4 id="weibull-distribution">
-<span class="header-section-number">2.6.3</span> Weibull distribution<a class="anchor" aria-label="anchor" href="#weibull-distribution"></a>
+<div class="section level4">
+<h4 id="weibull-distribution">Weibull distribution<a class="anchor" aria-label="anchor" href="#weibull-distribution"></a>
 </h4>
-<p>Transformed gamma with <span class="math inline">\(\alpha=1\)</span></p>
-<p>Let <span class="math inline">\(\tilde m=\frac1n\sum_i \log(x_i)\)</span> and <span class="math inline">\(\tilde v=\frac1n\sum_i (\log(x_i) - \tilde m)^2\)</span>.
+<p>Transformed gamma with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\alpha=1</annotation></semantics></math></p>
+<p>Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>m</mi><mo accent="true">̃</mo></mover><mo>=</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><msub><mo>∑</mo><mi>i</mi></msub><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\tilde m=\frac1n\sum_i \log(x_i)</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>v</mi><mo accent="true">̃</mo></mover><mo>=</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><msub><mo>∑</mo><mi>i</mi></msub><msup><mrow><mo stretchy="true" form="prefix">(</mo><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mover><mi>m</mi><mo accent="true">̃</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">\tilde v=\frac1n\sum_i (\log(x_i) - \tilde m)^2</annotation></semantics></math>.
 We use an approximate MME
-<span class="math display">\[
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>τ</mi><mo accent="true">̂</mo></mover><mo>=</mo><mn>1.2</mn><mi>/</mi><mi>s</mi><mi>q</mi><mi>r</mi><mi>t</mi><mrow><mo stretchy="true" form="prefix">(</mo><mover><mi>v</mi><mo accent="true">̃</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mover><mi>θ</mi><mo accent="true">̂</mo></mover><mo>=</mo><mi>e</mi><mi>x</mi><mi>p</mi><mrow><mo stretchy="true" form="prefix">(</mo><mover><mi>m</mi><mo accent="true">̃</mo></mover><mo>+</mo><mn>0.572</mn><mi>/</mi><mover><mi>τ</mi><mo accent="true">̂</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
 \hat\tau =  1.2/sqrt(\tilde v),
 \hat\theta =  exp(\tilde m + 0.572/\hat \tau).
-\]</span>
-Alternatively, we can use the distribution function
-<span class="math display">\[
+</annotation></semantics></math> Alternatively, we can use the
+distribution function
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mi>/</mi><mi>σ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>τ</mi></msup></mrow></msup><mo>⇒</mo><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mo>−</mo><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>τ</mi><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>τ</mi><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo></mrow><annotation encoding="application/x-tex">
 F(x) = 1 - e^{-(x/\sigma)^\tau}
 \Rightarrow
 \log(-\log(1-F(x))) = \tau\log(x) - \tau\log(\theta),
-\]</span>
-Hence the QME for Weibull is
-<span class="math display">\[
+</annotation></semantics></math> Hence the QME for Weibull is
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>τ</mi><mo accent="true">̃</mo></mover><mo>=</mo><mfrac><mrow><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mo>−</mo><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>p</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mo>−</mo><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>p</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo>,</mo><mover><mi>τ</mi><mo accent="true">̃</mo></mover><mo>=</mo><msub><mi>x</mi><mn>3</mn></msub><mi>/</mi><msup><mrow><mo stretchy="true" form="prefix">(</mo><mo>−</mo><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>p</mi><mn>3</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mn>1</mn><mi>/</mi><mover><mi>τ</mi><mo accent="true">̃</mo></mover></mrow></msup></mrow><annotation encoding="application/x-tex">
 \tilde\tau = \frac{
 \log(-\log(1-p_1))
 - \log(-\log(1-p_2))
@@ -881,87 +970,101 @@ Hence the QME for Weibull is
 },
 \tilde\tau
 = x_3/(-\log(1-p_3))^{1/\tilde\tau}
-\]</span>
-with <span class="math inline">\(p_1=1/4\)</span>, <span class="math inline">\(p_2=3/4\)</span>, <span class="math inline">\(p_3=1/2\)</span>, <span class="math inline">\(x_i\)</span> corresponding empirical quantiles.</p>
-<p>Initial parameters are <span class="math inline">\(\tilde\tau\)</span> and <span class="math inline">\(\tilde\theta\)</span> unless the empirical quantiles <span class="math inline">\(x_1=x_2\)</span>, in that case we use <span class="math inline">\(\hat\tau\)</span>, <span class="math inline">\(\hat\theta\)</span>.</p>
+</annotation></semantics></math> with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mn>1</mn></msub><mo>=</mo><mn>1</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">p_1=1/4</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mn>2</mn></msub><mo>=</mo><mn>3</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">p_2=3/4</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mn>3</mn></msub><mo>=</mo><mn>1</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">p_3=1/2</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mi>i</mi></msub><annotation encoding="application/x-tex">x_i</annotation></semantics></math>
+corresponding empirical quantiles.</p>
+<p>Initial parameters are
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>τ</mi><mo accent="true">̃</mo></mover><annotation encoding="application/x-tex">\tilde\tau</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>θ</mi><mo accent="true">̃</mo></mover><annotation encoding="application/x-tex">\tilde\theta</annotation></semantics></math>
+unless the empirical quantiles
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>1</mn></msub><mo>=</mo><msub><mi>x</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">x_1=x_2</annotation></semantics></math>,
+in that case we use
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>τ</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\hat\tau</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>θ</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\hat\theta</annotation></semantics></math>.</p>
 </div>
-<div class="section level4" number="2.6.4">
-<h4 id="exponential-distribution">
-<span class="header-section-number">2.6.4</span> Exponential distribution<a class="anchor" aria-label="anchor" href="#exponential-distribution"></a>
+<div class="section level4">
+<h4 id="exponential-distribution">Exponential distribution<a class="anchor" aria-label="anchor" href="#exponential-distribution"></a>
 </h4>
 <p>The MLE is the MME
-<span class="math inline">\(\hat\lambda = 1/m_1.\)</span></p>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>λ</mi><mo accent="true">̂</mo></mover><mo>=</mo><mn>1</mn><mi>/</mi><msub><mi>m</mi><mn>1</mn></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">\hat\lambda = 1/m_1.</annotation></semantics></math></p>
 </div>
 </div>
-<div class="section level3" number="2.7">
-<h3 id="inverse-transformed-gamma-family">
-<span class="header-section-number">2.7</span> Inverse transformed gamma family<a class="anchor" aria-label="anchor" href="#inverse-transformed-gamma-family"></a>
+<div class="section level3">
+<h3 id="inverse-transformed-gamma-family">Inverse transformed gamma family<a class="anchor" aria-label="anchor" href="#inverse-transformed-gamma-family"></a>
 </h3>
-<div class="section level4" number="2.7.1">
-<h4 id="inverse-transformed-gamma-distribution">
-<span class="header-section-number">2.7.1</span> Inverse transformed gamma distribution<a class="anchor" aria-label="anchor" href="#inverse-transformed-gamma-distribution"></a>
+<div class="section level4">
+<h4 id="inverse-transformed-gamma-distribution">Inverse transformed gamma distribution<a class="anchor" aria-label="anchor" href="#inverse-transformed-gamma-distribution"></a>
 </h4>
-<p>Same as transformed gamma distribution with <span class="math inline">\((1/x_i)_i\)</span>.</p>
+<p>Same as transformed gamma distribution with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mi>/</mi><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>i</mi></msub><annotation encoding="application/x-tex">(1/x_i)_i</annotation></semantics></math>.</p>
 </div>
-<div class="section level4" number="2.7.2">
-<h4 id="inverse-gamma-distribution">
-<span class="header-section-number">2.7.2</span> Inverse gamma distribution<a class="anchor" aria-label="anchor" href="#inverse-gamma-distribution"></a>
+<div class="section level4">
+<h4 id="inverse-gamma-distribution">Inverse gamma distribution<a class="anchor" aria-label="anchor" href="#inverse-gamma-distribution"></a>
 </h4>
 <p>We compute moment-estimator as
-<span class="math display">\[
-\hat\alpha = (2m_2-m_1^2)/(m_2-m_1^2),
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>α</mi><mo accent="true">̂</mo></mover><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><msub><mi>m</mi><mn>2</mn></msub><mo>−</mo><msubsup><mi>m</mi><mn>1</mn><mn>2</mn></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>m</mi><mn>2</mn></msub><mo>−</mo><msubsup><mi>m</mi><mn>1</mn><mn>2</mn></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mover><mi>θ</mi><mo accent="true">̂</mo></mover><mo>=</mo><msub><mi>m</mi><mn>1</mn></msub><msub><mi>m</mi><mn>2</mn></msub><mi>/</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>m</mi><mn>2</mn></msub><mo>−</mo><msubsup><mi>m</mi><mn>1</mn><mn>2</mn></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\hat\alpha = (2m_2-m_1^2)/(m_2-m_1^2), 
 \hat\theta= m_1m_2/(m_2-m_1^2).
-\]</span></p>
+</annotation></semantics></math></p>
 </div>
-<div class="section level4" number="2.7.3">
-<h4 id="inverse-weibull-distribution">
-<span class="header-section-number">2.7.3</span> Inverse Weibull distribution<a class="anchor" aria-label="anchor" href="#inverse-weibull-distribution"></a>
+<div class="section level4">
+<h4 id="inverse-weibull-distribution">Inverse Weibull distribution<a class="anchor" aria-label="anchor" href="#inverse-weibull-distribution"></a>
 </h4>
 <p>We use the QME.</p>
 </div>
-<div class="section level4" number="2.7.4">
-<h4 id="inverse-exponential">
-<span class="header-section-number">2.7.4</span> Inverse exponential<a class="anchor" aria-label="anchor" href="#inverse-exponential"></a>
+<div class="section level4">
+<h4 id="inverse-exponential">Inverse exponential<a class="anchor" aria-label="anchor" href="#inverse-exponential"></a>
 </h4>
-<p>Same as transformed gamma distribution with <span class="math inline">\((1/x_i)_i\)</span>.</p>
+<p>Same as transformed gamma distribution with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mi>/</mi><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>i</mi></msub><annotation encoding="application/x-tex">(1/x_i)_i</annotation></semantics></math>.</p>
 </div>
 </div>
 </div>
-<div class="section level2" number="3">
-<h2 id="bibliography">
-<span class="header-section-number">3</span> Bibliography<a class="anchor" aria-label="anchor" href="#bibliography"></a>
+<div class="section level2">
+<h2 id="bibliography">Bibliography<a class="anchor" aria-label="anchor" href="#bibliography"></a>
 </h2>
-<div class="section level3" number="3.1">
-<h3 id="general-books">
-<span class="header-section-number">3.1</span> General books<a class="anchor" aria-label="anchor" href="#general-books"></a>
+<div class="section level3">
+<h3 id="general-books">General books<a class="anchor" aria-label="anchor" href="#general-books"></a>
 </h3>
 <ul>
-<li>N. L. Johnson, S. Kotz, N. Balakrishnan (1994). Continuous univariate distributions, Volume 1, Wiley.</li>
-<li>N. L. Johnson, S. Kotz, N. Balakrishnan (1995). Continuous univariate distributions, Volume 2, Wiley.</li>
-<li>N. L. Johnson, A. W. Kemp, S. Kotz (2008). Univariate discrete distributions, Wiley.</li>
-<li>G. Wimmer (1999), Thesaurus of univariate discrete probability distributions.</li>
+<li>N. L. Johnson, S. Kotz, N. Balakrishnan (1994). Continuous
+univariate distributions, Volume 1, Wiley.</li>
+<li>N. L. Johnson, S. Kotz, N. Balakrishnan (1995). Continuous
+univariate distributions, Volume 2, Wiley.</li>
+<li>N. L. Johnson, A. W. Kemp, S. Kotz (2008). Univariate discrete
+distributions, Wiley.</li>
+<li>G. Wimmer (1999), Thesaurus of univariate discrete probability
+distributions.</li>
 </ul>
 </div>
-<div class="section level3" number="3.2">
-<h3 id="books-dedicated-to-a-distribution-family">
-<span class="header-section-number">3.2</span> Books dedicated to a distribution family<a class="anchor" aria-label="anchor" href="#books-dedicated-to-a-distribution-family"></a>
+<div class="section level3">
+<h3 id="books-dedicated-to-a-distribution-family">Books dedicated to a distribution family<a class="anchor" aria-label="anchor" href="#books-dedicated-to-a-distribution-family"></a>
 </h3>
 <ul>
-<li>M. Ahsanullah, B.M. Golam Kibria, M. Shakil (2014). Normal and Student’s t Distributions and Their Applications, Springer.</li>
+<li>M. Ahsanullah, B.M. Golam Kibria, M. Shakil (2014). Normal and
+Student’s t Distributions and Their Applications, Springer.</li>
 <li>B. C. Arnold (2010). Pareto Distributions, Chapman and Hall.</li>
 <li>A. Azzalini (2013). The Skew-Normal and Related Families.</li>
-<li>N. Balakrishnan (2014). Handbook of the Logistic Distribution, CRC Press.</li>
+<li>N. Balakrishnan (2014). Handbook of the Logistic Distribution, CRC
+Press.</li>
 </ul>
 </div>
-<div class="section level3" number="3.3">
-<h3 id="books-with-applications">
-<span class="header-section-number">3.3</span> Books with applications<a class="anchor" aria-label="anchor" href="#books-with-applications"></a>
+<div class="section level3">
+<h3 id="books-with-applications">Books with applications<a class="anchor" aria-label="anchor" href="#books-with-applications"></a>
 </h3>
 <ul>
-<li>C. Forbes, M. Evans, N. Hastings, B. Peacock (2011). Statistical Distributions, Wiley.</li>
-<li>Z. A. Karian, E. J. Dudewicz, K. Shimizu (2010). Handbook of Fitting Statistical Distributions with R, CRC Press.</li>
-<li>K. Krishnamoorthy (2015). Handbook of Statistical Distributions with Applications, Chapman and Hall.</li>
-<li>Klugman, S., Panjer, H. &amp; Willmot, G. (2019). Loss Models: From Data to Decisions, 5th ed., John Wiley &amp; Sons.</li>
+<li>C. Forbes, M. Evans, N. Hastings, B. Peacock (2011). Statistical
+Distributions, Wiley.</li>
+<li>Z. A. Karian, E. J. Dudewicz, K. Shimizu (2010). Handbook of Fitting
+Statistical Distributions with R, CRC Press.</li>
+<li>K. Krishnamoorthy (2015). Handbook of Statistical Distributions with
+Applications, Chapman and Hall.</li>
+<li>Klugman, S., Panjer, H. &amp; Willmot, G. (2019). Loss Models: From
+Data to Decisions, 5th ed., John Wiley &amp; Sons.</li>
 </ul>
 </div>
 </div>
@@ -976,7 +1079,7 @@ with <span class="math inline">\(p_1=1/4\)</span>, <span class="math inline">\(p
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer>

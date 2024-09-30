@@ -1,12 +1,12 @@
 pandoc: 3.1.11
-pkgdown: 2.1.0
+pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   FAQ: FAQ.html
   fitdistrplus_vignette: fitdistrplus_vignette.html
   Optimalgo: Optimalgo.html
   starting-values: starting-values.html
-last_built: 2024-09-09T11:28Z
+last_built: 2024-09-30T15:01Z
 urls:
   reference: https://lbbe-software.github.io/fitdistrplus/reference
   article: https://lbbe-software.github.io/fitdistrplus/articles
