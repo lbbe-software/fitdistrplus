@@ -7,15 +7,13 @@ output:
     base_format: rmarkdown::html_vignette
     fig_caption: yes
     toc: true
-    number_sections: yes
+    number_sections: no
 link-citations: true
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{Starting values used in fitdistrplus} 
   %!\VignetteEncoding{UTF-8}
   \usepackage[utf8]{inputenc}
-pkgdown:
-  as_is: true
 ---
 
 ```{r setup, include=FALSE}
