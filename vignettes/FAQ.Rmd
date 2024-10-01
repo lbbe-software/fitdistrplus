@@ -7,7 +7,7 @@ output:
     base_format: rmarkdown::html_vignette
     fig_caption: yes
     toc: true
-    number_sections: yes
+    number_sections: no
 link-citations: true
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
@@ -22,13 +22,13 @@ set.seed(1234)
 options(digits = 3)
 ```
 
-# Questions regarding distributions 
+# 1. Questions regarding distributions 
 
-## How do I know the root name of a distribution?
+## 1.1. How do I know the root name of a distribution?
 The root name of a probability distribution is the `name` which is used the `d`, `p`, `q`, `r` functions. For base R distributions, the root names are given in R-intro : https://cran.r-project.org/doc/manuals/R-intro.html#Probability-distributions.
 For example, you must use `"pois"` for the Poisson distribution and **not** `"poisson"`.
 
-## How do I find "non standard" distributions?
+## 1.2. How do I find "non standard" distributions?
 
 For non-standard distributions, you can either find a package
 implementing them or define by yourself. 
@@ -60,7 +60,7 @@ fitdist(x2, "zmgeom", start=list(p1=1/2, p2=1/2))
 ```
 
 
-## How do I set (or find) initial values for non standard distributions?
+## 1.3. How do I set (or find) initial values for non standard distributions?
 As documented, we provide initial values for the following distributions:
 `"norm"`, `"lnorm"`, `"exp"`, `"pois"`, `"cauchy"`, `"gamma`", `"logis"`, `"nbinom"`, `"geom"`, `"beta"`, `"weibull"` from the `stats` package; `"invgamma"`, `"llogis"`, `"invweibull"`, `"pareto1"`, `"pareto"`,
 `"lgamma"`, `"trgamma"`, `"invtrgamma"` from the `actuar` package.
@@ -80,7 +80,7 @@ as starting values for the real fit.
 You may also consider the `prefit()` function to find initial values especially in case where parameters are
 constrained. 
 
-## Is it possible to fit a distribution with at least 3 parameters?
+## 1.4. Is it possible to fit a distribution with at least 3 parameters?
 Yes, an example with the Burr distribution is detailed in the JSS paper. We reproduce it very quickly here.
 ```{r, message=FALSE}
 data("endosulfan")
@@ -90,7 +90,7 @@ fendo.B <- fitdist(endosulfan$ATV, "burr", start = list(shape1 = 0.3,
 summary(fendo.B)
 ```
 
-## Why there are differences between MLE and MME for the lognormal distribution?
+## 1.5. Why there are differences between MLE and MME for the lognormal distribution?
 We recall that the lognormal distribution function is given by
 $$
 F_X(x) =  \Phi\left(\frac{\log(x)-\mu}{\sigma} \right),
@@ -144,7 +144,7 @@ better moment estimates than with MLE.
 
 
 
-## Can I fit a distribution with positive support when data contains negative values?
+## 1.6. Can I fit a distribution with positive support when data contains negative values?
 The answer is no: you cannot fit a distribution with positive support (say gamma distribution)
 when data contains negative values.
 ```{r}
@@ -160,7 +160,7 @@ fitdist(x - min(x), "exp")
 ```
 
 
-## Can I fit a finite-support distribution when data is outside that support?
+## 1.7. Can I fit a finite-support distribution when data is outside that support?
 The answer is no: you cannot fit a distribution with finite-support (say beta distribution)
 when data is outside $[0,1]$.
 ```{r}
@@ -176,7 +176,7 @@ fitdist((x - min(x)*1.01) / (max(x) * 1.01 - min(x) * 1.01), "beta")
 ```
 
 
-## Can I fit truncated  distributions?
+## 1.8. Can I fit truncated  distributions?
 The answer is yes: but the fitting procedure must be carried out carefully.
 Let $X$ be the original untruncated random variable. The truncated variable is
 the conditionnal random variable
@@ -213,7 +213,7 @@ par(mfrow=c(1,1), mar=c(4,4,2,1))
 cdfcomp(list(f1, f2), do.points = FALSE, xlim=c(0, 3.5))
 ```
 
-## Can I fit truncated inflated distributions?
+## 1.9. Can I fit truncated inflated distributions?
 The answer is yes: but the fitting procedure must be carried out carefully.
 Let $X$ be the original untruncated random variable. The truncated variable is
 $Y = \max(\min(X, u), l)$ with $l<u$ the lower and upper bounds.
@@ -280,7 +280,7 @@ legend("bottomright", lty=1:3, col=c("red", "green", "blue", "black"),
 ```
 
 
-## Can I fit a uniform distribution?
+## 1.10. Can I fit a uniform distribution?
 The uniform distribution $\mathcal U(a,b)$ has only support parameters
 since the density does not have a scale or a shape parameter 
 $f_U(u) = \frac{1}{b-a}1_{[a,b]}(u)$. For this distribution, we should not 
@@ -341,9 +341,7 @@ print(cbind(coef(f1), coef(f2)), digits=7)
 ```
 
 
-
-
-## Can I fit a beta distribution with the same shape parameter?
+## 1.11. Can I fit a beta distribution with the same shape parameter?
 Yes, you can wrap the density function of the beta distribution so
 that there is a only one shape parameter.
 Here is an example of a concave density.
@@ -361,7 +359,7 @@ x <- rbeta(1000, .3, .3)
 fitdist(x, "beta2", start=list(shape=1/2), optim.method="L-BFGS-B", lower=1e-2)	
 ```
 
-## How to estimate support parameter? the case of the four-parameter beta 
+## 1.12. How to estimate support parameter? the case of the four-parameter beta 
 Let us consider the four-parameter beta distribution, also known as the PERT 
 distribution, defined by the following density for $x\in [a,c]$
 $f_X(x) = (x-a)^{\alpha-1} (c-x)^{\beta-1}/C_N$ with $C_N$ a normalizing
@@ -395,9 +393,9 @@ cdfcomp(list(f1,f2))
 
 
 
-# Questions regarding goodness-of-fit tests and statistics, Cullen-Frey graph
+# 2. Questions regarding goodness-of-fit tests and statistics, Cullen-Frey graph
 
-## Where can we find the results of goodness-of-fit tests ?
+## 2.1. Where can we find the results of goodness-of-fit tests ?
 Results of goodness-of-fit tests are not printed but are given in the object 
 returned by `gofstat()` and you can have access to them as described in the 
 example below. Nevertheless, p-values are not given for every test. 
@@ -427,7 +425,7 @@ g$cvmtest
 g$kstest
 ```
 
-## Is it reasonable to use goodness-of-fit tests to validate the fit of a distribution ?
+## 2.2. Is it reasonable to use goodness-of-fit tests to validate the fit of a distribution ?
 
 In the first versions of fitdistrplus, when they were available, the results of the GOF tests (AD, KS, CvM) were automatically printed. We decided to suppress this automatic printing when we realized that some users 
 had some difficulties to interpret the results of those tests and sometimes misused them.
@@ -459,7 +457,7 @@ cautious while fitting a normal distribution, that potentially gives negative va
 even if the observed data of this variable seem well fitted by a normal distribution.
 
 
-### Should I reject a distribution because a goodness-of-fit test rejects it ?
+### 2.2.1. Should I reject a distribution because a goodness-of-fit test rejects it ?
 
 No it would not be reasonable at all to reject a distribution 
 just because a goodness-of-fit test rejects it, especially in the case of big samples. 
@@ -491,7 +489,7 @@ denscomp(f2, demp = TRUE, addlegend = FALSE, main = "big sample")
 ```
 
 
-### Should I accept a distribution because goodness-of-fit tests do not reject it ?
+### 2.2.2. Should I accept a distribution because goodness-of-fit tests do not reject it ?
 
 No, it would not be reasonable at all 
 to validate a distribution because goodness-of-fit 
@@ -538,7 +536,7 @@ g4$chisqpvalue
 ```
 
 
-## Why all goodness-of-fit tests are not available for every distribution ?
+## 2.3. Why all goodness-of-fit tests are not available for every distribution ?
 
 The Chi-squared test is available for any distribution but one must be conscious that its result depends on the definition of cells in which observed data are grouped, and a correct definition is not possible with
 a too small sample.
@@ -575,7 +573,7 @@ to appreciate the quality of a fit and to compare the fits of different distribu
 (see FAQ 2.2 for argumentation). 
 
 
-## How can we use goodness-of-fit statistics to compare the fit of different distributions on a same data set ?
+## 2.4. How can we use goodness-of-fit statistics to compare the fit of different distributions on a same data set ?
 
 Goodness-of-fit statistics based on the empirical distribution function  (Kolmogorov-Smirnov, Anderson-Darling
 and Cramer von Mises) may be used to measure a distance between the fitted distribution and the empirical
@@ -601,7 +599,7 @@ a part of the fitted distribution, but they take into account the complexity
  of the distribution and thus could help to prevent overfitting.
 
 
-## Can we use a test to compare the fit of two distributions on a same data set ?
+## 2.5. Can we use a test to compare the fit of two distributions on a same data set ?
 
 In our package we did not implement such a test but for **two nested
 distributions** (when one is a special case of the other one, e.g.
@@ -631,7 +629,7 @@ k0 <- length(f0$estimate) # number of parameters of the simplified distribution
 
 Such a test can also be used for fits on censored data. 
 
-## Can we get goodness-of-fit statistics for a fit on censored data ?
+## 2.6. Can we get goodness-of-fit statistics for a fit on censored data ?
 
 Function `gofstat` is not yet proposed in our package for fits on censored
 data but to develop one is among one of our objectives in the future. Published works
@@ -646,7 +644,7 @@ to use information criteria (AIC and BIC given in the summary
 of an object of class `fitdistcens`) to compare the fits of
 various distributions to a same data set.
 
-## Why Cullen-Frey graph may be misleading?
+## 2.7. Why Cullen-Frey graph may be misleading?
 
 When considering distribution with large theoretical moments or infinite moments,
 using the Cullen-Frey may not be appropriate.
@@ -700,9 +698,9 @@ abline(a=kurtosis.th(1), b=0, col="grey")
 In the future, we plan to use trimmed linear moments to deal with this issue. Those moments
 always exist even for distribution with infinite mean, e.g. the Cauchy distribution.
 
-# Questions regarding optimization procedures
+# 3. Questions regarding optimization procedures
 
-## How to choose optimization method?
+## 3.1. How to choose optimization method?
 If you want to perform optimization without bounds, `optim()` is used.
 You can try the derivative-free method Nelder-Mead and the Hessian-free
 method BFGS.
@@ -711,12 +709,12 @@ available without providing the gradient of the objective function:
 Nelder-Mead via `constrOptim()` and bounded BFGS via `optim()`.
 In both cases, see the help of `mledist()` and the vignette on optimization algorithms.
 
-## The optimization algorithm stops with error code 100. What shall I do?
+## 3.2. The optimization algorithm stops with error code 100. What shall I do?
 First, add traces by adding `control=list(trace=1, REPORT=1)`.
 Second, try to set bounds for parameters.
 Third, find better starting values (see FAQ 1.3).
 
-## Why distribution with a `log` argument may converge better?
+## 3.3 Why distribution with a `log` argument may converge better?
 Say, we study the shifted lognormal distribution defined by the following density
 $$
 f(x) = \frac{1}{x \sigma \sqrt{2 \pi}} \exp\left(- \frac{(\ln (x+\delta)- \mu)^2}{2\sigma^2}\right) 
@@ -813,7 +811,7 @@ Another possible would be to perform all computations with higher precision arit
 implemented in the package `Rmpfr` using the MPFR library.
 
 
-## What to do when there is a scaling issue?
+## 3.4. What to do when there is a scaling issue?
 Let us consider a dataset which has particular small values.
 ```{r}
 data(dataFAQscale1)
@@ -838,10 +836,10 @@ for(i in 0:5)
 cat(10^(-2*i), try(mledist(dataFAQscale2*10^(-2*i), "cauchy")$estimate), "\n")
 ```
 
-## How do I set bounds on parameters when optimizing?
+## 3.5. How do I set bounds on parameters when optimizing?
 
 
-### Setting bounds for scale parameters
+### 3.5.1. Setting bounds for scale parameters
 
 Consider the normal distribution $\mathcal{N}(\mu, \sigma^2)$
 defined by the density
@@ -862,7 +860,7 @@ fitdist(x, "norm", lower=c(-Inf, 0))
 ```
 
 
-### Setting bounds for shape parameters
+### 3.5.2. Setting bounds for shape parameters
 
 Consider the Burr distribution $\mathcal B(\mu, \sigma^2)$
 defined by the density
@@ -879,7 +877,7 @@ fitdist(x, "burr", lower=c(0, 0, 0), start=list(shape1 = 1, shape2 = 1,
 ```
 
 
-### Setting bounds for probability parameters
+### 3.5.3. Setting bounds for probability parameters
 
 Consider the geometric distribution $\mathcal G(p)$
 defined by the mass probability function
@@ -894,7 +892,7 @@ fitdist(x, "geom", lower=0, upper=1)
 ```
 
 
-### Setting bounds for boundary parameters
+### 3.5.4. Setting bounds for boundary parameters
 
 Consider the shifted exponential distribution $\mathcal E(\mu,\lambda)$
 defined by the mass probability function
@@ -926,7 +924,7 @@ x <- rsexp(1000, 1/4, 1)
 fitdist(x, "sexp", start=list(rate=1, shift=0), lower= c(0, -min(x)))
 ```
 
-### Setting linear inequality bounds
+### 3.5.5. Setting linear inequality bounds
 For some distributions, bounds between parameters are not independent. 
 For instance, the normal inverse Gaussian distribution ($\mu, \delta, \alpha, \beta$ parametrization) 
 has the following parameter constraints, which can be reformulated as a linear inequality:
@@ -977,7 +975,7 @@ fitdist(x, "nig", custom.optim=myoptim, ui=ui, ci=ci, start=list(mu = 0, delta =
 
 
 
-## How works quantile matching estimation for discrete distributions?
+## 3.6. How works quantile matching estimation for discrete distributions?
 Let us consider the geometric distribution with values in $\{0,1,2,3,\dots\}$.
 The probability mass function, the cumulative distribution function and the quantile function are
 $$
@@ -1088,7 +1086,7 @@ fitdist(x, "pois", method="qme", probs=1/2, start=list(lambda=2))
 fitdist(x, "pois", method="qme", probs=1/2, optim.method="SANN", start=list(lambda=2))
 ```
 
-## Why setting a parameter to the true value does not lead to the expected result for other parameters?
+## 3.7. Why setting a parameter to the true value does not lead to the expected result for other parameters?
 
 Consider the gamma truncated distribution defined by the following density and cumulative distribution functions
 ```{r}
@@ -1307,9 +1305,9 @@ showpar(matpar)
 
 
 
-# Questions regarding uncertainty 
+# 4. Questions regarding uncertainty 
 
-## Can we compute marginal confidence intervals on parameter estimates from their reported standard error ?
+## 4.1. Can we compute marginal confidence intervals on parameter estimates from their reported standard error ?
 
 In statistics, deriving marginal confidence intervals on MLE parameter estimates using the approximation 
 of their standard errors (calculated from the hessian) is a quite common procedure. It is based on the 
@@ -1339,8 +1337,6 @@ they give wrong results, with parameter values even outside their possible range
 (negative rate bound for the gamma distribution).
 
 
-
-
 ```{r, fig.height=4, fig.width=4, warning = FALSE}
 set.seed(1234)
 n <- rnorm(30, mean = 10, sd = 2)
@@ -1363,7 +1359,7 @@ par(mfrow=c(1,1), mar=c(4,4,2,1))
 llplot(fg, back.col = FALSE)
 ```
 
-## How can we compute confidence intervals on quantiles from the fit of a distribution ?
+## 4.2. How can we compute confidence intervals on quantiles from the fit of a distribution ?
 
 The `quantile()` function can be used to calculate any quantile from a fitted distribution when
 it is called with an object of class `fitdist` or `fitdistcens` as the first argument. 
@@ -1389,7 +1385,7 @@ par(mfrow=c(1,1), mar=c(4,4,2,1))
 CIcdfplot(bootsample, CI.output = "quantile", CI.fill = "pink", xlim = c(0.5,2), main = "")
 ```
 
-## How can we compute confidence intervals on any function of the parameters of the fitted distribution ?
+## 4.3. How can we compute confidence intervals on any function of the parameters of the fitted distribution ?
 
 The bootstrap sample of parameter estimates can be used to calculate  a bootstrap
 sample of any variable defined as a function of the parameters of the fitted 
@@ -1414,7 +1410,7 @@ we recommend the use of the package `mc2d` which aims at making such calculation
 easy and which gives extensive examples of use of such bootstrap samples of 
 parameters estimated using functions of the package `fitdistrplus`.
 
-## How do we choose the bootstrap number?
+## 4.4. How do we choose the bootstrap number?
 
 Generally, we do not need to choose a number of bootstrap values
 as high as the original sample size.
@@ -1435,16 +1431,16 @@ plot(d1)
 ```
 
 
-# How to personalize plots 
+# 5. How to personalize plots 
 
-## Can I personalize the default plot given for an object of class `fitdist` or `fitdistcens`?
+## 5.1. Can I personalize the default plot given for an object of class `fitdist` or `fitdistcens`?
 
 The default plot given by using the `plot()` function on an object of class `fitdist` or `fitdistcens` is hard to personalize. Indeed this plot was designed only to give a quick 
 overview of the fit, not to be used as a graph in a manuscript or a formal presentation. 
 To personalize some of (or all) the goodness-of-fit plots, you should rather use specific graphical 
 functions, `denscomp`, `cdfcomp`, `ppcomp`, `qqcomp` or `cdfcompcens` (see how in the following paragraphs).
 
-## How to personalize goodness-of-fit plots ?
+## 5.2. How to personalize goodness-of-fit plots ?
 
 The default plot of an object of class `fitdist` can be easily reproduced and personalized 
 using `denscomp`, `cdfcomp`, `ppcomp` and `qqcomp`.
@@ -1463,7 +1459,7 @@ ppcomp(fit, addlegend = FALSE, main = "", fitpch = 16, fitcol = "grey", line01lt
 In a similar way, the default plot of an object of class `fitdistcens` can be easily personalized 
 using `cdfcompcens`.
 
-## Is it possible to obtain `ggplot2` plots ?
+## 5.3. Is it possible to obtain `ggplot2` plots ?
 
 An argument `plotstyle` was added to functions `denscomp`, `cdfcomp`, `ppcomp`, `qqcomp`and `cdfcompcens`, `ppcompcens`, `qqcompcens` to enable the generation of plots using the `ggplot2` package. This argument by default fixed at `graphics` must simply be fixed at `ggplot` for this purpose, as in the following example. In that latter case the graphical functions return a graphic object that can be further personalized using `ggplot2` functions.
 
@@ -1481,7 +1477,7 @@ dcomp + ggplot2::theme_minimal() + ggplot2::ggtitle("Ground beef fits")
 
 <!-- We plan to include the argument `plotstyle` to other functions of the `fitdistrplus` package in a next future. -->
 
-## Is it possible to add the names of the observations in a goodness-of-fit plot,  e.g. the names of the species in the plot of the Species Sensitivity Distribution (SSD) classically used in ecotoxicology ?
+## 5.4. Is it possible to add the names of the observations in a goodness-of-fit plot,  e.g. the names of the species in the plot of the Species Sensitivity Distribution (SSD) classically used in ecotoxicology ?
 
 An argument named `name.points` can be used in functions `cdfcomp` or 
 `CIcdfcomp` to pass a label vector for observed points so as to add the names
@@ -1502,9 +1498,9 @@ cdfcomp(f, xlogscale = TRUE, main = "Species Sensitivty Distribution",
 
 
 
-# Questions regarding (left, right and/or interval) censored data
+# 6. Questions regarding (left, right and/or interval) censored data
 
-## How to code censored data in `fitdistrplus` ?
+## 6.1. How to code censored data in `fitdistrplus` ?
 
 Censored data must be rpresented in the package by a dataframe of two columns respectively named left and right, describing each observed value as an interval. The left column contains either `NA` for left censored observations, the left bound of the interval for interval censored observations, or the observed value for non-censored observations. The right column contains either `NA` for right censored observations, the right bound of the interval for interval censored observations, or the observed value for non-censored observations. This type of representation
 corresponds to the coding names `"interval2"` in function `Surv` of the package 
@@ -1516,7 +1512,7 @@ dtoy <- data.frame(left = c(NA, 2, 4, 6, 9.7, 10), right = c(1, 3, 7, 8, 9.7, NA
 dtoy
 ```
 
-## How do I prepare the input of `fitdistcens()` with `Surv2fitdistcens()`? 
+## 6.2. How do I prepare the input of `fitdistcens()` with `Surv2fitdistcens()`? 
 
 Let us consider a classical right-censored dataset for human life:
 twenty values randomly chosen from the `canlifins` dataset of `CASdatasets` package.
@@ -1541,7 +1537,7 @@ par(mfrow=c(1,1), mar=c(4,4,2,1))
 cdfcompcens(list(fweic, flnormc), xlim=range(exitage), xlegend = "topleft")
 ```
 
-## How to represent an empirical distribution from censored data ?
+## 6.3. How to represent an empirical distribution from censored data ?
 
 The representation of an empirical distribution from censored data is not a
 trivial problem. One can simply represent each observation as an interval at an
@@ -1635,7 +1631,7 @@ addeq(deq)
 plotdistcens(d, lwd = 2, main = "Step 2 : estimation of mass probabilities")
 ```
 
-## How to assess the goodness-of-fit of a distribution fitted on censored data ?
+## 6.4. How to assess the goodness-of-fit of a distribution fitted on censored data ?
 
 The only available method in `fitdistrplus` to fit distributions on censored data
 is the maximum likelihood estimation (MLE). Once a distribution is fitted using 
