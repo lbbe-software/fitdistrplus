@@ -1,4 +1,4 @@
-library(fitdistrplus)
+require("fitdistrplus")
 
 # (1) basic fit of a gamma distribution by maximum likelihood estimation
 #

@@ -1,4 +1,4 @@
-library(fitdistrplus)
+require("fitdistrplus")
 vizualise <- FALSE
 mytrace <- 1
 mytrace <- 0
@@ -45,7 +45,7 @@ if(vizualise)
   
   # if(FALSE)
   # {
-  #   require(npsurv)
+  #   require("npsurv")
   #   rescheck <- npsurv::npsurv(ap, w=1, maxit=100, tol=1e-6, verb=3) 
   #   c(resap$ll, rescheck$ll)
   #   
@@ -129,7 +129,7 @@ if(vizualise)
   
   # if(FALSE)
   # {
-  #   require(npsurv)
+  #   require("npsurv")
   #   rescheck <- npsurv::npsurv(fakedata, w=1, maxit=100, tol=1e-6, verb=3)
   #   c(resfk$ll, rescheck$ll)
   # 
@@ -171,7 +171,7 @@ if(vizualise)
   
   # if(FALSE)
   # {
-  #   require(npsurv)
+  #   require("npsurv")
   #   d8bis <- d8
   #   d8bis$left[is.na(d8bis$left)] <- -Inf
   #   d8bis$right[is.na(d8bis$right)] <- Inf

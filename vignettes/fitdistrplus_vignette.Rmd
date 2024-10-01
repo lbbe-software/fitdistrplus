@@ -82,7 +82,7 @@ This data set contains pointwise values of serving sizes in grams, collected in 
 It was used in a quantitative risk assessment published by @Delignette08.
 
 ```{r datgroundbeef, echo=TRUE}
-library("fitdistrplus")
+require("fitdistrplus")
 data("groundbeef")
 str(groundbeef)
 ```
@@ -218,7 +218,7 @@ On this example, the function `cdfcomp` can be used to report CDF values in a lo
 manual for examples [@fitdistrplus]).
 
 ```{r fitendo, fig.align='center', fig.width=6, fig.height=6, fig.cap="CDF plot to compare the fit of four distributions to acute toxicity values of various organisms for the organochlorine pesticide endosulfan (`endosulfan` data set) as provided by the `cdfcomp` function, with CDF values in a logscale to emphasize discrepancies on the left tail."}
-library(actuar)
+require("actuar")
 data("endosulfan")
 ATV <- endosulfan$ATV
 fendo.ln <- fitdist(ATV, "lnorm")
@@ -418,7 +418,7 @@ str(danishuni)
 ```{r danishmme, fig.align='center', fig.width=7, fig.height=4, fig.cap="Comparison between MME and MLE when fitting a lognormal or a Pareto distribution to loss data from the `danishuni` data set."}
 fdanish.ln.MLE <- fitdist(danishuni$Loss, "lnorm")
 fdanish.ln.MME <- fitdist(danishuni$Loss, "lnorm", method = "mme", order = 1:2)
-library(actuar)
+require("actuar")
 fdanish.P.MLE <- fitdist(danishuni$Loss, "pareto", start = list(shape = 10, scale = 10), 
                          lower = 2+1e-6, upper = Inf)
 memp <- function(x, order) mean(x^order)
@@ -529,7 +529,7 @@ The **rgenoud** package implements the genetic (stochastic) algorithm.
 ```{r optimmethod.customgenoud, echo=TRUE}
 mygenoud <- function(fn, par, ...) 
 {
-   require(rgenoud)
+   require("rgenoud")
    res <- genoud(fn, starting.values = par, ...)        
    standardres <- c(res, convergence = 0)
    return(standardres)

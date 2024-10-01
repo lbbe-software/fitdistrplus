@@ -1,4 +1,4 @@
-library(fitdistrplus)
+require("fitdistrplus")
 nbboot <- 100
 nbboot <- 10
 
@@ -74,7 +74,7 @@ if(any(installed.packages()[,"Package"] == "rgenoud") && visualize)
   #wrap genoud function rgenoud package
   mygenoud <- function(fn, par, ...) 
   {
-    require(rgenoud)
+    require("rgenoud")
     res <- genoud(fn, starting.values=par, ...)        
     standardres <- c(res, convergence=0, counts=NULL)
     
@@ -93,7 +93,7 @@ if(any(installed.packages()[,"Package"] == "rgenoud") && visualize)
 #
 if(any(installed.packages()[,"Package"] == "actuar") && visualize)
 {
-  require(actuar)
+  require("actuar")
   #simulate a sample
   set.seed(1234)
   x4 <- rpareto(nsample, 6, 2)
@@ -206,7 +206,7 @@ quantile(fln, probs = 0.05)
 if(any(installed.packages()[,"Package"] == "mc2d") && visualize)
 {
   set.seed(1234)
-  require(mc2d)
+  require("mc2d")
   t <- rtriang(100,min=5,mode=6,max=10) # nsample not used : does not converge with a too small sample
   fCvM <- fitdist(t,"triang",method="mge",start = list(min=4, mode=6,max=9),gof="CvM")
   fKS <- fitdist(t,"triang",method="mge",start = list(min=4, mode=6,max=9),gof="KS")
@@ -251,7 +251,7 @@ if (FALSE) # NO INTEREST WITHOUT VISUALIZATION OF THE RESULT
 #
 #if(any(installed.packages()[,"Package"] == "gamlss.dist"))
 #{
-#    require(gamlss.dist)
+#    require("gamlss.dist")
 #    set.seed(1234)
 #    a=rexGAUS(100,mu=500,sigma=50,nu=75)
 #    fitdist(a,dexGAUS,start=list(mu=median(a),sigma=sqrt(var(a)/2),nu=sqrt(var(a)/2)))

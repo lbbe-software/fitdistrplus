@@ -158,7 +158,7 @@ mgedist(u,"unif",gof="KS")
 # 
 
 \donttest{
-require(mc2d)
+require("mc2d")
 set.seed(1234)
 t <- rtriang(100,min=5,mode=6,max=10)
 mgedist(t,"triang",start = list(min=4, mode=6,max=9),gof="CvM")

@@ -1,9 +1,7 @@
 
 if(FALSE)
 {  
-  library(fitdistrplus)
-  
-  
+    require("fitdistrplus")
   
   #(1) beta distribution
   #

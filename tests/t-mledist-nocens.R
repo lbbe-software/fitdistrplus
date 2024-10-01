@@ -1,5 +1,4 @@
-library(fitdistrplus)
-
+require("fitdistrplus")
 
 data("groundbeef")
 serving <- groundbeef$serving 
@@ -163,7 +162,7 @@ myoptimize <- function(fn, par, ...)
 foptimize <- mledist(mysample, "exp", start=mystart, custom.optim=myoptimize, interval=c(0, 100))
 
 
-library(rgenoud)
+require("rgenoud")
 
 #wrap genoud function rgenoud package
 mygenoud <- function(fn, par, ...) 

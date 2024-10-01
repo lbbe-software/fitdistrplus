@@ -1,9 +1,6 @@
-library(fitdistrplus)
-
+require("fitdistrplus")
 
 testdpqfun <- fitdistrplus:::testdpqfun
-
-
 
 ##### first argument ##### 
 #a data.frame of TRUE and ""
@@ -103,7 +100,6 @@ testdpqfun("norm", "d", c(mean=1, sd=1))
 #error message
 testdpqfun("norm2", "d", c(mean=1, sd=1))
 
-
 #a data.frame with error messages
 testdpqfun("norm", c("d", "p", "q"), c(mean=1, sd=1))
 testdpqfun("norm2", c("d", "p", "q"), c(mean=1, sd=1))
@@ -113,4 +109,3 @@ x <- rnorm(100)
 fitdist(x, "norm") #ok
 fitdist(x, "norm2", start=list(mean=1, sd=1)) #pnorm2 not defined
 fitdist(x, "norm3", start=list(mean=1, sd=1)) #The dnorm3 function should return raise an error when names are incorrectly named
-

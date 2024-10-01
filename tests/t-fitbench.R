@@ -1,6 +1,6 @@
 if(FALSE)
 {  
-  require(fitdistrplus)
+  require("fitdistrplus")
   
   x <- rgamma(1e3, shape=3/2, rate= 1/2)
   

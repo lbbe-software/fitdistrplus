@@ -1,15 +1,14 @@
 if(FALSE)
 {
   
-  require(fitdistrplus)
-  
+  require("fitdistrplus")
   
   #test actuar initialization
   
   startargdefault <- fitdistrplus:::startargdefault
   
   #burr
-  library(actuar)
+  require("actuar")
   alpha <- 3
   x <- rburr(1000, alpha, 4, .1)
   

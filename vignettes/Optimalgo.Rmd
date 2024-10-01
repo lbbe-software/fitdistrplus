@@ -17,8 +17,8 @@ vignette: >
 ---
 
 ```{r setup, echo=FALSE, message=FALSE, warning=FALSE}
-require(fitdistrplus)
-require(knitr) #for kable() function
+require("fitdistrplus")
+require("knitr") # for kable() function
 set.seed(12345)
 options(digits = 3)
 ```

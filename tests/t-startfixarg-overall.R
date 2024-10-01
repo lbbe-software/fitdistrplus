@@ -1,4 +1,4 @@
-library(fitdistrplus)
+require("fitdistrplus")
 
 # (1) non-censored data (continuous)
 #

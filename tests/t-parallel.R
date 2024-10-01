@@ -3,7 +3,7 @@ visualize <- FALSE # TRUE for manual tests with visualization of results
 if(visualize)
 {
   
-  library(parallel)
+    require("parallel")
   
   
   #fonction basique evaluant la moyenne empirique d'un echantillon gaussien

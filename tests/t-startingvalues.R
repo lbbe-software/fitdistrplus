@@ -1,6 +1,5 @@
-library(fitdistrplus)
-library(actuar)
-
+require("fitdistrplus")
+require("actuar")
 
 x <- c(3.1334614, 1.0300544, 0.8839272, 0.7503320, 1.9378476, 1.7571313, 0.5369516, 
        3.1181863, 1.7412457, 1.1514215, 1.6252670, 1.3333488, 3.0594471, 1.0479867, 
@@ -34,5 +33,3 @@ x <- c(1.083905, 1.266773, 1.044362, 1.557070, 1.227676, 1.195054, 1.241101,
 #equivalent to Pareto type 1                  
 ft_par1 <-fitdist(x, "pareto1", upper=c(Inf, min(x)), fix.arg=list(min = 1),
                   control=list(trace=1, REPORT=1), silent=FALSE) 
-
-

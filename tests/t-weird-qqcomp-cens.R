@@ -1,4 +1,4 @@
-library(fitdistrplus)
+require("fitdistrplus")
 set.seed(123)
 n <- 20
 visualize <- FALSE # TRUE for manual tests with visualization of results

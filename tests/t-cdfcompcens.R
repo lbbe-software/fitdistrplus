@@ -1,4 +1,4 @@
-library(fitdistrplus)
+require("fitdistrplus")
 
 visualize <- FALSE # TRUE for manual tests with visualization of results
 
@@ -43,7 +43,7 @@ if (visualize)
 {
   if(any(installed.packages()[,"Package"] == "actuar"))
   {
-    require(actuar)
+    require("actuar")
     data(smokedfish)
     fln <- fitdistcens(smokedfish,"lnorm")
     fll <- fitdistcens(smokedfish,"llogis")

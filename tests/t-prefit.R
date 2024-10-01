@@ -1,4 +1,4 @@
-require(fitdistrplus)
+require("fitdistrplus")
 nsample <- 10
 
 # (1) gamma
@@ -23,7 +23,7 @@ prefit(x, "geom", "qme", list(prob=1/2), probs=1/2, lower=-Inf, upper=Inf)
 
 
 # (3) Pareto
-require(actuar)
+require("actuar")
 x  <-  rpareto(nsample, 6, 2)
 
 prefit(x, "pareto", "mme", list(shape=10, scale=10), order=1:2, memp=function(x, order) mean(x^order), lower=-Inf, upper=Inf)

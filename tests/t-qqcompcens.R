@@ -1,4 +1,4 @@
-library(fitdistrplus)
+require("fitdistrplus")
 visualize <- FALSE # TRUE for manual tests with visualization of results
 
 data(smokedfish)
@@ -62,7 +62,7 @@ if (requireNamespace("ggplot2", quietly = TRUE) & visualize) {
 }
 
 
-require(actuar)
+require("actuar")
 data(salinity)
 fln <- fitdistcens(salinity,"lnorm")
 fll <- fitdistcens(salinity,"llogis")

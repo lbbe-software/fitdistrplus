@@ -426,7 +426,7 @@ summary(res2)
     #wrap genoud function rgenoud package
     mygenoud <- function(fn, par, ...) 
     {
-        require(rgenoud)
+        require("rgenoud")
         res <- genoud(fn, starting.values=par, ...)        
         standardres <- c(res, convergence=0)
             
@@ -474,7 +474,7 @@ gofstat(fWqme)
 #
 
 \donttest{
-    require(actuar)
+    require("actuar")
     #simulate a sample
     x4 <- rpareto(1000, 6, 2)
 
@@ -565,7 +565,7 @@ quantile(fln, probs = c(0.05, 0.1, 0.2))
 
 \donttest{
 set.seed(1234)
-require(mc2d)
+require("mc2d")
 t <- rtriang(100, min=5, mode=6, max=10)
 fCvM <- fitdist(t, "triang", method="mge", start = list(min=4, mode=6,max=9), gof="CvM")
 fKS <- fitdist(t, "triang", method="mge", start = list(min=4, mode=6,max=9), gof="KS")
@@ -575,7 +575,7 @@ cdfcomp(list(fCvM,fKS))
 # (17) fit a non classical discrete distribution (the zero inflated Poisson distribution)
 #
 \donttest{
-require(gamlss.dist)
+require("gamlss.dist")
 set.seed(1234)
 x <- rZIP(n = 30, mu = 5, sigma = 0.2)
 plotdist(x, discrete = TRUE)
@@ -593,7 +593,7 @@ gofstat(list(fitzip, fitp))
 # (18) examples with distributions in actuar (predefined starting values)
 #
 \donttest{
-require(actuar)
+require("actuar")
 x <- c(2.3,0.1,2.7,2.2,0.4,2.6,0.2,1.,7.3,3.2,0.8,1.2,33.7,14.,
        21.4,7.7,1.,1.9,0.7,12.6,3.2,7.3,4.9,4000.,2.5,6.7,3.,63.,
        6.,1.6,10.1,1.2,1.5,1.2,30.,3.2,3.5,1.2,0.2,1.9,0.7,17.,

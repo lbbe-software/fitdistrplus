@@ -1,4 +1,4 @@
-library(fitdistrplus)
+require("fitdistrplus")
 nbboot <- 101
 nbboot <- 11
 nsample <- 10

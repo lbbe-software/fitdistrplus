@@ -100,7 +100,7 @@ llplot(fitg2, fit.show = TRUE)
 \donttest{
   data(endosulfan)
   ATV <-endosulfan$ATV
-  library("actuar")
+  require("actuar")
   fBurr <- fitdist(ATV, "burr", start = list(shape1 = 0.3, shape2 = 1, rate = 1))
   llplot(fBurr)
   llplot(fBurr, back.col = FALSE, fit.show = TRUE, fit.pch = 16)

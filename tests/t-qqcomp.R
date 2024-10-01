@@ -1,4 +1,4 @@
-library(fitdistrplus)
+require("fitdistrplus")
 
 # ?qqcomp
 visualize <- FALSE # TRUE for manual tests with visualization of results

@@ -1,4 +1,4 @@
-require(fitdistrplus)
+require("fitdistrplus")
 visualize <- FALSE # TRUE for manual tests with visualization of results
 nsample <- 10000
 nsample <- 10
@@ -11,7 +11,7 @@ if(any(installed.packages()[, "Package"] == "actuar"))
   
   data(endosulfan)
   ATV <-endosulfan$ATV
-  library("actuar")
+  require("actuar")
   fBurr <- fitdist(ATV, "burr", start = list(shape1 = 0.3, shape2 = 1, rate = 1))
   llplot(fBurr)
   

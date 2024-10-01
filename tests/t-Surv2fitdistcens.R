@@ -1,4 +1,4 @@
-require(fitdistrplus)
+require("fitdistrplus")
 data("fremale")
 
 # fremale test

@@ -262,7 +262,7 @@ fitdistcens(log10EC50,"logis",optim.method="SANN")
     #wrap genoud function rgenoud package
     mygenoud  <-  function(fn, par, ...) 
     {
-        require(rgenoud)
+        require("rgenoud")
         res  <-  genoud(fn, starting.values=par, ...)        
         standardres  <-  c(res, convergence=0)
             

@@ -1,4 +1,4 @@
-library(fitdistrplus)
+require("fitdistrplus")
 nboot <- 1000
 nboot <- 10
 nsample <- 10
@@ -47,7 +47,7 @@ abline(v=msedist(x1, "exp")$estimate, lty=2, col="blue")
 legend("bottomright", lty=1:2, col=c("green", "blue"), leg=c("theoretical value", "fitted value"))
 
 
-# library(BMT)
+# require("BMT")
 # x <- rBMT(1e3, 1/4, 3/4)
 # 
 # BMTfit.mpse(x)
@@ -101,7 +101,7 @@ plot(mse_lnorm_boot, enhance = TRUE, trueval=c(0,1))
 #--------------------------------------------------------
 # Pareto sample
 
-library(actuar)
+require("actuar")
 
 x1 <- rburr(nsample, 2,2,2)
 
@@ -178,7 +178,7 @@ legend("bottomright", lty=1, col=c("red", "green", "blue"), leg=c("MLE", "MSE no
 
 #--------------------------------------------------------
 # real dataset
-# library(CASdatasets)
+# require("CASdatasets")
 # data("ushustormloss")
 # x <- ushustormloss$Normalized.CL05
 # 

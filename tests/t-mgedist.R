@@ -1,4 +1,4 @@
-library(fitdistrplus)
+require("fitdistrplus")
 
 nsample <- 10
 
@@ -30,7 +30,7 @@ mgedist(u, "unif", gof="KS")
 # (3) Fit of a triangular distribution using Cramer-von Mises or
 # Kolmogorov-Smirnov distance
 # 
-require(mc2d)
+require("mc2d")
 set.seed(1234)
 t <- rtriang(nsample, min=5, mode=6, max=10)
 mgedist(t, "triang", start = list(min=4, mode=6,max=9), gof="CvM")

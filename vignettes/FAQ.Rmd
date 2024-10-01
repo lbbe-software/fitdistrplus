@@ -17,7 +17,7 @@ vignette: >
 ---
 
 ```{r setup, echo=FALSE, message=FALSE, warning=FALSE}
-require(fitdistrplus)
+require("fitdistrplus")
 set.seed(1234)
 options(digits = 3)
 ```
@@ -84,7 +84,7 @@ constrained.
 Yes, an example with the Burr distribution is detailed in the JSS paper. We reproduce it very quickly here.
 ```{r, message=FALSE}
 data("endosulfan")
-library("actuar")
+require("actuar")
 fendo.B <- fitdist(endosulfan$ATV, "burr", start = list(shape1 = 0.3, 
                                                         shape2 = 1, rate = 1))
 summary(fendo.B)
@@ -374,7 +374,7 @@ NB: on small sample size, the latter has generally better
 goodness-of-fit statistics; a small positive number is added or subtracted
 when fixing the support parameters $a$ and $c$ to sample minimum and maximum. 
 ```{r, message=FALSE, fig.height=4, fig.width=6}
-require(mc2d)
+require("mc2d")
 x2 <- rpert(n=2e2, min=0, mode=1, max=2, shape=3/4)
 eps <- sqrt(.Machine$double.eps)
 f1 <- fitdist(x2, "pert", start=list(min=-1, mode=0, max=10, shape=1),
@@ -959,7 +959,7 @@ $$
 These constraints can be carried out via `constrOptim()` and the arguments `ci` and `ui`. 
 Here is an example
 ```{r, message=FALSE}
-library(GeneralizedHyperbolic)
+require("GeneralizedHyperbolic")
 myoptim <- function(fn, par, ui, ci, ...)
 {
   res <- constrOptim(f=fn, theta=par, method="Nelder-Mead", ui=ui, ci=ci, ...)
@@ -1464,7 +1464,7 @@ using `cdfcompcens`.
 An argument `plotstyle` was added to functions `denscomp`, `cdfcomp`, `ppcomp`, `qqcomp`and `cdfcompcens`, `ppcompcens`, `qqcompcens` to enable the generation of plots using the `ggplot2` package. This argument by default fixed at `graphics` must simply be fixed at `ggplot` for this purpose, as in the following example. In that latter case the graphical functions return a graphic object that can be further personalized using `ggplot2` functions.
 
 ```{r, fig.height= 4, fig.width= 7, warning = FALSE}
-library(ggplot2)
+require("ggplot2")
 fitW <- fitdist(serving, "weibull")
 fitln <- fitdist(serving, "lnorm")
 fitg <- fitdist(serving, "gamma")

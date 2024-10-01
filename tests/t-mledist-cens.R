@@ -1,7 +1,4 @@
-library(fitdistrplus)
-
-
-
+require("fitdistrplus")
 
 # (1) fit a user-defined continuous distribution (Gumbel) to censored data.
 #
@@ -21,9 +18,6 @@ try(mledist(rbind(log10EC50, c("a", "b")), "gamma"))
 try(mledist(rbind(log10EC50, c(NA, NA)), "gamma"))
 try(mledist(rbind(log10EC50, c(3, Inf)), "gamma"))
 try(mledist(rbind(log10EC50, c(3, NaN)), "gamma"))
-
-
-
 
 
 # (2) test optimization arguments to censored data MLE.
@@ -64,4 +58,3 @@ mledist(d, "norm", start = function(x) list(mean = mean(x), sd = 1))$estimate
 mledist(d, "norm", fix.arg = function(x) list(mean = 0))$estimate
 mledist(d, "norm", fix.arg = function(x) list(mean = 0.544))$estimate
 mledist(d, "norm", fix.arg = function(x) list(mean = mean(x)))$estimate
-

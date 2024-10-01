@@ -1,5 +1,4 @@
-library(fitdistrplus)
-
+require("fitdistrplus")
 
 # (1) fit of two distributions by maximum likelihood estimation
 # to the serving size data

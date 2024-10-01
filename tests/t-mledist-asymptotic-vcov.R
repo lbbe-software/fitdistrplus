@@ -1,4 +1,4 @@
-require(fitdistrplus)
+require("fitdistrplus")
 nsample <- 1e6
 nsample <- 10
 
@@ -14,7 +14,7 @@ f1$vcov
 
 if(any(installed.packages()[, "Package"] == "actuar"))
 {
-  require(actuar)
+  require("actuar")
   #simulate a sample
   x4 <- rpareto(nsample, 6, 2)
   

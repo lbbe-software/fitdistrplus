@@ -1,4 +1,4 @@
-library(fitdistrplus)
+require("fitdistrplus")
 #We choose a low number of bootstrap replicates in order to satisfy CRAN running times constraint.
 #For practical application, we recommend to use nbboot=501 or nbboot=1001.
 
@@ -36,7 +36,7 @@ plot(b1, enhance=TRUE, rampcol=c("blue", "green"), nbgrid=15, nbcol=15)
 
 if(any(installed.packages()[, "Package"] == "actuar") && visualize)
 {
-  require(actuar)
+  require("actuar")
   set.seed(123)
   f1 <- fitdist(rburr(nsample, 2, 3, 1), "burr", start=list(shape1=10, shape2=10, rate=1))
   b1 <- bootdist(f1, niter=nbboot, silent=TRUE)
@@ -118,7 +118,7 @@ if (visualize)
 {
   if(any(installed.packages()[, "Package"] == "actuar"))
   {
-    require(actuar)
+    require("actuar")
     #simulate a sample
     x4 <- rpareto(nsample,  6,  2)
     memp <- function(x,  order)
@@ -144,7 +144,7 @@ if (visualize)
 {
   if(any(installed.packages()[, "Package"] == "actuar"))
   {
-    require(actuar)
+    require("actuar")
     data(danishuni)
     
     fdan <- fitdist(danishuni$Loss, "burr", method="mle", 
@@ -161,7 +161,7 @@ if (visualize)
 # 
 if(any(installed.packages()[, "Package"] == "mc2d"))
 {
-  require(mc2d)
+  require("mc2d")
   set.seed(1234)
   x4 <- rtriang(100,min=0,mode=4,max=20) # nsample not used : does not converge if the sample is too small
   fit4t<-fitdist(x4,dtriang,start=list(min=0,mode=4,max=20))

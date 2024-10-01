@@ -1,4 +1,4 @@
-require(fitdistrplus)
+require("fitdistrplus")
 
 #case where the density returns a Not-an-Numeric value.
 detectbound("gamma", c(shape=3, scale=3), 1:10, echo=TRUE)
@@ -23,7 +23,7 @@ dgeom2 <- function(x, prob, log=FALSE)
 detectbound("geom2", c(prob=1/2), 1:10)
 
 #case where the density returns a Not-an-Numeric value for actuar package
-require(actuar)
+require("actuar")
 
 detectbound("burr", c(shape1=3, shape2=3, rate=1), 1:10)
 detectbound("llogis", c(shape=3, rate=1), 1:10)

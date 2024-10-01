@@ -1,4 +1,4 @@
-library(fitdistrplus)
+require("fitdistrplus")
 nsample <- 1000
 nsample <- 10
 

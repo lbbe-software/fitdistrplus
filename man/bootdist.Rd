@@ -227,7 +227,7 @@ summary(bootdist(f1, niter = niter))
 proc.time() - ptm
 
 # parallel version using snow
-require(parallel)
+require("parallel")
 ptm <- proc.time()
 summary(bootdist(f1, niter = niter, parallel = "snow", ncpus = 2))
 proc.time() - ptm

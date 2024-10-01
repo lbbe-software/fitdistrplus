@@ -1,5 +1,5 @@
-library(fitdistrplus)
-library(actuar)
+require("fitdistrplus")
+require("actuar")
 
 data(groundbeef)
 obs <- groundbeef$serving

@@ -1,5 +1,4 @@
-require(fitdistrplus)
-
+require("fitdistrplus")
 
 #### analytical example for dfapprox ####
 if(FALSE)

@@ -1,5 +1,5 @@
-library(fitdistrplus)
-library(actuar)
+require("fitdistrplus")
+require("actuar")
 
 set.seed(1234)
 

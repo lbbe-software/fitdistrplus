@@ -1,4 +1,4 @@
-library(fitdistrplus)
+require("fitdistrplus")
 
 set.seed(123)
 

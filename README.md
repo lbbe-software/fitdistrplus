@@ -41,7 +41,7 @@ remotes::install_github("lbbe-software/fitdistrplus")
 
 Finally load the package in your current R session with the following R command:
 ```r
-library(fitdistrplus)
+require("fitdistrplus")
 ```
 
 ## Documentation

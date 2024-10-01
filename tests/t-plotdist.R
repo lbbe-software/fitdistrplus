@@ -1,4 +1,4 @@
-library(fitdistrplus)
+require("fitdistrplus")
 nsample <- 10
 
 # (1) Plot of an empirical distribution with changing 

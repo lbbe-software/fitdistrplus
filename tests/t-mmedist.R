@@ -1,4 +1,4 @@
-library(fitdistrplus)
+require("fitdistrplus")
 nsample <- 10
 
 # (1) basic fit of a normal distribution with moment matching estimation
@@ -31,7 +31,7 @@ mmedist(x3,"beta")
 
 if(any(installed.packages()[, "Package"] == "actuar"))
 {
-  require(actuar)
+  require("actuar")
   #simulate a sample
   x4 <- rpareto(nsample, 6, 2)
   
@@ -220,7 +220,7 @@ mmedist(x5, "zmgeom", order=1:2, memp=memp2, start=list(p1=mean(x5 == 0), p2=1/m
 #
 if(any(installed.packages()[, "Package"] == "actuar"))
 {
-  require(actuar)
+  require("actuar")
   #simulate a sample
   x4 <- rpareto(nsample, 6, 2)
   

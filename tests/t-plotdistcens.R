@@ -1,4 +1,4 @@
-library(fitdistrplus)
+require("fitdistrplus")
 
 # (1) Plot of an empirical censored distribution (censored data) as a CDF
 # using the default Turnbull method

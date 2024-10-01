@@ -1,4 +1,4 @@
-library(fitdistrplus)
+require("fitdistrplus")
 
 compareplotdistcens <- function(d)
 {
@@ -83,7 +83,7 @@ if(FALSE)
   # d4 = case with also right censored data
   # with differences between the algorithms by the way they polish 
   # the ECDF function, by putting some masses to zero.
-  require(actuar)
+  require("actuar")
   data(fluazinam)
   d4 <- fluazinam
   d <- d4

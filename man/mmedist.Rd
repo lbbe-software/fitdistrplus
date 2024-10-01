@@ -199,7 +199,7 @@ mmedist(x3, "beta")
 #
 
 \donttest{
-  require(actuar)
+  require("actuar")
   #simulate a sample
   x4  <-  rpareto(1000, 6, 2)
 

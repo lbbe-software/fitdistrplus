@@ -1,4 +1,4 @@
-library(fitdistrplus)
+require("fitdistrplus")
 
 nsample <- 500
 nsample <- 10
@@ -35,7 +35,7 @@ log10EC50 <-log10(fluazinam)
   #wrap genoud function rgenoud package
   mygenoud  <-  function(fn, par, ...) 
   {
-    require(rgenoud)
+    require("rgenoud")
     res  <-  genoud(fn, starting.values=par, ...)        
     standardres  <-  c(res, convergence=0)
     

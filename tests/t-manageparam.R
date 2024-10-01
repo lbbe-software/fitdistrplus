@@ -1,5 +1,4 @@
-library(fitdistrplus)
-
+require("fitdistrplus")
 
 manageparam <- fitdistrplus:::manageparam
 

@@ -1,6 +1,4 @@
-library(fitdistrplus)
-
-
+require("fitdistrplus")
 
 set.seed(1234)
 nsample <- 10
@@ -45,7 +43,7 @@ logLik(f4)
 
 
 # (3) four parameter beta - also known as PERT distribution
-require(mc2d)
+require("mc2d")
 
 x2 <- rpert(2*nsample, 0, 1, 2, 3)
 

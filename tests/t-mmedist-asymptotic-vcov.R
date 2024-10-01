@@ -1,4 +1,4 @@
-require(fitdistrplus)
+require("fitdistrplus")
 nsample <- 1e6
 nsample <- 10
 
@@ -11,7 +11,7 @@ f1$vcov
 if(FALSE)
 {
   memp  <-  function(x, order) mean(x^order)
-  require(actuar)
+  require("actuar")
   fitdistrplus:::mme.vcov(as.numeric(truetheta), fix.arg=NULL, order=1:2, obs=x, mdistnam=mgamma, memp, weights=NULL)
 }
 
@@ -21,7 +21,7 @@ if(FALSE)
 
 if(any(installed.packages()[, "Package"] == "actuar"))
 {
-  require(actuar)
+  require("actuar")
   #simulate a sample
   x4 <- rpareto(nsample, 6, 2)
   

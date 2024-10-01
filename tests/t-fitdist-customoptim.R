@@ -1,5 +1,5 @@
 visualize <- FALSE # TRUE for manual tests with visualization of results
-require(fitdistrplus)
+require("fitdistrplus")
 
 myoptimize <- function(fn,par,ui,ci,...){
   res <- constrOptim(f=fn,theta=par,method="Nelder-Mead",ui=ui,ci=ci, ...)
@@ -30,7 +30,7 @@ if(visualize) {  # check ERROR on aarch64-apple-darwin20.4.0 (64-bit) (2021/05/1
 
 
 #true example
-library(GeneralizedHyperbolic)
+require("GeneralizedHyperbolic")
 args(dnig)
 
 

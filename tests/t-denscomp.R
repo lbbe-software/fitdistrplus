@@ -1,4 +1,4 @@
-library(fitdistrplus)
+require("fitdistrplus")
 
 # ?denscomp
 visualize <- FALSE # TRUE for manual test with visualization of plots
