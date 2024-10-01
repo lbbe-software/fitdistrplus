@@ -34,25 +34,25 @@ distributions and refer to the bibliograhy sections for
 details.
 
 
-# Discrete distributions
+# 1. Discrete distributions
 
-## Base R distribution
+## 1.1. Base R distribution
 
-### Geometric distribution
+### 1.1.1. Geometric distribution
 
 The MME is used $\hat p=1/(1+m_1)$.
 
 
-### Negative binomial distribution
+### 1.1.2. Negative binomial distribution
 
 The MME is used $\hat n = m_1^2/(\mu_2-m_1)$.
 
 
-### Poisson distribution
+### 1.1.3. Poisson distribution
 
 Both the MME and the MLE is $\hat \lambda = m_1$.
 
-### Binomial distribution
+### 1.1.4. Binomial distribution
 
 The MME is used 
 $$
@@ -68,7 +68,7 @@ $$
 
 
 
-## logarithmic distribution
+## 1.2. logarithmic distribution
 
 The expectation simplifies for small values of $p$
 $$
@@ -82,18 +82,18 @@ $$
 \hat p = 1-1/m_1.
 $$
 
-## Zero truncated distributions
+## 1.3. Zero truncated distributions
 
 This distribution are the distribution of $X\vert X>0$ when $X$ follows a particular discrete distributions.
 Hence the initial estimate are the one used for base R on sample $x-1$.
 
-## Zero modified distributions
+## 1.4. Zero modified distributions
 
 The MLE of the probability parameter is the empirical mass at 0 $\hat p_0=\frac1n \sum_i 1_{x_i=0}$.
 For other estimators we use the classical estimator with probability
 parameter $1-\hat p_0$.
 
-## Poisson inverse Gaussian distribution
+## 1.5. Poisson inverse Gaussian distribution
 
 The first two moments are
 $$
@@ -107,17 +107,17 @@ $$
 $$
 
 
-# Continuous distributions
+# 2. Continuous distributions
 
-## Normal distribution
+## 2.1. Normal distribution
 
 The MLE is the MME so we use the empirical mean and variance.
 
-## Lognormal distribution
+## 2.2. Lognormal distribution
 
 The log sample follows a normal distribution, so same as normal on the log sample.
 
-## Beta distribution (of the first kind)
+## 2.3. Beta distribution (of the first kind)
 
 The density function for a beta $\mathcal Be(a,b)$ is
 $$
@@ -130,13 +130,13 @@ The initial estimate is the MME
 (\#eq:betaguessestimator)
 \end{equation}
 
-## Other continuous distribution in `actuar`
+## 2.4. Other continuous distribution in `actuar`
 
-### Log-gamma
+### 2.4.1. Log-gamma
 
 Use the gamma initial values on the sample $\log(x)$
 
-### Gumbel
+### 2.4.2. Gumbel
 
 The distribution function is
 $$
@@ -166,7 +166,7 @@ $$
 \hat\alpha = \hat\theta\log(\log(2)) + q_2.
 $$
 
-### Inverse Gaussian distribution
+### 2.4.3. Inverse Gaussian distribution
 
 The moments of this distribution are
 $$
@@ -175,7 +175,7 @@ Var[X] = \mu^3\phi.
 $$
 Hence the initial estimate are $\hat\mu=m_1$, $\hat\phi=\mu_2/m_1^3$.
 
-### Generalized beta
+### 2.4.4. Generalized beta
 
 This is the distribution of $\theta X^{1/\tau}$ when $X$ is beta distributed $\mathcal Be(a,b)$
 The moments are
@@ -205,7 +205,7 @@ then we use beta initial estimate on sample
 $(\frac{x_i}{\hat\theta})^{\hat\tau}$.
 
 
-## Feller-Pareto family
+## 2.5. Feller-Pareto family
 
 
 The Feller-Pareto distribution is the distribution $X=\mu+\theta(1/B-1)^{1/\gamma}$ when
@@ -314,7 +314,7 @@ Neglecting the value $\gamma$ on the right-hand side we obtain
 \end{equation}
 
 
-### Transformed beta
+### 2.5.1. Transformed beta
 
 This is the Feller-Pareto with $\mu=0$. 
 So the first component of \@ref(eq:fellerparetogradient) simplifies to with
@@ -358,7 +358,7 @@ Similar to Feller-Pareto, we set
 (\#eq:fellerparetogammahat)
 \end{equation}
 
-### Generalized Pareto
+### 2.5.2. Generalized Pareto
 
 This is the Feller-Pareto with $\mu=0$ $\gamma=1$. 
 So the first component of \@ref(eq:fellerparetogradient) simplifies to with
@@ -387,7 +387,7 @@ $$
 with initial values of a beta distribution which is based on MME
 (\@ref(eq:betaguessestimator)).
 
-### Burr
+### 2.5.3. Burr
 
 Burr is a Feller-Pareto distribution with $\mu=0$, $\tau=1$.
 
@@ -430,7 +430,7 @@ We use for $\hat\gamma$ \@ref(eq:fellerparetogammahat) with $\tau=1$ and $\alpha
 
 
 
-### Loglogistic
+### 2.5.4. Loglogistic
 
 Loglogistic is a Feller-Pareto distribution with $\mu=0$, $\tau=1$, $\alpha=1$.
 The survival function is
@@ -464,7 +464,7 @@ $$
 (\#eq:llogisthetahat)
 \end{equation}
 
-### Paralogistic
+### 2.5.5. Paralogistic
 
 Paralogistic is a Feller-Pareto distribution with $\mu=0$, $\tau=1$, $\alpha=\gamma$.
 The survival function is
@@ -533,19 +533,19 @@ Initial estimators are
 \end{equation}
 
 
-### Inverse Burr
+### 2.5.6. Inverse Burr
 
 Use Burr estimate on the sample $1/x$
 
-### Inverse paralogistic
+### 2.5.7. Inverse paralogistic
 
 Use paralogistic estimate on the sample $1/x$
 
-### Inverse pareto
+### 2.5.8. Inverse pareto
 
 Use pareto estimate on the sample $1/x$
 
-### Pareto IV
+### 2.5.9. Pareto IV
 
 The survival function is 
 $$
@@ -625,7 +625,7 @@ $\hat\alpha$ from \@ref(eq:pareto4alpharelation) with $\hat\mu$, $\hat\theta$ an
 
 
 
-### Pareto III
+### 2.5.10. Pareto III
 
 Pareto III corresponds to Pareto IV with $\alpha=1$. 
 \begin{equation}
@@ -661,7 +661,7 @@ $\hat\gamma$ from \eqref{eq:pareto3:gamma:relation},
 $\hat\theta$ from \eqref{eq:pareto3:theta:relation} with $\hat\gamma$.
 
 
-### Pareto II
+### 2.5.11. Pareto II
 
 Pareto II corresponds to Pareto IV with $\gamma=1$. 
 
@@ -682,7 +682,7 @@ $\hat\theta$ from \eqref{eq:pareto4:theta:relation} with $\alpha^\star$ and $\ga
 $\hat\alpha$ from \eqref{eq:pareto4:alpha:relation} with $\hat\mu$, $\hat\theta$ and $\gamma=1$,
 
 
-### Pareto I
+### 2.5.12. Pareto I
 
 Pareto I corresponds to Pareto IV with $\gamma=1$, $\mu=\theta$. 
 
@@ -705,7 +705,7 @@ $\hat\alpha$ from \eqref{eq:pareto1:alpha:mu:relation}.
 
 
 
-### Pareto
+### 2.5.13. Pareto
 
 Pareto corresponds to Pareto IV with $\gamma=1$, $\mu=0$. 
 \begin{equation}
@@ -727,9 +727,9 @@ with $m_i$ are empirical raw moment of order $i$,
 $\hat\theta$ from \eqref{eq:pareto4:theta:relation} with $\alpha^\star$ and $\gamma=1$,
 $\hat\alpha$ from \eqref{eq:pareto4:alpha:relation} with $\mu=0$, $\hat\theta$ and $\gamma=1$.
 
-## Transformed gamma family
+## 2.6. Transformed gamma family
 
-### Transformed gamma distribution
+### 2.6.1. Transformed gamma distribution
 
 The log-likelihood is given by
 $$
@@ -760,7 +760,7 @@ $$
 \hat\tau =  \frac{\psi(\hat\alpha)}{\frac1n\sum_i \log(x_i/\hat\theta) }.
 $$
 
-### gamma distribution
+### 2.6.2. gamma distribution
 
 Transformed gamma with $\tau=1$
 
@@ -772,7 +772,7 @@ We compute the moment-estimator given by
 \end{equation}
 
 
-### Weibull distribution
+### 2.6.3. Weibull distribution
 
 Transformed gamma with $\alpha=1$
 
@@ -803,18 +803,18 @@ with $p_1=1/4$, $p_2=3/4$, $p_3=1/2$, $x_i$ corresponding empirical quantiles.
 
 Initial parameters are $\tilde\tau$ and $\tilde\theta$ unless the empirical quantiles $x_1=x_2$, in that case we use $\hat\tau$, $\hat\theta$.
 
-### Exponential distribution
+### 2.6.4. Exponential distribution
 
 The MLE is the MME
 $\hat\lambda = 1/m_1.$
 
-## Inverse transformed gamma family
+## 2.7. Inverse transformed gamma family
 
-### Inverse transformed gamma distribution
+### 2.7.1. Inverse transformed gamma distribution
 
 Same as transformed gamma distribution with $(1/x_i)_i$.
 
-### Inverse gamma distribution
+### 2.7.2. Inverse gamma distribution
 
 We compute moment-estimator as 
 $$
@@ -822,31 +822,31 @@ $$
 \hat\theta= m_1m_2/(m_2-m_1^2).
 $$
 
-### Inverse Weibull distribution
+### 2.7.3. Inverse Weibull distribution
 
 We use the QME.
 
-### Inverse exponential 
+### 2.7.4. Inverse exponential 
 
 Same as transformed gamma distribution with $(1/x_i)_i$.
 
-# Bibliography
+# 3. Bibliography
 
-## General books
+## 3.1. General books
 
 - N. L. Johnson, S. Kotz, N. Balakrishnan (1994). Continuous univariate distributions, Volume 1, Wiley. 
 - N. L. Johnson, S. Kotz, N. Balakrishnan (1995). Continuous univariate distributions, Volume 2, Wiley. 
 - N. L. Johnson, A. W. Kemp, S. Kotz (2008). Univariate discrete distributions, Wiley. 
 - G. Wimmer (1999),  Thesaurus of univariate discrete probability distributions.
 
-## Books dedicated to a distribution family
+## 3.2. Books dedicated to a distribution family
 
 - M. Ahsanullah, B.M. Golam Kibria, M. Shakil (2014). Normal and Student's t Distributions and Their Applications, Springer. 
 - B. C. Arnold (2010). Pareto Distributions, Chapman and Hall. 
 - A. Azzalini (2013). The Skew-Normal and Related Families. 
 - N. Balakrishnan (2014). Handbook of the Logistic Distribution, CRC Press. 
 
-## Books with applications
+## 3.3. Books with applications
 
 - C. Forbes, M. Evans, N. Hastings, B. Peacock (2011). Statistical Distributions, Wiley. 
 - Z. A. Karian, E. J. Dudewicz, K. Shimizu (2010). Handbook of Fitting Statistical Distributions with R, CRC Press. 
