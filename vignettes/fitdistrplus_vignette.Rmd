@@ -7,7 +7,7 @@ output:
     base_format: rmarkdown::html_vignette
     fig_caption: yes
     toc: true
-    number_sections: yes
+    number_sections: no
 bibliography: fitdistrplus.bib
 link-citations: true
 vignette: >
@@ -16,8 +16,6 @@ vignette: >
   %!\VignetteEncoding{UTF-8}
   \usepackage[utf8]{inputenc}
   \usepackage{amsmath}
-pkgdown:
-  as_is: true
 ---
 
 ```{r setup, echo=FALSE, message=FALSE, warning=FALSE}
@@ -39,7 +37,7 @@ quantile matching, maximum goodness-of-fit, distributions, R*
 <br>
 
 
-# Introduction {#Introduction}
+# 1. Introduction {#Introduction}
 
 Fitting distributions to data is a very common task in statistics and consists in choosing a probability distribution modelling the random variable, as well as finding parameter estimates for that distribution. 
 This requires judgment and expertise and generally needs an iterative process of distribution choice, parameter estimation, and quality of fit assessment.
@@ -69,15 +67,15 @@ Finally, various other packages provide functions to estimate the mode, the mome
 
 The package is available from the Comprehensive R Archive Network at \url{https://cran.r-project.org/package=fitdistrplus}.
 The paper is organized as follows: 
-Section \@ref(fitnoncenscont) presents tools for fitting continuous distributions to classic non-censored data. 
-Section \@ref(advtopic) deals with other estimation methods and other types of data, before 
-Section \@ref(ccl) concludes.
+Section [2](#fitnoncenscont) presents tools for fitting continuous distributions to classic non-censored data. 
+Section [3](#advtopic) deals with other estimation methods and other types of data, before 
+Section [4](#ccl) concludes.
 
 <br>
 
-# Fitting distributions to continuous non-censored data {#fitnoncenscont}
+# 2. Fitting distributions to continuous non-censored data {#fitnoncenscont}
 
-## Choice of candidate distributions {#Choice}
+## 2.1. Choice of candidate distributions {#Choice}
 
 For illustrating the use of various functions of the **fitdistrplus** package with continuous non-censored data, we will  first use a data set named `groundbeef` which is included in our package.
 This data set contains pointwise values of serving sizes in grams, collected in a French survey, for ground beef patties consumed by children under 5 years old. 
@@ -140,7 +138,7 @@ descdist(groundbeef$serving, boot = 1000)
 ```
 
 
-## Fit of distributions by maximum likelihood estimation {#FIT}
+## 2.2. Fit of distributions by maximum likelihood estimation {#FIT}
 
 Once selected, one or more parametric distributions $f(.\vert \theta)$ (with parameter $\theta\in\mathbb{R}^d$) may be fitted to the data set, one at a time, using the `fitdist` function. 
 Under the i.i.d. sample assumption, distribution parameters $\theta$ are by default estimated by maximizing the likelihood function defined as:
@@ -150,7 +148,7 @@ L(\theta)=\prod_{i=1}^n f(x_{i}\vert \theta)(\#eq:eq3)
 \end{equation}
 
 with $x_{i}$ the $n$ observations of variable $X$ and $f(.\vert \theta)$ the density function of the parametric distribution.
-The other proposed estimation methods are described in Section \@ref(Alternatives). 
+The other proposed estimation methods are described in Section [3.1.](#Alternatives). 
 
 The `fitdist` function returns an S3 object of class `fitdist` for which `print`, `summary` and `plot` functions are provided.
 The fit of a distribution using `fitdist` assumes that the corresponding `d`, `p`, `q` functions (standing respectively for the density, the distribution and the quantile functions) are defined.
@@ -282,10 +280,10 @@ Looking at classical penalized criteria based on the loglikehood (AIC, BIC) seem
 
 In the previous example, all the goodness-of-fit statistics based on the CDF distance are in favor of the Burr distribution, the only one characterized by three parameters, while AIC and BIC values respectively give the preference to the Burr distribution or the Pareto distribution.
 The choice between these two distributions seems thus less obvious and could be discussed. 
-Even if specifically recommended for discrete distributions, the Chi-squared statistic may also be used for continuous distributions (see Section \@ref(otherdata) and the reference manual for examples [@fitdistrplus]).
+Even if specifically recommended for discrete distributions, the Chi-squared statistic may also be used for continuous distributions (see Section [3.3.](#otherdata) and the reference manual for examples [@fitdistrplus]).
 
 
-## Uncertainty in parameter estimates {#Uncertainty}
+## 2.3. Uncertainty in parameter estimates {#Uncertainty}
 
 The uncertainty in the parameters of the fitted distribution can be estimated by parametric or nonparametric bootstraps using the `boodist` function for non-censored data [@efrontibshirani94].
 This function returns the bootstrapped values of parameters in an S3 class object which can be plotted to visualize the bootstrap region. 
@@ -323,9 +321,9 @@ quantile(bendo.B, probs = 0.05)
 ```
 
 
-# Advanced topics {#advtopic}
+# 3. Advanced topics {#advtopic}
 
-## Alternative methods for parameter estimation {#Alternatives}
+## 3.1. Alternative methods for parameter estimation {#Alternatives}
 
 This subsection focuses on alternative estimation methods.
 One of the alternative for continuous distributions is the maximum goodness-of-fit estimation method also called minimum distance estimation method [@Stephens86, @actuarJSS]. 
@@ -495,7 +493,7 @@ The quantile matching estimation is of particular interest when we need to focus
 
 
 
-## Customization of the optimization algorithm {#Customization}
+## 3.2. Customization of the optimization algorithm {#Customization}
 
 Each time a numerical minimization is carried out in the `fitdistrplus` package, the `optim` function of the **stats** package is used by default with the `Nelder-Mead` method for distributions characterized by more than one parameter and the `BFGS` method for distributions characterized by only one parameter.
 Sometimes the default algorithm fails to converge. 
@@ -551,7 +549,7 @@ cbind(NM = fNM$estimate, BFGS = fBFGS$estimate, SANN = fSANN$estimate, CG = fCG$
       fgenoud = fgenoud$estimate)
 ```
 
-## Fitting distributions to other types of data {#otherdata}
+## 3.3. Fitting distributions to other types of data {#otherdata}
 
 *This section was modified since the publication of this vignette in the Journal of Statistical Software in order to include new goodness-of-fit plots for censored and discrete data.*
 
@@ -684,7 +682,7 @@ gofstat(list(ftoxo.P, ftoxo.nb), fitnames = c("Poisson", "negative binomial"))
 
 
 
-# Conclusion {#ccl}
+# 4. Conclusion {#ccl}
 
 The R  package **fitdistrplus** allows to easily fit distributions. 
 Our main objective while developing this package was to provide tools for helping R users to fit distributions to data. 
