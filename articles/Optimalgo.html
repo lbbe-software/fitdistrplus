@@ -63,7 +63,7 @@
                         <h4 data-toc-skip class="author">Marie Laure
 Delignette Muller, Christophe Dutang</h4>
             
-            <h4 data-toc-skip class="date">2024-09-30</h4>
+            <h4 data-toc-skip class="date">2024-10-01</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/lbbe-software/fitdistrplus/blob/master/vignettes/Optimalgo.Rmd" class="external-link"><code>vignettes/Optimalgo.Rmd</code></a></small>
       <div class="d-none name"><code>Optimalgo.Rmd</code></div>
@@ -72,7 +72,7 @@ Delignette Muller, Christophe Dutang</h4>
     
     
 <div class="section level2">
-<h2 id="quick-overview-of-main-optimization-methods">Quick overview of main optimization methods<a class="anchor" aria-label="anchor" href="#quick-overview-of-main-optimization-methods"></a>
+<h2 id="quick-overview-of-main-optimization-methods">1. Quick overview of main optimization methods<a class="anchor" aria-label="anchor" href="#quick-overview-of-main-optimization-methods"></a>
 </h2>
 <p>We present very quickly the main optimization methods. Please refer
 to <strong>Numerical Optimization (Nocedal &amp; Wright, 2006)</strong>
@@ -83,7 +83,7 @@ good introduction. We consider the following problem
 for
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>∈</mo><msup><mi>ℝ</mi><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">x\in\mathbb{R}^n</annotation></semantics></math>.</p>
 <div class="section level3">
-<h3 id="derivative-free-optimization-methods">Derivative-free optimization methods<a class="anchor" aria-label="anchor" href="#derivative-free-optimization-methods"></a>
+<h3 id="derivative-free-optimization-methods">1.1. Derivative-free optimization methods<a class="anchor" aria-label="anchor" href="#derivative-free-optimization-methods"></a>
 </h3>
 <p>The Nelder-Mead method is one of the most well known derivative-free
 methods that use only values of
@@ -176,7 +176,7 @@ and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>σ</mi><mo>=</mo><mn>1</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">\sigma=1/2</annotation></semantics></math>.</p>
 </div>
 <div class="section level3">
-<h3 id="hessian-free-optimization-methods">Hessian-free optimization methods<a class="anchor" aria-label="anchor" href="#hessian-free-optimization-methods"></a>
+<h3 id="hessian-free-optimization-methods">1.2. Hessian-free optimization methods<a class="anchor" aria-label="anchor" href="#hessian-free-optimization-methods"></a>
 </h3>
 <p>For smooth non-linear function, the following method is generally
 used: a local method combined with line search work on the scheme
@@ -186,7 +186,7 @@ where the local method will specify the direction
 and the line search will specify the step size
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>t</mi><mi>k</mi></msub><mo>∈</mo><mi>ℝ</mi></mrow><annotation encoding="application/x-tex">t_k \in \mathbb{R}</annotation></semantics></math>.</p>
 <div class="section level4">
-<h4 id="computing-the-direction-d_k">Computing the direction
+<h4 id="computing-the-direction-d_k">1.2.1. Computing the direction
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>d</mi><mi>k</mi></msub><annotation encoding="application/x-tex">d_k</annotation></semantics></math><a class="anchor" aria-label="anchor" href="#computing-the-direction-d_k"></a>
 </h4>
 <p>A desirable property for
@@ -315,7 +315,7 @@ Polak-Ribiere, Beale-Sorenson) of the (non-linear) conjugate gradient
 are available in <code>optim</code>.</p>
 </div>
 <div class="section level4">
-<h4 id="computing-the-stepsize-t_k">Computing the stepsize
+<h4 id="computing-the-stepsize-t_k">1.2.2. Computing the stepsize
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>t</mi><mi>k</mi></msub><annotation encoding="application/x-tex">t_k</annotation></semantics></math><a class="anchor" aria-label="anchor" href="#computing-the-stepsize-t_k"></a>
 </h4>
 <p>Let
@@ -351,7 +351,7 @@ e.g. 1,
 </div>
 </div>
 <div class="section level3">
-<h3 id="benchmark">Benchmark<a class="anchor" aria-label="anchor" href="#benchmark"></a>
+<h3 id="benchmark">1.3. Benchmark<a class="anchor" aria-label="anchor" href="#benchmark"></a>
 </h3>
 <p>To simplify the benchmark of optimization methods, we create a
 <code>fitbench</code> function that computes the desired estimation
@@ -363,13 +363,14 @@ exported in the package.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="numerical-illustration-with-the-beta-distribution">Numerical illustration with the beta distribution<a class="anchor" aria-label="anchor" href="#numerical-illustration-with-the-beta-distribution"></a>
+<h2 id="numerical-illustration-with-the-beta-distribution">2. Numerical illustration with the beta distribution<a class="anchor" aria-label="anchor" href="#numerical-illustration-with-the-beta-distribution"></a>
 </h2>
 <div class="section level3">
-<h3 id="log-likelihood-function-and-its-gradient-for-beta-distribution">Log-likelihood function and its gradient for beta distribution<a class="anchor" aria-label="anchor" href="#log-likelihood-function-and-its-gradient-for-beta-distribution"></a>
+<h3 id="log-likelihood-function-and-its-gradient-for-beta-distribution">2.1. Log-likelihood function and its gradient for beta
+distribution<a class="anchor" aria-label="anchor" href="#log-likelihood-function-and-its-gradient-for-beta-distribution"></a>
 </h3>
 <div class="section level4">
-<h4 id="theoretical-value">Theoretical value<a class="anchor" aria-label="anchor" href="#theoretical-value"></a>
+<h4 id="theoretical-value">2.1.1. Theoretical value<a class="anchor" aria-label="anchor" href="#theoretical-value"></a>
 </h4>
 <p>The density of the beta distribution is given by
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>;</mo><msub><mi>δ</mi><mn>1</mn></msub><mo>,</mo><msub><mi>δ</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mrow><msup><mi>x</mi><mrow><msub><mi>δ</mi><mn>1</mn></msub><mo>−</mo><mn>1</mn></mrow></msup><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mrow><msub><mi>δ</mi><mn>2</mn></msub><mo>−</mo><mn>1</mn></mrow></msup></mrow><mrow><mi>β</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>δ</mi><mn>1</mn></msub><mo>,</mo><msub><mi>δ</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo>,</mo></mrow><annotation encoding="application/x-tex">
@@ -401,8 +402,7 @@ is the digamma function, see the NIST Handbook of mathematical functions
 <a href="https://dlmf.nist.gov/" class="external-link uri">https://dlmf.nist.gov/</a>.</p>
 </div>
 <div class="section level4">
-<h4 id="r-implementation">
-<code>R</code> implementation<a class="anchor" aria-label="anchor" href="#r-implementation"></a>
+<h4 id="r-implementation">2.1.2. <code>R</code> implementation<a class="anchor" aria-label="anchor" href="#r-implementation"></a>
 </h4>
 <p>As in the <code>fitdistrplus</code> package, we minimize the opposite
 of the log-likelihood: we implement the opposite of the gradient in
@@ -415,7 +415,7 @@ exported.</p>
 </div>
 </div>
 <div class="section level3">
-<h3 id="random-generation-of-a-sample">Random generation of a sample<a class="anchor" aria-label="anchor" href="#random-generation-of-a-sample"></a>
+<h3 id="random-generation-of-a-sample">2.2. Random generation of a sample<a class="anchor" aria-label="anchor" href="#random-generation-of-a-sample"></a>
 </h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#(1) beta distribution</span></span>
@@ -431,7 +431,7 @@ exported.</p>
 <p><img src="Optimalgo_files/figure-html/unnamed-chunk-4-1.png" width="384"></p>
 </div>
 <div class="section level3">
-<h3 id="fit-beta-distribution">Fit Beta distribution<a class="anchor" aria-label="anchor" href="#fit-beta-distribution"></a>
+<h3 id="fit-beta-distribution">2.3 Fit Beta distribution<a class="anchor" aria-label="anchor" href="#fit-beta-distribution"></a>
 </h3>
 <p>Define control parameters.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -476,7 +476,7 @@ minimize and its gradient (whether it is the theoretical gradient or the
 numerically approximated one).</p>
 </div>
 <div class="section level3">
-<h3 id="results-of-the-numerical-investigation">Results of the numerical investigation<a class="anchor" aria-label="anchor" href="#results-of-the-numerical-investigation"></a>
+<h3 id="results-of-the-numerical-investigation">2.4. Results of the numerical investigation<a class="anchor" aria-label="anchor" href="#results-of-the-numerical-investigation"></a>
 </h3>
 <p>Results are displayed in the following tables: (1) the original
 parametrization without specifying the gradient (<code>-B</code> stands
@@ -563,10 +563,10 @@ the (true) gradient (<code>-G</code> stands for gradient).</p>
 <td align="right">0.005</td>
 <td align="right">0.004</td>
 <td align="right">0.023</td>
-<td align="right">0.029</td>
-<td align="right">0.021</td>
+<td align="right">0.028</td>
+<td align="right">0.020</td>
 <td align="right">0.004</td>
-<td align="right">0.008</td>
+<td align="right">0.007</td>
 </tr>
 </tbody>
 </table>
@@ -660,14 +660,14 @@ the (true) gradient (<code>-G</code> stands for gradient).</p>
 <tr class="even">
 <td align="left">time (sec)</td>
 <td align="right">0.009</td>
-<td align="right">0.077</td>
-<td align="right">0.073</td>
-<td align="right">0.049</td>
-<td align="right">0.014</td>
+<td align="right">0.076</td>
+<td align="right">0.072</td>
+<td align="right">0.046</td>
+<td align="right">0.015</td>
 <td align="right">0.013</td>
-<td align="right">0.088</td>
-<td align="right">0.079</td>
-<td align="right">0.067</td>
+<td align="right">0.087</td>
+<td align="right">0.078</td>
+<td align="right">0.066</td>
 </tr>
 </tbody>
 </table>
@@ -725,11 +725,11 @@ gradient</caption>
 </tr>
 <tr class="even">
 <td align="left">time (sec)</td>
-<td align="right">0.015</td>
+<td align="right">0.014</td>
 <td align="right">0.003</td>
-<td align="right">0.014</td>
-<td align="right">0.014</td>
-<td align="right">0.016</td>
+<td align="right">0.013</td>
+<td align="right">0.013</td>
+<td align="right">0.015</td>
 </tr>
 </tbody>
 </table>
@@ -781,9 +781,9 @@ gradient</caption>
 <tr class="even">
 <td align="left">time (sec)</td>
 <td align="right">0.011</td>
-<td align="right">0.046</td>
+<td align="right">0.045</td>
 <td align="right">0.044</td>
-<td align="right">0.039</td>
+<td align="right">0.038</td>
 </tr>
 </tbody>
 </table>
@@ -812,14 +812,15 @@ function.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="numerical-illustration-with-the-negative-binomial-distribution">Numerical illustration with the negative binomial distribution<a class="anchor" aria-label="anchor" href="#numerical-illustration-with-the-negative-binomial-distribution"></a>
+<h2 id="numerical-illustration-with-the-negative-binomial-distribution">3. Numerical illustration with the negative binomial
+distribution<a class="anchor" aria-label="anchor" href="#numerical-illustration-with-the-negative-binomial-distribution"></a>
 </h2>
 <div class="section level3">
-<h3 id="log-likelihood-function-and-its-gradient-for-negative-binomial-distribution">Log-likelihood function and its gradient for negative binomial
+<h3 id="log-likelihood-function-and-its-gradient-for-negative-binomial-distribution">3.1. Log-likelihood function and its gradient for negative binomial
 distribution<a class="anchor" aria-label="anchor" href="#log-likelihood-function-and-its-gradient-for-negative-binomial-distribution"></a>
 </h3>
 <div class="section level4">
-<h4 id="theoretical-value-1">Theoretical value<a class="anchor" aria-label="anchor" href="#theoretical-value-1"></a>
+<h4 id="theoretical-value-1">3.1.1. Theoretical value<a class="anchor" aria-label="anchor" href="#theoretical-value-1"></a>
 </h4>
 <p>The p.m.f. of the Negative binomial distribution is given by
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>;</mo><mi>m</mi><mo>,</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mrow><mi>Γ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>+</mo><mi>m</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mi>Γ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>m</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>x</mi><mi>!</mi></mrow></mfrac><msup><mi>p</mi><mi>m</mi></msup><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>x</mi></msup><mo>,</mo></mrow><annotation encoding="application/x-tex">
@@ -863,8 +864,7 @@ is the digamma function, see the NIST Handbook of mathematical functions
 <a href="https://dlmf.nist.gov/" class="external-link uri">https://dlmf.nist.gov/</a>.</p>
 </div>
 <div class="section level4">
-<h4 id="r-implementation-1">
-<code>R</code> implementation<a class="anchor" aria-label="anchor" href="#r-implementation-1"></a>
+<h4 id="r-implementation-1">3.1.2. <code>R</code> implementation<a class="anchor" aria-label="anchor" href="#r-implementation-1"></a>
 </h4>
 <p>As in the <code>fitdistrplus</code> package, we minimize the opposite
 of the log-likelihood: we implement the opposite of the gradient in
@@ -881,7 +881,7 @@ of the log-likelihood: we implement the opposite of the gradient in
 </div>
 </div>
 <div class="section level3">
-<h3 id="random-generation-of-a-sample-1">Random generation of a sample<a class="anchor" aria-label="anchor" href="#random-generation-of-a-sample-1"></a>
+<h3 id="random-generation-of-a-sample-1">3.2. Random generation of a sample<a class="anchor" aria-label="anchor" href="#random-generation-of-a-sample-1"></a>
 </h3>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#(2) negative binomial distribution</span></span>
@@ -898,7 +898,7 @@ of the log-likelihood: we implement the opposite of the gradient in
 <p><img src="Optimalgo_files/figure-html/unnamed-chunk-15-1.png" width="384"></p>
 </div>
 <div class="section level3">
-<h3 id="fit-a-negative-binomial-distribution">Fit a negative binomial distribution<a class="anchor" aria-label="anchor" href="#fit-a-negative-binomial-distribution"></a>
+<h3 id="fit-a-negative-binomial-distribution">3.3. Fit a negative binomial distribution<a class="anchor" aria-label="anchor" href="#fit-a-negative-binomial-distribution"></a>
 </h3>
 <p>Define control parameters and make the benchmark.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
@@ -948,7 +948,7 @@ minimize and its gradient (whether it is the theoretical gradient or the
 numerically approximated one).</p>
 </div>
 <div class="section level3">
-<h3 id="results-of-the-numerical-investigation-1">Results of the numerical investigation<a class="anchor" aria-label="anchor" href="#results-of-the-numerical-investigation-1"></a>
+<h3 id="results-of-the-numerical-investigation-1">3.4. Results of the numerical investigation<a class="anchor" aria-label="anchor" href="#results-of-the-numerical-investigation-1"></a>
 </h3>
 <p>Results are displayed in the following tables: (1) the original
 parametrization without specifying the gradient (<code>-B</code> stands
@@ -1033,11 +1033,11 @@ the (true) gradient (<code>-G</code> stands for gradient).</p>
 <tr class="even">
 <td align="left">time (sec)</td>
 <td align="right">0.001</td>
-<td align="right">0.002</td>
+<td align="right">0.003</td>
 <td align="right">0.220</td>
 <td align="right">0.208</td>
-<td align="right">0.207</td>
-<td align="right">0.002</td>
+<td align="right">0.210</td>
+<td align="right">0.001</td>
 <td align="right">0.003</td>
 </tr>
 <tr class="odd">
@@ -1141,7 +1141,7 @@ the (true) gradient (<code>-G</code> stands for gradient).</p>
 </tr>
 <tr class="even">
 <td align="left">time (sec)</td>
-<td align="right">0.009</td>
+<td align="right">0.008</td>
 <td align="right">0.031</td>
 <td align="right">0.007</td>
 <td align="right">0.031</td>
@@ -1221,7 +1221,7 @@ gradient</caption>
 <td align="left">time (sec)</td>
 <td align="right">0.004</td>
 <td align="right">0.003</td>
-<td align="right">0.268</td>
+<td align="right">0.260</td>
 <td align="right">0.236</td>
 <td align="right">0.024</td>
 </tr>
@@ -1309,7 +1309,7 @@ function.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
+<h2 id="conclusion">4. Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
 </h2>
 <p>Based on the two previous examples, we observe that all methods
 converge to the same point. This is reassuring.<br>

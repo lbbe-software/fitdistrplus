@@ -63,7 +63,7 @@
                         <h4 data-toc-skip class="author">Marie Laure
 Delignette Muller, Christophe Dutang</h4>
             
-            <h4 data-toc-skip class="date">2024-09-30</h4>
+            <h4 data-toc-skip class="date">2024-10-01</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/lbbe-software/fitdistrplus/blob/master/vignettes/starting-values.Rmd" class="external-link"><code>vignettes/starting-values.Rmd</code></a></small>
       <div class="d-none name"><code>starting-values.Rmd</code></div>
@@ -82,31 +82,31 @@ m_j = \frac1n \sum_{i=1}^n x_i^j,
 discrete and continuous distributions and refer to the bibliograhy
 sections for details.</p>
 <div class="section level2">
-<h2 id="discrete-distributions">Discrete distributions<a class="anchor" aria-label="anchor" href="#discrete-distributions"></a>
+<h2 id="discrete-distributions">1. Discrete distributions<a class="anchor" aria-label="anchor" href="#discrete-distributions"></a>
 </h2>
 <div class="section level3">
-<h3 id="base-r-distribution">Base R distribution<a class="anchor" aria-label="anchor" href="#base-r-distribution"></a>
+<h3 id="base-r-distribution">1.1. Base R distribution<a class="anchor" aria-label="anchor" href="#base-r-distribution"></a>
 </h3>
 <div class="section level4">
-<h4 id="geometric-distribution">Geometric distribution<a class="anchor" aria-label="anchor" href="#geometric-distribution"></a>
+<h4 id="geometric-distribution">1.1.1. Geometric distribution<a class="anchor" aria-label="anchor" href="#geometric-distribution"></a>
 </h4>
 <p>The MME is used
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>p</mi><mo accent="true">̂</mo></mover><mo>=</mo><mn>1</mn><mi>/</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><msub><mi>m</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\hat p=1/(1+m_1)</annotation></semantics></math>.</p>
 </div>
 <div class="section level4">
-<h4 id="negative-binomial-distribution">Negative binomial distribution<a class="anchor" aria-label="anchor" href="#negative-binomial-distribution"></a>
+<h4 id="negative-binomial-distribution">1.1.2. Negative binomial distribution<a class="anchor" aria-label="anchor" href="#negative-binomial-distribution"></a>
 </h4>
 <p>The MME is used
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>n</mi><mo accent="true">̂</mo></mover><mo>=</mo><msubsup><mi>m</mi><mn>1</mn><mn>2</mn></msubsup><mi>/</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>μ</mi><mn>2</mn></msub><mo>−</mo><msub><mi>m</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\hat n = m_1^2/(\mu_2-m_1)</annotation></semantics></math>.</p>
 </div>
 <div class="section level4">
-<h4 id="poisson-distribution">Poisson distribution<a class="anchor" aria-label="anchor" href="#poisson-distribution"></a>
+<h4 id="poisson-distribution">1.1.3. Poisson distribution<a class="anchor" aria-label="anchor" href="#poisson-distribution"></a>
 </h4>
 <p>Both the MME and the MLE is
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>λ</mi><mo accent="true">̂</mo></mover><mo>=</mo><msub><mi>m</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">\hat \lambda = m_1</annotation></semantics></math>.</p>
 </div>
 <div class="section level4">
-<h4 id="binomial-distribution">Binomial distribution<a class="anchor" aria-label="anchor" href="#binomial-distribution"></a>
+<h4 id="binomial-distribution">1.1.4. Binomial distribution<a class="anchor" aria-label="anchor" href="#binomial-distribution"></a>
 </h4>
 <p>The MME is used
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>a</mi><mi>r</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>X</mi><mo stretchy="true" form="postfix">]</mo></mrow><mi>/</mi><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>X</mi><mo stretchy="true" form="postfix">]</mo></mrow><mo>=</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo>⇒</mo><mover><mi>p</mi><mo accent="true">̂</mo></mover><mo>=</mo><mn>1</mn><mo>−</mo><msub><mi>μ</mi><mn>2</mn></msub><mi>/</mi><msub><mi>m</mi><mn>1</mn></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">
@@ -120,7 +120,7 @@ Var[X]/E[X] = 1-p
 </div>
 </div>
 <div class="section level3">
-<h3 id="logarithmic-distribution">logarithmic distribution<a class="anchor" aria-label="anchor" href="#logarithmic-distribution"></a>
+<h3 id="logarithmic-distribution">1.2. logarithmic distribution<a class="anchor" aria-label="anchor" href="#logarithmic-distribution"></a>
 </h3>
 <p>The expectation simplifies for small values of
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>X</mi><mo stretchy="true" form="postfix">]</mo></mrow><mo>=</mo><mo>−</mo><mfrac><mn>1</mn><mrow><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mfrac><mi>p</mi><mrow><mn>1</mn><mo>−</mo><mi>p</mi></mrow></mfrac><mo>≈</mo><mo>−</mo><mfrac><mn>1</mn><mrow><mo>−</mo><mi>p</mi></mrow></mfrac><mfrac><mi>p</mi><mrow><mn>1</mn><mo>−</mo><mi>p</mi></mrow></mfrac><mo>=</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>−</mo><mi>p</mi></mrow></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">
@@ -134,7 +134,7 @@ E[X] = -\frac{1}{\log(1-p)}\frac{p}{1-p}
 </annotation></semantics></math></p>
 </div>
 <div class="section level3">
-<h3 id="zero-truncated-distributions">Zero truncated distributions<a class="anchor" aria-label="anchor" href="#zero-truncated-distributions"></a>
+<h3 id="zero-truncated-distributions">1.3. Zero truncated distributions<a class="anchor" aria-label="anchor" href="#zero-truncated-distributions"></a>
 </h3>
 <p>This distribution are the distribution of
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo stretchy="false" form="postfix">|</mo><mi>X</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">X\vert X&gt;0</annotation></semantics></math>
@@ -145,7 +145,7 @@ are the one used for base R on sample
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">x-1</annotation></semantics></math>.</p>
 </div>
 <div class="section level3">
-<h3 id="zero-modified-distributions">Zero modified distributions<a class="anchor" aria-label="anchor" href="#zero-modified-distributions"></a>
+<h3 id="zero-modified-distributions">1.4. Zero modified distributions<a class="anchor" aria-label="anchor" href="#zero-modified-distributions"></a>
 </h3>
 <p>The MLE of the probability parameter is the empirical mass at 0
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mn>0</mn></msub><mo>=</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><msub><mo>∑</mo><mi>i</mi></msub><msub><mn>1</mn><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>=</mo><mn>0</mn></mrow></msub></mrow><annotation encoding="application/x-tex">\hat p_0=\frac1n \sum_i 1_{x_i=0}</annotation></semantics></math>.
@@ -154,7 +154,7 @@ parameter
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>−</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">1-\hat p_0</annotation></semantics></math>.</p>
 </div>
 <div class="section level3">
-<h3 id="poisson-inverse-gaussian-distribution">Poisson inverse Gaussian distribution<a class="anchor" aria-label="anchor" href="#poisson-inverse-gaussian-distribution"></a>
+<h3 id="poisson-inverse-gaussian-distribution">1.5. Poisson inverse Gaussian distribution<a class="anchor" aria-label="anchor" href="#poisson-inverse-gaussian-distribution"></a>
 </h3>
 <p>The first two moments are
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>X</mi><mo stretchy="true" form="postfix">]</mo></mrow><mo>=</mo><mi>μ</mi><mo>,</mo><mi>V</mi><mi>a</mi><mi>r</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>X</mi><mo stretchy="true" form="postfix">]</mo></mrow><mo>=</mo><mi>μ</mi><mo>+</mo><mi>ϕ</mi><msup><mi>μ</mi><mn>3</mn></msup><mi>.</mi></mrow><annotation encoding="application/x-tex">
@@ -168,21 +168,21 @@ Var[X] = \mu+\phi\mu^3.
 </div>
 </div>
 <div class="section level2">
-<h2 id="continuous-distributions">Continuous distributions<a class="anchor" aria-label="anchor" href="#continuous-distributions"></a>
+<h2 id="continuous-distributions">2. Continuous distributions<a class="anchor" aria-label="anchor" href="#continuous-distributions"></a>
 </h2>
 <div class="section level3">
-<h3 id="normal-distribution">Normal distribution<a class="anchor" aria-label="anchor" href="#normal-distribution"></a>
+<h3 id="normal-distribution">2.1. Normal distribution<a class="anchor" aria-label="anchor" href="#normal-distribution"></a>
 </h3>
 <p>The MLE is the MME so we use the empirical mean and variance.</p>
 </div>
 <div class="section level3">
-<h3 id="lognormal-distribution">Lognormal distribution<a class="anchor" aria-label="anchor" href="#lognormal-distribution"></a>
+<h3 id="lognormal-distribution">2.2. Lognormal distribution<a class="anchor" aria-label="anchor" href="#lognormal-distribution"></a>
 </h3>
 <p>The log sample follows a normal distribution, so same as normal on
 the log sample.</p>
 </div>
 <div class="section level3">
-<h3 id="beta-distribution-of-the-first-kind">Beta distribution (of the first kind)<a class="anchor" aria-label="anchor" href="#beta-distribution-of-the-first-kind"></a>
+<h3 id="beta-distribution-of-the-first-kind">2.3. Beta distribution (of the first kind)<a class="anchor" aria-label="anchor" href="#beta-distribution-of-the-first-kind"></a>
 </h3>
 <p>The density function for a beta
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ℬ</mi><mi>e</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mo>,</mo><mi>b</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\mathcal Be(a,b)</annotation></semantics></math>
@@ -197,16 +197,16 @@ f_X(x) = \frac{\Gamma(a)\Gamma(b)}{\Gamma(a+b)} x^{a-1}(1-x)^{b-1}.
 \end{equation}</annotation></semantics></math></p>
 </div>
 <div class="section level3">
-<h3 id="other-continuous-distribution-in-actuar">Other continuous distribution in <code>actuar</code><a class="anchor" aria-label="anchor" href="#other-continuous-distribution-in-actuar"></a>
+<h3 id="other-continuous-distribution-in-actuar">2.4. Other continuous distribution in <code>actuar</code><a class="anchor" aria-label="anchor" href="#other-continuous-distribution-in-actuar"></a>
 </h3>
 <div class="section level4">
-<h4 id="log-gamma">Log-gamma<a class="anchor" aria-label="anchor" href="#log-gamma"></a>
+<h4 id="log-gamma">2.4.1. Log-gamma<a class="anchor" aria-label="anchor" href="#log-gamma"></a>
 </h4>
 <p>Use the gamma initial values on the sample
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\log(x)</annotation></semantics></math></p>
 </div>
 <div class="section level4">
-<h4 id="gumbel">Gumbel<a class="anchor" aria-label="anchor" href="#gumbel"></a>
+<h4 id="gumbel">2.4.2. Gumbel<a class="anchor" aria-label="anchor" href="#gumbel"></a>
 </h4>
 <p>The distribution function is
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mo>−</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mo>−</mo><mfrac><mrow><mi>x</mi><mo>−</mo><mi>α</mi></mrow><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
@@ -239,7 +239,7 @@ yields to initial estimate
 </annotation></semantics></math></p>
 </div>
 <div class="section level4">
-<h4 id="inverse-gaussian-distribution">Inverse Gaussian distribution<a class="anchor" aria-label="anchor" href="#inverse-gaussian-distribution"></a>
+<h4 id="inverse-gaussian-distribution">2.4.3. Inverse Gaussian distribution<a class="anchor" aria-label="anchor" href="#inverse-gaussian-distribution"></a>
 </h4>
 <p>The moments of this distribution are
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>X</mi><mo stretchy="true" form="postfix">]</mo></mrow><mo>=</mo><mi>μ</mi><mo>,</mo><mi>V</mi><mi>a</mi><mi>r</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>X</mi><mo stretchy="true" form="postfix">]</mo></mrow><mo>=</mo><msup><mi>μ</mi><mn>3</mn></msup><mi>ϕ</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">
@@ -250,7 +250,7 @@ Var[X] = \mu^3\phi.
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>ϕ</mi><mo accent="true">̂</mo></mover><mo>=</mo><msub><mi>μ</mi><mn>2</mn></msub><mi>/</mi><msubsup><mi>m</mi><mn>1</mn><mn>3</mn></msubsup></mrow><annotation encoding="application/x-tex">\hat\phi=\mu_2/m_1^3</annotation></semantics></math>.</p>
 </div>
 <div class="section level4">
-<h4 id="generalized-beta">Generalized beta<a class="anchor" aria-label="anchor" href="#generalized-beta"></a>
+<h4 id="generalized-beta">2.4.4. Generalized beta<a class="anchor" aria-label="anchor" href="#generalized-beta"></a>
 </h4>
 <p>This is the distribution of
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><msup><mi>X</mi><mrow><mn>1</mn><mi>/</mi><mi>τ</mi></mrow></msup></mrow><annotation encoding="application/x-tex">\theta X^{1/\tau}</annotation></semantics></math>
@@ -286,7 +286,7 @@ sample
 </div>
 </div>
 <div class="section level3">
-<h3 id="feller-pareto-family">Feller-Pareto family<a class="anchor" aria-label="anchor" href="#feller-pareto-family"></a>
+<h3 id="feller-pareto-family">2.5. Feller-Pareto family<a class="anchor" aria-label="anchor" href="#feller-pareto-family"></a>
 </h3>
 <p>The Feller-Pareto distribution is the distribution
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo>=</mo><mi>μ</mi><mo>+</mo><mi>θ</mi><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mi>/</mi><mi>B</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mn>1</mn><mi>/</mi><mi>γ</mi></mrow></msup></mrow><annotation encoding="application/x-tex">X=\mu+\theta(1/B-1)^{1/\gamma}</annotation></semantics></math>
@@ -412,7 +412,7 @@ on the right-hand side we obtain
 (\#eq:fellerparetogammahat)
 \end{equation}</annotation></semantics></math></p>
 <div class="section level4">
-<h4 id="transformed-beta">Transformed beta<a class="anchor" aria-label="anchor" href="#transformed-beta"></a>
+<h4 id="transformed-beta">2.5.1. Transformed beta<a class="anchor" aria-label="anchor" href="#transformed-beta"></a>
 </h4>
 <p>This is the Feller-Pareto with
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>μ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\mu=0</annotation></semantics></math>.
@@ -460,7 +460,7 @@ Similar to Feller-Pareto, we set
 \end{equation}</annotation></semantics></math></p>
 </div>
 <div class="section level4">
-<h4 id="generalized-pareto">Generalized Pareto<a class="anchor" aria-label="anchor" href="#generalized-pareto"></a>
+<h4 id="generalized-pareto">2.5.2. Generalized Pareto<a class="anchor" aria-label="anchor" href="#generalized-pareto"></a>
 </h4>
 <p>This is the Feller-Pareto with
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>μ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\mu=0</annotation></semantics></math><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\gamma=1</annotation></semantics></math>.
@@ -492,7 +492,7 @@ y_i = x_i/\hat\theta,
 distribution which is based on MME (@ref(eq:betaguessestimator)).</p>
 </div>
 <div class="section level4">
-<h4 id="burr">Burr<a class="anchor" aria-label="anchor" href="#burr"></a>
+<h4 id="burr">2.5.3. Burr<a class="anchor" aria-label="anchor" href="#burr"></a>
 </h4>
 <p>Burr is a Feller-Pareto distribution with
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>μ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\mu=0</annotation></semantics></math>,
@@ -545,7 +545,7 @@ and previous
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>θ</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\hat\theta</annotation></semantics></math>.</p>
 </div>
 <div class="section level4">
-<h4 id="loglogistic">Loglogistic<a class="anchor" aria-label="anchor" href="#loglogistic"></a>
+<h4 id="loglogistic">2.5.4. Loglogistic<a class="anchor" aria-label="anchor" href="#loglogistic"></a>
 </h4>
 <p>Loglogistic is a Feller-Pareto distribution with
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>μ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\mu=0</annotation></semantics></math>,
@@ -583,7 +583,7 @@ simplifies to
 \end{equation}</annotation></semantics></math></p>
 </div>
 <div class="section level4">
-<h4 id="paralogistic">Paralogistic<a class="anchor" aria-label="anchor" href="#paralogistic"></a>
+<h4 id="paralogistic">2.5.5. Paralogistic<a class="anchor" aria-label="anchor" href="#paralogistic"></a>
 </h4>
 <p>Paralogistic is a Feller-Pareto distribution with
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>μ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\mu=0</annotation></semantics></math>,
@@ -654,25 +654,25 @@ in sums leads to
 \end{equation}</annotation></semantics></math></p>
 </div>
 <div class="section level4">
-<h4 id="inverse-burr">Inverse Burr<a class="anchor" aria-label="anchor" href="#inverse-burr"></a>
+<h4 id="inverse-burr">2.5.6. Inverse Burr<a class="anchor" aria-label="anchor" href="#inverse-burr"></a>
 </h4>
 <p>Use Burr estimate on the sample
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">1/x</annotation></semantics></math></p>
 </div>
 <div class="section level4">
-<h4 id="inverse-paralogistic">Inverse paralogistic<a class="anchor" aria-label="anchor" href="#inverse-paralogistic"></a>
+<h4 id="inverse-paralogistic">2.5.7. Inverse paralogistic<a class="anchor" aria-label="anchor" href="#inverse-paralogistic"></a>
 </h4>
 <p>Use paralogistic estimate on the sample
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">1/x</annotation></semantics></math></p>
 </div>
 <div class="section level4">
-<h4 id="inverse-pareto">Inverse pareto<a class="anchor" aria-label="anchor" href="#inverse-pareto"></a>
+<h4 id="inverse-pareto">2.5.8. Inverse pareto<a class="anchor" aria-label="anchor" href="#inverse-pareto"></a>
 </h4>
 <p>Use pareto estimate on the sample
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">1/x</annotation></semantics></math></p>
 </div>
 <div class="section level4">
-<h4 id="pareto-iv">Pareto IV<a class="anchor" aria-label="anchor" href="#pareto-iv"></a>
+<h4 id="pareto-iv">2.5.9. Pareto IV<a class="anchor" aria-label="anchor" href="#pareto-iv"></a>
 </h4>
 <p>The survival function is
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>−</mo><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><mi>x</mi><mo>−</mo><mi>μ</mi></mrow><mi>θ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>γ</mi></msup><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo>−</mo><mi>α</mi></mrow></msup><mo>,</mo></mrow><annotation encoding="application/x-tex">
@@ -765,7 +765,7 @@ and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>γ</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\hat\gamma</annotation></semantics></math>.</p>
 </div>
 <div class="section level4">
-<h4 id="pareto-iii">Pareto III<a class="anchor" aria-label="anchor" href="#pareto-iii"></a>
+<h4 id="pareto-iii">2.5.10. Pareto III<a class="anchor" aria-label="anchor" href="#pareto-iii"></a>
 </h4>
 <p>Pareto III corresponds to Pareto IV with
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\alpha=1</annotation></semantics></math>.
@@ -804,7 +804,7 @@ from with
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>γ</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\hat\gamma</annotation></semantics></math>.</p>
 </div>
 <div class="section level4">
-<h4 id="pareto-ii">Pareto II<a class="anchor" aria-label="anchor" href="#pareto-ii"></a>
+<h4 id="pareto-ii">2.5.11. Pareto II<a class="anchor" aria-label="anchor" href="#pareto-ii"></a>
 </h4>
 <p>Pareto II corresponds to Pareto IV with
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\gamma=1</annotation></semantics></math>.</p>
@@ -835,7 +835,7 @@ and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\gamma=1</annotation></semantics></math>,</p>
 </div>
 <div class="section level4">
-<h4 id="pareto-i">Pareto I<a class="anchor" aria-label="anchor" href="#pareto-i"></a>
+<h4 id="pareto-i">2.5.12. Pareto I<a class="anchor" aria-label="anchor" href="#pareto-i"></a>
 </h4>
 <p>Pareto I corresponds to Pareto IV with
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\gamma=1</annotation></semantics></math>,
@@ -858,7 +858,7 @@ as
 from .</p>
 </div>
 <div class="section level4">
-<h4 id="pareto">Pareto<a class="anchor" aria-label="anchor" href="#pareto"></a>
+<h4 id="pareto">2.5.13. Pareto<a class="anchor" aria-label="anchor" href="#pareto"></a>
 </h4>
 <p>Pareto corresponds to Pareto IV with
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\gamma=1</annotation></semantics></math>,
@@ -894,10 +894,10 @@ and
 </div>
 </div>
 <div class="section level3">
-<h3 id="transformed-gamma-family">Transformed gamma family<a class="anchor" aria-label="anchor" href="#transformed-gamma-family"></a>
+<h3 id="transformed-gamma-family">2.6. Transformed gamma family<a class="anchor" aria-label="anchor" href="#transformed-gamma-family"></a>
 </h3>
 <div class="section level4">
-<h4 id="transformed-gamma-distribution">Transformed gamma distribution<a class="anchor" aria-label="anchor" href="#transformed-gamma-distribution"></a>
+<h4 id="transformed-gamma-distribution">2.6.1. Transformed gamma distribution<a class="anchor" aria-label="anchor" href="#transformed-gamma-distribution"></a>
 </h4>
 <p>The log-likelihood is given by
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ℒ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>,</mo><mi>τ</mi><mo>,</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>n</mi><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mi>α</mi><mi>τ</mi><munder><mo>∑</mo><mi>i</mi></munder><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mi>/</mi><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><munder><mo>∑</mo><mi>i</mi></munder><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mi>/</mi><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>τ</mi></msup><mo>−</mo><munder><mo>∑</mo><mi>i</mi></munder><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>n</mi><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>G</mi><mi>a</mi><mi>m</mi><mi>m</mi><mi>a</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
@@ -930,7 +930,7 @@ the gradient we set
 </annotation></semantics></math></p>
 </div>
 <div class="section level4">
-<h4 id="gamma-distribution">gamma distribution<a class="anchor" aria-label="anchor" href="#gamma-distribution"></a>
+<h4 id="gamma-distribution">2.6.2. gamma distribution<a class="anchor" aria-label="anchor" href="#gamma-distribution"></a>
 </h4>
 <p>Transformed gamma with
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>τ</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\tau=1</annotation></semantics></math></p>
@@ -942,7 +942,7 @@ the gradient we set
 \end{equation}</annotation></semantics></math></p>
 </div>
 <div class="section level4">
-<h4 id="weibull-distribution">Weibull distribution<a class="anchor" aria-label="anchor" href="#weibull-distribution"></a>
+<h4 id="weibull-distribution">2.6.3. Weibull distribution<a class="anchor" aria-label="anchor" href="#weibull-distribution"></a>
 </h4>
 <p>Transformed gamma with
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\alpha=1</annotation></semantics></math></p>
@@ -987,23 +987,23 @@ in that case we use
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>θ</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\hat\theta</annotation></semantics></math>.</p>
 </div>
 <div class="section level4">
-<h4 id="exponential-distribution">Exponential distribution<a class="anchor" aria-label="anchor" href="#exponential-distribution"></a>
+<h4 id="exponential-distribution">2.6.4. Exponential distribution<a class="anchor" aria-label="anchor" href="#exponential-distribution"></a>
 </h4>
 <p>The MLE is the MME
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>λ</mi><mo accent="true">̂</mo></mover><mo>=</mo><mn>1</mn><mi>/</mi><msub><mi>m</mi><mn>1</mn></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">\hat\lambda = 1/m_1.</annotation></semantics></math></p>
 </div>
 </div>
 <div class="section level3">
-<h3 id="inverse-transformed-gamma-family">Inverse transformed gamma family<a class="anchor" aria-label="anchor" href="#inverse-transformed-gamma-family"></a>
+<h3 id="inverse-transformed-gamma-family">2.7. Inverse transformed gamma family<a class="anchor" aria-label="anchor" href="#inverse-transformed-gamma-family"></a>
 </h3>
 <div class="section level4">
-<h4 id="inverse-transformed-gamma-distribution">Inverse transformed gamma distribution<a class="anchor" aria-label="anchor" href="#inverse-transformed-gamma-distribution"></a>
+<h4 id="inverse-transformed-gamma-distribution">2.7.1. Inverse transformed gamma distribution<a class="anchor" aria-label="anchor" href="#inverse-transformed-gamma-distribution"></a>
 </h4>
 <p>Same as transformed gamma distribution with
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mi>/</mi><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>i</mi></msub><annotation encoding="application/x-tex">(1/x_i)_i</annotation></semantics></math>.</p>
 </div>
 <div class="section level4">
-<h4 id="inverse-gamma-distribution">Inverse gamma distribution<a class="anchor" aria-label="anchor" href="#inverse-gamma-distribution"></a>
+<h4 id="inverse-gamma-distribution">2.7.2. Inverse gamma distribution<a class="anchor" aria-label="anchor" href="#inverse-gamma-distribution"></a>
 </h4>
 <p>We compute moment-estimator as
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>α</mi><mo accent="true">̂</mo></mover><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><msub><mi>m</mi><mn>2</mn></msub><mo>−</mo><msubsup><mi>m</mi><mn>1</mn><mn>2</mn></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>m</mi><mn>2</mn></msub><mo>−</mo><msubsup><mi>m</mi><mn>1</mn><mn>2</mn></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mover><mi>θ</mi><mo accent="true">̂</mo></mover><mo>=</mo><msub><mi>m</mi><mn>1</mn></msub><msub><mi>m</mi><mn>2</mn></msub><mi>/</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>m</mi><mn>2</mn></msub><mo>−</mo><msubsup><mi>m</mi><mn>1</mn><mn>2</mn></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
@@ -1012,12 +1012,12 @@ in that case we use
 </annotation></semantics></math></p>
 </div>
 <div class="section level4">
-<h4 id="inverse-weibull-distribution">Inverse Weibull distribution<a class="anchor" aria-label="anchor" href="#inverse-weibull-distribution"></a>
+<h4 id="inverse-weibull-distribution">2.7.3. Inverse Weibull distribution<a class="anchor" aria-label="anchor" href="#inverse-weibull-distribution"></a>
 </h4>
 <p>We use the QME.</p>
 </div>
 <div class="section level4">
-<h4 id="inverse-exponential">Inverse exponential<a class="anchor" aria-label="anchor" href="#inverse-exponential"></a>
+<h4 id="inverse-exponential">2.7.4. Inverse exponential<a class="anchor" aria-label="anchor" href="#inverse-exponential"></a>
 </h4>
 <p>Same as transformed gamma distribution with
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mi>/</mi><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>i</mi></msub><annotation encoding="application/x-tex">(1/x_i)_i</annotation></semantics></math>.</p>
@@ -1025,10 +1025,10 @@ in that case we use
 </div>
 </div>
 <div class="section level2">
-<h2 id="bibliography">Bibliography<a class="anchor" aria-label="anchor" href="#bibliography"></a>
+<h2 id="bibliography">3. Bibliography<a class="anchor" aria-label="anchor" href="#bibliography"></a>
 </h2>
 <div class="section level3">
-<h3 id="general-books">General books<a class="anchor" aria-label="anchor" href="#general-books"></a>
+<h3 id="general-books">3.1. General books<a class="anchor" aria-label="anchor" href="#general-books"></a>
 </h3>
 <ul>
 <li>N. L. Johnson, S. Kotz, N. Balakrishnan (1994). Continuous
@@ -1042,7 +1042,7 @@ distributions.</li>
 </ul>
 </div>
 <div class="section level3">
-<h3 id="books-dedicated-to-a-distribution-family">Books dedicated to a distribution family<a class="anchor" aria-label="anchor" href="#books-dedicated-to-a-distribution-family"></a>
+<h3 id="books-dedicated-to-a-distribution-family">3.2. Books dedicated to a distribution family<a class="anchor" aria-label="anchor" href="#books-dedicated-to-a-distribution-family"></a>
 </h3>
 <ul>
 <li>M. Ahsanullah, B.M. Golam Kibria, M. Shakil (2014). Normal and
@@ -1054,7 +1054,7 @@ Press.</li>
 </ul>
 </div>
 <div class="section level3">
-<h3 id="books-with-applications">Books with applications<a class="anchor" aria-label="anchor" href="#books-with-applications"></a>
+<h3 id="books-with-applications">3.3. Books with applications<a class="anchor" aria-label="anchor" href="#books-with-applications"></a>
 </h3>
 <ul>
 <li>C. Forbes, M. Evans, N. Hastings, B. Peacock (2011). Statistical
