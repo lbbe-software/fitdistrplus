@@ -1,4 +1,6 @@
 require(fitdistrplus)
+
+## first example
 data(salinity)
 log10LC50 <-log10(salinity)
 fitn <- fitdistcens(log10LC50, "norm")
@@ -20,20 +22,35 @@ cdfcompcens(list(fitln, fitw, fitg), main = "",
             xlogscale = TRUE)
 
 
-## another example
+## second example
 data(groundbeef)
 x1 <- groundbeef$serving[1:50]
 f1 <- fitdist(x1, "gamma")
 b1 <- bootdist(f1, niter=51)
-print(b1)
-plot(b1)
-plot(b1, enhance=TRUE)
-summary(b1)
-quantile(b1)
+# print(b1)
+# plot(b1)
+# plot(b1, enhance=TRUE)
+# summary(b1)
+# quantile(b1)
 par(bg = "black")
 CIcdfplot(b1, CI.output = "quantile", xlim = c(10, 140),
           CI.col = "red",fitlwd = 2, datacol = "yellow", CI.fill = "orange")
 
 CIcdfplot(b1, CI.output = "quantile", xlim = c(10, 140),
-          CI.col = "darkblue",fitlwd = 2, datacol = "snow",
-          fitcol = "darkblue", CI.fill = "lightblue")
+          CI.col = "blue",fitlwd = 2, datacol = "snow",
+          fitcol = "blue", CI.fill = "lightblue")
+
+
+data(groundbeef)
+x1 <- groundbeef$serving[1:30]
+f1 <- fitdist(x1, "gamma")
+b1 <- bootdist(f1, niter=51)
+# print(b1)
+# plot(b1)
+# plot(b1, enhance=TRUE)
+# summary(b1)
+# quantile(b1)
+par(bg = "black")
+CIcdfplot(b1, CI.output = "quantile", xlim = c(-10, 140),
+          CI.col = "red",fitlwd = 2, datacol = "yellow", CI.fill = "orange")
+
