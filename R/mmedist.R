@@ -386,7 +386,7 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
         (momemp - momtheo)^2
       }
       fnobj <- function(par, fix.arg, obs, mdistnam, memp, weights)
-        sum( sapply(order, function(o) DIFF2(par, fix.arg, o, obs, mdistnam, memp)) )
+        mean( sapply(order, function(o) DIFF2(par, fix.arg, o, obs, mdistnam, memp)) )
     }else
     {
       DIFF2 <- function(par, fix.arg, order, obs, mdistnam, memp, weights)
@@ -396,7 +396,7 @@ mmedist <- function (data, distr, order, memp, start=NULL, fix.arg=NULL,
         (momemp - momtheo)^2
       }
       fnobj <- function(par, fix.arg, obs, mdistnam, memp, weights)
-        sum( sapply(order, function(o) DIFF2(par, fix.arg, o, obs, mdistnam, memp, weights)) )
+        mean( sapply(order, function(o) DIFF2(par, fix.arg, o, obs, mdistnam, memp, weights)) )
     }
     
     cens <- FALSE

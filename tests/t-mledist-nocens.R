@@ -114,7 +114,7 @@ x <- c(rnorm(1000, 5),  rnorm(1000, 10))
 #MLE fit
 fit1 <- mledist(x, "norm2", start=list(w=1/3, m1=4, s1=2, m2=8, s2=2), 
                 lower=c(0, 0, 0, 0, 0))
-
+fit1
 
 #fitted coef around 0.5003298  4.9842719  0.9909527 10.0296973  1.0024444 , fitted loglik -4185.114
 
@@ -305,8 +305,6 @@ n <- 1e2
 x <- c(rep(0, n), rpois(n, 10), rpois(n, 50))
 
 mledist(x, "pois", optim.method="Nelder-Mead", control=list(maxit=10))
-
-
 
 
 # (15) basic fit of a normal distribution with new fix.arg/start.arg

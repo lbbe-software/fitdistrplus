@@ -8,6 +8,7 @@ set.seed(1234)
 x1 <- rnorm(n=nsample)
 qmedist(x1, "norm", probs=c(1/3, 2/3))
 
+#fitted coef is -0.1486435  0.9892013, fitted loglik is -13.92195
 
 # (2) defining your own distribution functions, here for the Gumbel 
 # distribution for other distributions, see the CRAN task view dedicated 
@@ -17,12 +18,16 @@ dgumbel <- function(x, a, b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
 qgumbel <- function(p, a, b) a - b*log(-log(p))
 qmedist(x1, "gumbel", probs=c(1/3, 2/3), start=list(a=10,b=5))
 
+#fitted coef is -0.4935571  0.8557281, fitted loglik is -16.79828
+
 # (3) fit a discrete distribution (Poisson)
 #
 
 set.seed(1234)
 x2 <- rpois(n=nsample,lambda = 2)
 qmedist(x2, "pois", probs=1/2)
+
+#fitted coef is 1.7, fitted loglik is -15.31626
 
 # (4) fit a finite-support distribution (beta)
 #
@@ -31,6 +36,7 @@ set.seed(1234)
 x3 <- rbeta(n=nsample, shape1=5, shape2=10)
 qmedist(x3, "beta", probs=c(1/3, 2/3))
 
+#fitted coef is 4.010999 8.397853, fitted loglik is 6.642124
 
 # (5) fit frequency distributions on USArrests dataset.
 #
@@ -38,6 +44,8 @@ qmedist(x3, "beta", probs=c(1/3, 2/3))
 x4 <- USArrests$Assault
 qmedist(x4, "pois", probs=1/2)
 qmedist(x4, "nbinom", probs=c(1/3, 2/3))
+
+#fitted coef is 2.518966 182.313344, fitted loglik is 292.5969
 
 # (6) normal mixture
 #
@@ -65,7 +73,8 @@ fit2 <- qmedist(x, "norm2", probs=c(1/6, 1/4, 1/3, 1/2, 2/3),
 	start=list(poid=1/3, m1=4, s1=2, m2=8, s2=2), 
 	lower=c(0, 0, 0, 0, 0), upper=c(1/2, Inf, Inf, Inf, Inf))
 
-
+fit2
+#fitted coef is 0.3433528 4.2872449 0.3891135 9.2598612 1.7948554, fitted loglik is -38.14106
 
 # (7) test error messages
 #
@@ -106,14 +115,11 @@ x <- rexp(nsample)
 f3 <- qmedist(x, "exp", probs=1/2)
 w4 <- c(rep(1, nsample/2), round(sqrt(1:(nsample/2))))
 f4 <- qmedist(x, "exp", weights=w4, probs=1/2)
-f3$estimate
-f4$estimate
+c(f3$estimate, f4$estimate)
 
-f3$loglik
-f4$loglik
+c(f3$loglik, f4$loglik)
 
-median(x)
-median(tail(x, 50))
+#fitted coef is 0.4816191, fitted loglik is -16.95355
 
 
 #try non integer weights
@@ -128,3 +134,22 @@ qmedist(x, "norm", probs=1:2/3, control=list(maxit=2), start=list(mean=1e5, sd=1
 x <- rnorm(nsample)
 qmedist(x, "norm", probs=1:2/3, optim.method="L-BFGS-B", lower=c(-Inf, 0)) #via optim
 qmedist(x, "norm", probs=1:2/3, optim.method="Nelder", lower=c(-Inf, 0)) #via constrOptim
+
+
+# (11) large sample size issue
+
+if(FALSE)
+{
+  set.seed(123)
+  obs <- rlnorm(1e7, 3, 2)
+  for(i in 2:7)
+    cat(i, try(qmedist(obs[1:10^i], "lnorm", probs=1:2/3, control=list(trace=0, REPORT=1))$estimate, silent=TRUE), "\n")
+  
+  # 2 3.109257 1.767013 
+  # 3 3.022615 1.857885 
+  # 4 2.999376 1.978701 
+  # 5 3.003344 2.00941 
+  # 6 2.99881 2.001733 
+  # 7 2.999859 2.000227 
+}
+

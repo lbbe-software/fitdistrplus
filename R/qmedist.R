@@ -133,7 +133,7 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
     }
     
     fnobj <- function(par, fix.arg, obs, qdistnam, qtype)
-      sum( sapply(probs, function(p) DIFF2Q(par, fix.arg, p, obs, qdistnam, qtype)) )
+      mean( sapply(probs, function(p) DIFF2Q(par, fix.arg, p, obs, qdistnam, qtype)) )
     
   }else if (!cens && !is.null(weights)) 
   {
@@ -144,7 +144,7 @@ qmedist <- function (data, distr, probs, start=NULL, fix.arg=NULL,
       (qemp - qtheo)^2
     }
     fnobj <- function(par, fix.arg, obs, qdistnam, qtype)
-      sum( sapply(probs, function(p) DIFF2Q(par, fix.arg, p, obs, qdistnam, qtype)) )
+      mean( sapply(probs, function(p) DIFF2Q(par, fix.arg, p, obs, qdistnam, qtype)) )
   }
   
   # Function to calculate the loglikelihood to return

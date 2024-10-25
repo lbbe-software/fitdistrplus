@@ -35,10 +35,14 @@ legend("bottomright", lty=1:2, col=c("green", "blue"), leg=c("theoretical value"
 
 msedist(x1, "exp", control=list(trace=0, REPORT=1))
 
+#fitted coef is 1.336924, fitted loglik is -5.610213
+
 mse_exp <- fitdist(x1, "exp", method="mse")
 plot(mse_exp)
 summary(mse_exp)
 gofstat(mse_exp)
+
+#fitted coef is -0.1486435  0.9892013, fitted loglik is -13.92195
 
 mse_exp_boot <- bootdist(mse_exp, niter = nboot)
 plot(mse_exp_boot)
@@ -88,6 +92,8 @@ optim(c(2,2), Dn)
 msedist(x1, "lnorm", control=list(trace=0, REPORT=1))
 
 
+#fitted coef is -0.5939281  0.6723368, fitted loglik is -2.380166
+
 mse_lnorm <- fitdist(x1, "lnorm", method="mse")
 mle_lnorm <- fitdist(x1, "lnorm", method="mle")
 plot(mse_lnorm)
@@ -113,6 +119,7 @@ optim(c(1,1,10), Dn)
 
 msedist(x1, "burr", start=list(shape1=1, shape2=1, rate=10), control=list(trace=0, REPORT=1))
 
+#fitted coef is 0.609447 3.343173 3.811287, fitted loglik is -3.023078
 
 mse_burr <- fitdist(x1, "burr", method="mse", start=list(shape1=1, shape2=1, rate=10))
 mle_burr <- fitdist(x1, "burr", method="mle", start=list(shape1=1, shape2=1, rate=10))

@@ -8,6 +8,8 @@ set.seed(1234)
 x1 <- rnorm(n=nsample)
 mmedist(x1,"norm")
 
+#fitted coef is -0.3831574  0.9446870, fitted loglik is -13.62037
+
 try(mmedist(x1,"norm", fix.arg=list(mean=0)))
 
 # (2) fit a discrete distribution (Poisson)
@@ -17,6 +19,8 @@ set.seed(1234)
 x2 <- rpois(n=nsample, lambda = 2)
 mmedist(x2,"pois")
 
+#fitted coef is 1.7, fitted loglik is -15.31626
+
 # (3) fit a finite-support distribution (beta)
 #
 
@@ -24,7 +28,7 @@ set.seed(1234)
 x3 <- rbeta(n=nsample, shape1=5, shape2=10)
 mmedist(x3,"beta")
 
-
+#fitted coef is 3.956081 9.512364, fitted loglik is 6.939847
 
 # (4) fit a Pareto distribution
 #
@@ -42,6 +46,8 @@ if(any(installed.packages()[, "Package"] == "actuar"))
   #fit
   mmedist(x4, "pareto", order=c(1, 2), memp=memp, start=c(shape=10, scale=10), 
           lower=1, upper=Inf)
+  #fitted coef is 127.4319  64.2936, fitted loglik is -3.689438
+  
   mmedist(x4, "pareto", order=1, memp=memp, start=list(shape=10), fix.arg=list(scale=1.5), 
           lower=2, upper=Inf)
   mmedist(x4, "pareto", order=1, memp=memp, start=function(x) list(shape=10), fix.arg=list(scale=1.5), 
@@ -78,6 +84,7 @@ s2 <- log(1+var(x3)/mean(x3)^2*(n-1)/n)
 mu <- log(mean(x3)) - s2/2
 cbind(c(mu, s2), f2$estimate)
 
+#fitted coef is -0.1123774  1.1839216, fitted loglik is -12.99279
 
 c(truestim=exp(mu+s2/2), 
   jensen=as.numeric(exp(f1$estimate["meanlog"]+f1$estimate["sdlog"]^2/2)), 
@@ -124,6 +131,8 @@ fitdistrplus:::wtdvar(x1, w)
 
 mmedist(exp(x1), "lnorm", weights=w)$estimate
 
+#fitted coef is -0.4199772  0.6276551, fitted loglik is -26.82328
+
 #test non integer weights
 try(mmedist(x1, "norm", weights=rep(1/3, length(x1))))
 try(mmedist(1:10, "pois", weights=c(rep(1, 9), 1.001), start=list(lambda=mean(x))))
@@ -132,7 +141,7 @@ try(mmedist(1:10, "pois", weights=c(rep(1, 9), 1.0000001), start=list(lambda=mea
 
 # (8) fit of a neg binom distribution with weighted moment matching estimation
 #
-
+set.seed(1234)
 x4 <- rnbinom(nsample, 5, 1/2)
 table(x4)
 w <- rep(1, length(x4))
@@ -140,6 +149,8 @@ w[x4 > 5] <- 2
 
 mmedist(x4, "nbinom", weights=w)$estimate
 mmedist(x4, "nbinom", weights=NULL)$estimate
+
+#fitted coef is 12.980769  4.615385, fitted loglik is -29.67728
 
 # (9) relevant example for zero modified geometric distribution
 #
@@ -207,6 +218,9 @@ w[x5 > 5] <- 2
 
 mmedist(x5, "zmgeom", order=1:2, memp=memp1, start=list(p1=mean(x5 == 0), p2=1/mean(x5[x5 > 0])), 
         lower=0.01, upper=0.99)$estimate
+
+#fitted coef is 0.4528775 0.1402878 , fitted loglik is -26.80729
+
 mmedist(x5, "zmgeom", order=1:2, memp=memp2, start=list(p1=mean(x5 == 0), p2=1/mean(x5[x5 > 0])),  
         weights=w)$estimate
 
@@ -221,6 +235,7 @@ mmedist(x5, "zmgeom", order=1:2, memp=memp2, start=list(p1=mean(x5 == 0), p2=1/m
 if(any(installed.packages()[, "Package"] == "actuar"))
 {
   require("actuar")
+  set.seed(1234)
   #simulate a sample
   x4 <- rpareto(nsample, 6, 2)
   
@@ -231,4 +246,25 @@ if(any(installed.packages()[, "Package"] == "actuar"))
   #fit
   mmedist(x4, "pareto", order=c(1, 2), memp=memp, start=c(shape=10, scale=10), lower=1, upper=Inf, optim.method = "L-BFGS-B") #L-BFGS-B via optim
   mmedist(x4, "pareto", order=c(1, 2), memp=memp, start=c(shape=10, scale=10), lower=1, upper=Inf, optim.method = "Nelder") #Nelder Mead via constrOptim
+  
+  #fitted coef is 4.294391 1.597783, fitted loglik is -2.173544
 }
+
+
+# (11) large sample size issue
+
+if(FALSE)
+{
+  set.seed(123)
+  obs <- rlnorm(1e7, 3, 2)
+  for(i in 2:7)
+    cat(i, try(mmedist(obs[1:10^i], "lnorm", control=list(trace=0, REPORT=1))$estimate, silent=TRUE), "\n")
+  
+  # 2 3.795472 1.370517 
+  # 3 3.569512 1.67947 
+  # 4 3.241516 1.881192 
+  # 5 3.179215 1.902745 
+  # 6 2.993209 2.004211 
+  # 7 2.996089 2.002622 
+}
+
