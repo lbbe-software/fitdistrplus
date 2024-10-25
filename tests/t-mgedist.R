@@ -8,15 +8,17 @@ nsample <- 10
 
 data(groundbeef)
 serving <- groundbeef$serving
-mgedist(serving, "weibull", gof="CvM")
-mgedist(serving, "weibull", gof="CvM", silent = FALSE)
-mgedist(serving, "weibull", gof="KS")
-mgedist(serving, "weibull", gof="AD")
-mgedist(serving, "weibull", gof="ADR")
-mgedist(serving, "weibull", gof="ADL")
-mgedist(serving, "weibull", gof="AD2R")
-mgedist(serving, "weibull", gof="AD2L")
-mgedist(serving, "weibull", gof="AD2")
+mgedist(serving, "weibull", gof="CvM")$estimate
+mgedist(serving, "weibull", gof="CvM", silent = FALSE)$estimate
+mgedist(serving, "weibull", gof="KS")$estimate
+mgedist(serving, "weibull", gof="AD")$estimate
+mgedist(serving, "weibull", gof="ADR")$estimate
+mgedist(serving, "weibull", gof="ADL")$estimate
+mgedist(serving, "weibull", gof="AD2R")$estimate
+mgedist(serving, "weibull", gof="AD2L")$estimate
+mgedist(serving, "weibull", gof="AD2")$estimate
+
+#fitted values are around (2.123932 82.145177)
 
 # (2) Fit of a uniform distribution using Cramer-von Mises or
 # Kolmogorov-Smirnov distance
@@ -24,18 +26,21 @@ mgedist(serving, "weibull", gof="AD2")
 
 set.seed(1234)
 u <- runif(nsample, min=5, max=10)
-mgedist(u, "unif", gof="CvM")
-mgedist(u, "unif", gof="KS")
+mgedist(u, "unif", gof="CvM")$estimate
+mgedist(u, "unif", gof="KS")$estimate
+
+#fitted values are around (5.495686 9.630573)
 
 # (3) Fit of a triangular distribution using Cramer-von Mises or
 # Kolmogorov-Smirnov distance
 # 
 require("mc2d")
 set.seed(1234)
-t <- rtriang(nsample, min=5, mode=6, max=10)
-mgedist(t, "triang", start = list(min=4, mode=6,max=9), gof="CvM")
-mgedist(t, "triang", start = list(min=4, mode=6,max=9), gof="KS")
+v <- rtriang(nsample, min=5, mode=6, max=10)
+mgedist(v, "triang", start = list(min=4, mode=6,max=9), gof="CvM")$estimate
+mgedist(v, "triang", start = list(min=4, mode=6,max=9), gof="KS")$estimate
 
+#fitted values are around (4.896674 7.390675 8.494165 )
 
 # (4) scaling problem
 # the simulated dataset (below) has particularly small values, hence without scaling (10^0),
@@ -47,7 +52,16 @@ if(FALSE)
   x2 <- rnorm(nsample, 1e-4, 2e-4)
   for(i in 6:0)
     cat(i, try(mgedist(x2*10^i,"cauchy")$estimate, silent=TRUE), "\n")
+  
+  # 6 19.86906 122.0622 
+  # 5 1.986906 12.20622 
+  # 4 0.1986906 1.220622 
+  # 3 0.01986906 0.1220622 
+  # 2 0.001986906 0.01220622 
+  # 1 NA NA 
+  # 0 NA NA 
 }
+
 
 # (5) scaling problem
 #
@@ -76,6 +90,14 @@ if(FALSE)
   #only i == 0, no scaling, should not converge.
   for(i in 6:0)
     cat(i, try(mgedist(x*10^i,"cauchy")$estimate, silent=TRUE), "\n")
+  
+  # 6 -283.1442 1185.903 
+  # 5 -28.31442 118.5903 
+  # 4 -2.831442 11.85903 
+  # 3 -0.2831442 1.185903 
+  # 2 -0.02831442 0.1185903 
+  # 1 -0.002831442 0.01185903
+  # 0 NA NA 
 }
 
 
@@ -109,4 +131,25 @@ x <- rnorm(1000)
 mgedist(x, "norm", optim.method="L-BFGS-B", lower=c(-Inf, 0)) #optim and L-BFGS-B
 mgedist(x, "norm", optim.method="Nelder", lower=c(-Inf, 0))
 
+# (9) numerical issue with log(1-p)
+
+obs <- c(rep(1, 14), 10)
+try(mgedist(obs, "weibull", gof="AD", control=list(trace=1, REPORT=1)))
+
+# (10) large sample size issue
+
+if(FALSE)
+{
+  set.seed(123)
+  obs <- rlnorm(1e6, 3, 2)
+  for(i in 2:6)
+    cat(i, try(mgedist(obs[1:10^i], "lnorm", control=list(trace=1, REPORT=1))$estimate, silent=TRUE), "\n")
+  
+  # 2 3.143734 1.819549 
+  # 3 3.023688 1.955416 
+  # 4 2.995646 1.993392 
+  # 5 3.002682 2.000394 
+  # 6 2.999036 1.999887 
+  # 7 3.000222 1.999981 
+}
 
