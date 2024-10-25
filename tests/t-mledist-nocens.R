@@ -15,9 +15,16 @@ mledist(x1,"norm")
 # (2) defining your own distribution functions, here for the Gumbel distribution
 # for other distributions, see the CRAN task view dedicated to probability distributions
 
-dgumbel <- function(x,a,b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
+dgumbel <- function(x,a,b)
+{
+  cat(a, b, "\n")
+  res <- 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
+  if(any(is.infinite(log(res))))
+    stop(log(res))
+  res
+}
 mledist(x1,"gumbel",start=list(a=10,b=5), silent=TRUE)
-mledist(x1,"gumbel",start=list(a=10,b=5), silent=FALSE)
+mledist(x1,"gumbel",start=list(a=10,b=5), silent=FALSE, control=list(trace=1), lower=0)
 
 #fitted coef around -0.6267919  0.8564855, fitted loglik -139.3812
 
@@ -405,3 +412,26 @@ if(FALSE)
   # 6 2.999036 1.999887 
   # 7 3.000222 1.999981 
 }
+
+# (20) threshold parameter leading to infinite log-density
+
+set.seed(123)
+dsexp <- function(x, rate, shift)
+  dexp(x-shift, rate=rate)
+psexp <- function(x, rate, shift)
+  pexp(x-shift, rate=rate)
+rsexp <- function(n, rate, shift)
+  rexp(n, rate=rate)+shift
+x <- rsexp(1000, 1/4, 1)
+sum(log(dsexp(x, 1, 1.995)))
+mledist(x, "sexp", start=list(rate=1, shift=0), upper= c(Inf, min(x)), control=list(trace=1, REPORT=1), optim="L-BFGS-B")
+mledist(x, "sexp", start=list(rate=1, shift=0), upper= c(Inf, min(x)), control=list(trace=1, REPORT=1))
+
+#fitted coef is 0.243 1.003 , fitted loglik -2415, fitted hessian is        
+#       rate     shift
+# rate   1000 -1.00e+03
+# shift -1000  2.14e-05
+
+
+
+

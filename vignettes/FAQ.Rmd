@@ -921,7 +921,7 @@ psexp <- function(x, rate, shift)
 rsexp <- function(n, rate, shift)
   rexp(n, rate=rate)+shift
 x <- rsexp(1000, 1/4, 1)
-fitdist(x, "sexp", start=list(rate=1, shift=0), lower= c(0, -min(x)))
+fitdist(x, "sexp", start=list(rate=1, shift=0), upper= c(Inf, min(x)))
 ```
 
 ### 3.5.5. Setting linear inequality bounds
@@ -1372,8 +1372,8 @@ of rivermarine invertebrates.
 
 ```{r, fig.height=4, fig.width=7, warning = FALSE}
 data(salinity)
-log10LC50 <-log10(salinity)
-fit <- fitdistcens(log10LC50, "norm")
+log10LC50 <- log10(salinity)
+fit <- fitdistcens(log10LC50, "norm", control=list(trace=1))
 # Bootstrap 
 bootsample <- bootdistcens(fit, niter = 101)
 #### We used only 101 iterations in that example to limit the calculation time but

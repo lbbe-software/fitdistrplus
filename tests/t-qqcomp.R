@@ -168,15 +168,15 @@ set.seed(1234)
 x2 <- c(rnorm(nsample, 5),  rnorm(nsample, 10))
 #MLE fit
 fit1 <- fitdist(x2, "norm2", "mle", start=list(poid=1/3, m1=4, s1=2, m2=8, s2=2), 
-                lower=c(0, 0, 0, 0, 0))
+                lower=c(0, 0, 0, 0, 0), optim="L-BFGS-B")
 fit2 <- fitdist(x2, "norm2", "qme", probs=c(1/6, 1/4, 1/3, 1/2, 2/3), 
                 start=list(poid=1/3, m1=4, s1=2, m2=8, s2=2), 
-                lower=c(0, 0, 0, 0, 0), upper=c(1/2, Inf, Inf, Inf, Inf))
+                lower=c(0, 0, 0, 0, 0), upper=c(1, Inf, Inf, Inf, Inf))
 fit3 <- fitdist(x2, "norm2", "mge", gof="AD", 
                 start=list(poid=1/3, m1=4, s1=2, m2=8, s2=2), 
-                lower=c(0, 0, 0, 0, 0), upper=c(1/2, Inf, Inf, Inf, Inf))
+                lower=c(0, 0, 0, 0, 0), upper=c(1, Inf, Inf, Inf, Inf))
 
-qqcomp(list(fit1, fit2, fit3), fitpch=rep(".", 3), 
+qqcomp(list(fit1, fit2, fit3), fitpch=rep(21, 3), 
        fitcol=c("green", "red", "blue"))
 
 if (requireNamespace ("ggplot2", quietly = TRUE) & visualize) {
