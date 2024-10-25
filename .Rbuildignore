@@ -4,3 +4,5 @@ share
 revdep
 ^\.github$
 _pkgdown.yml
+AUTHORS
+LICENSE
