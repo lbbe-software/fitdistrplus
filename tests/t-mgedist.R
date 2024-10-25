@@ -122,11 +122,13 @@ try(mgedist(c(serving, NaN), "gamma"))
 
 
 # (7) test the component optim.message
+
 x <- rnorm(1000)
 #change parameter to obtain unsuccessful convergence
 mgedist(x, "norm", control=list(maxit=2), start=list(mean=1e5, sd=1), optim.method="L-BFGS-B", lower=0)
 
 # (8) test bounds
+
 x <- rnorm(1000)
 mgedist(x, "norm", optim.method="L-BFGS-B", lower=c(-Inf, 0)) #optim and L-BFGS-B
 mgedist(x, "norm", optim.method="Nelder", lower=c(-Inf, 0))
@@ -143,7 +145,7 @@ if(FALSE)
   set.seed(123)
   obs <- rlnorm(1e6, 3, 2)
   for(i in 2:6)
-    cat(i, try(mgedist(obs[1:10^i], "lnorm", control=list(trace=1, REPORT=1))$estimate, silent=TRUE), "\n")
+    cat(i, try(mgedist(obs[1:10^i], "lnorm", control=list(trace=0, REPORT=1))$estimate, silent=TRUE), "\n")
   
   # 2 3.143734 1.819549 
   # 3 3.023688 1.955416 

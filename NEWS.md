@@ -7,7 +7,8 @@ at the following URL: https://lbbe-software.github.io/fitdistrplus/
 
 BUG FIX
 
-- the default starting value for the gamma distribution was wrongly computed for the rate parameter.
+- mgedist() may suffer a numerical issue for Anderson-Darling GoF metrics. All GoF metrics now take care of numerical issue, such as log(0) or 1/0, and are properly scaled by the sample sized to avoid large sample size issues. Thanks for Ethan Chapman for reporting the bug.
+- the default starting value for the gamma distribution was wrongly computed for the rate parameter. Thanks for Wendy Martin for reporting the bug.
 
 # fitdistrplus 1.2-1
 

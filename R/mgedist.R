@@ -145,8 +145,8 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
       { 
         n <- length(obs)
         s <- sort(obs)
-        theop <- do.call(pdistnam,c(list(s),as.list(par),as.list(fix.arg)))
-        1/(12*n) + sum( ( theop - (2 * 1:n - 1)/(2 * n) )^2 )
+        theop <- do.call(pdistnam, c(list(s), as.list(par), as.list(fix.arg)))
+        1/(12*n^2) + mean( ( theop - (2 * 1:n - 1)/(2 * n) )^2 )
       }
     }else if (gof == "KS")
     {
@@ -156,8 +156,8 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
         s <- sort(obs)
         obspu <- seq(1,n)/n
         obspl <- seq(0,n-1)/n
-        theop <- do.call(pdistnam,c(list(s),as.list(par),as.list(fix.arg)))
-        max(pmax(abs(theop-obspu),abs(theop-obspl)))
+        theop <- do.call(pdistnam, c(list(s), as.list(par), as.list(fix.arg)))
+        max(pmax(abs(theop-obspu), abs(theop-obspl)))
       }
     }else if (gof == "AD")
     {
@@ -165,8 +165,10 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
       { 
         n <- length(obs)
         s <- sort(obs)
-        theop <- do.call(pdistnam,c(list(s),as.list(par),as.list(fix.arg)))
-        - n - mean( (2 * 1:n - 1) * (log(theop) + log(1 - rev(theop))) ) 
+        theop <- do.call(pdistnam, c(list(s), as.list(par), as.list(fix.arg)))
+        ilogpi <- log(theop * (1 - rev(theop))) * (2 * 1:n - 1)
+        idx <- is.finite(ilogpi)
+        ifelse(sum(idx) > 0, - sum(idx)/n - mean( ilogpi[idx] )/n, .Machine$integer.max)
       }
     }else if (gof == "ADR")
     {
@@ -174,8 +176,10 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
       { 
         n <- length(obs)
         s <- sort(obs)
-        theop <- do.call(pdistnam,c(list(s),as.list(par),as.list(fix.arg)))
-        n/2 - 2 * sum(theop) - mean ( (2 * 1:n - 1) * log(1 - rev(theop)) )
+        theop <- do.call(pdistnam, c(list(s), as.list(par), as.list(fix.arg)))
+        ilogpi <- log(1 - rev(theop)) * (2 * 1:n - 1)
+        idx <- is.finite(ilogpi)
+        ifelse(sum(idx) > 0, sum(idx)/2/n - 2 * sum(theop[idx])/n - mean ( ilogpi[idx] )/n, .Machine$integer.max)
       }
     }else if (gof == "ADL")
     {
@@ -183,8 +187,10 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
       { 
         n <- length(obs)
         s <- sort(obs)
-        theop <- do.call(pdistnam,c(list(s),as.list(par),as.list(fix.arg)))
-        -3*n/2 + 2 * sum(theop) - mean ( (2 * 1:n - 1) * log(theop) )
+        theop <- do.call(pdistnam, c(list(s), as.list(par), as.list(fix.arg)))
+        ilogpi <- (2 * 1:n - 1) * log(theop)
+        idx <- is.finite(ilogpi)
+        ifelse(sum(idx) > 0, -3*sum(idx)/2/n + 2 * sum(theop[idx])/n - mean ( ilogpi[idx] )/n, .Machine$integer.max)
       }
     }else if (gof == "AD2R")
     {
@@ -192,8 +198,11 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
       { 
         n <- length(obs)
         s <- sort(obs)
-        theop <- do.call(pdistnam,c(list(s),as.list(par),as.list(fix.arg)))
-        2 * sum(log(1 - theop)) + mean ( (2 * 1:n - 1) / (1 - rev(theop)) )
+        theop <- do.call(pdistnam, c(list(s), as.list(par), as.list(fix.arg)))
+        logpi <- log(1 - theop)
+        i1pi2 <- (2 * 1:n - 1) / (1 - rev(theop))
+        idx <- is.finite(logpi) & is.finite(i1pi2)
+        ifelse(sum(idx) > 0, 2 * sum(logpi[idx])/n + mean( i1pi2[idx] )/n, .Machine$integer.max)
       }
     }else if (gof == "AD2L")
     {
@@ -201,8 +210,11 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
       { 
         n <- length(obs)
         s <- sort(obs)
-        theop <- do.call(pdistnam,c(list(s),as.list(par),as.list(fix.arg)))
-        2 * sum(log(theop)) + mean ( (2 * 1:n - 1) / theop )
+        theop <- do.call(pdistnam, c(list(s), as.list(par), as.list(fix.arg)))
+        logpi <- log(theop)
+        i1pi <- (2 * 1:n - 1) / theop 
+        idx <- is.finite(logpi) & is.finite(i1pi)
+        ifelse(sum(idx) > 0, 2 * sum( logpi[idx] )/n + mean ( i1pi[idx] )/n, .Machine$integer.max)
       }
     }else if (gof == "AD2")
     {
@@ -210,9 +222,12 @@ mgedist <- function (data, distr, gof = "CvM", start=NULL, fix.arg=NULL, optim.m
       { 
         n <- length(obs)
         s <- sort(obs)
-        theop <- do.call(pdistnam,c(list(s),as.list(par),as.list(fix.arg)))
-        2 * sum(log(theop) + log(1 - theop) ) + 
-          mean ( ((2 * 1:n - 1) / theop) + ((2 * 1:n - 1) / (1 - rev(theop))) )
+        theop <- do.call(pdistnam, c(list(s), as.list(par), as.list(fix.arg)))
+        logpi <- log(theop * (1 - theop)) 
+        i1pi <- (2 * 1:n - 1) / theop
+        i1pi2 <- (2 * 1:n - 1) / (1 - rev(theop))
+        idx <- is.finite(logpi) & is.finite(i1pi) & is.finite(i1pi2)
+        ifelse(sum(idx) > 0, 2 * sum( logpi[idx] )/n + mean ( i1pi[idx]  + i1pi2[idx] )/n, .Machine$integer.max)
       }
     }else
       stop("wrong gof metric.")
