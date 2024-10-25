@@ -64,6 +64,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
     if (!(is.numeric(data) & length(data)>1)) 
       stop(txt1uncens)
     checkUncensoredNAInfNan(data)
+    data.size <- length(data)
   }
   else {
     cens <- TRUE
@@ -75,7 +76,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
     pdistname<-paste("p", distname, sep="")
     if (!exists(pdistname, mode="function"))
       stop(paste("The ", pdistname, " function must be defined to apply maximum likelihood to censored data"))
-    
+    data.size <- NROW(censdata)
   }
   
   if (cens) {
@@ -153,7 +154,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
   
   ############# MLE fit using optim or custom.optim ##########
   
-  # definition of the function to minimize : - log likelihood
+  # definition of the function to minimize : minus average log likelihood
   # for non censored data
   if (!cens && is.null(weights)) {
     # the argument names are:
@@ -163,12 +164,12 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
     # - ddistnam for distribution name
     if ("log" %in% argddistname){
       fnobj <- function(par, fix.arg, obs, ddistnam){
-        -sum(do.call(ddistnam, c(list(obs), as.list(par), as.list(fix.arg), log=TRUE) ) )
+        -mean(do.call(ddistnam, c(list(obs), as.list(par), as.list(fix.arg), log=TRUE) ) )
       }
     }
     else{
       fnobj <- function(par, fix.arg, obs, ddistnam) {
-        -sum(log(do.call(ddistnam, c(list(obs), as.list(par), as.list(fix.arg)) ) ) )
+        -mean(log(do.call(ddistnam, c(list(obs), as.list(par), as.list(fix.arg)) ) ) )
       }
     }
   }
@@ -177,22 +178,22 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
     argpdistname<-names(formals(pdistname))
     if (("log" %in% argddistname) & ("log.p" %in% argpdistname))
       fnobjcens <- function(par, fix.arg, rcens, lcens, icens, ncens, ddistnam, pdistnam)
-        -sum(do.call(ddistnam, c(list(ncens), as.list(par), as.list(fix.arg), list(log=TRUE)))) -
-        sum(do.call(pdistnam, c(list(lcens), as.list(par), as.list(fix.arg), list(log=TRUE)))) -
-        sum(do.call(pdistnam, c(list(rcens), as.list(par), as.list(fix.arg), list(lower.tail=FALSE), list(log=TRUE)))) -
-        sum(log(do.call(pdistnam, c(list(icens$right), as.list(par), as.list(fix.arg))) - # without log=TRUE here
+        -mean(do.call(ddistnam, c(list(ncens), as.list(par), as.list(fix.arg), list(log=TRUE)))) -
+        mean(do.call(pdistnam, c(list(lcens), as.list(par), as.list(fix.arg), list(log=TRUE)))) -
+        mean(do.call(pdistnam, c(list(rcens), as.list(par), as.list(fix.arg), list(lower.tail=FALSE), list(log=TRUE)))) -
+        mean(log(do.call(pdistnam, c(list(icens$right), as.list(par), as.list(fix.arg))) - # without log=TRUE here
                   do.call(pdistnam, c(list(icens$left), as.list(par), as.list(fix.arg))) )) # without log=TRUE here
     else
       fnobjcens <- function(par, fix.arg, rcens, lcens, icens, ncens, ddistnam, pdistnam)
-        -sum(log(do.call(ddistnam, c(list(ncens), as.list(par), as.list(fix.arg))))) -
-        sum(log(do.call(pdistnam, c(list(lcens), as.list(par), as.list(fix.arg))))) -
-        sum(log(1-do.call(pdistnam, c(list(rcens), as.list(par), as.list(fix.arg))))) -
-        sum(log(do.call(pdistnam, c(list(icens$right), as.list(par), as.list(fix.arg))) - 
+        -mean(log(do.call(ddistnam, c(list(ncens), as.list(par), as.list(fix.arg))))) -
+        mean(log(do.call(pdistnam, c(list(lcens), as.list(par), as.list(fix.arg))))) -
+        mean(log(1-do.call(pdistnam, c(list(rcens), as.list(par), as.list(fix.arg))))) -
+        mean(log(do.call(pdistnam, c(list(icens$right), as.list(par), as.list(fix.arg))) - 
                   do.call(pdistnam, c(list(icens$left), as.list(par), as.list(fix.arg))) ))
   }else if(!cens && !is.null(weights))
   {
     fnobj <- function(par, fix.arg, obs, ddistnam) {
-      -sum(weights * log(do.call(ddistnam, c(list(obs), as.list(par), as.list(fix.arg)) ) ) )
+      -mean(weights * log(do.call(ddistnam, c(list(obs), as.list(par), as.list(fix.arg)) ) ) )
     }
   }else if(cens && !is.null(weights))
   {
@@ -203,10 +204,10 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
       p3 <- log(1-do.call(pdistnam, c(list(rcens), as.list(par), as.list(fix.arg))))
       p4 <- log(do.call(pdistnam, c(list(icens$right), as.list(par), as.list(fix.arg))) - 
                   do.call(pdistnam, c(list(icens$left), as.list(par), as.list(fix.arg))) )
-      - sum(weights[irow.ncens] * p1) - 
-        sum(weights[irow.lcens] * p2) - 
-        sum(weights[irow.rcens] * p3) - 
-        sum(weights[irow.icens] * p4) 
+      - mean(weights[irow.ncens] * p1) - 
+        mean(weights[irow.lcens] * p2) - 
+        mean(weights[irow.rcens] * p3) - 
+        mean(weights[irow.icens] * p4) 
     }
   }
   
@@ -385,7 +386,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
     res <- list(estimate = opt$par, convergence = opt$convergence, value=opt$value,  
                 hessian = opt$hessian, optim.function=opt.fun, optim.method=meth, 
                 fix.arg = fix.arg, fix.arg.fun = fix.arg.fun, weights = weights, 
-                counts=opt$counts, optim.message=opt$message, loglik = -opt$value,
+                counts=opt$counts, optim.message=opt$message, loglik = -opt$value*data.size,
                 vcov=varcovar)
   }
   else # Try to minimize the minus (log-)likelihood using a user-supplied optim function 
@@ -428,7 +429,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
     res <- list(estimate = opt$par, convergence = opt$convergence, value=opt$value, 
                 hessian = opt$hessian, optim.function = custom.optim, optim.method = method.cust, 
                 fix.arg = fix.arg, fix.arg.fun = fix.arg.fun, weights = weights, 
-                counts=opt$counts, optim.message=opt$message, loglik = -opt$value,
+                counts=opt$counts, optim.message=opt$message, loglik = -opt$value*data.size,
                 vcov=varcovar)
   }   
   
