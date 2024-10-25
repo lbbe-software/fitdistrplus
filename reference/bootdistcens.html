@@ -330,13 +330,13 @@ Journal of Statistical Software, 64(4), 1-34, <a href="https://doi.org/10.18637/
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ estimate   : Named num [1:2] 2.16 1.17</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. .. ..- attr(*, "names")= chr [1:2] "mean" "sd"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ method     : chr "mle"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ sd         : Named num [1:2] 0.322 0.263</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ sd         : Named num [1:2] 1.206 0.984</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. .. ..- attr(*, "names")= chr [1:2] "mean" "sd"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ cor        : num [1:2, 1:2] 1 0.135 0.135 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. .. ..- attr(*, "dimnames")=List of 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. .. .. ..$ : chr [1:2] "mean" "sd"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. .. .. ..$ : chr [1:2] "mean" "sd"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ vcov       : num [1:2, 1:2] 0.1039 0.0114 0.0114 0.0692</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ vcov       : num [1:2, 1:2] 1.455 0.16 0.16 0.969</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. .. ..- attr(*, "dimnames")=List of 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. .. .. ..$ : chr [1:2] "mean" "sd"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. .. .. ..$ : chr [1:2] "mean" "sd"</span>
@@ -370,27 +370,27 @@ Journal of Statistical Software, 64(4), 1-34, <a href="https://doi.org/10.18637/
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">b1b</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Nonparametric bootstrap medians and 95% percentile CI </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Median     2.5%    97.5% </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2.175510 1.729164 2.788775 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2.175510 1.729164 2.788799 </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">b1b</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="quantile.html">quantile</a></span><span class="op">(</span><span class="va">b1b</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> (original) estimated quantiles for each specified probability (censored data)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              p=0.1    p=0.2    p=0.3    p=0.4    p=0.5    p=0.6    p=0.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> estimate 0.8527324 1.292663 1.609883 1.880937 2.134284 2.387631 2.658684</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimate 0.8527461 1.292676 1.609897 1.880951 2.134298 2.387645 2.658698</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             p=0.8    p=0.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> estimate 2.975905 3.415836</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimate 2.975919 3.415849</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Median of bootstrap estimates</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>              p=0.1    p=0.2    p=0.3    p=0.4   p=0.5    p=0.6    p=0.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> estimate 0.8939584 1.333889 1.651109 1.922163 2.17551 2.428857 2.699911</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             p=0.8    p=0.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> estimate 3.017131 3.457062</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              p=0.1    p=0.2    p=0.3    p=0.4   p=0.5    p=0.6   p=0.7    p=0.8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimate 0.8939584 1.333889 1.651109 1.922163 2.17551 2.428857 2.69991 3.017131</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             p=0.9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> estimate 3.457062</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> two-sided 95 % CI of each quantile</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            p=0.1     p=0.2    p=0.3    p=0.4    p=0.5    p=0.6    p=0.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2.5 %  0.4476124 0.8875427 1.204763 1.475817 1.729164 1.982511 2.253564</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 97.5 % 1.5072239 1.9471543 2.264375 2.535428 2.788775 3.042123 3.313176</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2.5 %  0.4476121 0.8875425 1.204763 1.475817 1.729164 1.982511 2.253564</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 97.5 % 1.5072477 1.9471780 2.264399 2.535452 2.788799 3.042146 3.313200</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           p=0.8    p=0.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2.5 %  2.570785 3.010716</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 97.5 % 3.630397 4.070327</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2.5 %  2.570785 3.010715</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 97.5 % 3.630420 4.070351</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># (3) comparison of sequential and parallel versions of bootstrap</span></span></span>
 <span class="r-in"><span><span class="co"># to be tried with a greater number of iterations (1001 or more)</span></span></span>
@@ -410,7 +410,7 @@ Journal of Statistical Software, 64(4), 1-34, <a href="https://doi.org/10.18637/
 <span class="r-out co"><span class="r-pr">#&gt;</span> sd   1.129426 0.6853478 1.709083</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/proc.time.html" class="external-link">proc.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">ptm</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   4.183   0.095   4.170 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   4.659   0.091   4.641 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># parallel version using snow</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st">"parallel"</span><span class="op">)</span></span></span>
@@ -422,7 +422,7 @@ Journal of Statistical Software, 64(4), 1-34, <a href="https://doi.org/10.18637/
 <span class="r-out co"><span class="r-pr">#&gt;</span> sd   1.108123 0.6912424 1.673702</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/proc.time.html" class="external-link">proc.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">ptm</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.004   0.004   3.195 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.007   0.001   3.390 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># parallel version using multicore (not available on Windows)</span></span></span>
 <span class="r-in"><span><span class="va">ptm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/proc.time.html" class="external-link">proc.time</a></span><span class="op">(</span><span class="op">)</span></span></span>
@@ -433,7 +433,7 @@ Journal of Statistical Software, 64(4), 1-34, <a href="https://doi.org/10.18637/
 <span class="r-out co"><span class="r-pr">#&gt;</span> sd   1.119044 0.7072572 1.656059</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/proc.time.html" class="external-link">proc.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">ptm</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.009   0.013   2.243 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.000   0.023   2.474 </span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-plt img"><img src="bootdistcens-4.png" alt="" width="700" height="433"></span>

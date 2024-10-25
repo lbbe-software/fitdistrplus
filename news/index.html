@@ -44,8 +44,11 @@
 <p>NEW FEATURES</p>
 <ul><li>a website bringing together all the resources related to the fitdistrplus package now exists on github.io at the following URL: <a href="https://lbbe-software.github.io/fitdistrplus/" class="uri">https://lbbe-software.github.io/fitdistrplus/</a>
 </li>
-</ul><p>BUG FIX</p>
-<ul><li>the default starting value for the gamma distribution was wrongly computed for the rate parameter.</li>
+</ul><p>BUG FIXES</p>
+<ul><li>mgedist() may suffer a numerical issue for Anderson-Darling GoF metrics. All GoF metrics now take care of numerical issue, such as log(0) or 1/0, and are properly scaled by the sample sized to avoid large sample size issues. Thanks for Ethan Chapman for reporting the bug.</li>
+<li>the default starting value for the gamma distribution was wrongly computed for the rate parameter. Thanks for Wendy Martin for reporting the bug.</li>
+<li>mledist(), mmedist(), qmedist() may suffer a scaling issue and the objective function is properly scaled by the sample sized to avoid large sample size issues.</li>
+<li>mledist() now takes care of numerical issue, such as log(0).</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.2-1" id="fitdistrplus-12-1">fitdistrplus 1.2-1<a class="anchor" aria-label="anchor" href="#fitdistrplus-12-1"></a></h2><p class="text-muted">CRAN release: 2024-07-12</p>

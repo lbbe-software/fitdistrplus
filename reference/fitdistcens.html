@@ -292,8 +292,8 @@ Journal of Statistical Software, 64(4), 1-34, <a href="https://doi.org/10.18637/
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fitting of the distribution ' lnorm ' By maximum likelihood on censored data </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Parameters</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          estimate Std. Error</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> meanlog -3.627606  0.4637122</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sdlog    3.544570  0.4876610</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> meanlog -3.627606   4.706165</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sdlog    3.544570   4.949219</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Loglikelihood:  -90.65154   AIC:  185.3031   BIC:  190.5725 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Correlation matrix:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            meanlog      sdlog</span>
@@ -350,8 +350,8 @@ Journal of Statistical Software, 64(4), 1-34, <a href="https://doi.org/10.18637/
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fitting of the distribution ' norm ' By maximum likelihood on censored data </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Parameters</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      estimate Std. Error</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> mean 2.161449  0.3223366</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sd   1.167290  0.2630390</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mean 2.161449  1.2060732</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sd   1.167290  0.9842019</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Loglikelihood:  -20.41212   AIC:  44.82424   BIC:  46.10235 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Correlation matrix:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           mean        sd</span>
@@ -384,8 +384,8 @@ Journal of Statistical Software, 64(4), 1-34, <a href="https://doi.org/10.18637/
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fitting of the distribution ' logis ' By maximum likelihood on censored data </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Parameters</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           estimate Std. Error</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> location 2.1518291  0.3222830</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> scale    0.6910423  0.1745231</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> location 2.1518291  1.2058724</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale    0.6910423  0.6530058</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Loglikelihood:  -20.55391   AIC:  45.10781   BIC:  46.38593 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Correlation matrix:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            location      scale</span>
@@ -410,14 +410,14 @@ Journal of Statistical Software, 64(4), 1-34, <a href="https://doi.org/10.18637/
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fitting of the distribution ' logis ' on censored data by maximum likelihood </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Parameters:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           estimate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> location 2.1519103</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> scale    0.6909664</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> location 2.1519961</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale    0.6910665</span>
 <span class="r-in"><span><span class="fu">fitdistcens</span><span class="op">(</span><span class="va">log10EC50</span>,<span class="st">"logis"</span>,optim.method<span class="op">=</span><span class="st">"SANN"</span><span class="op">)</span> </span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fitting of the distribution ' logis ' on censored data by maximum likelihood </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Parameters:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           estimate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> location 2.1569256</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> scale    0.6925307</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> location 2.0238931</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale    0.5261822</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># (6) custom optimisation function - example with the genetic algorithm</span></span></span>
 <span class="r-in"><span><span class="co">#</span></span></span>
@@ -439,7 +439,7 @@ Journal of Statistical Software, 64(4), 1-34, <a href="https://doi.org/10.18637/
 <span class="r-in"><span>        print.level<span class="op">=</span><span class="fl">1</span>, hessian<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Tue Oct 22 21:12:57 2024</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Fri Oct 25 22:39:38 2024</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Domains:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  0.000000e+00   &lt;=  X1   &lt;=    5.000000e+00 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  0.000000e+00   &lt;=  X2   &lt;=    5.000000e+00 </span>
@@ -470,36 +470,36 @@ Journal of Statistical Software, 64(4), 1-34, <a href="https://doi.org/10.18637/
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Generation#	    Solution Value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0 	2.076816e+01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       1 	2.055391e+01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0 	1.475558e+00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       1 	1.468136e+00</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 'wait.generations' limit reached.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> No significant improvement in 10 generations.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Solution Fitness Value: 2.055391e+01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Solution Fitness Value: 1.468136e+00</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Parameters at the Solution (parameter, gradient):</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  X[ 1] :	2.151910e+00	G[ 1] :	-4.027682e-06</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  X[ 2] :	6.909667e-01	G[ 2] :	1.633468e-05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  X[ 1] :	2.151910e+00	G[ 1] :	-1.894464e-08</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  X[ 2] :	6.909672e-01	G[ 2] :	2.323783e-06</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Solution Found Generation 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of Generations Run 12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Tue Oct 22 21:12:58 2024</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Fri Oct 25 22:39:39 2024</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Total run time : 0 hours 0 minutes and 1 seconds</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fit.with.genoud</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fitting of the distribution ' logis ' By maximum likelihood on censored data </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Parameters</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           estimate Std. Error</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> location 2.1519100  0.3222568</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> scale    0.6909667  0.1744837</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> location 2.1519105  1.2057751</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale    0.6909672  0.6528594</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Loglikelihood:  -20.55391   AIC:  45.10781   BIC:  46.38593 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Correlation matrix:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            location      scale</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> location 1.00000000 0.05106485</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> scale    0.05106485 1.00000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> location 1.00000000 0.05106547</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> scale    0.05106547 1.00000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
