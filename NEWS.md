@@ -7,10 +7,10 @@ at the following URL: https://lbbe-software.github.io/fitdistrplus/
 
 BUG FIXES
 
-- mgedist() may suffer a numerical issue for Anderson-Darling GoF metrics. All GoF metrics now take care of numerical issue, such as log(0) or 1/0, and are properly scaled by the sample sized to avoid large sample size issues. Thanks for Ethan Chapman for reporting the bug.
+- `mgedist()` may suffer a numerical issue for Anderson-Darling GoF metrics. All GoF metrics now take care of numerical issue, such as `log(0)` or `1/0`, and are properly scaled by the sample sized to avoid large sample size issues. Thanks for Ethan Chapman for reporting the bug.
 - the default starting value for the gamma distribution was wrongly computed for the rate parameter. Thanks for Wendy Martin for reporting the bug.
-- mledist(), mmedist(), qmedist() may suffer a scaling issue and the objective function is properly scaled by the sample sized to avoid large sample size issues.
-- mledist() now takes care of numerical issue, such as log(0).
+- `mledist()`, `mmedist()`, `qmedist()` may suffer a scaling issue and the objective function is properly scaled by the sample sized to avoid large sample size issues.
+- `mledist()` now takes care of numerical issue, such as `log(0)`.
 
 # fitdistrplus 1.2-1
 
