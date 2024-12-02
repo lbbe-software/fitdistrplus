@@ -1,4 +1,4 @@
-# Help to Fit of a Parametric Distribution to Non-Censored or Censored Data 
+# Help to Fit of a Parametric Distribution to Non-Censored or Censored Data  <img src="man/figures/fitdistrplus_hex.png" align="right" style="float:right; height:200px;"/>
 
 [![CRAN_Release_Badge](https://www.r-pkg.org/badges/version-ago/fitdistrplus)](https://cran.r-project.org/package=fitdistrplus)
 [![CRAN Downloads](https://cranlogs.r-pkg.org/badges/fitdistrplus)](https://cran.r-project.org/package=fitdistrplus)
