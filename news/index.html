@@ -44,14 +44,15 @@
 <p>NEW FEATURES</p>
 <ul><li>a website bringing together all the resources related to the fitdistrplus package now exists on github.io at the following URL: <a href="https://lbbe-software.github.io/fitdistrplus/" class="uri">https://lbbe-software.github.io/fitdistrplus/</a>
 </li>
+<li>add a logo for the package thanks to Appsilon.</li>
 </ul><p>BUG FIXES</p>
 <ul><li>
 <code><a href="../reference/mgedist.html">mgedist()</a></code> may suffer a numerical issue for Anderson-Darling GoF metrics. All GoF metrics now take care of numerical issue, such as <code>log(0)</code> or <code>1/0</code>, and are properly scaled by the sample sized to avoid large sample size issues. Thanks for Ethan Chapman for reporting the bug.</li>
+<li>
+<code><a href="../reference/mledist.html">mledist()</a></code> now takes care of numerical issue, such as <code>log(0)</code>.</li>
 <li>the default starting value for the gamma distribution was wrongly computed for the rate parameter. Thanks for Wendy Martin for reporting the bug.</li>
 <li>
 <code><a href="../reference/mledist.html">mledist()</a></code>, <code><a href="../reference/mmedist.html">mmedist()</a></code>, <code><a href="../reference/qmedist.html">qmedist()</a></code> may suffer a scaling issue and the objective function is properly scaled by the sample sized to avoid large sample size issues.</li>
-<li>
-<code><a href="../reference/mledist.html">mledist()</a></code> now takes care of numerical issue, such as <code>log(0)</code>.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.2-1" id="fitdistrplus-12-1">fitdistrplus 1.2-1<a class="anchor" aria-label="anchor" href="#fitdistrplus-12-1"></a></h2><p class="text-muted">CRAN release: 2024-07-12</p>
@@ -60,18 +61,18 @@
 <li>modify or add a initial value for all univariate distributions provided in <code>actuar</code>.</li>
 <li>create a new vignette regarding default initial values.</li>
 <li>add of generic functions <code><a href="https://rdrr.io/r/stats/AIC.html" class="external-link">AIC()</a></code> and <code><a href="https://rdrr.io/r/stats/AIC.html" class="external-link">BIC()</a></code> for <code>fitdist</code> and <code>fitdistcens</code> objects.</li>
-<li>make <code><a href="../reference/gofstat.html">gofstat()</a></code> work with <code>fitdistcens</code> objects (giving only AIC and BIC values).</li>
-<li>add calculation of the hessian using <code>optimHess</code> within <code>fitdist</code> when it is not given by <code>optim</code>.</li>
+<li>make <code><a href="../reference/gofstat.html">gofstat()</a></code> work with <code><a href="../reference/fitdistcens.html">fitdistcens()</a></code> objects (giving only AIC and BIC values).</li>
+<li>add calculation of the hessian using <code><a href="https://rdrr.io/r/stats/optim.html" class="external-link">optimHess()</a></code> within <code><a href="../reference/fitdist.html">fitdist()</a></code> when it is not given by <code><a href="https://rdrr.io/r/stats/optim.html" class="external-link">optim()</a></code>.</li>
 <li>compute the asymptotic covariance matrix with MME : Now the theoretical moments <code>m&lt;dist&gt;</code> should be defined up to an order which equals to twice the maximal order given <code>order</code>.</li>
-<li>add a new argument <code>calcvcov</code> in order to (dis)able the computation of covariance matrix for any method.</li>
+<li>add a new argument <code>calcvcov()</code> in order to (dis)able the computation of covariance matrix for any method.</li>
 <li>graphics function <code>*comp()</code> now return a list of drawn points and/or lines when <code>plotstyle == "graphics"</code>.</li>
-<li>add a <code>density</code> function for <code>bootdist(cens)</code> objects.</li>
+<li>add a <code><a href="https://rdrr.io/r/stats/density.html" class="external-link">density()</a></code> function for <code>bootdist(cens)()</code> objects.</li>
 <li>add DOIs in man pages.</li>
 </ul><p>BUG FIXES</p>
 <ul><li>when a <code>scale</code> parameter was fixed, the <code>startarg</code> function also set a <code>rate</code> parameter. this leads to an error when calling the density.</li>
-<li>add further sanity check in <code>plotdistcens</code>: the following code <code>plotdistcens(data.frame(right=smokedfish$right, left=smokedfish$left))</code> raised an error via <code>npsurv()</code>, thanks to R. Pouillot.</li>
-<li>bug fixed in using <code>breaks</code> in <code>plotdist</code>.</li>
-<li>solve the extremely long time taking by <code>lines</code> in <code>descdist</code>.</li>
+<li>add further sanity check in <code><a href="../reference/plotdistcens.html">plotdistcens()</a></code>: the following code <code>plotdistcens(data.frame(right=smokedfish$right, left=smokedfish$left))</code> raised an error via <code>npsurv()</code>, thanks to R. Pouillot.</li>
+<li>bug fixed in using <code>breaks</code> in <code><a href="../reference/plotdist.html">plotdist()</a></code>.</li>
+<li>solve the extremely long time taking by <code><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines()</a></code> in <code><a href="../reference/descdist.html">descdist()</a></code>.</li>
 <li>add defensive programming for input data (check <code>NA</code>, <code>NaN</code>, <code>Inf</code> values).</li>
 <li>correct links in man pages and URL for DOI.</li>
 <li>remove the use of <code>plot.np</code> in vignettes.</li>
@@ -79,13 +80,12 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1-11" id="fitdistrplus-11-11">fitdistrplus 1.1-11<a class="anchor" aria-label="anchor" href="#fitdistrplus-11-11"></a></h2><p class="text-muted">CRAN release: 2023-04-25</p>
 <p>NEW FEATURES</p>
-<ul><li>add a <code>print</code> argument in the <code>descdist</code> function to allow to only plot the skewness-kurtosis graph, without printing the computed parameters</li>
+<ul><li>add a <code>print</code> argument in the <code><a href="../reference/descdist.html">descdist()</a></code> function to allow to only plot the skewness-kurtosis graph, without printing the computed parameters.</li>
 </ul><p>BUG FIX</p>
-<ul><li>the use of some deprecated <code>ggplot2</code> functions is updated</li>
-<li>the use of some deprecated BibTeX entries is updated</li>
-<li>bug fixed in drawing CI lines in <code>CIcdfcplot</code> when <code>ggplot2</code> is called</li>
-<li>bug fixed in drawing horizontal lines in <code>cdfcompcens</code>
-</li>
+<ul><li>the use of some deprecated <code>ggplot2</code> functions is updated.</li>
+<li>the use of some deprecated BibTeX entries is updated.</li>
+<li>bug fixed in drawing CI lines in <code>CIcdfcplot()</code> when <code>ggplot2</code> is called.</li>
+<li>bug fixed in drawing horizontal lines in <code><a href="../reference/graphcompcens.html">cdfcompcens()</a></code>.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1-8" id="fitdistrplus-11-8">fitdistrplus 1.1-8<a class="anchor" aria-label="anchor" href="#fitdistrplus-11-8"></a></h2><p class="text-muted">CRAN release: 2022-03-10</p>
@@ -103,43 +103,40 @@
 <ul><li>new function <code><a href="../reference/Surv2fitdistcens.html">Surv2fitdistcens()</a></code> to format data for use in <code><a href="../reference/fitdistcens.html">fitdistcens()</a></code> from a format used in the survival package</li>
 <li>new dataset <code>fremale</code> in order to illustrate <code><a href="../reference/Surv2fitdistcens.html">Surv2fitdistcens()</a></code>
 </li>
-<li>support the use of ggplot2 for <code>CIcdfplot</code>
+<li>support the use of ggplot2 for <code><a href="../reference/CIcdfplot.html">CIcdfplot()</a></code>
 </li>
 <li>add the taxon names to the <code>endosulfan</code> dataset</li>
-<li>new argument name.points in <code>cdfcomp</code> and <code>CIcdfplot</code> to add labels next to points</li>
+<li>new argument name.points in <code><a href="../reference/graphcomp.html">cdfcomp()</a></code> and <code><a href="../reference/CIcdfplot.html">CIcdfplot()</a></code> to add labels next to points</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1-5" id="fitdistrplus-11-5">fitdistrplus 1.1-5<a class="anchor" aria-label="anchor" href="#fitdistrplus-11-5"></a></h2><p class="text-muted">CRAN release: 2021-05-28</p>
 <p>WARNING FIX</p>
-<ul><li>reduce testing times in test files</li>
+<ul><li>reduce testing times in test files.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1-3" id="fitdistrplus-11-3">fitdistrplus 1.1-3<a class="anchor" aria-label="anchor" href="#fitdistrplus-11-3"></a></h2><p class="text-muted">CRAN release: 2020-12-05</p>
 <p>NEW FEATURE</p>
-<ul><li>take into account <code>fix.arg</code> for uniform distribution</li>
+<ul><li>take into account <code>fix.arg</code> for uniform distribution.</li>
 </ul><p>BUG FIXES</p>
-<ul><li>add the loglikelihood value for uniform distribution (in <code><a href="../reference/mledist.html">mledist()</a></code>)</li>
-<li>correct usage of triple dots argument in <code><a href="../reference/logLik-surface.html">llsurface()</a></code>
-</li>
-<li>fix an error in <code><a href="../reference/graphcomp.html">ppcomp()</a></code> and <code><a href="../reference/graphcomp.html">qqcomp()</a></code> raised for large dataset</li>
+<ul><li>add the loglikelihood value for uniform distribution (in <code><a href="../reference/mledist.html">mledist()</a></code>),</li>
+<li>correct usage of triple dots argument in <code><a href="../reference/logLik-surface.html">llsurface()</a></code>,</li>
+<li>fix an error in <code><a href="../reference/graphcomp.html">ppcomp()</a></code> and <code><a href="../reference/graphcomp.html">qqcomp()</a></code> raised for large dataset.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1-1" id="fitdistrplus-11-1">fitdistrplus 1.1-1<a class="anchor" aria-label="anchor" href="#fitdistrplus-11-1"></a></h2><p class="text-muted">CRAN release: 2020-05-19</p>
 <p>NEW FEATURES</p>
-<ul><li>add of internal functions to cope with problems of lack of maintenance of the package <code>npsurv</code> and remove the dependence to this package</li>
-<li>remove of the deprecated argument Turnbull of <code><a href="../reference/plotdistcens.html">plotdistcens()</a></code>
-</li>
+<ul><li>add of internal functions to cope with problems of lack of maintenance of the package <code>npsurv</code> and remove the dependence to this package.</li>
+<li>remove of the deprecated argument Turnbull of <code><a href="../reference/plotdistcens.html">plotdistcens()</a></code>.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0-14" id="fitdistrplus-10-14">fitdistrplus 1.0-14<a class="anchor" aria-label="anchor" href="#fitdistrplus-10-14"></a></h2><p class="text-muted">CRAN release: 2019-01-23</p>
 <p>NEW FEATURES</p>
-<ul><li>add a new estimation method called maximum spacing estimation via <code><a href="../reference/msedist.html">msedist()</a></code>
-</li>
+<ul><li>add a new estimation method called maximum spacing estimation via <code><a href="../reference/msedist.html">msedist()</a></code>.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0-13" id="fitdistrplus-10-13">fitdistrplus 1.0-13<a class="anchor" aria-label="anchor" href="#fitdistrplus-10-13"></a></h2>
 <p>BUG FIXES</p>
-<ul><li>fix issues coming from the noLD (–disable-long-double) configuration of R</li>
+<ul><li>fix issues coming from the noLD (–disable-long-double) configuration of R.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0-12" id="fitdistrplus-10-12">fitdistrplus 1.0-12<a class="anchor" aria-label="anchor" href="#fitdistrplus-10-12"></a></h2>
@@ -163,11 +160,11 @@
 <li>homogeneization of <code>xlim</code> and <code>ylim</code> default definition in <code>plotdistcens</code>.</li>
 <li>Removing of the name of the first argument in calls to dpq functions in order to make the package compatible with distributions defined with a non classical name for their first argument (resp. x, q, p for d, p, q functions).</li>
 <li>add the possibility to change the title of the CDF plot in <code><a href="../reference/plotdistcens.html">plotdistcens()</a></code> using the argument main.</li>
-<li>support the use of ggplot2 for <code>cdfcompcens</code>, <code>qqcompcens</code>, <code>ppcompcens</code>.</li>
+<li>support the use of <code>ggplot2</code> for <code><a href="../reference/graphcompcens.html">cdfcompcens()</a></code>, <code><a href="../reference/graphcompcens.html">qqcompcens()</a></code>, <code><a href="../reference/graphcompcens.html">ppcompcens()</a></code>.</li>
 </ul><p>BUG FIXES</p>
-<ul><li>bug fixed concerning the use of gofstat with a chi squared df &lt;=0 (error message blocking the other functions)</li>
-<li>bug fix in mledist() when bounds were set (so not NULL) for censored MLE</li>
-<li>enable a correct use of non-equidistant breaks in denscomp for the histogram when plotstyle = “ggplot”, and prohibit the use of non-equidistant breaks with probability = FALSE (adding a stop in this case).</li>
+<ul><li>bug fixed concerning the use of gofstat with a chi squared <code>df &lt;=0</code> (error message blocking the other functions)</li>
+<li>bug fix in <code><a href="../reference/mledist.html">mledist()</a></code> when bounds were set (so not NULL) for censored MLE.</li>
+<li>enable a correct use of non-equidistant breaks in <code><a href="../reference/graphcomp.html">denscomp()</a></code> for the histogram. when <code>plotstyle = "ggplot"</code>, and prohibit the use of non-equidistant breaks with <code>probability = FALSE</code> (adding a stop in this case).</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0-9" id="fitdistrplus-10-9">fitdistrplus 1.0-9<a class="anchor" aria-label="anchor" href="#fitdistrplus-10-9"></a></h2><p class="text-muted">CRAN release: 2017-03-24</p>
@@ -176,12 +173,12 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0-8" id="fitdistrplus-10-8">fitdistrplus 1.0-8<a class="anchor" aria-label="anchor" href="#fitdistrplus-10-8"></a></h2><p class="text-muted">CRAN release: 2017-02-01</p>
 <p>NEW FEATURES</p>
-<ul><li>support the use of ggplot2 for <code>cdfcomp</code>, <code>denscomp</code>, <code>qqcomp</code>, <code>ppcomp</code>.</li>
+<ul><li>support the use of ggplot2 for <code><a href="../reference/graphcomp.html">cdfcomp()</a></code>, <code><a href="../reference/graphcomp.html">denscomp()</a></code>, <code><a href="../reference/graphcomp.html">qqcomp()</a></code>, <code><a href="../reference/graphcomp.html">ppcomp()</a></code>.</li>
 </ul><p>BUG FIXES</p>
-<ul><li>correct legend for <code>qqcomp</code> and <code>ppomp</code> on large data.</li>
-<li>correct weights in <code>mmedist</code>.</li>
-<li>correct the name Akaike in <code>gofstat</code>.</li>
-<li>correct the use of trueval in <code>plot.bootdist</code>.</li>
+<ul><li>correct legend for <code><a href="../reference/graphcomp.html">qqcomp()</a></code> and <code>ppomp()</code> on large data.</li>
+<li>correct weights in <code><a href="../reference/mmedist.html">mmedist()</a></code>.</li>
+<li>correct the name Akaike in <code><a href="../reference/gofstat.html">gofstat()</a></code>.</li>
+<li>correct the use of trueval in <code><a href="../reference/bootdist.html">plot.bootdist()</a></code>.</li>
 <li>correct the vignette on truncate (inflated) distributions.</li>
 </ul></div>
     <div class="section level2">
@@ -189,13 +186,13 @@
 <p>NEW FEATURES</p>
 <ul><li>keep the JSS vignette as a pdf.</li>
 <li>start the FAQ vignette and add datasets (?dataFAQ) for it.</li>
-<li>provide likelihood plot/surface/curve: <code>llplot</code>, <code>llcurve</code>, <code>llsurface</code>.</li>
+<li>provide likelihood plot/surface/curve: <code><a href="../reference/logLik-plot.html">llplot()</a></code>, <code><a href="../reference/logLik-surface.html">llcurve()</a></code>, <code><a href="../reference/logLik-surface.html">llsurface()</a></code>.</li>
 <li>provide parallelization of bootstrap in bootdist and bootdistcens.</li>
-<li>provide graphic of (e)cdf with bootstraped confidence interval/area: <code>CIcdfplot</code>.</li>
-<li>allow the use of <code><a href="https://rdrr.io/r/stats/constrOptim.html" class="external-link">constrOptim()</a></code> in <code>mledist</code>, <code>mmedist</code>, <code>mgedist</code>, <code>qmedist</code> functions.</li>
+<li>provide graphic of (e)cdf with bootstraped confidence interval/area: <code><a href="../reference/CIcdfplot.html">CIcdfplot()</a></code>.</li>
+<li>allow the use of <code><a href="https://rdrr.io/r/stats/constrOptim.html" class="external-link">constrOptim()</a></code> in <code><a href="../reference/mledist.html">mledist()</a></code>, <code><a href="../reference/mmedist.html">mmedist()</a></code>, <code><a href="../reference/mgedist.html">mgedist()</a></code>, <code><a href="../reference/qmedist.html">qmedist()</a></code> functions.</li>
 <li>add a possible pre-fitting procedure: prefit.</li>
 </ul><p>BUG FIXES</p>
-<ul><li>add invisible() for all graphical functions.</li>
+<ul><li>add <code><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible()</a></code> for all graphical functions.</li>
 <li>bug fixed concerning the use of weights on censored data.</li>
 </ul></div>
     <div class="section level2">
@@ -206,15 +203,15 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0-5" id="fitdistrplus-10-5">fitdistrplus 1.0-5<a class="anchor" aria-label="anchor" href="#fitdistrplus-10-5"></a></h2><p class="text-muted">CRAN release: 2015-09-21</p>
 <p>NEW FEATURES</p>
-<ul><li>update starting/fixing values in <code>mledist</code>, <code>mmedist</code>, <code>mgedist</code>, <code>qmedist</code> functions.</li>
+<ul><li>update starting/fixing values in <code><a href="../reference/mledist.html">mledist()</a></code>, <code><a href="../reference/mmedist.html">mmedist()</a></code>, <code><a href="../reference/mgedist.html">mgedist()</a></code>, <code><a href="../reference/qmedist.html">qmedist()</a></code> functions.</li>
 <li>update graphics for bootstrap procedure.</li>
-<li>add argument do.points in <code>cdfcomp</code>.</li>
-<li>add argument weights in <code>mledist</code>, <code>qmedist</code>, <code>mmedist</code>, <code>fitdist</code>, <code>fitdistcens</code>.</li>
-<li>add argument keepdata in <code>fitdist</code>, <code>fitdistcens</code>.</li>
-<li>suppress warnings/errors in fitdist(cens), bootdist(cens).</li>
+<li>add argument do.points in <code><a href="../reference/graphcomp.html">cdfcomp()</a></code>.</li>
+<li>add argument weights in <code><a href="../reference/mledist.html">mledist()</a></code>, <code><a href="../reference/qmedist.html">qmedist()</a></code>, <code><a href="../reference/mmedist.html">mmedist()</a></code>, <code><a href="../reference/fitdist.html">fitdist()</a></code>, <code><a href="../reference/fitdistcens.html">fitdistcens()</a></code>.</li>
+<li>add argument keepdata in <code><a href="../reference/fitdist.html">fitdist()</a></code>, <code><a href="../reference/fitdistcens.html">fitdistcens()</a></code>.</li>
+<li>suppress warnings/errors in <code>fitdist(cens)()</code>, <code>bootdist(cens)()</code>.</li>
 </ul><p>BUG FIXES</p>
-<ul><li>defensive programming in <code>plotdist</code>, <code>cdfcomp</code>,…</li>
-<li>simplify plotting curves in <code>cdfcomp</code> where seq(xmin, xmax, by=1) was used.</li>
+<ul><li>defensive programming in <code><a href="../reference/plotdist.html">plotdist()</a></code>, <code><a href="../reference/graphcomp.html">cdfcomp()</a></code>,…</li>
+<li>simplify plotting curves in <code><a href="../reference/graphcomp.html">cdfcomp()</a></code> where seq(xmin, xmax, by=1) was used.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0-4" id="fitdistrplus-10-4">fitdistrplus 1.0-4<a class="anchor" aria-label="anchor" href="#fitdistrplus-10-4"></a></h2><p class="text-muted">CRAN release: 2015-02-23</p>
@@ -223,10 +220,10 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0-3" id="fitdistrplus-10-3">fitdistrplus 1.0-3<a class="anchor" aria-label="anchor" href="#fitdistrplus-10-3"></a></h2><p class="text-muted">CRAN release: 2014-12-13</p>
 <p>NEW FEATURES</p>
-<ul><li>new generic functions for fitdist(cens): <code>loglik</code>, <code>vcov</code> and <code>coef</code>.</li>
+<ul><li>new generic functions for fitdist(cens): <code>loglik()</code>, <code><a href="https://rdrr.io/r/stats/vcov.html" class="external-link">vcov()</a></code> and <code><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef()</a></code>.</li>
 <li>vignette updated to the version of a paper accepted by the Journal of Statistical Software.</li>
 <li>add of an argument discrete in fitdist in order to be able to take into account non classical discrete distributions while plotting the fit with plot.fitdist or cdfcomp and while calculating goodness-of-fit statistics with gofstat (add of an example : fit of a zero inflate Poisson distribution).</li>
-<li>add of an S3 class for <code>descdist</code> and a print method.</li>
+<li>add of an S3 class for <code><a href="../reference/descdist.html">descdist()</a></code> and a print method.</li>
 </ul><p>BUG FIXES</p>
 <ul><li>fitdist can handle non invertible Hessian matrices.</li>
 </ul></div>
@@ -236,34 +233,36 @@
 <ul><li>plotdist can plot empirical density as an histogram, a density plot or both superimposed.</li>
 <li>a strong warning was added to the documentation of function descdist about the problematic high variance of skewness and kurtosis.</li>
 </ul><p>BUG FIXES</p>
-<ul><li>bug fixed in <code>bootdistcens</code> : argument fix.arg is now correctly passed to mle.</li>
+<ul><li>bug fixed in <code><a href="../reference/bootdistcens.html">bootdistcens()</a></code> : argument fix.arg is now correctly passed to mle.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0-1" id="fitdistrplus-10-1">fitdistrplus 1.0-1<a class="anchor" aria-label="anchor" href="#fitdistrplus-10-1"></a></h2><p class="text-muted">CRAN release: 2013-04-10</p>
 <p>NEW FEATURES</p>
-<ul><li>gofstat can handle multiple <code>fitdist</code> objects.</li>
-<li>plotdist for discrete data is slightly enhanced.</li>
+<ul><li>
+<code>gofstat</code> can handle multiple <code><a href="../reference/fitdist.html">fitdist()</a></code> objects.</li>
+<li>
+<code>plotdist</code> for discrete data is slightly enhanced.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0-0" id="fitdistrplus-10-0">fitdistrplus 1.0-0<a class="anchor" aria-label="anchor" href="#fitdistrplus-10-0"></a></h2><p class="text-muted">CRAN release: 2012-12-27</p>
 <p>NEW FEATURES</p>
 <ul><li>update cdfcomp and add denscomp, ppcomp and qqcomp functions.</li>
 <li>add of an argument Turnbull.confint to functions plotdistcens and cdfcompcens in order to draw confidence intervals on the empirical distribution only if requested.</li>
-<li>ppoints now used in “fitdist” for QQ plot, PP plot and cdf plot for continuous data (was used only for QQ plot in previous versions) to enable Blom type plotting position (using by default Hazen plotting position than can be chanfge using arguments use.ppoints and a.ppoints)</li>
+<li>ppoints now used in <code>fitdist</code> for QQ plot, PP plot and cdf plot for continuous data (was used only for QQ plot in previous versions) to enable Blom type plotting position (using by default Hazen plotting position than can be chanfge using arguments use.ppoints and a.ppoints)</li>
 <li>many changes in the examples given in the reference manual.</li>
 <li>the vignette was removed, to be transformed in a paper that we will soon submit to a journal.</li>
 <li>add of four data sets : <code>fluazinam</code>, <code>salinity</code>, <code>danishuni</code> and <code>danishmulti</code>.</li>
-<li>add of functions to calculate quantiles of the fitted distribution, with 95 percent CI calculated by bootstrap : quantile generic function is available both for <code>fitdist</code> and <code>bootdist</code> objects and quantile generic function is available both for <code>fitdistcens</code> and <code>bootdistcens</code> objects.</li>
+<li>add of functions to calculate quantiles of the fitted distribution, with 95 percent CI calculated by bootstrap : quantile generic function is available both for <code><a href="../reference/fitdist.html">fitdist()</a></code> and <code><a href="../reference/bootdist.html">bootdist()</a></code> objects and quantile generic function is available both for <code><a href="../reference/fitdistcens.html">fitdistcens()</a></code> and <code><a href="../reference/bootdistcens.html">bootdistcens()</a></code> objects.</li>
 </ul><p>BUG FIXES</p>
 <ul><li>correction the formula for the CvM test for Weibull distribution.</li>
 <li>elimination of CvM and AD tests for normal, lognormal and logistic distributions : formulas previously used (given by Stephens 1986) do not use exactly MLE estimates and thus results were only approximates.</li>
-<li>make arguments xlim and ylim functional in <code>cdfcompcens</code>.</li>
-<li>bug fix in the closed formula in <code>mmedist</code> for lognormal distributions.</li>
+<li>make arguments xlim and ylim functional in <code><a href="../reference/graphcompcens.html">cdfcompcens()</a></code>.</li>
+<li>bug fix in the closed formula in <code><a href="../reference/mmedist.html">mmedist()</a></code> for lognormal distributions.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3-4" id="fitdistrplus-03-4">fitdistrplus 0.3-4<a class="anchor" aria-label="anchor" href="#fitdistrplus-03-4"></a></h2><p class="text-muted">CRAN release: 2012-03-22</p>
 <p>NEW FEATURES</p>
-<ul><li>posibility to fix xlegend to a keyword (e.g. <code>bottomright</code>) in <code>cdfcomp</code> and <code>cdfcompdens</code>.</li>
+<ul><li>posibility to fix xlegend to a keyword (e.g. <code>bottomright</code>) in <code><a href="../reference/graphcomp.html">cdfcomp()</a></code> and <code>cdfcompdens()</code>.</li>
 <li>improvement of the new vignette.</li>
 </ul><p>BUG FIXES</p>
 <ul><li>correction of the NAMESPACE file in order to enable the correct print of a summary of a <code>fitdistcens</code> object (with the correlation matrix, the loglikelihood and AIC and BIC statistics).</li>
@@ -271,14 +270,14 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3-3" id="fitdistrplus-03-3">fitdistrplus 0.3-3<a class="anchor" aria-label="anchor" href="#fitdistrplus-03-3"></a></h2>
 <p>NEW FEATURES</p>
-<ul><li>a new function (<code>cdfcompcens</code>) to plot cumulative distributions corresponding to various fits using a same censored data set.</li>
+<ul><li>a new function (<code><a href="../reference/graphcompcens.html">cdfcompcens()</a></code>) to plot cumulative distributions corresponding to various fits using a same censored data set.</li>
 <li>add an example with scaling problem in man pages.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3-2" id="fitdistrplus-03-2">fitdistrplus 0.3-2<a class="anchor" aria-label="anchor" href="#fitdistrplus-03-2"></a></h2>
 <p>NEW FEATURES</p>
-<ul><li>new plot of the empirical cdf curve in <code>plotdistcens</code>, using the Turnbull algorithm by a call to function survfit{survival}.</li>
-<li>new arguments to function <code>cdfcomp</code> : verticals, horizontals and xlim.</li>
+<ul><li>new plot of the empirical cdf curve in <code><a href="../reference/plotdistcens.html">plotdistcens()</a></code>, using the Turnbull algorithm by a call to function survfit{survival}.</li>
+<li>new arguments to function <code><a href="../reference/graphcomp.html">cdfcomp()</a></code> : verticals, horizontals and xlim.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3-1" id="fitdistrplus-03-1">fitdistrplus 0.3-1<a class="anchor" aria-label="anchor" href="#fitdistrplus-03-1"></a></h2>
@@ -288,7 +287,7 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3-0" id="fitdistrplus-03-0">fitdistrplus 0.3-0<a class="anchor" aria-label="anchor" href="#fitdistrplus-03-0"></a></h2>
 <p>NEW FEATURES</p>
-<ul><li>a new function (<code>cdfcomp</code>) to plot cumulative distributions corresponding to various fits using a same non censored data set.</li>
+<ul><li>a new function (<code><a href="../reference/graphcomp.html">cdfcomp()</a></code>) to plot cumulative distributions corresponding to various fits using a same non censored data set.</li>
 <li>add of two data sets : <code>endosulfan</code> and <code>toxocara</code>.</li>
 </ul></div>
     <div class="section level2">
@@ -299,51 +298,51 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2-1" id="fitdistrplus-02-1">fitdistrplus 0.2-1<a class="anchor" aria-label="anchor" href="#fitdistrplus-02-1"></a></h2><p class="text-muted">CRAN release: 2011-03-18</p>
 <p>NEW FEATURES</p>
-<ul><li>a new fitting method was implemented for continuous distributions : the maximum goodness-of-fit estimation (function <code>mgedist</code>) (for the moment only available for non censored data).</li>
+<ul><li>a new fitting method was implemented for continuous distributions : the maximum goodness-of-fit estimation (function <code><a href="../reference/mgedist.html">mgedist()</a></code>) (for the moment only available for non censored data).</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1-5" id="fitdistrplus-01-5">fitdistrplus 0.1-5<a class="anchor" aria-label="anchor" href="#fitdistrplus-01-5"></a></h2>
 <p>NEW FEATURES</p>
-<ul><li>a new goodness-of-fit statistic was added in <code>gofstat</code>, with corresponding test : the Cramer-von Mises distance.</li>
-<li>a new fitting method has been implemented : the quantile matching estimation (function <code>qmedist</code>). For the moment, only available for non censored data.</li>
-<li>the moment matching estimation has been extended (in function mmedist) to enable numerical matching when closed formula are not available.</li>
+<ul><li>a new goodness-of-fit statistic was added in <code><a href="../reference/gofstat.html">gofstat()</a></code>, with corresponding test : the Cramer-von Mises distance.</li>
+<li>a new fitting method has been implemented : the quantile matching estimation (function <code><a href="../reference/qmedist.html">qmedist()</a></code>). For the moment, only available for non censored data.</li>
+<li>the moment matching estimation has been extended (in function <code><a href="../reference/mmedist.html">mmedist()</a></code>) to enable numerical matching when closed formula are not available.</li>
 </ul><p>BUG FIXES</p>
 <ul><li>correction of a bug inserted while adding the argument <code>fix.arg</code> which prevent the print of the results of goodness-of-fit tests.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1-4" id="fitdistrplus-01-4">fitdistrplus 0.1-4<a class="anchor" aria-label="anchor" href="#fitdistrplus-01-4"></a></h2><p class="text-muted">CRAN release: 2010-09-16</p>
 <p>NEW FEATURES</p>
-<ul><li>a component named dots added to the list returned by <code>fitdist</code> and <code>fitdistcens</code> in order to pass optional arguments for the control of optimization in <code>mledist</code> to <code>bootdist</code> and <code>bootdistcens</code>. <code>bootdist</code> and <code>bootdistcens</code> changed to take into account these optional arguments if they are defined in the call to <code>fitdist</code> or <code>fitdistcens</code>.</li>
-<li>an argument added to <code>fitdist</code>, <code>fitdistcens</code> and <code>mledist</code>, named <code>fix.arg</code>, and giving the possibility to fix some of the distribution parameters while maximizing the likelihood. Functions bootdist, bootdistcens and gofstat were also changed in order to take this new argument into account.</li>
+<ul><li>a component named dots added to the list returned by <code><a href="../reference/fitdist.html">fitdist()</a></code> and <code><a href="../reference/fitdistcens.html">fitdistcens()</a></code> in order to pass optional arguments for the control of optimization in <code><a href="../reference/mledist.html">mledist()</a></code> to <code><a href="../reference/bootdist.html">bootdist()</a></code> and <code><a href="../reference/bootdistcens.html">bootdistcens()</a></code>. <code><a href="../reference/bootdist.html">bootdist()</a></code> and <code><a href="../reference/bootdistcens.html">bootdistcens()</a></code> changed to take into account these optional arguments if they are defined in the call to <code><a href="../reference/fitdist.html">fitdist()</a></code> or <code><a href="../reference/fitdistcens.html">fitdistcens()</a></code>.</li>
+<li>an argument added to <code><a href="../reference/fitdist.html">fitdist()</a></code>, <code><a href="../reference/fitdistcens.html">fitdistcens()</a></code> and <code><a href="../reference/mledist.html">mledist()</a></code>, named <code>fix.arg</code>, and giving the possibility to fix some of the distribution parameters while maximizing the likelihood. Functions bootdist, bootdistcens and gofstat were also changed in order to take this new argument into account.</li>
 <li>a new data file of bacterial contamination censored data extracted from Busschaert et al. 2000 and examples corresponding to analysis of this dataset.</li>
 </ul><p>BUG FIXES</p>
-<ul><li>correction of a bug in the print and the plot of bootstraped samples using <code>bootdist</code> or <code>bootdistcens</code> when there was only one parameter estimated by maximum likelihood.</li>
+<ul><li>correction of a bug in the print and the plot of bootstraped samples using <code><a href="../reference/bootdist.html">bootdist()</a></code> or <code><a href="../reference/bootdistcens.html">bootdistcens()</a></code> when there was only one parameter estimated by maximum likelihood.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1-3" id="fitdistrplus-01-3">fitdistrplus 0.1-3<a class="anchor" aria-label="anchor" href="#fitdistrplus-01-3"></a></h2><p class="text-muted">CRAN release: 2010-06-02</p>
 <p>NEW FEATURES</p>
 <ul><li>new data file <code>groundbeef</code> (groundbeef.rda and groundbeef.Rd) and new use of this dataset in some examples.</li>
-<li>new function <code>gofstat</code>. Goodness-of-fit statistics are no more computed by fitdist but may computed and printed by the use of the function gofstat. In this new function, the whole results computed are not printed : results of tests are printed only if the argument print.test==TRUE and for continuous distributions only Anderson-Darling and Kolomogorov-Smirnov statistics are printed by default (but complete results are returned by gofstat).</li>
-<li>modifications in <code>descdist</code> : three arguments were added in descdist 1/ method, to choose between unbiased estimations of standard deviation, skewness and kurtosis (default choice) and sample values. 2/ obs.col to choose the color used to plot the observed point on the graph. 3/ boot.col to choose the color used to plot the bootstrap sample of points on the graph.</li>
-<li>modifications in <code>plotfit</code> : minor changes were performed in order to facilitate the use of the argument … to personnalize the plots (see examples in plotdist.Rd)</li>
+<li>new function <code><a href="../reference/gofstat.html">gofstat()</a></code>. Goodness-of-fit statistics are no more computed by fitdist but may computed and printed by the use of the function gofstat. In this new function, the whole results computed are not printed : results of tests are printed only if the argument print.test==TRUE and for continuous distributions only Anderson-Darling and Kolomogorov-Smirnov statistics are printed by default (but complete results are returned by gofstat).</li>
+<li>modifications in <code><a href="../reference/descdist.html">descdist()</a></code> : three arguments were added in descdist 1/ method, to choose between unbiased estimations of standard deviation, skewness and kurtosis (default choice) and sample values. 2/ obs.col to choose the color used to plot the observed point on the graph. 3/ boot.col to choose the color used to plot the bootstrap sample of points on the graph.</li>
+<li>modifications in <code>plotfit()</code> : minor changes were performed in order to facilitate the use of the argument … to personnalize the plots (see examples in plotdist.Rd)</li>
 <li>modication of the vignette</li>
 </ul><p>BUG FIXES</p>
-<ul><li>correction of a bug in <code>plotdist</code> due to the redefinition in the previous version of the parameter “ylim” for the plot of a histogram with theoretical density function (there was a problem with infinite values of theoretical density function).</li>
+<ul><li>correction of a bug in <code><a href="../reference/plotdist.html">plotdist()</a></code> due to the redefinition in the previous version of the parameter <code>"ylim"</code> for the plot of a histogram with theoretical density function (there was a problem with infinite values of theoretical density function).</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1-2" id="fitdistrplus-01-2">fitdistrplus 0.1-2<a class="anchor" aria-label="anchor" href="#fitdistrplus-01-2"></a></h2><p class="text-muted">CRAN release: 2009-12-29</p>
 <p>NEW FEATURES</p>
 <ul><li>deletion of mledistcens and modification of mledist in order to maximize likelihood for both censored and non censored data.</li>
-<li>possibility to choose the optimization method used for maximum likelihood estimation (MLE) of distribution parameters using the new argument “optim.method” of mledist.</li>
-<li>possibility to specify contraints on distribution parameters using the new arguments “lower” and “upper” of mledist.</li>
-<li>possibility to use a custom optimization function for MLE using the new argument “custom.optim”.</li>
-<li>moment matching estimation is no longer done with argument method set to “mom” but set to “mme” in fitdist.</li>
-<li>renaming of momdist in mmedist.</li>
+<li>possibility to choose the optimization method used for maximum likelihood estimation (MLE) of distribution parameters using the new argument <code>"optim.method"</code> of <code><a href="../reference/mledist.html">mledist()</a></code>.</li>
+<li>possibility to specify contraints on distribution parameters using the new arguments <code>"lower"</code> and <code>"upper"</code> of <code><a href="../reference/mledist.html">mledist()</a></code>.</li>
+<li>possibility to use a custom optimization function for MLE using the new argument <code>"custom.optim"</code>.</li>
+<li>moment matching estimation is no longer done with argument method set to <code>"mom"</code> but set to <code>"mme"</code> in <code><a href="../reference/fitdist.html">fitdist()</a></code>.</li>
+<li>renaming of <code>momdist</code> in <code><a href="../reference/mmedist.html">mmedist()</a></code>.</li>
 <li>calculation of AIC and BIC criterion after maximum likelihood estimation of distribution parameters</li>
 <li>change of the default number of iterations from 999 to 1001 for bootstrap in order to avoid interpolation using the quantile function</li>
-<li>use of the argument “log” and (resp. “log.p”) of density (resp. distribution) when available to compute the loglikelihood.</li>
+<li>use of the argument <code>"log"</code> and (resp. <code>"log.p"</code>) of density (resp. distribution) when available to compute the loglikelihood.</li>
 </ul><p>BUG FIXES</p>
-<ul><li>omitting the name of the first argument in calls to the density function during maximization of the likelihood in order to enable the use of a density function defined with a first parameter (the vector of quantiles) with a name differing from “x” (classical name for density distributions defined in R), such as the density function dexGAUS from the package gamlss.dist.</li>
+<ul><li>omitting the name of the first argument in calls to the density function during maximization of the likelihood in order to enable the use of a density function defined with a first parameter (the vector of quantiles) with a name differing from “x” (classical name for density distributions defined in R), such as the density function <code>dexGAUS</code> from the package gamlss.dist.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1-1" id="fitdistrplus-01-1">fitdistrplus 0.1-1<a class="anchor" aria-label="anchor" href="#fitdistrplus-01-1"></a></h2><p class="text-muted">CRAN release: 2009-02-16</p>
