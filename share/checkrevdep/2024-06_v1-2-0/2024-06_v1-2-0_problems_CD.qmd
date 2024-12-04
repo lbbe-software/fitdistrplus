@@ -1,0 +1,259 @@
+```{r}
+#| eval: false
+# version stable CRAN
+install.packages("fitdistrplus")
+
+# version dev github
+install.packages("remotes")
+remotes::install_github("lbbe-software/fitdistrplus")
+
+```
+```{r}
+library(fitdistrplus)
+```
+
+
+# baytrends
+
+Le format des données n'est pas le bon. voici un exemple du contournement.
+
+```{r}
+#| label: baytrends
+#| warning: true
+#| error: true
+# dans le fichier test-impute.R
+# https://github.com/cran/baytrends/blob/master/tests/testthat/test-impute.R
+library(baytrends, quietly = TRUE)
+x  <- dataCensored[1:20,"tdp"]
+calc_impute <- impute(x,'norm')
+calc_impute <- impute(x,'lnorm')
+
+str(x)
+
+xnew <- data.frame(time1=x[, 1], time2=x[,2], status=x[,3])
+
+xcorrect <- Surv2fitdistcens(xnew$time1, xnew$time2, xnew$status, type="interval")
+
+
+```
+
+  
+# BMT
+
+la fonction `mBMT()` définissant les moments s'arrête au moment d'ordre 4... il faut aller jusqu'à 8. un exemplde code ci-dessous.
+
+```{r}
+#| label: BMT
+#| warning: true
+#| error: true
+# ligne 108 du fichier d'aide de BMTfit
+# https://github.com/cran/BMT/blob/master/man/BMTfit.Rd
+library(BMT, quietly = TRUE)
+data("groundbeef")
+serving <- groundbeef$serving
+fit.mme <- BMTfit(serving, method="mme")
+`BMTfit.mme`
+mBMT2 <- function(order, p3, p4, type.p.3.4, p1, p2, type.p.1.2) 
+{
+  if(order == 1)
+    return( BMTmean(p3, p4, type.p.3.4, p1, p2, type.p.1.2) )
+  else if(order == 2)
+    return( BMTsd(p3, p4, type.p.3.4, p1, p2, type.p.1.2) )
+  else if(order == 3)
+    return( BMTskew(p3, p4, type.p.3.4, p1, p2, type.p.1.2) )
+  else if(order == 4)
+    return( BMTkurt(p3, p4, type.p.3.4, p1, p2, type.p.1.2) )
+  else
+  {
+    #equation (13)
+    k1 <- 0:order
+    k2 <- rep(order-k1, each=length(k1))
+    k3 <- order-k1-k2
+    allk <- cbind(k1, k2, k3)
+    allk <- allk[allk[,3] > 0, ]
+    kappal <- p3
+    kappar <- p4
+    Tk <- function(i)
+    {
+      k <- allk[i,]
+      res <- 3^(k[1]+k[2]) / prod(factorial(k))
+      res <- res * kappal^k1 * (1-kappar)^k2 / choose(3*order+2, 1+sum(1:3*k))
+      res
+    }
+    sum(sapply(1:NROW(allk), Tk)) * 2 * factorial(order) / (order+1)
+  }
+}
+dBMT2 <- dBMT
+pBMT2 <- pBMT
+
+
+memp <- function(x, order)
+  {
+        n <- length(x)
+        s.mean <- mean(x)
+        s.sd <- sd(x)
+        res <- switch(order, s.mean, s.sd, n/((n - 1) * (n - 
+            2)) * sum((x - s.mean)^3)/s.sd^3, (n - 1)/((n - 2) * 
+            (n - 3)) * ((n + 1) * n/(n - 1)^2 * sum((x - s.mean)^4)/s.sd^4 - 
+            3 * (n - 1)) + 3)
+        return(res)
+    }
+
+type.p.3.4 <- "t w"
+type.p.1.2 <- "c-d"
+int.type.p.3.4 <- pmatch(type.p.3.4, c("t w", "a-s"))
+int.type.p.1.2 <- pmatch(type.p.1.2, c("c-d", "l-s"))
+myfix <- list(type.p.3.4=type.p.3.4, type.p.1.2 = type.p.1.2)
+
+mmedist(serving, "BMT2", order=1:4, memp,
+        start=list(p3 = 0.5, p4 = 0.5, p1 = min(serving) - 
+    0.1, p2 = max(serving) + 0.1),
+    fix.arg=myfix )
+
+
+
+```
+
+# criticality
+
+certains jeux de données sont constants... donc une variance nulle est estimée. ça doit bloquer à un autre endroit. l'exemple est mal choisi.
+
+```{r}
+#| label: criticality
+#| warning: true
+#| error: true
+# https://github.com/cran/criticality/blob/master/man/BN.Rd
+library(criticality, quietly = TRUE)
+ext.dir <- paste0(tempdir(), "/criticality/extdata")
+dir.create(ext.dir, recursive = TRUE, showWarnings = FALSE)
+extdata <- paste0(.libPaths()[1], "/criticality/extdata")
+file.copy(paste0(extdata, "/facility.csv"), ext.dir, recursive = TRUE)
+file.copy(paste0(extdata, "/mcnp-dataset.RData"), ext.dir, recursive = TRUE)
+bb <- BN(
+  facility.data = "facility.csv",
+  ext.dir = ext.dir
+)
+
+facilitydata <- read.csv(paste0(extdata, "/facility.csv"))
+
+for(myctrl in levels(factor(facilitydata$ctrl)))
+{
+  x <- subset(facilitydata, ctrl == myctrl)$thk
+  if(inherits(try(fitdist(x, "gamma")), "try-error"))
+  {
+    cat("ctrl", myctrl, "thk values\n")
+    print(x)
+  
+  }
+}
+
+```
+
+# phenesse
+
+il y a un vrai pb de calcul intensif. il n'est pas raisonnable d'utiliser autant de données.
+
+```{r}
+#| label: phenesse1
+#| warning: true
+#| error: true
+# dans le fichier test-weib_percentile.R
+# https://github.com/cran/phenesse/blob/master/tests/testthat/test-weib_percentile.R
+# pour reproduire l'erreur, augmenter le nombre d'itérations
+# très très gourmand en ressources, fait planter R, voire l'ordi !!
+# ATTENTION !!
+library(phenesse, quietly = TRUE)
+x <- rnorm(n = 10, mean = 150, sd = 10)
+#x <- rweibull(n=10, 3)
+weib_percentile(x, percentile = 0.5, iterations = 1)
+
+fitdistrplus::fitdist(x, distr = "weibull", method = "mle")
+
+# phenesse (local) create_predict_df(observations)
+# fitdistrplus::fitdist(observations, distr = "weibull", method = "mle")
+```
+
+```{r}
+#| label: phenesse2
+#| warning: true
+#| error: true
+# dans la vignette
+# ligne 54 https://github.com/cran/phenesse/blob/master/vignettes/phenesse_vignette.Rmd
+# pour reproduire l'erreur, changer le nombre d'itérations
+# très très gourmand en ressources, fait planter R, voire l'ordi !!
+# ATTENTION !!
+data(inat_examples)
+s_cybele <- subset(inat_examples, scientific_name == "Speyeria cybele")
+weib_percentile(observations = s_cybele$doy, percentile = 0.01, iterations = 1)
+weib_percentile(observations = s_cybele$doy, percentile = 0.01, iterations = 10)
+```
+
+# stratifyR
+
+je n'ai pas compris le pb. le bug survient avant l'utilisation de `fitdist()`.
+
+```{r}
+#| label: stratifyR
+#| warning: true
+#| error: true
+# dans la vignette
+library(stratifyR, quietly = TRUE)
+Folate <- anaemia$Folate
+res <- strata.data(Folate, h = 2, n = 500)
+
+#bug avant l'utilisation de fitdist()...
+```
+
+
+# traitstrap
+
+
+certains jeux de données sont constants... donc une variance nulle est estimée. ça doit bloquer à un autre endroit. l'exemple est là encore mal choisi.
+
+```{r}
+#| label: traitstrap1
+#| warning: true
+#| error: true
+# trait_fit_distributions
+# https://github.com/cran/traitstrap/blob/main/man/trait_fit_distributions.Rd
+library(traitstrap, quietly = TRUE)
+library(dplyr, quietly = TRUE)
+data(community)
+data(trait)
+
+filled_traits <- trait_fill(
+  comm = community |>
+ filter(PlotID %in% c("A", "B")),
+  traits = trait,
+  scale_hierarchy = c("Site", "PlotID"),
+  taxon_col = "Taxon", value_col = "Value",
+  trait_col = "Trait", abundance_col = "Cover"
+)
+
+fitted_distributions <- trait_fit_distributions(
+  filled_traits = filled_traits,
+  distribution_type = "normal"
+)
+
+
+for(mytaxon in levels(factor(filled_traits$Taxon)))
+{
+  x <- subset(filled_traits, Taxon == mytaxon)$sum_abun
+  if(inherits(try(fitdist(x, "norm")), "try-error"))
+  {
+    cat("Taxon", mytaxon, "thk values\n")
+    print(x)
+  }
+}
+
+```
+
+
+```{r}
+#| label: traitstrap2
+#| warning: true
+#| error: true
+test_vector <- rbeta(n = 100, shape1 = .5, shape2 = .5)
+fitdist(test_vector, "beta", method="mme")
+aa <- traitstrap:::get_dist_parms(data = test_vector, distribution_type = "beta")
+```

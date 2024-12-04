@@ -1,0 +1,141 @@
+```{r}
+#| eval: false
+# version stable CRAN
+install.packages("fitdistrplus")
+
+# version dev github
+install.packages("remotes")
+remotes::install_github("lbbe-software/fitdistrplus")
+
+```
+```{r}
+library(fitdistrplus)
+```
+
+
+# baytrends
+```{r}
+#| label: baytrends
+#| warning: true
+#| error: true
+# dans le fichier test-impute.R
+# https://github.com/cran/baytrends/blob/master/tests/testthat/test-impute.R
+library(baytrends, quietly = TRUE)
+x  <- dataCensored[1:20,"tdp"]
+calc_impute <- impute(x,'norm')
+calc_impute <- impute(x,'lnorm')
+```
+
+  
+# BMT
+```{r}
+#| label: BMT
+#| warning: true
+#| error: true
+# ligne 108 du fichier d'aide de BMTfit
+# https://github.com/cran/BMT/blob/master/man/BMTfit.Rd
+library(BMT, quietly = TRUE)
+data("groundbeef")
+serving <- groundbeef$serving
+fit.mme <- BMTfit(serving, method="mme")
+```
+
+# criticality
+
+```{r}
+#| label: criticality
+#| warning: true
+#| error: true
+# https://github.com/cran/criticality/blob/master/man/BN.Rd
+library(criticality, quietly = TRUE)
+ext.dir <- paste0(tempdir(), "/criticality/extdata")
+dir.create(ext.dir, recursive = TRUE, showWarnings = FALSE)
+extdata <- paste0(.libPaths()[1], "/criticality/extdata")
+file.copy(paste0(extdata, "/facility.csv"), ext.dir, recursive = TRUE)
+file.copy(paste0(extdata, "/mcnp-dataset.RData"), ext.dir, recursive = TRUE)
+bb <- BN(
+  facility.data = "facility.csv",
+  ext.dir = ext.dir
+)
+```
+
+# phenesse
+```{r}
+#| label: phenesse1
+#| warning: true
+#| error: true
+# dans le fichier test-weib_percentile.R
+# https://github.com/cran/phenesse/blob/master/tests/testthat/test-weib_percentile.R
+# pour reproduire l'erreur, augmenter le nombre d'itérations
+# très très gourmand en ressources, fait planter R, voire l'ordi !!
+# ATTENTION !!
+library(phenesse, quietly = TRUE)
+x <- rnorm(n = 10, mean = 150, sd = 10)
+weib_percentile(x, percentile = 0.5, iterations = 1)
+
+# phenesse (local) create_predict_df(observations)
+# fitdistrplus::fitdist(observations, distr = "weibull", method = "mle")
+```
+
+```{r}
+#| label: phenesse2
+#| warning: true
+#| error: true
+# dans la vignette
+# ligne 54 https://github.com/cran/phenesse/blob/master/vignettes/phenesse_vignette.Rmd
+# pour reproduire l'erreur, changer le nombre d'itérations
+# très très gourmand en ressources, fait planter R, voire l'ordi !!
+# ATTENTION !!
+data(inat_examples)
+s_cybele <- subset(inat_examples, scientific_name == "Speyeria cybele")
+weib_percentile(observations = s_cybele$doy, percentile = 0.01, iterations = 1)
+```
+
+# stratifyR
+
+```{r}
+#| label: stratifyR
+#| warning: true
+#| error: true
+# dans la vignette
+library(stratifyR, quietly = TRUE)
+Folate <- anaemia$Folate
+res <- strata.data(Folate, h = 2, n = 500)
+```
+
+
+# traitstrap
+```{r}
+#| label: traitstrap1
+#| warning: true
+#| error: true
+# trait_fit_distributions
+# https://github.com/cran/traitstrap/blob/main/man/trait_fit_distributions.Rd
+library(traitstrap, quietly = TRUE)
+library(dplyr, quietly = TRUE)
+data(community)
+data(trait)
+
+filled_traits <- trait_fill(
+  comm = community |>
+ filter(PlotID %in% c("A", "B")),
+  traits = trait,
+  scale_hierarchy = c("Site", "PlotID"),
+  taxon_col = "Taxon", value_col = "Value",
+  trait_col = "Trait", abundance_col = "Cover"
+)
+
+fitted_distributions <- trait_fit_distributions(
+  filled_traits = filled_traits,
+  distribution_type = "normal"
+)
+```
+
+
+```{r}
+#| label: traitstrap2
+#| warning: true
+#| error: true
+test_vector <- rbeta(n = 100, shape1 = .5, shape2 = .5)
+aa <- traitstrap:::get_dist_parms(data = test_vector, distribution_type = "beta")
+```

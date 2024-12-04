@@ -1,0 +1,113 @@
+```{r}
+#| eval: false
+# version stable CRAN
+install.packages("fitdistrplus")
+
+# version dev github
+install.packages("remotes")
+remotes::install_github("lbbe-software/fitdistrplus")
+
+```
+```{r}
+library(fitdistrplus)
+```
+
+
+# RFlocalfdr
+```{r}
+#| label: RFlocalfdr
+#| warning: true
+#| error: true
+# le problème est dans example(determine.C)
+library(RFlocalfdr, quietly = TRUE)
+data(imp20000)                                      
+imp<-log(imp20000$importances)                               
+t2<-imp20000$counts
+temp<-imp[t2 > 1]                   
+temp<-temp[temp != -Inf]                         
+temp <- temp - min(temp) + .Machine$double.eps   
+f_fit <- f.fit(temp)                             
+y <- f_fit$zh$density                            
+x <- f_fit$midpoints                             
+df <- data.frame(x, y)                           
+initial.estimates <- fit.to.data.set.wrapper(df, temp, try.counter = 3,return.all=FALSE)           
+initial.estimates$Estimate
+```
+
+
+# em
+```{r}
+#| label: em
+#| warning: true
+#| error: true
+# https://github.com/wudongjie/em
+# problème dans les tests ... lequel ?
+library(em, quietly = TRUE)
+```
+
+
+# ggh4x
+```{r}
+#| label: ggh4x
+#| warning: true
+#| error: true
+# https://github.com/teunbrand/ggh4x/
+# test-stat_theodensity.R
+library(ggh4x, quietly = TRUE)
+set.seed(1)
+d <- data.frame(x = rt(500, 1.5))
+g <- ggplot(d, aes(x = x)) +
+    stat_theodensity(distri = "t", start.arg = list(df = 20))
+ld <- layer_data(g)
+testthat::expect_equal(nrow(ld), 512)
+```
+
+
+# mbbefd
+```{r}
+#| label: mbbefd
+#| warning: true
+#| error: true
+# https://github.com/spedygiorgio/mbbefd
+# test-fit-mbbefd.R
+library(mbbefd, quietly = TRUE)
+n <- 1e3
+nboot <- 1000
+nboot <- 10
+set.seed(123456)
+lossrate <- rmbbefd(n, 1/2, 1/10)
+f1 <- fitDR(lossrate, "mbbefd")
+b1 <- bootDR(f1, niter=nboot, silent=TRUE)
+f2 <- fitDR(lossrate, "mbbefd", method="tlmme")
+```
+
+
+# qmap
+```{r}
+#| label: qmap
+#| warning: true
+#| error: true
+# https://cran.r-project.org/web/packages/qmap/index.html
+# fichier fitqmapdist.R
+library(qmap, quietly = TRUE)
+data(obsprecip)
+data(modprecip)
+qm.fit <- fitQmapDIST(obsprecip[,1],modprecip[,1], distr="berngamma", qstep=0.001)
+qm <- doQmapDIST(modprecip[,1],qm.fit)
+qm.lnorm.fit <- fitQmapDIST(obsprecip[,1],modprecip[,1], distr="bernlnorm", qstep=0.001)
+```
+
+
+# stratifyR
+```{r}
+#| label: stratifyR
+#| warning: true
+#| error: true
+# https://cran.r-project.org/web/packages/stratifyR/index.html
+# dans la vignette
+library(stratifyR, quietly = TRUE)
+data(anaemia) 
+Iron <- anaemia$Iron
+res <- strata.data(Iron, h = 2, n=500) # a 2-strata solution
+```
+
