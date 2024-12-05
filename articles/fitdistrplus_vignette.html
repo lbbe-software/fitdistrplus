@@ -63,7 +63,7 @@
                         <h4 data-toc-skip class="author">Marie Laure
 Delignette Muller, Christophe Dutang</h4>
             
-            <h4 data-toc-skip class="date">2024-12-04</h4>
+            <h4 data-toc-skip class="date">2024-12-05</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/lbbe-software/fitdistrplus/blob/master/vignettes/fitdistrplus_vignette.Rmd" class="external-link"><code>vignettes/fitdistrplus_vignette.Rmd</code></a></small>
       <div class="d-none name"><code>fitdistrplus_vignette.Rmd</code></div>
@@ -353,8 +353,8 @@ Weibull distribution to the serving size from the
 <pre><code><span><span class="co">## Fitting of the distribution ' weibull ' by maximum likelihood </span></span>
 <span><span class="co">## Parameters : </span></span>
 <span><span class="co">##       estimate Std. Error</span></span>
-<span><span class="co">## shape    2.186      1.667</span></span>
-<span><span class="co">## scale   83.348     40.272</span></span>
+<span><span class="co">## shape    2.186     0.1046</span></span>
+<span><span class="co">## scale   83.348     2.5269</span></span>
 <span><span class="co">## Loglikelihood:  -1255   AIC:  2514   BIC:  2522 </span></span>
 <span><span class="co">## Correlation matrix:</span></span>
 <span><span class="co">##        shape  scale</span></span>
@@ -1260,8 +1260,8 @@ non trivial cases, by a manual iterative use if necessary.</p>
 <pre><code><span><span class="co">## Fitting of the distribution ' lnorm ' By maximum likelihood on censored data </span></span>
 <span><span class="co">## Parameters</span></span>
 <span><span class="co">##         estimate Std. Error</span></span>
-<span><span class="co">## meanlog   3.3854     0.6741</span></span>
-<span><span class="co">## sdlog     0.4961     0.5669</span></span>
+<span><span class="co">## meanlog   3.3854    0.06487</span></span>
+<span><span class="co">## sdlog     0.4961    0.05455</span></span>
 <span><span class="co">## Loglikelihood:  -139.1   AIC:  282.1   BIC:  287.5 </span></span>
 <span><span class="co">## Correlation matrix:</span></span>
 <span><span class="co">##         meanlog  sdlog</span></span>
@@ -1272,8 +1272,8 @@ non trivial cases, by a manual iterative use if necessary.</p>
 <pre><code><span><span class="co">## Fitting of the distribution ' llogis ' By maximum likelihood on censored data </span></span>
 <span><span class="co">## Parameters</span></span>
 <span><span class="co">##       estimate Std. Error</span></span>
-<span><span class="co">## shape    3.421      4.321</span></span>
-<span><span class="co">## scale   29.930     20.210</span></span>
+<span><span class="co">## shape    3.421     0.4158</span></span>
+<span><span class="co">## scale   29.930     1.9447</span></span>
 <span><span class="co">## Loglikelihood:  -140.1   AIC:  284.1   BIC:  289.5 </span></span>
 <span><span class="co">## Correlation matrix:</span></span>
 <span><span class="co">##         shape   scale</span></span>
@@ -1352,14 +1352,14 @@ fitted.</p>
 <pre><code><span><span class="co">## Fitting of the distribution ' pois ' by maximum likelihood </span></span>
 <span><span class="co">## Parameters:</span></span>
 <span><span class="co">##        estimate Std. Error</span></span>
-<span><span class="co">## lambda    8.679      2.946</span></span></code></pre>
+<span><span class="co">## lambda    8.679     0.4047</span></span></code></pre>
 <div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">ftoxo.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">toxocara</span><span class="op">$</span><span class="va">number</span>, <span class="st">"nbinom"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Fitting of the distribution ' nbinom ' by maximum likelihood </span></span>
 <span><span class="co">## Parameters:</span></span>
 <span><span class="co">##      estimate Std. Error</span></span>
-<span><span class="co">## size   0.3971     0.6035</span></span>
-<span><span class="co">## mu     8.6803    14.0871</span></span></code></pre>
+<span><span class="co">## size   0.3971    0.08289</span></span>
+<span><span class="co">## mu     8.6803    1.93501</span></span></code></pre>
 <p>For discrete distributions, the plot of an object of class
 <code>fitdist</code> simply provides two goodness-of-fit plots comparing
 empirical and theoretical distributions in density and in CDF. Functions

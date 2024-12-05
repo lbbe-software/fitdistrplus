@@ -63,7 +63,7 @@
                         <h4 data-toc-skip class="author">Marie Laure
 Delignette Muller, Christophe Dutang</h4>
             
-            <h4 data-toc-skip class="date">2024-12-04</h4>
+            <h4 data-toc-skip class="date">2024-12-05</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/lbbe-software/fitdistrplus/blob/master/vignettes/FAQ.Rmd" class="external-link"><code>vignettes/FAQ.Rmd</code></a></small>
       <div class="d-none name"><code>FAQ.Rmd</code></div>
@@ -172,9 +172,9 @@ paper. We reproduce it very quickly here.</p>
 <pre><code><span><span class="co">## Fitting of the distribution ' burr ' by maximum likelihood </span></span>
 <span><span class="co">## Parameters : </span></span>
 <span><span class="co">##        estimate Std. Error</span></span>
-<span><span class="co">## shape1    0.206      0.572</span></span>
-<span><span class="co">## shape2    1.540      3.251</span></span>
-<span><span class="co">## rate      1.497      4.775</span></span>
+<span><span class="co">## shape1    0.206     0.0561</span></span>
+<span><span class="co">## shape2    1.540     0.3188</span></span>
+<span><span class="co">## rate      1.497     0.4683</span></span>
 <span><span class="co">## Loglikelihood:  -520   AIC:  1046   BIC:  1054 </span></span>
 <span><span class="co">## Correlation matrix:</span></span>
 <span><span class="co">##        shape1 shape2   rate</span></span>
@@ -273,13 +273,13 @@ distribution, you have two options: either to remove negative values
 <pre><code><span><span class="co">## Fitting of the distribution ' exp ' by maximum likelihood </span></span>
 <span><span class="co">## Parameters:</span></span>
 <span><span class="co">##      estimate Std. Error</span></span>
-<span><span class="co">## rate     1.06       1.06</span></span></code></pre>
+<span><span class="co">## rate     1.06      0.107</span></span></code></pre>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">x</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="st">"exp"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Fitting of the distribution ' exp ' by maximum likelihood </span></span>
 <span><span class="co">## Parameters:</span></span>
 <span><span class="co">##      estimate Std. Error</span></span>
-<span><span class="co">## rate    0.914      0.914</span></span></code></pre>
+<span><span class="co">## rate    0.914     0.0914</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="can-i-fit-a-finite-support-distribution-when-data-is-outside-that-support">1.7. Can I fit a finite-support distribution when data is outside
@@ -311,15 +311,15 @@ impossible values (not recommended) or to shift/scale the data.</p>
 <pre><code><span><span class="co">## Fitting of the distribution ' beta ' by maximum likelihood </span></span>
 <span><span class="co">## Parameters:</span></span>
 <span><span class="co">##        estimate Std. Error</span></span>
-<span><span class="co">## shape1     2.08       2.79</span></span>
-<span><span class="co">## shape2     2.50       3.41</span></span></code></pre>
+<span><span class="co">## shape1     2.08      0.288</span></span>
+<span><span class="co">## shape2     2.50      0.352</span></span></code></pre>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="op">(</span><span class="va">x</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">*</span><span class="fl">1.01</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">*</span> <span class="fl">1.01</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">*</span> <span class="fl">1.01</span><span class="op">)</span>, <span class="st">"beta"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Fitting of the distribution ' beta ' by maximum likelihood </span></span>
 <span><span class="co">## Parameters:</span></span>
 <span><span class="co">##        estimate Std. Error</span></span>
-<span><span class="co">## shape1     1.77       2.36</span></span>
-<span><span class="co">## shape2     2.17       2.96</span></span></code></pre>
+<span><span class="co">## shape1     1.77      0.236</span></span>
+<span><span class="co">## shape2     2.17      0.296</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="can-i-fit-truncated-distributions">1.8. Can I fit truncated distributions?<a class="anchor" aria-label="anchor" href="#can-i-fit-truncated-distributions"></a>
@@ -487,7 +487,7 @@ does not succeed to estimate the true value of the bounds
 <pre><code><span><span class="co">## Fitting of the distribution ' tiexp ' by maximum likelihood </span></span>
 <span><span class="co">## Parameters:</span></span>
 <span><span class="co">##      estimate Std. Error</span></span>
-<span><span class="co">## rate    0.947      0.982</span></span>
+<span><span class="co">## rate    0.947     0.0982</span></span>
 <span><span class="co">## Fixed parameters:</span></span>
 <span><span class="co">##     value</span></span>
 <span><span class="co">## low   0.5</span></span>
@@ -616,7 +616,7 @@ concave density.</p>
 <pre><code><span><span class="co">## Fitting of the distribution ' beta2 ' by maximum likelihood </span></span>
 <span><span class="co">## Parameters:</span></span>
 <span><span class="co">##       estimate Std. Error</span></span>
-<span><span class="co">## shape     3.24       4.26</span></span></code></pre>
+<span><span class="co">## shape     3.24      0.135</span></span></code></pre>
 <p>Another example with a U-shaped density.</p>
 <div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">rbeta</a></span><span class="op">(</span><span class="fl">1000</span>, <span class="fl">.3</span>, <span class="fl">.3</span><span class="op">)</span></span>
@@ -624,7 +624,7 @@ concave density.</p>
 <pre><code><span><span class="co">## Fitting of the distribution ' beta2 ' by maximum likelihood </span></span>
 <span><span class="co">## Parameters:</span></span>
 <span><span class="co">##       estimate Std. Error</span></span>
-<span><span class="co">## shape    0.295      0.312</span></span></code></pre>
+<span><span class="co">## shape    0.295    0.00986</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="how-to-estimate-support-parameter-the-case-of-the-four-parameter-beta">1.12. How to estimate support parameter? the case of the
@@ -1028,14 +1028,14 @@ test.</p>
 <pre><code><span><span class="co">## Fitting of the distribution ' gamma ' by maximum likelihood </span></span>
 <span><span class="co">## Parameters:</span></span>
 <span><span class="co">##       estimate Std. Error</span></span>
-<span><span class="co">## shape    2.025       2.66</span></span>
-<span><span class="co">## rate     0.997       1.49</span></span></code></pre>
+<span><span class="co">## shape    2.025      0.266</span></span>
+<span><span class="co">## rate     0.997      0.149</span></span></code></pre>
 <div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">f0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">g</span>, <span class="st">"exp"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Fitting of the distribution ' exp ' by maximum likelihood </span></span>
 <span><span class="co">## Parameters:</span></span>
 <span><span class="co">##      estimate Std. Error</span></span>
-<span><span class="co">## rate    0.492      0.492</span></span></code></pre>
+<span><span class="co">## rate    0.492     0.0492</span></span></code></pre>
 <div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">L</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/logLik.html" class="external-link">logLik</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span>
 <span><span class="va">k</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">f</span><span class="op">$</span><span class="va">estimate</span><span class="op">)</span> <span class="co"># number of parameters of the complete distribution</span></span>
@@ -1167,9 +1167,9 @@ and without a <code>log</code> argument.</p>
 <pre><code><span><span class="co">## Fitting of the distribution ' shiftlnorm ' by maximum likelihood </span></span>
 <span><span class="co">## Parameters : </span></span>
 <span><span class="co">##       estimate Std. Error</span></span>
-<span><span class="co">## mean   -1.3848      1.355</span></span>
-<span><span class="co">## sigma   0.0709      0.108</span></span>
-<span><span class="co">## shift   0.2487      0.338</span></span>
+<span><span class="co">## mean   -1.3848    0.02404</span></span>
+<span><span class="co">## sigma   0.0709    0.00192</span></span>
+<span><span class="co">## shift   0.2487    0.00599</span></span>
 <span><span class="co">## Loglikelihood:  8299   AIC:  -16591   BIC:  -16573 </span></span>
 <span><span class="co">## Correlation matrix:</span></span>
 <span><span class="co">##         mean  sigma  shift</span></span>
@@ -1348,8 +1348,8 @@ argument.</p>
 <pre><code><span><span class="co">## Fitting of the distribution ' norm ' by maximum likelihood </span></span>
 <span><span class="co">## Parameters:</span></span>
 <span><span class="co">##      estimate Std. Error</span></span>
-<span><span class="co">## mean    0.947       1.99</span></span>
-<span><span class="co">## sd      1.994       1.41</span></span></code></pre>
+<span><span class="co">## mean    0.947     0.0630</span></span>
+<span><span class="co">## sd      1.994     0.0446</span></span></code></pre>
 </div>
 <div class="section level4">
 <h4 id="setting-bounds-for-shape-parameters">3.5.2. Setting bounds for shape parameters<a class="anchor" aria-label="anchor" href="#setting-bounds-for-shape-parameters"></a>
@@ -1374,9 +1374,9 @@ is a scale parameter such that
 <pre><code><span><span class="co">## Fitting of the distribution ' burr ' by maximum likelihood </span></span>
 <span><span class="co">## Parameters:</span></span>
 <span><span class="co">##        estimate Std. Error</span></span>
-<span><span class="co">## shape1    0.968       1.06</span></span>
-<span><span class="co">## shape2    2.051       1.16</span></span>
-<span><span class="co">## rate      3.181       1.63</span></span></code></pre>
+<span><span class="co">## shape1    0.968     0.0334</span></span>
+<span><span class="co">## shape2    2.051     0.0367</span></span>
+<span><span class="co">## rate      3.181     0.0516</span></span></code></pre>
 </div>
 <div class="section level4">
 <h4 id="setting-bounds-for-probability-parameters">3.5.3. Setting bounds for probability parameters<a class="anchor" aria-label="anchor" href="#setting-bounds-for-probability-parameters"></a>
@@ -1397,7 +1397,7 @@ is a probability parameter such that
 <pre><code><span><span class="co">## Fitting of the distribution ' geom ' by maximum likelihood </span></span>
 <span><span class="co">## Parameters:</span></span>
 <span><span class="co">##      estimate Std. Error</span></span>
-<span><span class="co">## prob    0.242      0.211</span></span></code></pre>
+<span><span class="co">## prob    0.242    0.00666</span></span></code></pre>
 </div>
 <div class="section level4">
 <h4 id="setting-bounds-for-boundary-parameters">3.5.4. Setting bounds for boundary parameters<a class="anchor" aria-label="anchor" href="#setting-bounds-for-boundary-parameters"></a>
@@ -1856,9 +1856,9 @@ for the gamma distribution).</p>
 <span><span class="co">## sd     1.73 1.33  2.15</span></span></code></pre>
 <div class="sourceCode" id="cb187"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fn</span><span class="op">$</span><span class="va">estimate</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="st">"estimate"</span><span class="op">=</span> <span class="fl">0</span>, <span class="st">"2.5%"</span><span class="op">=</span> <span class="op">-</span><span class="fl">1.96</span><span class="op">*</span><span class="va">fn</span><span class="op">$</span><span class="va">sd</span>, <span class="st">"97.5%"</span><span class="op">=</span> <span class="fl">1.96</span><span class="op">*</span><span class="va">fn</span><span class="op">$</span><span class="va">sd</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##      estimate   2.5% 97.5%</span></span>
-<span><span class="co">## mean     9.41  5.927 12.89</span></span>
-<span><span class="co">## sd       1.78 -0.685  4.24</span></span></code></pre>
+<pre><code><span><span class="co">##      estimate 2.5% 97.5%</span></span>
+<span><span class="co">## mean     9.41 8.77 10.04</span></span>
+<span><span class="co">## sd       1.78 1.33  2.22</span></span></code></pre>
 <div class="sourceCode" id="cb189"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/logLik-plot.html">llplot</a></span><span class="op">(</span><span class="va">fn</span>, back.col <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
@@ -1874,9 +1874,9 @@ for the gamma distribution).</p>
 <span><span class="co">## rate  30.1018 9.6288 147.323</span></span></code></pre>
 <div class="sourceCode" id="cb192"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fg</span><span class="op">$</span><span class="va">estimate</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="st">"estimate"</span><span class="op">=</span> <span class="fl">0</span>, <span class="st">"2.5%"</span><span class="op">=</span> <span class="op">-</span><span class="fl">1.96</span><span class="op">*</span><span class="va">fg</span><span class="op">$</span><span class="va">sd</span>, <span class="st">"97.5%"</span><span class="op">=</span> <span class="fl">1.96</span><span class="op">*</span><span class="va">fg</span><span class="op">$</span><span class="va">sd</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##       estimate      2.5%   97.5%</span></span>
-<span><span class="co">## shape   0.0882   -0.0917   0.268</span></span>
-<span><span class="co">## rate   24.2613 -143.3660 191.889</span></span></code></pre>
+<pre><code><span><span class="co">##       estimate    2.5%  97.5%</span></span>
+<span><span class="co">## shape   0.0882  0.0553  0.121</span></span>
+<span><span class="co">## rate   24.2613 -6.3431 54.866</span></span></code></pre>
 <div class="sourceCode" id="cb194"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/logLik-plot.html">llplot</a></span><span class="op">(</span><span class="va">fg</span>, back.col <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
