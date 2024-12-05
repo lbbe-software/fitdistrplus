@@ -24,7 +24,7 @@
 ### 
 
 
-#compute J^{-1} A J^{-T}, see below
+#compute J^{-1} A J^{-T}/n, see below
 mme.vcov <- function(par, fix.arg, order, obs, mdistnam, memp, weights, 
                      epsilon = sqrt(.Machine$double.eps), echo=FALSE)
 {
@@ -39,7 +39,7 @@ mme.vcov <- function(par, fix.arg, order, obs, mdistnam, memp, weights,
   {  
     Jinv <- solve(Jmat)
     Amat <- mme.Ahat(par, fix.arg, order, obs, mdistnam, memp, weights)
-    res <- Jinv %*% Amat %*% t(Jinv)
+    res <- Jinv %*% Amat %*% t(Jinv) / length(obs)
   }else 
     res <- NULL
   if(echo)

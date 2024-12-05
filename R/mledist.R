@@ -404,7 +404,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
     if(calcvcov && !is.null(opt$hessian))
     {
       #see R/util-mledist-vcov.R
-      varcovar <- mle.vcov(opt$hessian)
+      varcovar <- mle.vcov(opt$hessian, data.size)
       #add names
       if(!is.null(varcovar))
         colnames(varcovar) <- rownames(varcovar) <- names(opt$par)
@@ -445,7 +445,7 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
       names(opt$par) <- names(vstart)
     if(calcvcov && !is.null(opt$hessian))
     {
-      varcovar <- mle.vcov(opt$hessian)
+      varcovar <- mle.vcov(opt$hessian, data.size)
       #add names
       if(!is.null(varcovar))
         colnames(varcovar) <- rownames(varcovar) <- names(opt$par)

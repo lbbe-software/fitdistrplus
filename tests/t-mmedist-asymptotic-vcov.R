@@ -15,6 +15,13 @@ if(FALSE)
   fitdistrplus:::mme.vcov(as.numeric(truetheta), fix.arg=NULL, order=1:2, obs=x, mdistnam=mgamma, memp, weights=NULL)
 }
 
+if(FALSE)
+{
+  mmedist(rgamma(1e2, truetheta["alpha"], truetheta["beta"]), "gamma", order=1:2, calcvcov = TRUE)$vcov
+  mmedist(rgamma(1e3, truetheta["alpha"], truetheta["beta"]), "gamma", order=1:2, calcvcov = TRUE)$vcov
+  mmedist(rgamma(1e4, truetheta["alpha"], truetheta["beta"]), "gamma", order=1:2, calcvcov = TRUE)$vcov
+}
+
 
 # (2) fit a Pareto distribution
 #

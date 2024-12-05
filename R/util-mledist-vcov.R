@@ -23,12 +23,12 @@
 ### 
 
 
-#compute H^{-1}
-mle.vcov <- function(myhessian)
+#compute H^{-1}/n
+mle.vcov <- function(myhessian, nsample)
 {
   if(all(!is.na(myhessian)) && qr(myhessian)$rank == NCOL(myhessian))
   {
-    res <- solve(myhessian)
+    res <- solve(myhessian)/nsample
   }else
   {
     res <- NULL
