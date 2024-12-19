@@ -1,0 +1,6 @@
+# Colors and font for hex logo
+Purple: #5F00F6
+Yellow: #F9FF00
+Green: #00FFAF
+Magenta: #FF0072
+Font: Helvetica Neue
