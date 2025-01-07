@@ -5,7 +5,6 @@ on:
         type: choice
         description: Which dependents to check
         options:
-        - strong
         - most
 
 name: Reverse dependency check
