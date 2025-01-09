@@ -1,3 +1,11 @@
+# fitdistrplus 1.2-3
+
+BUG FIX
+
+- starting values for inverse distributions
+
+
+
 # fitdistrplus 1.2-2
 
 NEW FEATURES

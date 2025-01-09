@@ -367,6 +367,7 @@ startarg_fellerpareto_family <- function(x, distr)
     if (any(x < 0)) 
       stop("values must be positive to fit a inverse Burr distribution")
     start <- startarg_fellerpareto_family(1/x, "burr")
+    start$scale <- 1/start$scale
   }else if(distr == "pareto4")
   {
     muhat <- murel(x)
@@ -421,13 +422,13 @@ startarg_fellerpareto_family <- function(x, distr)
     q3 <- quantile(x, probs=3/4, na.rm=TRUE)
     thetahat <- as.numeric(thetarelP4(alphastar, gammastar, q1, q3))
     alphahat <- alpharelP4(x, mustar, thetahat, gammastar)
-    
     start <- list(shape=alphahat, scale=thetahat)
   }else if (distr == "invpareto")
   {
     if (any(x < 0)) 
       stop("values must be positive to fit a inverse Pareto  distribution")
     start <- startarg_fellerpareto_family(1/x, "pareto")
+    start$scale <- 1/start$scale
   }else if (distr == "llogis")
   {
     if (any(x < 0)) 
@@ -449,6 +450,7 @@ startarg_fellerpareto_family <- function(x, distr)
     if (any(x < 0)) 
       stop("values must be positive to fit a inverse paralogistic  distribution")
     start <- startarg_fellerpareto_family(1/x, "paralogis")
+    start$scale <- 1/start$scale
   }else
     stop("wrong distr")
   return(start)
@@ -529,6 +531,7 @@ startarg_invtransgamma_family <- function(x, distr)
     if (any(x < 0)) 
       stop("values must be positive to fit an inverse trans-gamma distribution")
     start <- startarg_transgamma_family(1/x, "trgamma")
+    start$scale <- 1/start$scale
   }else if (distr == "invgamma")
   {
     if (any(x < 0)) 
@@ -554,6 +557,7 @@ startarg_invtransgamma_family <- function(x, distr)
     if (any(x < 0)) 
       stop("values must be positive to fit an inverse exponential distribution")
     start <- startarg_transgamma_family(1/x, "exp")
+    start$rate <- 1/start$rate
   }else
     stop("wrong distr")
   return(start)
