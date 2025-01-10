@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">fitdistrplus</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2-2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2-3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,9 +63,9 @@
                         <h4 data-toc-skip class="author">Marie Laure
 Delignette Muller, Christophe Dutang</h4>
             
-            <h4 data-toc-skip class="date">2025-01-07</h4>
+            <h4 data-toc-skip class="date">2025-01-10</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/lbbe-software/fitdistrplus/blob/v1.2-2/vignettes/starting-values.Rmd" class="external-link"><code>vignettes/starting-values.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/lbbe-software/fitdistrplus/blob/master/vignettes/starting-values.Rmd" class="external-link"><code>vignettes/starting-values.Rmd</code></a></small>
       <div class="d-none name"><code>starting-values.Rmd</code></div>
     </div>
 
@@ -657,19 +657,22 @@ in sums leads to
 <h4 id="inverse-burr">2.5.6. Inverse Burr<a class="anchor" aria-label="anchor" href="#inverse-burr"></a>
 </h4>
 <p>Use Burr estimate on the sample
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">1/x</annotation></semantics></math></p>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">1/x</annotation></semantics></math>
+then inverse the scale parameter.</p>
 </div>
 <div class="section level4">
 <h4 id="inverse-paralogistic">2.5.7. Inverse paralogistic<a class="anchor" aria-label="anchor" href="#inverse-paralogistic"></a>
 </h4>
 <p>Use paralogistic estimate on the sample
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">1/x</annotation></semantics></math></p>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">1/x</annotation></semantics></math>
+then inverse the scale parameter.</p>
 </div>
 <div class="section level4">
 <h4 id="inverse-pareto">2.5.8. Inverse pareto<a class="anchor" aria-label="anchor" href="#inverse-pareto"></a>
 </h4>
 <p>Use pareto estimate on the sample
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">1/x</annotation></semantics></math></p>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">1/x</annotation></semantics></math>
+then inverse the scale parameter.</p>
 </div>
 <div class="section level4">
 <h4 id="pareto-iv">2.5.9. Pareto IV<a class="anchor" aria-label="anchor" href="#pareto-iv"></a>
@@ -1000,7 +1003,8 @@ in that case we use
 <h4 id="inverse-transformed-gamma-distribution">2.7.1. Inverse transformed gamma distribution<a class="anchor" aria-label="anchor" href="#inverse-transformed-gamma-distribution"></a>
 </h4>
 <p>Same as transformed gamma distribution with
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mi>/</mi><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>i</mi></msub><annotation encoding="application/x-tex">(1/x_i)_i</annotation></semantics></math>.</p>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mi>/</mi><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>i</mi></msub><annotation encoding="application/x-tex">(1/x_i)_i</annotation></semantics></math>
+then inverse the scale parameter.</p>
 </div>
 <div class="section level4">
 <h4 id="inverse-gamma-distribution">2.7.2. Inverse gamma distribution<a class="anchor" aria-label="anchor" href="#inverse-gamma-distribution"></a>
@@ -1020,7 +1024,8 @@ in that case we use
 <h4 id="inverse-exponential">2.7.4. Inverse exponential<a class="anchor" aria-label="anchor" href="#inverse-exponential"></a>
 </h4>
 <p>Same as transformed gamma distribution with
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mi>/</mi><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>i</mi></msub><annotation encoding="application/x-tex">(1/x_i)_i</annotation></semantics></math>.</p>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mi>/</mi><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>i</mi></msub><annotation encoding="application/x-tex">(1/x_i)_i</annotation></semantics></math>
+then inverse the rate parameter.</p>
 </div>
 </div>
 </div>
