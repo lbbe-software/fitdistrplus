@@ -230,7 +230,7 @@ startarg_othercontinuous_actuar_family <- function(x, distr)
                   shape3=taustar, scale=thetahat)
   }else
     stop(paste0("Unknown starting values for distribution ", distr, "."))
-  
+  start <- cutshapeparam(start)
   return(start)
 }
 
@@ -453,6 +453,7 @@ startarg_fellerpareto_family <- function(x, distr)
     start$scale <- 1/start$scale
   }else
     stop("wrong distr")
+  start <- cutshapeparam(start)
   return(start)
 }
 
@@ -517,6 +518,7 @@ startarg_transgamma_family <- function(x, distr)
     start <- list(rate=1/mean(x))
   }else
     stop("wrong distr")
+  start <- cutshapeparam(start)
   return(start)
 }
 
@@ -560,5 +562,23 @@ startarg_invtransgamma_family <- function(x, distr)
     start$rate <- 1/start$rate
   }else
     stop("wrong distr")
+  start <- cutshapeparam(start)
   return(start)
 }
+
+cutshapeparam <- function(x, minval=.Machine$double.eps^(1/3), maxval=1e2)
+{
+  idshape <- grep("shape", names(x))
+  if(length(idshape) > 0)
+  {
+    x <- unlist(x)
+    x[idshape] <- pmin(x[idshape], maxval) #ceiling
+    x[idshape] <- pmax(x[idshape], minval) #floor
+    if(sum(x[idshape]) > maxval) #scale down
+      x[idshape] <- x[idshape]/2
+    x <- as.list(x)
+  }
+  x
+}
+
+

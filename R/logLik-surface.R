@@ -41,10 +41,18 @@ llplot <- function(mlefit, loglik = TRUE, expansion = 1, lseq = 50,
   
   distr <- mlefit$distname
   np <- length(mlefit$estimate)
+  if(any(!is.finite(mlefit$estimate)))
+    stop("Some fitted parameters are either Inf or NaN. Use directly llsurface() or llcurve().")
+  
   if (np == 1)
   {
     estim.value <- mlefit$estimate
     estim.sd <- mlefit$sd
+    idInfNaN <- !is.finite(estim.sd)
+    if(any(idInfNaN))
+    {
+      estim.sd[idInfNaN] <- abs(estim.value[idInfNaN]) * 0.05
+    }
     plot.arg <- names(mlefit$estimate)
     fix.arg <- mlefit$fix.arg
     llcurve(data, distr, plot.arg = plot.arg, 
@@ -53,48 +61,57 @@ llplot <- function(mlefit, loglik = TRUE, expansion = 1, lseq = 50,
             lseq = lseq, fix.arg = fix.arg, loglik = loglik, weights = mlefit$weights, ...)
     if (fit.show) points(estim.value, ifelse(loglik, mlefit$loglik, exp(mlefit$loglik)), 
                          pch = fit.pch)
-  } else # so if np > 1
-    if (np == 2)
+  }else if (np == 2) # so if np > 1
+  {
+    estim.value <- mlefit$estimate
+    estim.sd <- mlefit$sd
+    idInfNaN <- !is.finite(estim.sd)
+    if(any(idInfNaN))
     {
-      estim.value <- mlefit$estimate
-      estim.sd <- mlefit$sd
-      plot.arg <- names(mlefit$estimate)
-      fix.arg <- mlefit$fix.arg
-      llsurface(data, distr, plot.arg = plot.arg, 
-                min.arg = estim.value - estim.sd * 2 *expansion, 
-                max.arg = estim.value + estim.sd * 2 *expansion, 
-                lseq = lseq, fix.arg = fix.arg, loglik = loglik,
-                back.col = back.col, nlev = nlev, pal.col = pal.col,
-                weights = mlefit$weights, ...)
-      if (fit.show) 
-        points(estim.value[1], estim.value[2], pch = fit.pch)
-    } else # so if np > 2
-    {
-      def.par <- par(no.readonly = TRUE)
-      ncombi <- choose(np, 2)
-      lay <- lower.tri(matrix(0, (np - 1), (np - 1)), TRUE)
-      lay[which(lay, TRUE)] <- 1:ncombi
-      layout(lay)
-      par(mar = c(5, 4, 0.2, 0.2))
-      for (i in 1:(np - 1))
-      {
-        for (j in (i+1):np)
-        {
-          plot.arg <- names(mlefit$estimate)[c(i, j)]
-          estim.value <- mlefit$estimate[c(i, j)]
-          estim.sd <- mlefit$sd[c(i, j)]
-          fix.arg <- c(mlefit$fix.arg, as.list(mlefit$estimate[-c(i,j)]))
-          llsurface(data, distr, plot.arg = plot.arg, 
-                    min.arg = estim.value - estim.sd * 2 *expansion, 
-                    max.arg = estim.value + estim.sd * 2 *expansion, 
-                    lseq = lseq, fix.arg = fix.arg, loglik = loglik,
-                    back.col = back.col, nlev = nlev, pal.col = pal.col, 
-                    weights = mlefit$weights, ...)
-          if (fit.show) points(estim.value[1], estim.value[2], pch = fit.pch)
-        }
-      }
-      par(def.par)
+      estim.sd[idInfNaN] <- abs(estim.value[idInfNaN]) * 0.05
     }
+    plot.arg <- names(mlefit$estimate)
+    fix.arg <- mlefit$fix.arg
+    llsurface(data, distr, plot.arg = plot.arg, 
+              min.arg = estim.value - estim.sd * 2 *expansion, 
+              max.arg = estim.value + estim.sd * 2 *expansion, 
+              lseq = lseq, fix.arg = fix.arg, loglik = loglik,
+              back.col = back.col, nlev = nlev, pal.col = pal.col,
+              weights = mlefit$weights, ...)
+    if (fit.show) 
+      points(estim.value[1], estim.value[2], pch = fit.pch)
+  }else # so if np > 2
+  {
+    def.par <- par(no.readonly = TRUE)
+    ncombi <- choose(np, 2)
+    lay <- lower.tri(matrix(0, (np - 1), (np - 1)), TRUE)
+    lay[which(lay, TRUE)] <- 1:ncombi
+    layout(lay)
+    par(mar = c(5, 4, 0.2, 0.2))
+    for (i in 1:(np - 1))
+    {
+      for (j in (i+1):np)
+      {
+        plot.arg <- names(mlefit$estimate)[c(i, j)]
+        estim.value <- mlefit$estimate[c(i, j)]
+        estim.sd <- mlefit$sd[c(i, j)]
+        idInfNaN <- !is.finite(estim.sd)
+        if(any(idInfNaN))
+        {
+          estim.sd[idInfNaN] <- abs(estim.value[idInfNaN]) * 0.05
+        }
+        fix.arg <- c(mlefit$fix.arg, as.list(mlefit$estimate[-c(i,j)]))
+        llsurface(data, distr, plot.arg = plot.arg, 
+                  min.arg = estim.value - estim.sd * 2 *expansion, 
+                  max.arg = estim.value + estim.sd * 2 *expansion, 
+                  lseq = lseq, fix.arg = fix.arg, loglik = loglik,
+                  back.col = back.col, nlev = nlev, pal.col = pal.col, 
+                  weights = mlefit$weights, ...)
+        if (fit.show) points(estim.value[1], estim.value[2], pch = fit.pch)
+      }
+    }
+    par(def.par)
+  }
   invisible()
 }
 

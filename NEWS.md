@@ -1,10 +1,16 @@
 # fitdistrplus 1.2-3
 
+
+NEW FEATURES
+
+- update the FAQ 3.2 with a full example.
+- correct man page regarding default starting values.
+- add defensive programing in `llplot()`.
+
 BUG FIX
 
-- starting values for inverse distributions
-
-
+- starting values for inverse distributions as scale or rate parameters was not inverted.
+- for positive unbounded distributions, initial shape paramters are now bounded below and above, see `util-startarg.R`.
 
 # fitdistrplus 1.2-2
 

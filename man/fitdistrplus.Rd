@@ -5,17 +5,20 @@
 
 \description{
 The idea of this package emerged in 2008 from a collaboration between 
-JB Denis, R Pouillot and ML Delignette who at this time worked in the
+J.B. Denis, R. Pouillot and M.L. Delignette who at this time worked in the
 area of quantitative risk assessment. The implementation of this package 
 was a part of a more general project named "Risk assessment with R" 
 gathering different packages and 
 hosted in \href{https://r-forge.r-project.org/projects/riskassessment/}{R-forge}.
 
-The \pkg{fitdistrplus} package was first written by ML Delignette-Muller and made 
+The \pkg{fitdistrplus} package was first written by M.L. Delignette-Muller and made 
 available in \href{https://cran.r-project.org/package=fitdistrplus}{CRAN} on 2009 and presented at the \href{https://www.r-project.org/conferences/useR-2009/}{2009 useR conference} in Rennes.
-A few months after, C Dutang joined the project by
+A few months after, C. Dutang joined the project by
 starting to participate to the implementation of the \pkg{fitdistrplus} package.
-The package has also been presented at the \href{https://www.r-project.org/conferences/useR-2011/}{2011 useR conference} and at the 2eme rencontres R in 2013 (https://r2013-lyon.sciencesconf.org/).
+The package has also been presented at the \href{https://www.r-project.org/conferences/useR-2011/}{2011 useR conference}
+at the 2eme rencontres R in 2013 (\url{https://r2013-lyon.sciencesconf.org/}),
+and the \href{https://www.r-project.org/conferences/useR-2019/}{2019 useR conference}.
+Since 2020, A. Siberchicot helps the development of \pkg{fitdistrplus} and maintains the package.
 
 Four vignettes are available within the package:
 \itemize{

@@ -65,3 +65,21 @@ if(visualize)
   llplot(fb, fit.show = TRUE, loglik = FALSE) # should give the same
   
 }
+
+# (4) An example with NaN stderror
+# 
+
+if(visualize)
+{
+  claims <- read.csv("~/Documents/recherche-enseignement/code/R/riskassessment/bug/20250107/Claims.csv")
+  x <- claims$UltimateCost/1000
+  
+  fit_B_mle <- fitdist(x, "burr", method="mle", lower=0)
+  llplot(fit_B_mle, expansion = 10, fit.show = TRUE)
+  
+  fit_IB_mle <- fitdist(x, "invburr", method="mle", lower=0) # converges to a wrong solution
+  llplot(fit_IB_mle, expansion = 10, fit.show = TRUE)
+  
+  fit_IB_mle$estimate[1] <- NaN
+  llplot(fit_IB_mle, expansion = 10, fit.show = TRUE)
+}

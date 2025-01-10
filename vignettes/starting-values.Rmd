@@ -535,15 +535,15 @@ Initial estimators are
 
 ### 2.5.6. Inverse Burr
 
-Use Burr estimate on the sample $1/x$
+Use Burr estimate on the sample $1/x$ then inverse the scale parameter.
 
 ### 2.5.7. Inverse paralogistic
 
-Use paralogistic estimate on the sample $1/x$
+Use paralogistic estimate on the sample $1/x$ then inverse the scale parameter.
 
 ### 2.5.8. Inverse pareto
 
-Use pareto estimate on the sample $1/x$
+Use pareto estimate on the sample $1/x$ then inverse the scale parameter.
 
 ### 2.5.9. Pareto IV
 
@@ -812,7 +812,7 @@ $\hat\lambda = 1/m_1.$
 
 ### 2.7.1. Inverse transformed gamma distribution
 
-Same as transformed gamma distribution with $(1/x_i)_i$.
+Same as transformed gamma distribution with $(1/x_i)_i$ then inverse the scale parameter.
 
 ### 2.7.2. Inverse gamma distribution
 
@@ -828,7 +828,7 @@ We use the QME.
 
 ### 2.7.4. Inverse exponential 
 
-Same as transformed gamma distribution with $(1/x_i)_i$.
+Same as transformed gamma distribution with $(1/x_i)_i$  then inverse the rate parameter.
 
 # 3. Bibliography
 
