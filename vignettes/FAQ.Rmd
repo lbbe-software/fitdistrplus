@@ -1435,7 +1435,7 @@ of rivermarine invertebrates.
 ```{r, fig.height=4, fig.width=7, warning = FALSE}
 data(salinity)
 log10LC50 <- log10(salinity)
-fit <- fitdistcens(log10LC50, "norm", control=list(trace=1))
+fit <- fitdistcens(log10LC50, "norm", control=list(trace=0))
 # Bootstrap 
 bootsample <- bootdistcens(fit, niter = 101)
 #### We used only 101 iterations in that example to limit the calculation time but
