@@ -6,3 +6,4 @@ revdep
 _pkgdown.yml
 AUTHORS
 LICENSE
+^codemeta\.json$
