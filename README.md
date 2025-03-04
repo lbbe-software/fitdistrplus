@@ -4,20 +4,8 @@
 [![CRAN Downloads](https://cranlogs.r-pkg.org/badges/fitdistrplus)](https://cran.r-project.org/package=fitdistrplus)
 [![R-CMD-check](https://github.com/lbbe-software/fitdistrplus/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/lbbe-software/fitdistrplus/actions/workflows/R-CMD-check.yaml)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-
----------------------------
-
-**Please note! Since January 2024, this repository has belonged to the *lbbe-software* organization.**
-To avoid confusion, we strongly recommend updating any existing local clones to point to the new 
-repository URL. You can do this by using `git remote` on the command line:
-
-`git remote set-url origin git@github.com:lbbe-software/fitdistrplus.git`
-
-or 
-
-`git remote set-url origin https://github.com/lbbe-software/fitdistrplus.git`
-
----------------------------
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![SWH](https://archive.softwareheritage.org/badge/origin/https://github.com/lbbe-software/fitdistrplus/)](https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/lbbe-software/fitdistrplus)
 
 `fitdistrplus` extends the `fitdistr()` function (of the `MASS` package) with several functions to help the fit of a parametric distribution to non-censored or censored data. Censored data may contain left censored, right censored and interval censored values, with several lower and upper bounds. In addition to maximum likelihood estimation (MLE), the package provides moment matching (MME), quantile matching (QME) and maximum goodness-of-fit estimation (MGE) methods (available only for non-censored data). Weighted versions of MLE, MME and QME are available.
 
