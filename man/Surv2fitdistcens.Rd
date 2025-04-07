@@ -52,6 +52,8 @@ Surv2fitdistcens(time, time2, event,
     See \code{\link{fitdistcens}} for fitting of univariate distributions to censored data
     and \code{\link{fremale}} for the full dataset used in examples below.
     See \code{\link[survival:Surv]{Surv}} for survival objects which use the same arguments.
+    
+    Please visit the \href{https://lbbe-software.github.io/fitdistrplus/articles/FAQ.html}{Frequently Asked Questions}.
 }
 
 \references{ 

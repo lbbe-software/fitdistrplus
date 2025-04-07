@@ -62,6 +62,8 @@ varying parameter and other parameters fixed.
     of an object of class \code{"fitdist"} or \code{"fitdistcens"}
     and \code{\link{plot}}, \code{\link{contour}},
     \code{\link{image}} for classic plotting functions.  
+    
+    Please visit the \href{https://lbbe-software.github.io/fitdistrplus/articles/FAQ.html}{Frequently Asked Questions}.
 }
 
 

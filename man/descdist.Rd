@@ -73,7 +73,9 @@ graph = TRUE, print = TRUE, obs.col = "red", obs.pch = 16, boot.col = "orange")
 }
 
 \seealso{ 
-    \code{\link{plotdist}} 
+    See \code{\link{plotdist}}.
+    
+    Please visit the \href{https://lbbe-software.github.io/fitdistrplus/articles/FAQ.html}{Frequently Asked Questions}.
 }
 
 \references{ 

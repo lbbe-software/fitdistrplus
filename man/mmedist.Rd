@@ -138,9 +138,11 @@ to the number of parameters to estimate.}
 
 
 \seealso{ 
-    \code{\link{mmedist}}, \code{\link{qmedist}}, \code{\link{mgedist}}, 
+    See \code{\link{mledist}}, \code{\link{qmedist}}, \code{\link{mgedist}}, 
     \code{\link{fitdist}},\code{\link{fitdistcens}}, 
     \code{\link{optim}}, \code{\link{bootdistcens}} and \code{\link{bootdist}}.
+    
+    Please visit the \href{https://lbbe-software.github.io/fitdistrplus/articles/FAQ.html}{Frequently Asked Questions}.
 }
 
 \references{ 

@@ -5,10 +5,12 @@ NEW FEATURES
 
 - update the FAQ 3.2 with a full example.
 - correct man page regarding default starting values.
+- add a link to the FAQ website in most man pages.
 - add defensive programing in `llplot()`.
 
 BUG FIX
 
+- bug fix in `mledist()` when Nelder-Mead algorithm was used and infinite log-likelihood was computed. two test files added.
 - starting values for inverse distributions as scale or rate parameters was not inverted.
 - for positive unbounded distributions, initial shape paramters are now bounded below and above, see `util-startarg.R`.
 

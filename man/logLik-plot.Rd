@@ -51,6 +51,8 @@ parameter is of 2 standard error around the mle estimate but this range can be e
     for manual (log)likelihood plots (surface ou curve)
     and \code{\link{plot}}, \code{\link{contour}},
     \code{\link{image}} for classic plotting functions.  
+    
+    Please visit the \href{https://lbbe-software.github.io/fitdistrplus/articles/FAQ.html}{Frequently Asked Questions}.
 }
 
 

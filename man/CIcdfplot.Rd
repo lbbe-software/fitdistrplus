@@ -86,6 +86,8 @@ CIcdfplot(b, CI.output, CI.type = "two.sided", CI.level = 0.95, CI.col = "red",
 \seealso{ 
     See also \code{\link{cdfcomp}}, \code{\link{cdfcompcens}},
     \code{\link{bootdist}} and \code{\link{quantile}}.  
+    
+    Please visit the \href{https://lbbe-software.github.io/fitdistrplus/articles/FAQ.html}{Frequently Asked Questions}.
 }
 
 

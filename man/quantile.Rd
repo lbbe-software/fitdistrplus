@@ -86,7 +86,10 @@
         
 
 \seealso{ 
-    \code{\link{fitdist}}, \code{\link{bootdist}}, \code{\link{fitdistcens}}, \code{\link{bootdistcens}} and \code{\link{CIcdfplot}}.
+    See \code{\link{fitdist}}, \code{\link{bootdist}}, \code{\link{fitdistcens}}, 
+    \code{\link{bootdistcens}} and \code{\link{CIcdfplot}}.
+    
+    Please visit the \href{https://lbbe-software.github.io/fitdistrplus/articles/FAQ.html}{Frequently Asked Questions}.
 }
 
 

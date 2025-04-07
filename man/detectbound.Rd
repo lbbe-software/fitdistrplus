@@ -32,7 +32,9 @@ detectbound(distname, vstart, obs, fix.arg=NULL, echo=FALSE)
 
 
 \seealso{ 
-    \code{\link{fitdist}}.
+    See \code{\link{fitdist}}.
+    
+    Please visit the \href{https://lbbe-software.github.io/fitdistrplus/articles/FAQ.html}{Frequently Asked Questions}.
 }
 
 \references{ 

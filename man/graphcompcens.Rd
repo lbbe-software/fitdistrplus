@@ -94,7 +94,9 @@ ppcompcens(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, yla
 }
 
 \seealso{ 
-  \code{\link{plotdistcens}}, \code{\link[survival]{survfit.formula}}, \code{\link{legend}} and \code{\link{par}}.
+  See \code{\link{plotdistcens}}, \code{\link[survival]{survfit.formula}}, \code{\link{legend}} and \code{\link{par}}.
+  
+  Please visit the \href{https://lbbe-software.github.io/fitdistrplus/articles/FAQ.html}{Frequently Asked Questions}.
 }
 
 \references{ 

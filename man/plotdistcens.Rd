@@ -96,7 +96,9 @@ plotdistcens(censdata, distr, para, leftNA = -Inf, rightNA = Inf,
 }
 
 \seealso{ 
-    \code{\link{plotdist}}, \code{\link[survival]{survfit.formula}}.
+    See \code{\link{plotdist}}, \code{\link[survival]{survfit.formula}}.
+    
+    Please visit the \href{https://lbbe-software.github.io/fitdistrplus/articles/FAQ.html}{Frequently Asked Questions}.
 }
 
 \references{ 

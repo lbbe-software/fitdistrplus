@@ -157,6 +157,8 @@ ppcomp(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, xlab, ylab,
   \code{\link{plot.stepfun}} for classic plotting functions.
   See \code{\link{CIcdfplot}} and \code{\link{plotdist}} for other plot functions
   of fitdistrplus.  
+  
+  Please visit the \href{https://lbbe-software.github.io/fitdistrplus/articles/FAQ.html}{Frequently Asked Questions}.
 }
 
 \references{

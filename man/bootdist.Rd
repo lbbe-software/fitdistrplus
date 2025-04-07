@@ -151,6 +151,7 @@ Generic functions:
     and \code{\link{CIcdfplot}} for adding confidence intervals on quantiles
     to a CDF plot of the fitted distribution.
 
+    Please visit the \href{https://lbbe-software.github.io/fitdistrplus/articles/FAQ.html}{Frequently Asked Questions}.
 }
 
 \references{ 

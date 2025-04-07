@@ -278,6 +278,8 @@ fitdist(data, distr, method = c("mle", "mme", "qme", "mge", "mse"),
     See \code{\link{quantile.fitdist}}, another generic function, which calculates 
     quantiles from the fitted distribution.
     See \code{\link{quantile}} for base R quantile computation.
+    
+    Please visit the \href{https://lbbe-software.github.io/fitdistrplus/articles/FAQ.html}{Frequently Asked Questions}.
 }
 
 \references{ 

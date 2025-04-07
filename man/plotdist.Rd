@@ -59,7 +59,10 @@ plotdist(data, distr, para, histo = TRUE, breaks = "default",
 }
 
 \seealso{ 
-    \code{\link{graphcomp}}, \code{\link{descdist}}, \code{\link{hist}},  \code{\link{plot}}, \code{\link{plotdistcens}} and \code{\link{ppoints}}.
+    See \code{\link{graphcomp}}, \code{\link{descdist}}, \code{\link{hist}},  
+    \code{\link{plot}}, \code{\link{plotdistcens}} and \code{\link{ppoints}}.
+    
+    Please visit the \href{https://lbbe-software.github.io/fitdistrplus/articles/FAQ.html}{Frequently Asked Questions}.
 }
 
 

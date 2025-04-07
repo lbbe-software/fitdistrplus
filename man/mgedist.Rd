@@ -106,8 +106,10 @@ mgedist(data, distr, gof = "CvM", start = NULL, fix.arg = NULL, optim.method = "
 
 
 \seealso{ 
-    \code{\link{mmedist}}, \code{\link{mledist}}, \code{\link{qmedist}}, 
+    See \code{\link{mmedist}}, \code{\link{mledist}}, \code{\link{qmedist}}, 
     \code{\link{fitdist}} for other estimation methods.
+    
+    Please visit the \href{https://lbbe-software.github.io/fitdistrplus/articles/FAQ.html}{Frequently Asked Questions}.
 }
 
 \references{

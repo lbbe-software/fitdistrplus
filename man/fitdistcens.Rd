@@ -176,6 +176,8 @@ otherwise only a sample subset is returned.}
     \code{\link{quantile.fitdistcens}} for generic functions.
     See \code{\link{gofstat}} for goodness-of-fit statistics.
     See \code{\link{fitdistrplus}} for an overview of the package.
+    
+    Please visit the \href{https://lbbe-software.github.io/fitdistrplus/articles/FAQ.html}{Frequently Asked Questions}.
 }
 
 \references{ 

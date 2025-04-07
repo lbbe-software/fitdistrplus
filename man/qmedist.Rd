@@ -114,9 +114,11 @@ qmedist(data, distr, probs, start = NULL, fix.arg = NULL, qtype = 7,
 
 
 \seealso{ 
-    \code{\link{mmedist}}, \code{\link{mledist}}, \code{\link{mgedist}},
+    See \code{\link{mmedist}}, \code{\link{mledist}}, \code{\link{mgedist}},
     \code{\link{fitdist}} for other estimation methods and 
     \code{\link{quantile}} for empirical quantile estimation in R.
+    
+    Please visit the \href{https://lbbe-software.github.io/fitdistrplus/articles/FAQ.html}{Frequently Asked Questions}.
 }
 
 \references{

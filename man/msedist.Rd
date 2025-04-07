@@ -147,8 +147,10 @@ msedist(data, distr, phidiv="KL", power.phidiv=NULL, start = NULL, fix.arg = NUL
 
 
 \seealso{ 
-    \code{\link{mmedist}}, \code{\link{mledist}}, \code{\link{qmedist}}, \code{\link{mgedist}}, 
+    See \code{\link{mmedist}}, \code{\link{mledist}}, \code{\link{qmedist}}, \code{\link{mgedist}}, 
     \code{\link{fitdist}} for other estimation methods.
+    
+    Please visit the \href{https://lbbe-software.github.io/fitdistrplus/articles/FAQ.html}{Frequently Asked Questions}.
 }
 
 \references{

@@ -171,11 +171,13 @@ mledist(data, distr, start = NULL, fix.arg = NULL, optim.method = "default",
 
 
 \seealso{ 
-    \code{\link{mmedist}}, \code{\link{qmedist}}, \code{\link{mgedist}}, 
+    See \code{\link{mmedist}}, \code{\link{qmedist}}, \code{\link{mgedist}}, 
     \code{\link{fitdist}},\code{\link{fitdistcens}} for other estimation methods,
     \code{\link{optim}}, \code{\link{constrOptim}} for optimization routines,
     \code{\link{bootdistcens}} and \code{\link{bootdist}} for bootstrap,
     and \code{\link{llplot}} for plotting the (log)likelihood.
+    
+    Please visit the \href{https://lbbe-software.github.io/fitdistrplus/articles/FAQ.html}{Frequently Asked Questions}.
 }
 
 \references{ 
