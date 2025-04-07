@@ -63,7 +63,7 @@
                         <h4 data-toc-skip class="author">Marie Laure
 Delignette Muller, Christophe Dutang</h4>
             
-            <h4 data-toc-skip class="date">2025-03-04</h4>
+            <h4 data-toc-skip class="date">2025-04-07</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/lbbe-software/fitdistrplus/blob/master/vignettes/FAQ.Rmd" class="external-link"><code>vignettes/FAQ.Rmd</code></a></small>
       <div class="d-none name"><code>FAQ.Rmd</code></div>
@@ -480,9 +480,9 @@ does not succeed to estimate the true value of the bounds
 <pre><code><span><span class="co">## Fitting of the distribution ' tiexp ' by maximum likelihood </span></span>
 <span><span class="co">## Parameters:</span></span>
 <span><span class="co">##      estimate</span></span>
-<span><span class="co">## rate    0.333</span></span>
-<span><span class="co">## low     2.915</span></span>
-<span><span class="co">## upp    20.899</span></span></code></pre>
+<span><span class="co">## rate    0.949</span></span>
+<span><span class="co">## low    -0.502</span></span>
+<span><span class="co">## upp    23.072</span></span></code></pre>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">f2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"tiexp"</span>, method<span class="op">=</span><span class="st">"mle"</span>, start<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>rate<span class="op">=</span><span class="fl">3</span><span class="op">)</span>, </span>
 <span>               fix.arg<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>low<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, upp<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -498,14 +498,14 @@ does not succeed to estimate the true value of the bounds
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gofstat.html">gofstat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">f1</span>, <span class="va">f2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Goodness-of-fit statistics</span></span>
 <span><span class="co">##                              1-mle-tiexp 2-mle-tiexp</span></span>
-<span><span class="co">## Kolmogorov-Smirnov statistic        0.92       0.377</span></span>
-<span><span class="co">## Cramer-von Mises statistic         26.82       1.882</span></span>
-<span><span class="co">## Anderson-Darling statistic           Inf      10.193</span></span>
+<span><span class="co">## Kolmogorov-Smirnov statistic       0.378       0.377</span></span>
+<span><span class="co">## Cramer-von Mises statistic         1.890       1.882</span></span>
+<span><span class="co">## Anderson-Darling statistic        10.222      10.193</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Goodness-of-fit criteria</span></span>
 <span><span class="co">##                                1-mle-tiexp 2-mle-tiexp</span></span>
-<span><span class="co">## Akaike's Information Criterion        39.6         162</span></span>
-<span><span class="co">## Bayesian Information Criterion        47.4         165</span></span></code></pre>
+<span><span class="co">## Akaike's Information Criterion         216         162</span></span>
+<span><span class="co">## Bayesian Information Criterion         224         165</span></span></code></pre>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/graphcomp.html">cdfcomp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">f1</span>, <span class="va">f2</span><span class="op">)</span>, do.points <span class="op">=</span> <span class="cn">FALSE</span>, addlegend<span class="op">=</span><span class="cn">FALSE</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">3.5</span><span class="op">)</span><span class="op">)</span></span>
@@ -681,23 +681,23 @@ to sample minimum and maximum.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">f1</span><span class="op">)</span>, </span>
 <span>            <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">f2</span><span class="op">$</span><span class="va">fix.arg</span><span class="op">[</span><span class="st">"min"</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">f2</span><span class="op">)</span><span class="op">[</span><span class="st">"mode"</span><span class="op">]</span>, <span class="va">f2</span><span class="op">$</span><span class="va">fix.arg</span><span class="op">[</span><span class="st">"max"</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">f2</span><span class="op">)</span><span class="op">[</span><span class="st">"shape"</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>, </span>
 <span>      digits<span class="op">=</span><span class="fl">7</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##       [,1]         [,2]       </span></span>
-<span><span class="co">## min   1.36707      0.03395487 </span></span>
-<span><span class="co">## mode  1.367072     1.955289   </span></span>
-<span><span class="co">## max   1.644537     1.956234   </span></span>
-<span><span class="co">## shape 0.0005813856 0.008506046</span></span></code></pre>
+<pre><code><span><span class="co">##       [,1]       [,2]       </span></span>
+<span><span class="co">## min   0.03105785 0.03395487 </span></span>
+<span><span class="co">## mode  1.120569   1.955289   </span></span>
+<span><span class="co">## max   1.959499   1.956234   </span></span>
+<span><span class="co">## shape 0.305453   0.008506046</span></span></code></pre>
 <div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gofstat.html">gofstat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">f1</span>,<span class="va">f2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Goodness-of-fit statistics</span></span>
 <span><span class="co">##                              1-mle-pert 2-mle-pert</span></span>
-<span><span class="co">## Kolmogorov-Smirnov statistic       0.69     0.0584</span></span>
-<span><span class="co">## Cramer-von Mises statistic        28.59     0.1836</span></span>
-<span><span class="co">## Anderson-Darling statistic          Inf     1.2787</span></span>
+<span><span class="co">## Kolmogorov-Smirnov statistic     0.0452     0.0584</span></span>
+<span><span class="co">## Cramer-von Mises statistic       0.0823     0.1836</span></span>
+<span><span class="co">## Anderson-Darling statistic       0.5325     1.2787</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Goodness-of-fit criteria</span></span>
 <span><span class="co">##                                1-mle-pert 2-mle-pert</span></span>
-<span><span class="co">## Akaike's Information Criterion      -99.7        265</span></span>
-<span><span class="co">## Bayesian Information Criterion      -86.5        272</span></span></code></pre>
+<span><span class="co">## Akaike's Information Criterion        268        265</span></span>
+<span><span class="co">## Bayesian Information Criterion        281        272</span></span></code></pre>
 <div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/graphcomp.html">cdfcomp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">f1</span>,<span class="va">f2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -1132,8 +1132,8 @@ for parameters, typically shape and rate parameters are generally
 positive. Third, try better starting values (see FAQ 1.3) or change the
 optimization method.</p>
 <p>A short example is given below of a fit of a Burr distribution. By
-default, Nelder-Mead algorithm is used which reaches the iteration limit
-and raises error code 1.</p>
+default, the Nelder-Mead algorithm is used which reaches the iteration
+limit and raises error code 1.</p>
 <div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"danishuni"</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">danishuni</span><span class="op">$</span><span class="va">Loss</span>, <span class="st">"burr"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -1141,12 +1141,15 @@ and raises error code 1.</p>
 <span><span class="co">##   the function mle failed to estimate the parameters, </span></span>
 <span><span class="co">##                 with the error code 1</span></span></code></pre>
 <p>If we increase the maximum number of iteration, it does not help and
-we get a computationnaly singular system.</p>
+we get a non-finite finite-difference value, yet Nelder-Mead may handle
+infinite values.</p>
 <div class="sourceCode" id="cb99"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">danishuni</span><span class="op">$</span><span class="va">Loss</span>, <span class="st">"burr"</span>, control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>maxit<span class="op">=</span><span class="fl">1000</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error in solve.default(myhessian) : </span></span>
-<span><span class="co">##   system is computationally singular: reciprocal condition number = 5.80042e-19</span></span></code></pre>
-<p>If we set bounds, it helps only with an upper bound on parameters
+<pre><code><span><span class="co">## &lt;simpleError in optim(par = vstart, fn = fnobj, fix.arg = fix.arg, obs = data,     gr = gradient, ddistnam = ddistname, hessian = TRUE, method = meth,     lower = lower, upper = upper, ...): non-finite finite-difference value [1]&gt;</span></span>
+<span><span class="co">## Error in fitdist(danishuni$Loss, "burr", control = list(maxit = 1000)) : </span></span>
+<span><span class="co">##   the function mle failed to estimate the parameters, </span></span>
+<span><span class="co">##                 with the error code 100</span></span></code></pre>
+<p>If we set bounds, it only helps with an upper bound on parameters
 values. But the upper bound should be relatively small.</p>
 <div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">danishuni</span><span class="op">$</span><span class="va">Loss</span>, <span class="st">"burr"</span>, lower<span class="op">=</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -1159,10 +1162,10 @@ values. But the upper bound should be relatively small.</p>
 <pre><code><span><span class="co">## Error in fitdist(danishuni$Loss, "burr", upper = 1000) : </span></span>
 <span><span class="co">##   the function mle failed to estimate the parameters, </span></span>
 <span><span class="co">##                 with the error code 7</span></span></code></pre>
-<p>Using another algorithm such as the BFGS algorithm helps the
-convergence.</p>
+<p>Using another algorithm, such as the BFGS algorithm, helps the
+convergence as long as we set a lower bound.</p>
 <div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="va">fitBurr_cvg2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">danishuni</span><span class="op">$</span><span class="va">Loss</span>, <span class="st">"burr"</span>, upper<span class="op">=</span><span class="fl">1000</span>, </span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="va">fitBurr_cvg2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">danishuni</span><span class="op">$</span><span class="va">Loss</span>, <span class="st">"burr"</span>, lower<span class="op">=</span><span class="va">.Machine</span><span class="op">$</span><span class="va">double.eps</span>,</span>
 <span>                            optim.method<span class="op">=</span><span class="st">"L-BFGS-B"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>The fitted values have the same magnitude and the fits are
 appropriate.</p>
@@ -1172,9 +1175,9 @@ appropriate.</p>
 <div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fitBurr_cvg1</span>, <span class="va">fitBurr_cvg2</span><span class="op">)</span>, <span class="va">coef</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##          [,1]     [,2]</span></span>
-<span><span class="co">## shape1  0.014   0.0093</span></span>
-<span><span class="co">## shape2 91.561 137.8612</span></span>
-<span><span class="co">## scale   1.008   1.0039</span></span></code></pre>
+<span><span class="co">## shape1  0.014 9.86e-03</span></span>
+<span><span class="co">## shape2 91.561 1.29e+02</span></span>
+<span><span class="co">## scale   1.008 1.00e+00</span></span></code></pre>
 <p>The <code><a href="../reference/logLik-plot.html">llplot()</a></code> function helps in understanding how good is
 the fit.
 <img src="FAQ_files/figure-html/unnamed-chunk-32-1.png" width="576"><img src="FAQ_files/figure-html/unnamed-chunk-32-2.png" width="576"></p>
@@ -1186,17 +1189,17 @@ product of shape parameters is almost constant.</p>
 <pre><code><span><span class="co">## [1] 1.2834</span></span></code></pre>
 <div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/prod.html" class="external-link">prod</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">fitBurr_cvg2</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span>, digits<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] 1.2819</span></span></code></pre>
+<pre><code><span><span class="co">## [1] 1.2727</span></span></code></pre>
 <p>In terms of computation time, we retrieve that the Nelder-Mead
 algorithm is slower.</p>
 <div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">danishuni</span><span class="op">$</span><span class="va">Loss</span>, <span class="st">"burr"</span>, upper<span class="op">=</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##   0.246   0.000   0.246</span></span></code></pre>
+<span><span class="co">##   0.255   0.000   0.255</span></span></code></pre>
 <div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">danishuni</span><span class="op">$</span><span class="va">Loss</span>, <span class="st">"burr"</span>, upper<span class="op">=</span><span class="fl">1000</span>, optim.method<span class="op">=</span><span class="st">"L-BFGS-B"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">danishuni</span><span class="op">$</span><span class="va">Loss</span>, <span class="st">"burr"</span>, lower<span class="op">=</span><span class="va">.Machine</span><span class="op">$</span><span class="va">double.eps</span>, optim.method<span class="op">=</span><span class="st">"L-BFGS-B"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##    0.12    0.00    0.12</span></span></code></pre>
+<span><span class="co">##   0.119   0.000   0.119</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="why-distribution-with-a-log-argument-may-converge-better">3.3 Why distribution with a <code>log</code> argument may converge
@@ -1242,15 +1245,15 @@ and without a <code>log</code> argument.</p>
 <pre><code><span><span class="co">## Fitting of the distribution ' shiftlnorm ' by maximum likelihood </span></span>
 <span><span class="co">## Parameters : </span></span>
 <span><span class="co">##       estimate Std. Error</span></span>
-<span><span class="co">## mean   -1.3848    0.02404</span></span>
+<span><span class="co">## mean   -1.3848    0.02409</span></span>
 <span><span class="co">## sigma   0.0709    0.00192</span></span>
-<span><span class="co">## shift   0.2487    0.00599</span></span>
+<span><span class="co">## shift   0.2487    0.00601</span></span>
 <span><span class="co">## Loglikelihood:  8299   AIC:  -16591   BIC:  -16573 </span></span>
 <span><span class="co">## Correlation matrix:</span></span>
 <span><span class="co">##         mean  sigma  shift</span></span>
 <span><span class="co">## mean   1.000 -0.885  0.999</span></span>
-<span><span class="co">## sigma -0.885  1.000 -0.886</span></span>
-<span><span class="co">## shift  0.999 -0.886  1.000</span></span></code></pre>
+<span><span class="co">## sigma -0.885  1.000 -0.887</span></span>
+<span><span class="co">## shift  0.999 -0.887  1.000</span></span></code></pre>
 <p>If we don’t use the <code>log</code> argument, the algorithms
 stalls.</p>
 <div class="sourceCode" id="cb120"><pre class="downlit sourceCode r">
@@ -1372,7 +1375,8 @@ value.</p>
 <span><span class="co">## 1000 -0.29 1.19 </span></span>
 <span><span class="co">## 100 -0.029 0.119 </span></span>
 <span><span class="co">## 10 -0.0029 0.0119 </span></span>
-<span><span class="co">## 1 -0.00029 0.00119</span></span></code></pre>
+<span><span class="co">## &lt;simpleError in optim(par = vstart, fn = fnobj, fix.arg = fix.arg, obs = data,     gr = gradient, ddistnam = ddistname, hessian = TRUE, method = meth,     lower = lower, upper = upper, ...): non-finite finite-difference value [2]&gt;</span></span>
+<span><span class="co">## 1 NA NA</span></span></code></pre>
 <p>Let us consider a dataset which has particular large values.</p>
 <div class="sourceCode" id="cb144"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">dataFAQscale2</span><span class="op">)</span></span>
@@ -1957,7 +1961,7 @@ for the gamma distribution).</p>
 <code class="sourceCode R"><span><span class="va">fg</span><span class="op">$</span><span class="va">estimate</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="st">"estimate"</span><span class="op">=</span> <span class="fl">0</span>, <span class="st">"2.5%"</span><span class="op">=</span> <span class="op">-</span><span class="fl">1.96</span><span class="op">*</span><span class="va">fg</span><span class="op">$</span><span class="va">sd</span>, <span class="st">"97.5%"</span><span class="op">=</span> <span class="fl">1.96</span><span class="op">*</span><span class="va">fg</span><span class="op">$</span><span class="va">sd</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##       estimate    2.5%  97.5%</span></span>
 <span><span class="co">## shape   0.0882  0.0553  0.121</span></span>
-<span><span class="co">## rate   24.2613 -6.3431 54.866</span></span></code></pre>
+<span><span class="co">## rate   24.2613 -6.3430 54.866</span></span></code></pre>
 <div class="sourceCode" id="cb214"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/logLik-plot.html">llplot</a></span><span class="op">(</span><span class="va">fg</span>, back.col <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>

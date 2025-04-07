@@ -44,9 +44,11 @@
 <p>NEW FEATURES</p>
 <ul><li>update the FAQ 3.2 with a full example.</li>
 <li>correct man page regarding default starting values.</li>
+<li>add a link to the FAQ website in most man pages.</li>
 <li>add defensive programing in <code><a href="../reference/logLik-plot.html">llplot()</a></code>.</li>
 </ul><p>BUG FIX</p>
-<ul><li>starting values for inverse distributions as scale or rate parameters was not inverted.</li>
+<ul><li>bug fix in <code><a href="../reference/mledist.html">mledist()</a></code> when Nelder-Mead algorithm was used and infinite log-likelihood was computed. two test files added.</li>
+<li>starting values for inverse distributions as scale or rate parameters was not inverted.</li>
 <li>for positive unbounded distributions, initial shape paramters are now bounded below and above, see <code>util-startarg.R</code>.</li>
 </ul></div>
     <div class="section level2">
