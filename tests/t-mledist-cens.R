@@ -11,8 +11,8 @@ pgumbel  <-  function(q,a,b) exp(-exp((a-q)/b))
 qgumbel  <-  function(p,a,b) a-b*log(-log(p))
 
 mledist(log10EC50, "gumbel", start=list(a=0,b=2), optim.method="Nelder-Mead")
-mledist(log10EC50, "gumbel", start=list(a=0,b=2)) #default NM
-
+f1 <- mledist(log10EC50, "gumbel", start=list(a=0,b=2)) #default NM
+c(f1$estimate, f1$loglik)
 #fitted coef is 1.63 1.14 , fitted loglik is -20.3
 
 try(mledist(rbind(log10EC50, c("a", "b")), "gamma"))
@@ -25,8 +25,8 @@ try(mledist(rbind(log10EC50, c(3, NaN)), "gamma"))
 #
 
 mledist(log10EC50, "lnorm", optim.method="BFGS")
-mledist(log10EC50, "lnorm", optim.method="Nelder")
-
+f1 <- mledist(log10EC50, "lnorm", optim.method="Nelder")
+c(f1$estimate, f1$loglik)
 #fitted coef is 0.623   0.928, fitted loglik is -21.1
 
 #optim() is used
@@ -43,7 +43,7 @@ xleft <- c(-1.8, -0.6, -0.1, 0.07, 0.14, 1, 1.2, 1.2, 1.2)
 xright <- c(-1.8, -0.6, -0.1, 0.07, 0.14, 1, NA, NA, NA)
 d <- data.frame(left = xleft, right = xright)
 f1 <- mledist(d, "norm")
-
+c(f1$estimate, f1$loglik)
 #fitted coef is 0.545 1.342, fitted loglik is -12.9
 
 dbis <- data.frame(left = c(-1.8, -0.6, -0.1, 0.07, 0.14, 1, 1.2), 

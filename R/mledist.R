@@ -169,16 +169,16 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
       fnobj <- function(par, fix.arg, obs, ddistnam)
       {
         T1 <- do.call(ddistnam, c(list(obs), as.list(par), as.list(fix.arg), log=TRUE) )
-        idx <- is.finite(T1) 
-        ifelse(sum(idx) > 0, -sum( T1[idx] )/data.size, .Machine$integer.max/data.size)
+        idx <- is.infinite(T1) 
+        ifelse(sum(idx) > 0, .Machine$integer.max, -mean( T1 ))
       }
     }else
     {
       fnobj <- function(par, fix.arg, obs, ddistnam) 
       {
         T1 <- log( do.call(ddistnam, c(list(obs), as.list(par), as.list(fix.arg)) ) )
-        idx <- is.finite(T1) 
-        ifelse(sum(idx) > 0, -sum( T1[idx] )/data.size, .Machine$integer.max/data.size)
+        idx <- is.infinite(T1) 
+        ifelse(sum(idx) > 0, .Machine$integer.max, -mean( T1 ))
       }
     }
   }else if(cens && is.null(weights)) #censored data
@@ -193,8 +193,8 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
         p4 <- do.call(pdistnam, c(list(icens$right), as.list(par), as.list(fix.arg))) # without log=TRUE here
         p5 <- do.call(pdistnam, c(list(icens$left), as.list(par), as.list(fix.arg))) # without log=TRUE here
         T4 <- -sum(log(p4 - p5))
-        idx <- is.finite(T1) & is.finite(T2) & is.finite(T3) & is.finite(T4)
-        ifelse(sum(idx) > 0, (T1[idx]+T2[idx]+T3[idx]+T4[idx])/data.size, .Machine$integer.max/data.size)
+        idx <- is.infinite(T1) | is.infinite(T2) | is.infinite(T3) | is.infinite(T4)
+        ifelse(sum(idx) > 0, .Machine$integer.max, (T1+T2+T3+T4)/data.size)
       }
     else
       fnobjcens <- function(par, fix.arg, rcens, lcens, icens, ncens, ddistnam, pdistnam)
@@ -205,16 +205,16 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
         p4 <- do.call(pdistnam, c(list(icens$right), as.list(par), as.list(fix.arg)))
         p5 <- do.call(pdistnam, c(list(icens$left), as.list(par), as.list(fix.arg)))
         T4 <- -sum(log(p4 - p5))
-        idx <- is.finite(T1) & is.finite(T2) & is.finite(T3) & is.finite(T4)
-        ifelse(sum(idx) > 0, (T1[idx]+T2[idx]+T3[idx]+T4[idx])/data.size, .Machine$integer.max/data.size)
+        idx <- is.infinite(T1) | is.infinite(T2) | is.infinite(T3) | is.infinite(T4)
+        ifelse(sum(idx) > 0, .Machine$integer.max, (T1+T2+T3+T4)/data.size)
       }
   }else if(!cens && !is.null(weights))
   {
     fnobj <- function(par, fix.arg, obs, ddistnam) 
     {
         T1 <- log(do.call(ddistnam, c(list(obs), as.list(par), as.list(fix.arg)) ) )
-        idx <- is.finite(T1) 
-        ifelse(sum(idx) > 0, -sum(weights[idx] * T1[idx])/data.size, .Machine$integer.max/data.size)
+        idx <- is.infinite(T1) 
+        ifelse(sum(idx) > 0, .Machine$integer.max, -mean(weights * T1))
     }
   }else if(cens && !is.null(weights))
   {
@@ -229,12 +229,8 @@ mledist <- function (data, distr, start=NULL, fix.arg=NULL, optim.method="defaul
       p4 <- log(do.call(pdistnam, c(list(icens$right), as.list(par), as.list(fix.arg))) - 
                   do.call(pdistnam, c(list(icens$left), as.list(par), as.list(fix.arg))) )
       w4 <- weights[irow.icens]
-      idx1 <- is.finite(p1)
-      idx2 <- is.finite(p2)
-      idx3 <- is.finite(p3)
-      idx4 <- is.finite(p4)
-      res <- - sum(w1[idx1] * p1[idx1]) - sum(w2[idx2] * p2[idx2]) - sum(w3[idx3] * p3[idx3]) - sum(w4[idx4] * p4[idx4]) 
-      ifelse(sum(idx1)+sum(idx2)+sum(idx3)+sum(idx4) > 0, res, .Machine$integer.max/data.size)
+      idx <- is.infinite(p1) | is.infinite(p2) | is.infinite(p3) | is.infinite(p4)
+      ifelse(sum(idx) > 0, .Machine$integer.max, -(sum(w1*p1)+sum(w2*p2)+sum(w3*p3)+sum(w4*p4))/data.size)
     }
   }
   

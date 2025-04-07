@@ -719,24 +719,25 @@ Second, try to set bounds for parameters, typically shape and rate parameters ar
 Third, try better starting values (see FAQ 1.3) or change the optimization method.
 
 A short example is given below of a fit of a Burr distribution.
-By default, Nelder-Mead algorithm is used which reaches the iteration limit and raises error code 1.
+By default, the Nelder-Mead algorithm is used which reaches the iteration limit and raises error code 1.
 ```{r}
 data("danishuni")
 try(fitdist(danishuni$Loss, "burr"))
 ```
-If we increase the maximum number of iteration, it does not help and we get a computationnaly singular system.
+If we increase the maximum number of iteration, it does not help and we get a non-finite finite-difference value, yet Nelder-Mead may handle infinite values.
 ```{r}
 try(fitdist(danishuni$Loss, "burr", control=list(maxit=1000)))
 ```
-If we set bounds, it helps only with an upper bound on parameters values. But the upper bound should be relatively small.
+If we set bounds, it only helps with an upper bound on parameters values. But the upper bound should be relatively small.
 ```{r}
 try(fitdist(danishuni$Loss, "burr", lower=0))
 try(fitBurr_cvg1 <- fitdist(danishuni$Loss, "burr", upper=100))
 try(fitdist(danishuni$Loss, "burr", upper=1000))
 ```
-Using another algorithm such as the BFGS algorithm helps the convergence. 
+Using another algorithm, such as the BFGS algorithm, helps the convergence as long as we set a lower bound.
+
 ```{r}
-try(fitBurr_cvg2 <- fitdist(danishuni$Loss, "burr", upper=1000, 
+try(fitBurr_cvg2 <- fitdist(danishuni$Loss, "burr", lower=.Machine$double.eps,
                             optim.method="L-BFGS-B"))
 ```
 The fitted values have the same magnitude and the fits are appropriate.
@@ -760,7 +761,7 @@ print(prod(coef(fitBurr_cvg2)[1:2]), digits=5)
 In terms of computation time, we retrieve that the Nelder-Mead algorithm is slower.
 ```{r}
 system.time(fitdist(danishuni$Loss, "burr", upper=100))
-system.time(fitdist(danishuni$Loss, "burr", upper=1000, optim.method="L-BFGS-B"))
+system.time(fitdist(danishuni$Loss, "burr", lower=.Machine$double.eps, optim.method="L-BFGS-B"))
 ```
 
 

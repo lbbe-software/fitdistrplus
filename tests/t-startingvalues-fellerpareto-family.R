@@ -25,7 +25,7 @@ fitdist(x, "pareto3", lower=eps, optim="L-BFGS-B")
 #fitdist(x, "pareto1", lower=eps, optim="L-BFGS-B")
 #fitdist(x, "pareto", lower=eps, optim="L-BFGS-B")
 
-fitdist(x, "llogis", lower=0, optim="L-BFGS-B")
+fitdist(x, "llogis", lower=eps, optim="L-BFGS-B")
 
 
 fitdistrplus:::startarg_fellerpareto_family(x, "fpareto")
