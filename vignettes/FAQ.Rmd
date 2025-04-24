@@ -1262,7 +1262,6 @@ fit.NM.2P <- fitdist(
   method = "mle",
   start = list(shape = 10, rate = 10),
   fix.arg = list(low = x0, upp = Inf),
-  #control=list(trace=1, REPORT=1),
   optim.method="Nelder-Mead",
   lower = c(0, 0), upper=c(Inf, Inf))
 
@@ -1408,7 +1407,7 @@ bn <- bootdist(fn)
 bn$CI
 fn$estimate + cbind("estimate"= 0, "2.5%"= -1.96*fn$sd, "97.5%"= 1.96*fn$sd)
 par(mfrow=c(1,1), mar=c(4,4,2,1))
-llplot(fn, back.col = FALSE)
+llplot(fn, back.col = FALSE, fit.show=TRUE)
 ```
 
 ```{r, fig.height=4, fig.width=4, warning = FALSE}
@@ -1419,7 +1418,7 @@ bg <- bootdist(fg)
 bg$CI
 fg$estimate + cbind("estimate"= 0, "2.5%"= -1.96*fg$sd, "97.5%"= 1.96*fg$sd)
 par(mfrow=c(1,1), mar=c(4,4,2,1))
-llplot(fg, back.col = FALSE)
+llplot(fg, back.col = FALSE, fit.show=TRUE)
 ```
 
 ## 4.2. How can we compute confidence intervals on quantiles from the fit of a distribution ?
