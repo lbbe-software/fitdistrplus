@@ -1034,7 +1034,7 @@ fitdist(x, "nig", custom.optim=myoptim, ui=ui, ci=ci, start=list(mu = 0, delta =
 
 
 
-## 3.6. How works quantile matching estimation for discrete distributions?
+## 3.6. How does quantile matching estimation work for discrete distributions?
 Let us consider the geometric distribution with values in $\{0,1,2,3,\dots\}$.
 The probability mass function, the cumulative distribution function and the quantile function are
 $$
