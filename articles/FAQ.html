@@ -63,7 +63,7 @@
                         <h4 data-toc-skip class="author">Marie Laure
 Delignette Muller, Christophe Dutang</h4>
             
-            <h4 data-toc-skip class="date">2025-04-24</h4>
+            <h4 data-toc-skip class="date">2025-06-17</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/lbbe-software/fitdistrplus/blob/master/vignettes/FAQ.Rmd" class="external-link"><code>vignettes/FAQ.Rmd</code></a></small>
       <div class="d-none name"><code>FAQ.Rmd</code></div>
@@ -1195,7 +1195,7 @@ algorithm is slower.</p>
 <div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">danishuni</span><span class="op">$</span><span class="va">Loss</span>, <span class="st">"burr"</span>, upper<span class="op">=</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##   0.255   0.000   0.255</span></span></code></pre>
+<span><span class="co">##   0.253   0.000   0.253</span></span></code></pre>
 <div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">danishuni</span><span class="op">$</span><span class="va">Loss</span>, <span class="st">"burr"</span>, lower<span class="op">=</span><span class="va">.Machine</span><span class="op">$</span><span class="va">double.eps</span>, optim.method<span class="op">=</span><span class="st">"L-BFGS-B"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
@@ -1586,8 +1586,8 @@ via <code><a href="https://rdrr.io/r/stats/constrOptim.html" class="external-lin
 </div>
 </div>
 <div class="section level3">
-<h3 id="how-works-quantile-matching-estimation-for-discrete-distributions">3.6. How works quantile matching estimation for discrete
-distributions?<a class="anchor" aria-label="anchor" href="#how-works-quantile-matching-estimation-for-discrete-distributions"></a>
+<h3 id="how-does-quantile-matching-estimation-work-for-discrete-distributions">3.6. How does quantile matching estimation work for discrete
+distributions?<a class="anchor" aria-label="anchor" href="#how-does-quantile-matching-estimation-work-for-discrete-distributions"></a>
 </h3>
 <p>Let us consider the geometric distribution with values in
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mn>3</mn><mo>,</mo><mi>…</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{0,1,2,3,\dots\}</annotation></semantics></math>.
@@ -2351,7 +2351,7 @@ done manually with the <code>plotstyle</code> <code>graphics</code>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer>
