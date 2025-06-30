@@ -275,17 +275,17 @@ cdfcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, 
       {if(!largedata && horizontals) ggplot2::geom_segment(data = horiz0, ggplot2::aes(x=.data$x, y=.data$y, xend=.data$xend, yend=.data$yend), show.legend = FALSE, colour = datacol, linetype = 2)} +
       {if(!largedata && horizontals && verticals) ggplot2::geom_segment(data = verti, ggplot2::aes(x=.data$x, y=.data$y, xend=.data$xend, yend=.data$yend), show.legend = FALSE, colour = datacol)} +
       
-      {if(discrete) ggplot2::geom_step(data = fittedprob, ggplot2::aes(linetype = .data$ind, colour = .data$ind), size = 0.4)} +
-      {if(!discrete) ggplot2::geom_line(data = fittedprob, ggplot2::aes(linetype = .data$ind, colour = .data$ind, size = .data$ind))} +
+      {if(discrete) ggplot2::geom_step(data = fittedprob, ggplot2::aes(linetype = .data$ind, colour = .data$ind), linewidth = 0.4)} +
+      {if(!discrete) ggplot2::geom_line(data = fittedprob, ggplot2::aes(linetype = .data$ind, colour = .data$ind, linewidth = .data$ind))} +
       
       ggplot2::theme_bw() +   
       {if(addlegend) ggplot2::theme(legend.position = c(xlegend, ylegend)) else ggplot2::theme(legend.position = "none")} +
       ggplot2::scale_color_manual(values = fitcol, labels = legendtext) +
       ggplot2::scale_linetype_manual(values = fitlty, labels = legendtext) +
-      ggplot2::scale_size_manual(values = fitlwd, labels = legendtext) +
+      ggplot2::scale_linewidth_manual(values = fitlwd, labels = legendtext) +
       ggplot2::guides(colour = ggplot2::guide_legend(title = NULL)) +
       ggplot2::guides(linetype = ggplot2::guide_legend(title = NULL)) +
-      ggplot2::guides(size = ggplot2::guide_legend(title = NULL)) +
+      ggplot2::guides(linewidth = ggplot2::guide_legend(title = NULL)) +
       
       {if(lines01) ggplot2::geom_hline(ggplot2::aes(yintercept=0), color="grey", linetype="dashed")} +
       {if(lines01) ggplot2::geom_hline(ggplot2::aes(yintercept=1), color="grey", linetype="dashed")} +

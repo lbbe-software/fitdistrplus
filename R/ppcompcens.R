@@ -223,7 +223,7 @@ ppcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
     ggppcompcens <- ggplot2::ggplot(drect) + 
       ggplot2::coord_cartesian(xlim = xlim, ylim = ylim)  +
       ggplot2::ggtitle(main) + ggplot2::xlab(xlab) + ggplot2::ylab(ylab) +
-      ggplot2::geom_rect(data=drect, mapping=ggplot2::aes(xmin=.data$Pitheo.low, xmax=.data$Pitheo.up, ymin=.data$Pi.low, ymax=.data$Pi.up), colour = fitcol, fill = fillrect, alpha=0.5, size = fitlwd) +
+      ggplot2::geom_rect(data=drect, mapping=ggplot2::aes(xmin=.data$Pitheo.low, xmax=.data$Pitheo.up, ymin=.data$Pi.low, ymax=.data$Pi.up), colour = fitcol, fill = fillrect, alpha=0.5, linewidth = fitlwd) +
       ggplot2::theme_bw() +
       ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
       {if(line01) ggplot2::geom_abline(ggplot2::aes(slope = 1, intercept = 0), color = line01col, linetype = line01lty)} +

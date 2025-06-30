@@ -277,7 +277,7 @@ qqcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, mai
     ggqqcompcens <- ggplot2::ggplot(drect) + 
       ggplot2::coord_cartesian(xlim = xlim, ylim = ylim)  +
       ggplot2::ggtitle(main) + ggplot2::xlab(xlab) + ggplot2::ylab(ylab) +
-      ggplot2::geom_rect(data=drect, mapping=ggplot2::aes(xmin=.data$Qitheo.left4plot, xmax=.data$Qitheo.right4plot, ymin=.data$Qi.left4plot, ymax=.data$Qi.right4plot), colour = fitcol, fill = fillrect, size = fitlwd, alpha=0.5) +
+      ggplot2::geom_rect(data=drect, mapping=ggplot2::aes(xmin=.data$Qitheo.left4plot, xmax=.data$Qitheo.right4plot, ymin=.data$Qi.left4plot, ymax=.data$Qi.right4plot), colour = fitcol, fill = fillrect, linewidth = fitlwd, alpha=0.5) +
       ggplot2::theme_bw() +
       ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
       {if(line01) ggplot2::geom_abline(ggplot2::aes(slope = 1, intercept = 0), color = line01col, linetype = line01lty)} +

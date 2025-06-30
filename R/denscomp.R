@@ -53,6 +53,7 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
   
   # parameters used in 'hist' function 
   ###### Where are they used - to remove ? !!!!!!!!!!!!!!!!!!!!!!!!
+  ###### How to manage the '...' arguments in graphical functions?
   argshistPlotFalse <- c("breaks", "nclass", "include.lowest", "right")
   argshistPlotTrue <- c(argshistPlotFalse, "density", "angle", "border", "axes", "labels")
   
@@ -291,15 +292,15 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
         ggplot2::coord_cartesian(xlim = c(xlim[1], xlim[2]), ylim = c(ylim[1], ylim[2])) +
         {if(probability) ggplot2::geom_histogram(data = histdata, ggplot2::aes(.data$values, ggplot2::after_stat(density)), breaks = reshist$breaks, boundary = 0, show.legend = FALSE, col = "black", alpha = 1, fill = datacol)
           else ggplot2::geom_histogram(data = histdata, ggplot2::aes(.data$values, .data$..count..), breaks = reshist$breaks, boundary = 0, show.legend = FALSE, col = "black", alpha = 1, fill = datacol)} +
-        ggplot2::geom_line(data = fitteddens, ggplot2::aes(linetype = .data$ind, colour = .data$ind, size = .data$ind)) +
+        ggplot2::geom_line(data = fitteddens, ggplot2::aes(linetype = .data$ind, colour = .data$ind, linewidth = .data$ind)) +
         ggplot2::guides(colour = ggplot2::guide_legend(title = NULL)) +
         ggplot2::guides(linetype = ggplot2::guide_legend(title = NULL)) +
-        ggplot2::guides(size = ggplot2::guide_legend(title = NULL)) +
+        ggplot2::guides(linewidth = ggplot2::guide_legend(title = NULL)) +
         ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
         {if(addlegend) ggplot2::theme(legend.position = c(xlegend, ylegend)) else ggplot2::theme(legend.position = "none")} +
         ggplot2::scale_color_manual(values = fitcol, labels = legendtext) +
         ggplot2::scale_linetype_manual(values = fitlty, labels = legendtext) +
-        ggplot2::scale_size_manual(values = fitlwd, labels = legendtext)
+        ggplot2::scale_linewidth_manual(values = fitlwd, labels = legendtext)
       return(ggdenscomp)
       
     } else
@@ -324,16 +325,16 @@ denscomp <- function(ft, xlim, ylim, probability = TRUE, main, xlab, ylab,
         ggplot2::ylab(ylab) +
         ggplot2::ggtitle(main) +
         ggplot2::coord_cartesian(xlim = c(xlim[1], xlim[2]), ylim = c(ylim[1], ylim[2])) +
-        {if(fittype %in% c("l", "o")) ggplot2::geom_segment(data = fitteddens, ggplot2::aes(x = .data$sfin, xend = .data$sfin, y = 0, yend = .data$values, linetype = .data$ind, size = .data$ind))} +
+        {if(fittype %in% c("l", "o")) ggplot2::geom_segment(data = fitteddens, ggplot2::aes(x = .data$sfin, xend = .data$sfin, y = 0, yend = .data$values, linetype = .data$ind, linewidth = .data$ind))} +
         {if(fittype %in% c("p", "o")) ggplot2::geom_point(data = fitteddens, ggplot2::aes(x = .data$sfin, y = .data$values, colour = .data$ind), shape = 1)} +
         ggplot2::guides(colour = ggplot2::guide_legend(title = NULL)) +
         ggplot2::guides(linetype = ggplot2::guide_legend(title = NULL)) +
-        ggplot2::guides(size = ggplot2::guide_legend(title = NULL)) +
+        ggplot2::guides(linewidth = ggplot2::guide_legend(title = NULL)) +
         ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
         {if(addlegend) ggplot2::theme(legend.position = c(xlegend, ylegend)) else ggplot2::theme(legend.position = "none")} +
         ggplot2::scale_color_manual(values = fitcol, labels = legendtext) +
         ggplot2::scale_linetype_manual(values = fitlty, labels = legendtext) +
-        ggplot2::scale_size_manual(values = fitlwd, labels = legendtext)
+        ggplot2::scale_linewidth_manual(values = fitlwd, labels = legendtext)
       return(ggdenscomp)
       
     }

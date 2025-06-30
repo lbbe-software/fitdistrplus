@@ -195,23 +195,23 @@ qqcomp <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, main, x
     }
     
     ggqqcomp <-
-      ggplot2::ggplot(data = fittedquant, ggplot2::aes(.data$values, .data$sdata, group = .data$ind, colour = .data$ind, shape = .data$ind, size = .data$ind)) +
+      ggplot2::ggplot(data = fittedquant, ggplot2::aes(.data$values, .data$sdata, group = .data$ind, colour = .data$ind, shape = .data$ind, linewidth = .data$ind)) +
       ggplot2::xlab(xlab) +
       ggplot2::ylab(ylab) +
       ggplot2::ggtitle(main) +
       ggplot2::coord_cartesian(xlim = c(xlim[1], xlim[2]), ylim = c(ylim[1], ylim[2])) +
-      {if(!largedata) ggplot2::geom_point() else ggplot2::geom_line(ggplot2::aes(linetype = .data$ind, size = .data$ind))} +
+      {if(!largedata) ggplot2::geom_point() else ggplot2::geom_line(ggplot2::aes(linetype = .data$ind, linewidth = .data$ind))} +
       
       {if(addlegend) ggplot2::theme(legend.position = c(xlegend, ylegend), plot.title = ggplot2::element_text(hjust = 0.5)) else ggplot2::theme(legend.position = "none", plot.title = ggplot2::element_text(hjust = 0.5))} +
       ggplot2::scale_color_manual(values = fitcol, labels = legendtext) +
       ggplot2::scale_shape_manual(values = fitpch, labels = legendtext) +
       ggplot2::scale_linetype_manual(values = fitpch, labels = legendtext) +
-      ggplot2::scale_size_manual(values = fitlwd, labels = legendtext) +
+      ggplot2::scale_linewidth_manual(values = fitlwd, labels = legendtext) +
       
       ggplot2::guides(colour = ggplot2::guide_legend(title = NULL)) +
       ggplot2::guides(shape = ggplot2::guide_legend(title = NULL)) +
       ggplot2::guides(linetype = ggplot2::guide_legend(title = NULL)) +
-      ggplot2::guides(size = ggplot2::guide_legend(title = NULL)) +
+      ggplot2::guides(linewidth = ggplot2::guide_legend(title = NULL)) +
       
       {if(line01) ggplot2::geom_abline(intercept = 0, slope = 1)} +
       {if(xlogscale) ggplot2::scale_x_continuous(trans='log10')} +

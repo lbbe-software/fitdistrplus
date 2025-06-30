@@ -368,15 +368,15 @@ cdfcompcens <- function(ft, xlim, ylim, xlogscale = FALSE, ylogscale = FALSE, ma
         ggplot2::geom_rect(data=drect, mapping=ggplot2::aes(xmin=.data$x1, xmax=.data$x2, ymin=.data$y1, ymax=.data$y2), colour = datacol, fill = fillrect, alpha=0.5) +
         ggplot2::geom_segment(data=dsegmright, mapping=ggplot2::aes(x=.data$x1, y=.data$y1, xend=.data$x2, yend=.data$y2), colour = datacol) +
         ggplot2::geom_segment(data=dsegmleft, mapping=ggplot2::aes(x=.data$x1, y=.data$y1, xend=.data$x2, yend=.data$y2), colour = datacol) +
-        ggplot2::geom_line(data=dline, ggplot2::aes(.data$x, .data$y, group = .data$ind, colour = .data$ind, linetype = .data$ind, size = .data$ind)) +
+        ggplot2::geom_line(data=dline, ggplot2::aes(.data$x, .data$y, group = .data$ind, colour = .data$ind, linetype = .data$ind, linewidth = .data$ind)) +
         ggplot2::theme_bw() +
         {if(addlegend) ggplot2::theme(legend.position = c(xlegend, ylegend), plot.title = ggplot2::element_text(hjust = 0.5)) else ggplot2::theme(legend.position = "none", plot.title = ggplot2::element_text(hjust = 0.5))} +
         ggplot2::scale_color_manual(values = fitcol, labels = legendtext) +
         ggplot2::scale_linetype_manual(values = fitlty, labels = legendtext) +
-        ggplot2::scale_size_manual(values = fitlwd, labels = legendtext) +
+        ggplot2::scale_linewidth_manual(values = fitlwd, labels = legendtext) +
         ggplot2::guides(colour = ggplot2::guide_legend(title = NULL)) +
         ggplot2::guides(linetype = ggplot2::guide_legend(title = NULL)) +
-        ggplot2::guides(size = ggplot2::guide_legend(title = NULL)) +
+        ggplot2::guides(linewidth = ggplot2::guide_legend(title = NULL)) +
         {if(xlogscale) ggplot2::scale_x_continuous(trans='log10')} +
         {if(ylogscale) ggplot2::scale_y_continuous(trans='log10')}
       
