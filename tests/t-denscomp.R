@@ -205,7 +205,7 @@ if (visualize)
 {
   # 'graphics' plot style
   denscomp(list(fit1, fit2, fit3), plotstyle = "gr")
-  denscomp(list(fit1, fit2, fit3), title = "Fitted distribution")
+  denscomp(list(fit1, fit2, fit3), main = "Fitted distribution")
   denscomp(list(fit1, fit2, fit3), main = "Fitted distribution", addlegend = F, demp = T, dempcol = "purple")
   
   # 'ggplot' plot style
