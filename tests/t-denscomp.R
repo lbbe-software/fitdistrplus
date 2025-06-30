@@ -132,7 +132,7 @@ if (visualize)
   
   # graph 2
   f1 <- fitdist(x1,"norm")
-  f2 <- fitdist(x1,"gumbel", start = list(a = 10, b = 5))
+  f2 <- fitdist(x1,"gumbel", start = list(a = 10, b = 5)) # warning: The pgumbel function should have its first argument named: q as in base R
   f3 <- fitdist(x1, "exp")
   denscomp(list(f1, f2, f3), xlim = c(0, 30), fitlty = 1, legendtext = c("Normal","Gumbel","Exp"))
   
@@ -244,7 +244,11 @@ if (visualize)
 x <- c(rpois(nsample, 5), rbinom(nsample, 12, 2/3))
 fpois <- fitdist(x, "pois")
 fgeo <- fitdist(x, "geom")
-fnbinom <- fitdist(x, "nbinom")
+fnbinom <- fitdist(x, "nbinom") 
+# Messages d'avis :Messages d'avis :
+# 1: Dans cov2cor(varcovar) :
+#   diag(V) had non-positive or NA entries; the non-finite result may be dubious
+# 2: Dans sqrt(diag(varcovar)) : Production de NaN
 
 par(mar=c(4,4,2,1))
 denscomp(list(fpois, fnbinom, fgeo), probability = TRUE)
@@ -351,3 +355,4 @@ if (requireNamespace ("ggplot2", quietly = TRUE)) {
   denscomp(list(fitW, fitln, fitg), plotstyle = "ggplot", fitlty = 1, fitlwd = 3:1)
   denscomp(list(fitW, fitln, fitg), plotstyle = "ggplot", fitlty = 1, fitlwd = 1:3, fitcol = c(1:2, 7))
 }
+

@@ -34,7 +34,6 @@ if (visualize)
   if (requireNamespace("ggplot2", quietly = TRUE)) {
     qqcompcens(fln, plotstyle = "ggplot")
   }
-  
 }
 
 data(salinity)
@@ -58,7 +57,6 @@ if (requireNamespace("ggplot2", quietly = TRUE)) {
 if (requireNamespace("ggplot2", quietly = TRUE) & visualize) {
   qqcompcens(fl, plotstyle = "ggplot")
   qqcompcens(fn, plotstyle = "ggplot")
-  
 }
 
 

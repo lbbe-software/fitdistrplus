@@ -155,8 +155,8 @@ if (visualize)
 
 #mixture of two normal distributions
 #density
-dnorm2 <- function(x, poid, m1, s1, m2, s2)
-  poid*dnorm(x, m1, s1) + (1-poid)*dnorm(x, m2, s2)
+dnorm2 <- function(x, poid, m1, s1, m2, s2){
+  poid*dnorm(x, m1, s1) + (1-poid)*dnorm(x, m2, s2)}
 #numerical approximate quantile function
 qnorm2 <- function(p, poid, m1, s1, m2, s2)
 {
@@ -165,8 +165,9 @@ qnorm2 <- function(p, poid, m1, s1, m2, s2)
   sapply(p, function(pr) optimize(L2, c(-1000, 1000), prob=pr)$minimum)
 }	
 #distribution function		
-pnorm2 <- function(q, poid, m1, s1, m2, s2)
-  poid*pnorm(q, m1, s1) + (1-poid)*pnorm(q, m2, s2)		
+pnorm2 <- function(q, poid, m1, s1, m2, s2){
+  poid*pnorm(q, m1, s1) + (1-poid)*pnorm(q, m2, s2)
+}
 
 
 #basic normal distribution
@@ -224,7 +225,4 @@ if (visualize)
   ppcomp(list(fitW, fitW2, fitW3, fitln, fitg)) #distrib+method+num
   if (requireNamespace ("ggplot2", quietly = TRUE))
     ppcomp(list(fitW, fitW2, fitW3, fitln, fitg), plotstyle = "ggplot") #distrib+method+num
-  
 }
-
-
