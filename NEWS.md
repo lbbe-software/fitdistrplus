@@ -1,12 +1,13 @@
 # fitdistrplus 1.2-3
 
-
 NEW FEATURES
 
 - update the FAQ 3.2 with a full example.
 - correct man page regarding default starting values.
 - add a link to the FAQ website in most man pages.
 - add defensive programing in `llplot()`.
+- add a link to the Software Heritage archive
+- update graphics created in ggplot style, in line with the next version of ggplot2
 
 BUG FIX
 
