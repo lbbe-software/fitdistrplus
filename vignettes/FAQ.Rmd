@@ -359,8 +359,8 @@ fitdist(x, "beta2", start=list(shape=1/2))
 ```
 Another example with a U-shaped density.
 ```{r}
-x <- rbeta(1000, .3, .3)
-fitdist(x, "beta2", start=list(shape=1/2), optim.method="L-BFGS-B", lower=1e-2)	
+x <- rbeta(1000, 0.5, 0.5)
+fitdist(x, "beta2", start=list(shape=0.4), optim.method="Nelder-Mead", lower=1e-1)
 ```
 
 ## 1.12. How to estimate support parameter? the case of the four-parameter beta 

@@ -1,3 +1,9 @@
+# fitdistrplus 1.2-4
+
+BUG FIX
+
+- fix a convergence issue of `fitdist()` in the FAQ 1.11 for U-shaped beta density. Now use the constrained-version Nelder-Mead algorithm.
+
 # fitdistrplus 1.2-3
 
 NEW FEATURES
