@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">fitdistrplus</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2-3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2-4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,7 +63,7 @@
                         <h4 data-toc-skip class="author">Marie Laure
 Delignette Muller, Christophe Dutang</h4>
             
-            <h4 data-toc-skip class="date">2025-07-01</h4>
+            <h4 data-toc-skip class="date">2025-07-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/lbbe-software/fitdistrplus/blob/master/vignettes/FAQ.Rmd" class="external-link"><code>vignettes/FAQ.Rmd</code></a></small>
       <div class="d-none name"><code>FAQ.Rmd</code></div>
@@ -621,12 +621,12 @@ concave density.</p>
 <span><span class="co">## shape     3.24      0.135</span></span></code></pre>
 <p>Another example with a U-shaped density.</p>
 <div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">rbeta</a></span><span class="op">(</span><span class="fl">1000</span>, <span class="fl">.3</span>, <span class="fl">.3</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"beta2"</span>, start<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>shape<span class="op">=</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span>, optim.method<span class="op">=</span><span class="st">"L-BFGS-B"</span>, lower<span class="op">=</span><span class="fl">1e-2</span><span class="op">)</span> </span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">rbeta</a></span><span class="op">(</span><span class="fl">1000</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"beta2"</span>, start<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>shape<span class="op">=</span><span class="fl">0.4</span><span class="op">)</span>, optim.method<span class="op">=</span><span class="st">"Nelder-Mead"</span>, lower<span class="op">=</span><span class="fl">1e-1</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Fitting of the distribution ' beta2 ' by maximum likelihood </span></span>
 <span><span class="co">## Parameters:</span></span>
 <span><span class="co">##       estimate Std. Error</span></span>
-<span><span class="co">## shape    0.295    0.00986</span></span></code></pre>
+<span><span class="co">## shape    0.479     0.0137</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="how-to-estimate-support-parameter-the-case-of-the-four-parameter-beta">1.12. How to estimate support parameter? the case of the
@@ -681,23 +681,23 @@ to sample minimum and maximum.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">f1</span><span class="op">)</span>, </span>
 <span>            <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">f2</span><span class="op">$</span><span class="va">fix.arg</span><span class="op">[</span><span class="st">"min"</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">f2</span><span class="op">)</span><span class="op">[</span><span class="st">"mode"</span><span class="op">]</span>, <span class="va">f2</span><span class="op">$</span><span class="va">fix.arg</span><span class="op">[</span><span class="st">"max"</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">f2</span><span class="op">)</span><span class="op">[</span><span class="st">"shape"</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>, </span>
 <span>      digits<span class="op">=</span><span class="fl">7</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##       [,1]       [,2]       </span></span>
-<span><span class="co">## min   0.03105785 0.03395487 </span></span>
-<span><span class="co">## mode  1.120569   1.955289   </span></span>
-<span><span class="co">## max   1.959499   1.956234   </span></span>
-<span><span class="co">## shape 0.305453   0.008506046</span></span></code></pre>
+<pre><code><span><span class="co">##       [,1]         [,2]       </span></span>
+<span><span class="co">## min   -0.003074775 0.009485563</span></span>
+<span><span class="co">## mode  1.241256     1.963062   </span></span>
+<span><span class="co">## max   1.969343     1.963881   </span></span>
+<span><span class="co">## shape 0.7444557    0.1276672</span></span></code></pre>
 <div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gofstat.html">gofstat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">f1</span>,<span class="va">f2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Goodness-of-fit statistics</span></span>
 <span><span class="co">##                              1-mle-pert 2-mle-pert</span></span>
-<span><span class="co">## Kolmogorov-Smirnov statistic     0.0452     0.0584</span></span>
-<span><span class="co">## Cramer-von Mises statistic       0.0823     0.1836</span></span>
-<span><span class="co">## Anderson-Darling statistic       0.5325     1.2787</span></span>
+<span><span class="co">## Kolmogorov-Smirnov statistic     0.0618     0.0648</span></span>
+<span><span class="co">## Cramer-von Mises statistic       0.1083     0.2174</span></span>
+<span><span class="co">## Anderson-Darling statistic       0.5327     1.5895</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Goodness-of-fit criteria</span></span>
 <span><span class="co">##                                1-mle-pert 2-mle-pert</span></span>
-<span><span class="co">## Akaike's Information Criterion        268        265</span></span>
-<span><span class="co">## Bayesian Information Criterion        281        272</span></span></code></pre>
+<span><span class="co">## Akaike's Information Criterion        265        269</span></span>
+<span><span class="co">## Bayesian Information Criterion        278        276</span></span></code></pre>
 <div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/graphcomp.html">cdfcomp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">f1</span>,<span class="va">f2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -1195,11 +1195,11 @@ algorithm is slower.</p>
 <div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">danishuni</span><span class="op">$</span><span class="va">Loss</span>, <span class="st">"burr"</span>, upper<span class="op">=</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##   0.257   0.000   0.256</span></span></code></pre>
+<span><span class="co">##   0.253   0.000   0.253</span></span></code></pre>
 <div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">danishuni</span><span class="op">$</span><span class="va">Loss</span>, <span class="st">"burr"</span>, lower<span class="op">=</span><span class="va">.Machine</span><span class="op">$</span><span class="va">double.eps</span>, optim.method<span class="op">=</span><span class="st">"L-BFGS-B"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##   0.119   0.000   0.118</span></span></code></pre>
+<span><span class="co">##   0.118   0.000   0.118</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="why-distribution-with-a-log-argument-may-converge-better">3.3 Why distribution with a <code>log</code> argument may converge
