@@ -2,6 +2,7 @@
 require(actuar)
 require(fitdistrplus)
 n <- 1e4
+set.seed(123)
 
 truescale <- 100
 trueshape1 <- pi
@@ -22,7 +23,7 @@ mytitle <- paste("fitted Inv. Burr", paste(signif(coef(fit_y_IB), 3), collapse= 
 myleg <- paste("theo. Inv. Burr", paste(signif(c(trueshape1, 2, 1/truescale), 3), collapse= ", "))
 cdfcomp(fit_y_IB, xlogscale = TRUE, do.points = FALSE, addlegend = FALSE, main=mytitle)
 curve(pinvburr(x, trueshape1, 2, scale=1/truescale), add=TRUE, col="green")
-legend("topleft", lty=1, col=c("black", "red", "green"), 
+legend("bottomright", lty=1, col=c("black", "red", "green"), 
        c("empirical", "fitted", myleg))
 
 
@@ -32,7 +33,7 @@ mytitle <- paste("fitted Inv. Burr", paste(signif(coef(fit_y_IB), 3), collapse= 
 myleg <- paste("theo. Inv. Burr", paste(signif(c(trueshape1, 2, 1/truescale), 3), collapse= ", "))
 cdfcomp(fit_y_IB, xlogscale = TRUE, do.points = FALSE, addlegend = FALSE, main=mytitle)
 curve(pinvburr(x, trueshape1, 2, scale=1/truescale), add=TRUE, col="green")
-legend("topleft", lty=1, col=c("black", "red", "green"), 
+legend("bottomright", lty=1, col=c("black", "red", "green"), 
        c("empirical", "fitted", myleg))
 
 
