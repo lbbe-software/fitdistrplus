@@ -112,7 +112,7 @@
 
 <dt id="arg-rampcol">rampcol<a class="anchor" aria-label="anchor" href="#arg-rampcol"></a></dt>
 <dd><p>colors to interpolate; must be a valid argument to
-<code><a href="https://rdrr.io/r/grDevices/colorRamp.html" class="external-link">colorRampPalette</a>()</code>.</p></dd>
+<code><a href="https://rdrr.io/r/grDevices/colorRamp.html" class="external-link">colorRampPalette()</a></code>.</p></dd>
 
 <dt id="arg-nbgrid">nbgrid<a class="anchor" aria-label="anchor" href="#arg-nbgrid"></a></dt>
 <dd><p>Number of grid points in each direction. Can be scalar or a
@@ -167,7 +167,7 @@
     MASS package).
     Arguments <code>rampcol</code>, <code>nbgrid</code>, <code>nbcol</code> can be used to customize the plots.
     Defautls values are <code>rampcol=c("green", "yellow", "orange", "red")</code>, <code>nbcol=100</code>
-    (see <code><a href="https://rdrr.io/r/grDevices/colorRamp.html" class="external-link">colorRampPalette</a>()</code>), <code>nbgrid=100</code> (see <code>kde2d</code>).
+    (see <code><a href="https://rdrr.io/r/grDevices/colorRamp.html" class="external-link">colorRampPalette()</a></code>), <code>nbgrid=100</code> (see <code>kde2d</code>).
     In addition, when fitting parameters on simulated datasets for backtesting purposes, an
     additional argument <code>trueval</code> can be used to plot a cross at the true value.</p>
 <p>It is possible to accelerate the bootstrap using parallelization. We recommend you to
@@ -380,7 +380,7 @@ Journal of Statistical Software, 64(4), 1-34, <a href="https://doi.org/10.18637/
 <span class="r-out co"><span class="r-pr">#&gt;</span> rate  0.05457466 0.04623237 0.06478125</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/proc.time.html" class="external-link">proc.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">ptm</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   4.140   0.000   4.139 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   4.174   0.001   4.174 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># parallel version using snow</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st">"parallel"</span><span class="op">)</span></span></span>
@@ -393,7 +393,7 @@ Journal of Statistical Software, 64(4), 1-34, <a href="https://doi.org/10.18637/
 <span class="r-out co"><span class="r-pr">#&gt;</span> rate  0.05449994 0.04620417 0.06557893</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/proc.time.html" class="external-link">proc.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">ptm</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.034   0.006   3.823 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.036   0.005   3.915 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># parallel version using multicore (not available on Windows)</span></span></span>
 <span class="r-in"><span><span class="va">ptm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/proc.time.html" class="external-link">proc.time</a></span><span class="op">(</span><span class="op">)</span></span></span>
@@ -404,7 +404,7 @@ Journal of Statistical Software, 64(4), 1-34, <a href="https://doi.org/10.18637/
 <span class="r-out co"><span class="r-pr">#&gt;</span> rate  0.05490323 0.04682605 0.06512702</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/proc.time.html" class="external-link">proc.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">ptm</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   4.209   0.284   2.278 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   4.295   0.285   2.308 </span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
@@ -418,7 +418,7 @@ Journal of Statistical Software, 64(4), 1-34, <a href="https://doi.org/10.18637/
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

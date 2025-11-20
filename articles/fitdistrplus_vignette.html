@@ -63,7 +63,7 @@
                         <h4 data-toc-skip class="author">Marie Laure
 Delignette Muller, Christophe Dutang</h4>
             
-            <h4 data-toc-skip class="date">2025-09-15</h4>
+            <h4 data-toc-skip class="date">2025-11-20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/lbbe-software/fitdistrplus/blob/master/vignettes/fitdistrplus_vignette.Rmd" class="external-link"><code>vignettes/fitdistrplus_vignette.Rmd</code></a></small>
       <div class="d-none name"><code>fitdistrplus_vignette.Rmd</code></div>
@@ -196,7 +196,7 @@ right-hand plot the empirical cumulative distribution function
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotdist.html">plotdist</a></span><span class="op">(</span><span class="va">groundbeef</span><span class="op">$</span><span class="va">serving</span>, histo <span class="op">=</span> <span class="cn">TRUE</span>, demp <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="fitdistrplus_vignette_files/figure-html/figgroundbeef-1.png" alt="Histogram and CDF plots of an empirical distribution for a continuous variable (serving size from the `groundbeef` data set) as provided by the `plotdist` function." width="672"><p class="caption">
+<img src="fitdistrplus_vignette_files/figure-html/figgroundbeef-1.png" class="r-plt" alt="Histogram and CDF plots of an empirical distribution for a continuous variable (serving size from the `groundbeef` data set) as provided by the `plotdist` function." width="672"><p class="caption">
 Histogram and CDF plots of an empirical distribution for a continuous
 variable (serving size from the <code>groundbeef</code> data set) as
 provided by the <code>plotdist</code> function.
@@ -278,7 +278,7 @@ and lognormal distributions.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/descdist.html">descdist</a></span><span class="op">(</span><span class="va">groundbeef</span><span class="op">$</span><span class="va">serving</span>, boot <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="fitdistrplus_vignette_files/figure-html/descgroundbeefplot-1.png" alt="Skewness-kurtosis plot for a continuous variable (serving size from the `groundbeef` data set) as provided by the `descdist` function." width="480"><p class="caption">
+<img src="fitdistrplus_vignette_files/figure-html/descgroundbeefplot-1.png" class="r-plt" alt="Skewness-kurtosis plot for a continuous variable (serving size from the `groundbeef` data set) as provided by the `descdist` function." width="480"><p class="caption">
 Skewness-kurtosis plot for a continuous variable (serving size from the
 <code>groundbeef</code> data set) as provided by the
 <code>descdist</code> function.
@@ -402,7 +402,7 @@ a gamma distributions to the <code>groundbeef</code> data set (Figure
 <span><span class="fu"><a href="../reference/graphcomp.html">cdfcomp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fw</span>, <span class="va">fln</span>, <span class="va">fg</span><span class="op">)</span>, legendtext <span class="op">=</span> <span class="va">plot.legend</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/graphcomp.html">ppcomp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fw</span>, <span class="va">fln</span>, <span class="va">fg</span><span class="op">)</span>, legendtext <span class="op">=</span> <span class="va">plot.legend</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="fitdistrplus_vignette_files/figure-html/groundbeefcomp-1.png" alt="Four Goodness-of-fit plots for various distributions fitted to continuous data (Weibull, gamma and lognormal distributions fitted to serving sizes from the `groundbeef` data set) as provided by functions `denscomp`, `qqcomp`, `cdfcomp` and `ppcomp`." width="672"><p class="caption">
+<img src="fitdistrplus_vignette_files/figure-html/groundbeefcomp-1.png" class="r-plt" alt="Four Goodness-of-fit plots for various distributions fitted to continuous data (Weibull, gamma and lognormal distributions fitted to serving sizes from the `groundbeef` data set) as provided by functions `denscomp`, `qqcomp`, `cdfcomp` and `ppcomp`." width="672"><p class="caption">
 Four Goodness-of-fit plots for various distributions fitted to
 continuous data (Weibull, gamma and lognormal distributions fitted to
 serving sizes from the <code>groundbeef</code> data set) as provided by
@@ -481,7 +481,7 @@ defining an HC5 value (Figure @ref(fig:fitendo)).</p>
 <span><span class="fu"><a href="../reference/graphcomp.html">cdfcomp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fendo.ln</span>, <span class="va">fendo.ll</span>, <span class="va">fendo.P</span>, <span class="va">fendo.B</span><span class="op">)</span>, xlogscale <span class="op">=</span> <span class="cn">TRUE</span>, </span>
 <span>        ylogscale <span class="op">=</span> <span class="cn">TRUE</span>, legendtext <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lognormal"</span>, <span class="st">"loglogistic"</span>, <span class="st">"Pareto"</span>, <span class="st">"Burr"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="fitdistrplus_vignette_files/figure-html/fitendo-1.png" alt="CDF plot to compare the fit of four distributions to acute toxicity values of various organisms for the organochlorine pesticide endosulfan (`endosulfan` data set) as provided by the `cdfcomp` function, with CDF values in a logscale to emphasize discrepancies on the left tail." width="576"><p class="caption">
+<img src="fitdistrplus_vignette_files/figure-html/fitendo-1.png" class="r-plt" alt="CDF plot to compare the fit of four distributions to acute toxicity values of various organisms for the organochlorine pesticide endosulfan (`endosulfan` data set) as provided by the `cdfcomp` function, with CDF values in a logscale to emphasize discrepancies on the left tail." width="576"><p class="caption">
 CDF plot to compare the fit of four distributions to acute toxicity
 values of various organisms for the organochlorine pesticide endosulfan
 (<code>endosulfan</code> data set) as provided by the
@@ -651,7 +651,7 @@ distribution to the <code>endosulfan</code> data set (Figure
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">bendo.B</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="fitdistrplus_vignette_files/figure-html/bootstrap-1.png" alt="Bootstrappped values of parameters for a fit of the Burr distribution characterized by three parameters (example on the `endosulfan` data set) as provided by the plot of an object of class `bootdist`." width="576"><p class="caption">
+<img src="fitdistrplus_vignette_files/figure-html/bootstrap-1.png" class="r-plt" alt="Bootstrappped values of parameters for a fit of the Burr distribution characterized by three parameters (example on the `endosulfan` data set) as provided by the plot of an object of class `bootdist`." width="576"><p class="caption">
 Bootstrappped values of parameters for a fit of the Burr distribution
 characterized by three parameters (example on the
 <code>endosulfan</code> data set) as provided by the plot of an object
@@ -790,7 +790,7 @@ used to fit a lognormal to <code>endosulfan</code> data set (see Figure
 <span>  xlegend <span class="op">=</span> <span class="st">"bottomright"</span>, </span>
 <span>  legendtext <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"MLE"</span>, <span class="st">"Left-tail AD"</span>, <span class="st">"Left-tail AD 2nd order"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="fitdistrplus_vignette_files/figure-html/plotfitMGE-1.png" alt="Comparison of a lognormal distribution fitted by MLE and by MGE using two different goodness-of-fit distances: left-tail Anderson-Darling and left-tail Anderson Darling of second order (example with the `endosulfan` data set) as provided by the `cdfcomp` function, with CDF values in a logscale to emphasize discrepancies on the left tail." width="576"><p class="caption">
+<img src="fitdistrplus_vignette_files/figure-html/plotfitMGE-1.png" class="r-plt" alt="Comparison of a lognormal distribution fitted by MLE and by MGE using two different goodness-of-fit distances: left-tail Anderson-Darling and left-tail Anderson Darling of second order (example with the `endosulfan` data set) as provided by the `cdfcomp` function, with CDF values in a logscale to emphasize discrepancies on the left tail." width="576"><p class="caption">
 Comparison of a lognormal distribution fitted by MLE and by MGE using
 two different goodness-of-fit distances: left-tail Anderson-Darling and
 left-tail Anderson Darling of second order (example with the
@@ -909,7 +909,7 @@ claim amounts.</p>
 <span><span class="fu"><a href="../reference/graphcomp.html">cdfcomp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fdanish.P.MLE</span>, <span class="va">fdanish.P.MME</span><span class="op">)</span>, legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Pareto MLE"</span>, <span class="st">"Pareto MME"</span><span class="op">)</span>, </span>
 <span>        main <span class="op">=</span> <span class="st">"Fitting a Pareto distribution"</span>, xlogscale <span class="op">=</span> <span class="cn">TRUE</span>, datapch <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="fitdistrplus_vignette_files/figure-html/danishmme-1.png" alt="Comparison between MME and MLE when fitting a lognormal or a Pareto distribution to loss data from the `danishuni` data set." width="672"><p class="caption">
+<img src="fitdistrplus_vignette_files/figure-html/danishmme-1.png" class="r-plt" alt="Comparison between MME and MLE when fitting a lognormal or a Pareto distribution to loss data from the `danishuni` data set." width="672"><p class="caption">
 Comparison between MME and MLE when fitting a lognormal or a Pareto
 distribution to loss data from the <code>danishuni</code> data set.
 </p>
@@ -1003,7 +1003,7 @@ of squared differences between observed and theoretical quantiles.</p>
 <span>        legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"MLE"</span>, <span class="st">"QME(1/3, 2/3)"</span>, <span class="st">"QME(8/10, 9/10)"</span><span class="op">)</span>, </span>
 <span>        main <span class="op">=</span> <span class="st">"Fitting a lognormal distribution"</span>, xlogscale <span class="op">=</span> <span class="cn">TRUE</span>, datapch <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="fitdistrplus_vignette_files/figure-html/danishqme-1.png" alt="Comparison between QME and MLE when fitting a lognormal distribution to loss data from the `danishuni` data set." width="576"><p class="caption">
+<img src="fitdistrplus_vignette_files/figure-html/danishqme-1.png" class="r-plt" alt="Comparison between QME and MLE when fitting a lognormal distribution to loss data from the `danishuni` data set." width="576"><p class="caption">
 Comparison between QME and MLE when fitting a lognormal distribution to
 loss data from the <code>danishuni</code> data set.
 </p>
@@ -1204,7 +1204,7 @@ to define a relevant ordering of observations.</p>
 <div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotdistcens.html">plotdistcens</a></span><span class="op">(</span><span class="va">salinity</span>, NPMLE <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="fitdistrplus_vignette_files/figure-html/plotsalinity2-1.png" alt="Simple plot of censored raw data (72-hour acute salinity tolerance of riverine macro-invertebrates from the `salinity` data set) as ordered points and intervals." width="576"><p class="caption">
+<img src="fitdistrplus_vignette_files/figure-html/plotsalinity2-1.png" class="r-plt" alt="Simple plot of censored raw data (72-hour acute salinity tolerance of riverine macro-invertebrates from the `salinity` data set) as ordered points and intervals." width="576"><p class="caption">
 Simple plot of censored raw data (72-hour acute salinity tolerance of
 riverine macro-invertebrates from the <code>salinity</code> data set) as
 ordered points and intervals.
@@ -1307,7 +1307,7 @@ it provides a clearer plot splitted in facets (see
 <span><span class="fu"><a href="../reference/graphcompcens.html">qqcompcens</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fsal.ln</span>, <span class="va">fsal.ll</span><span class="op">)</span>, legendtext <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lognormal"</span>, <span class="st">"loglogistic "</span><span class="op">)</span>,</span>
 <span>           main <span class="op">=</span> <span class="st">"Q-Q plot with 2 dist."</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="fitdistrplus_vignette_files/figure-html/cdfcompcens-1.png" alt="Some goodness-of-fit plots for fits of a lognormal and a loglogistic distribution to censored data: LC50 values from the `salinity` data set." width="672"><p class="caption">
+<img src="fitdistrplus_vignette_files/figure-html/cdfcompcens-1.png" class="r-plt" alt="Some goodness-of-fit plots for fits of a lognormal and a loglogistic distribution to censored data: LC50 values from the `salinity` data set." width="672"><p class="caption">
 Some goodness-of-fit plots for fits of a lognormal and a loglogistic
 distribution to censored data: LC50 values from the
 <code>salinity</code> data set.
@@ -1371,7 +1371,7 @@ fits (Figure @ref(fig:fittoxocarapoisnbinom)).</p>
 <span><span class="fu"><a href="../reference/graphcomp.html">denscomp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">ftoxo.P</span>, <span class="va">ftoxo.nb</span><span class="op">)</span>, legendtext <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Poisson"</span>, <span class="st">"negative binomial"</span><span class="op">)</span>, fitlty <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/graphcomp.html">cdfcomp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">ftoxo.P</span>, <span class="va">ftoxo.nb</span><span class="op">)</span>, legendtext <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Poisson"</span>, <span class="st">"negative binomial"</span><span class="op">)</span>, fitlty <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="fitdistrplus_vignette_files/figure-html/fittoxocarapoisnbinom-1.png" alt="Comparison of the fits of a negative binomial and a Poisson distribution to numbers of *Toxocara cati* parasites from the `toxocara` data set." width="672"><p class="caption">
+<img src="fitdistrplus_vignette_files/figure-html/fittoxocarapoisnbinom-1.png" class="r-plt" alt="Comparison of the fits of a negative binomial and a Poisson distribution to numbers of *Toxocara cati* parasites from the `toxocara` data set." width="672"><p class="caption">
 Comparison of the fits of a negative binomial and a Poisson distribution
 to numbers of <em>Toxocara cati</em> parasites from the
 <code>toxocara</code> data set.
@@ -1985,7 +1985,7 @@ Probability.”</span> <em>Advances in Water Resources</em> 59: 133–45.
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
