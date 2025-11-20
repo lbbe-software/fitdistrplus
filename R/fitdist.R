@@ -61,8 +61,10 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge", "mse"),
   else
     dpq2test <- c("d", "p", "q")
   #check argument data
-  if (!(is.vector(data) & is.numeric(data) & length(data)>1))
+  if (!(is.numeric(data) & length(data)>1))
     stop("data must be a numeric vector of length greater than 1")
+  if (!is.vector(data))
+    data <- as.vector(data)
   checkUncensoredNAInfNan(data)
   
   #encapsulate three dots arguments
