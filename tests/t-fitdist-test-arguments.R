@@ -20,6 +20,14 @@ try(fitdist(c(serving, NaN), "gamma"))
 
 try(fitdist(serving, "toto"))
 
+x <- c(0.38455801,  0.59115671, -0.88511329, -0.88890515,  0.39521921,
+       -0.07856592,  0.64084781, -0.33513496,  0.04897621, -0.57541428)
+fitdist(x, "norm")
+fitdist(x, dnorm)
+fitdist(x, stats::dnorm)
+
+
+
 #### sanity check -- method ####
 
 try(fitdist(serving, "gamma", method="toto"))

@@ -27,12 +27,18 @@ fitdist <- function (data, distr, method = c("mle", "mme", "qme", "mge", "mse"),
 {
   #check argument distr
   if (!is.character(distr)) 
-    distname <- substring(as.character(match.call()$distr), 2)
-  else 
+  {
+    distname <- as.character(match.call()$distr)
+    if(length(distname) > 1)
+      distname <- tail(distname, 1)
+    distname <- substring(distname, 2)
+      
+  }else 
     distname <- distr
   ddistname <- paste("d", distname, sep="")
   if (!exists(ddistname, mode="function"))
-    stop(paste("The ", ddistname, " function must be defined"))
+    stop("Your <distr> argument should be either a character string or a function so that d<distr> exists." ,
+         "Otherwise please wrap it in another function with that name.")
   
   #pdistname <- paste("p", distname, sep="")
   #if (!exists(pdistname, mode="function"))
