@@ -534,7 +534,7 @@ Journal of Statistical Software, 64(4), 1-34, <a href="https://doi.org/10.18637/
 <span class="r-in"><span><span class="va">qgumbel</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">p</span>, <span class="va">a</span>, <span class="va">b</span><span class="op">)</span> <span class="va">a</span><span class="op">-</span><span class="va">b</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">fitgumbel</span> <span class="op">&lt;-</span> <span class="fu">fitdist</span><span class="op">(</span><span class="va">serving</span>, <span class="st">"gumbel"</span>, start<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>a<span class="op">=</span><span class="fl">10</span>, b<span class="op">=</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in fitdist(serving, "gumbel", start = list(a = 10, b = 10)):</span> The  dgumbel  function must be defined</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in fitdist(serving, "gumbel", start = list(a = 10, b = 10)):</span> Your &lt;distr&gt; argument should be either a character string or a function so that d&lt;distr&gt; exists.Otherwise please wrap it in another function with that name.</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fitgumbel</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'fitgumbel' not found</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fitgumbel</span><span class="op">)</span></span></span>
@@ -704,7 +704,7 @@ Journal of Statistical Software, 64(4), 1-34, <a href="https://doi.org/10.18637/
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ##</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Thu Nov 20 21:46:07 2025</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Tue Nov 25 17:59:53 2025</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Domains:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  0.000000e+00   &lt;=  X1   &lt;=    1.000000e+01 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  0.000000e+00   &lt;=  X2   &lt;=    1.000000e+01 </span>
@@ -750,7 +750,7 @@ Journal of Statistical Software, 64(4), 1-34, <a href="https://doi.org/10.18637/
 <span class="r-out co"><span class="r-pr">#&gt;</span> Solution Found Generation 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of Generations Run 11</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Thu Nov 20 21:46:08 2025</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Tue Nov 25 17:59:54 2025</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Total run time : 0 hours 0 minutes and 1 seconds</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fit2</span><span class="op">)</span></span></span>

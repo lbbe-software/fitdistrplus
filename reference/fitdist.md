@@ -599,7 +599,7 @@ pgumbel <- function(q, a, b) exp(-exp((a-q)/b))
 qgumbel <- function(p, a, b) a-b*log(-log(p))
 
 fitgumbel <- fitdist(serving, "gumbel", start=list(a=10, b=10))
-#> Error in fitdist(serving, "gumbel", start = list(a = 10, b = 10)): The  dgumbel  function must be defined
+#> Error in fitdist(serving, "gumbel", start = list(a = 10, b = 10)): Your <distr> argument should be either a character string or a function so that d<distr> exists.Otherwise please wrap it in another function with that name.
 summary(fitgumbel)
 #> Error: object 'fitgumbel' not found
 plot(fitgumbel)
@@ -769,7 +769,7 @@ summary(res2)
 #> ##
 #> 
 #> 
-#> Thu Nov 20 21:46:07 2025
+#> Tue Nov 25 17:59:53 2025
 #> Domains:
 #>  0.000000e+00   <=  X1   <=    1.000000e+01 
 #>  0.000000e+00   <=  X2   <=    1.000000e+01 
@@ -815,7 +815,7 @@ summary(res2)
 #> Solution Found Generation 1
 #> Number of Generations Run 11
 #> 
-#> Thu Nov 20 21:46:08 2025
+#> Tue Nov 25 17:59:54 2025
 #> Total run time : 0 hours 0 minutes and 1 seconds
 
     summary(fit2)
