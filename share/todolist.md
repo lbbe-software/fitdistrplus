@@ -37,6 +37,7 @@
 33. [ ] add exploratory tools for assessing the role of covariates and for choosing the appropriate distribution in modelling (survival parametric model), e.g. dose-response
 34. [x] allow the computation of vcov for MME, remove NOTE when checking the package *CD*
 35. [x] add DOI for reference in man pages
+36. [ ] allow the use of a function for `distr` argument rather than a character string, e.g., `evir::dgev` so that `evir` is not attached. probably designed for functions `mledist`, `mmedist`, `qmedist`,... rather than for `fitdist`. See Issue https://github.com/lbbe-software/fitdistrplus/issues/38
 
 # Of less priority
 
