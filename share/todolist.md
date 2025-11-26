@@ -1,6 +1,6 @@
-*TODO list*
+# *TODO list*
 
-# Shorter term
+## Shorter term
 
 1.  [ ] take into account weights for definition of starting values
 2.  [ ] take into account weights in every functions and add examples in fitdist, gofstat, plotdist, plotdistcens, descdist, and all plotting functions
@@ -14,7 +14,7 @@
 10. [ ] faire un script automatisé pour analyser les résumés et les revues des articles citant fitdistrplus
 11. [x] add calculation of the hessian using `optimHess` within `fitdist` or `mledist` in cases where it is not given by optim *CD*
 12. [x] better compute the hessian matrix for MLE (add one step after the final estimate to compute correctly hessian, see example for gamma distribution)
-13. [ ] think about a hexa-logo (histogram with fitted densities on a simulated example from two asymetric distribution (lnorm, weibull) without axis)
+13. [x] think about a hexa-logo (histogram with fitted densities on a simulated example from two asymetric distribution (lnorm, weibull) without axis)
 14. [ ] add a cheatsheet (refcard) for fitdistrplus (possibly in pptx?), think about sections, update the website github.io for the Reference page
 15. [ ] make a flow chart on how functions are interrelated (see techdoc/)
 16. [x] Make a markdown TODO list
@@ -39,7 +39,7 @@
 35. [x] add DOI for reference in man pages
 36. [ ] allow the use of a function for `distr` argument rather than a character string, e.g., `evir::dgev` so that `evir` is not attached. probably designed for functions `mledist`, `mmedist`, `qmedist`,... rather than for `fitdist`. See Issue https://github.com/lbbe-software/fitdistrplus/issues/38
 
-# Of less priority
+## Longer term
 
 1.  [ ] add the Wasserstein-Kantorovich distance in `mge` and `gofstat` (see Del Barrio 1999 and 2000 and Gibbs 2002)
 2.  [ ] offer a function to do prior elicitation from quantiles (look before at package expert)
@@ -48,4 +48,4 @@
 5.  [ ] bibliométrie de l'utilisation du package dans les publis récentes (données censurées, graphes d'ajustement.) depuis la soumission JSS
 
 
-# Longer term
+
