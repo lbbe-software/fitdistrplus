@@ -524,7 +524,7 @@ mmedist(x3, "beta")
 #> $memp
 #> function (x, order) 
 #> mean(x^order)
-#> <environment: 0x55d8afe80158>
+#> <environment: 0x563059cfb260>
 #> 
 #> $vcov
 #> NULL
@@ -609,7 +609,7 @@ mmedist(x3, "beta")
 #> $memp
 #> function (x, order, weights) 
 #> sum(x^order * weights)/sum(weights)
-#> <environment: 0x55d8afe80158>
+#> <environment: 0x563059cfb260>
 #> 
 #> $vcov
 #> NULL
