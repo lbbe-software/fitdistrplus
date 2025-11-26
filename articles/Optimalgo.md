@@ -276,7 +276,7 @@ for gradient).
 | fitted loglik   | 114.165 | 114.165 | 114.165 | 114.165 | 114.165 |  114.165 | 114.165 |
 | func. eval. nb. |  15.000 |  47.000 | 191.000 | 221.000 | 242.000 |    8.000 |  92.000 |
 | grad. eval. nb. |  11.000 |      NA |  95.000 | 115.000 | 175.000 |    8.000 |      NA |
-| time (sec)      |   0.007 |   0.004 |   0.034 |   0.040 |   0.055 |    0.004 |   0.011 |
+| time (sec)      |   0.007 |   0.004 |   0.035 |   0.041 |   0.056 |    0.003 |   0.012 |
 
 Unconstrained optimization with approximated gradient
 
@@ -287,7 +287,7 @@ Unconstrained optimization with approximated gradient
 | fitted loglik   | 114.165 | 114.165 | 114.165 | 114.165 |  114.165 | 114.165 |  114.165 |  114.165 |  114.165 |
 | func. eval. nb. |  22.000 | 249.000 | 239.000 | 138.000 |   40.000 |  92.000 |  433.000 |  345.000 |  255.000 |
 | grad. eval. nb. |   5.000 |  71.000 |  67.000 |  43.000 |    6.000 |      NA |   92.000 |   82.000 |   58.000 |
-| time (sec)      |   0.010 |   0.080 |   0.075 |   0.048 |    0.020 |   0.021 |    0.128 |    0.105 |    0.079 |
+| time (sec)      |   0.010 |   0.080 |   0.076 |   0.049 |    0.020 |   0.020 |    0.130 |    0.108 |    0.082 |
 
 Unconstrained optimization with true gradient
 
@@ -298,7 +298,7 @@ Unconstrained optimization with true gradient
 | fitted loglik   | 114.165 | 114.165 | 114.165 | 114.165 | 114.165 |
 | func. eval. nb. |   8.000 |  41.000 |  37.000 |  49.000 |  47.000 |
 | grad. eval. nb. |   5.000 |      NA |  19.000 |  39.000 |  33.000 |
-| time (sec)      |   0.013 |   0.004 |   0.008 |   0.013 |   0.012 |
+| time (sec)      |   0.014 |   0.004 |   0.008 |   0.014 |   0.012 |
 
 Exponential trick optimization with approximated gradient
 
@@ -309,7 +309,7 @@ Exponential trick optimization with approximated gradient
 | fitted loglik   | 114.165 | 114.165 | 114.165 | 114.165 |
 | func. eval. nb. |  21.000 | 109.000 | 146.000 | 112.000 |
 | grad. eval. nb. |   5.000 |  29.000 |  47.000 |  35.000 |
-| time (sec)      |   0.011 |   0.035 |   0.052 |   0.040 |
+| time (sec)      |   0.011 |   0.035 |   0.052 |   0.041 |
 
 Exponential trick optimization with true gradient
 
@@ -476,7 +476,7 @@ for gradient).
 | fitted loglik   | -402.675 | -402.674 | -402.675 | -402.675 | -402.675 | -402.675 | -402.675 |
 | func. eval. nb. |    2.000 |   39.000 | 2001.000 | 1001.000 | 1001.000 |    2.000 |    0.000 |
 | grad. eval. nb. |    1.000 |       NA | 1001.000 | 1001.000 | 1001.000 |    2.000 |       NA |
-| time (sec)      |    0.002 |    0.003 |    0.224 |    0.180 |    0.181 |    0.001 |    0.003 |
+| time (sec)      |    0.002 |    0.003 |    0.250 |    0.204 |    0.202 |    0.002 |    0.004 |
 | fitted prob     |    0.775 |    0.775 |    0.775 |    0.775 |    0.775 |    0.775 |    0.775 |
 
 Unconstrained optimization with approximated gradient
@@ -488,7 +488,7 @@ Unconstrained optimization with approximated gradient
 | fitted loglik   | -402.675 | -402.675 | -402.675 | -402.675 | -402.675 | -402.675 | -402.675 | -402.675 | -402.675 |
 | func. eval. nb. |   28.000 |   28.000 |   28.000 |   28.000 |    0.000 |    0.000 |    0.000 |    0.000 |    0.000 |
 | grad. eval. nb. |    1.000 |    1.000 |    1.000 |    1.000 |       NA |       NA |       NA |       NA |       NA |
-| time (sec)      |    0.008 |    0.002 |    0.002 |    0.002 |    0.002 |    0.002 |    0.002 |    0.002 |    0.002 |
+| time (sec)      |    0.009 |    0.002 |    0.002 |    0.002 |    0.003 |    0.003 |    0.002 |    0.003 |    0.002 |
 | fitted prob     |    0.775 |    0.775 |    0.775 |    0.775 |    0.775 |    0.775 |    0.775 |    0.775 |    0.775 |
 
 Unconstrained optimization with true gradient
@@ -500,7 +500,7 @@ Unconstrained optimization with true gradient
 | fitted loglik   | -402.675 | -402.674 | -402.675 | -402.674 | -402.674 |
 | func. eval. nb. |    3.000 |   45.000 | 2501.000 | 2276.000 | 2272.000 |
 | grad. eval. nb. |    1.000 |       NA | 1001.000 | 1001.000 | 1001.000 |
-| time (sec)      |    0.004 |    0.003 |    0.245 |    0.239 |    0.241 |
+| time (sec)      |    0.004 |    0.003 |    0.272 |    0.265 |    0.268 |
 
 Exponential trick optimization with approximated gradient
 
@@ -511,7 +511,7 @@ Exponential trick optimization with approximated gradient
 | fitted loglik   | -402.675 | -402.675 | -402.675 | -402.675 |
 | func. eval. nb. |   18.000 |   44.000 |   39.000 |   39.000 |
 | grad. eval. nb. |    1.000 |    3.000 |    3.000 |    3.000 |
-| time (sec)      |    0.006 |    0.003 |    0.002 |    0.002 |
+| time (sec)      |    0.006 |    0.002 |    0.002 |    0.002 |
 
 Exponential trick optimization with true gradient
 
