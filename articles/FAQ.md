@@ -1185,14 +1185,14 @@ system.time(fitdist(danishuni$Loss, "burr", upper=100))
 ```
 
     ##    user  system elapsed 
-    ##   0.252   0.000   0.251
+    ##    0.27    0.00    0.27
 
 ``` r
 system.time(fitdist(danishuni$Loss, "burr", lower=.Machine$double.eps, optim.method="L-BFGS-B"))
 ```
 
     ##    user  system elapsed 
-    ##   0.116   0.000   0.117
+    ##   0.121   0.000   0.122
 
 ### 3.3 Why distribution with a `log` argument may converge better?
 

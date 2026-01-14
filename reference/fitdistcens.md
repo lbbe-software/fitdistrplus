@@ -463,7 +463,7 @@ fitdistcens(log10EC50,"logis",optim.method="SANN")
         print.level=1, hessian=TRUE)
 #> 
 #> 
-#> Wed Nov 26 22:03:40 2025
+#> Wed Jan 14 09:27:49 2026
 #> Domains:
 #>  0.000000e+00   <=  X1   <=    5.000000e+00 
 #>  0.000000e+00   <=  X2   <=    5.000000e+00 
@@ -510,8 +510,8 @@ fitdistcens(log10EC50,"logis",optim.method="SANN")
 #> Solution Found Generation 1
 #> Number of Generations Run 12
 #> 
-#> Wed Nov 26 22:03:41 2025
-#> Total run time : 0 hours 0 minutes and 1 seconds
+#> Wed Jan 14 09:27:51 2026
+#> Total run time : 0 hours 0 minutes and 2 seconds
 
     summary(fit.with.genoud)
 #> Fitting of the distribution ' logis ' By maximum likelihood on censored data 
