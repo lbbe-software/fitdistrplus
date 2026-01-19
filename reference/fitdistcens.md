@@ -463,7 +463,7 @@ fitdistcens(log10EC50,"logis",optim.method="SANN")
         print.level=1, hessian=TRUE)
 #> 
 #> 
-#> Wed Jan 14 09:27:49 2026
+#> Mon Jan 19 08:54:49 2026
 #> Domains:
 #>  0.000000e+00   <=  X1   <=    5.000000e+00 
 #>  0.000000e+00   <=  X2   <=    5.000000e+00 
@@ -510,7 +510,7 @@ fitdistcens(log10EC50,"logis",optim.method="SANN")
 #> Solution Found Generation 1
 #> Number of Generations Run 12
 #> 
-#> Wed Jan 14 09:27:51 2026
+#> Mon Jan 19 08:54:51 2026
 #> Total run time : 0 hours 0 minutes and 2 seconds
 
     summary(fit.with.genoud)

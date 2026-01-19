@@ -63,7 +63,7 @@
                         <h4 data-toc-skip class="author">Marie Laure
 Delignette Muller, Christophe Dutang</h4>
             
-            <h4 data-toc-skip class="date">2026-01-14</h4>
+            <h4 data-toc-skip class="date">2026-01-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/lbbe-software/fitdistrplus/blob/master/vignettes/FAQ.Rmd" class="external-link"><code>vignettes/FAQ.Rmd</code></a></small>
       <div class="d-none name"><code>FAQ.Rmd</code></div>
@@ -1175,8 +1175,8 @@ appropriate.</p>
 <div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fitBurr_cvg1</span>, <span class="va">fitBurr_cvg2</span><span class="op">)</span>, <span class="va">coef</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##          [,1]     [,2]</span></span>
-<span><span class="co">## shape1  0.014 9.86e-03</span></span>
-<span><span class="co">## shape2 91.561 1.29e+02</span></span>
+<span><span class="co">## shape1  0.014 9.92e-03</span></span>
+<span><span class="co">## shape2 91.561 1.28e+02</span></span>
 <span><span class="co">## scale   1.008 1.00e+00</span></span></code></pre>
 <p>The <code><a href="../reference/logLik-plot.html">llplot()</a></code> function helps in understanding how good is
 the fit.
@@ -1189,17 +1189,17 @@ product of shape parameters is almost constant.</p>
 <pre><code><span><span class="co">## [1] 1.2834</span></span></code></pre>
 <div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/prod.html" class="external-link">prod</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">fitBurr_cvg2</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span>, digits<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] 1.2727</span></span></code></pre>
+<pre><code><span><span class="co">## [1] 1.2723</span></span></code></pre>
 <p>In terms of computation time, we retrieve that the Nelder-Mead
 algorithm is slower.</p>
 <div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">danishuni</span><span class="op">$</span><span class="va">Loss</span>, <span class="st">"burr"</span>, upper<span class="op">=</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##    0.27    0.00    0.27</span></span></code></pre>
+<span><span class="co">##   0.324   0.000   0.324</span></span></code></pre>
 <div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">danishuni</span><span class="op">$</span><span class="va">Loss</span>, <span class="st">"burr"</span>, lower<span class="op">=</span><span class="va">.Machine</span><span class="op">$</span><span class="va">double.eps</span>, optim.method<span class="op">=</span><span class="st">"L-BFGS-B"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##   0.121   0.000   0.122</span></span></code></pre>
+<span><span class="co">##   0.105   0.000   0.105</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="why-distribution-with-a-log-argument-may-converge-better">3.3 Why distribution with a <code>log</code> argument may converge
@@ -1517,7 +1517,7 @@ Let us do it in R.</p>
 <pre><code><span><span class="co">## Fitting of the distribution ' sexp ' by maximum likelihood </span></span>
 <span><span class="co">## Parameters:</span></span>
 <span><span class="co">##       estimate Std. Error</span></span>
-<span><span class="co">## rate     0.248          0</span></span>
+<span><span class="co">## rate     0.248   4.42e-12</span></span>
 <span><span class="co">## shift    1.005        NaN</span></span></code></pre>
 </div>
 <div class="section level4">
