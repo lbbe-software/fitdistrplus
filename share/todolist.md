@@ -38,6 +38,11 @@
 34. [x] allow the computation of vcov for MME, remove NOTE when checking the package *CD*
 35. [x] add DOI for reference in man pages
 36. [ ] allow the use of a function for `distr` argument rather than a character string, e.g., `evir::dgev` so that `evir` is not attached. probably designed for functions `mledist`, `mmedist`, `qmedist`,... rather than for `fitdist`. See Issue https://github.com/lbbe-software/fitdistrplus/issues/38
+37. [x] move some test files in `share/`, e.g., `t-starting-values*` *CD*
+38. [ ] harmonize the use of `set.seed()` in test files and in man files *MLDM*
+39. [x] close Issue 38 <https://github.com/lbbe-software/fitdistrplus/issues/38> with a comment.
+
+
 
 ## Longer term
 
