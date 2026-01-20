@@ -1,5 +1,5 @@
 require("fitdistrplus")
-set.seed(1234)
+set.seed(123) # here just to make random sampling reproducible
 nsample <- 10
 
 #Poisson

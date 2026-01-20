@@ -129,6 +129,7 @@ Marie-Laure Delignette-Muller and Christophe Dutang.
 }
 
 \examples{
+set.seed(123) # here just to make random sampling reproducible
 
 # (1) Fit of a Weibull distribution to serving size data by maximum 
 # goodness-of-fit estimation using all the distances available
@@ -150,7 +151,6 @@ mgedist(serving, "weibull", gof="AD2")
 # Kolmogorov-Smirnov distance
 # 
 
-set.seed(1234)
 u <- runif(100,min=5,max=10)
 mgedist(u,"unif",gof="CvM")
 mgedist(u,"unif",gof="KS")
@@ -161,7 +161,6 @@ mgedist(u,"unif",gof="KS")
 
 \donttest{
 require("mc2d")
-set.seed(1234)
 t <- rtriang(100,min=5,mode=6,max=10)
 mgedist(t,"triang",start = list(min=4, mode=6,max=9),gof="CvM")
 mgedist(t,"triang",start = list(min=4, mode=6,max=9),gof="KS")
@@ -172,7 +171,6 @@ mgedist(t,"triang",start = list(min=4, mode=6,max=9),gof="KS")
 # the optimization raises an error. The for loop shows how scaling by 10^i
 # for i=1,...,6 makes the fitting procedure work correctly.
 
-set.seed(1234)
 x2 <- rnorm(100, 1e-4, 2e-4)
 for(i in 6:0)
     cat(i, try(mgedist(x*10^i,"cauchy")$estimate, silent=TRUE), "\n")

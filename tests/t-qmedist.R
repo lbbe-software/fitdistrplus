@@ -1,10 +1,10 @@
 require("fitdistrplus")
 nsample <- 10
+set.seed(123) # here just to make random sampling reproducible
 
 # (1) basic fit of a normal distribution 
 #
 
-set.seed(1234)
 x1 <- rnorm(n=nsample)
 qmedist(x1, "norm", probs=c(1/3, 2/3))
 
@@ -23,7 +23,6 @@ qmedist(x1, "gumbel", probs=c(1/3, 2/3), start=list(a=10,b=5))
 # (3) fit a discrete distribution (Poisson)
 #
 
-set.seed(1234)
 x2 <- rpois(n=nsample,lambda = 2)
 qmedist(x2, "pois", probs=1/2)
 
@@ -32,7 +31,6 @@ qmedist(x2, "pois", probs=1/2)
 # (4) fit a finite-support distribution (beta)
 #
 
-set.seed(1234)
 x3 <- rbeta(n=nsample, shape1=5, shape2=10)
 qmedist(x3, "beta", probs=c(1/3, 2/3))
 
@@ -140,7 +138,6 @@ qmedist(x, "norm", probs=1:2/3, optim.method="Nelder", lower=c(-Inf, 0)) #via co
 
 if(FALSE)
 {
-  set.seed(123)
   obs <- rlnorm(1e7, 3, 2)
   for(i in 2:7)
     cat(i, try(qmedist(obs[1:10^i], "lnorm", probs=1:2/3, control=list(trace=0, REPORT=1))$estimate, silent=TRUE), "\n")

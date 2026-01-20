@@ -1,11 +1,11 @@
 require("fitdistrplus")
 nsample <- 10
+set.seed(123) # here just to make random sampling reproducible
 
 # (1) Plot of an empirical distribution with changing 
 # of default line types for CDF and colors
 # and optionally adding a density line
 #
-set.seed(1234)
 x1 <- rnorm(n=nsample)
 plotdist(x1)
 plotdist(x1, col="blue", type="b", pch=16)
@@ -17,7 +17,6 @@ plotdist(x1, breaks = seq(-3, 2))
 
 # (2) Plot of a discrete distribution against data
 #
-set.seed(1234)
 x2 <- rpois(n=nsample, lambda = 2)
 plotdist(x2, discrete=TRUE)
 plotdist(x2, "pois", para=list(lambda = mean(x2)))

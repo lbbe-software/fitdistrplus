@@ -1,6 +1,6 @@
 require("fitdistrplus")
 
-set.seed(123)
+set.seed(123) # here just to make random sampling reproducible
 
 nsample <- 10
 

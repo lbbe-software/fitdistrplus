@@ -1,5 +1,7 @@
 require("fitdistrplus")
 
+set.seed(123) # here just to make random sampling reproducible
+
 nbboot <- 201
 nbboot <- 10
 ggplotEx <- requireNamespace("ggplot2", quietly = TRUE)
@@ -7,7 +9,6 @@ ggplotEx <- requireNamespace("ggplot2", quietly = TRUE)
 # (1) Fit of a gamma distribution 
 #
 
-set.seed(123)
 s1 <- rgamma(20, 3, 2)
 f1 <- fitdist(s1, "gamma")
 b1 <- bootdist(f1, niter=nbboot, silent=TRUE)
@@ -96,7 +97,6 @@ if(ggplotEx) CIcdfplot(bln, CI.output = "probability", CI.fill = "lightblue", CI
 #     and "quantile" is clear on the plot
 #
 
-set.seed(123)
 s3 <- rgamma(5, 3, 10)
 f3 <- fitdist(s3, "norm")
 b3 <- bootdist(f3, niter=nbboot, silent=TRUE)

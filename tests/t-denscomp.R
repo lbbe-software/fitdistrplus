@@ -4,6 +4,7 @@ require("fitdistrplus")
 visualize <- FALSE # TRUE for manual test with visualization of plots
 nsample <- 1000
 nsample <- 10
+set.seed(123) # here just to make random sampling reproducible
 
 # (1) Plot various distributions fitted to serving size data
 #
@@ -165,7 +166,6 @@ if (visualize)
   
   
   #basic normal distribution
-  set.seed(1234)
   x2 <- c(rnorm(nsample, 5),  rnorm(nsample, 10))
   #MLE fit
   fit1 <- fitdist(x2, "norm2", "mle", start=list(poid=1/3, m1=4, s1=2, m2=8, s2=2),

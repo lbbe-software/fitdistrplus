@@ -1,3 +1,5 @@
+set.seed(123) # here just to make random sampling reproducible
+
 visualize <- FALSE # TRUE for manual tests with visualization of results
 require("fitdistrplus")
 
@@ -19,8 +21,6 @@ fitdist(x, "exp", lower= 2, optim.method="L-BFGS-B")
 
 if(visualize) {  # check ERROR on aarch64-apple-darwin20.4.0 (64-bit) (2021/05/12)
   x <- rbeta(100, pi, 1/pi)
-
-    set.seed(1234)
   fitdist(x, "beta")
   
   #binding example 

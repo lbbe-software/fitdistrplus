@@ -1,6 +1,7 @@
 require("fitdistrplus")
 nbboot <- 100
 nbboot <- 10
+set.seed(123) # here just to make random sampling reproducible
 
 nsample <- 100
 nsample <- 10
@@ -22,7 +23,6 @@ names(fitdist(serving, "gamma", optim.method="Nelder-Mead")$estimate)
 names(fitdist(serving, "gamma", optim.method="BFGS")$estimate)
 # names(fitdist(serving, "gamma", optim.method="CG", start=list(shape=4, rate=1/20))$estimate)
 if(visualize) {  # check ERROR on aarch64-apple-darwin20.4.0 (64-bit) (2021/05/12)
-  set.seed(1234)
   names(fitdist(serving, "gamma", optim.method="L-BFGS-B", lower=0)$estimate)
 }
 
@@ -31,7 +31,6 @@ if(visualize) {  # check ERROR on aarch64-apple-darwin20.4.0 (64-bit) (2021/05/1
 #
 
 #create the sample
-set.seed(1234)
 mysample <- rexp(nsample, 5)
 mystart <- list(rate=8)
 
@@ -95,7 +94,6 @@ if(any(installed.packages()[,"Package"] == "actuar") && visualize)
 {
   require("actuar")
   #simulate a sample
-  set.seed(1234)
   x4 <- rpareto(nsample, 6, 2)
   
   #empirical raw moment
@@ -205,7 +203,6 @@ quantile(fln, probs = 0.05)
 # 
 if(any(installed.packages()[,"Package"] == "mc2d") && visualize)
 {
-  set.seed(1234)
   require("mc2d")
   t <- rtriang(100,min=5,mode=6,max=10) # nsample not used : does not converge with a too small sample
   fCvM <- fitdist(t,"triang",method="mge",start = list(min=4, mode=6,max=9),gof="CvM")
@@ -252,7 +249,6 @@ if (FALSE) # NO INTEREST WITHOUT VISUALIZATION OF THE RESULT
 #if(any(installed.packages()[,"Package"] == "gamlss.dist"))
 #{
 #    require("gamlss.dist")
-#    set.seed(1234)
 #    a=rexGAUS(100,mu=500,sigma=50,nu=75)
 #    fitdist(a,dexGAUS,start=list(mu=median(a),sigma=sqrt(var(a)/2),nu=sqrt(var(a)/2)))
 #}
@@ -307,7 +303,6 @@ summary(f2)
 
 # (23) check the use of weights with MLE
 #
-set.seed(1234)
 x <- rpois(nsample, 10)
 xtab <- table(x)
 xval <- sort(unique(x))
@@ -321,7 +316,6 @@ f2$estimate #should be identical
 # (24) check the use of weights with other methods
 #
 
-set.seed(1234)
 x <- rpois(nsample, 10)
 xtab <- table(x)
 xval <- sort(unique(x))
@@ -340,7 +334,6 @@ try(fitdist(xval, "norm", method="mge", gof = "CvM", weights = xtab)) # not yet 
 
 # (24b) check the use of weights with qme with a discrete distribution
 #
-set.seed(1234)
 x <- rpois(nsample, 10)
 xtab <- table(x)
 xval <- sort(unique(x))

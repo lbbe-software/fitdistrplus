@@ -2,9 +2,9 @@ require("fitdistrplus")
 
 nsample <- 500
 nsample <- 10
-visualize <- FALSE # TRUE for manual tests with visualization of results
-set.seed(1234)
+set.seed(123) # here just to make random sampling reproducible
 
+visualize <- FALSE # TRUE for manual tests with visualization of results
 
 # (1) check input data
 #
@@ -60,7 +60,6 @@ summary(fit.with.genoud)
 #
 if (visualize) # LONG TO RUN ON CRAN AND NEEDS VISALIZATION OF RESULTS
 {
-  set.seed(1234)
   x <- rexp(1e3, 5)
   # x <- data.frame(left=x, right=x+rexp(x, 1/2))
   x <- data.frame(left=x, right=x)

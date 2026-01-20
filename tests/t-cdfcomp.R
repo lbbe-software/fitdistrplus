@@ -4,6 +4,7 @@ require("fitdistrplus")
 visualize <- FALSE # TRUE for manual tests with visualization of results
 nsample <- 1000
 nsample <- 10
+set.seed(123) # here just to make random sampling reproducible
 
 
 # (1) Plot various distributions fitted to serving size data
@@ -231,7 +232,6 @@ pnorm2 <- function(q, poid, m1, s1, m2, s2)
 
 
 # basic normal distribution
-set.seed(1234)
 x2 <- c(rnorm(nsample, 5),  rnorm(nsample, 10))
 # MLE fit
 fit1 <- fitdist(x2, "norm2", "mle", start=list(poid=1/3, m1=4, s1=2, m2=8, s2=2), 
@@ -256,7 +256,6 @@ if (requireNamespace ("ggplot2", quietly = TRUE) & visualize) {
 
 # (6) discrete example
 #
-set.seed(1234)
 x3 <- rpois(20, 10)
 
 fit1 <- fitdist(x3, "pois", "mle")
@@ -288,7 +287,6 @@ if (visualize)
 
 # (8) argument add (must give the same plot (except colors) as ex. 6)
 #
-set.seed(1234)
 x3 <- rpois(nsample, 10)
 
 fit1 <- fitdist(x3, "pois", "mle")

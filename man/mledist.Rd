@@ -195,11 +195,11 @@ Marie-Laure Delignette-Muller and Christophe Dutang.
 }
 
 \examples{
+set.seed(123) # here just to make random sampling reproducible
 
 # (1) basic fit of a normal distribution with maximum likelihood estimation
 #
 
-set.seed(1234)
 x1 <- rnorm(n=100)
 mledist(x1,"norm")
 
@@ -212,14 +212,12 @@ mledist(x1,"gumbel",start=list(a=10,b=5))
 # (3) fit of a discrete distribution (Poisson)
 #
 
-set.seed(1234)
 x2 <- rpois(n=30,lambda = 2)
 mledist(x2,"pois")
 
 # (4) fit a finite-support distribution (beta)
 #
 
-set.seed(1234)
 x3 <- rbeta(n=100,shape1=5, shape2=10)
 mledist(x3,"beta")
 
@@ -249,7 +247,6 @@ mledist(log10EC50,"gumbel",start=list(a=0,b=2),optim.method="Nelder-Mead")
 # the optimization raises an error. The for loop shows how scaling by 10^i
 # for i=1,...,6 makes the fitting procedure work correctly.
 
-set.seed(1234)
 x2 <- rnorm(100, 1e-4, 2e-4)
 for(i in 6:0)
     cat(i, try(mledist(x*10^i, "cauchy")$estimate, silent=TRUE), "\n")

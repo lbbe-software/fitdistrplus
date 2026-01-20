@@ -1,4 +1,5 @@
 require("fitdistrplus")
+set.seed(123) # here just to make random sampling reproducible
 
 data("groundbeef")
 serving <- groundbeef$serving 
@@ -6,7 +7,6 @@ serving <- groundbeef$serving
 # (1) basic fit of a normal distribution with maximum likelihood estimation
 #
 
-set.seed(1234)
 x1 <- rnorm(n=100)
 mledist(x1,"norm")
 
@@ -32,7 +32,6 @@ mledist(x1,"gumbel",start=list(a=10,b=5), silent=FALSE, control=list(trace=1), l
 # (3) fit a discrete distribution (Poisson)
 #
 
-set.seed(1234)
 x2 <- rpois(n=30,lambda = 2)
 mledist(x2,"pois")
 
@@ -41,7 +40,6 @@ mledist(x2,"pois")
 # (4) fit a finite-support distribution (beta)
 #
 
-set.seed(1234)
 x3 <- rbeta(n=100,shape1=5, shape2=10)
 mledist(x3,"beta")
 
@@ -63,7 +61,6 @@ mledist(x4, "nbinom")
 # the optimization raises an error. The for loop shows how scaling by 10^i
 # for i=1,...,6 makes the fitting procedure work correctly.
 
-set.seed(1234)
 x2 <- rnorm(100, 1e-4, 2e-4)
 for(i in 6:0)
   cat(i, try(mledist(x*10^i, "cauchy")$estimate, silent=TRUE), "\n")
@@ -322,7 +319,6 @@ mledist(x, "pois", optim.method="Nelder-Mead", control=list(maxit=10))
 # (15) basic fit of a normal distribution with new fix.arg/start.arg
 #
 
-set.seed(1234)
 x1 <- rnorm(n=100)
 
 #correct usage
@@ -405,7 +401,6 @@ mledist(x, "beta", lower=0, optim.method="BFGS") #optim, L-BFGS-B
 
 if(FALSE)
 {
-  set.seed(123)
   obs <- rlnorm(1e7, 3, 2)
   for(i in 2:7)
     cat(i, try(mledist(obs[1:10^i], "lnorm", control=list(trace=0, REPORT=1))$estimate, silent=TRUE), "\n")
@@ -420,7 +415,6 @@ if(FALSE)
 
 # (20) threshold parameter leading to infinite log-density
 
-set.seed(123)
 dsexp <- function(x, rate, shift)
   dexp(x-shift, rate=rate)
 psexp <- function(x, rate, shift)

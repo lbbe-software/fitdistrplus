@@ -1,6 +1,7 @@
 require("fitdistrplus")
 
 nsample <- 10
+set.seed(123) # here just to make random sampling reproducible
 
 # (1) Fit of a Weibull distribution to serving size data by maximum 
 # goodness-of-fit estimation using all the distances available
@@ -24,7 +25,6 @@ mgedist(serving, "weibull", gof="AD2")$estimate
 # Kolmogorov-Smirnov distance
 # 
 
-set.seed(1234)
 u <- runif(nsample, min=5, max=10)
 mgedist(u, "unif", gof="CvM")$estimate
 mgedist(u, "unif", gof="KS")$estimate
@@ -35,7 +35,6 @@ mgedist(u, "unif", gof="KS")$estimate
 # Kolmogorov-Smirnov distance
 # 
 require("mc2d")
-set.seed(1234)
 v <- rtriang(nsample, min=5, mode=6, max=10)
 mgedist(v, "triang", start = list(min=4, mode=6,max=9), gof="CvM")$estimate
 mgedist(v, "triang", start = list(min=4, mode=6,max=9), gof="KS")$estimate
@@ -48,7 +47,6 @@ mgedist(v, "triang", start = list(min=4, mode=6,max=9), gof="KS")$estimate
 # for i=1,...,6 makes the fitting procedure work correctly.
 if(FALSE)
 {
-  set.seed(1234)
   x2 <- rnorm(nsample, 1e-4, 2e-4)
   for(i in 6:0)
     cat(i, try(mgedist(x2*10^i,"cauchy")$estimate, silent=TRUE), "\n")
@@ -142,7 +140,6 @@ try(mgedist(obs, "weibull", gof="AD", control=list(trace=1, REPORT=1)))
 
 if(FALSE)
 {
-  set.seed(123)
   obs <- rlnorm(1e6, 3, 2)
   for(i in 2:6)
     cat(i, try(mgedist(obs[1:10^i], "lnorm", control=list(trace=0, REPORT=1))$estimate, silent=TRUE), "\n")

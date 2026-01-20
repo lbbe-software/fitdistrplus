@@ -1,10 +1,10 @@
 require("fitdistrplus")
 nsample <- 10
+set.seed(123) # here just to make random sampling reproducible
 
 # (1) basic fit of a normal distribution with moment matching estimation
 #
 
-set.seed(1234)
 x1 <- rnorm(n=nsample)
 mmedist(x1,"norm")
 
@@ -15,7 +15,6 @@ try(mmedist(x1,"norm", fix.arg=list(mean=0)))
 # (2) fit a discrete distribution (Poisson)
 #
 
-set.seed(1234)
 x2 <- rpois(n=nsample, lambda = 2)
 mmedist(x2,"pois")
 
@@ -141,7 +140,6 @@ try(mmedist(1:10, "pois", weights=c(rep(1, 9), 1.0000001), start=list(lambda=mea
 
 # (8) fit of a neg binom distribution with weighted moment matching estimation
 #
-set.seed(1234)
 x4 <- rnbinom(nsample, 5, 1/2)
 table(x4)
 w <- rep(1, length(x4))
@@ -235,7 +233,6 @@ mmedist(x5, "zmgeom", order=1:2, memp=memp2, start=list(p1=mean(x5 == 0), p2=1/m
 if(any(installed.packages()[, "Package"] == "actuar"))
 {
   require("actuar")
-  set.seed(1234)
   #simulate a sample
   x4 <- rpareto(nsample, 6, 2)
   
@@ -255,7 +252,6 @@ if(any(installed.packages()[, "Package"] == "actuar"))
 
 if(FALSE)
 {
-  set.seed(123)
   obs <- rlnorm(1e7, 3, 2)
   for(i in 2:7)
     cat(i, try(mmedist(obs[1:10^i], "lnorm", control=list(trace=0, REPORT=1))$estimate, silent=TRUE), "\n")

@@ -98,10 +98,11 @@ Marie-Laure Delignette-Muller and Christophe Dutang.
 }
 
 \examples{
+set.seed(123) # here just to make random sampling reproducible
+
 # (1) Description of a sample from a normal distribution
 # with and without uncertainty on skewness and kurtosis estimated by bootstrap 
 #
-set.seed(1234)
 x1 <- rnorm(100)
 descdist(x1)
 descdist(x1,boot=11)

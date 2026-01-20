@@ -1,12 +1,13 @@
 require("fitdistrplus")
 nbboot <- 100
 nbboot <- 10
+set.seed(123) # here just to make random sampling reproducible
+
 nsample <- 10
 
 # (1) Description of a sample from a normal distribution
 # with and without uncertainty on skewness and kurtosis estimated by bootstrap 
 #
-set.seed(1234)
 x1 <- rnorm(nsample)
 descdist(x1)
 descdist(x1,boot=nbboot)

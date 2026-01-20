@@ -1,6 +1,8 @@
 require("fitdistrplus")
 nbboot <- 101
 nbboot <- 11
+set.seed(123) # here just to make random sampling reproducible
+
 nsample <- 10
 visualize <- FALSE # TRUE for manual tests with visualization of results
 
@@ -48,7 +50,6 @@ summary(cxx1)
 
 # (5) fixing parameters
 #
-set.seed(1234)
 x <- rexp(nsample, 5)
 x <- data.frame(left=x, right=x+.1)
 

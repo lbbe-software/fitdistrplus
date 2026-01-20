@@ -145,6 +145,7 @@ Marie-Laure Delignette-Muller and Christophe Dutang.
 
 
 \examples{
+set.seed(123) # here just to make random sampling reproducible
 
 # (1) fit of two distributions to the serving size data
 # by maximum likelihood estimation
@@ -182,7 +183,6 @@ gofstat(list(fitp, fitnb),fitnames = c("Poisson","negbin"))
 #     recommended statistics for continuous distributions
 #
 
-set.seed(1234)
 x4 <- rweibull(n=1000,shape=2,scale=1)
 # fit of the good distribution
 f4 <- fitdist(x4,"weibull")

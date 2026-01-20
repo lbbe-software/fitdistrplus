@@ -141,11 +141,11 @@ Christophe Dutang and Marie Laure Delignette-Muller.
 }
 
 \examples{
+set.seed(123) # here just to make random sampling reproducible
 
 # (1) basic fit of a normal distribution 
 #
 
-set.seed(1234)
 x1 <- rnorm(n=100)
 qmedist(x1, "norm", probs=c(1/3, 2/3))
 
@@ -161,14 +161,12 @@ qmedist(x1, "gumbel", probs=c(1/3, 2/3), start=list(a=10,b=5))
 # (3) fit a discrete distribution (Poisson)
 #
 
-set.seed(1234)
 x2 <- rpois(n=30,lambda = 2)
 qmedist(x2, "pois", probs=1/2)
 
 # (4) fit a finite-support distribution (beta)
 #
 
-set.seed(1234)
 x3 <- rbeta(n=100,shape1=5, shape2=10)
 qmedist(x3, "beta", probs=c(1/3, 2/3))
 

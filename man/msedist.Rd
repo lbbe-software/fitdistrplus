@@ -177,6 +177,7 @@ Marie-Laure Delignette-Muller and Christophe Dutang.
 }
 
 \examples{
+set.seed(123) # here just to make random sampling reproducible
 
 # (1) Fit of a Weibull distribution to serving size data by maximum 
 # spacing estimation
@@ -191,7 +192,6 @@ msedist(serving, "weibull")
 # (2) Fit of an exponential distribution 
 # 
 
-set.seed(123)
 x1 <- rexp(1e3)
 #the convergence is quick
 msedist(x1, "exp", control=list(trace=0, REPORT=1))

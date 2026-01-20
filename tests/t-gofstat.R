@@ -1,5 +1,7 @@
 require("fitdistrplus")
 
+set.seed(123) # here just to make random sampling reproducible
+
 # (1) fit of two distributions by maximum likelihood estimation
 # to the serving size data
 # and comparison of goodness-of-fit statistics
@@ -42,7 +44,6 @@ attributes(gofstat(list(fitp, fitnb)))
 #     recommended statistics for continuous distributions
 #
 
-set.seed(1234)
 x4 <- rweibull(n=10,shape=2,scale=1)
 # fit of the good distribution
 f4 <- fitdist(x4, "weibull")
@@ -65,7 +66,6 @@ gofstat(f1b)
 # no pb identified
 #
 
-set.seed(1234)
 x5a <- rweibull(n=4,shape=2,scale=1)
 f5a <- fitdist(x5a, "weibull")
 (g5a  <- gofstat(f5a))
@@ -77,7 +77,6 @@ f5b <- fitdist(x5b, "pois")
 nsample <- 500
 nsample <- 10
 visualize <- FALSE # TRUE for manual tests with visualization of results
-set.seed(1234)
 
 # (6) censored dataset
 #

@@ -1,9 +1,8 @@
 require("fitdistrplus")
 nboot <- 1000
 nboot <- 10
+set.seed(123) # here just to make random sampling reproducible
 nsample <- 10
-
-set.seed(123)
 
 #manual implementation
 geomeanspacing <- function(pdist, obs, ...)

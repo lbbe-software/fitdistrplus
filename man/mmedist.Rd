@@ -168,11 +168,11 @@ Marie-Laure Delignette-Muller and Christophe Dutang.
 }
 
 \examples{
+set.seed(123) # here just to make random sampling reproducible
 
 # (1) basic fit of a normal distribution with moment matching estimation
 #
 
-set.seed(1234)
 n <- 100
 x1 <- rnorm(n=n)
 mmedist(x1, "norm")
@@ -185,14 +185,12 @@ mmedist(x1, "norm", weights=w)$estimate
 # (2) fit a discrete distribution (Poisson)
 #
 
-set.seed(1234)
 x2 <- rpois(n=30,lambda = 2)
 mmedist(x2, "pois")
 
 # (3) fit a finite-support distribution (beta)
 #
 
-set.seed(1234)
 x3 <- rbeta(n=100,shape1=5, shape2=10)
 mmedist(x3, "beta")
 

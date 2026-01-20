@@ -5,6 +5,8 @@ require("fitdistrplus")
 nbboot <- 1001
 nbboot <- 11
 
+set.seed(123) # here just to make random sampling reproducible
+
 nsample <- 100
 nsample <- 10
 
@@ -37,7 +39,6 @@ plot(b1, enhance=TRUE, rampcol=c("blue", "green"), nbgrid=15, nbcol=15)
 if(any(installed.packages()[, "Package"] == "actuar") && visualize)
 {
   require("actuar")
-  set.seed(123)
   f1 <- fitdist(rburr(nsample, 2, 3, 1), "burr", start=list(shape1=10, shape2=10, rate=1))
   b1 <- bootdist(f1, niter=nbboot, silent=TRUE)
   plot(b1)
@@ -67,7 +68,6 @@ summary(b1d)
 # method,  followed by parametric bootstrap
 #
 if(visualize) { # check ERROR on aarch64-apple-darwin20.4.0 (64-bit) (2021/05/12)
-  set.seed(1234)
   f1e <- fitdist(serving, "gamma", optim.method="L-BFGS-B", lower=c(0, 0))
   b1e <- bootdist(f1e, niter=nbboot)
   summary(b1e)
@@ -76,7 +76,6 @@ if(visualize) { # check ERROR on aarch64-apple-darwin20.4.0 (64-bit) (2021/05/12
 # (6) fit of a discrete distribution by matching moment estimation 
 # (using a closed formula) followed by parametric bootstrap
 #
-set.seed(1234)
 x2 <- rpois(nsample, lambda = 5)
 f2 <- fitdist(x2, "pois", method="mme")
 b2 <- bootdist(f2, niter=nbboot)
@@ -162,7 +161,6 @@ if (visualize)
 if(any(installed.packages()[, "Package"] == "mc2d"))
 {
   require("mc2d")
-  set.seed(1234)
   x4 <- rtriang(100,min=0,mode=4,max=20) # nsample not used : does not converge if the sample is too small
   fit4t<-fitdist(x4,dtriang,start=list(min=0,mode=4,max=20))
   summary(fit4t)

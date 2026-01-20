@@ -307,6 +307,7 @@ Marie-Laure Delignette-Muller and Christophe Dutang.
 }
 
 \examples{
+set.seed(123) # here just to make random sampling reproducible
 
 # (1) fit of a gamma distribution by maximum likelihood estimation
 #
@@ -386,7 +387,6 @@ fitdist(serving, "gamma", optim.method="SANN")
 #
 \donttest{
 #create the sample
-set.seed(1234)
 mysample <- rexp(100, 5)
 mystart <- list(rate=8)
 
@@ -516,7 +516,6 @@ denscomp(list(f1, f2, f3, f4, f5, f6, f7, f8))
 # or maximum goodness-of-fit with Cramer-von Mises or Kolmogorov-Smirnov distance
 # 
 
-set.seed(1234)
 u <- runif(50, min=5, max=10)
 
 fumle <- fitdist(u, "unif", method="mle")
@@ -539,7 +538,6 @@ gofstat(fuKS)
 # the optimization raises an error. The for loop shows how scaling by 10^i
 # for i=1,...,6 makes the fitting procedure work correctly.
 
-set.seed(1234)
 x2 <- rnorm(100, 1e-4, 2e-4)
 
 for(i in 0:6)
@@ -566,7 +564,6 @@ quantile(fln, probs = c(0.05, 0.1, 0.2))
 # 
 
 \donttest{
-set.seed(1234)
 require("mc2d")
 t <- rtriang(100, min=5, mode=6, max=10)
 fCvM <- fitdist(t, "triang", method="mge", start = list(min=4, mode=6,max=9), gof="CvM")
@@ -578,16 +575,20 @@ cdfcomp(list(fCvM,fKS))
 #
 \donttest{
 require("gamlss.dist")
-set.seed(1234)
-x <- rZIP(n = 30, mu = 5, sigma = 0.2)
-plotdist(x, discrete = TRUE)
-fitzip <- fitdist(x, "ZIP", start =  list(mu = 4, sigma = 0.15), discrete = TRUE, 
+  # depending of the random sample, the fit may fail
+  # it is why the seed was redefined here 
+  # for you to get a sample on which it works
+  set.seed(1234)
+  x <- rZIP(n = 30, mu = 5, sigma = 0.2)
+  plotdist(x, discrete = TRUE)
+
+  fitzip <- fitdist(x, "ZIP", start =  list(mu = 4, sigma = 0.15), discrete = TRUE, 
   optim.method = "L-BFGS-B", lower = c(0, 0), upper = c(Inf, 1))
-summary(fitzip)
-plot(fitzip)
-fitp <- fitdist(x, "pois")
-cdfcomp(list(fitzip, fitp))
-gofstat(list(fitzip, fitp))
+    summary(fitzip)
+    plot(fitzip)
+    fitp <- fitdist(x, "pois")
+    cdfcomp(list(fitzip, fitp))
+    gofstat(list(fitzip, fitp))
 }
 
 

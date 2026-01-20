@@ -1,7 +1,7 @@
 require("fitdistrplus")
 
 visualize <- FALSE # TRUE for manual tests with visualization of results
-set.seed(123)
+set.seed(123) # here just to make random sampling reproducible
 n <- 20
 if (visualize)
 {

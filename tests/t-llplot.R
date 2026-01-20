@@ -2,6 +2,7 @@ require("fitdistrplus")
 visualize <- FALSE # TRUE for manual tests with visualization of results
 nsample <- 10000
 nsample <- 10
+set.seed(123) # here just to make random sampling reproducible
 
 # (1) tests with the Burr distribution (three parameters)
 #
@@ -27,7 +28,6 @@ if(any(installed.packages()[, "Package"] == "actuar"))
 
 # (2) An example on discrete data with or without weights
 #
-set.seed(1234)
 x <- rpois(nsample, 10)
 xtab <- table(x)
 xval <- sort(unique(x))

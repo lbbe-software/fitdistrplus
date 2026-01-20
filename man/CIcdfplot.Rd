@@ -107,12 +107,13 @@ Christophe Dutang and Marie-Laure Delignette-Muller.
 # constraint.
 # For practical applications, we recommend to use at least niter=501 or niter=1001.
 
+set.seed(123) # here just to make random sampling reproducible
+
 if (requireNamespace ("ggplot2", quietly = TRUE)) {ggplotEx <- TRUE}
 
 # (1) Fit of an exponential distribution
 #
 
-set.seed(123)
 s1 <- rexp(50, 1)
 f1 <- fitdist(s1, "exp")
 b1 <- bootdist(f1, niter= 11) #voluntarily low to decrease computation time
