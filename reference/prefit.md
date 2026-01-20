@@ -168,15 +168,17 @@ Christophe Dutang and Marie-Laure Delignette-Muller.
 ## Examples
 
 ``` r
+set.seed(123) # here just to make random sampling reproducible
+
 # (1) fit of a gamma distribution by maximum likelihood estimation
 #
 x <- rgamma(1e3, 5/2, 7/2)
 
 prefit(x, "gamma", "mle", list(shape=3, scale=3), lower=-Inf, upper=Inf)
 #> $shape
-#> [1] 2.576693
+#> [1] 2.671733
 #> 
 #> $scale
-#> [1] 3.69686
+#> [1] 3.901235
 #> 
 ```

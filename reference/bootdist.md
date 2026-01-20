@@ -273,6 +273,7 @@ Marie-Laure Delignette-Muller and Christophe Dutang.
 # constraint.
 # For practical applications, we recommend to use at least niter=501 or niter=1001.
 
+set.seed(123) # here just to make random sampling reproducible
 
 # (1) Fit of a gamma distribution to serving size data
 # using default method (maximum likelihood estimation)
@@ -285,12 +286,12 @@ b1 <- bootdist(f1, niter=51)
 print(b1)
 #> Parameter values obtained with parametric bootstrap 
 #>      shape       rate
-#> 1 4.081548 0.05486224
-#> 2 4.189530 0.05717646
-#> 3 4.186561 0.05827691
-#> 4 4.153367 0.06010613
-#> 5 5.011150 0.07210224
-#> 6 4.332796 0.05647597
+#> 1 4.212554 0.05996094
+#> 2 4.340921 0.06000622
+#> 3 4.073375 0.05552513
+#> 4 3.845651 0.05427429
+#> 5 4.194284 0.05601680
+#> 6 3.812139 0.05111551
 plot(b1)
 
 plot(b1, enhance=TRUE)
@@ -298,8 +299,8 @@ plot(b1, enhance=TRUE)
 summary(b1)
 #> Parametric bootstrap medians and 95% percentile CI 
 #>           Median       2.5%      97.5%
-#> shape 4.11174269 3.33866627 5.05787399
-#> rate  0.05532224 0.04714105 0.07039183
+#> shape 4.15104594 3.34046628 4.90950540
+#> rate  0.05679841 0.04571069 0.06890783
 quantile(b1)
 #> (original) estimated quantiles for each specified probability (non-censored data)
 #>             p=0.1    p=0.2    p=0.3    p=0.4    p=0.5    p=0.6    p=0.7
@@ -308,17 +309,17 @@ quantile(b1)
 #> estimate 101.5208 122.9543
 #> Median of bootstrap estimates
 #>             p=0.1    p=0.2    p=0.3    p=0.4    p=0.5    p=0.6    p=0.7
-#> estimate 32.65191 42.77486 51.16946 59.25783 67.54032 76.42359 87.07212
+#> estimate 32.08309 42.39622 50.90926 59.00348 67.09501 76.57024 87.10971
 #>             p=0.8    p=0.9
-#> estimate 100.8478 121.5045
+#> estimate 100.7966 121.6413
 #> 
 #> two-sided 95 % CI of each quantile
 #>           p=0.1    p=0.2    p=0.3    p=0.4    p=0.5    p=0.6    p=0.7     p=0.8
-#> 2.5 %  27.78104 37.70176 45.79023 53.77101 62.30589 71.51079 81.58248  93.57508
-#> 97.5 % 35.20921 45.25381 53.86981 62.27518 71.23506 81.28761 93.12187 107.81119
+#> 2.5 %  28.38291 38.60850 47.34299 55.47748 63.76341 72.42823 82.07640  94.18397
+#> 97.5 % 35.50722 45.92833 54.68875 63.05277 71.83915 81.23027 92.03456 106.37599
 #>           p=0.9
-#> 2.5 %  112.6206
-#> 97.5 % 130.6195
+#> 2.5 %  113.3739
+#> 97.5 % 129.3437
 CIcdfplot(b1, CI.output = "quantile")
 
 density(b1)
@@ -332,9 +333,9 @@ plot(density(b1))
 b1b <- bootdist(f1, bootmethod="nonparam", niter=51) 
 summary(b1b)
 #> Nonparametric bootstrap medians and 95% percentile CI 
-#>           Median       2.5%      97.5%
-#> shape 4.07620083 3.45714119 4.70574875
-#> rate  0.05554833 0.04814463 0.06355013
+#>         Median       2.5%      97.5%
+#> shape 3.956460 3.50471143 4.81001129
+#> rate  0.054112 0.04729992 0.06716172
 quantile(b1b)
 #> (original) estimated quantiles for each specified probability (non-censored data)
 #>             p=0.1    p=0.2    p=0.3    p=0.4    p=0.5    p=0.6    p=0.7
@@ -343,17 +344,17 @@ quantile(b1b)
 #> estimate 101.5208 122.9543
 #> Median of bootstrap estimates
 #>             p=0.1    p=0.2    p=0.3    p=0.4    p=0.5    p=0.6    p=0.7
-#> estimate 32.15396 42.37584 50.96144 58.92657 67.42331 76.79944 87.14609
-#>             p=0.8   p=0.9
-#> estimate 100.2863 121.457
+#> estimate 31.80216 41.79758 50.50144 58.77236 67.23737 76.63013 87.58129
+#>             p=0.8    p=0.9
+#> estimate 101.2415 122.7574
 #> 
 #> two-sided 95 % CI of each quantile
 #>           p=0.1    p=0.2    p=0.3    p=0.4    p=0.5    p=0.6    p=0.7     p=0.8
-#> 2.5 %  28.98195 38.64795 47.20053 55.45966 63.67865 72.26101 82.41641  95.36231
-#> 97.5 % 36.61241 46.92714 55.51564 63.66138 71.97465 80.97711 91.55170 105.36847
+#> 2.5 %  29.20585 39.00841 47.27673 55.44208 63.53759 72.05392 81.78703  94.34323
+#> 97.5 % 35.82375 46.10281 54.74061 62.95224 71.34868 80.56793 91.36288 105.53125
 #>           p=0.9
-#> 2.5 %  115.1418
-#> 97.5 % 127.5526
+#> 2.5 %  113.7319
+#> 97.5 % 128.7492
 
 
 # (3) Fit of a normal distribution on acute toxicity values of endosulfan in log10 for
@@ -374,13 +375,13 @@ quantile(bln, probs = c(0.05, 0.1, 0.2))
 #>            p=0.05    p=0.1  p=0.2
 #> estimate 1.744227 2.080093 2.4868
 #> Median of bootstrap estimates
-#>            p=0.05   p=0.1    p=0.2
-#> estimate 1.927721 2.24123 2.570288
+#>           p=0.05    p=0.1    p=0.2
+#> estimate 1.86876 2.180432 2.615232
 #> 
 #> two-sided 95 % CI of each quantile
-#>           p=0.05    p=0.1    p=0.2
-#> 2.5 %  0.9768477 1.397718 1.937638
-#> 97.5 % 2.4716633 2.703313 2.983822
+#>         p=0.05    p=0.1    p=0.2
+#> 2.5 %  1.37566 1.729433 2.186051
+#> 97.5 % 2.79308 2.986272 3.237189
 
 # (4) comparison of sequential and parallel versions of bootstrap
 # to be tried with a greater number of iterations (1001 or more)
@@ -396,11 +397,11 @@ ptm <- proc.time()
 summary(bootdist(f1, niter = niter))
 #> Parametric bootstrap medians and 95% percentile CI 
 #>           Median       2.5%      97.5%
-#> shape 4.02419491 3.47031893 4.73319322
-#> rate  0.05457466 0.04623237 0.06478125
+#> shape 4.02759987 3.38936853 4.79038017
+#> rate  0.05465955 0.04584153 0.06559032
 proc.time() - ptm
 #>    user  system elapsed 
-#>   4.164   0.000   4.165 
+#>   4.012   0.000   4.016 
 
 # parallel version using snow
 require("parallel")
@@ -409,21 +410,21 @@ ptm <- proc.time()
 summary(bootdist(f1, niter = niter, parallel = "snow", ncpus = 2))
 #> Parametric bootstrap medians and 95% percentile CI 
 #>           Median       2.5%      97.5%
-#> shape 4.02295676 3.44821335 4.75696688
-#> rate  0.05449994 0.04620417 0.06557893
+#> shape 4.03717027 3.42095789 4.78943116
+#> rate  0.05477864 0.04620101 0.06603422
 proc.time() - ptm
 #>    user  system elapsed 
-#>   0.038   0.003   3.875 
+#>   0.035   0.004   3.699 
 
 # parallel version using multicore (not available on Windows)
 ptm <- proc.time()
 summary(bootdist(f1, niter = niter, parallel = "multicore", ncpus = 2))
 #> Parametric bootstrap medians and 95% percentile CI 
-#>           Median       2.5%      97.5%
-#> shape 4.04594150 3.47586081 4.74328466
-#> rate  0.05490323 0.04682605 0.06512702
+#>           Median       2.5%     97.5%
+#> shape 4.02586191 3.45250533 4.7634281
+#> rate  0.05466294 0.04663766 0.0655417
 proc.time() - ptm
 #>    user  system elapsed 
-#>   4.235   0.279   2.276 
+#>   4.177   0.261   2.236 
 # }
 ```
