@@ -2,6 +2,8 @@ require("fitdistrplus")
 nbboot <- 100
 nbboot <- 10
 
+set.seed(123) # here just to make random sampling reproducible
+
 nsample <- 100
 nsample <- 10
 

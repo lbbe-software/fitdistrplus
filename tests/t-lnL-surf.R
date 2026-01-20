@@ -2,6 +2,8 @@ require("fitdistrplus")
 nsample <- 1000
 nsample <- 10
 
+set.seed(123) # here just to make random sampling reproducible
+
 
 #(1) beta distribution
 #

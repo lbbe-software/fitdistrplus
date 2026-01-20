@@ -1,5 +1,7 @@
 require("fitdistrplus")
 
+set.seed(123) # here just to make random sampling reproducible
+
 
 
 #an example with lower bounds for gamma

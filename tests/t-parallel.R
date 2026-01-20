@@ -1,5 +1,7 @@
 visualize <- FALSE # TRUE for manual tests with visualization of results
 
+set.seed(123) # here just to make random sampling reproducible
+
 if(visualize)
 {
   

@@ -2,6 +2,8 @@ require("fitdistrplus")
 nsample <- 1e3
 nsample <- 10
 
+set.seed(123) # here just to make random sampling reproducible
+
 #### (1) Gamma example ####
 
 truetheta <- c("alpha"=0.19, "beta"=5.18)

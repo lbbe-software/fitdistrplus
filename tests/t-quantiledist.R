@@ -2,6 +2,7 @@ require("fitdistrplus")
 nbboot <- 1001
 nbboot <- 10
 
+set.seed(123) # here just to make random sampling reproducible
 
 # (1) Fit of a normal distribution on acute toxicity log-transformed values of endosulfan for
 # nonarthropod invertebrates, using maximum likelihood estimation
