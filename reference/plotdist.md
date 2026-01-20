@@ -125,11 +125,12 @@ Marie-Laure Delignette-Muller and Christophe Dutang.
 ## Examples
 
 ``` r
+set.seed(123) # here just to make random sampling reproducible
+
 # (1) Plot of an empirical distribution with changing 
 # of default line types for CDF and colors
 # and optionally adding a density line
 #
-set.seed(1234)
 x1 <- rnorm(n=30)
 plotdist(x1)
 
@@ -153,7 +154,6 @@ plotdist(x1, type="s")
 
 # (2) Plot of a discrete distribution against data
 #
-set.seed(1234)
 x2 <- rpois(n=30, lambda = 2)
 plotdist(x2, discrete=TRUE)
 

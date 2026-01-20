@@ -236,6 +236,8 @@ Marie-Laure Delignette-Muller and Christophe Dutang.
 ## Examples
 
 ``` r
+set.seed(123) # here just to make random sampling reproducible
+
 # (1) Fit of a Weibull distribution to serving size data by maximum 
 # goodness-of-fit estimation using all the distances available
 # 
@@ -600,23 +602,22 @@ mgedist(serving, "weibull", gof="AD2")
 # Kolmogorov-Smirnov distance
 # 
 
-set.seed(1234)
 u <- runif(100,min=5,max=10)
 mgedist(u,"unif",gof="CvM")
 #> $estimate
 #>      min      max 
-#> 4.788260 9.568912 
+#> 5.037213 9.948626 
 #> 
 #> $convergence
 #> [1] 0
 #> 
 #> $value
-#> [1] 0.001142423
+#> [1] 0.0002131867
 #> 
 #> $hessian
 #>            min        max
-#> min 0.02906956 0.01461523
-#> max 0.01461523 0.02570923
+#> min 0.02679927 0.01382797
+#> max 0.01382797 0.02679853
 #> 
 #> $optim.function
 #> [1] "optim"
@@ -635,7 +636,7 @@ mgedist(u,"unif",gof="CvM")
 #> 
 #> $counts
 #> function gradient 
-#>       59       NA 
+#>       79       NA 
 #> 
 #> $optim.message
 #> NULL
@@ -649,18 +650,18 @@ mgedist(u,"unif",gof="CvM")
 mgedist(u,"unif",gof="KS")
 #> $estimate
 #>      min      max 
-#> 4.664535 9.463995 
+#> 5.015314 9.888292 
 #> 
 #> $convergence
 #> [1] 0
 #> 
 #> $value
-#> [1] 0.08
+#> [1] 0.0428921
 #> 
 #> $hessian
 #>           min       max
-#> min  43.06566 -33.35097
-#> max -33.35097 -61.06933
+#> min 145.68231  19.49759
+#> max  19.49759 142.63348
 #> 
 #> $optim.function
 #> [1] "optim"
@@ -679,7 +680,7 @@ mgedist(u,"unif",gof="KS")
 #> 
 #> $counts
 #> function gradient 
-#>       29       NA 
+#>      113       NA 
 #> 
 #> $optim.message
 #> NULL
@@ -697,25 +698,24 @@ mgedist(u,"unif",gof="KS")
 
 # \donttest{
 require("mc2d")
-set.seed(1234)
 t <- rtriang(100,min=5,mode=6,max=10)
 mgedist(t,"triang",start = list(min=4, mode=6,max=9),gof="CvM")
 #> Warning: Some parameter names have no starting/fixed value but have a default value: mean.
 #> $estimate
 #>      min     mode      max 
-#> 5.051036 5.796428 9.391579 
+#> 5.429906 5.971934 9.636604 
 #> 
 #> $convergence
 #> [1] 0
 #> 
 #> $value
-#> [1] 0.0006428299
+#> [1] 0.0003794627
 #> 
 #> $hessian
 #>             min       mode        max
-#> min  0.03051858 0.03248860 0.01522501
-#> mode 0.03248860 0.03821007 0.01800899
-#> max  0.01522501 0.01800899 0.01593900
+#> min  0.03331760 0.03504449 0.01591392
+#> mode 0.03504449 0.03908299 0.01802510
+#> max  0.01591392 0.01802510 0.01558397
 #> 
 #> $optim.function
 #> [1] "optim"
@@ -734,7 +734,7 @@ mgedist(t,"triang",start = list(min=4, mode=6,max=9),gof="CvM")
 #> 
 #> $counts
 #> function gradient 
-#>      106       NA 
+#>       84       NA 
 #> 
 #> $optim.message
 #> NULL
@@ -749,19 +749,19 @@ mgedist(t,"triang",start = list(min=4, mode=6,max=9),gof="KS")
 #> Warning: Some parameter names have no starting/fixed value but have a default value: mean.
 #> $estimate
 #>      min     mode      max 
-#> 4.939094 5.813200 9.248592 
+#> 5.529346 5.861222 9.676341 
 #> 
 #> $convergence
 #> [1] 0
 #> 
 #> $value
-#> [1] 0.06191245
+#> [1] 0.04535746
 #> 
 #> $hessian
-#>            min     mode       max
-#> min  158.93759 158.9436  70.39038
-#> mode 158.94358 199.0473  70.39510
-#> max   70.39038  70.3951 106.08995
+#>            min      mode       max
+#> min  138.62266 138.63822  48.79111
+#> mode 138.63822 150.67871  50.89331
+#> max   48.79111  50.89331 113.65007
 #> 
 #> $optim.function
 #> [1] "optim"
@@ -780,7 +780,7 @@ mgedist(t,"triang",start = list(min=4, mode=6,max=9),gof="KS")
 #> 
 #> $counts
 #> function gradient 
-#>      268       NA 
+#>      206       NA 
 #> 
 #> $optim.message
 #> NULL
@@ -798,7 +798,6 @@ mgedist(t,"triang",start = list(min=4, mode=6,max=9),gof="KS")
 # the optimization raises an error. The for loop shows how scaling by 10^i
 # for i=1,...,6 makes the fitting procedure work correctly.
 
-set.seed(1234)
 x2 <- rnorm(100, 1e-4, 2e-4)
 for(i in 6:0)
     cat(i, try(mgedist(x*10^i,"cauchy")$estimate, silent=TRUE), "\n")

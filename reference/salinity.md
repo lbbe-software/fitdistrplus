@@ -95,8 +95,8 @@ HC5ln <- quantile(bln, probs = 0.05)
 #> estimate 13.0569
 10^(HC5ln$quantCI)
 #>          p=0.05
-#> 2.5 %  11.10037
-#> 97.5 % 15.51247
+#> 2.5 %  10.99564
+#> 97.5 % 15.29291
 
 # (5) estimation of the HC5 value
 # with its one-sided 95 percent confidence interval (type "greater")
@@ -110,5 +110,5 @@ HC5lnb <- quantile(bln, probs = 0.05, CI.type = "greater")
 #> estimate 13.0569
 10^(HC5lnb$quantCI)
 #>       p=0.05
-#> 5 % 11.28664
+#> 5 % 11.27824
 ```

@@ -174,9 +174,9 @@ x <- rgamma(1e3, 5/2, 7/2)
 
 prefit(x, "gamma", "mle", list(shape=3, scale=3), lower=-Inf, upper=Inf)
 #> $shape
-#> [1] 2.589667
+#> [1] 2.576693
 #> 
 #> $scale
-#> [1] 3.570441
+#> [1] 3.69686
 #> 
 ```

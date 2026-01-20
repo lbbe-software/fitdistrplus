@@ -476,6 +476,8 @@ Marie-Laure Delignette-Muller and Christophe Dutang.
 ## Examples
 
 ``` r
+set.seed(123) # here just to make random sampling reproducible
+
 # (1) fit of a gamma distribution by maximum likelihood estimation
 #
 
@@ -678,14 +680,13 @@ fitdist(serving, "gamma", optim.method="SANN")
 #> Fitting of the distribution ' gamma ' by maximum likelihood 
 #> Parameters:
 #>         estimate  Std. Error
-#> shape 3.94902092 0.336099391
-#> rate  0.05370886 0.004872886
+#> shape 4.21183859 0.359345812
+#> rate  0.05719058 0.005180698
 
 # (7) custom optimization function
 #
 # \donttest{
 #create the sample
-set.seed(1234)
 mysample <- rexp(100, 5)
 mystart <- list(rate=8)
 
@@ -696,8 +697,8 @@ summary(res1)
 #> Fitting of the distribution ' exp ' by maximum likelihood 
 #> Parameters : 
 #>      estimate Std. Error
-#> rate 5.120312  0.5120312
-#> Loglikelihood:  63.32596   AIC:  -124.6519   BIC:  -122.0467 
+#> rate 4.785937  0.4785937
+#> Loglikelihood:  56.57608   AIC:  -111.1522   BIC:  -108.547 
 
 #the warning tell us to use optimise, because the Nelder-Mead is not adequate.
 
@@ -722,8 +723,8 @@ summary(res2)
 #> Fitting of the distribution ' exp ' by maximum likelihood 
 #> Parameters : 
 #>      estimate
-#> rate 5.120531
-#> Loglikelihood:  63.32596   AIC:  -124.6519   BIC:  -122.0467 
+#> rate 4.786311
+#> Loglikelihood:  56.57608   AIC:  -111.1522   BIC:  -108.547 
 # }
 
 
@@ -769,7 +770,7 @@ summary(res2)
 #> ##
 #> 
 #> 
-#> Mon Jan 19 10:13:09 2026
+#> Tue Jan 20 16:10:22 2026
 #> Domains:
 #>  0.000000e+00   <=  X1   <=    1.000000e+01 
 #>  0.000000e+00   <=  X2   <=    1.000000e+01 
@@ -809,26 +810,26 @@ summary(res2)
 #> 
 #> Parameters at the Solution (parameter, gradient):
 #> 
-#>  X[ 1] : 4.008339e+00    G[ 1] : 6.842735e-09
-#>  X[ 2] : 5.442736e-02    G[ 2] : -1.863593e-07
+#>  X[ 1] : 4.008339e+00    G[ 1] : -7.615302e-09
+#>  X[ 2] : 5.442735e-02    G[ 2] : 3.076197e-07
 #> 
 #> Solution Found Generation 1
 #> Number of Generations Run 11
 #> 
-#> Mon Jan 19 10:13:10 2026
+#> Tue Jan 20 16:10:23 2026
 #> Total run time : 0 hours 0 minutes and 1 seconds
 
     summary(fit2)
 #> Fitting of the distribution ' gamma ' by maximum likelihood 
 #> Parameters : 
 #>         estimate  Std. Error
-#> shape 4.00833917 0.341343852
-#> rate  0.05442736 0.004936216
+#> shape 4.00833894 0.341343832
+#> rate  0.05442735 0.004936215
 #> Loglikelihood:  -1253.625   AIC:  2511.25   BIC:  2518.325 
 #> Correlation matrix:
 #>           shape      rate
-#> shape 1.0000000 0.9384395
-#> rate  0.9384395 1.0000000
+#> shape 1.0000000 0.9384394
+#> rate  0.9384394 1.0000000
 #> 
 # }
 
@@ -1008,7 +1009,6 @@ denscomp(list(f1, f2, f3, f4, f5, f6, f7, f8))
 # or maximum goodness-of-fit with Cramer-von Mises or Kolmogorov-Smirnov distance
 # 
 
-set.seed(1234)
 u <- runif(50, min=5, max=10)
 
 fumle <- fitdist(u, "unif", method="mle")
@@ -1016,38 +1016,38 @@ summary(fumle)
 #> Fitting of the distribution ' unif ' by maximum likelihood 
 #> Parameters : 
 #>     estimate
-#> min 5.047479
-#> max 9.960752
-#> Loglikelihood:  -79.59702   AIC:  163.194   BIC:  167.0181 
+#> min 5.100788
+#> max 9.925639
+#> Loglikelihood:  -78.689   AIC:  161.378   BIC:  165.202 
 plot(fumle)
 
 gofstat(fumle)
 #> Goodness-of-fit statistics
 #>                              1-mle-unif
-#> Kolmogorov-Smirnov statistic  0.1340723
-#> Cramer-von Mises statistic    0.1566892
+#> Kolmogorov-Smirnov statistic  0.1314321
+#> Cramer-von Mises statistic    0.1726303
 #> Anderson-Darling statistic          Inf
 #> 
 #> Goodness-of-fit criteria
 #>                                1-mle-unif
-#> Akaike's Information Criterion   163.1940
-#> Bayesian Information Criterion   167.0181
+#> Akaike's Information Criterion    161.378
+#> Bayesian Information Criterion    165.202
 
 fuCvM <- fitdist(u, "unif", method="mge", gof="CvM")
 summary(fuCvM)
 #> Fitting of the distribution ' unif ' by maximum goodness-of-fit 
 #> Parameters : 
-#>     estimate
-#> min 5.110497
-#> max 9.552878
+#>      estimate
+#> min  5.357159
+#> max 10.103398
 #> Loglikelihood:  -Inf   AIC:  Inf   BIC:  Inf 
 plot(fuCvM)
 
 gofstat(fuCvM)
 #> Goodness-of-fit statistics
 #>                              1-mge-unif
-#> Kolmogorov-Smirnov statistic 0.11370966
-#> Cramer-von Mises statistic   0.07791651
+#> Kolmogorov-Smirnov statistic 0.08703740
+#> Cramer-von Mises statistic   0.08128704
 #> Anderson-Darling statistic          Inf
 #> 
 #> Goodness-of-fit criteria
@@ -1059,17 +1059,17 @@ fuKS <- fitdist(u, "unif", method="mge", gof="KS")
 summary(fuKS)
 #> Fitting of the distribution ' unif ' by maximum goodness-of-fit 
 #> Parameters : 
-#>     estimate
-#> min 5.092357
-#> max 9.323818
+#>      estimate
+#> min  5.386917
+#> max 10.141086
 #> Loglikelihood:  -Inf   AIC:  Inf   BIC:  Inf 
 plot(fuKS)
 
 gofstat(fuKS)
 #> Goodness-of-fit statistics
 #>                              1-mge-unif
-#> Kolmogorov-Smirnov statistic 0.09216159
-#> Cramer-von Mises statistic   0.12241830
+#> Kolmogorov-Smirnov statistic 0.07986562
+#> Cramer-von Mises statistic   0.08369415
 #> Anderson-Darling statistic          Inf
 #> 
 #> Goodness-of-fit criteria
@@ -1082,7 +1082,6 @@ gofstat(fuKS)
 # the optimization raises an error. The for loop shows how scaling by 10^i
 # for i=1,...,6 makes the fitting procedure work correctly.
 
-set.seed(1234)
 x2 <- rnorm(100, 1e-4, 2e-4)
 
 for(i in 0:6)
@@ -1099,11 +1098,11 @@ for(i in 0:6)
 #>                 with the error code 100
 #> 
 #>  
-#> 2 0.001870693 0.01100646 
-#> 3 0.01871473 0.1100713 
-#> 4 0.1870693 1.100646 
-#> 5 1.876032 11.0131 
-#> 6 18.76032 110.131 
+#> 2 0.008532115 0.01042502 
+#> 3 0.08531779 0.1042657 
+#> 4 0.8532115 1.042502 
+#> 5 8.531511 10.42933 
+#> 6 85.31511 104.2933 
 
 # (15) Fit of a normal distribution on acute toxicity values of endosulfan in log10 for
 # nonarthropod invertebrates, using maximum likelihood estimation
@@ -1132,7 +1131,6 @@ quantile(fln, probs = c(0.05, 0.1, 0.2))
 # 
 
 # \donttest{
-set.seed(1234)
 require("mc2d")
 #> Loading required package: mc2d
 #> Loading required package: mvtnorm
@@ -1155,15 +1153,19 @@ cdfcomp(list(fCvM,fKS))
 # \donttest{
 require("gamlss.dist")
 #> Loading required package: gamlss.dist
-set.seed(1234)
-x <- rZIP(n = 30, mu = 5, sigma = 0.2)
-plotdist(x, discrete = TRUE)
+  # depending of the random sample, the fit may fail
+  # it is why the seed was redefined here 
+  # for you to get a sample on which it works
+  set.seed(1234)
+  x <- rZIP(n = 30, mu = 5, sigma = 0.2)
+  plotdist(x, discrete = TRUE)
 
-fitzip <- fitdist(x, "ZIP", start =  list(mu = 4, sigma = 0.15), discrete = TRUE, 
+
+  fitzip <- fitdist(x, "ZIP", start =  list(mu = 4, sigma = 0.15), discrete = TRUE, 
   optim.method = "L-BFGS-B", lower = c(0, 0), upper = c(Inf, 1))
 #> Warning: The dZIP function should return a zero-length vector when input has length zero
 #> Warning: The pZIP function should return a zero-length vector when input has length zero
-summary(fitzip)
+    summary(fitzip)
 #> Fitting of the distribution ' ZIP ' by maximum likelihood 
 #> Parameters : 
 #>        estimate Std. Error
@@ -1175,12 +1177,12 @@ summary(fitzip)
 #> mu    1.00000000 0.06418931
 #> sigma 0.06418931 1.00000000
 #> 
-plot(fitzip)
+    plot(fitzip)
 
-fitp <- fitdist(x, "pois")
-cdfcomp(list(fitzip, fitp))
+    fitp <- fitdist(x, "pois")
+    cdfcomp(list(fitzip, fitp))
 
-gofstat(list(fitzip, fitp))
+    gofstat(list(fitzip, fitp))
 #> Chi-squared statistic:  3.579708 35.91516 
 #> Degree of freedom of the Chi-squared distribution:  3 4 
 #> Chi-squared p-value:  0.3105704 3.012341e-07 

@@ -132,7 +132,7 @@ Marie-Laure Delignette-Muller and Christophe Dutang.
 #
 
 n <- 100
-set.seed(1234)
+set.seed(123) # here just to make random sampling reproducible
 x <- rexp(n)
 
 llcurve(data = x, distr = "exp", plot.arg =  "rate", min.arg = 0, max.arg = 4)

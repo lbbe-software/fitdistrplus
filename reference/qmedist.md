@@ -243,26 +243,27 @@ Christophe Dutang and Marie Laure Delignette-Muller.
 ## Examples
 
 ``` r
+set.seed(123) # here just to make random sampling reproducible
+
 # (1) basic fit of a normal distribution 
 #
 
-set.seed(1234)
 x1 <- rnorm(n=100)
 qmedist(x1, "norm", probs=c(1/3, 2/3))
 #> $estimate
 #>       mean         sd 
-#> -0.3025734  0.8521385 
+#> 0.05462322 0.88352233 
 #> 
 #> $convergence
 #> [1] 0
 #> 
 #> $value
-#> [1] 2.427759e-10
+#> [1] 3.415963e-12
 #> 
 #> $hessian
-#>               mean            sd
-#> mean  2.000000e+00 -2.784663e-14
-#> sd   -2.784663e-14  3.710520e-01
+#>              mean           sd
+#> mean 2.000000e+00 5.293956e-17
+#> sd   5.293956e-17 3.710520e-01
 #> 
 #> $optim.function
 #> [1] "optim"
@@ -281,13 +282,13 @@ qmedist(x1, "norm", probs=c(1/3, 2/3))
 #> 
 #> $counts
 #> function gradient 
-#>       57       NA 
+#>       65       NA 
 #> 
 #> $optim.message
 #> NULL
 #> 
 #> $loglik
-#> [1] -146.1278
+#> [1] -132.4288
 #> 
 #> $probs
 #> [1] 0.3333333 0.6666667
@@ -306,18 +307,17 @@ qmedist(x1, "gumbel", probs=c(1/3, 2/3), start=list(a=10,b=5))
 # (3) fit a discrete distribution (Poisson)
 #
 
-set.seed(1234)
 x2 <- rpois(n=30,lambda = 2)
 qmedist(x2, "pois", probs=1/2)
 #> $estimate
-#> lambda 
-#>    1.7 
+#>   lambda 
+#> 2.066667 
 #> 
 #> $convergence
 #> [1] 0
 #> 
 #> $value
-#> [1] 0.25
+#> [1] 0
 #> 
 #> $hessian
 #>        lambda
@@ -346,7 +346,7 @@ qmedist(x2, "pois", probs=1/2)
 #> NULL
 #> 
 #> $loglik
-#> [1] -46.18434
+#> [1] -49.91188
 #> 
 #> $probs
 #> [1] 0.5
@@ -355,23 +355,22 @@ qmedist(x2, "pois", probs=1/2)
 # (4) fit a finite-support distribution (beta)
 #
 
-set.seed(1234)
 x3 <- rbeta(n=100,shape1=5, shape2=10)
 qmedist(x3, "beta", probs=c(1/3, 2/3))
 #> $estimate
 #>    shape1    shape2 
-#>  5.820826 14.053655 
+#>  7.554724 16.544841 
 #> 
 #> $convergence
 #> [1] 0
 #> 
 #> $value
-#> [1] 3.889731e-12
+#> [1] 2.835062e-13
 #> 
 #> $hessian
 #>              shape1        shape2
-#> shape1  0.002714767 -0.0010963293
-#> shape2 -0.001096329  0.0004477195
+#> shape1  0.001717757 -0.0007698930
+#> shape2 -0.000769893  0.0003481527
 #> 
 #> $optim.function
 #> [1] "optim"
@@ -390,13 +389,13 @@ qmedist(x3, "beta", probs=c(1/3, 2/3))
 #> 
 #> $counts
 #> function gradient 
-#>       89       NA 
+#>       83       NA 
 #> 
 #> $optim.message
 #> NULL
 #> 
 #> $loglik
-#> [1] 76.02016
+#> [1] 74.90145
 #> 
 #> $probs
 #> [1] 0.3333333 0.6666667

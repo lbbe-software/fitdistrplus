@@ -228,6 +228,8 @@ Marie-Laure Delignette-Muller and Christophe Dutang.
 ## Examples
 
 ``` r
+set.seed(123) # here just to make random sampling reproducible
+
 # (1) fit of two distributions to the serving size data
 # by maximum likelihood estimation
 # and comparison of goodness-of-fit statistics
@@ -340,7 +342,6 @@ gofstat(list(fitp, fitnb),fitnames = c("Poisson","negbin"))
 #     recommended statistics for continuous distributions
 #
 
-set.seed(1234)
 x4 <- rweibull(n=1000,shape=2,scale=1)
 # fit of the good distribution
 f4 <- fitdist(x4,"weibull")
@@ -354,90 +355,90 @@ plot(f4b)
 
 (g <- gofstat(list(f4,f4b),fitnames=c("Weibull", "Cauchy")))
 #> Goodness-of-fit statistics
-#>                                 Weibull    Cauchy
-#> Kolmogorov-Smirnov statistic 0.02129364  0.114565
-#> Cramer-von Mises statistic   0.06261917  1.854791
-#> Anderson-Darling statistic   0.43120643 17.929123
+#>                                 Weibull     Cauchy
+#> Kolmogorov-Smirnov statistic 0.01037199  0.1132388
+#> Cramer-von Mises statistic   0.01339266  1.8983088
+#> Anderson-Darling statistic   0.10469400 18.3876581
 #> 
 #> Goodness-of-fit criteria
 #>                                 Weibull   Cauchy
-#> Akaike's Information Criterion 1225.734 1679.028
-#> Bayesian Information Criterion 1235.549 1688.843
+#> Akaike's Information Criterion 1191.304 1653.580
+#> Bayesian Information Criterion 1201.120 1663.396
 g$chisq
 #>   Weibull    Cauchy 
-#>  35.76927 306.99824 
+#>  17.92108 303.30862 
 g$chisqdf
 #> Weibull  Cauchy 
 #>      25      25 
 g$chisqpvalue
 #>      Weibull       Cauchy 
-#> 7.517453e-02 2.364550e-50 
+#> 8.457227e-01 1.303089e-49 
 g$chisqtable
 #>           obscounts theo Weibull theo Cauchy
-#> <= 0.1547        36     27.86449   131.86592
-#> <= 0.2381        36     34.87234    16.94381
-#> <= 0.2952        36     30.58611    14.10775
-#> <= 0.3745        36     50.14472    24.12899
-#> <= 0.4323        36     41.16340    21.90706
-#> <= 0.4764        36     33.55410    19.88887
-#> <= 0.5263        36     39.57636    26.45041
-#> <= 0.5771        36     41.67095    32.12597
-#> <= 0.6276        36     42.36588    37.99145
-#> <= 0.669         36     35.03524    35.92961
-#> <= 0.7046        36     30.15737    34.26649
-#> <= 0.7447        36     33.82481    41.80511
-#> <= 0.7779        36     27.74805    36.41317
-#> <= 0.8215        36     35.88169    48.69182
-#> <= 0.8582        36     29.58833    40.27626
-#> <= 0.9194        36     47.80044    62.45332
-#> <= 0.9662        36     35.04387    42.03891
-#> <= 1.017         36     36.19084    39.23047
-#> <= 1.08          36     42.46698    40.45810
-#> <= 1.119         36     24.49715    20.76625
-#> <= 1.169         36     29.68482    22.91028
-#> <= 1.237         36     36.49226    25.22891
-#> <= 1.294         36     27.94301    17.49247
-#> <= 1.418         36     51.25543    29.00440
-#> <= 1.5           36     27.82405    14.64740
-#> <= 1.65          36     38.72011    20.11799
-#> <= 1.892         36     37.73807    21.69844
-#> > 1.892          28     30.30916    81.16036
+#> <= 0.1919        36     34.91742   135.05298
+#> <= 0.2867        36     41.83188    20.66766
+#> <= 0.344         36     32.09826    15.51837
+#> <= 0.3971        36     33.83042    17.10364
+#> <= 0.4558        36     41.24895    22.70295
+#> <= 0.4955        36     29.83167    18.13700
+#> <= 0.5418        36     36.40602    24.59362
+#> <= 0.587         36     36.92018    28.24427
+#> <= 0.6293        36     35.41350    30.72730
+#> <= 0.6663        36     31.47754    30.61845
+#> <= 0.719         36     45.08380    49.47567
+#> <= 0.7561        36     31.80740    38.61825
+#> <= 0.7992        36     36.74604    47.54081
+#> <= 0.8464        36     39.57486    52.96082
+#> <= 0.8877        36     33.89411    45.01908
+#> <= 0.9375        36     39.73567    50.32862
+#> <= 0.9767        36     30.27225    35.56734
+#> <= 1.02          36     31.82911    34.31234
+#> <= 1.07          36     35.72927    34.62020
+#> <= 1.124         36     35.66262    30.64482
+#> <= 1.184         36     37.14216    28.21807
+#> <= 1.239         36     31.25428    21.24728
+#> <= 1.344         36     51.55358    31.10538
+#> <= 1.408         36     26.67113    14.65142
+#> <= 1.514         36     37.24750    19.48295
+#> <= 1.664         36     38.85680    20.21006
+#> <= 1.891         36     34.98981    20.60987
+#> > 1.891          28     27.97378    82.02081
 
 # and by defining the breaks
 (g <- gofstat(list(f4,f4b), 
 chisqbreaks = seq(from = min(x4), to = max(x4), length.out = 10), fitnames=c("Weibull", "Cauchy")))
 #> Goodness-of-fit statistics
-#>                                 Weibull    Cauchy
-#> Kolmogorov-Smirnov statistic 0.02129364  0.114565
-#> Cramer-von Mises statistic   0.06261917  1.854791
-#> Anderson-Darling statistic   0.43120643 17.929123
+#>                                 Weibull     Cauchy
+#> Kolmogorov-Smirnov statistic 0.01037199  0.1132388
+#> Cramer-von Mises statistic   0.01339266  1.8983088
+#> Anderson-Darling statistic   0.10469400 18.3876581
 #> 
 #> Goodness-of-fit criteria
 #>                                 Weibull   Cauchy
-#> Akaike's Information Criterion 1225.734 1679.028
-#> Bayesian Information Criterion 1235.549 1688.843
+#> Akaike's Information Criterion 1191.304 1653.580
+#> Bayesian Information Criterion 1201.120 1663.396
 g$chisq
 #>    Weibull     Cauchy 
-#>   6.532102 303.031817 
+#>   3.782153 297.252189 
 g$chisqdf
 #> Weibull  Cauchy 
 #>       8       8 
 g$chisqpvalue
 #>      Weibull       Cauchy 
-#> 5.878491e-01 9.318101e-61 
+#> 8.762240e-01 1.582838e-59 
 g$chisqtable
-#>           obscounts theo Weibull theo Cauchy
-#> <= 0.0264         1    0.9414531  111.941831
-#> <= 0.3374       123  118.0587149   63.070591
-#> <= 0.6483       222  240.3305518  167.852511
-#> <= 0.9593       261  252.4491129  318.542341
-#> <= 1.27         204  191.1128355  165.083876
-#> <= 1.581        111  112.9380271   62.221846
-#> <= 1.892         49   53.8525607   30.121634
-#> <= 2.203         19   21.0847217   17.463676
-#> <= 2.514          6    6.8505892   11.335604
-#> <= 2.825          4    1.8602036    7.933114
-#> > 2.825           0    0.5212296   44.432977
+#>            obscounts theo Weibull theo Cauchy
+#> <= 0.02441         1    0.5565072  108.969476
+#> <= 0.3295         93   99.7034224   58.075483
+#> <= 0.6345        233  226.6667705  149.817012
+#> <= 0.9396        252  255.5506853  312.466336
+#> <= 1.245         214  203.0083829  184.383134
+#> <= 1.55          120  123.3077145   68.910097
+#> <= 1.855          57   59.1360492   32.625213
+#> <= 2.16           19   22.7494898   18.641871
+#> <= 2.465           8    7.0827885   11.985162
+#> <= 2.77            3    1.7943360    8.332061
+#> > 2.77             0    0.4438538   45.794155
 
 # (4) fit of two distributions on acute toxicity values 
 # of fluazinam (in decimal logarithm) for

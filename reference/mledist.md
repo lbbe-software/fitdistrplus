@@ -317,26 +317,27 @@ Marie-Laure Delignette-Muller and Christophe Dutang.
 ## Examples
 
 ``` r
+set.seed(123) # here just to make random sampling reproducible
+
 # (1) basic fit of a normal distribution with maximum likelihood estimation
 #
 
-set.seed(1234)
 x1 <- rnorm(n=100)
 mledist(x1,"norm")
 #> $estimate
 #>       mean         sd 
-#> -0.1567617  0.9993707 
+#> 0.09040591 0.90824033 
 #> 
 #> $convergence
 #> [1] 0
 #> 
 #> $value
-#> [1] 1.418309
+#> [1] 1.322692
 #> 
 #> $hessian
-#>               mean            sd
-#> mean  1.001260e+00 -5.551115e-11
-#> sd   -5.551115e-11  2.002538e+00
+#>              mean           sd
+#> mean 1.212267e+00 5.551115e-11
+#> sd   5.551115e-11 2.424561e+00
 #> 
 #> $optim.function
 #> [1] "optim"
@@ -361,7 +362,7 @@ mledist(x1,"norm")
 #> NULL
 #> 
 #> $loglik
-#> [1] -141.8309
+#> [1] -132.2692
 #> 
 #> $vcov
 #> NULL
@@ -377,22 +378,21 @@ mledist(x1,"gumbel",start=list(a=10,b=5))
 # (3) fit of a discrete distribution (Poisson)
 #
 
-set.seed(1234)
 x2 <- rpois(n=30,lambda = 2)
 mledist(x2,"pois")
 #> $estimate
-#> lambda 
-#>    1.7 
+#>   lambda 
+#> 2.066667 
 #> 
 #> $convergence
 #> [1] 0
 #> 
 #> $value
-#> [1] 1.539478
+#> [1] 1.663729
 #> 
 #> $hessian
 #>           lambda
-#> lambda 0.5882357
+#> lambda 0.4838712
 #> 
 #> $optim.function
 #> [1] "optim"
@@ -411,13 +411,13 @@ mledist(x2,"pois")
 #> 
 #> $counts
 #> function gradient 
-#>        4        1 
+#>        3        1 
 #> 
 #> $optim.message
 #> NULL
 #> 
 #> $loglik
-#> [1] -46.18434
+#> [1] -49.91188
 #> 
 #> $vcov
 #> NULL
@@ -426,23 +426,22 @@ mledist(x2,"pois")
 # (4) fit a finite-support distribution (beta)
 #
 
-set.seed(1234)
 x3 <- rbeta(n=100,shape1=5, shape2=10)
 mledist(x3,"beta")
 #> $estimate
 #>    shape1    shape2 
-#>  4.859798 10.918841 
+#>  5.344291 11.259568 
 #> 
 #> $convergence
 #> [1] 0
 #> 
 #> $value
-#> [1] -0.7833052
+#> [1] -0.7917456
 #> 
 #> $hessian
 #>             shape1      shape2
-#> shape1  0.16295311 -0.06542752
-#> shape2 -0.06542752  0.03047900
+#> shape1  0.14362910 -0.06207699
+#> shape2 -0.06207699  0.03079685
 #> 
 #> $optim.function
 #> [1] "optim"
@@ -461,13 +460,13 @@ mledist(x3,"beta")
 #> 
 #> $counts
 #> function gradient 
-#>       47       NA 
+#>       45       NA 
 #> 
 #> $optim.message
 #> NULL
 #> 
 #> $loglik
-#> [1] 78.33052
+#> [1] 79.17456
 #> 
 #> $vcov
 #> NULL
@@ -585,7 +584,6 @@ mledist(log10EC50,"gumbel",start=list(a=0,b=2),optim.method="Nelder-Mead")
 # the optimization raises an error. The for loop shows how scaling by 10^i
 # for i=1,...,6 makes the fitting procedure work correctly.
 
-set.seed(1234)
 x2 <- rnorm(100, 1e-4, 2e-4)
 for(i in 6:0)
     cat(i, try(mledist(x*10^i, "cauchy")$estimate, silent=TRUE), "\n")

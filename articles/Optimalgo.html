@@ -63,7 +63,7 @@
                         <h4 data-toc-skip class="author">Marie Laure
 Delignette Muller, Christophe Dutang</h4>
             
-            <h4 data-toc-skip class="date">2026-01-19</h4>
+            <h4 data-toc-skip class="date">2026-01-20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/lbbe-software/fitdistrplus/blob/master/vignettes/Optimalgo.Rmd" class="external-link"><code>vignettes/Optimalgo.Rmd</code></a></small>
       <div class="d-none name"><code>Optimalgo.Rmd</code></div>
@@ -422,7 +422,7 @@ exported.</p>
 <span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">200</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">rbeta</a></span><span class="op">(</span><span class="va">n</span>, <span class="fl">3</span>, <span class="fl">3</span><span class="op">/</span><span class="fl">4</span><span class="op">)</span></span>
 <span><span class="fu">grlnlbeta</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span>, <span class="va">x</span><span class="op">)</span> <span class="co">#test</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] -133  317</span></span></code></pre>
+<pre><code><span><span class="co">## [1] -136  333</span></span></code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">x</span>, prob<span class="op">=</span><span class="cn">TRUE</span>, xlim<span class="op">=</span><span class="fl">0</span><span class="op">:</span><span class="fl">1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, col<span class="op">=</span><span class="st">"red"</span><span class="op">)</span></span>
@@ -510,63 +510,63 @@ the (true) gradient (<code>-G</code> stands for gradient).</p>
 <tbody>
 <tr class="odd">
 <td align="left">fitted shape1</td>
-<td align="right">2.665</td>
-<td align="right">2.664</td>
-<td align="right">2.665</td>
-<td align="right">2.665</td>
-<td align="right">2.665</td>
-<td align="right">2.665</td>
-<td align="right">2.665</td>
+<td align="right">2.754</td>
+<td align="right">2.752</td>
+<td align="right">2.752</td>
+<td align="right">2.752</td>
+<td align="right">2.752</td>
+<td align="right">2.752</td>
+<td align="right">2.752</td>
 </tr>
 <tr class="even">
 <td align="left">fitted shape2</td>
-<td align="right">0.731</td>
-<td align="right">0.731</td>
-<td align="right">0.731</td>
-<td align="right">0.731</td>
-<td align="right">0.731</td>
-<td align="right">0.731</td>
-<td align="right">0.731</td>
+<td align="right">0.712</td>
+<td align="right">0.711</td>
+<td align="right">0.711</td>
+<td align="right">0.711</td>
+<td align="right">0.711</td>
+<td align="right">0.711</td>
+<td align="right">0.711</td>
 </tr>
 <tr class="odd">
 <td align="left">fitted loglik</td>
-<td align="right">114.165</td>
-<td align="right">114.165</td>
-<td align="right">114.165</td>
-<td align="right">114.165</td>
-<td align="right">114.165</td>
-<td align="right">114.165</td>
-<td align="right">114.165</td>
+<td align="right">123.908</td>
+<td align="right">123.908</td>
+<td align="right">123.908</td>
+<td align="right">123.908</td>
+<td align="right">123.908</td>
+<td align="right">123.908</td>
+<td align="right">123.908</td>
 </tr>
 <tr class="even">
 <td align="left">func. eval. nb.</td>
-<td align="right">15.000</td>
-<td align="right">47.000</td>
-<td align="right">191.000</td>
-<td align="right">221.000</td>
-<td align="right">242.000</td>
 <td align="right">8.000</td>
-<td align="right">92.000</td>
+<td align="right">49.000</td>
+<td align="right">229.000</td>
+<td align="right">267.000</td>
+<td align="right">284.000</td>
+<td align="right">9.000</td>
+<td align="right">94.000</td>
 </tr>
 <tr class="odd">
 <td align="left">grad. eval. nb.</td>
-<td align="right">11.000</td>
+<td align="right">6.000</td>
 <td align="right">NA</td>
-<td align="right">95.000</td>
 <td align="right">115.000</td>
-<td align="right">175.000</td>
-<td align="right">8.000</td>
+<td align="right">137.000</td>
+<td align="right">201.000</td>
+<td align="right">9.000</td>
 <td align="right">NA</td>
 </tr>
 <tr class="even">
 <td align="left">time (sec)</td>
-<td align="right">0.007</td>
+<td align="right">0.005</td>
 <td align="right">0.004</td>
-<td align="right">0.034</td>
-<td align="right">0.040</td>
-<td align="right">0.055</td>
+<td align="right">0.042</td>
+<td align="right">0.048</td>
+<td align="right">0.066</td>
 <td align="right">0.004</td>
-<td align="right">0.011</td>
+<td align="right">0.012</td>
 </tr>
 </tbody>
 </table>
@@ -599,75 +599,75 @@ the (true) gradient (<code>-G</code> stands for gradient).</p>
 <tbody>
 <tr class="odd">
 <td align="left">fitted shape1</td>
-<td align="right">2.665</td>
-<td align="right">2.665</td>
-<td align="right">2.665</td>
-<td align="right">2.665</td>
-<td align="right">2.665</td>
-<td align="right">2.665</td>
-<td align="right">2.665</td>
-<td align="right">2.665</td>
-<td align="right">2.665</td>
+<td align="right">2.752</td>
+<td align="right">2.752</td>
+<td align="right">2.752</td>
+<td align="right">2.752</td>
+<td align="right">2.752</td>
+<td align="right">2.752</td>
+<td align="right">2.752</td>
+<td align="right">2.752</td>
+<td align="right">2.752</td>
 </tr>
 <tr class="even">
 <td align="left">fitted shape2</td>
-<td align="right">0.731</td>
-<td align="right">0.731</td>
-<td align="right">0.731</td>
-<td align="right">0.731</td>
-<td align="right">0.731</td>
-<td align="right">0.731</td>
-<td align="right">0.731</td>
-<td align="right">0.731</td>
-<td align="right">0.731</td>
+<td align="right">0.711</td>
+<td align="right">0.711</td>
+<td align="right">0.711</td>
+<td align="right">0.711</td>
+<td align="right">0.711</td>
+<td align="right">0.711</td>
+<td align="right">0.711</td>
+<td align="right">0.711</td>
+<td align="right">0.711</td>
 </tr>
 <tr class="odd">
 <td align="left">fitted loglik</td>
-<td align="right">114.165</td>
-<td align="right">114.165</td>
-<td align="right">114.165</td>
-<td align="right">114.165</td>
-<td align="right">114.165</td>
-<td align="right">114.165</td>
-<td align="right">114.165</td>
-<td align="right">114.165</td>
-<td align="right">114.165</td>
+<td align="right">123.908</td>
+<td align="right">123.908</td>
+<td align="right">123.908</td>
+<td align="right">123.908</td>
+<td align="right">123.908</td>
+<td align="right">123.908</td>
+<td align="right">123.908</td>
+<td align="right">123.908</td>
+<td align="right">123.908</td>
 </tr>
 <tr class="even">
 <td align="left">func. eval. nb.</td>
-<td align="right">22.000</td>
-<td align="right">249.000</td>
-<td align="right">239.000</td>
-<td align="right">138.000</td>
-<td align="right">40.000</td>
-<td align="right">92.000</td>
-<td align="right">433.000</td>
-<td align="right">345.000</td>
-<td align="right">255.000</td>
+<td align="right">17.000</td>
+<td align="right">252.000</td>
+<td align="right">567.000</td>
+<td align="right">187.000</td>
+<td align="right">23.000</td>
+<td align="right">94.000</td>
+<td align="right">417.000</td>
+<td align="right">420.000</td>
+<td align="right">303.000</td>
 </tr>
 <tr class="odd">
 <td align="left">grad. eval. nb.</td>
-<td align="right">5.000</td>
-<td align="right">71.000</td>
-<td align="right">67.000</td>
-<td align="right">43.000</td>
 <td align="right">6.000</td>
+<td align="right">71.000</td>
+<td align="right">167.000</td>
+<td align="right">57.000</td>
+<td align="right">7.000</td>
 <td align="right">NA</td>
-<td align="right">92.000</td>
-<td align="right">82.000</td>
-<td align="right">58.000</td>
+<td align="right">96.000</td>
+<td align="right">106.000</td>
+<td align="right">72.000</td>
 </tr>
 <tr class="even">
 <td align="left">time (sec)</td>
-<td align="right">0.009</td>
+<td align="right">0.010</td>
 <td align="right">0.080</td>
-<td align="right">0.075</td>
-<td align="right">0.048</td>
+<td align="right">0.183</td>
+<td align="right">0.064</td>
 <td align="right">0.021</td>
 <td align="right">0.021</td>
-<td align="right">0.128</td>
-<td align="right">0.107</td>
-<td align="right">0.081</td>
+<td align="right">0.132</td>
+<td align="right">0.141</td>
+<td align="right">0.097</td>
 </tr>
 </tbody>
 </table>
@@ -685,51 +685,51 @@ gradient</caption>
 <tbody>
 <tr class="odd">
 <td align="left">fitted shape1</td>
-<td align="right">2.665</td>
-<td align="right">2.664</td>
-<td align="right">2.665</td>
-<td align="right">2.665</td>
-<td align="right">2.665</td>
+<td align="right">2.752</td>
+<td align="right">2.753</td>
+<td align="right">2.752</td>
+<td align="right">2.752</td>
+<td align="right">2.752</td>
 </tr>
 <tr class="even">
 <td align="left">fitted shape2</td>
-<td align="right">0.731</td>
-<td align="right">0.731</td>
-<td align="right">0.731</td>
-<td align="right">0.731</td>
-<td align="right">0.731</td>
+<td align="right">0.711</td>
+<td align="right">0.711</td>
+<td align="right">0.711</td>
+<td align="right">0.711</td>
+<td align="right">0.711</td>
 </tr>
 <tr class="odd">
 <td align="left">fitted loglik</td>
-<td align="right">114.165</td>
-<td align="right">114.165</td>
-<td align="right">114.165</td>
-<td align="right">114.165</td>
-<td align="right">114.165</td>
+<td align="right">123.908</td>
+<td align="right">123.908</td>
+<td align="right">123.908</td>
+<td align="right">123.908</td>
+<td align="right">123.908</td>
 </tr>
 <tr class="even">
 <td align="left">func. eval. nb.</td>
-<td align="right">8.000</td>
-<td align="right">41.000</td>
-<td align="right">37.000</td>
-<td align="right">49.000</td>
-<td align="right">47.000</td>
+<td align="right">7.000</td>
+<td align="right">45.000</td>
+<td align="right">43.000</td>
+<td align="right">57.000</td>
+<td align="right">57.000</td>
 </tr>
 <tr class="odd">
 <td align="left">grad. eval. nb.</td>
-<td align="right">5.000</td>
+<td align="right">6.000</td>
 <td align="right">NA</td>
-<td align="right">19.000</td>
-<td align="right">39.000</td>
-<td align="right">33.000</td>
+<td align="right">23.000</td>
+<td align="right">57.000</td>
+<td align="right">57.000</td>
 </tr>
 <tr class="even">
 <td align="left">time (sec)</td>
 <td align="right">0.014</td>
-<td align="right">0.004</td>
-<td align="right">0.008</td>
-<td align="right">0.014</td>
-<td align="right">0.012</td>
+<td align="right">0.005</td>
+<td align="right">0.010</td>
+<td align="right">0.018</td>
+<td align="right">0.018</td>
 </tr>
 </tbody>
 </table>
@@ -745,45 +745,45 @@ gradient</caption>
 <tbody>
 <tr class="odd">
 <td align="left">fitted shape1</td>
-<td align="right">2.665</td>
-<td align="right">2.665</td>
-<td align="right">2.665</td>
-<td align="right">2.665</td>
+<td align="right">2.752</td>
+<td align="right">2.752</td>
+<td align="right">2.752</td>
+<td align="right">2.752</td>
 </tr>
 <tr class="even">
 <td align="left">fitted shape2</td>
-<td align="right">0.731</td>
-<td align="right">0.731</td>
-<td align="right">0.731</td>
-<td align="right">0.731</td>
+<td align="right">0.711</td>
+<td align="right">0.711</td>
+<td align="right">0.711</td>
+<td align="right">0.711</td>
 </tr>
 <tr class="odd">
 <td align="left">fitted loglik</td>
-<td align="right">114.165</td>
-<td align="right">114.165</td>
-<td align="right">114.165</td>
-<td align="right">114.165</td>
+<td align="right">123.908</td>
+<td align="right">123.908</td>
+<td align="right">123.908</td>
+<td align="right">123.908</td>
 </tr>
 <tr class="even">
 <td align="left">func. eval. nb.</td>
-<td align="right">21.000</td>
-<td align="right">109.000</td>
-<td align="right">146.000</td>
-<td align="right">112.000</td>
+<td align="right">26.000</td>
+<td align="right">108.000</td>
+<td align="right">163.000</td>
+<td align="right">144.000</td>
 </tr>
 <tr class="odd">
 <td align="left">grad. eval. nb.</td>
 <td align="right">5.000</td>
 <td align="right">29.000</td>
-<td align="right">47.000</td>
-<td align="right">35.000</td>
+<td align="right">45.000</td>
+<td align="right">41.000</td>
 </tr>
 <tr class="even">
 <td align="left">time (sec)</td>
 <td align="right">0.012</td>
 <td align="right">0.035</td>
 <td align="right">0.052</td>
-<td align="right">0.040</td>
+<td align="right">0.048</td>
 </tr>
 </tbody>
 </table>
@@ -804,8 +804,8 @@ function.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">b1</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Parametric bootstrap medians and 95% percentile CI </span></span>
 <span><span class="co">##        Median  2.5% 97.5%</span></span>
-<span><span class="co">## shape1   2.73 2.272 3.283</span></span>
-<span><span class="co">## shape2   0.75 0.652 0.888</span></span></code></pre>
+<span><span class="co">## shape1  2.759 2.378 3.477</span></span>
+<span><span class="co">## shape2  0.727 0.615 0.856</span></span></code></pre>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">b1</span>, trueval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">3</span><span class="op">/</span><span class="fl">4</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Optimalgo_files/figure-html/unnamed-chunk-13-1.png" class="r-plt" alt="" width="384"></p>
@@ -982,73 +982,73 @@ the (true) gradient (<code>-G</code> stands for gradient).</p>
 <tbody>
 <tr class="odd">
 <td align="left">fitted size</td>
-<td align="right">57.333</td>
-<td align="right">62.504</td>
-<td align="right">57.337</td>
-<td align="right">57.335</td>
-<td align="right">57.335</td>
-<td align="right">57.333</td>
-<td align="right">58.446</td>
+<td align="right">9.504</td>
+<td align="right">9.511</td>
+<td align="right">9.087</td>
+<td align="right">8.895</td>
+<td align="right">8.895</td>
+<td align="right">9.503</td>
+<td align="right">9.492</td>
 </tr>
 <tr class="even">
 <td align="left">fitted mu</td>
-<td align="right">3.440</td>
-<td align="right">3.440</td>
-<td align="right">3.440</td>
-<td align="right">3.440</td>
-<td align="right">3.440</td>
-<td align="right">3.440</td>
-<td align="right">3.440</td>
+<td align="right">3.135</td>
+<td align="right">3.135</td>
+<td align="right">3.135</td>
+<td align="right">3.135</td>
+<td align="right">3.135</td>
+<td align="right">3.135</td>
+<td align="right">3.135</td>
 </tr>
 <tr class="odd">
 <td align="left">fitted loglik</td>
-<td align="right">-402.675</td>
-<td align="right">-402.674</td>
-<td align="right">-402.675</td>
-<td align="right">-402.675</td>
-<td align="right">-402.675</td>
-<td align="right">-402.675</td>
-<td align="right">-402.675</td>
+<td align="right">-412.057</td>
+<td align="right">-412.057</td>
+<td align="right">-412.063</td>
+<td align="right">-412.070</td>
+<td align="right">-412.070</td>
+<td align="right">-412.057</td>
+<td align="right">-412.057</td>
 </tr>
 <tr class="even">
 <td align="left">func. eval. nb.</td>
-<td align="right">2.000</td>
-<td align="right">39.000</td>
+<td align="right">7.000</td>
+<td align="right">37.000</td>
 <td align="right">2001.000</td>
 <td align="right">1001.000</td>
 <td align="right">1001.000</td>
-<td align="right">2.000</td>
-<td align="right">0.000</td>
+<td align="right">7.000</td>
+<td align="right">72.000</td>
 </tr>
 <tr class="odd">
 <td align="left">grad. eval. nb.</td>
-<td align="right">1.000</td>
+<td align="right">5.000</td>
 <td align="right">NA</td>
 <td align="right">1001.000</td>
 <td align="right">1001.000</td>
 <td align="right">1001.000</td>
-<td align="right">2.000</td>
+<td align="right">7.000</td>
 <td align="right">NA</td>
 </tr>
 <tr class="even">
 <td align="left">time (sec)</td>
-<td align="right">0.002</td>
 <td align="right">0.003</td>
-<td align="right">0.253</td>
-<td align="right">0.202</td>
-<td align="right">0.202</td>
-<td align="right">0.004</td>
-<td align="right">0.004</td>
+<td align="right">0.003</td>
+<td align="right">0.275</td>
+<td align="right">0.225</td>
+<td align="right">0.226</td>
+<td align="right">0.003</td>
+<td align="right">0.008</td>
 </tr>
 <tr class="odd">
 <td align="left">fitted prob</td>
-<td align="right">0.775</td>
-<td align="right">0.775</td>
-<td align="right">0.775</td>
-<td align="right">0.775</td>
-<td align="right">0.775</td>
-<td align="right">0.775</td>
-<td align="right">0.775</td>
+<td align="right">0.758</td>
+<td align="right">0.758</td>
+<td align="right">0.758</td>
+<td align="right">0.758</td>
+<td align="right">0.758</td>
+<td align="right">0.758</td>
+<td align="right">0.758</td>
 </tr>
 </tbody>
 </table>
@@ -1081,48 +1081,48 @@ the (true) gradient (<code>-G</code> stands for gradient).</p>
 <tbody>
 <tr class="odd">
 <td align="left">fitted size</td>
-<td align="right">57.333</td>
-<td align="right">57.333</td>
-<td align="right">57.333</td>
-<td align="right">57.333</td>
-<td align="right">57.333</td>
-<td align="right">58.446</td>
-<td align="right">57.333</td>
-<td align="right">57.333</td>
-<td align="right">57.333</td>
+<td align="right">8.761</td>
+<td align="right">8.761</td>
+<td align="right">8.761</td>
+<td align="right">8.761</td>
+<td align="right">8.761</td>
+<td align="right">9.492</td>
+<td align="right">8.761</td>
+<td align="right">8.761</td>
+<td align="right">8.761</td>
 </tr>
 <tr class="even">
 <td align="left">fitted mu</td>
-<td align="right">3.440</td>
-<td align="right">3.440</td>
-<td align="right">3.440</td>
-<td align="right">3.440</td>
-<td align="right">3.440</td>
-<td align="right">3.440</td>
-<td align="right">3.440</td>
-<td align="right">3.440</td>
-<td align="right">3.440</td>
+<td align="right">3.135</td>
+<td align="right">3.135</td>
+<td align="right">3.135</td>
+<td align="right">3.135</td>
+<td align="right">3.135</td>
+<td align="right">3.135</td>
+<td align="right">3.135</td>
+<td align="right">3.135</td>
+<td align="right">3.135</td>
 </tr>
 <tr class="odd">
 <td align="left">fitted loglik</td>
-<td align="right">-402.675</td>
-<td align="right">-402.675</td>
-<td align="right">-402.675</td>
-<td align="right">-402.675</td>
-<td align="right">-402.675</td>
-<td align="right">-402.675</td>
-<td align="right">-402.675</td>
-<td align="right">-402.675</td>
-<td align="right">-402.675</td>
+<td align="right">-412.078</td>
+<td align="right">-412.078</td>
+<td align="right">-412.078</td>
+<td align="right">-412.078</td>
+<td align="right">-412.078</td>
+<td align="right">-412.057</td>
+<td align="right">-412.078</td>
+<td align="right">-412.078</td>
+<td align="right">-412.078</td>
 </tr>
 <tr class="even">
 <td align="left">func. eval. nb.</td>
-<td align="right">28.000</td>
-<td align="right">28.000</td>
-<td align="right">28.000</td>
-<td align="right">28.000</td>
+<td align="right">27.000</td>
+<td align="right">27.000</td>
+<td align="right">27.000</td>
+<td align="right">27.000</td>
 <td align="right">0.000</td>
-<td align="right">0.000</td>
+<td align="right">72.000</td>
 <td align="right">0.000</td>
 <td align="right">0.000</td>
 <td align="right">0.000</td>
@@ -1141,27 +1141,27 @@ the (true) gradient (<code>-G</code> stands for gradient).</p>
 </tr>
 <tr class="even">
 <td align="left">time (sec)</td>
-<td align="right">0.009</td>
+<td align="right">0.011</td>
 <td align="right">0.002</td>
 <td align="right">0.002</td>
 <td align="right">0.002</td>
 <td align="right">0.002</td>
+<td align="right">0.007</td>
+<td align="right">0.003</td>
 <td align="right">0.003</td>
 <td align="right">0.002</td>
-<td align="right">0.002</td>
-<td align="right">0.003</td>
 </tr>
 <tr class="odd">
 <td align="left">fitted prob</td>
-<td align="right">0.775</td>
-<td align="right">0.775</td>
-<td align="right">0.775</td>
-<td align="right">0.775</td>
-<td align="right">0.775</td>
-<td align="right">0.775</td>
-<td align="right">0.775</td>
-<td align="right">0.775</td>
-<td align="right">0.775</td>
+<td align="right">0.758</td>
+<td align="right">0.758</td>
+<td align="right">0.758</td>
+<td align="right">0.758</td>
+<td align="right">0.758</td>
+<td align="right">0.758</td>
+<td align="right">0.758</td>
+<td align="right">0.758</td>
+<td align="right">0.758</td>
 </tr>
 </tbody>
 </table>
@@ -1179,51 +1179,51 @@ gradient</caption>
 <tbody>
 <tr class="odd">
 <td align="left">fitted size</td>
-<td align="right">57.335</td>
-<td align="right">62.320</td>
-<td align="right">58.595</td>
-<td align="right">60.138</td>
-<td align="right">60.875</td>
+<td align="right">9.503</td>
+<td align="right">9.496</td>
+<td align="right">9.503</td>
+<td align="right">9.503</td>
+<td align="right">9.503</td>
 </tr>
 <tr class="even">
 <td align="left">fitted prob</td>
-<td align="right">0.943</td>
-<td align="right">0.948</td>
-<td align="right">0.945</td>
-<td align="right">0.946</td>
-<td align="right">0.947</td>
+<td align="right">0.752</td>
+<td align="right">0.752</td>
+<td align="right">0.752</td>
+<td align="right">0.752</td>
+<td align="right">0.752</td>
 </tr>
 <tr class="odd">
 <td align="left">fitted loglik</td>
-<td align="right">-402.675</td>
-<td align="right">-402.674</td>
-<td align="right">-402.675</td>
-<td align="right">-402.674</td>
-<td align="right">-402.674</td>
+<td align="right">-412.057</td>
+<td align="right">-412.057</td>
+<td align="right">-412.057</td>
+<td align="right">-412.057</td>
+<td align="right">-412.057</td>
 </tr>
 <tr class="even">
 <td align="left">func. eval. nb.</td>
-<td align="right">3.000</td>
-<td align="right">45.000</td>
-<td align="right">2501.000</td>
-<td align="right">2276.000</td>
-<td align="right">2272.000</td>
+<td align="right">20.000</td>
+<td align="right">47.000</td>
+<td align="right">1143.000</td>
+<td align="right">944.000</td>
+<td align="right">481.000</td>
 </tr>
 <tr class="odd">
 <td align="left">grad. eval. nb.</td>
-<td align="right">1.000</td>
+<td align="right">7.000</td>
 <td align="right">NA</td>
-<td align="right">1001.000</td>
-<td align="right">1001.000</td>
-<td align="right">1001.000</td>
+<td align="right">509.000</td>
+<td align="right">537.000</td>
+<td align="right">269.000</td>
 </tr>
 <tr class="even">
 <td align="left">time (sec)</td>
-<td align="right">0.004</td>
+<td align="right">0.006</td>
 <td align="right">0.003</td>
-<td align="right">0.278</td>
-<td align="right">0.270</td>
-<td align="right">0.273</td>
+<td align="right">0.140</td>
+<td align="right">0.137</td>
+<td align="right">0.069</td>
 </tr>
 </tbody>
 </table>
@@ -1239,45 +1239,45 @@ gradient</caption>
 <tbody>
 <tr class="odd">
 <td align="left">fitted size</td>
-<td align="right">57.333</td>
-<td align="right">57.333</td>
-<td align="right">57.333</td>
-<td align="right">57.333</td>
+<td align="right">8.761</td>
+<td align="right">8.761</td>
+<td align="right">8.761</td>
+<td align="right">8.761</td>
 </tr>
 <tr class="even">
 <td align="left">fitted prob</td>
-<td align="right">0.943</td>
-<td align="right">0.943</td>
-<td align="right">0.943</td>
-<td align="right">0.943</td>
+<td align="right">0.736</td>
+<td align="right">0.736</td>
+<td align="right">0.736</td>
+<td align="right">0.736</td>
 </tr>
 <tr class="odd">
 <td align="left">fitted loglik</td>
-<td align="right">-402.675</td>
-<td align="right">-402.675</td>
-<td align="right">-402.675</td>
-<td align="right">-402.675</td>
+<td align="right">-412.078</td>
+<td align="right">-412.078</td>
+<td align="right">-412.078</td>
+<td align="right">-412.078</td>
 </tr>
 <tr class="even">
 <td align="left">func. eval. nb.</td>
-<td align="right">18.000</td>
-<td align="right">44.000</td>
-<td align="right">39.000</td>
-<td align="right">39.000</td>
+<td align="right">20.000</td>
+<td align="right">71.000</td>
+<td align="right">118.000</td>
+<td align="right">69.000</td>
 </tr>
 <tr class="odd">
 <td align="left">grad. eval. nb.</td>
 <td align="right">1.000</td>
-<td align="right">3.000</td>
-<td align="right">3.000</td>
-<td align="right">3.000</td>
+<td align="right">5.000</td>
+<td align="right">9.000</td>
+<td align="right">5.000</td>
 </tr>
 <tr class="even">
 <td align="left">time (sec)</td>
 <td align="right">0.007</td>
+<td align="right">0.004</td>
+<td align="right">0.006</td>
 <td align="right">0.003</td>
-<td align="right">0.003</td>
-<td align="right">0.002</td>
 </tr>
 </tbody>
 </table>
@@ -1298,9 +1298,11 @@ function.</p>
 <span>               niter <span class="op">=</span> <span class="fl">100</span>, parallel <span class="op">=</span> <span class="st">"snow"</span>, ncpus <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">b1</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Parametric bootstrap medians and 95% percentile CI </span></span>
-<span><span class="co">##      Median  2.5% 97.5%</span></span>
-<span><span class="co">## size  57.33 57.33 57.33</span></span>
-<span><span class="co">## mu     3.46  3.24  3.72</span></span></code></pre>
+<span><span class="co">##      Median 2.5% 97.5%</span></span>
+<span><span class="co">## size  10.16 5.35 18.69</span></span>
+<span><span class="co">## mu     3.11 2.89  3.43</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## The estimation method converged only for 86 among 100 iterations</span></span></code></pre>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">b1</span>, trueval<span class="op">=</span><span class="va">trueval</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"size"</span>, <span class="st">"mu"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span> </span></code></pre></div>
 <p><img src="Optimalgo_files/figure-html/unnamed-chunk-23-1.png" class="r-plt" alt="" width="384"></p>

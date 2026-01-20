@@ -561,9 +561,11 @@ summary(bendo.B)
 
     ## Parametric bootstrap medians and 95% percentile CI 
     ##        Median    2.5%  97.5%
-    ## shape1 0.1983 0.09283 0.3606
-    ## shape2 1.5863 1.05306 3.0629
-    ## rate   1.4907 0.70828 2.7775
+    ## shape1 0.1972 0.08517 0.3717
+    ## shape2 1.5874 1.03952 3.2856
+    ## rate   1.4871 0.65230 2.9001
+    ## 
+    ## The estimation method converged only for 1000 among 1001 iterations
 
 ``` r
 plot(bendo.B)
@@ -616,12 +618,14 @@ quantile(bendo.B, probs = 0.05)
     ## estimate 0.2939
     ## Median of bootstrap estimates
     ##          p=0.05
-    ## estimate 0.2994
+    ## estimate 0.3044
     ## 
     ## two-sided 95 % CI of each quantile
     ##        p=0.05
-    ## 2.5 %  0.1792
-    ## 97.5 % 0.4999
+    ## 2.5 %  0.1734
+    ## 97.5 % 0.5051
+    ## 
+    ## The estimation method converged only for 1000 among 1001 bootstrap iterations.
 
 ## 3. Advanced topics
 
@@ -1026,8 +1030,8 @@ cbind(NM = fNM$estimate, BFGS = fBFGS$estimate, SANN = fSANN$estimate, CG = fCG$
 ```
 
     ##            NM    BFGS    SANN      CG fgenoud
-    ## shape 4.00956 4.21184 3.93636 4.03958 4.00834
-    ## rate  0.05444 0.05719 0.05366 0.05486 0.05443
+    ## shape 4.00956 4.21184 4.21184 4.03958 4.00785
+    ## rate  0.05444 0.05719 0.05719 0.05486 0.05442
 
 ### 3.3. Fitting distributions to other types of data
 

@@ -63,7 +63,7 @@
                         <h4 data-toc-skip class="author">Marie Laure
 Delignette Muller, Christophe Dutang</h4>
             
-            <h4 data-toc-skip class="date">2026-01-19</h4>
+            <h4 data-toc-skip class="date">2026-01-20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/lbbe-software/fitdistrplus/blob/master/vignettes/fitdistrplus_vignette.Rmd" class="external-link"><code>vignettes/fitdistrplus_vignette.Rmd</code></a></small>
       <div class="d-none name"><code>fitdistrplus_vignette.Rmd</code></div>
@@ -645,9 +645,11 @@ distribution to the <code>endosulfan</code> data set (Figure
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">bendo.B</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Parametric bootstrap medians and 95% percentile CI </span></span>
 <span><span class="co">##        Median    2.5%  97.5%</span></span>
-<span><span class="co">## shape1 0.1983 0.09283 0.3606</span></span>
-<span><span class="co">## shape2 1.5863 1.05306 3.0629</span></span>
-<span><span class="co">## rate   1.4907 0.70828 2.7775</span></span></code></pre>
+<span><span class="co">## shape1 0.1972 0.08517 0.3717</span></span>
+<span><span class="co">## shape2 1.5874 1.03952 3.2856</span></span>
+<span><span class="co">## rate   1.4871 0.65230 2.9001</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## The estimation method converged only for 1000 among 1001 iterations</span></span></code></pre>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">bendo.B</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
@@ -692,12 +694,14 @@ Burr distribution to the <code>endosulfan</code> data set.</p>
 <span><span class="co">## estimate 0.2939</span></span>
 <span><span class="co">## Median of bootstrap estimates</span></span>
 <span><span class="co">##          p=0.05</span></span>
-<span><span class="co">## estimate 0.2994</span></span>
+<span><span class="co">## estimate 0.3044</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## two-sided 95 % CI of each quantile</span></span>
 <span><span class="co">##        p=0.05</span></span>
-<span><span class="co">## 2.5 %  0.1792</span></span>
-<span><span class="co">## 97.5 % 0.4999</span></span></code></pre>
+<span><span class="co">## 2.5 %  0.1734</span></span>
+<span><span class="co">## 97.5 % 0.5051</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## The estimation method converged only for 1000 among 1001 bootstrap iterations.</span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
@@ -1126,8 +1130,8 @@ parameters are relatively similar on this example, roughly 4.00 and
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span>NM <span class="op">=</span> <span class="va">fNM</span><span class="op">$</span><span class="va">estimate</span>, BFGS <span class="op">=</span> <span class="va">fBFGS</span><span class="op">$</span><span class="va">estimate</span>, SANN <span class="op">=</span> <span class="va">fSANN</span><span class="op">$</span><span class="va">estimate</span>, CG <span class="op">=</span> <span class="va">fCG</span><span class="op">$</span><span class="va">estimate</span>, </span>
 <span>      fgenoud <span class="op">=</span> <span class="va">fgenoud</span><span class="op">$</span><span class="va">estimate</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##            NM    BFGS    SANN      CG fgenoud</span></span>
-<span><span class="co">## shape 4.00956 4.21184 3.93636 4.03958 4.00834</span></span>
-<span><span class="co">## rate  0.05444 0.05719 0.05366 0.05486 0.05443</span></span></code></pre>
+<span><span class="co">## shape 4.00956 4.21184 4.21184 4.03958 4.00785</span></span>
+<span><span class="co">## rate  0.05444 0.05719 0.05719 0.05486 0.05442</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="otherdata">3.3. Fitting distributions to other types of data<a class="anchor" aria-label="anchor" href="#otherdata"></a>

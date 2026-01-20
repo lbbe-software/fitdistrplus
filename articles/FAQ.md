@@ -143,7 +143,7 @@ c("E(X) by MME"=as.numeric(exp(f2$estimate["meanlog"]+f2$estimate["sdlog"]^2/2))
 ```
 
     ## E(X) by MME E(X) by MLE   empirical 
-    ##        1.61        1.60        1.61
+    ##        1.67        1.66        1.67
 
 ``` r
 c("Var(X) by MME"=as.numeric(exp(2*f2$estimate["meanlog"]+f2$estimate["sdlog"]^2) * 
@@ -154,7 +154,7 @@ c("Var(X) by MME"=as.numeric(exp(2*f2$estimate["meanlog"]+f2$estimate["sdlog"]^2
 ```
 
     ## Var(X) by MME Var(X) by MLE     empirical 
-    ##          4.30          4.36          4.30
+    ##          4.45          4.61          4.45
 
 From a MLE point of view, a lognormal sample $x_{1},\ldots,x_{n}$ is
 equivalent to handle a normal sample
@@ -170,7 +170,6 @@ The answer is no: you cannot fit a distribution with positive support
 (say gamma distribution) when data contains negative values.
 
 ``` r
-set.seed(1234)
 x <- rnorm(100, mean = 1, sd = 0.5)
 (try(fitdist(x, "exp")))
 ```
@@ -199,7 +198,7 @@ fitdist(x[x >= 0], "exp")
     ## Fitting of the distribution ' exp ' by maximum likelihood 
     ## Parameters:
     ##      estimate Std. Error
-    ## rate     1.06      0.107
+    ## rate    0.921      0.093
 
 ``` r
 fitdist(x - min(x), "exp")
@@ -208,7 +207,7 @@ fitdist(x - min(x), "exp")
     ## Fitting of the distribution ' exp ' by maximum likelihood 
     ## Parameters:
     ##      estimate Std. Error
-    ## rate    0.914     0.0914
+    ## rate    0.749     0.0749
 
 ### 1.7. Can I fit a finite-support distribution when data is outside that support?
 
@@ -216,7 +215,6 @@ The answer is no: you cannot fit a distribution with finite-support (say
 beta distribution) when data is outside $\lbrack 0,1\rbrack$.
 
 ``` r
-set.seed(1234)
 x <- rnorm(100, mean = 0.5, sd = 0.25)
 (try(fitdist(x, "beta")))
 ```
@@ -245,8 +243,8 @@ fitdist(x[x > 0 & x < 1], "beta")
     ## Fitting of the distribution ' beta ' by maximum likelihood 
     ## Parameters:
     ##        estimate Std. Error
-    ## shape1     2.08      0.288
-    ## shape2     2.50      0.352
+    ## shape1     2.53      0.355
+    ## shape2     2.65      0.374
 
 ``` r
 fitdist((x - min(x)*1.01) / (max(x) * 1.01 - min(x) * 1.01), "beta")
@@ -255,8 +253,8 @@ fitdist((x - min(x)*1.01) / (max(x) * 1.01 - min(x) * 1.01), "beta")
     ## Fitting of the distribution ' beta ' by maximum likelihood 
     ## Parameters:
     ##        estimate Std. Error
-    ## shape1     1.77      0.236
-    ## shape2     2.17      0.296
+    ## shape1     1.83      0.243
+    ## shape2     2.73      0.377
 
 ### 1.8. Can I fit truncated distributions?
 
@@ -296,14 +294,14 @@ gofstat(list(f1, f2))
 
     ## Goodness-of-fit statistics
     ##                              1-mle-texp 2-mle-texp
-    ## Kolmogorov-Smirnov statistic     0.0952      0.084
-    ## Cramer-von Mises statistic       0.1343      0.104
-    ## Anderson-Darling statistic          Inf      1.045
+    ## Kolmogorov-Smirnov statistic     0.0354     0.0395
+    ## Cramer-von Mises statistic       0.0268     0.0276
+    ## Anderson-Darling statistic          Inf     0.1900
     ## 
     ## Goodness-of-fit criteria
     ##                                1-mle-texp 2-mle-texp
-    ## Akaike's Information Criterion        127        132
-    ## Bayesian Information Criterion        130        135
+    ## Akaike's Information Criterion        157        160
+    ## Bayesian Information Criterion        160        163
 
 ``` r
 par(mfrow=c(1,1), mar=c(4,4,2,1))
@@ -380,9 +378,9 @@ bounds $l,u$.
     ## Fitting of the distribution ' tiexp ' by maximum likelihood 
     ## Parameters:
     ##      estimate
-    ## rate    0.949
-    ## low    -0.502
-    ## upp    23.072
+    ## rate     1.07
+    ## low     -0.65
+    ## upp     23.52
 
 ``` r
 (f2 <- fitdist(x, "tiexp", method="mle", start=list(rate=3), 
@@ -392,7 +390,7 @@ bounds $l,u$.
     ## Fitting of the distribution ' tiexp ' by maximum likelihood 
     ## Parameters:
     ##      estimate Std. Error
-    ## rate    0.947     0.0982
+    ## rate      1.1      0.114
     ## Fixed parameters:
     ##     value
     ## low   0.5
@@ -404,14 +402,14 @@ gofstat(list(f1, f2))
 
     ## Goodness-of-fit statistics
     ##                              1-mle-tiexp 2-mle-tiexp
-    ## Kolmogorov-Smirnov statistic       0.378       0.377
-    ## Cramer-von Mises statistic         1.890       1.882
-    ## Anderson-Darling statistic        10.222      10.193
+    ## Kolmogorov-Smirnov statistic       0.414       0.424
+    ## Cramer-von Mises statistic         2.651       2.767
+    ## Anderson-Darling statistic        13.358      13.818
     ## 
     ## Goodness-of-fit criteria
     ##                                1-mle-tiexp 2-mle-tiexp
-    ## Akaike's Information Criterion         216         162
-    ## Bayesian Information Criterion         224         165
+    ## Akaike's Information Criterion         193         128
+    ## Bayesian Information Criterion         201         131
 
 ``` r
 par(mfrow=c(1,1), mar=c(4,4,2,1))
@@ -493,15 +491,15 @@ f2 <- fitdist(x, "unif2", start=list(min=0, max=10), lower=c(-Inf, max(x)),
 print(c(logLik(f1), logLik(f2)), digits=7)
 ```
 
-    ## [1] -346.0539 -346.1519
+    ## [1] -345.7467 -345.8451
 
 ``` r
 print(cbind(coef(f1), coef(f2)), digits=7)
 ```
 
     ##         [,1]     [,2]
-    ## min 3.000684 3.000292
-    ## max 4.998606 4.998606
+    ## min 3.002305 3.001912
+    ## max 4.999000 4.999000
 
 ### 1.11. Can I fit a beta distribution with the same shape parameter?
 
@@ -521,7 +519,7 @@ fitdist(x, "beta2", start=list(shape=1/2))
     ## Fitting of the distribution ' beta2 ' by maximum likelihood 
     ## Parameters:
     ##       estimate Std. Error
-    ## shape     3.24      0.135
+    ## shape     3.01      0.125
 
 Another example with a U-shaped density.
 
@@ -533,7 +531,7 @@ fitdist(x, "beta2", start=list(shape=0.4), optim.method="Nelder-Mead", lower=1e-
     ## Fitting of the distribution ' beta2 ' by maximum likelihood 
     ## Parameters:
     ##       estimate Std. Error
-    ## shape    0.479     0.0137
+    ## shape     0.49     0.0137
 
 ### 1.12. How to estimate support parameter? the case of the four-parameter beta
 
@@ -583,11 +581,11 @@ print(cbind(coef(f1),
       digits=7)
 ```
 
-    ##       [,1]         [,2]       
-    ## min   -0.003074775 0.009485563
-    ## mode  1.241256     1.963062   
-    ## max   1.969343     1.963881   
-    ## shape 0.7444557    0.1276672
+    ##       [,1]         [,2]      
+    ## min   -0.001239309 0.01383572
+    ## mode  0.8908011    0.7451383 
+    ## max   1.993409     1.974074  
+    ## shape 1.204777     0.315856
 
 ``` r
 gofstat(list(f1,f2))
@@ -595,14 +593,14 @@ gofstat(list(f1,f2))
 
     ## Goodness-of-fit statistics
     ##                              1-mle-pert 2-mle-pert
-    ## Kolmogorov-Smirnov statistic     0.0618     0.0648
-    ## Cramer-von Mises statistic       0.1083     0.2174
-    ## Anderson-Darling statistic       0.5327     1.5895
+    ## Kolmogorov-Smirnov statistic     0.0309     0.0706
+    ## Cramer-von Mises statistic       0.0181     0.1800
+    ## Anderson-Darling statistic       0.1829     1.5969
     ## 
     ## Goodness-of-fit criteria
     ##                                1-mle-pert 2-mle-pert
-    ## Akaike's Information Criterion        265        269
-    ## Bayesian Information Criterion        278        276
+    ## Akaike's Information Criterion        258        270
+    ## Bayesian Information Criterion        271        276
 
 ``` r
 par(mfrow=c(1,1), mar=c(4,4,2,1))
@@ -625,7 +623,6 @@ the decision (rejection of H0 or not) is given, when available (see FAQ
 2.3 for more details).
 
 ``` r
-set.seed(1234)
 x <- rgamma(n = 100, shape = 2, scale = 1)
 # fit of the good distribution
 fgamma <- fitdist(x, "gamma")
@@ -645,24 +642,24 @@ g$chisqpvalue
 ```
 
     ##    gamma      exp 
-    ## 1.89e-01 7.73e-05
+    ## 5.77e-01 1.07e-05
 
 ``` r
 g$chisqtable
 ```
 
     ##           obscounts theo gamma theo exp
-    ## <= 0.5483         9      10.06    23.66
-    ## <= 0.8122         9       8.82     9.30
-    ## <= 0.9592         9       5.27     4.68
-    ## <= 1.368          9      14.64    11.37
-    ## <= 1.523          9       5.24     3.74
-    ## <= 1.701          9       5.73     3.97
-    ## <= 1.94           9       7.09     4.82
-    ## <= 2.381          9      11.08     7.50
-    ## <= 2.842          9       9.00     6.29
-    ## <= 3.801          9      11.93     9.28
-    ## > 3.801          10      11.15    15.40
+    ## <= 0.7241         9      10.38    31.43
+    ## <= 0.8515         9       4.38     4.41
+    ## <= 1.077          9       8.81     7.10
+    ## <= 1.348          9      11.44     7.52
+    ## <= 1.548          9       8.35     4.89
+    ## <= 1.794          9       9.69     5.38
+    ## <= 2.05           9       9.03     4.91
+    ## <= 2.465          9      11.95     6.68
+    ## <= 2.862          9       8.42     5.17
+    ## <= 3.423          9       7.87     5.71
+    ## > 3.423          10       9.68    16.80
 
 ``` r
 ## Anderson-Darling test
@@ -753,7 +750,6 @@ sample of 10000 observations would reject it, while both samples come
 from the same distribution.
 
 ``` r
-set.seed(1234)
 x1 <- rpois(n = 100, lambda = 100)
 f1 <- fitdist(x1, "norm")
 g1 <- gofstat(f1)
@@ -811,7 +807,6 @@ that particular case, the chi square test with classes defined by
 default would have rejected te normal fit for both samples.
 
 ``` r
-set.seed(1234)
 x3 <- rpois(n = 500, lambda = 1)
 f3 <- fitdist(x3, "norm")
 g3 <- gofstat(f3)
@@ -828,8 +823,8 @@ g4 <- gofstat(f4)
 g4$kstest
 ```
 
-    ##     1-mle-norm 
-    ## "not rejected"
+    ## 1-mle-norm 
+    ## "rejected"
 
 ``` r
 par(mfrow=c(1,2), mar=c(4,4,2,1))
@@ -844,33 +839,33 @@ g3$chisqtable
 ```
 
     ##      obscounts theocounts
-    ## <= 0     180.0       80.3
-    ## <= 1     187.0      163.5
-    ## <= 2      87.0      168.1
-    ## <= 3      32.0       73.4
-    ## > 3       14.0       14.7
+    ## <= 0     200.0       89.9
+    ## <= 1     181.0      167.0
+    ## <= 2      76.0      162.0
+    ## <= 3      26.0       67.9
+    ## > 3       17.0       13.2
 
 ``` r
 g3$chisqpvalue
 ```
 
-    ## [1] 7.11e-42
+    ## [1] 4.68e-46
 
 ``` r
 g4$chisqtable
 ```
 
     ##      obscounts theocounts
-    ## <= 0     14.00       5.46
-    ## <= 1     15.00      14.23
-    ## <= 2     15.00      18.09
-    ## > 2       6.00      12.22
+    ## <= 0     18.00       7.57
+    ## <= 1     18.00      17.03
+    ## <= 2     10.00      17.35
+    ## > 2       4.00       8.05
 
 ``` r
 g4$chisqpvalue
 ```
 
-    ## [1] 3.57e-05
+    ## [1] 9.62e-06
 
 ### 2.3. Why all goodness-of-fit tests are not available for every distribution ?
 
@@ -966,7 +961,6 @@ difference on the numbers of parameters characterizing the **two nested
 distributions**. You will find below an example of such a test.
 
 ``` r
-set.seed(1234)
 g <- rgamma(100, shape = 2, rate = 1)
 (f <- fitdist(g, "gamma"))
 ```
@@ -974,8 +968,8 @@ g <- rgamma(100, shape = 2, rate = 1)
     ## Fitting of the distribution ' gamma ' by maximum likelihood 
     ## Parameters:
     ##       estimate Std. Error
-    ## shape    2.025      0.266
-    ## rate     0.997      0.149
+    ## shape     2.13      0.281
+    ## rate      1.15      0.171
 
 ``` r
 (f0 <- fitdist(g, "exp"))
@@ -984,7 +978,7 @@ g <- rgamma(100, shape = 2, rate = 1)
     ## Fitting of the distribution ' exp ' by maximum likelihood 
     ## Parameters:
     ##      estimate Std. Error
-    ## rate    0.492     0.0492
+    ## rate    0.542     0.0542
 
 ``` r
 L <- logLik(f)
@@ -994,7 +988,7 @@ k0 <- length(f0$estimate) # number of parameters of the simplified distribution
 (stat <- 2*L - 2*L0)
 ```
 
-    ## [1] 23.9
+    ## [1] 26.9
 
 ``` r
 (critical_value <- qchisq(0.95, df = k - k0))
@@ -1043,12 +1037,12 @@ descdist(x)
 
     ## summary statistics
     ## ------
-    ## min:  0.0436   max:  20.3 
-    ## median:  1.02 
-    ## mean:  1.61 
-    ## estimated sd:  1.89 
-    ## estimated skewness:  3.49 
-    ## estimated kurtosis:  21.9
+    ## min:  0.0328   max:  19.7 
+    ## median:  0.993 
+    ## mean:  1.6 
+    ## estimated sd:  2.01 
+    ## estimated skewness:  3.7 
+    ## estimated kurtosis:  21.6
 
 Indeed for that distribution, the skewness and the kurtosis are
 functions of the exponential of $\sigma^{2}$. With large values, even
@@ -1185,14 +1179,14 @@ system.time(fitdist(danishuni$Loss, "burr", upper=100))
 ```
 
     ##    user  system elapsed 
-    ##   0.251   0.000   0.252
+    ##   0.251   0.000   0.251
 
 ``` r
 system.time(fitdist(danishuni$Loss, "burr", lower=.Machine$double.eps, optim.method="L-BFGS-B"))
 ```
 
     ##    user  system elapsed 
-    ##   0.118   0.000   0.118
+    ##   0.117   0.000   0.116
 
 ### 3.3 Why distribution with a `log` argument may converge better?
 
@@ -1450,7 +1444,6 @@ statistics. Setting a lower bound for the scale parameter is easy with
 `fitdist`: just use the `lower` argument.
 
 ``` r
-set.seed(1234)
 x <- rnorm(1000, 1, 2)
 fitdist(x, "norm", lower=c(-Inf, 0))
 ```
@@ -1458,8 +1451,8 @@ fitdist(x, "norm", lower=c(-Inf, 0))
     ## Fitting of the distribution ' norm ' by maximum likelihood 
     ## Parameters:
     ##      estimate Std. Error
-    ## mean    0.947     0.0630
-    ## sd      1.994     0.0446
+    ## mean     1.07     0.0621
+    ## sd       1.96     0.0439
 
 #### 3.5.2. Setting bounds for shape parameters
 
@@ -1478,9 +1471,9 @@ fitdist(x, "burr", lower=c(0, 0, 0), start=list(shape1 = 1, shape2 = 1,
     ## Fitting of the distribution ' burr ' by maximum likelihood 
     ## Parameters:
     ##        estimate Std. Error
-    ## shape1    0.968     0.0334
-    ## shape2    2.051     0.0367
-    ## rate      3.181     0.0516
+    ## shape1     1.02     0.0335
+    ## shape2     2.00     0.0363
+    ## rate       2.93     0.0512
 
 #### 3.5.3. Setting bounds for probability parameters
 
@@ -1496,7 +1489,7 @@ fitdist(x, "geom", lower=0, upper=1)
     ## Fitting of the distribution ' geom ' by maximum likelihood 
     ## Parameters:
     ##      estimate Std. Error
-    ## prob    0.242    0.00666
+    ## prob    0.247    0.00677
 
 #### 3.5.4. Setting bounds for boundary parameters
 
@@ -1524,8 +1517,8 @@ fitdist(x, "sexp", start=list(rate=1, shift=0), upper= c(Inf, min(x)))
     ## Fitting of the distribution ' sexp ' by maximum likelihood 
     ## Parameters:
     ##       estimate Std. Error
-    ## rate     0.248          0
-    ## shift    1.005        NaN
+    ## rate     0.243        NaN
+    ## shift    1.004        NaN
 
 #### 3.5.5. Setting linear inequality bounds
 
@@ -1584,10 +1577,10 @@ fitdist(x, "nig", custom.optim=myoptim, ui=ui, ci=ci, start=list(mu = 0, delta =
     ## Fitting of the distribution ' nig ' by maximum likelihood 
     ## Parameters:
     ##       estimate
-    ## mu       2.985
-    ## delta    0.457
-    ## alpha    0.466
-    ## beta     0.237
+    ## mu       2.993
+    ## delta    0.504
+    ## alpha    0.445
+    ## beta     0.256
 
 ### 3.6. How does quantile matching estimation work for discrete distributions?
 
@@ -1720,7 +1713,7 @@ fitdist(x, "geom", method="qme", probs=1/2, optim.method="SANN", start=list(prob
     ## Fitting of the distribution ' geom ' by matching quantiles 
     ## Parameters:
     ##      estimate
-    ## prob    0.497
+    ## prob    0.415
 
 ``` r
 fitdist(x, "geom", method="qme", probs=1/2, optim.method="SANN", start=list(prob=1/2))
@@ -1729,7 +1722,7 @@ fitdist(x, "geom", method="qme", probs=1/2, optim.method="SANN", start=list(prob
     ## Fitting of the distribution ' geom ' by matching quantiles 
     ## Parameters:
     ##      estimate
-    ## prob    0.401
+    ## prob    0.461
 
 Let us consider the Poisson distribution defined by the following mass
 probability and the cumulative distribution functions
@@ -1782,7 +1775,7 @@ fitdist(x, "pois", method="qme", probs=1/2, optim.method="SANN", start=list(lamb
     ## Fitting of the distribution ' pois ' by matching quantiles 
     ## Parameters:
     ##        estimate
-    ## lambda     6.73
+    ## lambda     6.74
 
 ### 3.7. Why setting a parameter to the true value does not lead to the expected result for other parameters?
 
@@ -1872,12 +1865,12 @@ fit.NM.3P <- fitdist(
     ## non-finite result may be dubious
     ## Warning in cov2cor(varcovar): NaNs produced
 
-    ##                 fit3P  fit2P true value
-    ## shape           50.16  57.14         11
-    ## rate             9.76  10.92          3
-    ## low              5.01   5.00          5
-    ## mean sq. error 526.46 730.64          0
-    ## rel. error       1.94   2.28          0
+    ##                  fit3P  fit2P true value
+    ## shape          12.4460 13.423         11
+    ## rate            3.1266  3.275          3
+    ## low             5.0052  5.000          5
+    ## mean sq. error  0.7023  1.982          0
+    ## rel. error      0.0582  0.104          0
 
 However the fitted cumulative distributions are indistinguable. See
 figure below. ![](FAQ_files/figure-html/unnamed-chunk-60-1.png)
@@ -1902,12 +1895,12 @@ fit.gamma <- fitdist(
   method = "mle")
 ```
 
-    ##                 fit3P fit2P orig. data fit2P shift data true value
-    ## shape           50.16            57.14            1.498         11
-    ## rate             9.76            10.92            2.289          3
-    ## low              5.01             5.00            5.000          5
-    ## mean sq. error 526.46           730.64           30.266          0
-    ## rel. error       1.94             2.28            0.367          0
+    ##                  fit3P fit2P orig. data fit2P shift data true value
+    ## shape          12.4460           13.423            1.222         11
+    ## rate            3.1266            3.275            1.584          3
+    ## low             5.0052            5.000            5.000          5
+    ## mean sq. error  0.7023            1.982           32.537          0
+    ## rel. error      0.0582            0.104            0.454          0
 
 Changing the sample size improves the two-parameter fit very slowly even
 as the MLE of the `low` parameter is in fact the minimum of the dataset:
@@ -1924,12 +1917,12 @@ with 1000 variates.
 
     ## Warning in sqrt(diag(varcovar)): NaNs produced
 
-    ##                 fit3P fit2P orig. data true value
-    ## shape          15.144           15.490         11
-    ## rate            3.623            3.679          3
-    ## low             5.000            5.000          5
-    ## mean sq. error  5.854            6.874          0
-    ## rel. error      0.195            0.212          0
+    ##                  fit3P fit2P orig. data true value
+    ## shape          12.0355          10.6653         11
+    ## rate            3.1299           2.9059          3
+    ## low             5.0008           5.0000          5
+    ## mean sq. error  0.3631           0.0403          0
+    ## rel. error      0.0459           0.0206          0
 
 ## 4. Questions regarding uncertainty
 
@@ -1970,7 +1963,6 @@ parameter values even outside their possible range (negative rate bound
 for the gamma distribution).
 
 ``` r
-set.seed(1234)
 n <- rnorm(30, mean = 10, sd = 2)
 fn <- fitdist(n, "norm")
 bn <- bootdist(fn)
@@ -1978,16 +1970,16 @@ bn$CI
 ```
 
     ##      Median 2.5% 97.5%
-    ## mean   9.41 8.78 10.02
-    ## sd     1.73 1.33  2.15
+    ## mean  10.18 9.51 10.84
+    ## sd     1.87 1.44  2.37
 
 ``` r
 fn$estimate + cbind("estimate"= 0, "2.5%"= -1.96*fn$sd, "97.5%"= 1.96*fn$sd)
 ```
 
     ##      estimate 2.5% 97.5%
-    ## mean     9.41 8.77 10.04
-    ## sd       1.78 1.33  2.22
+    ## mean    10.21 9.52 10.89
+    ## sd       1.92 1.43  2.41
 
 ``` r
 par(mfrow=c(1,1), mar=c(4,4,2,1))
@@ -1997,24 +1989,23 @@ llplot(fn, back.col = FALSE, fit.show=TRUE)
 ![](FAQ_files/figure-html/unnamed-chunk-66-1.png)
 
 ``` r
-set.seed(1234)
 g <- rgamma(30, shape = 0.1, rate = 10)
 fg <- fitdist(g, "gamma")
 bg <- bootdist(fg)
 bg$CI
 ```
 
-    ##        Median   2.5%   97.5%
-    ## shape  0.0923 0.0636   0.145
-    ## rate  30.1018 9.6288 147.323
+    ##       Median    2.5% 97.5%
+    ## shape  0.131  0.0935   0.2
+    ## rate  34.013 13.2618 110.5
 
 ``` r
 fg$estimate + cbind("estimate"= 0, "2.5%"= -1.96*fg$sd, "97.5%"= 1.96*fg$sd)
 ```
 
     ##       estimate    2.5%  97.5%
-    ## shape   0.0882  0.0553  0.121
-    ## rate   24.2613 -6.3430 54.866
+    ## shape    0.128  0.0797  0.177
+    ## rate    30.147 -2.0724 62.367
 
 ``` r
 par(mfrow=c(1,1), mar=c(4,4,2,1))
@@ -2060,8 +2051,8 @@ bootsample <- bootdistcens(fit, niter = 101)
     ## 
     ## two-sided 95 % CI of each quantile
     ##        p=0.05
-    ## 2.5 %    1.05
-    ## 97.5 %   1.20
+    ## 2.5 %    1.04
+    ## 97.5 %   1.18
 
 ``` r
 # visualizing pointwise confidence intervals on other quantiles
@@ -2091,7 +2082,7 @@ quantile(PAF, probs = c(0.025, 0.975))
 ```
 
     ##   2.5%  97.5% 
-    ## 0.0487 0.1470
+    ## 0.0599 0.1667
 
 For more complex calculations especially to tranfer uncertainty within a
 quantitative risk assessment, we recommend the use of the package `mc2d`

@@ -119,8 +119,8 @@ HC5ll <- quantile(bll,probs = 0.05)
 #> estimate 0.309253
 10^(HC5ll$quantCI)
 #>           p=0.05
-#> 2.5 %  0.1976648
-#> 97.5 % 0.5319295
+#> 2.5 %  0.1653427
+#> 97.5 % 0.5676924
 
 # (5) estimation of the 5 percent quantile value of 
 # the fitted logistic distribution (5 percent hazardous concentration  : HC5)
@@ -139,7 +139,7 @@ HC5llgreater <- quantile(bllnonpar,probs = 0.05, CI.type="greater")
 #> estimate 0.309253
 10^(HC5llgreater$quantCI)
 #>        p=0.05
-#> 5 % 0.1862125
+#> 5 % 0.1982323
 
 # (6) fit of a logistic distribution 
 # by minimizing the modified Anderson-Darling AD2L distance

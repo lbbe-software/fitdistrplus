@@ -164,31 +164,32 @@ Marie-Laure Delignette-Muller and Christophe Dutang.
 ## Examples
 
 ``` r
+set.seed(123) # here just to make random sampling reproducible
+
 # (1) Description of a sample from a normal distribution
 # with and without uncertainty on skewness and kurtosis estimated by bootstrap 
 #
-set.seed(1234)
 x1 <- rnorm(100)
 descdist(x1)
 
 #> summary statistics
 #> ------
-#> min:  -2.345698   max:  2.548991 
-#> median:  -0.384628 
-#> mean:  -0.1567617 
-#> estimated sd:  1.004405 
-#> estimated skewness:  0.6052442 
-#> estimated kurtosis:  3.102441 
+#> min:  -2.309169   max:  2.187333 
+#> median:  0.06175631 
+#> mean:  0.09040591 
+#> estimated sd:  0.9128159 
+#> estimated skewness:  0.06142471 
+#> estimated kurtosis:  2.893081 
 descdist(x1,boot=11)
 
 #> summary statistics
 #> ------
-#> min:  -2.345698   max:  2.548991 
-#> median:  -0.384628 
-#> mean:  -0.1567617 
-#> estimated sd:  1.004405 
-#> estimated skewness:  0.6052442 
-#> estimated kurtosis:  3.102441 
+#> min:  -2.309169   max:  2.187333 
+#> median:  0.06175631 
+#> mean:  0.09040591 
+#> estimated sd:  0.9128159 
+#> estimated skewness:  0.06142471 
+#> estimated kurtosis:  2.893081 
 
 # (2) Description of a sample from a beta distribution
 # with uncertainty on skewness and kurtosis estimated by bootstrap
@@ -199,12 +200,12 @@ descdist(rbeta(100,shape1=0.05,shape2=1),boot=11,
 
 #> summary statistics
 #> ------
-#> min:  3.937372e-36   max:  0.8890347 
-#> median:  5.660314e-06 
-#> mean:  0.04094397 
-#> estimated sd:  0.1281058 
-#> estimated skewness:  4.368522 
-#> estimated kurtosis:  25.02241 
+#> min:  3.716796e-51   max:  0.8867771 
+#> median:  5.248794e-07 
+#> mean:  0.06612708 
+#> estimated sd:  0.184802 
+#> estimated skewness:  3.156352 
+#> estimated kurtosis:  12.26152 
 
 # (3) Description of a sample from a gamma distribution
 # with uncertainty on skewness and kurtosis estimated by bootstrap
@@ -213,12 +214,12 @@ descdist(rbeta(100,shape1=0.05,shape2=1),boot=11,
 descdist(rgamma(100,shape=2,rate=1),boot=11,graph=FALSE)
 #> summary statistics
 #> ------
-#> min:  0.0753002   max:  8.631328 
-#> median:  1.627968 
-#> mean:  1.989657 
-#> estimated sd:  1.443636 
-#> estimated skewness:  1.509842 
-#> estimated kurtosis:  6.691933 
+#> min:  0.1057399   max:  9.506185 
+#> median:  1.763496 
+#> mean:  2.034811 
+#> estimated sd:  1.439147 
+#> estimated skewness:  1.856801 
+#> estimated kurtosis:  9.575125 
 
 # (4) Description of a sample from a Poisson distribution
 # with uncertainty on skewness and kurtosis estimated by bootstrap 
@@ -227,12 +228,12 @@ descdist(rpois(100,lambda=2),discrete=TRUE,boot=11)
 
 #> summary statistics
 #> ------
-#> min:  0   max:  6 
+#> min:  0   max:  7 
 #> median:  2 
 #> mean:  1.98 
-#> estimated sd:  1.377892 
-#> estimated skewness:  0.5802731 
-#> estimated kurtosis:  3.037067 
+#> estimated sd:  1.399711 
+#> estimated skewness:  0.802976 
+#> estimated kurtosis:  3.985192 
 
 # (5) Description of serving size data
 # with uncertainty on skewness and kurtosis estimated by bootstrap 
