@@ -100,6 +100,7 @@ Christophe Dutang and Marie-Laure Delignette-Muller.
 }
 
 \examples{
+set.seed(123) # here just to make random sampling reproducible
 
 # (1) fit of a gamma distribution by maximum likelihood estimation
 #

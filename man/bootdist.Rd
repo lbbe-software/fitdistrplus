@@ -173,6 +173,7 @@ Marie-Laure Delignette-Muller and Christophe Dutang.
 # constraint.
 # For practical applications, we recommend to use at least niter=501 or niter=1001.
 
+set.seed(123) # here just to make random sampling reproducible
 
 # (1) Fit of a gamma distribution to serving size data
 # using default method (maximum likelihood estimation)

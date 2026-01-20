@@ -141,6 +141,8 @@ Marie-Laure Delignette-Muller and Christophe Dutang.
 # constraint.
 # For practical applications, we recommend to use at least niter=501 or niter=1001.
 
+set.seed(123) # here just to make random sampling reproducible
+
 # (1) Fit of a normal distribution to fluazinam data in log10
 # followed by nonparametric bootstrap and calculation of quantiles
 # with 95 percent confidence intervals

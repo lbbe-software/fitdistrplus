@@ -68,6 +68,8 @@ Marie-Laure Delignette-Muller and Christophe Dutang.
 }
 
 \examples{
+set.seed(123) # here just to make random sampling reproducible
+
 # (1) a distribution with one parameter
 #
 
