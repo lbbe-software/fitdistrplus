@@ -1179,7 +1179,7 @@ system.time(fitdist(danishuni$Loss, "burr", upper=100))
 ```
 
     ##    user  system elapsed 
-    ##   0.253   0.000   0.252
+    ##   0.252   0.000   0.252
 
 ``` r
 system.time(fitdist(danishuni$Loss, "burr", lower=.Machine$double.eps, optim.method="L-BFGS-B"))
