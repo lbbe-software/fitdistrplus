@@ -1146,8 +1146,8 @@ sapply(list(fitBurr_cvg1, fitBurr_cvg2), coef)
 ```
 
     ##          [,1]     [,2]
-    ## shape1  0.014 9.92e-03
-    ## shape2 91.561 1.28e+02
+    ## shape1  0.014 9.86e-03
+    ## shape2 91.561 1.29e+02
     ## scale   1.008 1.00e+00
 
 The
@@ -1169,7 +1169,7 @@ print(prod(coef(fitBurr_cvg1)[1:2]), digits=5)
 print(prod(coef(fitBurr_cvg2)[1:2]), digits=5)
 ```
 
-    ## [1] 1.2723
+    ## [1] 1.2727
 
 In terms of computation time, we retrieve that the Nelder-Mead algorithm
 is slower.
@@ -1179,14 +1179,14 @@ system.time(fitdist(danishuni$Loss, "burr", upper=100))
 ```
 
     ##    user  system elapsed 
-    ##   0.325   0.000   0.325
+    ##   0.253   0.000   0.253
 
 ``` r
 system.time(fitdist(danishuni$Loss, "burr", lower=.Machine$double.eps, optim.method="L-BFGS-B"))
 ```
 
     ##    user  system elapsed 
-    ##   0.104   0.000   0.104
+    ##   0.117   0.000   0.117
 
 ### 3.3 Why distribution with a `log` argument may converge better?
 
