@@ -1189,7 +1189,7 @@ algorithm is slower.</p>
 <div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">danishuni</span><span class="op">$</span><span class="va">Loss</span>, <span class="st">"burr"</span>, upper<span class="op">=</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##   0.252   0.000   0.252</span></span></code></pre>
+<span><span class="co">##   0.253   0.000   0.253</span></span></code></pre>
 <div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="fu"><a href="../reference/fitdist.html">fitdist</a></span><span class="op">(</span><span class="va">danishuni</span><span class="op">$</span><span class="va">Loss</span>, <span class="st">"burr"</span>, lower<span class="op">=</span><span class="va">.Machine</span><span class="op">$</span><span class="va">double.eps</span>, optim.method<span class="op">=</span><span class="st">"L-BFGS-B"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
