@@ -401,7 +401,7 @@ summary(bootdist(f1, niter = niter))
 #> rate  0.05465955 0.04584153 0.06559032
 proc.time() - ptm
 #>    user  system elapsed 
-#>   4.248   0.000   4.249 
+#>   4.166   0.000   4.168 
 
 # parallel version using snow
 require("parallel")
@@ -414,7 +414,7 @@ summary(bootdist(f1, niter = niter, parallel = "snow", ncpus = 2))
 #> rate  0.05477864 0.04620101 0.06603422
 proc.time() - ptm
 #>    user  system elapsed 
-#>   0.037   0.004   4.052 
+#>   0.038   0.001   3.785 
 
 # parallel version using multicore (not available on Windows)
 ptm <- proc.time()
@@ -425,6 +425,6 @@ summary(bootdist(f1, niter = niter, parallel = "multicore", ncpus = 2))
 #> rate  0.05466294 0.04663766 0.0655417
 proc.time() - ptm
 #>    user  system elapsed 
-#>   4.420   0.298   2.378 
+#>   4.241   0.236   2.258 
 # }
 ```

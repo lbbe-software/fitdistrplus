@@ -2,7 +2,9 @@
 
 ## fitdistrplus 1.2-6
 
-- new devel version
+BUG FIX
+
+- simplify tests in `t-ppcomp.R`
 
 ## fitdistrplus 1.2-5
 
@@ -16,7 +18,7 @@ BUG FIX
 - harmonize the use of
   [`set.seed()`](https://rdrr.io/r/base/Random.html) in test files and
   in man files so that there is no random error when testing the
-  package, such as in `t-ppcomp.R`
+  package.
 
 ## fitdistrplus 1.2-4
 
