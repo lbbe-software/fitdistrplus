@@ -153,40 +153,42 @@ if (visualize)
 
 # (4) normal mixture
 #
-
-#mixture of two normal distributions
-#density
-dnorm2 <- function(x, poid, m1, s1, m2, s2){
-  poid*dnorm(x, m1, s1) + (1-poid)*dnorm(x, m2, s2)}
-#numerical approximate quantile function
-qnorm2 <- function(p, poid, m1, s1, m2, s2)
+if (visualize)
 {
-  L2 <- function(x, prob)
-    (prob - pnorm2(x, poid, m1, s1, m2, s2))^2	
-  sapply(p, function(pr) optimize(L2, c(-1000, 1000), prob=pr)$minimum)
-}	
-#distribution function		
-pnorm2 <- function(q, poid, m1, s1, m2, s2){
-  poid*pnorm(q, m1, s1) + (1-poid)*pnorm(q, m2, s2)
-}
-
-
-#basic normal distribution
-x2 <- c(rnorm(nsample, 5),  rnorm(nsample, 10))
-#MLE fit
-fit1 <- fitdist(x2, "norm2", "mle", start=list(poid=1/3, m1=4, s1=2, m2=8, s2=2), 
-                lower=c(0, 0, 0, 0, 0), optim="L-BFGS-B")
-fit2 <- fitdist(x2, "norm2", "qme", probs=c(1/6, 1/4, 1/3, 1/2, 2/3), 
-                start=list(poid=1/3, m1=4, s1=2, m2=8, s2=2), optim="L-BFGS-B", 
-                lower=c(0, 0, 0, 0, 0), upper=c(1/2, Inf, Inf, Inf, Inf))
-fit3 <- fitdist(x2, "norm2", "mge", gof="AD", 
-                start=list(poid=1/3, m1=4, s1=2, m2=8, s2=2), optim="L-BFGS-B", 
-                lower=c(0, 0, 0, 0, 0), upper=c(1/2, Inf, Inf, Inf, Inf))
-
-ppcomp(list(fit1, fit2, fit3), fitpch=rep(".", 3), fitcol=c("green", "red", "blue"))
-
-if (requireNamespace ("ggplot2", quietly = TRUE) & visualize) {
-  ppcomp(list(fit1, fit2, fit3), fitpch=rep(".", 3), fitcol=c("green", "red", "blue"), plotstyle = "gg")
+  #mixture of two normal distributions
+  #density
+  dnorm2 <- function(x, poid, m1, s1, m2, s2){
+    poid*dnorm(x, m1, s1) + (1-poid)*dnorm(x, m2, s2)}
+  #numerical approximate quantile function
+  qnorm2 <- function(p, poid, m1, s1, m2, s2)
+  {
+    L2 <- function(x, prob)
+      (prob - pnorm2(x, poid, m1, s1, m2, s2))^2	
+    sapply(p, function(pr) optimize(L2, c(-1000, 1000), prob=pr)$minimum)
+  }	
+  #distribution function		
+  pnorm2 <- function(q, poid, m1, s1, m2, s2){
+    poid*pnorm(q, m1, s1) + (1-poid)*pnorm(q, m2, s2)
+  }
+  
+  
+  #basic normal distribution
+  x2 <- c(rnorm(nsample, 5),  rnorm(nsample, 10))
+  #MLE fit
+  fit1 <- fitdist(x2, "norm2", "mle", start=list(poid=1/3, m1=4, s1=2, m2=8, s2=2), 
+                  lower=c(0, 0, 0, 0, 0), optim="L-BFGS-B")
+  fit2 <- fitdist(x2, "norm2", "qme", probs=c(1/6, 1/4, 1/3, 1/2, 2/3), 
+                  start=list(poid=1/3, m1=4, s1=2, m2=8, s2=2), optim="L-BFGS-B", 
+                  lower=c(0, 0, 0, 0, 0), upper=c(1/2, Inf, Inf, Inf, Inf))
+  fit3 <- fitdist(x2, "norm2", "mge", gof="AD", 
+                  start=list(poid=1/3, m1=4, s1=2, m2=8, s2=2), optim="L-BFGS-B", 
+                  lower=c(0, 0, 0, 0, 0), upper=c(1/2, Inf, Inf, Inf, Inf))
+  
+  ppcomp(list(fit1, fit2, fit3), fitpch=rep(".", 3), fitcol=c("green", "red", "blue"))
+  
+  if (requireNamespace ("ggplot2", quietly = TRUE) & visualize) {
+    ppcomp(list(fit1, fit2, fit3), fitpch=rep(".", 3), fitcol=c("green", "red", "blue"), plotstyle = "gg")
+  }
 }
 
 # (5) large data

@@ -1,7 +1,8 @@
 # fitdistrplus 1.2-6
 
-- new devel version
+BUG FIX
 
+- simplify tests in `t-ppcomp.R`
 
 # fitdistrplus 1.2-5
 
@@ -9,7 +10,7 @@
 
 BUG FIX
 
-- harmonize the use of `set.seed()` in test files and in man files so that there is no random error when testing the package, such as in `t-ppcomp.R`
+- harmonize the use of `set.seed()` in test files and in man files so that there is no random error when testing the package.
 
 # fitdistrplus 1.2-4
 
