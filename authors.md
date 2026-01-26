@@ -20,7 +20,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/lbbe-software/fitdistrplus/blob/master/inst/CITATION)
+[`inst/CITATION`](https://github.com/lbbe-software/fitdistrplus/blob/v1.2-6/inst/CITATION)
 
 Marie Laure Delignette-Muller, Christophe Dutang (2015). fitdistrplus:
 An R Package for Fitting Distributions. Journal of Statistical Software,

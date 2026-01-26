@@ -2,6 +2,8 @@
 
 ## fitdistrplus 1.2-6
 
+CRAN release: 2026-01-24
+
 BUG FIX
 
 - simplify tests in `t-ppcomp.R`

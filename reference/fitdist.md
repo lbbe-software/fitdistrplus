@@ -770,7 +770,7 @@ summary(res2)
 #> ##
 #> 
 #> 
-#> Fri Jan 23 10:02:01 2026
+#> Mon Jan 26 08:25:16 2026
 #> Domains:
 #>  0.000000e+00   <=  X1   <=    1.000000e+01 
 #>  0.000000e+00   <=  X2   <=    1.000000e+01 
@@ -816,7 +816,7 @@ summary(res2)
 #> Solution Found Generation 1
 #> Number of Generations Run 11
 #> 
-#> Fri Jan 23 10:02:02 2026
+#> Mon Jan 26 08:25:17 2026
 #> Total run time : 0 hours 0 minutes and 1 seconds
 
     summary(fit2)
