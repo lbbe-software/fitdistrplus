@@ -175,35 +175,35 @@ quantile(bln, probs = c(0.05, 0.1, 0.2))
 #> estimate 1.744227 2.080093 2.4868
 #> Median of bootstrap estimates
 #>            p=0.05    p=0.1    p=0.2
-#> estimate 1.844443 2.193967 2.565053
+#> estimate 1.830341 2.140821 2.576638
 #> 
 #> two-sided 95 % CI of each quantile
 #>          p=0.05    p=0.1    p=0.2
-#> 2.5 %  1.334340 1.702510 2.147238
-#> 97.5 % 2.514211 2.749821 3.029097
+#> 2.5 %  1.318589 1.695915 2.089015
+#> 97.5 % 2.549106 2.770586 3.038781
 quantile(bln, probs = c(0.05, 0.1, 0.2), CI.type = "greater")
 #> (original) estimated quantiles for each specified probability (non-censored data)
 #>            p=0.05    p=0.1  p=0.2
 #> estimate 1.744227 2.080093 2.4868
 #> Median of bootstrap estimates
 #>            p=0.05    p=0.1    p=0.2
-#> estimate 1.844443 2.193967 2.565053
+#> estimate 1.830341 2.140821 2.576638
 #> 
 #> left bound of one-sided  95 %  CI of each quantile
 #>       p=0.05    p=0.1    p=0.2
-#> 5 % 1.353966 1.730207 2.191972
+#> 5 % 1.358034 1.717631 2.145137
 quantile(bln, probs = c(0.05, 0.1, 0.2), CI.level = 0.9)
 #> (original) estimated quantiles for each specified probability (non-censored data)
 #>            p=0.05    p=0.1  p=0.2
 #> estimate 1.744227 2.080093 2.4868
 #> Median of bootstrap estimates
 #>            p=0.05    p=0.1    p=0.2
-#> estimate 1.844443 2.193967 2.565053
+#> estimate 1.830341 2.140821 2.576638
 #> 
 #> two-sided 90 % CI of each quantile
 #>        p=0.05    p=0.1    p=0.2
-#> 5 %  1.353966 1.730207 2.191972
-#> 95 % 2.362556 2.596005 2.941806
+#> 5 %  1.358034 1.717631 2.145137
+#> 95 % 2.300341 2.571740 2.966702
 
 # (2) Draw of 95 percent confidence intervals on quantiles of the 
 # previously fitted distribution
@@ -245,33 +245,33 @@ quantile(blncens, probs = c(0.05, 0.1, 0.2))
 #> estimate 1.11584 1.194121 1.288913
 #> Median of bootstrap estimates
 #>            p=0.05    p=0.1    p=0.2
-#> estimate 1.129313 1.203404 1.295227
+#> estimate 1.130612 1.205018 1.295147
 #> 
 #> two-sided 95 % CI of each quantile
 #>          p=0.05    p=0.1    p=0.2
-#> 2.5 %  1.055642 1.141958 1.240763
-#> 97.5 % 1.198447 1.269871 1.356360
+#> 2.5 %  1.055794 1.141695 1.243955
+#> 97.5 % 1.198445 1.269253 1.354995
 quantile(blncens, probs = c(0.05, 0.1, 0.2), CI.type = "greater")
 #> (original) estimated quantiles for each specified probability (censored data)
 #>           p=0.05    p=0.1    p=0.2
 #> estimate 1.11584 1.194121 1.288913
 #> Median of bootstrap estimates
 #>            p=0.05    p=0.1    p=0.2
-#> estimate 1.129313 1.203404 1.295227
+#> estimate 1.130612 1.205018 1.295147
 #> 
 #> left bound of one-sided  95 %  CI of each quantile
 #>       p=0.05    p=0.1    p=0.2
-#> 5 % 1.063145 1.145597 1.249131
+#> 5 % 1.062209 1.148486 1.250671
 quantile(blncens, probs = c(0.05, 0.1, 0.2), CI.level = 0.9)
 #> (original) estimated quantiles for each specified probability (censored data)
 #>           p=0.05    p=0.1    p=0.2
 #> estimate 1.11584 1.194121 1.288913
 #> Median of bootstrap estimates
 #>            p=0.05    p=0.1    p=0.2
-#> estimate 1.129313 1.203404 1.295227
+#> estimate 1.130612 1.205018 1.295147
 #> 
 #> two-sided 90 % CI of each quantile
 #>        p=0.05    p=0.1    p=0.2
-#> 5 %  1.063145 1.145597 1.249131
-#> 95 % 1.178178 1.249381 1.341801
+#> 5 %  1.062209 1.148486 1.250671
+#> 95 % 1.177869 1.249056 1.341576
 ```

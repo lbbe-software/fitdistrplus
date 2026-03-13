@@ -440,8 +440,8 @@ fitdistcens(log10EC50,"logis",optim.method="SANN")
 #> Fitting of the distribution ' logis ' on censored data by maximum likelihood 
 #> Parameters:
 #>           estimate
-#> location 2.1459483
-#> scale    0.7809069
+#> location 2.0238931
+#> scale    0.5261822
 
 # (6) custom optimisation function - example with the genetic algorithm
 #
@@ -463,7 +463,7 @@ fitdistcens(log10EC50,"logis",optim.method="SANN")
         print.level=1, hessian=TRUE)
 #> 
 #> 
-#> Mon Jan 26 08:25:29 2026
+#> Fri Mar 13 14:06:11 2026
 #> Domains:
 #>  0.000000e+00   <=  X1   <=    5.000000e+00 
 #>  0.000000e+00   <=  X2   <=    5.000000e+00 
@@ -494,7 +494,7 @@ fitdistcens(log10EC50,"logis",optim.method="SANN")
 #> 
 #> Generation#      Solution Value
 #> 
-#>       0  1.478955e+00
+#>       0  1.475558e+00
 #>       1  1.468136e+00
 #> 
 #> 'wait.generations' limit reached.
@@ -504,26 +504,26 @@ fitdistcens(log10EC50,"logis",optim.method="SANN")
 #> 
 #> Parameters at the Solution (parameter, gradient):
 #> 
-#>  X[ 1] : 2.151910e+00    G[ 1] : -1.061675e-07
-#>  X[ 2] : 6.909663e-01    G[ 2] : 2.013893e-07
+#>  X[ 1] : 2.151910e+00    G[ 1] : -1.894464e-08
+#>  X[ 2] : 6.909672e-01    G[ 2] : 2.323783e-06
 #> 
 #> Solution Found Generation 1
 #> Number of Generations Run 12
 #> 
-#> Mon Jan 26 08:25:31 2026
-#> Total run time : 0 hours 0 minutes and 2 seconds
+#> Fri Mar 13 14:06:11 2026
+#> Total run time : 0 hours 0 minutes and 0 seconds
 
     summary(fit.with.genoud)
 #> Fitting of the distribution ' logis ' By maximum likelihood on censored data 
 #> Parameters
 #>           estimate Std. Error
-#> location 2.1519103  0.3222566
-#> scale    0.6909663  0.1744835
+#> location 2.1519105   0.322257
+#> scale    0.6909672   0.174484
 #> Loglikelihood:  -20.55391   AIC:  45.10781   BIC:  46.38593 
 #> Correlation matrix:
 #>            location      scale
-#> location 1.00000000 0.05106507
-#> scale    0.05106507 1.00000000
+#> location 1.00000000 0.05106547
+#> scale    0.05106547 1.00000000
 #> 
 # }
 
