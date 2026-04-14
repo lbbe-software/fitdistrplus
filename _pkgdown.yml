@@ -14,14 +14,11 @@ toc:
   depth: 4
   
 articles:
-- title: Introduction and help
+- title: Articles
   navbar: ~
   contents:
   - fitdistrplus_vignette
   - FAQ
-- title: Advanced topics
-  navbar: ~
-  contents:
   - Optimalgo
   - starting-values
   
