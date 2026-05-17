@@ -25,6 +25,7 @@ dgumbel <- function(x,a,b)
 }
 mledist(x1,"gumbel",start=list(a=10,b=5), silent=TRUE)
 mledist(x1,"gumbel",start=list(a=10,b=5), silent=FALSE, control=list(trace=1), lower=0)
+mledist(x1,"gumbel",start=list(a=10,b=5), silent=FALSE, control=list(trace=1))
 
 #fitted coef around -0.6267919  0.8564855, fitted loglik -139.3812
 
