@@ -66,6 +66,7 @@ Distributions using Extreme Value Theory*, ASTIN Bull. Davison, A. C.
 ## Examples
 
 ``` r
+
 # (1) load of data
 #
 data(danishuni)

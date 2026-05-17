@@ -34,6 +34,7 @@ by Dutang, Kiener & Swihart (2024).
 The stable version of `fitdistrplus` can be installed from CRAN using:
 
 ``` r
+
 install.packages("fitdistrplus")
 ```
 
@@ -41,6 +42,7 @@ The development version of `fitdistrplus` can be installed from GitHub
 (`remotes` needed):
 
 ``` r
+
 if (!requireNamespace("remotes", quietly = TRUE))
    install.packages("remotes")
    
@@ -51,6 +53,7 @@ Finally load the package in your current R session with the following R
 command:
 
 ``` r
+
 require("fitdistrplus")
 ```
 

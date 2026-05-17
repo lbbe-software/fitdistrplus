@@ -23,6 +23,7 @@ exponential) is given in FAQ 3.5.4.
 - The Gumbel distribution
 
 ``` r
+
 dgumbel <- function(x, a, b) 1/b*exp((a-x)/b)*exp(-exp((a-x)/b))
 pgumbel <- function(q, a, b) exp(-exp((a-q)/b))
 qgumbel <- function(p, a, b) a-b*log(-log(p))
@@ -33,6 +34,7 @@ fitgumbel <- fitdist(groundbeef$serving, "gumbel", start=list(a=10, b=10))
 - The zero-modified geometric distribution
 
 ``` r
+
 dzmgeom <- function(x, p1, p2) p1 * (x == 0) + (1-p1)*dgeom(x-1, p2)
 pzmgeom <- function(q, p1, p2) p1 * (q >= 0) + (1-p1)*pgeom(q-1, p2)
 rzmgeom <- function(n, p1, p2) 
@@ -82,6 +84,7 @@ Yes, an example with the Burr distribution is detailed in the JSS paper.
 We reproduce it very quickly here.
 
 ``` r
+
 data("endosulfan")
 require("actuar")
 fendo.B <- fitdist(endosulfan$ATV, "burr", start = list(shape1 = 0.3, 
@@ -105,21 +108,27 @@ summary(fendo.B)
 ### 1.5. Why there are differences between MLE and MME for the lognormal distribution?
 
 We recall that the lognormal distribution function is given by
-$$F_{X}(x) = \Phi\left( \frac{\log(x) - \mu}{\sigma} \right),$$
+``` math
+F_X(x) =  \Phi\left(\frac{\log(x)-\mu}{\sigma} \right),
+```
 
-where $\Phi$ denotes the distribution function of the standard normal
+where $`\Phi`$ denotes the distribution function of the standard normal
 distribution. We know that
-$E(X) = \exp\left( \mu + \frac{1}{2}\sigma^{2} \right)$ and
-$Var(X) = \exp\left( 2\mu + \sigma^{2} \right)\left( e^{\sigma^{2}} - 1 \right)$.
-The MME is obtained by inverting the previous formulas, whereas the MLE
-has the following explicit solution
+$`E(X) = \exp\left( \mu+\frac{1}{2} \sigma^2 \right)`$ and
+$`Var(X) = \exp\left( 2\mu+\sigma^2\right) (e^{\sigma^2} -1)`$. The MME
+is obtained by inverting the previous formulas, whereas the MLE has the
+following explicit solution
 
-$${\widehat{\mu}}_{MLE} = \frac{1}{n}\sum\limits_{i = 1}^{n}\log\left( x_{i} \right),\ \ {\widehat{\sigma}}_{MLE}^{2} = \frac{1}{n}\sum\limits_{i = 1}^{n}\left( \log\left( x_{i} \right) - {\widehat{\mu}}_{MLE} \right)^{2}.$$
+``` math
+\hat\mu_{MLE} = \frac{1}{n}\sum_{i=1}^n \log(x_i),~~
+\hat\sigma^2_{MLE} = \frac{1}{n}\sum_{i=1}^n (\log(x_i) - \hat\mu_{MLE})^2.
+```
 
 Let us fit a sample by MLE and MME. The fit looks particularly good in
 both cases.
 
 ``` r
+
 x3 <- rlnorm(1000)
 f1 <- fitdist(x3, "lnorm", method="mle") 
 f2 <- fitdist(x3, "lnorm", method="mme")
@@ -133,10 +142,14 @@ denscomp(list(f1, f2), demp=TRUE, main = "Density plot")
 Let us compare the theoretical moments (mean and variance) given the
 fitted values
 
-($\widehat{\mu},\widehat{\sigma}$), that is
-$$E(X) = \exp\left( \widehat{\mu} + \frac{1}{2}{\widehat{\sigma}}^{2} \right),Var(X) = \exp\left( 2\widehat{\mu} + {\widehat{\sigma}}^{2} \right)\left( e^{{\widehat{\sigma}}^{2}} - 1 \right).$$
+($`\hat\mu,\hat\sigma`$), that is
+``` math
+E(X) = \exp\left( \hat\mu+\frac{1}{2} \hat\sigma^2 \right),
+Var(X) = \exp\left( 2\hat\mu+\hat\sigma^2\right) (e^{\hat\sigma^2} -1).
+```
 
 ``` r
+
 c("E(X) by MME"=as.numeric(exp(f2$estimate["meanlog"]+f2$estimate["sdlog"]^2/2)), 
     "E(X) by MLE"=as.numeric(exp(f1$estimate["meanlog"]+f1$estimate["sdlog"]^2/2)), 
     "empirical"=mean(x3))
@@ -146,6 +159,7 @@ c("E(X) by MME"=as.numeric(exp(f2$estimate["meanlog"]+f2$estimate["sdlog"]^2/2))
     ##        1.67        1.66        1.67
 
 ``` r
+
 c("Var(X) by MME"=as.numeric(exp(2*f2$estimate["meanlog"]+f2$estimate["sdlog"]^2) * 
                                (exp(f2$estimate["sdlog"]^2)-1)), 
     "Var(X) by MLE"=as.numeric(exp(2*f1$estimate["meanlog"]+f1$estimate["sdlog"]^2) * 
@@ -156,13 +170,11 @@ c("Var(X) by MME"=as.numeric(exp(2*f2$estimate["meanlog"]+f2$estimate["sdlog"]^2
     ## Var(X) by MME Var(X) by MLE     empirical 
     ##          4.45          4.61          4.45
 
-From a MLE point of view, a lognormal sample $x_{1},\ldots,x_{n}$ is
-equivalent to handle a normal sample
-$\log\left( x_{1} \right),\ldots,\log\left( x_{n} \right)$. However, it
-is well know by the Jensen inequality that
-$E(X) = E\left( \exp\left( \log(X) \right) \right) \geq \exp\left( E\left( \log(X) \right) \right)$
-implying the MME estimates provides better moment estimates than with
-MLE.
+From a MLE point of view, a lognormal sample $`x_1,\dots,x_n`$ is
+equivalent to handle a normal sample $`\log(x_1),\dots,\log(x_n)`$.
+However, it is well know by the Jensen inequality that
+$`E(X) = E(\exp(\log(X))) \geq \exp(E(\log(X)))`$ implying the MME
+estimates provides better moment estimates than with MLE.
 
 ### 1.6. Can I fit a distribution with positive support when data contains negative values?
 
@@ -170,6 +182,7 @@ The answer is no: you cannot fit a distribution with positive support
 (say gamma distribution) when data contains negative values.
 
 ``` r
+
 x <- rnorm(100, mean = 1, sd = 0.5)
 (try(fitdist(x, "exp")))
 ```
@@ -192,6 +205,7 @@ distribution, you have two options: either to remove negative values
 (not recommended) or to shift the data.
 
 ``` r
+
 fitdist(x[x >= 0], "exp")
 ```
 
@@ -201,6 +215,7 @@ fitdist(x[x >= 0], "exp")
     ## rate    0.921      0.093
 
 ``` r
+
 fitdist(x - min(x), "exp")
 ```
 
@@ -212,9 +227,10 @@ fitdist(x - min(x), "exp")
 ### 1.7. Can I fit a finite-support distribution when data is outside that support?
 
 The answer is no: you cannot fit a distribution with finite-support (say
-beta distribution) when data is outside $\lbrack 0,1\rbrack$.
+beta distribution) when data is outside $`[0,1]`$.
 
 ``` r
+
 x <- rnorm(100, mean = 0.5, sd = 0.25)
 (try(fitdist(x, "beta")))
 ```
@@ -237,6 +253,7 @@ distribution, you have two ways to tackle this issue: either to remove
 impossible values (not recommended) or to shift/scale the data.
 
 ``` r
+
 fitdist(x[x > 0 & x < 1], "beta")
 ```
 
@@ -247,6 +264,7 @@ fitdist(x[x > 0 & x < 1], "beta")
     ## shape2     2.65      0.374
 
 ``` r
+
 fitdist((x - min(x)*1.01) / (max(x) * 1.01 - min(x) * 1.01), "beta")
 ```
 
@@ -259,18 +277,21 @@ fitdist((x - min(x)*1.01) / (max(x) * 1.01 - min(x) * 1.01), "beta")
 ### 1.8. Can I fit truncated distributions?
 
 The answer is yes: but the fitting procedure must be carried out
-carefully. Let $X$ be the original untruncated random variable. The
+carefully. Let $`X`$ be the original untruncated random variable. The
 truncated variable is the conditionnal random variable
-$Y = X\ |\ l < X < u$ with $l < u$ the lower and upper bounds. The cdf
-of $Y$ is $F_{Y}(y) = \frac{F_{X}(x) - F_{X}(l)}{F_{X}(u) - F_{X}(l)}$.
-There is a density (w.r.t. the Lebesgues measure) given by
-$$f_{Y}(y) = \begin{cases}
-\frac{f_{X}(x)}{F_{X}(u) - F_{X}(l)} & {{\text{if}\mspace{6mu}}l < x < u} \\
-0 & {\text{otherwise}\mspace{6mu}} \\
- & 
-\end{cases}$$
+$`Y = X ~\vert~ l< X <u`$ with $`l<u`$ the lower and upper bounds. The
+cdf of $`Y`$ is $`F_Y(y)=\frac{F_X(x) - F_X(l)}{F_X(u)-F_X(l)}`$. There
+is a density (w.r.t. the Lebesgues measure) given by
+``` math
+f_Y(y) = 
+\left\{\begin{array}{ll}
+\frac{f_X(x)}{F_X(u)-F_X(l)} & \text{if }  l < x < u \\
+0 & \text{otherwise }\\
+\end{array}\right.
+```
 
 ``` r
+
 dtexp <- function(x, rate, low, upp)
 {
   PU <- pexp(upp, rate=rate)
@@ -304,6 +325,7 @@ gofstat(list(f1, f2))
     ## Bayesian Information Criterion        160        163
 
 ``` r
+
 par(mfrow=c(1,1), mar=c(4,4,2,1))
 cdfcomp(list(f1, f2), do.points = FALSE, xlim=c(0, 3.5))
 ```
@@ -313,38 +335,44 @@ cdfcomp(list(f1, f2), do.points = FALSE, xlim=c(0, 3.5))
 ### 1.9. Can I fit truncated inflated distributions?
 
 The answer is yes: but the fitting procedure must be carried out
-carefully. Let $X$ be the original untruncated random variable. The
-truncated variable is $Y = \max\left( \min(X,u),l \right)$ with $l < u$
-the lower and upper bounds. The cdf of $Y$ is
-$F_{Y}(y) = F_{X}(y)1_{u > y > l} + 1_{y > u}$. There is no density
-(w.r.t. the Lebesgues measure) since there are two probability masses
-$P(Y = l) = P(X \leq l) > 0$ and $P(Y = u) = P(X > u) > 0$. However, the
-density function with respect to the measure
-$m(x) = \delta_{l}(x) + \delta_{u}(x) + \lambda(x)$ is
-$$f_{Y}(y) = \begin{cases}
-{F_{X}(l)} & {{\text{if}\mspace{6mu}}y = l} \\
-{f_{X}(y)} & {{\text{if}\mspace{6mu}}l < y < u} \\
-{1 - F_{X}(u)} & {{\text{if}\mspace{6mu}}y = u} \\
- & 
-\end{cases}$$ Let $\theta$ be the parameter of the untruncated
-distribution. Since the likelihood can be factorized, the maximization
-can be done separately
-$$L(l,\theta,u) = 1_{\forall i,l \leq y_{i} \leq u}\prod\limits_{i = 1,y_{i} = l}^{n}F_{X}(l,\theta) \times \prod\limits_{i = 1,l < y_{i} < u}^{n}f_{X}\left( y_{i},\theta \right) \times \prod\limits_{i = 1,y_{i} = u}^{n}\left( 1 - F_{X}(u,\theta) \right),$$
+carefully. Let $`X`$ be the original untruncated random variable. The
+truncated variable is $`Y = \max(\min(X, u), l)`$ with $`l<u`$ the lower
+and upper bounds. The cdf of $`Y`$ is
+$`F_Y(y)=F_X(y)1_{u>y>l} + 1_{y>u}`$. There is no density (w.r.t. the
+Lebesgues measure) since there are two probability masses
+$`P(Y=l)= P(X\leq l)>0`$ and $`P(Y=u)=P(X>u)>0`$. However, the density
+function with respect to the measure
+$`m(x)= \delta_l(x)+\delta_u(x)+\lambda(x)`$ is
+``` math
+f_Y(y) = 
+\left\{\begin{array}{ll}
+F_X(l) & \text{if } y=l \\
+f_X(y) & \text{if } l<y<u \\
+1-F_X(u) & \text{if } y=u \\
+\end{array}\right.
+```
+Let $`\theta`$ be the parameter of the untruncated distribution. Since
+the likelihood can be factorized, the maximization can be done
+separately
+``` math
+L(l, \theta, u) = 1_{\forall i, l\leq y_i\leq u} \prod_{i=1, y_i=l}^n F_X(l, \theta)
+\times \prod_{i=1,l<y_i<u}^n f_X(y_i, \theta)
+\times \prod_{i=1,y_i=u}^n (1-F_X(u, \theta)),
+```
 Furthermore, using
-$\left. \forall i,l \leq y_{i} \leq u\Leftrightarrow l \leq \min_{i}y_{i} \leq \max_{i}y_{i} \leq u \right.$,
-the likelihood is zero for $l > \min_{i}y_{i}$ or $u < \max_{i}y_{i}$
-and increasing with respect to $l$ in
-$\rbrack - \infty,\min_{i}y_{i}\rbrack$ and decreasing with respect to
-$u$ in $\lbrack\max_{i}y_{i}, + \infty\lbrack$. So the maximum of $L$ is
-reached at $l = \min_{i}y_{i}$ and $u = \max_{i}y_{i}$. The MLE of
-$\theta$ is then obtained by maximizing the log-likelihood
-$\log\left( L(l,\theta,u) \right)$ with $u = \max_{i}Y_{i}$ and
-$l = \min_{i}Y_{i}$.
+$`\forall i, l\leq y_i\leq u\Leftrightarrow l\leq \min_i y_i\leq \max_i y_i\leq u`$,
+the likelihood is zero for $`l>\min_i y_i`$ or $`u<\max_i y_i`$ and
+increasing with respect to $`l`$ in $`]-\infty, \min_i y_i]`$ and
+decreasing with respect to $`u`$ in $`[\max_i y_i,+\infty[`$. So the
+maximum of $`L`$ is reached at $`l=\min_i y_i`$ and $`u=\max_i y_i`$.
+The MLE of $`\theta`$ is then obtained by maximizing the log-likelihood
+$`\log(L(l, \theta, u))`$ with $`u=\max_i Y_i`$ and $`l=\min_i Y_i`$.
 
 Let us illustrate truncated distribution with the truncated exponential
 distribution. The log-likelihood is particularly bad-shaped.
 
 ``` r
+
 dtiexp <- function(x, rate, low, upp)
 {
   PU <- pexp(upp, rate=rate, lower.tail = FALSE)
@@ -364,14 +392,15 @@ llcurve(x, "tiexp", plot.arg="upp", fix.arg = list(rate=2, low=0),
 
 ![](FAQ_files/figure-html/unnamed-chunk-11-1.png)
 
-The first method directly maximizes the log-likelihood $L(l,\theta,u)$;
-the second method maximizes the log-likelihood $L(\theta)$ assuming that
-$u = \widehat{u}$ and $l = \widehat{l}$ are known. Inside
-$\lbrack 0.5,3\rbrack$, the CDF are correctly estimated in both methods
-but the first method does not succeed to estimate the true value of the
-bounds $l,u$.
+The first method directly maximizes the log-likelihood
+$`L(l, \theta, u)`$; the second method maximizes the log-likelihood
+$`L(\theta)`$ assuming that $`u=\hat u`$ and $`l=\hat l`$ are known.
+Inside $`[0.5,3]`$, the CDF are correctly estimated in both methods but
+the first method does not succeed to estimate the true value of the
+bounds $`l,u`$.
 
 ``` r
+
 (f1 <- fitdist(x, "tiexp", method="mle", start=list(rate=3, low=0, upp=20)))
 ```
 
@@ -383,6 +412,7 @@ bounds $l,u$.
     ## upp     23.52
 
 ``` r
+
 (f2 <- fitdist(x, "tiexp", method="mle", start=list(rate=3), 
                fix.arg=list(low=min(x), upp=max(x))))
 ```
@@ -397,6 +427,7 @@ bounds $l,u$.
     ## upp   3.0
 
 ``` r
+
 gofstat(list(f1, f2))
 ```
 
@@ -412,6 +443,7 @@ gofstat(list(f1, f2))
     ## Bayesian Information Criterion         201         131
 
 ``` r
+
 par(mfrow=c(1,1), mar=c(4,4,2,1))
 cdfcomp(list(f1, f2), do.points = FALSE, addlegend=FALSE, xlim=c(0, 3.5))
 curve(ptiexp(x, 1, .5, 3), add=TRUE, col="blue", lty=3)
@@ -423,30 +455,33 @@ legend("bottomright", lty=1:3, col=c("red", "green", "blue", "black"),
 
 ### 1.10. Can I fit a uniform distribution?
 
-The uniform distribution $\mathcal{U}(a,b)$ has only support parameters
+The uniform distribution $`\mathcal U(a,b)`$ has only support parameters
 since the density does not have a scale or a shape parameter
-$f_{U}(u) = \frac{1}{b - a}1_{\lbrack a,b\rbrack}(u)$. For this
-distribution, we should not maximize the log-likelihood but only the
-likelihood. Let $\left( x_{i} \right)_{i}$ be i.i.d. observations from
-$\mathcal{U}(a,b)$ distribution. The likelihood is
-$$L(a,b) = \prod\limits_{i = 1}^{n}\frac{1}{b - a}1_{\lbrack a,b\rbrack}\left( x_{i} \right) = 1_{a \leq x_{i} \leq b,i = 1,\ldots,n}\frac{1}{b - a}^{n} = 1_{a \leq \min\limits_{i}x_{i}}1_{\max\limits_{i}x_{i} \leq b}\frac{1}{b - a}^{n}$$
-Hence $\left. a\mapsto L(a,b) \right.$ for any fixed
-$b \in \rbrack\max_{i}x_{i}, + \infty\lbrack$ is increasing on
-$\rbrack - \infty,\min_{i}x_{i}\rbrack$, similarly
-$\left. b\mapsto L(a,b) \right.$ is decreasing for any fixed $a$. This
-leads to $\min_{i}x_{i}$ and $\max_{i}x_{i}$ to be the MLE of the
-uniform distribution.
+$`f_U(u) = \frac{1}{b-a}1_{[a,b]}(u)`$. For this distribution, we should
+not maximize the log-likelihood but only the likelihood. Let $`(x_i)_i`$
+be i.i.d. observations from $`\mathcal U(a,b)`$ distribution. The
+likelihood is
+``` math
+L(a,b) = \prod_{i=1}^n \frac{1}{b-a} 1_{[a,b]}(x_i)
+= 1_{a\leq x_i \leq b, i=1,\dots,n} \frac{1}{b-a}^n
+= 1_{a\leq \min_i x_i} 1_{\max_i x_i \leq b} \frac{1}{b-a}^n
+```
+Hence $`a\mapsto L(a,b)`$ for any fixed $`b\in]\max_i x_i, +\infty[`$ is
+increasing on $`]-\infty, \min_i x_i]`$, similarly $`b\mapsto L(a,b)`$
+is decreasing for any fixed $`a`$. This leads to $`\min_i x_i`$ and
+$`\max_i x_i`$ to be the MLE of the uniform distribution.
 
-We should notice that the likelihood function $L$ is defined on
-${\mathbb{R}}^{2}$ yet it cancels outside
-$S = \rbrack - \infty,\min_{i}x_{i}\rbrack \times \rbrack\max_{i}x_{i}, + \infty\lbrack$.
-Hence, the log-likelihood is undefined outside $S$, which is an issue
-when maximizing the log-likelihood.
+We should notice that the likelihood function $`L`$ is defined on
+$`\mathbb R^2`$ yet it cancels outside
+$`S=]-\infty, \min_i x_i]\times]\max_i x_i, +\infty[`$. Hence, the
+log-likelihood is undefined outside $`S`$, which is an issue when
+maximizing the log-likelihood.
 
 For these reasons, `fitdist(data, dist="unif", method="mle")` uses the
 explicit form of the MLE for this distribution. Here is an example below
 
 ``` r
+
 trueval <- c("min"=3, "max"=5)
 x <- runif(n=500, trueval[1], trueval[2])
 
@@ -465,6 +500,7 @@ legend("bottomright", pch=c("+","x"), col=c("blue","red"), c("true", "fitted"))
 ![](FAQ_files/figure-html/unnamed-chunk-13-1.png)
 
 ``` r
+
 delta <- .2
 llsurface(x, "unif", plot.arg = c("min", "max"), min.arg=c(3-2*delta, 5-delta),
           max.arg=c(3+delta, 5+2*delta), main="log-likelihood surface for uniform")
@@ -484,6 +520,7 @@ or maximizing the log-likelihood (with `unif2`) lead to very similar
 results.
 
 ``` r
+
 dunif2 <- function(x, min, max) dunif(x, min, max)
 punif2 <- function(q, min, max) punif(q, min, max)
 f2 <- fitdist(x, "unif2", start=list(min=0, max=10), lower=c(-Inf, max(x)),
@@ -494,6 +531,7 @@ print(c(logLik(f1), logLik(f2)), digits=7)
     ## [1] -345.7467 -345.8451
 
 ``` r
+
 print(cbind(coef(f1), coef(f2)), digits=7)
 ```
 
@@ -508,6 +546,7 @@ there is a only one shape parameter. Here is an example of a concave
 density.
 
 ``` r
+
 x <- rbeta(1000, 3, 3)
 dbeta2 <- function(x, shape, ...)
     dbeta(x, shape, shape, ...)
@@ -524,6 +563,7 @@ fitdist(x, "beta2", start=list(shape=1/2))
 Another example with a U-shaped density.
 
 ``` r
+
 x <- rbeta(1000, 0.5, 0.5)
 fitdist(x, "beta2", start=list(shape=0.4), optim.method="Nelder-Mead", lower=1e-1)
 ```
@@ -537,20 +577,21 @@ fitdist(x, "beta2", start=list(shape=0.4), optim.method="Nelder-Mead", lower=1e-
 
 Let us consider the four-parameter beta distribution, also known as the
 PERT distribution, defined by the following density for
-$x \in \lbrack a,c\rbrack$$f_{X}(x) = (x - a)^{\alpha - 1}(c - x)^{\beta - 1}/C_{N}$
-with $C_{N}$ a normalizing constant and $\alpha = 1 + d(b - a)/(c - a)$,
-$\beta = 1 + d(c - b)/(c - a)$. $a,c$ are support parameters,
-$b \in \rbrack a,c\lbrack$ is the mode and $d$ the shape parameter.
+$`x\in [a,c]`$$`f_X(x) = (x-a)^{\alpha-1} (c-x)^{\beta-1}/C_N`$ with
+$`C_N`$ a normalizing constant and $`\alpha=1+d(b-a)/(c-a)`$,
+$`\beta=1+d(c-b)/(c-a)`$. $`a,c`$ are support parameters, $`b\in]a,c[`$
+is the mode and $`d`$ the shape parameter.
 
-As for uniform distribution, one can show that the MLE of $a$ and $c$
-are respectively the sample minimum and maximum. The code below
+As for uniform distribution, one can show that the MLE of $`a`$ and
+$`c`$ are respectively the sample minimum and maximum. The code below
 illustrates the strategy using partial closed formula with `fix.arg` and
 the full numerical search of MLE. NB: on small sample size, the latter
 has generally better goodness-of-fit statistics; a small positive number
-is added or subtracted when fixing the support parameters $a$ and $c$ to
-sample minimum and maximum.
+is added or subtracted when fixing the support parameters $`a`$ and
+$`c`$ to sample minimum and maximum.
 
 ``` r
+
 require("mc2d")
 x2 <- rpert(n=2e2, min=0, mode=1, max=2, shape=3/4)
 eps <- sqrt(.Machine$double.eps)
@@ -567,6 +608,7 @@ f1 <- fitdist(x2, "pert", start=list(min=-1, mode=0, max=10, shape=1),
     ## Warning in sqrt(diag(varcovar)): NaNs produced
 
 ``` r
+
 f2 <- fitdist(x2, "pert", start=list(mode=1, shape=1), 
               fix.arg=list(min=min(x2)-eps, max=max(x2)+eps),
               lower=c(min(x2), 0), upper=c(max(x2), Inf))
@@ -576,6 +618,7 @@ f2 <- fitdist(x2, "pert", start=list(mode=1, shape=1),
     ## parameter names have no starting/fixed value but have a default value: mean.
 
 ``` r
+
 print(cbind(coef(f1), 
             c(f2$fix.arg["min"], coef(f2)["mode"], f2$fix.arg["max"], coef(f2)["shape"])), 
       digits=7)
@@ -588,6 +631,7 @@ print(cbind(coef(f1),
     ## shape 1.204777     0.315856
 
 ``` r
+
 gofstat(list(f1,f2))
 ```
 
@@ -603,6 +647,7 @@ gofstat(list(f1,f2))
     ## Bayesian Information Criterion        271        276
 
 ``` r
+
 par(mfrow=c(1,1), mar=c(4,4,2,1))
 cdfcomp(list(f1,f2))
 ```
@@ -623,6 +668,7 @@ the decision (rejection of H0 or not) is given, when available (see FAQ
 2.3 for more details).
 
 ``` r
+
 x <- rgamma(n = 100, shape = 2, scale = 1)
 # fit of the good distribution
 fgamma <- fitdist(x, "gamma")
@@ -636,6 +682,7 @@ denscomp(list(fgamma, fexp), legendtext = c("gamma", "exp"))
 ![](FAQ_files/figure-html/unnamed-chunk-18-1.png)
 
 ``` r
+
 # results of the tests
 ## chi square test (with corresponding table with theoretical and observed counts)
 g$chisqpvalue
@@ -645,6 +692,7 @@ g$chisqpvalue
     ## 5.77e-01 1.07e-05
 
 ``` r
+
 g$chisqtable
 ```
 
@@ -662,6 +710,7 @@ g$chisqtable
     ## > 3.423          10       9.68    16.80
 
 ``` r
+
 ## Anderson-Darling test
 g$adtest
 ```
@@ -670,6 +719,7 @@ g$adtest
     ## "not rejected"     "rejected"
 
 ``` r
+
 ## Cramer von  Mises test
 g$cvmtest
 ```
@@ -678,6 +728,7 @@ g$cvmtest
     ## "not rejected"     "rejected"
 
 ``` r
+
 ## Kolmogorov-Smirnov test
 g$kstest
 ```
@@ -750,6 +801,7 @@ sample of 10000 observations would reject it, while both samples come
 from the same distribution.
 
 ``` r
+
 x1 <- rpois(n = 100, lambda = 100)
 f1 <- fitdist(x1, "norm")
 g1 <- gofstat(f1)
@@ -760,6 +812,7 @@ g1$kstest
     ## "not rejected"
 
 ``` r
+
 x2 <- rpois(n = 10000, lambda = 100)
 f2 <- fitdist(x2, "norm")
 g2 <- gofstat(f2)
@@ -770,6 +823,7 @@ g2$kstest
     ## "rejected"
 
 ``` r
+
 par(mfrow=c(1,2), mar=c(4,4,2,1))
 denscomp(f1, demp = TRUE, addlegend = FALSE, main = "small sample")
 denscomp(f2, demp = TRUE, addlegend = FALSE, main = "big sample")
@@ -807,6 +861,7 @@ that particular case, the chi square test with classes defined by
 default would have rejected te normal fit for both samples.
 
 ``` r
+
 x3 <- rpois(n = 500, lambda = 1)
 f3 <- fitdist(x3, "norm")
 g3 <- gofstat(f3)
@@ -817,6 +872,7 @@ g3$kstest
     ## "rejected"
 
 ``` r
+
 x4 <- rpois(n = 50, lambda = 1)
 f4 <- fitdist(x4, "norm")
 g4 <- gofstat(f4)
@@ -827,6 +883,7 @@ g4$kstest
     ## "rejected"
 
 ``` r
+
 par(mfrow=c(1,2), mar=c(4,4,2,1))
 denscomp(f3, addlegend = FALSE, main = "big sample") 
 denscomp(f4, addlegend = FALSE, main = "small sample")
@@ -835,6 +892,7 @@ denscomp(f4, addlegend = FALSE, main = "small sample")
 ![](FAQ_files/figure-html/unnamed-chunk-20-1.png)
 
 ``` r
+
 g3$chisqtable
 ```
 
@@ -846,12 +904,14 @@ g3$chisqtable
     ## > 3       17.0       13.2
 
 ``` r
+
 g3$chisqpvalue
 ```
 
     ## [1] 4.68e-46
 
 ``` r
+
 g4$chisqtable
 ```
 
@@ -862,6 +922,7 @@ g4$chisqtable
     ## > 2       4.00       8.05
 
 ``` r
+
 g4$chisqpvalue
 ```
 
@@ -952,15 +1013,16 @@ In our package we did not implement such a test but for **two nested
 distributions** (when one is a special case of the other one, e.g.
 exponential and gamma distributions) a likelihood ratio test can be
 easily implemented using the loglikelihood provided by `fitdist` or
-`fitdistcens`. Denoting $L$ the maximum likelihood obtained with the
-complete distribution and $L_{0}$ the one obtained with the simplified
+`fitdistcens`. Denoting $`L`$ the maximum likelihood obtained with the
+complete distribution and $`L_0`$ the one obtained with the simplified
 distribution, when the sample size increases,
-$- 2ln\left( \frac{L_{0}}{L} \right) = 2ln(L) - 2ln\left( L_{0} \right)$
-tends to a Chi squared distribution degrees of freedom equal to the
-difference on the numbers of parameters characterizing the **two nested
-distributions**. You will find below an example of such a test.
+$`- 2 ln(\frac{L_0}{L}) = 2 ln(L) - 2 ln(L_0)`$ tends to a Chi squared
+distribution degrees of freedom equal to the difference on the numbers
+of parameters characterizing the **two nested distributions**. You will
+find below an example of such a test.
 
 ``` r
+
 g <- rgamma(100, shape = 2, rate = 1)
 (f <- fitdist(g, "gamma"))
 ```
@@ -972,6 +1034,7 @@ g <- rgamma(100, shape = 2, rate = 1)
     ## rate      1.15      0.171
 
 ``` r
+
 (f0 <- fitdist(g, "exp"))
 ```
 
@@ -981,6 +1044,7 @@ g <- rgamma(100, shape = 2, rate = 1)
     ## rate    0.542     0.0542
 
 ``` r
+
 L <- logLik(f)
 k <- length(f$estimate) # number of parameters of the complete distribution
 L0 <- logLik(f0)
@@ -991,12 +1055,14 @@ k0 <- length(f0$estimate) # number of parameters of the simplified distribution
     ## [1] 26.9
 
 ``` r
+
 (critical_value <- qchisq(0.95, df = k - k0))
 ```
 
     ## [1] 3.84
 
 ``` r
+
 (rejected <- stat > critical_value)
 ```
 
@@ -1024,10 +1090,10 @@ same data set.
 
 When considering distribution with large theoretical moments or infinite
 moments, using the Cullen-Frey may not be appropriate. A typical is the
-log-normal distribution
-$\mathcal{L}\mathcal{N}\left( \mu,\sigma^{2} \right)$.
+log-normal distribution $`\mathcal L\mathcal N(\mu,\sigma^2)`$.
 
 ``` r
+
 n <- 1e3
 x <- rlnorm(n)
 descdist(x)
@@ -1045,9 +1111,12 @@ descdist(x)
     ## estimated kurtosis:  21.6
 
 Indeed for that distribution, the skewness and the kurtosis are
-functions of the exponential of $\sigma^{2}$. With large values, even
-for small $\sigma$.
-$$sk(X) = \left( e^{\sigma^{2}} + 2 \right)\sqrt{e^{\sigma^{2}} - 1},kr(X) = e^{4\sigma^{2}} + 2e^{3\sigma^{2}} + 3e^{2\sigma^{2}} - 3.$$
+functions of the exponential of $`\sigma^2`$. With large values, even
+for small $`\sigma`$.
+``` math
+sk(X) = (e^{\sigma^2}+2)\sqrt{e^{\sigma^2}-1},
+kr(X) = e^{4\sigma^2} + 2e^{3\sigma^2} + 3e^{2\sigma^2}-3.
+```
 
 The convergence to theoretical standardized moments (skewness and
 kurtosis) is slow ![](FAQ_files/figure-html/unnamed-chunk-26-1.png)
@@ -1084,6 +1153,7 @@ default, the Nelder-Mead algorithm is used which reaches the iteration
 limit and raises error code 1.
 
 ``` r
+
 data("danishuni")
 try(fitdist(danishuni$Loss, "burr"))
 ```
@@ -1097,6 +1167,7 @@ get a non-finite finite-difference value, yet Nelder-Mead may handle
 infinite values.
 
 ``` r
+
 try(fitdist(danishuni$Loss, "burr", control=list(maxit=1000)))
 ```
 
@@ -1109,6 +1180,7 @@ If we set bounds, it only helps with an upper bound on parameters
 values. But the upper bound should be relatively small.
 
 ``` r
+
 try(fitdist(danishuni$Loss, "burr", lower=0))
 ```
 
@@ -1117,6 +1189,7 @@ try(fitdist(danishuni$Loss, "burr", lower=0))
     ##                 with the error code 7
 
 ``` r
+
 try(fitBurr_cvg1 <- fitdist(danishuni$Loss, "burr", upper=100))
 try(fitdist(danishuni$Loss, "burr", upper=1000))
 ```
@@ -1129,6 +1202,7 @@ Using another algorithm, such as the BFGS algorithm, helps the
 convergence as long as we set a lower bound.
 
 ``` r
+
 try(fitBurr_cvg2 <- fitdist(danishuni$Loss, "burr", lower=.Machine$double.eps,
                             optim.method="L-BFGS-B"))
 ```
@@ -1136,12 +1210,14 @@ try(fitBurr_cvg2 <- fitdist(danishuni$Loss, "burr", lower=.Machine$double.eps,
 The fitted values have the same magnitude and the fits are appropriate.
 
 ``` r
+
 cdfcomp(list(fitBurr_cvg1, fitBurr_cvg2), xlogscale = TRUE, fitlwd = 2)
 ```
 
 ![](FAQ_files/figure-html/unnamed-chunk-31-1.png)
 
 ``` r
+
 sapply(list(fitBurr_cvg1, fitBurr_cvg2), coef)
 ```
 
@@ -1160,12 +1236,14 @@ shape1/shape2 spaces. We observe a certain dependency so that the
 product of shape parameters is almost constant.
 
 ``` r
+
 print(prod(coef(fitBurr_cvg1)[1:2]), digits=5)
 ```
 
     ## [1] 1.2834
 
 ``` r
+
 print(prod(coef(fitBurr_cvg2)[1:2]), digits=5)
 ```
 
@@ -1175,30 +1253,35 @@ In terms of computation time, we retrieve that the Nelder-Mead algorithm
 is slower.
 
 ``` r
+
 system.time(fitdist(danishuni$Loss, "burr", upper=100))
 ```
 
     ##    user  system elapsed 
-    ##   0.256   0.000   0.256
+    ##   0.251   0.000   0.251
 
 ``` r
+
 system.time(fitdist(danishuni$Loss, "burr", lower=.Machine$double.eps, optim.method="L-BFGS-B"))
 ```
 
     ##    user  system elapsed 
-    ##   0.118   0.001   0.119
+    ##   0.117   0.000   0.117
 
 ### 3.3 Why distribution with a `log` argument may converge better?
 
 Say, we study the shifted lognormal distribution defined by the
 following density
-$$f(x) = \frac{1}{x\sigma\sqrt{2\pi}}\exp\left( - \frac{\left( \ln(x + \delta) - \mu \right)^{2}}{2\sigma^{2}} \right)$$
-for $x > - \delta$ where $\mu$ is a location parameter, $\sigma$ a scale
-parameter and $\delta$ a boundary parameter. Let us fit this
+``` math
+f(x) = \frac{1}{x \sigma \sqrt{2 \pi}} \exp\left(- \frac{(\ln (x+\delta)- \mu)^2}{2\sigma^2}\right) 
+```
+for $`x>-\delta`$ where $`\mu`$ is a location parameter, $`\sigma`$ a
+scale parameter and $`\delta`$ a boundary parameter. Let us fit this
 distribution on the dataset `y` by MLE. We define two functions for the
 densities with and without a `log` argument.
 
 ``` r
+
 dshiftlnorm <- function(x, mean, sigma, shift, log = FALSE) 
   dlnorm(x+shift, mean, sigma, log=log)
 pshiftlnorm <- function(q, mean, sigma, shift, log.p = FALSE) 
@@ -1214,6 +1297,7 @@ pshiftlnorm_no <- function(q, mean, sigma, shift)
 We now optimize the minus log-likelihood.
 
 ``` r
+
 data(dataFAQlog1)
 y <- dataFAQlog1
 D <- 1-min(y)
@@ -1241,6 +1325,7 @@ summary(f)
 If we don’t use the `log` argument, the algorithms stalls.
 
 ``` r
+
 f2 <- try(fitdist(y, "shiftlnorm_no", start=start, optim.method="BFGS"))
 print(attr(f2, "condition"))
 ```
@@ -1251,18 +1336,21 @@ Indeed the algorithm stops because at the following value, the
 log-likelihood is infinite.
 
 ``` r
+
 sum(log(dshiftlnorm_no(y, 0.16383978, 0.01679231, 1.17586600 )))
 ```
 
     ## [1] -Inf
 
 ``` r
+
 log(prod(dshiftlnorm_no(y, 0.16383978, 0.01679231, 1.17586600 )))
 ```
 
     ## [1] -Inf
 
 ``` r
+
 sum(dshiftlnorm(y, 0.16383978, 0.01679231, 1.17586600, TRUE ))
 ```
 
@@ -1303,23 +1391,22 @@ double dlnorm(double x, double meanlog, double sdlog, int give_log)
 In the last four lines with the logical condtion `give_log?`, we see how
 the `log` argument is handled:
 
-- when log=TRUE, we use
-  $- \left( \log\left( \sqrt{2\pi} \right) + y^{2}/2 + \log(x\sigma) \right)$
+- when log=TRUE, we use $`-(\log(\sqrt{2\pi}) + y^2/2+\log(x\sigma))`$
 
 ``` r
+
 -(M_LN_SQRT_2PI   + 0.5 * y * y + log(x * sdlog))
 ```
 
-- when log=FALSE, we use
-  $\sqrt{2\pi}*\exp\left( y^{2}/2 \right)/(x\sigma))$ (and then the
-  logarithm outside `dlnorm`)
+- when log=FALSE, we use $`\sqrt{2\pi} *\exp( y^2/2)/(x\sigma))`$ (and
+  then the logarithm outside `dlnorm`)
 
 ``` r
 M_1_SQRT_2PI * exp(-0.5 * y * y)  /  (x * sdlog))
 ```
 
-Note that the constant $\log\left( \sqrt{2\pi} \right)$ is pre-computed
-in the C macro `M_LN_SQRT_2PI`.
+Note that the constant $`\log(\sqrt{2\pi})`$ is pre-computed in the C
+macro `M_LN_SQRT_2PI`.
 
 In order to sort out this problem, we use the `constrOptim` wrapping
 `optim` to take into account linear constraints. This allows also to use
@@ -1327,6 +1414,7 @@ other optimization methods than L-BFGS-B (low-memory BFGS bounded) used
 in optim.
 
 ``` r
+
 f2 <- fitdist(y, "shiftlnorm", start=start, lower=c(-Inf, 0, -min(y)), 
               optim.method="Nelder-Mead")
 ```
@@ -1337,6 +1425,7 @@ f2 <- fitdist(y, "shiftlnorm", start=start, lower=c(-Inf, 0, -min(y)),
     ## Warning in sqrt(diag(varcovar)): NaNs produced
 
 ``` r
+
 summary(f2)
 ```
 
@@ -1354,6 +1443,7 @@ summary(f2)
     ## shift  NaN   NaN     1
 
 ``` r
+
 print(cbind(BFGS=f$estimate, NelderMead=f2$estimate))
 ```
 
@@ -1371,6 +1461,7 @@ MPFR library.
 Let us consider a dataset which has particular small values.
 
 ``` r
+
 data(dataFAQscale1)
 head(dataFAQscale1)
 ```
@@ -1378,6 +1469,7 @@ head(dataFAQscale1)
     ## [1] -0.007077 -0.000947 -0.001898 -0.000475 -0.001902 -0.000476
 
 ``` r
+
 summary(dataFAQscale1)
 ```
 
@@ -1387,6 +1479,7 @@ summary(dataFAQscale1)
 The only way to sort out is to multiply the dataset by a large value.
 
 ``` r
+
 for(i in 6:0)
 cat(10^i, try(mledist(dataFAQscale1*10^i, "cauchy")$estimate), "\n")
 ```
@@ -1403,6 +1496,7 @@ cat(10^i, try(mledist(dataFAQscale1*10^i, "cauchy")$estimate), "\n")
 Let us consider a dataset which has particular large values.
 
 ``` r
+
 data(dataFAQscale2)
 head(dataFAQscale2)
 ```
@@ -1410,6 +1504,7 @@ head(dataFAQscale2)
     ## [1] 1.40e+09 1.41e+09 1.43e+09 1.44e+09 1.49e+09 1.57e+09
 
 ``` r
+
 summary(dataFAQscale2)
 ```
 
@@ -1419,6 +1514,7 @@ summary(dataFAQscale2)
 The only way to sort out is to multiply the dataset by a small value.
 
 ``` r
+
 for(i in 0:5)
 cat(10^(-2*i), try(mledist(dataFAQscale2*10^(-2*i), "cauchy")$estimate), "\n")
 ```
@@ -1434,16 +1530,20 @@ cat(10^(-2*i), try(mledist(dataFAQscale2*10^(-2*i), "cauchy")$estimate), "\n")
 
 #### 3.5.1. Setting bounds for scale parameters
 
-Consider the normal distribution
-$\mathcal{N}\left( \mu,\sigma^{2} \right)$ defined by the density
-$$f(x) = \frac{1}{\sqrt{2\pi\sigma^{2}}}\exp\left( - \frac{(x - \mu)^{2}}{2\sigma^{2}} \right),x \in {\mathbb{R}},$$
-where $\mu$ is a location parameter such that $\mu \in {\mathbb{R}}$,
-$\sigma^{2}$ is a scale parameter such that $\sigma^{2} > 0$. Therefore
+Consider the normal distribution $`\mathcal{N}(\mu, \sigma^2)`$ defined
+by the density
+``` math
+f(x) = \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right),
+x\in\mathbb{R},
+```
+where $`\mu`$ is a location parameter such that $`\mu\in\mathbb{R}`$,
+$`\sigma^2`$ is a scale parameter such that $`\sigma^2>0`$. Therefore
 when optimizing the log-likelihood or the squared differences or the GoF
 statistics. Setting a lower bound for the scale parameter is easy with
 `fitdist`: just use the `lower` argument.
 
 ``` r
+
 x <- rnorm(1000, 1, 2)
 fitdist(x, "norm", lower=c(-Inf, 0))
 ```
@@ -1456,13 +1556,17 @@ fitdist(x, "norm", lower=c(-Inf, 0))
 
 #### 3.5.2. Setting bounds for shape parameters
 
-Consider the Burr distribution
-$\mathcal{B}\left( \mu,\sigma^{2} \right)$ defined by the density
-$$f(x) = \frac{ab(x/s)^{b}}{x\left\lbrack 1 + (x/s)^{b} \right\rbrack^{a + 1}},x \in {\mathbb{R}},$$
-where $a,b$ are shape parameters such that $a,b > 0$, $s$ is a scale
-parameter such that $s > 0$.
+Consider the Burr distribution $`\mathcal B(\mu, \sigma^2)`$ defined by
+the density
+``` math
+f(x) = \frac{a b (x/s)^b}{x [1 + (x/s)^b]^{a + 1}},
+x\in\mathbb{R},
+```
+where $`a,b`$ are shape parameters such that $`a,b>0`$, $`s`$ is a scale
+parameter such that $`s>0`$.
 
 ``` r
+
 x <- rburr(1000, 1, 2, 3)
 fitdist(x, "burr", lower=c(0, 0, 0), start=list(shape1 = 1, shape2 = 1, 
   rate = 1))
@@ -1477,11 +1581,16 @@ fitdist(x, "burr", lower=c(0, 0, 0), start=list(shape1 = 1, shape2 = 1,
 
 #### 3.5.3. Setting bounds for probability parameters
 
-Consider the geometric distribution $\mathcal{G}(p)$ defined by the mass
-probability function $$f(x) = p(1 - p)^{x},x \in {\mathbb{N}},$$ where
-$p$ is a probability parameter such that $p \in \lbrack 0,1\rbrack$.
+Consider the geometric distribution $`\mathcal G(p)`$ defined by the
+mass probability function
+``` math
+f(x) = p(1-p)^x,
+x\in\mathbb{N},
+```
+where $`p`$ is a probability parameter such that $`p\in[0,1]`$.
 
 ``` r
+
 x <- rgeom(1000, 1/4)
 fitdist(x, "geom", lower=0, upper=1)
 ```
@@ -1493,17 +1602,27 @@ fitdist(x, "geom", lower=0, upper=1)
 
 #### 3.5.4. Setting bounds for boundary parameters
 
-Consider the shifted exponential distribution $\mathcal{E}(\mu,\lambda)$
-defined by the mass probability function
-$$f(x) = \lambda\exp\left( - \lambda(x - \mu) \right),x > \mu,$$ where
-$\lambda$ is a scale parameter such that $\lambda > 0$, $\mu$ is a
-boundary (or shift) parameter such that $\mu \in {\mathbb{R}}$. When
+Consider the shifted exponential distribution
+$`\mathcal E(\mu,\lambda)`$ defined by the mass probability function
+``` math
+f(x) = \lambda \exp(-\lambda(x-\mu)),
+x>\mu,
+```
+where $`\lambda`$ is a scale parameter such that $`\lambda>0`$, $`\mu`$
+is a boundary (or shift) parameter such that $`\mu\in\mathbb{R}`$. When
 optimizing the log-likelihood, the boundary constraint is
-$$\left. \forall i = 1,\ldots,n,x_{i} > \mu\Rightarrow\min\limits_{i = 1,\ldots,n}x_{i} > \mu\Leftrightarrow\mu > - \min\limits_{i = 1,\ldots,n}x_{i}. \right.$$
+``` math
+\forall i=1,\dots,n, x_i>\mu
+\Rightarrow
+\min_{i=1,\dots,n} x_i > \mu
+\Leftrightarrow 
+\mu > -\min_{i=1,\dots,n} x_i.
+```
 Note that when optimizing the squared differences or the GoF statistics,
 this constraint may not be necessary. Let us do it in R.
 
 ``` r
+
 dsexp <- function(x, rate, shift)
   dexp(x-shift, rate=rate)
 psexp <- function(x, rate, shift)
@@ -1524,35 +1643,42 @@ fitdist(x, "sexp", start=list(rate=1, shift=0), upper= c(Inf, min(x)))
 
 For some distributions, bounds between parameters are not independent.
 For instance, the normal inverse Gaussian distribution
-($\mu,\delta,\alpha,\beta$ parametrization) has the following parameter
-constraints, which can be reformulated as a linear inequality:
-$$\left. \left\{ \begin{array}{l}
-{\alpha > 0} \\
-{\delta > 0} \\
-{\alpha > |\beta|}
-\end{array} \right.\Leftrightarrow\underset{ui}{\underbrace{\begin{pmatrix}
+($`\mu, \delta, \alpha, \beta`$ parametrization) has the following
+parameter constraints, which can be reformulated as a linear inequality:
+``` math
+\left\{
+\begin{array}{l}\alpha > 0\\ \delta >0\\ \alpha > |\beta|\end{array}
+\right.
+\Leftrightarrow
+\underbrace{
+\left(
+\begin{matrix}
 0 & 1 & 0 & 0 \\
 0 & 0 & 1 & 0 \\
-0 & 0 & 1 & {- 1} \\
+0 & 0 & 1 & -1 \\
 0 & 0 & 1 & 1 \\
- & & & 
-\end{pmatrix}}}\begin{pmatrix}
-\mu \\
-\delta \\
-\alpha \\
-\beta \\
-
-\end{pmatrix} \geq \underset{ci}{\underbrace{\begin{pmatrix}
-0 \\
-0 \\
-0 \\
-0 \\
-
-\end{pmatrix}}}. \right.$$ These constraints can be carried out via
+\end{matrix}
+\right)
+}_{ui}
+\left(
+\begin{matrix}
+\mu\\ \delta\\ \alpha \\ \beta \\
+\end{matrix}
+\right)
+\geq 
+\underbrace{
+\left(
+\begin{matrix}
+0\\ 0\\ 0 \\ 0 \\
+\end{matrix}
+\right)}_{ci}.
+```
+These constraints can be carried out via
 [`constrOptim()`](https://rdrr.io/r/stats/constrOptim.html) and the
 arguments `ci` and `ui`. Here is an example
 
 ``` r
+
 require("GeneralizedHyperbolic")
 myoptim <- function(fn, par, ui, ci, ...)
 {
@@ -1585,25 +1711,32 @@ fitdist(x, "nig", custom.optim=myoptim, ui=ui, ci=ci, start=list(mu = 0, delta =
 ### 3.6. How does quantile matching estimation work for discrete distributions?
 
 Let us consider the geometric distribution with values in
-$\{ 0,1,2,3,\ldots\}$. The probability mass function, the cumulative
+$`\{0,1,2,3,\dots\}`$. The probability mass function, the cumulative
 distribution function and the quantile function are
-$$P(X = x) = p(1 - p)^{\lfloor x\rfloor},F_{X}(x) = 1 - (1 - p)^{\lfloor x\rfloor},F_{X}^{- 1}(q) = \left\lfloor \frac{\log(1 - q)}{\log(1 - p)} \right\rfloor.$$
+``` math
+P(X=x)= p (1-p)^{\lfloor x\rfloor},
+F_X(x) = 1- (1-p)^{\lfloor x\rfloor},
+F_X^{-1}(q) = \left\lfloor\frac{\log(1-q)}{\log(1-p)}\right\rfloor.
+```
 Due to the integer part (floor function), both the distribution function
 and the quantile function are step functions.
 
 ``` r
+
 pgeom(0:3, prob=1/2)
 ```
 
     ## [1] 0.500 0.750 0.875 0.938
 
 ``` r
+
 qgeom(c(0.3, 0.6, 0.9), prob=1/2)
 ```
 
     ## [1] 0 1 3
 
 ``` r
+
 par(mar=c(4,4,2,1), mfrow=1:2)
 curve(pgeom(x, prob=1/2), 0, 10, n=301, main="c.d.f.")
 curve(qgeom(x, prob=1/2), 0, 1, n=301, main="q.f.")
@@ -1612,19 +1745,24 @@ curve(qgeom(x, prob=1/2), 0, 1, n=301, main="q.f.")
 ![](FAQ_files/figure-html/unnamed-chunk-48-1.png)
 
 Now we study the QME for the geometric distribution. Since we have only
-one parameter, we choose one probabiliy, $p = 1/2$. The theoretical
+one parameter, we choose one probabiliy, $`p=1/2`$. The theoretical
 median is the following integer
-$$F_{X}^{- 1}(1/2) = \left\lfloor \frac{\log(1/2)}{\log(1 - p)} \right\rfloor.$$
+``` math
+F_X^{-1}(1/2) = \left\lfloor\frac{\log(1/2)}{\log(1-p)}\right\rfloor.
+```
 Note that the theoretical median for a discrete distribution is an
 integer. Empirically, the median may not be an integer. Indeed for an
 even length dataset, the empirical median is
-$$q_{n,1/2} = \frac{x_{n/2}^{\star} + x_{n/2 + 1}^{\star}}{2},$$ where
-$x_{1}^{\star} < \ldots < x_{n}^{\star}$ is the sorted sample, which is
-not an integer value if $x_{n/2}^{\star} + x_{n/2 + 1}^{\star}$ is not
-an even number. However for an odd length dataset, the empirical median
-is an integer $q_{n,1/2} = x_{{(n + 1)}/2}^{\star}$.
+``` math
+q_{n,1/2} = \frac{x_{n/2}^\star + x_{n/2+1}^\star}{2},
+```
+where $`x_{1}^\star<\dots<x_{n}^\star`$ is the sorted sample, which is
+not an integer value if $`x_{n/2}^\star + x_{n/2+1}^\star`$ is not an
+even number. However for an odd length dataset, the empirical median is
+an integer $`q_{n,1/2}=x_{(n+1)/2}^\star`$.
 
 ``` r
+
 x <- c(0, 0, 0, 0, 1, 1, 3, 2, 1, 0, 0)
 median(x[-1]) #sample size 10
 ```
@@ -1632,6 +1770,7 @@ median(x[-1]) #sample size 10
     ## [1] 0.5
 
 ``` r
+
 median(x) #sample size 11
 ```
 
@@ -1642,13 +1781,17 @@ impossible to match exactly the empirical median with the theoretical
 quantile.
 
 Furthermore, the second issue is the non-uniqueness of the solution.
-Admitting matching $q_{n,1/2}$ is an integer, QME aims to find some $p$
-such that
-$$\left. \left\lfloor \frac{\log(1/2)}{\log(1 - p)} \right\rfloor = q_{n,1/2}\Leftrightarrow q_{n,1/2} \leq \frac{\log(1/2)}{\log(1 - p)} < q_{n,1/2} + 1. \right.$$
-Let us plot the squared differences
-$\left( F_{X}^{- 1}(1/2) - q_{n,1/2} \right)^{2}$.
+Admitting matching $`q_{n,1/2}`$ is an integer, QME aims to find some
+$`p`$ such that
+``` math
+\left\lfloor\frac{\log(1/2)}{\log(1-p)}\right\rfloor = q_{n,1/2}
+\Leftrightarrow 
+q_{n,1/2} \leq \frac{\log(1/2)}{\log(1-p)} < q_{n,1/2} +1.
+```
+Let us plot the squared differences $`(F_X^{-1}(1/2) - q_{n,1/2})^2`$.
 
 ``` r
+
 x <- rgeom(100, 1/3)
 L2 <- function(p)
   (qgeom(1/2, p) - median(x))^2
@@ -1658,6 +1801,7 @@ L2(1/3) #theoretical value
     ## [1] 0
 
 ``` r
+
 par(mfrow=c(1,1), mar=c(4,4,2,1))
 curve(L2(x), 0.10, 0.95, xlab=expression(p), ylab=expression(L2(p)), 
       main="squared differences", type="s")
@@ -1672,6 +1816,7 @@ may be sensitive to the chosen initial value with deterministic
 optimization algorithm.
 
 ``` r
+
 fitdist(x, "geom", method="qme", probs=1/2, start=list(prob=1/2), 
         control=list(trace=1, REPORT=1))
 ```
@@ -1689,6 +1834,7 @@ fitdist(x, "geom", method="qme", probs=1/2, start=list(prob=1/2),
     ## prob     0.34
 
 ``` r
+
 fitdist(x, "geom", method="qme", probs=1/2, start=list(prob=1/20), 
         control=list(trace=1, REPORT=1))
 ```
@@ -1707,6 +1853,7 @@ The solution is to use a stochastic algorithm such as simulated
 annealing (SANN).
 
 ``` r
+
 fitdist(x, "geom", method="qme", probs=1/2, optim.method="SANN", start=list(prob=1/20))
 ```
 
@@ -1716,6 +1863,7 @@ fitdist(x, "geom", method="qme", probs=1/2, optim.method="SANN", start=list(prob
     ## prob    0.415
 
 ``` r
+
 fitdist(x, "geom", method="qme", probs=1/2, optim.method="SANN", start=list(prob=1/2))
 ```
 
@@ -1726,25 +1874,34 @@ fitdist(x, "geom", method="qme", probs=1/2, optim.method="SANN", start=list(prob
 
 Let us consider the Poisson distribution defined by the following mass
 probability and the cumulative distribution functions
-$$P(X = k) = \frac{\lambda^{k}}{k!}\exp( - \lambda),\ F_{X}(x) = \exp( - \lambda)\sum\limits_{k = 0}^{\lfloor x\rfloor}\frac{\lambda^{k}}{k!},\ x \geq 0.$$
-The quantile function
-$F_{X}^{- 1}(p) = \inf\left( x,F_{X}(x) \geq p \right)$ simplifies to
-$$F_{X}^{- 1}(p) = i{\mspace{6mu}\text{such that}\mspace{6mu}}\sum\limits_{k = 0}^{i - 1}P(X = k) \leq p < \sum\limits_{k = 0}^{i}P(X = k).$$
+``` math
+P(X=k)=\frac{\lambda^k}{k!}\exp(-\lambda),~
+F_X(x) = \exp(-\lambda)\sum_{k=0}^{\lfloor x \rfloor}\frac{\lambda^k}{k!},~
+x\geq 0.
+```
+The quantile function $`F_X^{-1}(p)=\inf(x, F_X(x)\geq p)`$ simplifies
+to
+``` math
+F_X^{-1}(p) = i \text{ such that } \sum_{k=0}^{i-1} P(X=k) \leq p < \sum_{k=0}^{i} P(X=k).
+```
 Again, the quantile function is a step function
-$$F_{X}^{- 1}(p) = \begin{cases}
-0 & {{\text{if}\mspace{6mu}}p < P(X = 0)} \\
-1 & {{\text{if}\mspace{6mu}}P(X = 0) \leq p < P(X = 0) + P(X = 1)} \\
-2 & {{\text{if}\mspace{6mu}}P(X = 0) + P(X = 1) \leq p < P(X = 0) + P(X = 1) + P(X = 2)} \\
-\ldots & \\
-i & {{\text{if}\mspace{6mu}}\sum\limits_{k = 0}^{i - 1}P(X = k) \leq p < \sum\limits_{k = 0}^{i}P(X = k)} \\
-\ldots & \\
- & 
-\end{cases}$$
+``` math
+F_X^{-1}(p) =  
+\left\{ \begin{array}{ll}
+0 & \text{if } p < P(X=0) \\
+1 & \text{if } P(X=0) \leq p < P(X=0)+P(X=1) \\
+2 & \text{if } P(X=0)+P(X=1) \leq p < P(X=0)+P(X=1)+P(X=2) \\
+\dots \\
+i & \text{if } \sum_{k=0}^{i-1} P(X=k) \leq p < \sum_{k=0}^{i} P(X=k) \\
+\dots \\
+\end{array} \right.
+```
 
 Again, the squared differences is a step function
-$\left( F_{X}^{- 1}(1/2) - q_{n,1/2} \right)^{2}$.
+$`(F_X^{-1}(1/2) - q_{n,1/2})^2`$.
 
 ``` r
+
 x <- rpois(100, lambda=7.5)
 L2 <- function(lam)
   (qpois(1/2, lambda = lam) - median(x))^2
@@ -1760,6 +1917,7 @@ Therefore, using
 may be sensitive to the chosen initial value.
 
 ``` r
+
 fitdist(x, "pois", method="qme", probs=1/2, start=list(lambda=2))
 ```
 
@@ -1769,6 +1927,7 @@ fitdist(x, "pois", method="qme", probs=1/2, start=list(lambda=2))
     ## lambda        2
 
 ``` r
+
 fitdist(x, "pois", method="qme", probs=1/2, optim.method="SANN", start=list(lambda=2))
 ```
 
@@ -1783,6 +1942,7 @@ Consider the gamma truncated distribution defined by the following
 density and cumulative distribution functions
 
 ``` r
+
 #NB: using the logical vector condition is the optimal way to compute pdf and cdf
 dtgamma <- function(x, shape, rate, low, upp)
 {
@@ -1802,6 +1962,7 @@ Simulating from a truncated distribution is done by rejection outside
 `[low, upp]` interval.
 
 ``` r
+
 rtgamma <- function(n, shape, rate, low=0, upp=Inf, maxit=10)
 {
   stopifnot(n > 0)
@@ -1828,6 +1989,7 @@ rtgamma <- function(n, shape, rate, low=0, upp=Inf, maxit=10)
 Consider a sample of lower-truncated gamma distribution.
 
 ``` r
+
 n <- 100 ; shape <- 11 ; rate <- 3 ; x0 <- 5
 x <- rtgamma(n, shape = shape, rate = rate, low=x0)
 ```
@@ -1837,6 +1999,7 @@ three parameters lead a poorer result both in terms of mean squared
 error or relative error. Notably the shape parameter is badly estimated.
 
 ``` r
+
 fit.NM.2P <- fitdist(
   data = x,
   distr = "tgamma",
@@ -1852,6 +2015,7 @@ fit.NM.2P <- fitdist(
     ## Warning in sqrt(diag(varcovar)): NaNs produced
 
 ``` r
+
 fit.NM.3P <- fitdist(
   data = x,
   distr = "tgamma",
@@ -1889,6 +2053,7 @@ Fitting a two-parameter distribution (i.e. gamma) on the shifted dataset
 is worse.
 
 ``` r
+
 fit.gamma <- fitdist(
   data = x-x0,
   distr = "gamma",
@@ -1931,20 +2096,20 @@ with 1000 variates.
 In statistics, deriving marginal confidence intervals on MLE parameter
 estimates using the approximation of their standard errors (calculated
 from the hessian) is a quite common procedure. It is based on the wald
-approximation which stands that when the sample size $n$ is sufficiently
-high, the marginal $95\%$ confidence on the ith component $\theta_{i}$
-of a model parameter $\theta$ estimated by maximum likelihood (estimate
-denoted $\widehat{\theta}$) can be approximated by :
-${\widehat{\theta}}_{i} \pm 1.96 \times SE\left( {\widehat{\theta}}_{i} \right)$
-with $SE\left( {\widehat{\theta}}_{i} \right)$ the ith term of the
-diagonal of the covariance matrix of the estimates ($V_{ii}$). $V$ is
-generally approximated by the inverse of the Fisher information matrix
-($I\left( \widehat{\theta} \right)$). The Fisher information matrix
-corresponds to the opposite of the hessian matrix evaluated on the MLE
-estimate. Let us recall that the hessian matrix is defined by
-$H_{ij}(y,\theta) = \frac{\partial^{2}L(y,\theta)}{\partial\theta_{i}\partial\theta_{j}}$
-with $L(y,\theta)$ the loglikelihod function for data $y$ and parameter
-$\theta$.
+approximation which stands that when the sample size $`n`$ is
+sufficiently high, the marginal $`95\%`$ confidence on the ith component
+$`\theta_i`$ of a model parameter $`\theta`$ estimated by maximum
+likelihood (estimate denoted $`\hat \theta`$) can be approximated by :
+$`\hat \theta_i \pm 1.96 \times SE(\hat \theta_i )`$ with
+$`SE(\hat \theta_i )`$ the ith term of the diagonal of the covariance
+matrix of the estimates ($`V_{ii}`$). $`V`$ is generally approximated by
+the inverse of the Fisher information matrix ($`I(\hat \theta)`$). The
+Fisher information matrix corresponds to the opposite of the hessian
+matrix evaluated on the MLE estimate. Let us recall that the hessian
+matrix is defined by
+$`H_{ij}(y, \theta) = \frac{\partial^2 L(y, \theta)}{\partial \theta_i \partial \theta_j}`$
+with $`L(y, \theta)`$ the loglikelihod function for data $`y`$ and
+parameter $`\theta`$.
 
 Before using this approximation, one must keep in mind that its validity
 does not only depend on the sample size. It also strongly depends on the
@@ -1963,6 +2128,7 @@ parameter values even outside their possible range (negative rate bound
 for the gamma distribution).
 
 ``` r
+
 n <- rnorm(30, mean = 10, sd = 2)
 fn <- fitdist(n, "norm")
 bn <- bootdist(fn)
@@ -1974,6 +2140,7 @@ bn$CI
     ## sd     1.87 1.44  2.37
 
 ``` r
+
 fn$estimate + cbind("estimate"= 0, "2.5%"= -1.96*fn$sd, "97.5%"= 1.96*fn$sd)
 ```
 
@@ -1982,6 +2149,7 @@ fn$estimate + cbind("estimate"= 0, "2.5%"= -1.96*fn$sd, "97.5%"= 1.96*fn$sd)
     ## sd       1.92 1.43  2.41
 
 ``` r
+
 par(mfrow=c(1,1), mar=c(4,4,2,1))
 llplot(fn, back.col = FALSE, fit.show=TRUE)
 ```
@@ -1989,6 +2157,7 @@ llplot(fn, back.col = FALSE, fit.show=TRUE)
 ![](FAQ_files/figure-html/unnamed-chunk-66-1.png)
 
 ``` r
+
 g <- rgamma(30, shape = 0.1, rate = 10)
 fg <- fitdist(g, "gamma")
 bg <- bootdist(fg)
@@ -2000,6 +2169,7 @@ bg$CI
     ## rate  34.013 13.2618 110.5
 
 ``` r
+
 fg$estimate + cbind("estimate"= 0, "2.5%"= -1.96*fg$sd, "97.5%"= 1.96*fg$sd)
 ```
 
@@ -2008,6 +2178,7 @@ fg$estimate + cbind("estimate"= 0, "2.5%"= -1.96*fg$sd, "97.5%"= 1.96*fg$sd)
     ## rate    30.147 -2.0724 62.367
 
 ``` r
+
 par(mfrow=c(1,1), mar=c(4,4,2,1))
 llplot(fg, back.col = FALSE, fit.show=TRUE)
 ```
@@ -2031,6 +2202,7 @@ example below on censored data corresponding to 72-hour acute salinity
 tolerance (LC50values) of rivermarine invertebrates.
 
 ``` r
+
 data(salinity)
 log10LC50 <- log10(salinity)
 fit <- fitdistcens(log10LC50, "norm", control=list(trace=0))
@@ -2055,6 +2227,7 @@ bootsample <- bootdistcens(fit, niter = 101)
     ## 97.5 %   1.18
 
 ``` r
+
 # visualizing pointwise confidence intervals on other quantiles
 par(mfrow=c(1,1), mar=c(4,4,2,1))
 CIcdfplot(bootsample, CI.output = "quantile", CI.fill = "pink", xlim = c(0.5,2), main = "")
@@ -2074,6 +2247,7 @@ Affected Portion (PAF) of species at a given exposure to salinity (fixed
 to 1.2 in log10 in this example).
 
 ``` r
+
 exposure <- 1.2
 # Bootstrap sample of the PAF at this exposure
 PAF <- pnorm(exposure, mean = bootsample$estim$mean, sd = bootsample$estim$sd)
@@ -2098,6 +2272,7 @@ the standard values become stable. In the log-normal example below, it
 is enough to have 100 bootstrap values.
 
 ``` r
+
 f.ln.MME <- fitdist(rlnorm(1000), "lnorm", method = "mme", order = 1:2)
 # Bootstrap 
 b.ln.50 <- bootdist(f.ln.MME, niter = 50)
@@ -2132,6 +2307,7 @@ reproduced and personalized using `denscomp`, `cdfcomp`, `ppcomp` and
 `qqcomp`.
 
 ``` r
+
 data(groundbeef)
 serving <- groundbeef$serving
 fit <- fitdist(serving, "gamma")
@@ -2162,12 +2338,14 @@ graphical functions return a graphic object that can be further
 personalized using `ggplot2` functions.
 
 ``` r
+
 require("ggplot2")
 ```
 
     ## Loading required package: ggplot2
 
 ``` r
+
 fitW <- fitdist(serving, "weibull")
 fitln <- fitdist(serving, "lnorm")
 fitg <- fitdist(serving, "gamma")
@@ -2191,6 +2369,7 @@ classical plot of the Species Sensitivity Distributions (SSD) in
 ecotoxicology.
 
 ``` r
+
 data(endosulfan)
 ATV <- subset(endosulfan, group == "NonArthroInvert")$ATV
 taxaATV <- subset(endosulfan, group == "NonArthroInvert")$taxa
@@ -2226,6 +2405,7 @@ of
 You have a toy example below.
 
 ``` r
+
 dtoy <- data.frame(left = c(NA, 2, 4, 6, 9.7, 10), right = c(1, 3, 7, 8, 9.7, NA))
 dtoy
 ```
@@ -2247,6 +2427,7 @@ twenty values randomly chosen from the `canlifins` dataset of
 for other censoring types.
 
 ``` r
+
 exitage <- c(81.1,78.9,72.6,67.9,60.1,78.3,83.4,66.9,74.8,80.5,75.6,67.1,
              75.3,82.8,70.1,85.4,74,70,71.6,76.5)
 death <- c(0,0,1,0,0,0,0,1,0,0,0,0,0,0,1,1,0,0,0,0)
@@ -2263,12 +2444,14 @@ has been implemented with arguments similar to the ones of
 [`Surv()`](https://rdrr.io/pkg/survival/man/Surv.html).
 
 ``` r
+
 svdata <- Surv2fitdistcens(exitage, event=death)
 ```
 
 Let us now fit two simple distributions.
 
 ``` r
+
 flnormc <- fitdistcens(svdata, "lnorm")
 fweic <- fitdistcens(svdata, "weibull")
 par(mfrow=c(1,1), mar=c(4,4,2,1))
@@ -2288,6 +2471,7 @@ correctly order the observations in any case (see the example below on
 the right using data `smokedfish`).
 
 ``` r
+
 par(mfrow = c(1,2), mar = c(3, 4, 3, 0.5))
 plotdistcens(dtoy, NPMLE = FALSE)
 data(smokedfish)
@@ -2313,6 +2497,7 @@ another optimization function. The same ECDF plot was also implemented
 in our using the Turnbull algorithm of survival (see below).
 
 ``` r
+
 par(mfrow = c(2, 2),  mar = c(3, 4, 3, 0.5))
 # Turnbull algorithm with representation of middle points of equivalence classes
 plotdistcens(dsmo, NPMLE.method = "Turnbull.middlepoints", xlim = c(-1.8, 2.4))
@@ -2366,6 +2551,7 @@ the future with the calculation of other goodness-of-fit statistics for
 censored data.
 
 ``` r
+
 fnorm <- fitdistcens(dsmo,"norm")
 flogis <- fitdistcens(dsmo,"logis")
 # comparison of AIC values
@@ -2375,6 +2561,7 @@ summary(fnorm)$aic
     ## [1] 178
 
 ``` r
+
 summary(flogis)$aic
 ```
 
@@ -2388,6 +2575,7 @@ Wang plot of the ECDF, with filled rectangles indicating non uniqueness
 of the NPMLE ECDF.
 
 ``` r
+
 par(mar = c(2, 4, 3, 0.5))
 plot(fnorm)
 ```
@@ -2403,6 +2591,7 @@ goodness-of-fit plots and/or to compare the fit of various distributions
 on a same dataset.
 
 ``` r
+
 par(mfrow=c(1,1), mar=c(4,4,2,1))
 cdfcompcens(list(fnorm, flogis), fitlty = 1)
 ```
@@ -2410,12 +2599,14 @@ cdfcompcens(list(fnorm, flogis), fitlty = 1)
 ![](FAQ_files/figure-html/unnamed-chunk-83-1.png)
 
 ``` r
+
 qqcompcens(list(fnorm, flogis))
 ```
 
 ![](FAQ_files/figure-html/unnamed-chunk-83-2.png)
 
 ``` r
+
 ppcompcens(list(fnorm, flogis))
 ```
 
@@ -2428,6 +2619,7 @@ the `plotstyle` `ggplot` in `qqcompens()` and
 but can also be done manually with the `plotstyle` `graphics`.
 
 ``` r
+
 qqcompcens(list(fnorm, flogis), lwd = 2, plotstyle = "ggplot",
   fitcol = c("red", "green"), fillrect = c("pink", "lightgreen"),
   legendtext = c("normal distribution", "logistic distribution"))

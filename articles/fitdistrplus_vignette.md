@@ -39,16 +39,16 @@ nuisance parameter) is made, as this paper focuses on parameter
 estimation from a general point-of-view. In some cases, other estimation
 methods could be prefered, such as maximum goodness-of-fit estimation
 (also called minimum distance estimation), as proposed in the R package
-**actuar** with three different goodness-of-fit distances ([Dutang,
-Goulet, and Pigeon 2008](#ref-actuarJSS)). While developping the
-**fitdistrplus** package, a second objective was to consider various
-estimation methods in addition to maximum likelihood estimation (MLE).
-Functions were developped to enable moment matching estimation (MME),
-quantile matching estimation (QME), and maximum goodness-of-fit
-estimation (MGE) using eight different distances. Moreover, the
-**fitdistrplus** package offers the possibility to specify a
-user-supplied function for optimization, useful in cases where classical
-optimization techniques, not included in `optim`, are more adequate.
+**actuar** with three different goodness-of-fit distances ([Dutang et
+al. 2008](#ref-actuarJSS)). While developping the **fitdistrplus**
+package, a second objective was to consider various estimation methods
+in addition to maximum likelihood estimation (MLE). Functions were
+developped to enable moment matching estimation (MME), quantile matching
+estimation (QME), and maximum goodness-of-fit estimation (MGE) using
+eight different distances. Moreover, the **fitdistrplus** package offers
+the possibility to specify a user-supplied function for optimization,
+useful in cases where classical optimization techniques, not included in
+`optim`, are more adequate.
 
 In applied statistics, it is frequent to have to fit distributions to
 censored data Commeau et al. ([2012](#ref-commeauetal12)). The **MASS**
@@ -100,6 +100,7 @@ years old. It was used in a quantitative risk assessment published by
 Delignette-Muller and Cornu ([2008](#ref-Delignette08)).
 
 ``` r
+
 require("fitdistrplus")
 ```
 
@@ -110,6 +111,7 @@ require("fitdistrplus")
     ## Loading required package: survival
 
 ``` r
+
 data("groundbeef")
 str(groundbeef)
 ```
@@ -135,6 +137,7 @@ density plot of both, according to values of arguments `histo` and
 function (CDF).
 
 ``` r
+
 plotdist(groundbeef$serving, histo = TRUE, demp = TRUE)
 ```
 
@@ -158,16 +161,24 @@ kurtosis value quantifies the weight of tails in comparison to the
 normal distribution for which the kurtosis equals 3. The skewness and
 kurtosis and their corresponding unbiased estimator ([Casella and Berger
 2002](#ref-casellaberger02)) from a sample
-$\left( X_{i} \right)_{i}\overset{\text{i.i.d.}}{\sim}X$ with
-observations $\left( x_{i} \right)_{i}$ are given by:
+$`(X_i)_i \stackrel{\text{i.i.d.}}{\sim} X`$ with observations
+$`(x_i)_i`$ are given by:
 
-$$sk(X) = \frac{E\left\lbrack \left( X - E(X) \right)^{3} \right\rbrack}{Var(X)^{\frac{3}{2}}}\ ,\ \widehat{sk} = \frac{\sqrt{n(n - 1)}}{n - 2} \times \frac{m_{3}}{m_{2}^{\frac{3}{2}}},(\# eq:eq1)$$
+``` math
+\begin{equation}
+sk(X) = \frac{E[(X-E(X))^3]}{Var(X)^{\frac{3}{2}}}~,~\widehat{sk}=\frac{\sqrt{n(n-1)}}{n-2}\times\frac{m_{3}}{m_{2}^{\frac{3}{2}}},(\#eq:eq1)
+\end{equation}
+```
 
-$$kr(X) = \frac{E\left\lbrack \left( X - E(X) \right)^{4} \right\rbrack}{Var(X)^{2}}\ ,\ \widehat{kr} = \frac{n - 1}{(n - 2)(n - 3)}\left( (n + 1) \times \frac{m_{4}}{m_{2}^{2}} - 3(n - 1) \right) + 3,(\# eq:eq2)$$
+``` math
+\begin{equation}
+kr(X) = \frac{E[(X-E(X))^4]}{Var(X)^{2}}~,~\widehat{kr}=\frac{n-1}{(n-2)(n-3)}((n+1) \times \frac{m_{4}}{m_{2}^{2}}-3(n-1)) + 3,(\#eq:eq2)
+\end{equation}
+```
 
-where $m_{2}$, $m_{3}$, $m_{4}$ denote empirical moments defined by
-$m_{k} = \frac{1}{n}\sum_{i = 1}^{n}\left( x_{i} - \overline{x} \right)^{k}$,
-with $x_{i}$ the $n$ observations of variable $x$ and $\overline{x}$
+where $`m_{2}`$, $`m_{3}`$, $`m_{4}`$ denote empirical moments defined
+by $`m_{k}=\frac{1}{n}\sum_{i=1}^n(x_{i}-\overline{x})^{k}`$, with
+$`x_{i}`$ the $`n`$ observations of variable $`x`$ and $`\overline{x}`$
 their mean value.
 
 The `descdist` function provides classical descriptive statistics
@@ -209,6 +220,7 @@ the fit of three common right-skewed distributions could be considered,
 Weibull, gamma and lognormal distributions.
 
 ``` r
+
 descdist(groundbeef$serving, boot = 1000)
 ```
 
@@ -230,17 +242,20 @@ Skewness-kurtosis plot for a continuous variable (serving size from the
 
 ### 2.2. Fit of distributions by maximum likelihood estimation
 
-Once selected, one or more parametric distributions
-$f\left( .|\theta \right)$ (with parameter
-$\theta \in {\mathbb{R}}^{d}$) may be fitted to the data set, one at a
-time, using the `fitdist` function. Under the i.i.d. sample assumption,
-distribution parameters $\theta$ are by default estimated by maximizing
-the likelihood function defined as:
+Once selected, one or more parametric distributions $`f(.\vert \theta)`$
+(with parameter $`\theta\in\mathbb{R}^d`$) may be fitted to the data
+set, one at a time, using the `fitdist` function. Under the i.i.d.
+sample assumption, distribution parameters $`\theta`$ are by default
+estimated by maximizing the likelihood function defined as:
 
-$$L(\theta) = \prod\limits_{i = 1}^{n}f\left( x_{i}|\theta \right)(\# eq:eq3)$$
+``` math
+\begin{equation}
+L(\theta)=\prod_{i=1}^n f(x_{i}\vert \theta)(\#eq:eq3)
+\end{equation}
+```
 
-with $x_{i}$ the $n$ observations of variable $X$ and
-$f\left( .|\theta \right)$ the density function of the parametric
+with $`x_{i}`$ the $`n`$ observations of variable $`X`$ and
+$`f(.\vert \theta)`$ the density function of the parametric
 distribution. The other proposed estimation methods are described in
 Section [3.1.](#Alternatives).
 
@@ -269,6 +284,7 @@ estimates. Below is a call to the `fitdist` function to fit a Weibull
 distribution to the serving size from the `groundbeef` data set.
 
 ``` r
+
 fw <- fitdist(groundbeef$serving, "weibull")
 summary(fw)
 ```
@@ -318,6 +334,7 @@ gamma distributions to the `groundbeef` data set (Figure
 @ref(fig:groundbeefcomp)).
 
 ``` r
+
 par(mfrow = c(2, 2), mar = c(4, 4, 2, 1))
 fg <- fitdist(groundbeef$serving, "gamma")
 fln <- fitdist(groundbeef$serving, "lnorm")
@@ -356,7 +373,7 @@ of food risk assessment.
 The data set named `endosulfan` will now be used to illustrate other
 features of the **fitdistrplus** package. This data set contains acute
 toxicity values for the organochlorine pesticide endosulfan (geometric
-mean of LC50 ou EC50 values in $\mu g.L^{- 1}$), tested on Australian
+mean of LC50 ou EC50 values in $`\mu g.L^{-1}`$), tested on Australian
 and non-Australian laboratory-species ([Hose and Van den Brink
 2004](#ref-Hose04)). In ecotoxicology, a lognormal or a loglogistic
 distribution is often fitted to such a data set in order to characterize
@@ -364,29 +381,29 @@ the species sensitivity distribution (SSD) for a pollutant. A low
 percentile of the fitted distribution, generally the 5% percentile, is
 then calculated and named the hazardous concentration 5% (HC5). It is
 interpreted as the value of the pollutant concentration protecting 95%
-of the species ([Posthuma, Suter, and Traas 2010](#ref-Posthuma2010)).
-But the fit of a lognormal or a loglogistic distribution to the whole
-`endosulfan` data set is rather bad (Figure @ref(fig:fitendo)),
-especially due to a minority of very high values. The two-parameter
-Pareto distribution and the three-parameter Burr distribution (which is
-an extension of both the loglogistic and the Pareto distributions) have
-been fitted. Pareto and Burr distributions are provided in the package
-**actuar**. Until here, we did not have to define starting values (in
-the optimization process) as reasonable starting values are implicity
-defined within the `fitdist` function for most of the distributions
-defined in R (see
+of the species ([Posthuma et al. 2010](#ref-Posthuma2010)). But the fit
+of a lognormal or a loglogistic distribution to the whole `endosulfan`
+data set is rather bad (Figure @ref(fig:fitendo)), especially due to a
+minority of very high values. The two-parameter Pareto distribution and
+the three-parameter Burr distribution (which is an extension of both the
+loglogistic and the Pareto distributions) have been fitted. Pareto and
+Burr distributions are provided in the package **actuar**. Until here,
+we did not have to define starting values (in the optimization process)
+as reasonable starting values are implicity defined within the `fitdist`
+function for most of the distributions defined in R (see
 [`?fitdist`](https://lbbe-software.github.io/fitdistrplus/reference/fitdist.md)
 for details). For other distributions like the Pareto and the Burr
 distribution, initial values for the distribution parameters have to be
 supplied in the argument `start`, as a named list with initial values
 for each parameter (as they appear in the `d`, `p`, `q` functions).
-Having defined reasonable starting values[¹](#fn1) various distributions
-can be fitted and graphically compared. On this example, the function
+Having defined reasonable starting values[^1] various distributions can
+be fitted and graphically compared. On this example, the function
 `cdfcomp` can be used to report CDF values in a logscale so as to
 emphasize discrepancies on the tail of interest while defining an HC5
 value (Figure @ref(fig:fitendo)).
 
 ``` r
+
 require("actuar")
 ```
 
@@ -404,6 +421,7 @@ require("actuar")
     ##     cm
 
 ``` r
+
 data("endosulfan")
 ATV <- endosulfan$ATV
 fendo.ln <- fitdist(ATV, "lnorm")
@@ -437,6 +455,7 @@ calculation together with the calculation of the empirical quantile for
 comparison.
 
 ``` r
+
 quantile(fendo.B, probs = 0.05)
 ```
 
@@ -445,6 +464,7 @@ quantile(fendo.B, probs = 0.05)
     ## estimate 0.2939
 
 ``` r
+
 quantile(ATV, probs = 0.05)
 ```
 
@@ -453,7 +473,7 @@ quantile(ATV, probs = 0.05)
 
 In addition to the ecotoxicology context, the `quantile` generic
 function is also attractive in the actuarial-financial context. In fact,
-the value-at-risk $VAR_{\alpha}$ is defined as the $1 - \alpha$-quantile
+the value-at-risk $`VAR_\alpha`$ is defined as the $`1-\alpha`$-quantile
 of the loss distribution and can be computed with `quantile` on a
 `fitdist` object.
 
@@ -462,18 +482,19 @@ the **fitdistrplus** package in order to further compare fitted
 distributions. The purpose of goodness-of-fit statistics aims to measure
 the distance between the fitted parametric distribution and the
 empirical distribution: e.g., the distance between the fitted cumulative
-distribution function $F$ and the empirical distribution function
-$F_{n}$. When fitting continuous distributions, three goodness-of-fit
+distribution function $`F`$ and the empirical distribution function
+$`F_{n}`$. When fitting continuous distributions, three goodness-of-fit
 statistics are classicaly considered: Cramer-von Mises,
 Kolmogorov-Smirnov and Anderson-Darling statistics ([D’Agostino and
-Stephens 1986](#ref-Stephens86)). Naming $x_{i}$ the $n$ observations of
-a continuous variable $X$ arranged in an ascending order, Table
-@ref(tab:tabKSCvMAD) gives the definition and the empirical estimate of
-the three considered goodness-of-fit statistics. They can be computed
-using the function `gofstat` as defined by Stephens ([D’Agostino and
-Stephens 1986](#ref-Stephens86)).
+Stephens 1986](#ref-Stephens86)). Naming $`x_{i}`$ the $`n`$
+observations of a continuous variable $`X`$ arranged in an ascending
+order, Table @ref(tab:tabKSCvMAD) gives the definition and the empirical
+estimate of the three considered goodness-of-fit statistics. They can be
+computed using the function `gofstat` as defined by Stephens
+([D’Agostino and Stephens 1986](#ref-Stephens86)).
 
 ``` r
+
 gofstat(list(fendo.ln, fendo.ll, fendo.P, fendo.B), 
         fitnames = c("lnorm", "llogis", "Pareto", "Burr"))
 ```
@@ -491,16 +512,16 @@ gofstat(list(fendo.ln, fendo.ll, fendo.P, fendo.B),
 
   
 
-| Statistic               | General formula                                                                                     | Computational formula                                                                                                                                                                           |
-|-------------------------|-----------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Kolmogorov-Smirnov (KS) | $\sup\left| F_{n}(x) - F(x) \right|$                                                                | $\max\left( D^{+},D^{-} \right)$ with $D^{+} = \max\limits_{i = 1,\ldots,n}\left( \frac{i}{n} - F_{i} \right)$ and $D^{-} = \max\limits_{i = 1,\ldots,n}\left( F_{i} - \frac{i - 1}{n} \right)$ |
-| Cramer-von Mises (CvM)  | $n\int_{- \infty}^{\infty}\left( F_{n}(x) - F(x) \right)^{2}dx$                                     | $\frac{1}{12n} + \sum\limits_{i = 1}^{n}\left( F_{i} - \frac{2i - 1}{2n} \right)^{2}$                                                                                                           |
-| Anderson-Darling (AD)   | $n\int_{- \infty}^{\infty}\frac{\left( F_{n}(x) - F(x) \right)^{2}}{F(x)\left( 1 - F(x) \right)}dx$ | $- n - \frac{1}{n}\sum\limits_{i = 1}^{n}(2i - 1)\log\left( F_{i}\left( 1 - F_{n + 1 - i} \right) \right)$                                                                                      |
+| Statistic | General formula | Computational formula |
+|----|----|----|
+| Kolmogorov-Smirnov (KS) | $`\sup|F_{n}(x) - F(x)|`$ | $`\max(D^{+},D^{-})`$ with $`D^{+}=\max\limits_{i=1,\dots,n}\left(\frac{i}{n} - F_i\right)`$ and $`D^{-}=\max\limits_{i=1,\dots,n}\left(F_{i}-\frac{i-1}{n}\right)`$ |
+| Cramer-von Mises (CvM) | $`n \int_{-\infty}^{\infty}(F_{n}(x) - F(x))^2 dx`$ | $`\frac{1}{12n} + \sum\limits_{i=1}^n \left(F_i-\frac{2i-1}{2n} \right)^{2}`$ |
+| Anderson-Darling (AD) | $`n \int_{-\infty}^{\infty}\frac{(F_{n}(x) - F(x))^2}{F(x) (1 - F(x))} dx`$ | $`-n -\frac{1}{n}\sum\limits_{i=1}^n (2i-1)\log(F_i(1-F_{n+1-i}))`$ |
 
 (#tab:tabKSCvMAD) Goodness-of-fit statistics as defined by Stephens
-([D’Agostino and Stephens 1986](#ref-Stephens86)).
+([D’Agostino and Stephens 1986](#ref-Stephens86)). {.table}
 
-where $F_{i}\overset{\bigtriangleup}{=}F\left( x_{i} \right)$
+where $`F_i\stackrel{\triangle}{=} F(x_i)`$
 
   
 
@@ -555,6 +576,7 @@ function with the previous fit of the Burr distribution to the
 `endosulfan` data set (Figure @ref(fig:bootstrap)).
 
 ``` r
+
 bendo.B <- bootdist(fendo.B, niter = 1001)
 summary(bendo.B)
 ```
@@ -568,6 +590,7 @@ summary(bendo.B)
     ## The estimation method converged only for 1000 among 1001 iterations
 
 ``` r
+
 plot(bendo.B)
 ```
 
@@ -595,10 +618,10 @@ The use of the whole bootstrap sample is also of interest in the risk
 assessment field. Its use enables the characterization of uncertainty in
 distribution parameters. It can be directly used within a second-order
 Monte Carlo simulation framework, especially within the package **mc2d**
-([Pouillot, Delignette-Muller, and Denis 2011](#ref-mc2d)). One could
-refer to Pouillot and Delignette-Muller ([2010](#ref-Pouillot10)) for an
-introduction to the use of **mc2d** and **fitdistrplus** packages in the
-context of quantitative risk assessment.
+([Pouillot et al. 2011](#ref-mc2d)). One could refer to Pouillot and
+Delignette-Muller ([2010](#ref-Pouillot10)) for an introduction to the
+use of **mc2d** and **fitdistrplus** packages in the context of
+quantitative risk assessment.
 
 The bootstrap method can also be used to calculate confidence intervals
 on quantiles of the fitted distribution. For this purpose, a generic
@@ -610,6 +633,7 @@ for example from the previously fitted Burr distribution to the
 `endosulfan` data set.
 
 ``` r
+
 quantile(bendo.B, probs = 0.05)
 ```
 
@@ -633,32 +657,31 @@ quantile(bendo.B, probs = 0.05)
 
 This subsection focuses on alternative estimation methods. One of the
 alternative for continuous distributions is the maximum goodness-of-fit
-estimation method also called minimum distance estimation method Dutang,
-Goulet, and Pigeon ([2008](#ref-actuarJSS)). In this package this method
-is proposed with eight different distances: the three classical
-distances defined in Table @ref(tab:tabKSCvMAD), or one of the variants
-of the Anderson-Darling distance proposed by Luceno
-([2006](#ref-Luceno06)) and defined in Table @ref(tab:modifiedAD). The
-right-tail AD gives more weight to the right-tail, the left-tail AD
-gives more weight only to the left tail. Either of the tails, or both of
-them, can receive even larger weights by using second order
-Anderson-Darling Statistics.
+estimation method also called minimum distance estimation method Dutang
+et al. ([2008](#ref-actuarJSS)). In this package this method is proposed
+with eight different distances: the three classical distances defined in
+Table @ref(tab:tabKSCvMAD), or one of the variants of the
+Anderson-Darling distance proposed by Luceno ([2006](#ref-Luceno06)) and
+defined in Table @ref(tab:modifiedAD). The right-tail AD gives more
+weight to the right-tail, the left-tail AD gives more weight only to the
+left tail. Either of the tails, or both of them, can receive even larger
+weights by using second order Anderson-Darling Statistics.
 
   
 
-| Statistic                      | General formula                                                                                           | Computational formula                                                                                                                              |
-|--------------------------------|-----------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
-| Right-tail AD (ADR)            | $\int_{- \infty}^{\infty}\frac{\left( F_{n}(x) - F(x) \right)^{2}}{1 - F(x)}dx$                           | $\frac{n}{2} - 2\sum\limits_{i = 1}^{n}F_{i} - \frac{1}{n}\sum\limits_{i = 1}^{n}(2i - 1)ln\left( {\overline{F}}_{n + 1 - i} \right)$              |
-| Left-tail AD (ADL)             | $\int_{- \infty}^{\infty}\frac{\left( F_{n}(x) - F(x) \right)^{2}}{\left( F(x) \right)}dx$                | $- \frac{3n}{2} + 2\sum\limits_{i = 1}^{n}F_{i} - \frac{1}{n}\sum\limits_{i = 1}^{n}(2i - 1)ln\left( F_{i} \right)$                                |
-| Right-tail AD 2nd order (AD2R) | $ad2r = \int_{- \infty}^{\infty}\frac{\left( F_{n}(x) - F(x) \right)^{2}}{\left( 1 - F(x) \right)^{2}}dx$ | $ad2r = 2\sum\limits_{i = 1}^{n}ln\left( {\overline{F}}_{i} \right) + \frac{1}{n}\sum\limits_{i = 1}^{n}\frac{2i - 1}{{\overline{F}}_{n + 1 - i}}$ |
-| Left-tail AD 2nd order (AD2L)  | $ad2l = \int_{- \infty}^{\infty}\frac{\left( F_{n}(x) - F(x) \right)^{2}}{\left( F(x) \right)^{2}}dx$     | $ad2l = 2\sum\limits_{i = 1}^{n}ln\left( F_{i} \right) + \frac{1}{n}\sum\limits_{i = 1}^{n}\frac{2i - 1}{F_{i}}$                                   |
-| AD 2nd order (AD2)             | $ad2r + ad2l$                                                                                             | $ad2r + ad2l$                                                                                                                                      |
+| Statistic | General formula | Computational formula |
+|----|----|----|
+| Right-tail AD (ADR) | $`\int_{-\infty}^{\infty}\frac{(F_{n}(x) - F(x))^2 }{1 - F(x)} dx`$ | $`\frac{n}{2} -2\sum\limits_{i=1}^nF_i -\frac{1}{n}\sum\limits_{i=1}^n(2i-1)ln(\overline F_{n+1-i})`$ |
+| Left-tail AD (ADL) | $`\int_{-\infty}^{\infty}\frac{(F_{n}(x) - F(x))^2 }{(F(x))} dx`$ | $`-\frac{3n}{2} +2\sum\limits_{i=1}^nF_i -\frac{1}{n}\sum\limits_{i=1}^n(2i-1)ln(F_i)`$ |
+| Right-tail AD 2nd order (AD2R) | $`ad2r=\int_{-\infty}^{\infty}\frac{(F_{n}(x) - F(x))^2 }{(1 - F(x))^{2}} dx`$ | $`ad2r=2\sum\limits_{i=1}^nln(\overline F_i) +\frac{1}{n}\sum\limits_{i=1}^n \frac{2i-1}{\overline F_{n+1-i}}`$ |
+| Left-tail AD 2nd order (AD2L) | $`ad2l=\int_{-\infty}^{\infty}\frac{(F_{n}(x) - F(x))^2 }{(F(x))^{2}} dx`$ | $`ad2l=2\sum\limits_{i=1}^nln(F_i) +\frac{1}{n}\sum\limits_{i=1}^n\frac{2i-1}{F_i}`$ |
+| AD 2nd order (AD2) | $`ad2r+ad2l`$ | $`ad2r+ad2l`$ |
 
 (#tab:modifiedAD) Modified Anderson-Darling statistics as defined by
-Luceno ([2006](#ref-Luceno06)).
+Luceno ([2006](#ref-Luceno06)). {.table}
 
-where $F_{i}\overset{\bigtriangleup}{=}F\left( x_{i} \right)$ and
-${\overline{F}}_{i}\overset{\bigtriangleup}{=}1 - F\left( x_{i} \right)$
+where $`F_i\stackrel{\triangle}{=} F(x_{i})`$ and
+$`\overline F_i\stackrel{\triangle}{=}1-F(x_{i})`$
 
   
 
@@ -672,7 +695,7 @@ Maximum goodness-of-fit estimation may be useful to give more weight to
 data at one tail of the distribution. In the previous example from
 ecotoxicology, we used a non classical distribution (the Burr
 distribution) to correctly fit the empirical distribution especially on
-its left tail. In order to correctly estimate the 5$\%$ percentile, we
+its left tail. In order to correctly estimate the 5$`\%`$ percentile, we
 could also consider the fit of the classical lognormal distribution, but
 minimizing a goodness-of-fit distance giving more weight to the left
 tail of the empirical distribution. In what follows, the left tail
@@ -680,6 +703,7 @@ Anderson-Darling distances of first or second order are used to fit a
 lognormal to `endosulfan` data set (see Figure @ref(fig:plotfitMGE)).
 
 ``` r
+
 fendo.ln.ADL <- fitdist(ATV, "lnorm", method = "mge", gof = "ADL")
 fendo.ln.AD2L <- fitdist(ATV, "lnorm", method = "mge", gof = "AD2L")
 cdfcomp(list(fendo.ln, fendo.ln.ADL, fendo.ln.AD2L), 
@@ -712,6 +736,7 @@ enables to approach the value obtained by fitting the Burr distribution
 by MLE.
 
 ``` r
+
 (HC5.estimates <- c(
   empirical = as.numeric(quantile(ATV, probs = 0.05)), 
   Burr = as.numeric(quantile(fendo.B, probs = 0.05)$quantiles), 
@@ -725,19 +750,28 @@ by MLE.
 
 The moment matching estimation (MME) is another method commonly used to
 fit parametric distributions ([Vose 2010](#ref-Vose10)). MME consists in
-finding the value of the parameter $\theta$ that equalizes the first
+finding the value of the parameter $`\theta`$ that equalizes the first
 theoretical raw moments of the parametric distribution to the
 corresponding empirical raw moments as in Equation @ref(eq:eq4):
 
-$$E\left( X^{k}|\theta \right) = \frac{1}{n}\sum\limits_{i = 1}^{n}x_{i}^{k},(\# eq:eq4)$$
-for $k = 1,\ldots,d$, with $d$ the number of parameters to estimate and
-$x_{i}$ the $n$ observations of variable $X$. For moments of order
-greater than or equal to 2, it may also be relevant to match centered
-moments. Therefore, we match the moments given in Equation @ref(eq:eq5):
+``` math
+\begin{equation}
+E(X^{k}|\theta)=\frac{1}{n}\sum_{i=1}^{n}x_{i}^{k},(\#eq:eq4)
+\end{equation}
+```
+for $`k=1,\ldots,d`$, with $`d`$ the number of parameters to estimate
+and $`x_{i}`$ the $`n`$ observations of variable $`X`$. For moments of
+order greater than or equal to 2, it may also be relevant to match
+centered moments. Therefore, we match the moments given in Equation
+@ref(eq:eq5):
 
-$$E\left( X|\theta \right) = \overline{x}\ ,\ E\left( \left( X - E(X) \right)^{k}|\theta \right) = m_{k},{\mspace{6mu}\text{for}\mspace{6mu}}k = 2,\ldots,d,(\# eq:eq5)$$
+``` math
+\begin{equation}
+E(X\vert \theta) = \overline{x} ~,~E\left((X-E(X))^{k}|\theta\right)=m_k, \text{ for }  k=2,\ldots,d,(\#eq:eq5)
+\end{equation}
+```
 
-where $m_{k}$ denotes the empirical centered moments. This method can be
+where $`m_k`$ denotes the empirical centered moments. This method can be
 performed by setting the argument `method` to `"mme"` in the call to
 `fitdist`. The estimate is computed by a closed-form formula for the
 following distributions: normal, lognormal, exponential, Poisson, gamma,
@@ -761,8 +795,8 @@ Reinsurance between 1980 and 1990. In actuarial science, it is standard
 to consider positive heavy-tailed distributions and have a special focus
 on the right-tail of the distributions. In this numerical experiment, we
 choose classic actuarial distributions for loss modelling: the lognormal
-distribution and the Pareto type II distribution ([Klugman, Panjer, and
-Willmot 2009](#ref-Klugmanetal09)).
+distribution and the Pareto type II distribution ([Klugman et al.
+2009](#ref-Klugmanetal09)).
 
 The lognormal distribution is fitted to `danishuni` data set by matching
 moments implemented as a closed-form formula. On the left-hand graph of
@@ -774,6 +808,7 @@ function (resp. MLE-fitted) underestimates (overestimates) the empirical
 distribution function for large values of claim amounts.
 
 ``` r
+
 data("danishuni")
 str(danishuni)
 ```
@@ -785,6 +820,7 @@ str(danishuni)
   
 
 ``` r
+
 fdanish.ln.MLE <- fitdist(danishuni$Loss, "lnorm")
 fdanish.ln.MME <- fitdist(danishuni$Loss, "lnorm", method = "mme", order = 1:2)
 require("actuar")
@@ -798,6 +834,7 @@ fdanish.P.MLE <- fitdist(danishuni$Loss, "pareto", start = list(shape = 10, scal
     ## Warning in sqrt(diag(varcovar)): NaNs produced
 
 ``` r
+
 memp <- function(x, order) mean(x^order)
 fdanish.P.MME <- fitdist(danishuni$Loss, "pareto", method = "mme", order = 1:2, memp = "memp", 
                          start = list(shape = 10, scale = 10), lower = c(2+1e-6, 2+1e-6), 
@@ -808,6 +845,7 @@ fdanish.P.MME <- fitdist(danishuni$Loss, "pareto", method = "mme", order = 1:2, 
     ## non-finite result may be dubious
 
 ``` r
+
 par(mfrow = c(1, 2))
 cdfcomp(list(fdanish.ln.MLE, fdanish.ln.MME), legend = c("lognormal MLE", "lognormal MME"),
         main = "Fitting a lognormal distribution", xlogscale = TRUE, datapch = 20)
@@ -837,13 +875,14 @@ certain values of the shape parameter requires some cautiousness. This
 is carried out by providing, for the optimization process, a lower and
 an upper bound for each parameter. The code below calls the L-BFGS-B
 optimization method in `optim`, since this quasi-Newton allows box
-constraints [²](#fn2). We choose match moments defined in Equation
+constraints [^2]. We choose match moments defined in Equation
 @ref(eq:eq4), and so a function for computing the empirical raw moment
 (called `memp` in our example) is passed to `fitdist`. For two-parameter
-distributions (i.e., $d = 2$), Equations @ref(eq:eq4) and @ref(eq:eq5)
+distributions (i.e., $`d=2`$), Equations @ref(eq:eq4) and @ref(eq:eq5)
 are equivalent.
 
 ``` r
+
 gofstat(list(fdanish.ln.MLE, fdanish.P.MLE, fdanish.ln.MME, fdanish.P.MME), 
         fitnames = c("lnorm.mle", "Pareto.mle", "lnorm.mme", "Pareto.mme"))
 ```
@@ -885,11 +924,15 @@ probabilities) against the empirical quantiles ([Tse
 quantiles is expressed by Equation @ref(eq:eq6) below, which is very
 similar to Equations @ref(eq:eq4) and @ref(eq:eq5):
 
-$$F^{- 1}\left( p_{k}|\theta \right) = Q_{n,p_{k}}(\# eq:eq6)$$ for
-$k = 1,\ldots,d$, with $d$ the number of parameters to estimate
-(dimension of $\theta$ if there is no fixed parameters) and
-$Q_{n,p_{k}}$ the empirical quantiles calculated from data for specified
-probabilities $p_{k}$.
+``` math
+\begin{equation}
+F^{-1}(p_{k}|\theta)=Q_{n,p_{k}}(\#eq:eq6) 
+\end{equation}
+```
+for $`k=1,\ldots,d`$, with $`d`$ the number of parameters to estimate
+(dimension of $`\theta`$ if there is no fixed parameters) and
+$`Q_{n,p_{k}}`$ the empirical quantiles calculated from data for
+specified probabilities $`p_{k}`$.
 
 Quantile matching estimation (QME) is performed by setting the argument
 `method` to `"qme"` in the call to `fitdist` and adding an argument
@@ -907,6 +950,7 @@ The quantile matching is carried out numerically, by minimizing the sum
 of squared differences between observed and theoretical quantiles.
 
 ``` r
+
 fdanish.ln.QME1 <- fitdist(danishuni$Loss, "lnorm", method = "qme", probs = c(1/3, 2/3))
 fdanish.ln.QME2 <- fitdist(danishuni$Loss, "lnorm", method = "qme", probs = c(8/10, 9/10))
 cdfcomp(list(fdanish.ln.MLE, fdanish.ln.QME1, fdanish.ln.QME2), 
@@ -924,15 +968,14 @@ loss data from the `danishuni` data set.
   
 
 Above is an example of fitting of a lognormal distribution to
-\`danishuni} data set by matching probabilities
-$\left( p_{1} = 1/3,p_{2} = 2/3 \right)$ and
-$\left( p_{1} = 8/10,p_{2} = 9/10 \right)$. As expected, the second QME
-fit gives more weight to the right-tail of the distribution. Compared to
-the maximum likelihood estimation, the second QME fit best suits the
+\`danishuni} data set by matching probabilities $`(p_1= 1/3, p_2=2/3)`$
+and $`(p_1= 8/10, p_2=9/10)`$. As expected, the second QME fit gives
+more weight to the right-tail of the distribution. Compared to the
+maximum likelihood estimation, the second QME fit best suits the
 right-tail of the distribution, whereas the first QME fit best models
 the body of the distribution. The quantile matching estimation is of
 particular interest when we need to focus around particular quantiles,
-e.g., $p = 99.5\%$ in the Solvency II insurance context or $p = 5\%$ for
+e.g., $`p=99.5\%`$ in the Solvency II insurance context or $`p=5\%`$ for
 the HC5 estimation in the ecotoxicology context.
 
 ### 3.2. Customization of the optimization algorithm
@@ -952,19 +995,20 @@ different algorithms available).
 
 Even if no error is raised when computing the optimization, changing the
 algorithm is of particular interest to enforce bounds on some
-parameters. For instance, a volatility parameter $\sigma$ is strictly
-positive $\sigma > 0$ and a probability parameter $p$ lies in
-$p \in \lbrack 0,1\rbrack$. This is possible by using arguments `lower`
-and/or `upper`, for which their use automatically forces
+parameters. For instance, a volatility parameter $`\sigma`$ is strictly
+positive $`\sigma>0`$ and a probability parameter $`p`$ lies in
+$`p\in [0,1]`$. This is possible by using arguments `lower` and/or
+`upper`, for which their use automatically forces
 `optim.method="L-BFGS-B"`.
 
 Below are examples of fits of a gamma distribution
-$\mathcal{G}(\alpha,\lambda)$ to the `groundbeef` data set with various
-algorithms. Note that the conjugate gradient algorithm (`CG`) needs far
-more iterations to converge (around 2500 iterations) compared to other
-algorithms (converging in less than 100 iterations).
+$`\mathcal{G}(\alpha, \lambda)`$ to the `groundbeef` data set with
+various algorithms. Note that the conjugate gradient algorithm (`CG`)
+needs far more iterations to converge (around 2500 iterations) compared
+to other algorithms (converging in less than 100 iterations).
 
 ``` r
+
 data("groundbeef")
 fNM <- fitdist(groundbeef$serving, "gamma", optim.method = "Nelder-Mead")
 fBFGS <- fitdist(groundbeef$serving, "gamma", optim.method = "BFGS") 
@@ -988,6 +1032,7 @@ respect our optimization \`\`template’’. The **rgenoud** package
 implements the genetic (stochastic) algorithm.
 
 ``` r
+
 mygenoud <- function(fn, par, ...) 
 {
    require("rgenoud")
@@ -1003,12 +1048,13 @@ code can for example be used to fit a gamma distribution to the
 `groundbeef` data set. Note that in this example various arguments are
 also passed from `fitdist` to `genoud`: `nvars`, `Domains`,
 `boundary.enforcement`, `print.level` and `hessian`. The code below
-compares all the parameter estimates ($\widehat{\alpha}$,
-$\widehat{\lambda}$) by the different algorithms: shape $\alpha$ and
-rate $\lambda$ parameters are relatively similar on this example,
-roughly 4.00 and 0.05, respectively.
+compares all the parameter estimates ($`\hat\alpha`$, $`\hat\lambda`$)
+by the different algorithms: shape $`\alpha`$ and rate $`\lambda`$
+parameters are relatively similar on this example, roughly 4.00 and
+0.05, respectively.
 
 ``` r
+
 fgenoud <- mledist(groundbeef$serving, "gamma", custom.optim = mygenoud, nvars = 2, 
                    max.generations = 10, Domains = cbind(c(0, 0), c(10, 10)), 
                    boundary.enforcement = 1, hessian = TRUE, print.level = 0, P9 = 10)
@@ -1025,6 +1071,7 @@ fgenoud <- mledist(groundbeef$serving, "gamma", custom.optim = mygenoud, nvars =
     ## ##
 
 ``` r
+
 cbind(NM = fNM$estimate, BFGS = fBFGS$estimate, SANN = fSANN$estimate, CG = fCG$estimate, 
       fgenoud = fgenoud$estimate)
 ```
@@ -1069,11 +1116,12 @@ observations. To illustrate the use of package **fitdistrplus** to fit
 distributions to censored continous data, we will use another data set
 from ecotoxicology, included in our package and named `salinity`. This
 data set contains acute salinity tolerance (LC50 values in electrical
-conductivity, $mS$.$cm^{- 1}$) of riverine macro-invertebrates taxa from
-the southern Murray-Darling Basin in Central Victoria, Australia
+conductivity, $`mS`$.$`cm^{-1}`$) of riverine macro-invertebrates taxa
+from the southern Murray-Darling Basin in Central Victoria, Australia
 ([Kefford et al. 2007](#ref-kefford07)).
 
 ``` r
+
 data("salinity")
 str(salinity)
 ```
@@ -1108,6 +1156,7 @@ nature of censored data, as points and intervals, but the difficulty in
 building such a plot is to define a relevant ordering of observations.
 
 ``` r
+
 plotdistcens(salinity, NPMLE = FALSE)
 ```
 
@@ -1125,7 +1174,7 @@ points and intervals.
 As for non censored data, one or more parametric distributions can be
 fitted to the censored data set, one at a time, but using in this case
 the `fitdistcens` function. This function estimates the vector of
-distribution parameters $\theta$ by maximizing the likelihood for
+distribution parameters $`\theta`$ by maximizing the likelihood for
 censored data defined as:
 
 \$\$\begin{equation} L(\theta) = \prod\_{i=1}^{N\_{nonC}}
@@ -1135,13 +1184,13 @@ F(x^{lower}\_{k}\|\theta))\times \prod\_{m=1}^{N\_{intC}}
 (F(x^{upper}\_{m}\|\theta)- F(x^{lower}\_{j}\|\theta))(\\eq:eq7)
 \end{equation}\$\$
 
-with $x_{i}$ the $N_{nonC}$ non-censored observations, $x_{j}^{upper}$
-upper values defining the $N_{leftC}$ left-censored observations,
-$x_{k}^{lower}$ lower values defining the $N_{rightC}$ right-censored
-observations, $\left\lbrack x_{m}^{lower};x_{m}^{upper} \right\rbrack$
-the intervals defining the $N_{intC}$ interval-censored observations,
-and F the cumulative distribution function of the parametric
-distribution Helsel ([2005](#ref-helsel05)).
+with $`x_{i}`$ the $`N_{nonC}`$ non-censored observations,
+$`x^{upper}_{j}`$ upper values defining the $`N_{leftC}`$ left-censored
+observations, $`x^{lower}_{k}`$ lower values defining the $`N_{rightC}`$
+right-censored observations, $`[x^{lower}_{m} ; x^{upper}_{m}]`$ the
+intervals defining the $`N_{intC}`$ interval-censored observations, and
+F the cumulative distribution function of the parametric distribution
+Helsel ([2005](#ref-helsel05)).
 
 As `fitdist`, `fitdistcens` returns the results of the fit of any
 parametric distribution to a data set as an S3 class object that can be
@@ -1155,6 +1204,7 @@ function can help to find correct initial values for the distribution
 parameters in non trivial cases, by a manual iterative use if necessary.
 
 ``` r
+
 fsal.ln <- fitdistcens(salinity, "lnorm")
 fsal.ll <- fitdistcens(salinity, "llogis", start = list(shape = 5, scale = 40))
 summary(fsal.ln)
@@ -1172,6 +1222,7 @@ summary(fsal.ln)
     ## sdlog    0.2938 1.0000
 
 ``` r
+
 summary(fsal.ll)
 ```
 
@@ -1205,6 +1256,7 @@ distributions as it provides a clearer plot splitted in facets (see
 [`?graphcompcens`](https://lbbe-software.github.io/fitdistrplus/reference/graphcompcens.md)).
 
 ``` r
+
 par(mfrow = c(2, 2))
 cdfcompcens(list(fsal.ln, fsal.ll), legendtext = c("lognormal", "loglogistic "))
 qqcompcens(fsal.ln, legendtext = "lognormal")
@@ -1246,6 +1298,7 @@ reported from a random sampling of feral cats living on Kerguelen island
 the case of discrete data.
 
 ``` r
+
 data("toxocara")
 str(toxocara)
 ```
@@ -1259,6 +1312,7 @@ non-censored data. As an example, using the `toxocara` data set, Poisson
 and negative binomial distributions can be easily fitted.
 
 ``` r
+
 (ftoxo.P <- fitdist(toxocara$number, "pois"))
 ```
 
@@ -1268,6 +1322,7 @@ and negative binomial distributions can be easily fitted.
     ## lambda    8.679     0.4047
 
 ``` r
+
 (ftoxo.nb <- fitdist(toxocara$number, "nbinom"))
 ```
 
@@ -1285,6 +1340,7 @@ set, as follows for the previous fits (Figure
 @ref(fig:fittoxocarapoisnbinom)).
 
 ``` r
+
 par(mfrow = c(1, 2))
 denscomp(list(ftoxo.P, ftoxo.nb), legendtext = c("Poisson", "negative binomial"), fitlty = 1)
 cdfcomp(list(ftoxo.P, ftoxo.nb), legendtext = c("Poisson", "negative binomial"), fitlty = 1)
@@ -1310,12 +1366,14 @@ distribution (data), and not from the theoretical distribution, was done
 to enable the comparison of Chi-squared values obtained with different
 distributions fitted on a same data set. If arguments `chisqbreaks` and
 `meancount` are both omitted, `meancount` is fixed in order to obtain
-roughly $(4n)^{2/5}$ cells, with $n$ the length of the data set ([Vose
-2010](#ref-Vose10)). Using this default option the two previous fits are
-compared as follows, giving the preference to the negative binomial
-distribution, from both Chi-squared statistics and information criteria:
+roughly $`(4n)^{2/5}`$ cells, with $`n`$ the length of the data set
+([Vose 2010](#ref-Vose10)). Using this default option the two previous
+fits are compared as follows, giving the preference to the negative
+binomial distribution, from both Chi-squared statistics and information
+criteria:
 
 ``` r
+
 gofstat(list(ftoxo.P, ftoxo.nb), fitnames = c("Poisson", "negative binomial"))
 ```
 
@@ -1351,14 +1409,13 @@ package is already used by a lot of practionners and academics for
 simple MLE fits Voigt et al. ([2014](#ref-voigtetal14)), for MLE fits
 and goodness-of-fit statistics Vaninsky ([2013](#ref-vaninsky13)), for
 MLE fits and bootstrap Rigaux et al. ([2014](#ref-Rigaux2014)), for MLE
-fits, bootstrap and goodness-of-fit statistics ([Larras, Montuelle, and
-Bouchez 2013](#ref-larrasetal13)), for MME fit Sato et al.
-([2013](#ref-satoetal13)), for censored MLE and bootstrap Contreras,
-Huerta, and Arnold ([2013](#ref-contrerasetal2013)), for graphic
-analysing in ([Anand, Yeturu, and Chandra 2012](#ref-anandetal12)), for
-grouped-data fitting methods ([Fu, Steiner, and Costafreda
-2012](#ref-fusteinercostafreda12)) or more generally Drake, Chalabi, and
-Coker ([2014](#ref-drakeetal2014)).
+fits, bootstrap and goodness-of-fit statistics ([Larras et al.
+2013](#ref-larrasetal13)), for MME fit Sato et al.
+([2013](#ref-satoetal13)), for censored MLE and bootstrap Contreras et
+al. ([2013](#ref-contrerasetal2013)), for graphic analysing in ([Anand
+et al. 2012](#ref-anandetal12)), for grouped-data fitting methods ([Fu
+et al. 2012](#ref-fusteinercostafreda12)) or more generally Drake et al.
+([2014](#ref-drakeetal2014)).
 
 The **fitdistrplus** package is complementary with the **distrMod**
 package ([Kohl and Ruckdeschel 2010](#ref-distrModJSS)). **distrMod**
@@ -1405,7 +1462,7 @@ Root-Mean-Square Deviation Prediction.” *Protein Science* 21 (2):
 Benavides-Piccione, R., I. Fernaud-Espinosa, V. Robles, R. Yuste, and J.
 DeFelipe. 2012. “Age-Based Comparison of Human Dendritic Spine Structure
 Using Complete Three-Dimensional Reconstructions.” *Cerebral Cortex* 23
-(8): 1798–1810.
+(8): 1798–810.
 
 Blom, G. 1959. *Statistical Estimates and Transformed Beta Variables*.
 1st ed. John Wiley & Sons.
@@ -1423,7 +1480,8 @@ Microbiological Contamination Data for Use in Risk Assessment.”
 Callau Poduje, Ana Claudia, Aslan Belli, and Uwe Haberlandt. 2013. “Dam
 Risk Assessment Based on Univariate Versus Bivariate Statistical
 Approaches - a Case Study for Argentina.” *Hydrological Sciences
-Journal*. <https://doi.org/10.1080/02626667.2013.871014>.
+Journal*, ahead of print.
+<https://doi.org/10.1080/02626667.2013.871014>.
 
 Casella, G., and R. L. Berger. 2002. *Statistical Inference*. 2nd ed.
 Duxbury Thomson Learning.
@@ -1434,7 +1492,7 @@ Data.” *International Journal of Food Microbiology* 155: 146–52.
 
 Contreras, V. De La Huerta, H. Vaquera Huerta, and B. C. Arnold. 2013.
 “A Test for Equality of Variance with Censored Samples.” *Journal of
-Statistical Computation and Simulation*.
+Statistical Computation and Simulation*, ahead of print.
 <https://doi.org/10.1080/00949655.2013.825095>.
 
 Croucher, N. J., S. R. Harris, L. Barquist, J. Parkhill, and S. D.
@@ -1464,8 +1522,8 @@ Data*. <https://cran.r-project.org/package=fitdistrplus>.
 
 Drake, T., Z. Chalabi, and R. Coker. 2014. “Buy Now, saved Later? The
 Critical Impact of Time-to-Pandemic Uncertainty on Pandemic
-Cost-Effectiveness Analyses.” *Health Policy and Planning*.
-<https://doi.org/10.1093/heapol/czt101>.
+Cost-Effectiveness Analyses.” *Health Policy and Planning*, ahead of
+print. <https://doi.org/10.1093/heapol/czt101>.
 
 Dutang, C., V. Goulet, and M. Pigeon. 2008. “: an R Package for
 Actuarial Science.” *Journal of Statistical Software* 25 (7): 1–37.
@@ -1482,11 +1540,9 @@ Eling, M. 2012. “Fitting Insurance Claims to Skewed Distributions: Are
 the Skew-normal and the Skew-student Good Models?” *Insurance:
 Mathematics and Economics* 51 (2): 239–48.
 
-Fiorelli, L. E., M. D. Ezcurra, E. M. Hechenleitner, E. Argañaraz, R.
-Jeremias, A. Taborda, M. J. Trotteyn, M. Belén von Baczko, and J. B.
-Desojo. 2013. “The Oldest Known Communal Latrines Provide Evidence of
-Gregarism in Triassic Megaherbivores.” *Scientific Reports* 3 (3348):
-1–7.
+Fiorelli, L. E., M. D. Ezcurra, E. M. Hechenleitner, et al. 2013. “The
+Oldest Known Communal Latrines Provide Evidence of Gregarism in Triassic
+Megaherbivores.” *Scientific Reports* 3 (3348): 1–7.
 
 Fromont, E, L Morvilliers, M Artois, and D Pontier. 2001. “Parasite
 Richness and Abundance in Insular and Mainland Feral Cats: Insularity or
@@ -1504,12 +1560,11 @@ Mammals.” *Journal of Animal Ecology* 82: 562–71.
 Goulet, V. 2012. *: An r Package for Actuarial Science*.
 <https://cran.r-project.org/package=actuar>.
 
-Guillier, Laurent, Corinne Danan, Hélène Bergis, Marie-Laure
-Delignette-Muller, Sophie Granier, Sylvie Rudelle, Annie Beaufort, and
-Anne Brisabois. 2013. “Use of Quantitative Microbial Risk Assessment
-when Investigating Foodborne Illness Outbreaks: the Example of a
-Monophasic *Salmonella Typhimurium* 4,5,12:i:- Outbreak Implicating Beef
-Burgers.” *International Journal of Food Microbiology* 166 (3): 471–78.
+Guillier, Laurent, Corinne Danan, Hélène Bergis, et al. 2013. “Use of
+Quantitative Microbial Risk Assessment when Investigating Foodborne
+Illness Outbreaks: the Example of a Monophasic *Salmonella Typhimurium*
+4,5,12:i:- Outbreak Implicating Beef Burgers.” *International Journal of
+Food Microbiology* 166 (3): 471–78.
 
 Helsel, D. R. 2005. *Nondetects and Data Analysis: Statistics for
 Censored Environmental Data*. 1st ed. John Wiley & Sons.
@@ -1589,11 +1644,10 @@ Mandl, J. N., J. P. Monteiro, N. Vrisekoop, and R. N. Germain. 2013. “T
 Cell-Positive Selection Uses Self-Ligand Binding Strength to Optimize
 Repertoire Recognition of Foreign Antigens.” *Immunity* 38 (2): 263–74.
 
-Marquetoux, N., M. Paul, S. Wongnarkpet, C. Poolkhet, W. Thanapongtham,
-F. Roger, C. Ducrot, and K. Chalvet-Monfray. 2012. “Estimating Spatial
-and Temporal Variations of the Reproduction Number for Highly Pathogenic
-Avian Influenza H5N1 Epidemic in Thailand.” *Preventive Veterinary
-Medicine* 106 (2): 143–51.
+Marquetoux, N., M. Paul, S. Wongnarkpet, et al. 2012. “Estimating
+Spatial and Temporal Variations of the Reproduction Number for Highly
+Pathogenic Avian Influenza H5N1 Epidemic in Thailand.” *Preventive
+Veterinary Medicine* 106 (2): 143–51.
 
 McNeil, A. J. 1997. “Estimating the Tails of Loss Severity Distributions
 Using Extreme Value Theory.” *ASTIN Bulletin* 27 (1): 117–37.
@@ -1647,7 +1701,7 @@ Ricci, V. 2005. “Fitting Distributions with r.”
 
 Rigaux, Clémence, Stéphane André, Isabelle Albert, and Frédéric Carlin.
 2014. “Quantitative Assessment of the Risk of Microbial Spoilage in
-Foods. Prediction of Non-Stability at 55$\,^{\circ}$c Caused by
+Foods. Prediction of Non-Stability at 55$`\,^{\circ}`$c Caused by
 *Geobacillus Stearothermophilus* in Canned Green Beans.” *International
 Journal of Food Microbiology* 171: 119–28.
 
@@ -1658,12 +1712,10 @@ Samuel-Rosa, A., R. Simao Diniz Dalmolin, and P. Miguel. 2013. “Building
 Predictive Models of Soil Particle-Size Distribution.” *Revista
 Brasileira de Ciencia Do Solo* 37: 422–30.
 
-Sato, Maria Ines Z., Ana Tereza Galvani, Jose Antonio Padula, Adelaide
-Cassia Nardocci, Marcelo de Souza Lauretto, Maria Tereza Pepe Razzolini,
-and Elayse Maria Hachich. 2013. “Assessing the Infection Risk of
-*Giardia* and *Cryptosporidium* in Public Drinking Water Delivered by
-Surface Water Systems in Sao Paulo State, Brazil.” *Science of The Total
-Environment* 442: 389–96.
+Sato, Maria Ines Z., Ana Tereza Galvani, Jose Antonio Padula, et al.
+2013. “Assessing the Infection Risk of *Giardia* and *Cryptosporidium*
+in Public Drinking Water Delivered by Surface Water Systems in Sao Paulo
+State, Brazil.” *Science of The Total Environment* 442: 389–96.
 
 Scholl, C. F., C. C. Nice, J. A. Fordyce, Z. Gompert, and M. L.
 Forister. 2012. “Larval Performance in the Context of Ecological
@@ -1722,9 +1774,8 @@ Viana, D. S., L. Santamará, T. C. Michot, and J. Figuerola. 2013.
 “Allometric Scaling of Long-Distance Seed Dispersal by Migratory Birds.”
 *The American Naturalist* 181 (5): 649–62.
 
-Voigt, Christian C., Linn S. Lehnert, Ana G. Popa-Lisseanu, Mateusz
-Ciechanowski, Péter Estók, Florian Gloza-Rausch, Tamás Goerfoel, et al.
-2014. “The Trans-Boundary Importance of Artificial Bat *hibernacula* in
+Voigt, Christian C., Linn S. Lehnert, Ana G. Popa-Lisseanu, et al. 2014.
+“The Trans-Boundary Importance of Artificial Bat *hibernacula* in
 Managed European Forests.” *Biodiversity and Conservation* 23: 617–31.
 
 Vose, D. 2010. *Quantitative Risk Analysis. A Guide to Monte Carlo
@@ -1734,9 +1785,9 @@ Wang, Yong. 2007. “On Fast Computation of the Non-Parametric Maximum
 Likelihood Estimate of a Mixing Distribution.” *Journal of the Royal
 Statistical Society: Series B (Statistical Methodology)* 69 (2): 185–98.
 
-———. 2008. “Dimension-Reduced Nonparametric Maximum Likelihood
+Wang, Yong. 2008. “Dimension-Reduced Nonparametric Maximum Likelihood
 Computation for Interval-Censored Data.” *Computational Statistics &
-Data Analysis* 52 (5): 2388–2402.
+Data Analysis* 52 (5): 2388–402.
 
 Wang, Yong, and Shabnam Fani. 2018. “Nonparametric Maximum Likelihood
 Computation of a u-Shaped Hazard Function.” *Statistics and Computing*
@@ -1759,7 +1810,7 @@ Wu, Xing Zheng. 2013a. “Probabilistic Slope Stability Analysis by a
 Copula-Based Sampling Method.” *Computational Geosciences* 17 (5):
 739–55.
 
-———. 2013b. “Trivariate Analysis of Soil Ranking-Correlated
+Wu, Xing Zheng. 2013b. “Trivariate Analysis of Soil Ranking-Correlated
 Characteristics and Its Application to Probabilistic Stability
 Assessments in Geotechnical Engineering Problems.” *Soils and
 Foundations* 53 (4): 540–56.
@@ -1769,13 +1820,11 @@ Zhang, Yu, Emad Habib, Robert J. Kuligowski, and Dongsoo Kim. 2013.
 {QPEs} and Its Use in Estimating the Conditional Exceedance
 Probability.” *Advances in Water Resources* 59: 133–45.
 
-------------------------------------------------------------------------
-
-1.  The `plotdist` function can plot any parametric distribution with
+[^1]: The `plotdist` function can plot any parametric distribution with
     specified parameter values in argument `para`. It can thus help to
     find correct initial values for the distribution parameters in non
     trivial cases, by iterative calls if necessary (see the reference
     manual for examples ([Delignette-Muller et al.
     2014](#ref-fitdistrplus))).
 
-2.  That is what the B stands for.
+[^2]: That is what the B stands for.

@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Overview of the fitdistrplus package • fitdistrplus</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Overview of the fitdistrplus package">
 </head>
@@ -63,7 +63,7 @@
                         <h4 data-toc-skip class="author">Marie Laure
 Delignette Muller, Christophe Dutang</h4>
             
-            <h4 data-toc-skip class="date">2026-04-14</h4>
+            <h4 data-toc-skip class="date">2026-05-17</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/lbbe-software/fitdistrplus/blob/master/vignettes/fitdistrplus_vignette.Rmd" class="external-link"><code>vignettes/fitdistrplus_vignette.Rmd</code></a></small>
       <div class="d-none name"><code>fitdistrplus_vignette.Rmd</code></div>
@@ -107,17 +107,16 @@ parameter estimation from a general point-of-view. In some cases, other
 estimation methods could be prefered, such as maximum goodness-of-fit
 estimation (also called minimum distance estimation), as proposed in the
 R package <strong>actuar</strong> with three different goodness-of-fit
-distances <span class="citation">(<a href="#ref-actuarJSS">Dutang,
-Goulet, and Pigeon 2008</a>)</span>. While developping the
-<strong>fitdistrplus</strong> package, a second objective was to
-consider various estimation methods in addition to maximum likelihood
-estimation (MLE). Functions were developped to enable moment matching
-estimation (MME), quantile matching estimation (QME), and maximum
-goodness-of-fit estimation (MGE) using eight different distances.
-Moreover, the <strong>fitdistrplus</strong> package offers the
-possibility to specify a user-supplied function for optimization, useful
-in cases where classical optimization techniques, not included in
-<code>optim</code>, are more adequate.</p>
+distances <span class="citation">(<a href="#ref-actuarJSS">Dutang et al.
+2008</a>)</span>. While developping the <strong>fitdistrplus</strong>
+package, a second objective was to consider various estimation methods
+in addition to maximum likelihood estimation (MLE). Functions were
+developped to enable moment matching estimation (MME), quantile matching
+estimation (QME), and maximum goodness-of-fit estimation (MGE) using
+eight different distances. Moreover, the <strong>fitdistrplus</strong>
+package offers the possibility to specify a user-supplied function for
+optimization, useful in cases where classical optimization techniques,
+not included in <code>optim</code>, are more adequate.</p>
 <p>In applied statistics, it is frequent to have to fit distributions to
 censored data <span class="citation">Commeau et al. (<a href="#ref-commeauetal12">2012</a>)</span>. The <strong>MASS</strong>
 <code>fitdistr</code> function does not enable maximum likelihood
@@ -212,14 +211,14 @@ kurtosis value quantifies the weight of tails in comparison to the
 normal distribution for which the kurtosis equals 3. The skewness and
 kurtosis and their corresponding unbiased estimator <span class="citation">(<a href="#ref-casellaberger02">Casella and Berger
 2002</a>)</span> from a sample
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>i</mi></msub><mover><mo>∼</mo><mtext mathvariant="normal">i.i.d.</mtext></mover><mi>X</mi></mrow><annotation encoding="application/x-tex">(X_i)_i \stackrel{\text{i.i.d.}}{\sim} X</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>X</mi><mi>i</mi></msub><msub><mo stretchy="false" form="postfix">)</mo><mi>i</mi></msub><mover><mo>∼</mo><mtext mathvariant="normal">i.i.d.</mtext></mover><mi>X</mi></mrow><annotation encoding="application/x-tex">(X_i)_i \stackrel{\text{i.i.d.}}{\sim} X</annotation></semantics></math>
 with observations
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>i</mi></msub><annotation encoding="application/x-tex">(x_i)_i</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><msub><mo stretchy="false" form="postfix">)</mo><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">(x_i)_i</annotation></semantics></math>
 are given by:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>k</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo>−</mo><mi>E</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mn>3</mn></msup><mo stretchy="true" form="postfix">]</mo></mrow></mrow><mrow><mi>V</mi><mi>a</mi><mi>r</mi><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow><mfrac><mn>3</mn><mn>2</mn></mfrac></msup></mrow></mfrac><mspace width="0.222em"></mspace><mo>,</mo><mspace width="0.222em"></mspace><mover><mrow><mi>s</mi><mi>k</mi></mrow><mo accent="true">̂</mo></mover><mo>=</mo><mfrac><msqrt><mrow><mi>n</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow></msqrt><mrow><mi>n</mi><mo>−</mo><mn>2</mn></mrow></mfrac><mo>×</mo><mfrac><msub><mi>m</mi><mn>3</mn></msub><msubsup><mi>m</mi><mn>2</mn><mfrac><mn>3</mn><mn>2</mn></mfrac></msubsup></mfrac><mo>,</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>e</mi><mi>q</mi><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\begin{equation}
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>k</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mrow><mi>E</mi><mo stretchy="false" form="prefix">[</mo><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>−</mo><mi>E</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo><msup><mo stretchy="false" form="postfix">)</mo><mn>3</mn></msup><mo stretchy="false" form="postfix">]</mo></mrow><mrow><mi>V</mi><mi>a</mi><mi>r</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><msup><mo stretchy="false" form="postfix">)</mo><mfrac><mn>3</mn><mn>2</mn></mfrac></msup></mrow></mfrac><mspace width="0.222em"></mspace><mo>,</mo><mspace width="0.222em"></mspace><mover><mrow><mi>s</mi><mi>k</mi></mrow><mo accent="true">̂</mo></mover><mo>=</mo><mfrac><msqrt><mrow><mi>n</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow></msqrt><mrow><mi>n</mi><mo>−</mo><mn>2</mn></mrow></mfrac><mo>×</mo><mfrac><msub><mi>m</mi><mn>3</mn></msub><msubsup><mi>m</mi><mn>2</mn><mfrac><mn>3</mn><mn>2</mn></mfrac></msubsup></mfrac><mo>,</mo><mo stretchy="false" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>e</mi><mi>q</mi><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\begin{equation}
 sk(X) = \frac{E[(X-E(X))^3]}{Var(X)^{\frac{3}{2}}}~,~\widehat{sk}=\frac{\sqrt{n(n-1)}}{n-2}\times\frac{m_{3}}{m_{2}^{\frac{3}{2}}},(\#eq:eq1)
 \end{equation}</annotation></semantics></math></p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mi>r</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo>−</mo><mi>E</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mn>4</mn></msup><mo stretchy="true" form="postfix">]</mo></mrow></mrow><mrow><mi>V</mi><mi>a</mi><mi>r</mi><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow></mfrac><mspace width="0.222em"></mspace><mo>,</mo><mspace width="0.222em"></mspace><mover><mrow><mi>k</mi><mi>r</mi></mrow><mo accent="true">̂</mo></mover><mo>=</mo><mfrac><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mi>n</mi><mo>−</mo><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mi>n</mi><mo>−</mo><mn>3</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mrow><mo stretchy="true" form="prefix">(</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>n</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>×</mo><mfrac><msub><mi>m</mi><mn>4</mn></msub><msubsup><mi>m</mi><mn>2</mn><mn>2</mn></msubsup></mfrac><mo>−</mo><mn>3</mn><mrow><mo stretchy="true" form="prefix">(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mn>3</mn><mo>,</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>e</mi><mi>q</mi><mn>2</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\begin{equation}
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mi>r</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mrow><mi>E</mi><mo stretchy="false" form="prefix">[</mo><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>−</mo><mi>E</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo><msup><mo stretchy="false" form="postfix">)</mo><mn>4</mn></msup><mo stretchy="false" form="postfix">]</mo></mrow><mrow><mi>V</mi><mi>a</mi><mi>r</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup></mrow></mfrac><mspace width="0.222em"></mspace><mo>,</mo><mspace width="0.222em"></mspace><mover><mrow><mi>k</mi><mi>r</mi></mrow><mo accent="true">̂</mo></mover><mo>=</mo><mfrac><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow><mrow><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo>−</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo>−</mo><mn>3</mn><mo stretchy="false" form="postfix">)</mo></mrow></mfrac><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo>+</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>×</mo><mfrac><msub><mi>m</mi><mn>4</mn></msub><msubsup><mi>m</mi><mn>2</mn><mn>2</mn></msubsup></mfrac><mo>−</mo><mn>3</mn><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mn>3</mn><mo>,</mo><mo stretchy="false" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>e</mi><mi>q</mi><mn>2</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\begin{equation}
 kr(X) = \frac{E[(X-E(X))^4]}{Var(X)^{2}}~,~\widehat{kr}=\frac{n-1}{(n-2)(n-3)}((n+1) \times \frac{m_{4}}{m_{2}^{2}}-3(n-1)) + 3,(\#eq:eq2)
 \end{equation}</annotation></semantics></math></p>
 <p>where
@@ -227,7 +226,7 @@ kr(X) = \frac{E[(X-E(X))^4]}{Var(X)^{2}}~,~\widehat{kr}=\frac{n-1}{(n-2)(n-3)}((
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mn>3</mn></msub><annotation encoding="application/x-tex">m_{3}</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mn>4</mn></msub><annotation encoding="application/x-tex">m_{4}</annotation></semantics></math>
 denote empirical moments defined by
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>m</mi><mi>k</mi></msub><mo>=</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><msubsup><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></msubsup><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mover><mi>x</mi><mo accent="true">¯</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow><mi>k</mi></msup></mrow><annotation encoding="application/x-tex">m_{k}=\frac{1}{n}\sum_{i=1}^n(x_{i}-\overline{x})^{k}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>m</mi><mi>k</mi></msub><mo>=</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><msubsup><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></msubsup><mo stretchy="false" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mover><mi>x</mi><mo accent="true">¯</mo></mover><msup><mo stretchy="false" form="postfix">)</mo><mi>k</mi></msup></mrow><annotation encoding="application/x-tex">m_{k}=\frac{1}{n}\sum_{i=1}^n(x_{i}-\overline{x})^{k}</annotation></semantics></math>,
 with
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mi>i</mi></msub><annotation encoding="application/x-tex">x_{i}</annotation></semantics></math>
 the
@@ -297,7 +296,7 @@ Skewness-kurtosis plot for a continuous variable (serving size from the
 <h3 id="FIT">2.2. Fit of distributions by maximum likelihood estimation<a class="anchor" aria-label="anchor" href="#FIT"></a>
 </h3>
 <p>Once selected, one or more parametric distributions
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>.</mi><mo stretchy="false" form="postfix">|</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">f(.\vert \theta)</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>.</mi><mo stretchy="false" form="postfix">|</mo><mi>θ</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">f(.\vert \theta)</annotation></semantics></math>
 (with parameter
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo>∈</mo><msup><mi>ℝ</mi><mi>d</mi></msup></mrow><annotation encoding="application/x-tex">\theta\in\mathbb{R}^d</annotation></semantics></math>)
 may be fitted to the data set, one at a time, using the
@@ -306,7 +305,7 @@ distribution parameters
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>θ</mi><annotation encoding="application/x-tex">\theta</annotation></semantics></math>
 are by default estimated by maximizing the likelihood function defined
 as:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><munderover><mo>∏</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="false" form="postfix">|</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>e</mi><mi>q</mi><mn>3</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\begin{equation}
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo stretchy="false" form="prefix">(</mo><mi>θ</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><munderover><mo>∏</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mi>f</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="false" form="postfix">|</mo><mi>θ</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>e</mi><mi>q</mi><mn>3</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\begin{equation}
 L(\theta)=\prod_{i=1}^n f(x_{i}\vert \theta)(\#eq:eq3)
 \end{equation}</annotation></semantics></math></p>
 <p>with
@@ -316,7 +315,7 @@ the
 observations of variable
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>
 and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>.</mi><mo stretchy="false" form="postfix">|</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">f(.\vert \theta)</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>.</mi><mo stretchy="false" form="postfix">|</mo><mi>θ</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">f(.\vert \theta)</annotation></semantics></math>
 the density function of the parametric distribution. The other proposed
 estimation methods are described in Section <a href="#Alternatives">3.1.</a>.</p>
 <p>The <code>fitdist</code> function returns an S3 object of class
@@ -426,7 +425,7 @@ of food risk assessment.</p>
 illustrate other features of the <strong>fitdistrplus</strong> package.
 This data set contains acute toxicity values for the organochlorine
 pesticide endosulfan (geometric mean of LC50 ou EC50 values in
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>μ</mi><mi>g</mi><mi>.</mi><msup><mi>L</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\mu g.L^{-1}</annotation></semantics></math>),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>μ</mi><mi>g</mi><mi>.</mi><msup><mi>L</mi><mrow><mi>−</mi><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\mu g.L^{-1}</annotation></semantics></math>),
 tested on Australian and non-Australian laboratory-species <span class="citation">(<a href="#ref-Hose04">Hose and Van den Brink
 2004</a>)</span>. In ecotoxicology, a lognormal or a loglogistic
 distribution is often fitted to such a data set in order to characterize
@@ -434,8 +433,8 @@ the species sensitivity distribution (SSD) for a pollutant. A low
 percentile of the fitted distribution, generally the 5% percentile, is
 then calculated and named the hazardous concentration 5% (HC5). It is
 interpreted as the value of the pollutant concentration protecting 95%
-of the species <span class="citation">(<a href="#ref-Posthuma2010">Posthuma, Suter, and Traas 2010</a>)</span>.
-But the fit of a lognormal or a loglogistic distribution to the whole
+of the species <span class="citation">(<a href="#ref-Posthuma2010">Posthuma et al. 2010</a>)</span>. But the fit
+of a lognormal or a loglogistic distribution to the whole
 <code>endosulfan</code> data set is rather bad (Figure
 @ref(fig:fitendo)), especially due to a minority of very high values.
 The two-parameter Pareto distribution and the three-parameter Burr
@@ -567,29 +566,29 @@ and Stephens 1986</a>)</span>.</caption>
 <tbody>
 <tr class="odd">
 <td>Kolmogorov-Smirnov (KS)</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>sup</mo><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>F</mi><mi>n</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">|</mo></mrow></mrow><annotation encoding="application/x-tex">\sup|F_{n}(x) - F(x)|</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">sup</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">|</mo><msub><mi>F</mi><mi>n</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">|</mo></mrow><annotation encoding="application/x-tex">\sup|F_{n}(x) - F(x)|</annotation></semantics></math></td>
 <td>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>max</mo><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>D</mi><mo>+</mo></msup><mo>,</mo><msup><mi>D</mi><mo>−</mo></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\max(D^{+},D^{-})</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">max</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><msup><mi>D</mi><mo>+</mo></msup><mo>,</mo><msup><mi>D</mi><mo>−</mo></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\max(D^{+},D^{-})</annotation></semantics></math>
 with
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>D</mi><mo>+</mo></msup><mo>=</mo><munder><mo>max</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>n</mi></mrow></munder><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mi>i</mi><mi>n</mi></mfrac><mo>−</mo><msub><mi>F</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">D^{+}=\max\limits_{i=1,\dots,n}\left(\frac{i}{n} - F_i\right)</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>D</mi><mo>+</mo></msup><mo>=</mo><munder><mi mathvariant="normal">max</mi><mrow><mi>i</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>n</mi></mrow></munder><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mi>i</mi><mi>n</mi></mfrac><mo>−</mo><msub><mi>F</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">D^{+}=\max\limits_{i=1,\dots,n}\left(\frac{i}{n} - F_i\right)</annotation></semantics></math>
 and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>D</mi><mo>−</mo></msup><mo>=</mo><munder><mo>max</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>n</mi></mrow></munder><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>F</mi><mi>i</mi></msub><mo>−</mo><mfrac><mrow><mi>i</mi><mo>−</mo><mn>1</mn></mrow><mi>n</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">D^{-}=\max\limits_{i=1,\dots,n}\left(F_{i}-\frac{i-1}{n}\right)</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>D</mi><mo>−</mo></msup><mo>=</mo><munder><mi mathvariant="normal">max</mi><mrow><mi>i</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>n</mi></mrow></munder><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>F</mi><mi>i</mi></msub><mo>−</mo><mfrac><mrow><mi>i</mi><mo>−</mo><mn>1</mn></mrow><mi>n</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">D^{-}=\max\limits_{i=1,\dots,n}\left(F_{i}-\frac{i-1}{n}\right)</annotation></semantics></math>
 </td>
 </tr>
 <tr class="even">
 <td>Cramer-von Mises (CvM)</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><msubsup><mo>∫</mo><mrow><mo>−</mo><mi>∞</mi></mrow><mi>∞</mi></msubsup><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>F</mi><mi>n</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mi>d</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">n \int_{-\infty}^{\infty}(F_{n}(x) - F(x))^2 dx</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><msubsup><mo>∫</mo><mrow><mi>−</mi><mi>∞</mi></mrow><mi>∞</mi></msubsup><mo stretchy="false" form="prefix">(</mo><msub><mi>F</mi><mi>n</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup><mi>d</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">n \int_{-\infty}^{\infty}(F_{n}(x) - F(x))^2 dx</annotation></semantics></math></td>
 <td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>1</mn><mrow><mn>12</mn><mi>n</mi></mrow></mfrac><mo>+</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>F</mi><mi>i</mi></msub><mo>−</mo><mfrac><mrow><mn>2</mn><mi>i</mi><mo>−</mo><mn>1</mn></mrow><mrow><mn>2</mn><mi>n</mi></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">\frac{1}{12n} + \sum\limits_{i=1}^n \left(F_i-\frac{2i-1}{2n} \right)^{2}</annotation></semantics></math></td>
 </tr>
 <tr class="odd">
 <td>Anderson-Darling (AD)</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><msubsup><mo>∫</mo><mrow><mo>−</mo><mi>∞</mi></mrow><mi>∞</mi></msubsup><mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>F</mi><mi>n</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mrow><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mi>d</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">n \int_{-\infty}^{\infty}\frac{(F_{n}(x) - F(x))^2}{F(x) (1 - F(x))} dx</annotation></semantics></math></td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mi>n</mi><mo>−</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mi>i</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>F</mi><mi>i</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>F</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn><mo>−</mo><mi>i</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">-n -\frac{1}{n}\sum\limits_{i=1}^n (2i-1)\log(F_i(1-F_{n+1-i}))</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><msubsup><mo>∫</mo><mrow><mi>−</mi><mi>∞</mi></mrow><mi>∞</mi></msubsup><mfrac><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>F</mi><mi>n</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup></mrow><mrow><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo></mrow></mfrac><mi>d</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">n \int_{-\infty}^{\infty}\frac{(F_{n}(x) - F(x))^2}{F(x) (1 - F(x))} dx</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mi>n</mi><mo>−</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mi>i</mi><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mrow><mi mathvariant="normal">log</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>F</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>F</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn><mo>−</mo><mi>i</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">-n -\frac{1}{n}\sum\limits_{i=1}^n (2i-1)\log(F_i(1-F_{n+1-i}))</annotation></semantics></math></td>
 </tr>
 </tbody>
 </table>
 <p>where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mi>i</mi></msub><mover><mo>=</mo><mo accent="false">△</mo></mover><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">F_i\stackrel{\triangle}{=} F(x_i)</annotation></semantics></math></p>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mi>i</mi></msub><mover><mo>=</mo><mo accent="false">△</mo></mover><mi>F</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">F_i\stackrel{\triangle}{=} F(x_i)</annotation></semantics></math></p>
 <p><br></p>
 <p>As giving more weight to distribution tails, the Anderson-Darling
 statistic is of special interest when it matters to equally emphasize
@@ -673,12 +672,10 @@ structural correlation between parameters (see Figure
 assessment field. Its use enables the characterization of uncertainty in
 distribution parameters. It can be directly used within a second-order
 Monte Carlo simulation framework, especially within the package
-<strong>mc2d</strong> <span class="citation">(<a href="#ref-mc2d">Pouillot, Delignette-Muller, and Denis
-2011</a>)</span>. One could refer to <span class="citation">Pouillot and
-Delignette-Muller (<a href="#ref-Pouillot10">2010</a>)</span> for an
-introduction to the use of <strong>mc2d</strong> and
-<strong>fitdistrplus</strong> packages in the context of quantitative
-risk assessment.</p>
+<strong>mc2d</strong> <span class="citation">(<a href="#ref-mc2d">Pouillot et al. 2011</a>)</span>. One could refer to
+<span class="citation">Pouillot and Delignette-Muller (<a href="#ref-Pouillot10">2010</a>)</span> for an introduction to the use
+of <strong>mc2d</strong> and <strong>fitdistrplus</strong> packages in
+the context of quantitative risk assessment.</p>
 <p>The bootstrap method can also be used to calculate confidence
 intervals on quantiles of the fitted distribution. For this purpose, a
 generic <code>quantile</code> function is provided for class
@@ -712,7 +709,7 @@ Burr distribution to the <code>endosulfan</code> data set.</p>
 </h3>
 <p>This subsection focuses on alternative estimation methods. One of the
 alternative for continuous distributions is the maximum goodness-of-fit
-estimation method also called minimum distance estimation method <span class="citation">Dutang, Goulet, and Pigeon (<a href="#ref-actuarJSS">2008</a>)</span>. In this package this method is
+estimation method also called minimum distance estimation method <span class="citation">Dutang et al. (<a href="#ref-actuarJSS">2008</a>)</span>. In this package this method is
 proposed with eight different distances: the three classical distances
 defined in Table @ref(tab:tabKSCvMAD), or one of the variants of the
 Anderson-Darling distance proposed by <span class="citation">Luceno (<a href="#ref-Luceno06">2006</a>)</span> and defined in Table
@@ -737,23 +734,23 @@ defined by <span class="citation">Luceno (<a href="#ref-Luceno06">2006</a>)</spa
 <tbody>
 <tr class="odd">
 <td>Right-tail AD (ADR)</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mo>∫</mo><mrow><mo>−</mo><mi>∞</mi></mrow><mi>∞</mi></msubsup><mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>F</mi><mi>n</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mrow><mn>1</mn><mo>−</mo><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mi>d</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">\int_{-\infty}^{\infty}\frac{(F_{n}(x) - F(x))^2 }{1 - F(x)} dx</annotation></semantics></math></td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mi>n</mi><mn>2</mn></mfrac><mo>−</mo><mn>2</mn><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>F</mi><mi>i</mi></msub><mo>−</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mi>i</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>l</mi><mi>n</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mover><mi>F</mi><mo accent="true">¯</mo></mover><mrow><mi>n</mi><mo>+</mo><mn>1</mn><mo>−</mo><mi>i</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\frac{n}{2} -2\sum\limits_{i=1}^nF_i -\frac{1}{n}\sum\limits_{i=1}^n(2i-1)ln(\overline F_{n+1-i})</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mo>∫</mo><mrow><mi>−</mi><mi>∞</mi></mrow><mi>∞</mi></msubsup><mfrac><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>F</mi><mi>n</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup></mrow><mrow><mn>1</mn><mo>−</mo><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo></mrow></mfrac><mi>d</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">\int_{-\infty}^{\infty}\frac{(F_{n}(x) - F(x))^2 }{1 - F(x)} dx</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mi>n</mi><mn>2</mn></mfrac><mo>−</mo><mn>2</mn><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>F</mi><mi>i</mi></msub><mo>−</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mi>i</mi><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mi>l</mi><mi>n</mi><mo stretchy="false" form="prefix">(</mo><msub><mover><mi>F</mi><mo accent="true">¯</mo></mover><mrow><mi>n</mi><mo>+</mo><mn>1</mn><mo>−</mo><mi>i</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\frac{n}{2} -2\sum\limits_{i=1}^nF_i -\frac{1}{n}\sum\limits_{i=1}^n(2i-1)ln(\overline F_{n+1-i})</annotation></semantics></math></td>
 </tr>
 <tr class="even">
 <td>Left-tail AD (ADL)</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mo>∫</mo><mrow><mo>−</mo><mi>∞</mi></mrow><mi>∞</mi></msubsup><mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>F</mi><mi>n</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mfrac><mi>d</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">\int_{-\infty}^{\infty}\frac{(F_{n}(x) - F(x))^2 }{(F(x))} dx</annotation></semantics></math></td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mfrac><mrow><mn>3</mn><mi>n</mi></mrow><mn>2</mn></mfrac><mo>+</mo><mn>2</mn><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>F</mi><mi>i</mi></msub><mo>−</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mi>i</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>l</mi><mi>n</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>F</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">-\frac{3n}{2} +2\sum\limits_{i=1}^nF_i -\frac{1}{n}\sum\limits_{i=1}^n(2i-1)ln(F_i)</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mo>∫</mo><mrow><mi>−</mi><mi>∞</mi></mrow><mi>∞</mi></msubsup><mfrac><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>F</mi><mi>n</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup></mrow><mrow><mo stretchy="false" form="prefix">(</mo><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo></mrow></mfrac><mi>d</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">\int_{-\infty}^{\infty}\frac{(F_{n}(x) - F(x))^2 }{(F(x))} dx</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mfrac><mrow><mn>3</mn><mi>n</mi></mrow><mn>2</mn></mfrac><mo>+</mo><mn>2</mn><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>F</mi><mi>i</mi></msub><mo>−</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mi>i</mi><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mi>l</mi><mi>n</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>F</mi><mi>i</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">-\frac{3n}{2} +2\sum\limits_{i=1}^nF_i -\frac{1}{n}\sum\limits_{i=1}^n(2i-1)ln(F_i)</annotation></semantics></math></td>
 </tr>
 <tr class="odd">
 <td>Right-tail AD 2nd order (AD2R)</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi>d</mi><mn>2</mn><mi>r</mi><mo>=</mo><msubsup><mo>∫</mo><mrow><mo>−</mo><mi>∞</mi></mrow><mi>∞</mi></msubsup><mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>F</mi><mi>n</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mfrac><mi>d</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">ad2r=\int_{-\infty}^{\infty}\frac{(F_{n}(x) - F(x))^2 }{(1 - F(x))^{2}} dx</annotation></semantics></math></td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi>d</mi><mn>2</mn><mi>r</mi><mo>=</mo><mn>2</mn><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mi>l</mi><mi>n</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mover><mi>F</mi><mo accent="true">¯</mo></mover><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mfrac><mrow><mn>2</mn><mi>i</mi><mo>−</mo><mn>1</mn></mrow><msub><mover><mi>F</mi><mo accent="true">¯</mo></mover><mrow><mi>n</mi><mo>+</mo><mn>1</mn><mo>−</mo><mi>i</mi></mrow></msub></mfrac></mrow><annotation encoding="application/x-tex">ad2r=2\sum\limits_{i=1}^nln(\overline F_i) +\frac{1}{n}\sum\limits_{i=1}^n \frac{2i-1}{\overline F_{n+1-i}}</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi>d</mi><mn>2</mn><mi>r</mi><mo>=</mo><msubsup><mo>∫</mo><mrow><mi>−</mi><mi>∞</mi></mrow><mi>∞</mi></msubsup><mfrac><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>F</mi><mi>n</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup></mrow><mrow><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup></mrow></mfrac><mi>d</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">ad2r=\int_{-\infty}^{\infty}\frac{(F_{n}(x) - F(x))^2 }{(1 - F(x))^{2}} dx</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi>d</mi><mn>2</mn><mi>r</mi><mo>=</mo><mn>2</mn><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mi>l</mi><mi>n</mi><mo stretchy="false" form="prefix">(</mo><msub><mover><mi>F</mi><mo accent="true">¯</mo></mover><mi>i</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mfrac><mrow><mn>2</mn><mi>i</mi><mo>−</mo><mn>1</mn></mrow><msub><mover><mi>F</mi><mo accent="true">¯</mo></mover><mrow><mi>n</mi><mo>+</mo><mn>1</mn><mo>−</mo><mi>i</mi></mrow></msub></mfrac></mrow><annotation encoding="application/x-tex">ad2r=2\sum\limits_{i=1}^nln(\overline F_i) +\frac{1}{n}\sum\limits_{i=1}^n \frac{2i-1}{\overline F_{n+1-i}}</annotation></semantics></math></td>
 </tr>
 <tr class="even">
 <td>Left-tail AD 2nd order (AD2L)</td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi>d</mi><mn>2</mn><mi>l</mi><mo>=</mo><msubsup><mo>∫</mo><mrow><mo>−</mo><mi>∞</mi></mrow><mi>∞</mi></msubsup><mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>F</mi><mi>n</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mfrac><mi>d</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">ad2l=\int_{-\infty}^{\infty}\frac{(F_{n}(x) - F(x))^2 }{(F(x))^{2}} dx</annotation></semantics></math></td>
-<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi>d</mi><mn>2</mn><mi>l</mi><mo>=</mo><mn>2</mn><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mi>l</mi><mi>n</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>F</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mfrac><mrow><mn>2</mn><mi>i</mi><mo>−</mo><mn>1</mn></mrow><msub><mi>F</mi><mi>i</mi></msub></mfrac></mrow><annotation encoding="application/x-tex">ad2l=2\sum\limits_{i=1}^nln(F_i) +\frac{1}{n}\sum\limits_{i=1}^n\frac{2i-1}{F_i}</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi>d</mi><mn>2</mn><mi>l</mi><mo>=</mo><msubsup><mo>∫</mo><mrow><mi>−</mi><mi>∞</mi></mrow><mi>∞</mi></msubsup><mfrac><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>F</mi><mi>n</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup></mrow><mrow><mo stretchy="false" form="prefix">(</mo><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup></mrow></mfrac><mi>d</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">ad2l=\int_{-\infty}^{\infty}\frac{(F_{n}(x) - F(x))^2 }{(F(x))^{2}} dx</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi>d</mi><mn>2</mn><mi>l</mi><mo>=</mo><mn>2</mn><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mi>l</mi><mi>n</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>F</mi><mi>i</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mfrac><mrow><mn>2</mn><mi>i</mi><mo>−</mo><mn>1</mn></mrow><msub><mi>F</mi><mi>i</mi></msub></mfrac></mrow><annotation encoding="application/x-tex">ad2l=2\sum\limits_{i=1}^nln(F_i) +\frac{1}{n}\sum\limits_{i=1}^n\frac{2i-1}{F_i}</annotation></semantics></math></td>
 </tr>
 <tr class="odd">
 <td>AD 2nd order (AD2)</td>
@@ -763,9 +760,9 @@ defined by <span class="citation">Luceno (<a href="#ref-Luceno06">2006</a>)</spa
 </tbody>
 </table>
 <p>where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mi>i</mi></msub><mover><mo>=</mo><mo accent="false">△</mo></mover><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">F_i\stackrel{\triangle}{=} F(x_{i})</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mi>i</mi></msub><mover><mo>=</mo><mo accent="false">△</mo></mover><mi>F</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">F_i\stackrel{\triangle}{=} F(x_{i})</annotation></semantics></math>
 and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>F</mi><mo accent="true">¯</mo></mover><mi>i</mi></msub><mover><mo>=</mo><mo accent="false">△</mo></mover><mn>1</mn><mo>−</mo><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\overline F_i\stackrel{\triangle}{=}1-F(x_{i})</annotation></semantics></math></p>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>F</mi><mo accent="true">¯</mo></mover><mi>i</mi></msub><mover><mo>=</mo><mo accent="false">△</mo></mover><mn>1</mn><mo>−</mo><mi>F</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\overline F_i\stackrel{\triangle}{=}1-F(x_{i})</annotation></semantics></math></p>
 <p><br></p>
 <p>To fit a distribution by maximum goodness-of-fit estimation, one
 needs to fix the argument <code>method</code> to <code>mge</code> in the
@@ -826,7 +823,7 @@ value of the parameter
 that equalizes the first theoretical raw moments of the parametric
 distribution to the corresponding empirical raw moments as in Equation
 @ref(eq:eq4):</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>X</mi><mi>k</mi></msup><mo stretchy="false" form="prefix">|</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msubsup><mi>x</mi><mi>i</mi><mi>k</mi></msubsup><mo>,</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>e</mi><mi>q</mi><mn>4</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\begin{equation}
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>X</mi><mi>k</mi></msup><mo stretchy="false" form="prefix">|</mo><mi>θ</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msubsup><mi>x</mi><mi>i</mi><mi>k</mi></msubsup><mo>,</mo><mo stretchy="false" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>e</mi><mi>q</mi><mn>4</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\begin{equation}
 E(X^{k}|\theta)=\frac{1}{n}\sum_{i=1}^{n}x_{i}^{k},(\#eq:eq4)
 \end{equation}</annotation></semantics></math> for
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>d</mi></mrow><annotation encoding="application/x-tex">k=1,\ldots,d</annotation></semantics></math>,
@@ -841,7 +838,7 @@ observations of variable
 For moments of order greater than or equal to 2, it may also be relevant
 to match centered moments. Therefore, we match the moments given in
 Equation @ref(eq:eq5):</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">|</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mover><mi>x</mi><mo accent="true">¯</mo></mover><mspace width="0.222em"></mspace><mo>,</mo><mspace width="0.222em"></mspace><mi>E</mi><mrow><mo stretchy="true" form="prefix">(</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo>−</mo><mi>E</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mi>k</mi></msup><mo stretchy="false" form="prefix">|</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>m</mi><mi>k</mi></msub><mo>,</mo><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> for </mtext><mspace width="0.333em"></mspace></mrow><mi>k</mi><mo>=</mo><mn>2</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>d</mi><mo>,</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>e</mi><mi>q</mi><mn>5</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\begin{equation}
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">|</mo><mi>θ</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mover><mi>x</mi><mo accent="true">¯</mo></mover><mspace width="0.222em"></mspace><mo>,</mo><mspace width="0.222em"></mspace><mi>E</mi><mrow><mo stretchy="true" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>−</mo><mi>E</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo><msup><mo stretchy="false" form="postfix">)</mo><mi>k</mi></msup><mo stretchy="false" form="prefix">|</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>m</mi><mi>k</mi></msub><mo>,</mo><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> for </mtext><mspace width="0.333em"></mspace></mrow><mi>k</mi><mo>=</mo><mn>2</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>d</mi><mo>,</mo><mo stretchy="false" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>e</mi><mi>q</mi><mn>5</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\begin{equation}
 E(X\vert \theta) = \overline{x} ~,~E\left((X-E(X))^{k}|\theta\right)=m_k, \text{ for }  k=2,\ldots,d,(\#eq:eq5)
 \end{equation}</annotation></semantics></math></p>
 <p>where
@@ -872,8 +869,7 @@ actuarial science, it is standard to consider positive heavy-tailed
 distributions and have a special focus on the right-tail of the
 distributions. In this numerical experiment, we choose classic actuarial
 distributions for loss modelling: the lognormal distribution and the
-Pareto type II distribution <span class="citation">(<a href="#ref-Klugmanetal09">Klugman, Panjer, and Willmot
-2009</a>)</span>.</p>
+Pareto type II distribution <span class="citation">(<a href="#ref-Klugmanetal09">Klugman et al. 2009</a>)</span>.</p>
 <p>The lognormal distribution is fitted to <code>danishuni</code> data
 set by matching moments implemented as a closed-form formula. On the
 left-hand graph of Figure @ref(fig:danishmme), the fitted distribution
@@ -975,7 +971,7 @@ probabilities) against the empirical quantiles <span class="citation">(<a href="
 equality of theoretical and empirical quantiles is expressed by Equation
 @ref(eq:eq6) below, which is very similar to Equations @ref(eq:eq4) and
 @ref(eq:eq5):</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>F</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>p</mi><mi>k</mi></msub><mo stretchy="false" form="prefix">|</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>Q</mi><mrow><mi>n</mi><mo>,</mo><msub><mi>p</mi><mi>k</mi></msub></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>e</mi><mi>q</mi><mn>6</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\begin{equation}
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>F</mi><mrow><mi>−</mi><mn>1</mn></mrow></msup><mo stretchy="false" form="prefix">(</mo><msub><mi>p</mi><mi>k</mi></msub><mo stretchy="false" form="prefix">|</mo><mi>θ</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mi>Q</mi><mrow><mi>n</mi><mo>,</mo><msub><mi>p</mi><mi>k</mi></msub></mrow></msub><mo stretchy="false" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>e</mi><mi>q</mi><mn>6</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\begin{equation}
 F^{-1}(p_{k}|\theta)=Q_{n,p_{k}}(\#eq:eq6) 
 \end{equation}</annotation></semantics></math> for
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>d</mi></mrow><annotation encoding="application/x-tex">k=1,\ldots,d</annotation></semantics></math>,
@@ -1015,9 +1011,9 @@ loss data from the <code>danishuni</code> data set.
 <p><br></p>
 <p>Above is an example of fitting of a lognormal distribution to
 `danishuni} data set by matching probabilities
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>p</mi><mn>1</mn></msub><mo>=</mo><mn>1</mn><mi>/</mi><mn>3</mn><mo>,</mo><msub><mi>p</mi><mn>2</mn></msub><mo>=</mo><mn>2</mn><mi>/</mi><mn>3</mn><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(p_1= 1/3, p_2=2/3)</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>p</mi><mn>1</mn></msub><mo>=</mo><mn>1</mn><mi>/</mi><mn>3</mn><mo>,</mo><msub><mi>p</mi><mn>2</mn></msub><mo>=</mo><mn>2</mn><mi>/</mi><mn>3</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(p_1= 1/3, p_2=2/3)</annotation></semantics></math>
 and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>p</mi><mn>1</mn></msub><mo>=</mo><mn>8</mn><mi>/</mi><mn>10</mn><mo>,</mo><msub><mi>p</mi><mn>2</mn></msub><mo>=</mo><mn>9</mn><mi>/</mi><mn>10</mn><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(p_1= 8/10, p_2=9/10)</annotation></semantics></math>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>p</mi><mn>1</mn></msub><mo>=</mo><mn>8</mn><mi>/</mi><mn>10</mn><mo>,</mo><msub><mi>p</mi><mn>2</mn></msub><mo>=</mo><mn>9</mn><mi>/</mi><mn>10</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(p_1= 8/10, p_2=9/10)</annotation></semantics></math>.
 As expected, the second QME fit gives more weight to the right-tail of
 the distribution. Compared to the maximum likelihood estimation, the
 second QME fit best suits the right-tail of the distribution, whereas
@@ -1056,12 +1052,12 @@ is strictly positive
 and a probability parameter
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
 lies in
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∈</mo><mrow><mo stretchy="true" form="prefix">[</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">p\in [0,1]</annotation></semantics></math>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∈</mo><mo stretchy="false" form="prefix">[</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">p\in [0,1]</annotation></semantics></math>.
 This is possible by using arguments <code>lower</code> and/or
 <code>upper</code>, for which their use automatically forces
 <code>optim.method="L-BFGS-B"</code>.</p>
 <p>Below are examples of fits of a gamma distribution
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝒢</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>,</mo><mi>λ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\mathcal{G}(\alpha, \lambda)</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝒢</mi><mo stretchy="false" form="prefix">(</mo><mi>α</mi><mo>,</mo><mi>λ</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathcal{G}(\alpha, \lambda)</annotation></semantics></math>
 to the <code>groundbeef</code> data set with various algorithms. Note
 that the conjugate gradient algorithm (<code>CG</code>) needs far more
 iterations to converge (around 2500 iterations) compared to other
@@ -1171,7 +1167,7 @@ non-censored observations. To illustrate the use of package
 data, we will use another data set from ecotoxicology, included in our
 package and named <code>salinity</code>. This data set contains acute
 salinity tolerance (LC50 values in electrical conductivity,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>S</mi></mrow><annotation encoding="application/x-tex">mS</annotation></semantics></math>.<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><msup><mi>m</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">cm^{-1}</annotation></semantics></math>)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>S</mi></mrow><annotation encoding="application/x-tex">mS</annotation></semantics></math>.<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><msup><mi>m</mi><mrow><mi>−</mi><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">cm^{-1}</annotation></semantics></math>)
 of riverine macro-invertebrates taxa from the southern Murray-Darling
 Basin in Central Victoria, Australia <span class="citation">(<a href="#ref-kefford07">Kefford et al. 2007</a>)</span>.</p>
 <div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
@@ -1241,7 +1237,7 @@ left-censored observations,
 lower values defining the
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>N</mi><mrow><mi>r</mi><mi>i</mi><mi>g</mi><mi>h</mi><mi>t</mi><mi>C</mi></mrow></msub><annotation encoding="application/x-tex">N_{rightC}</annotation></semantics></math>
 right-censored observations,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">[</mo><msubsup><mi>x</mi><mi>m</mi><mrow><mi>l</mi><mi>o</mi><mi>w</mi><mi>e</mi><mi>r</mi></mrow></msubsup><mo>;</mo><msubsup><mi>x</mi><mi>m</mi><mrow><mi>u</mi><mi>p</mi><mi>p</mi><mi>e</mi><mi>r</mi></mrow></msubsup><mo stretchy="true" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[x^{lower}_{m} ; x^{upper}_{m}]</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><msubsup><mi>x</mi><mi>m</mi><mrow><mi>l</mi><mi>o</mi><mi>w</mi><mi>e</mi><mi>r</mi></mrow></msubsup><mo>;</mo><msubsup><mi>x</mi><mi>m</mi><mrow><mi>u</mi><mi>p</mi><mi>p</mi><mi>e</mi><mi>r</mi></mrow></msubsup><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[x^{lower}_{m} ; x^{upper}_{m}]</annotation></semantics></math>
 the intervals defining the
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>N</mi><mrow><mi>i</mi><mi>n</mi><mi>t</mi><mi>C</mi></mrow></msub><annotation encoding="application/x-tex">N_{intC}</annotation></semantics></math>
 interval-censored observations, and F the cumulative distribution
@@ -1394,7 +1390,7 @@ Chi-squared values obtained with different distributions fitted on a
 same data set. If arguments <code>chisqbreaks</code> and
 <code>meancount</code> are both omitted, <code>meancount</code> is fixed
 in order to obtain roughly
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>4</mn><mi>n</mi><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mn>2</mn><mi>/</mi><mn>5</mn></mrow></msup><annotation encoding="application/x-tex">(4n)^{2/5}</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>4</mn><mi>n</mi><msup><mo stretchy="false" form="postfix">)</mo><mrow><mn>2</mn><mi>/</mi><mn>5</mn></mrow></msup></mrow><annotation encoding="application/x-tex">(4n)^{2/5}</annotation></semantics></math>
 cells, with
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
 the length of the data set <span class="citation">(<a href="#ref-Vose10">Vose 2010</a>)</span>. Using this default option the
@@ -1438,12 +1434,13 @@ and academics for simple MLE fits <span class="citation">Voigt et al.
 (<a href="#ref-voigtetal14">2014</a>)</span>, for MLE fits and
 goodness-of-fit statistics <span class="citation">Vaninsky (<a href="#ref-vaninsky13">2013</a>)</span>, for MLE fits and bootstrap
 <span class="citation">Rigaux et al. (<a href="#ref-Rigaux2014">2014</a>)</span>, for MLE fits, bootstrap and
-goodness-of-fit statistics <span class="citation">(<a href="#ref-larrasetal13">Larras, Montuelle, and Bouchez
-2013</a>)</span>, for MME fit <span class="citation">Sato et al. (<a href="#ref-satoetal13">2013</a>)</span>, for censored MLE and bootstrap
-<span class="citation">Contreras, Huerta, and Arnold (<a href="#ref-contrerasetal2013">2013</a>)</span>, for graphic analysing in
-<span class="citation">(<a href="#ref-anandetal12">Anand, Yeturu, and
-Chandra 2012</a>)</span>, for grouped-data fitting methods <span class="citation">(<a href="#ref-fusteinercostafreda12">Fu, Steiner, and
-Costafreda 2012</a>)</span> or more generally <span class="citation">Drake, Chalabi, and Coker (<a href="#ref-drakeetal2014">2014</a>)</span>.</p>
+goodness-of-fit statistics <span class="citation">(<a href="#ref-larrasetal13">Larras et al. 2013</a>)</span>, for MME fit
+<span class="citation">Sato et al. (<a href="#ref-satoetal13">2013</a>)</span>, for censored MLE and bootstrap
+<span class="citation">Contreras et al. (<a href="#ref-contrerasetal2013">2013</a>)</span>, for graphic analysing in
+<span class="citation">(<a href="#ref-anandetal12">Anand et al.
+2012</a>)</span>, for grouped-data fitting methods <span class="citation">(<a href="#ref-fusteinercostafreda12">Fu et al.
+2012</a>)</span> or more generally <span class="citation">Drake et al.
+(<a href="#ref-drakeetal2014">2014</a>)</span>.</p>
 <p>The <strong>fitdistrplus</strong> package is complementary with the
 <strong>distrMod</strong> package <span class="citation">(<a href="#ref-distrModJSS">Kohl and Ruckdeschel 2010</a>)</span>.
 <strong>distrMod</strong> provides an even more flexible way to estimate
@@ -1477,7 +1474,7 @@ of course, should be attributed to the authors alone.</p>
 <div class="section level2">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-anandetal12" class="csl-entry">
 Anand, P., K. Yeturu, and N. Chandra. 2012. <span>“PocketAnnotate:
 Towards Site-Based Function Annotation.”</span> <em>Nucleic Acids
@@ -1493,7 +1490,7 @@ Root-Mean-Square Deviation Prediction.”</span> <em>Protein Science</em>
 Benavides-Piccione, R., I. Fernaud-Espinosa, V. Robles, R. Yuste, and J.
 DeFelipe. 2012. <span>“Age-Based Comparison of Human Dendritic Spine
 Structure Using Complete Three-Dimensional Reconstructions.”</span>
-<em>Cerebral Cortex</em> 23 (8): 1798–1810.
+<em>Cerebral Cortex</em> 23 (8): 1798–810.
 </div>
 <div id="ref-Blom" class="csl-entry">
 Blom, G. 1959. <em>Statistical Estimates and Transformed Beta
@@ -1516,7 +1513,7 @@ Assessment.”</span> <em>International Journal of Food Microbiology</em>
 Callau Poduje, Ana Claudia, Aslan Belli, and Uwe Haberlandt. 2013.
 <span>“Dam Risk Assessment Based on Univariate Versus Bivariate
 Statistical Approaches - a Case Study for Argentina.”</span>
-<em>Hydrological Sciences Journal</em>. <a href="https://doi.org/10.1080/02626667.2013.871014" class="external-link">https://doi.org/10.1080/02626667.2013.871014</a>.
+<em>Hydrological Sciences Journal</em>, ahead of print. <a href="https://doi.org/10.1080/02626667.2013.871014" class="external-link">https://doi.org/10.1080/02626667.2013.871014</a>.
 </div>
 <div id="ref-casellaberger02" class="csl-entry">
 Casella, G., and R. L. Berger. 2002. <em>Statistical Inference</em>. 2nd
@@ -1531,7 +1528,8 @@ Microbiology</em> 155: 146–52.
 <div id="ref-contrerasetal2013" class="csl-entry">
 Contreras, V. De La Huerta, H. Vaquera Huerta, and B. C. Arnold. 2013.
 <span>“A Test for Equality of Variance with Censored Samples.”</span>
-<em>Journal of Statistical Computation and Simulation</em>. <a href="https://doi.org/10.1080/00949655.2013.825095" class="external-link">https://doi.org/10.1080/00949655.2013.825095</a>.
+<em>Journal of Statistical Computation and Simulation</em>, ahead of
+print. <a href="https://doi.org/10.1080/00949655.2013.825095" class="external-link">https://doi.org/10.1080/00949655.2013.825095</a>.
 </div>
 <div id="ref-croucheretal12" class="csl-entry">
 Croucher, N. J., S. R. Harris, L. Barquist, J. Parkhill, and S. D.
@@ -1568,7 +1566,8 @@ Censored Data</em>. <a href="https://cran.r-project.org/package=fitdistrplus" cl
 <div id="ref-drakeetal2014" class="csl-entry">
 Drake, T., Z. Chalabi, and R. Coker. 2014. <span>“<span class="nocase">Buy Now, saved Later? The Critical Impact of
 Time-to-Pandemic Uncertainty on Pandemic Cost-Effectiveness
-Analyses</span>.”</span> <em>Health Policy and Planning</em>. <a href="https://doi.org/10.1093/heapol/czt101" class="external-link">https://doi.org/10.1093/heapol/czt101</a>.
+Analyses</span>.”</span> <em>Health Policy and Planning</em>, ahead of
+print. <a href="https://doi.org/10.1093/heapol/czt101" class="external-link">https://doi.org/10.1093/heapol/czt101</a>.
 </div>
 <div id="ref-actuarJSS" class="csl-entry">
 Dutang, C., V. Goulet, and M. Pigeon. 2008. <span>“<span class="nocase">: an R Package for Actuarial Science</span>.”</span>
@@ -1592,12 +1591,10 @@ Models?</span>”</span> <em>Insurance: Mathematics and Economics</em> 51
 (2): 239–48.
 </div>
 <div id="ref-fiorellietal13" class="csl-entry">
-Fiorelli, L. E., M. D. Ezcurra, E. M. Hechenleitner, E. Argañaraz, R.
-Jeremias, A. Taborda, M. J. Trotteyn, M. Belén von Baczko, and J. B.
-Desojo. 2013. <span>“<span class="nocase">The Oldest Known Communal
-Latrines Provide Evidence of Gregarism in Triassic
-Megaherbivores</span>.”</span> <em>Scientific Reports</em> 3 (3348):
-1–7.
+Fiorelli, L. E., M. D. Ezcurra, E. M. Hechenleitner, et al. 2013.
+<span>“<span class="nocase">The Oldest Known Communal Latrines Provide
+Evidence of Gregarism in Triassic Megaherbivores</span>.”</span>
+<em>Scientific Reports</em> 3 (3348): 1–7.
 </div>
 <div id="ref-Fromont01" class="csl-entry">
 Fromont, E, L Morvilliers, M Artois, and D Pontier. 2001. <span>“<span class="nocase">Parasite Richness and Abundance in Insular and Mainland
@@ -1622,13 +1619,12 @@ Carnivorous Mammals.”</span> <em>Journal of Animal Ecology</em>
 Goulet, V. 2012. <em>: An r Package for Actuarial Science</em>. <a href="https://cran.r-project.org/package=actuar" class="external-link">https://cran.r-project.org/package=actuar</a>.
 </div>
 <div id="ref-Guillier2013471" class="csl-entry">
-Guillier, Laurent, Corinne Danan, Hélène Bergis, Marie-Laure
-Delignette-Muller, Sophie Granier, Sylvie Rudelle, Annie Beaufort, and
-Anne Brisabois. 2013. <span>“<span class="nocase">Use of Quantitative
-Microbial Risk Assessment when Investigating Foodborne Illness
-Outbreaks: the Example of a Monophasic <em>Salmonella Typhimurium</em>
-4,5,12:i:- Outbreak Implicating Beef Burgers</span>.”</span>
-<em>International Journal of Food Microbiology</em> 166 (3): 471–78.
+Guillier, Laurent, Corinne Danan, Hélène Bergis, et al. 2013.
+<span>“<span class="nocase">Use of Quantitative Microbial Risk
+Assessment when Investigating Foodborne Illness Outbreaks: the Example
+of a Monophasic <em>Salmonella Typhimurium</em> 4,5,12:i:- Outbreak
+Implicating Beef Burgers</span>.”</span> <em>International Journal of
+Food Microbiology</em> 166 (3): 471–78.
 </div>
 <div id="ref-helsel05" class="csl-entry">
 Helsel, D. R. 2005. <em>Nondetects and Data Analysis: Statistics for
@@ -1649,8 +1645,9 @@ Removal Through Cleaning and Sanitation</span>.”</span>
 <div id="ref-Hose04" class="csl-entry">
 Hose, G. C., and P. J. Van den Brink. 2004. <span>“<span class="nocase">Confirming the Species-Sensitivity Distribution Concept
 for Endosulfan Using Laboratory, Mesocosm, and Field
-Data</span>.”</span> <em><span>Archives of Environmental Contamination
-and Toxicology</span></em> <span>47</span> (<span>4</span>): 511–20.
+Data</span>.”</span> <em><span class="nocase">Archives of Environmental
+Contamination and Toxicology</span></em> <span>47</span>
+(<span>4</span>): 511–20.
 </div>
 <div id="ref-hyndmanfan96" class="csl-entry">
 Hyndman, R. J., and Y. Fan. 1996. <span>“<span class="nocase">Sample
@@ -1722,8 +1719,9 @@ Prevention and Screening Centers in Abu Dhabi</span>.”</span>
 <div id="ref-Luceno06" class="csl-entry">
 Luceno, A. 2006. <span>“<span class="nocase">Fitting the Generalized
 Pareto Distribution to Data Using Maximum Goodness-of-fit
-Estimators</span>.”</span> <em><span>Computational Statistics and Data
-Analysis</span></em> <span>51</span> (<span>2</span>): 904–17.
+Estimators</span>.”</span> <em><span class="nocase">Computational
+Statistics and Data Analysis</span></em> <span>51</span>
+(<span>2</span>): 904–17.
 </div>
 <div id="ref-mala2013publi" class="csl-entry">
 Malá, I. 2013. <span>“The Use of Finite Mixtures of Lognormal and Gamma
@@ -1738,8 +1736,7 @@ Antigens</span>.”</span> <em>Immunity</em> <span>38</span>
 (<span>2</span>): 263–74.
 </div>
 <div id="ref-marquetouxetal12" class="csl-entry">
-Marquetoux, N., M. Paul, S. Wongnarkpet, C. Poolkhet, W. Thanapongtham,
-F. Roger, C. Ducrot, and K. Chalvet-Monfray. 2012. <span>“<span class="nocase">Estimating Spatial and Temporal Variations of the
+Marquetoux, N., M. Paul, S. Wongnarkpet, et al. 2012. <span>“<span class="nocase">Estimating Spatial and Temporal Variations of the
 Reproduction Number for Highly Pathogenic Avian Influenza H5N1 Epidemic
 in Thailand</span>.”</span> <em>Preventive Veterinary Medicine</em> 106
 (2): 143–51.
@@ -1781,8 +1778,9 @@ Ecological Risk Assessment Series. Taylor &amp; Francis.
 <div id="ref-Pouillot10" class="csl-entry">
 Pouillot, R., and M. L. Delignette-Muller. 2010. <span>“<span class="nocase">Evaluating Variability and Uncertainty Separately in
 Microbial Quantitative Risk Assessment using two R
-Packages</span>.”</span> <em><span>International Journal of Food
-Microbiology</span></em> <span>142</span> (<span>3</span>): 330–40.
+Packages</span>.”</span> <em><span class="nocase">International Journal
+of Food Microbiology</span></em> <span>142</span> (<span>3</span>):
+330–40.
 </div>
 <div id="ref-mc2d" class="csl-entry">
 Pouillot, R., M. L. Delignette-Muller, and J. B. Denis. 2011. <em>:
@@ -1828,13 +1826,12 @@ Distribution.”</span> <em>Revista Brasileira de Ciencia Do Solo</em> 37:
 422–30.
 </div>
 <div id="ref-satoetal13" class="csl-entry">
-Sato, Maria Ines Z., Ana Tereza Galvani, Jose Antonio Padula, Adelaide
-Cassia Nardocci, Marcelo de Souza Lauretto, Maria Tereza Pepe Razzolini,
-and Elayse Maria Hachich. 2013. <span>“<span class="nocase">Assessing
-the Infection Risk of <em>Giardia</em> and <em>Cryptosporidium</em> in
-Public Drinking Water Delivered by Surface Water Systems in Sao Paulo
-State, Brazil</span>.”</span> <em>Science of The Total Environment</em>
-442: 389–96.
+Sato, Maria Ines Z., Ana Tereza Galvani, Jose Antonio Padula, et al.
+2013. <span>“<span class="nocase">Assessing the Infection Risk of
+<em>Giardia</em> and <em>Cryptosporidium</em> in Public Drinking Water
+Delivered by Surface Water Systems in Sao Paulo State,
+Brazil</span>.”</span> <em>Science of The Total Environment</em> 442:
+389–96.
 </div>
 <div id="ref-scholletal12" class="csl-entry">
 Scholl, C. F., C. C. Nice, J. A. Fordyce, Z. Gompert, and M. L.
@@ -1895,8 +1892,9 @@ Cambridge University Press.
 <div id="ref-Turnbull74" class="csl-entry">
 Turnbull, B. W. 1974. <span>“<span class="nocase">Nonparametric
 Estimation of a Survivorship Function with Doubly Censored
-Data</span>.”</span> <em><span>Journal of the American Statistical
-Association</span></em> <span>69</span> (<span>345</span>): 169–73.
+Data</span>.”</span> <em><span class="nocase">Journal of the American
+Statistical Association</span></em> <span>69</span> (<span>345</span>):
+169–73.
 </div>
 <div id="ref-vaninsky13" class="csl-entry">
 Vaninsky, A. Y. 2013. <span>“<span class="nocase">Stochastic DEA with a
@@ -1914,12 +1912,10 @@ Viana, D. S., L. Santamará, T. C. Michot, and J. Figuerola. 2013.
 Birds.”</span> <em>The American Naturalist</em> 181 (5): 649–62.
 </div>
 <div id="ref-voigtetal14" class="csl-entry">
-Voigt, Christian C., Linn S. Lehnert, Ana G. Popa-Lisseanu, Mateusz
-Ciechanowski, Péter Estók, Florian Gloza-Rausch, Tamás Goerfoel, et al.
-2014. <span>“<span class="nocase">The Trans-Boundary Importance of
-Artificial Bat <em>hibernacula</em> in Managed European
-Forests</span>.”</span> <em>Biodiversity and Conservation</em> 23:
-617–31.
+Voigt, Christian C., Linn S. Lehnert, Ana G. Popa-Lisseanu, et al. 2014.
+<span>“<span class="nocase">The Trans-Boundary Importance of Artificial
+Bat <em>hibernacula</em> in Managed European Forests</span>.”</span>
+<em>Biodiversity and Conservation</em> 23: 617–31.
 </div>
 <div id="ref-Vose10" class="csl-entry">
 Vose, D. 2010. <em>Quantitative Risk Analysis. A Guide to Monte Carlo
@@ -1932,9 +1928,9 @@ Maximum Likelihood Estimate of a Mixing Distribution.”</span>
 Methodology)</em> 69 (2): 185–98.
 </div>
 <div id="ref-Wang2008" class="csl-entry">
-———. 2008. <span>“Dimension-Reduced Nonparametric Maximum Likelihood
-Computation for Interval-Censored Data.”</span> <em>Computational
-Statistics &amp; Data Analysis</em> 52 (5): 2388–2402.
+Wang, Yong. 2008. <span>“Dimension-Reduced Nonparametric Maximum
+Likelihood Computation for Interval-Censored Data.”</span>
+<em>Computational Statistics &amp; Data Analysis</em> 52 (5): 2388–402.
 </div>
 <div id="ref-Wang2018" class="csl-entry">
 Wang, Yong, and Shabnam Fani. 2018. <span>“Nonparametric Maximum
@@ -1964,10 +1960,10 @@ a Copula-Based Sampling Method.”</span> <em>Computational
 Geosciences</em> 17 (5): 739–55.
 </div>
 <div id="ref-Wu2013b" class="csl-entry">
-———. 2013b. <span>“Trivariate Analysis of Soil Ranking-Correlated
-Characteristics and Its Application to Probabilistic Stability
-Assessments in Geotechnical Engineering Problems.”</span> <em>Soils and
-Foundations</em> 53 (4): 540–56.
+Wu, Xing Zheng. 2013b. <span>“Trivariate Analysis of Soil
+Ranking-Correlated Characteristics and Its Application to Probabilistic
+Stability Assessments in Geotechnical Engineering Problems.”</span>
+<em>Soils and Foundations</em> 53 (4): 540–56.
 </div>
 <div id="ref-Zhang2013" class="csl-entry">
 Zhang, Yu, Emad Habib, Robert J. Kuligowski, and Dongsoo Kim. 2013.
