@@ -798,7 +798,7 @@ Hence the QME for Weibull is
 }{
 \log(x_1) - \log(x_2)
 },
-\tilde\tau
+\tilde\theta
 = x_3/(-\log(1-p_3))^{1/\tilde\tau}
 ```
 with $`p_1=1/4`$, $`p_2=3/4`$, $`p_3=1/2`$, $`x_i`$ corresponding
